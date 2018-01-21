@@ -1,4 +1,4 @@
-﻿@model ProductionApp.UserInterface.Models.UserViewModel
+﻿@model ProductionApp.UserInterface.Models.LoginViewModel
 @using ProductionApp.UserInterface.App_Start
 @{
     Layout = null;
@@ -8,6 +8,7 @@
 @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/boot")
 @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/AdminLTE/css/plugins")
 @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/UserCSS/Login")
+<link rel="shortcut icon" href="~/Content/images/wheel.png" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,11 +17,10 @@
 </head>
 <body>
     <div class="container">
+    <br/><br /><br />
         <div class="card card-container">
-            <div style="text-align:center;width:100%;font-size:120px;color: #954c84;">
-                <i class="fa fa-user-circle" aria-hidden="true">
-
-                </i>
+            <div style="text-align:center;width:100%;font-size:35px;color: #3bdc92;font-family:'Lucida Sans'">
+            SIGN  IN
             </div>
             <p id="profile-name" class="profile-name-card"></p>
 
@@ -37,7 +37,7 @@
 
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
-                <button class="btn btn-lg btn-info btn-block btn-signin customLogin" type="submit">LOGIN</button>
+                <button class="btn btn-lg btn-info btn-block btn-signin customLogin" type="submit">GO</button>
 
             }
 
