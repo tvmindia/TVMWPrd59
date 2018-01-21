@@ -1,0 +1,842 @@
+﻿body    {
+    
+     
+    font-family:'Segoe UI'!important;
+     background-color:#FEFFFE!important;
+     font-size:12px!important;
+
+}
+
+.main-footer {
+    padding:5px!important;
+    color:grey!important;
+    font-size:10px;
+}
+
+.SCHeader {
+   font-size: 25px!important;
+    color:  #545454;    
+    margin-left:4%;
+    margin-top:0%;
+    text-align:left;
+    
+    
+}
+
+.ReportTitle {
+     color:  #545454;
+}
+
+.Subhead {
+     font-size: 17px!important;
+}
+
+.filterHead {
+     font-size: 13px!important;
+     color:grey;
+}
+
+.ReportHead {
+    font-size: 19px!important;
+    text-align:center;
+    border-bottom:solid;
+    border-width:medium;
+    border-bottom-color:lightblue;
+    font-family:'Segoe UI';
+    padding-bottom:5px;
+    margin-bottom:5px;
+
+}
+
+.rptGrp {
+   font-size: 13px!important;
+    text-align:left;
+    background-color:#f6f6f6;
+    padding-left:5px;
+    
+}
+
+.DashboardSummary {
+    
+    background-color:rgba(253, 253, 253, 0.2);
+    min-height:250px;
+ 
+}
+
+.DashList {
+     max-height:500px;
+   overflow-y:scroll;
+   margin-bottom:0px;
+   
+}
+
+.TechList {
+     
+   overflow-y:scroll;
+   
+}
+
+.DashboardTech {
+    min-height:545px;
+      background-color:rgba(253, 253, 253, 0.42);
+}
+
+ .SCtabContainer {
+
+     margin-right: 2px!important; 
+     margin-left: 2px!important; 
+     width:100%;
+     
+   
+}
+
+ .myfooter {
+
+      background-image: url('images/73a6f1c8.png');
+    background-repeat: repeat;
+    width:100%;
+    bottom:0px;
+    position:relative;
+}
+
+.graphledger {
+    width:100%;
+    text-align:right;
+    font-size:12px;
+    color:gray;
+    padding-right:15px;
+}
+
+.rlist {
+    display:none;
+}
+.techitem {
+    /*display:none;*/
+}
+
+.dashpanelbody {
+    padding:7px;
+}
+
+
+.btnText {
+    color: #3b3b3b;
+    font-weight: 600;
+    text-align: center;
+    font-size:13px;
+    text-decoration: none !important;
+     vertical-align:middle;
+     padding:2px;
+}
+.btnImg {
+    width:32px;height:32px;text-align:center;
+    padding:2px;
+   
+       
+}
+.btnContainer {
+   text-align:center;
+      
+         text-decoration:none!important;
+         vertical-align:middle;
+         
+         
+}
+.btnAnchor {
+       cursor:pointer;
+}
+
+
+
+/*--------------button patch----------------------*/
+.buttonpatch {
+    margin-right: 5px;
+}
+   .buttonpatch a {
+	margin-right: 2px;
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	position: relative;
+    cursor:not-allowed;
+    opacity:0.6;
+	 
+    text-align:center;
+     text-decoration:none!important;		
+     padding-top:6px;
+}
+
+    .buttonpatch a:hover {
+         
+    z-index: 2;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1.1);
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1.1);   
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1.1);
+    transition: all 200ms ease-in;
+    transform: scale(1.1);
+     
+    }
+
+.buttonpatch a:active {
+	top: 1px;
+	 
+}
+
+.buttonpatch a::before{
+		content: '';
+		position: absolute;
+		z-index: -1;
+		 
+		right: -4px;
+		bottom: -4px;
+		left: -4px;
+		background-color: rgba(234, 234, 234, 0.37);
+		-moz-border-radius: 250px;
+		-webkit-border-radius: 250px;
+		border-radius: 250px;
+	    opacity: 0.5;
+       
+}
+
+.buttonpatch a:active::before {
+	top: -7px;
+}
+
+.buttonpatch a:hover::before { opacity: 1; }
+
+/*.buttonpatch a.twitter:hover::before {
+	background-color: #c6f0f8;
+}*/
+
+.buttonpatch a.facebook:hover::before {
+	background-color: #56ea87;
+}
+
+/*.buttonpatch a.dribble:hover::before {
+	background-color: #f8ebb6;
+}
+
+.buttonpatch a.rss:hover::before {
+	background-color:#fadae6 ;
+}*/
+
+.twitter img { vertical-align: -8px;position:relative;left:6px }
+.dribble img { vertical-align: -8px;position:relative;left:6px }
+.thr_btn img {vertical-align: middle;position:relative;}
+.thr_disbtn img { vertical-align: middle;position:relative;}
+.thr_btn{cursor:pointer!important;opacity:1!important;}
+.buttonpatch a img { border: 0; }
+
+
+
+
+.buttonpatch a[title]:hover:after{
+/*content: attr(title);
+padding: 4px 6px;
+color: #85003a;
+position: absolute;
+left: 0;
+top: 100%;
+white-space: nowrap;
+z-index: 20;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+-moz-box-shadow: 0px 0px 2px #c0c1c2;
+-webkit-box-shadow: 0px 0px 2px #c0c1c2;
+box-shadow: 0px 0px 2px #c0c1c2;
+background-image: -moz-linear-gradient(top, #ffffff, #eeeeee);
+background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #ffffff),color-stop(1, #eeeeee));
+background-image: -webkit-linear-gradient(top, #ffffff, #eeeeee);
+background-image: -moz-linear-gradient(top, #ffffff, #eeeeee);
+background-image: -ms-linear-gradient(top, #ffffff, #eeeeee);
+background-image: -o-linear-gradient(top, #ffffff, #eeeeee);*/
+}
+/*-------------------------------------------------------------------------------------------------------------------*/
+
+
+
+
+.nav-pills > li > a {
+  border-radius: 4px 4px 0 0 ;
+      font-size: medium!important;
+       color : #313131!important;
+       min-width:150px;
+       text-align:center
+}
+
+.nav-pills > li.active > a:focus {
+   color : black!important;
+  background-color: rgb(253, 253, 253)!important;
+  
+   font-size: medium!important;
+    
+}
+
+.nav-pills > li > a:hover {
+   color : black!important;
+  background-color: rgba(253, 253, 253,.7)!important;
+  
+   font-size: medium!important;
+    
+}
+
+ 
+
+.tab-content {
+  color : black;
+  font-size:medium;
+  background-color: rgb(253, 253, 253);
+  padding : 5px 5px;
+   min-height:500px!important;
+     margin-bottom:15px;
+    font-size:12px;
+     
+}
+
+.inputForm.row {
+    margin:1px;
+}
+
+.control-label {
+    font-weight:400!important;
+    font-size:13px;
+}
+
+
+.mandatory:after {
+content:"★"; 
+color: #e32; 
+ margin-top:5px;
+ margin-left:-45px;
+ 
+}
+
+.underConstruction {
+    font-size:55px;
+    position:fixed;
+    top:50%;
+     text-align:center;
+     width:80%;
+    min-height:400px;
+    font-family:'Segoe UI';
+    font-weight:400;
+}
+
+.underConstructionImg {
+    background-image: url('images/helmet.png');
+    background-repeat:no-repeat;
+    height:400px;
+    width:80%;
+    top:30%;
+      position:fixed;
+      background-position-x:center
+}
+
+
+.gridTextbox {
+    width:100%;border:none;background-color:rgba(0, 0, 0, 0.00);
+}
+
+.EGDanger {
+    border:1px solid;border-color:rgba(255, 22, 22, 0.26);border-radius:3px;
+}
+
+.Amount {
+    text-align:right;  
+    
+}
+.Amount::before(2) {
+    content:"₹"; 
+    
+}
+    .Amount.GrandTotal {
+        color:green;
+        font-weight:bold;
+        font-size:small;
+    }
+
+ 
+
+.confirmbox {
+    height:100px;
+    width:300px!important;
+    text-align:center!important;
+}
+
+.confirmboxHead {
+     color:rgba(0, 0, 0, .25);
+    font-size:medium!important;
+
+}
+
+.confirmboxMsg {
+    color:black!important;
+    font-size:26px!important;
+}
+
+.confirmboxFooter {
+    color:#d7d2d2;
+    font-size:13px!important;
+}
+
+.selectItemList {
+
+    max-height:350px;
+    overflow-y:scroll;
+}
+
+.actionLink {
+    text-decoration:none!important;
+}
+.mandatory:after
+{
+    margin-left:-30px !important;
+}
+
+.DeleteLink {
+      text-decoration:none!important;
+      color:darkred;
+}
+
+.preloader {
+    font-family:Calibri;
+    font-size:30px;
+   position:fixed;   
+   padding-top:1em;
+    top: 50%;
+    left: 50%;
+    width:16em;
+    height:5em;
+    margin-top: -2em; /*set to a negative number 1/2 of your height*/
+    margin-left: -8em; /*set to a negative number 1/2 of your width*/
+    border: 1px solid rgb(250, 250, 250);  ;   
+     background:rgba(252, 251, 251, 0.96);  
+     border-radius:10px;
+     box-shadow:inset;
+     z-index:1000;
+     text-align:center;
+     vertical-align:middle;
+   display:none;
+}
+
+.preloaderImg {
+     margin-left: -2em;
+}
+
+.disabled {
+    background-color:rgba(1, 1, 1, 0.04)
+}
+
+.mastersep {
+    top:40%;
+    min-height:400px;
+    border-left:solid;
+    border-width:thin;
+    border-color:lightgrey;
+    font-family:'Segoe UI';
+    font-weight:100;
+     margin-top:15px;
+     margin-bottom:25px;
+}
+
+.masterinfo {
+  
+    font-size:15px;
+     width:100%;
+    text-align:center;
+    margin:25px;
+    color:grey;
+
+}
+
+.masterinfoHead {
+       font-size:23px;
+        width:100%;
+    text-align:center
+}
+
+.masterinfoImg {
+    width:100%;
+    text-align:center
+}
+
+
+.chart-legend li span{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius:5px;
+    margin-right:5px;
+     
+}
+.chart-legend ul{
+    list-style: none;
+    font-size:10px;
+    margin-left:20px;
+    margin-right:-20px;
+}
+
+
+.ULthin {
+    border-bottom:solid;
+    border-width:thin;
+    border-color:lightgray;
+}
+
+
+.DTFC_LeftBodyLiner {
+     
+ background-color:rgb(245, 245, 245);
+}
+
+.DTFC_LeftHeadWrapper {
+    margin-bottom:-4.3%;
+}
+
+.salarysummarylbl {
+    text-align:right;
+     font-weight:300;
+}
+
+
+.salarysummary {
+    text-align:left;
+    font-size:16px;
+    font-weight:400;
+}
+ input.datepicker {
+        background-image: url('../Content/images/calendar.png');
+        background-Position: 97% center;
+        background-Repeat: no-repeat;
+        cursor: pointer;
+    }
+ input.ApplyPer{
+        background-image: url('../Content/images/percentage.png');
+        background-Position: 97% center;
+        background-Repeat: no-repeat;
+        background-size:12px;
+        width:52%;
+ }
+.skin-green-light .main-sidebar {
+    background-color:#faf9f9;
+}
+
+
+
+
+
+
+/*----------------overlay-----------------*/
+.overlay {
+    min-height: 100%;
+    width: 96%;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 100%;
+    background-color:rgb(255, 255, 255);
+  overflow-x:hidden;
+    overflow-y:hidden;
+    transition: .6s;
+    border-left:3px solid #d1d7d1;
+}
+
+.overlay-content {
+    position: relative;
+    top: 45px;
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+}
+
+ 
+
+.overlay a {
+    padding-right: 8px;
+    text-decoration: none;
+    font-size: 12px;
+    color:  #337ab7;     
+    transition: 0.3s;
+} 
+
+.overlay a:hover, .overlay a:focus {
+    color: #337ab7;
+    text-decoration: underline;
+}
+
+ 
+@media screen and (max-height: 450px) {
+  .overlay {overflow-y: auto;}
+  .overlay a {font-size: 20px}
+   .overlay-content {
+   
+    top: 100px;
+   
+}
+}
+
+
+.breadcrumb {
+    font-size:11px!important;
+    padding:1px 10px;
+    margin:0!important;
+    background-color:transparent!important;
+}
+
+.info-box {
+    min-height:60px!important;
+    background-color:rgba(255,255,255,.6)
+}
+
+.info-box-icon {
+    width:20px!important;
+     height:60px!important;
+}
+
+.info-box-content {
+    margin-left:25px!important;
+}
+
+.summaryboxes {
+    margin-top:-3%;
+    z-index:-1;
+}
+
+.customgrd {
+    background-color:white;
+}
+
+.sidebar {
+    font-size:15px;
+}
+
+.tableContainer {
+      /*background-color:white;
+      padding:15px;
+      border-radius:5px;*/
+}
+
+.TableHead {
+    font-size:14px;
+   
+      background-color: rgb(252, 253, 253);
+      border-bottom-color:red;
+    
+}
+
+    .TableHead th {
+          font-weight:500!important;
+          min-height:25px!important;
+    }
+
+.table {
+    
+}
+.addEmp {
+    border:2px solid #954c84;padding-bottom:8px;z-index:10;position:absolute;border-radius:15px;width:90%;background-color:whitesmoke;
+
+}
+.addEmp::before {
+	content: "";
+	width: 0px;
+	height: 0px;
+	border: 0.8em solid transparent;
+	position: absolute;
+   left: 85%;
+	top: -20px;
+	border-bottom: 10px solid #954c84;
+}
+
+.addEmp::after {
+	content: "";
+	width: 0px;
+	height: 0px;
+	border: 0.8em solid transparent;
+	position: absolute;
+   left: 85%;
+	top: -17px;
+	border-bottom: 10px solid whitesmoke;
+}
+ 
+
+
+
+.EntryForms {
+    width:100%;
+    margin-top:1%;
+     margin-right:4%;
+    overflow-y:auto;
+     z-index:5;
+    
+     
+}
+
+.form-group {
+    text-align:left!important;
+    margin-bottom:6px!important;
+    
+}
+.control-label {
+    padding-left:15px;
+    font-size:13px;
+}
+
+.form-control {
+    font-size:12px;
+    height:28px;
+}
+
+.multiline4 {
+     
+     height: 86px;
+}
+
+.rightAmtCaption {
+    font-weight:600;
+    font-size:14px;
+    margin-right:45%
+
+}
+
+.rightAmt {
+    font-family:'Times New Roman';
+    font-size:28px;
+   margin-right:45%
+
+}
+
+.headSeperator {
+    font-size:20px;
+   color:#9ec2c4;
+   border-bottom:1px solid #c2dee0;
+   text-align:left;
+   margin-left:5%;
+   margin-top:15px;
+   
+   margin-bottom:25px;
+   width:80%;
+}
+
+.OverlayHeader {
+     border-bottom:1px solid #e2dfdf;
+     padding-bottom:10px;
+       background-color: rgba(249, 250, 252,.4);
+}
+
+.headSeperator i {
+     font-size:18px;
+    
+}
+
+.ig-green {
+    color:#4bc58d;
+}
+
+.ig-aqua {
+     color:#399db5;
+}
+
+.ig-yellow {
+     color:#db8b0b;
+}
+
+ .fix-search{
+    padding-top: 3.5%!important;
+    position: fixed;
+    top: 10px;
+    margin-left: 16%;
+    width:64%!important;
+    }
+    .fix-search div.form-group{
+        width:36%!important;
+        color:#706161;
+        white-space: nowrap!important;
+    }
+   @media (max-width: 767px) {
+  .fix-search{
+    padding-top: 15%!important;
+    position: fixed;
+    top: 10px;
+    margin-left: 10%;
+    width:55%!important;
+    display: flex;
+    }
+  .fix-search div.form-group{
+    font-size: 11px!important;
+     width:38%!important;
+    }
+   .fix-search div{
+    font-size: 11px!important;
+    }
+  }
+
+
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+
+    background-color: white!important;
+    border-bottom:#954c84 solid 3px;
+    border-top-color: white;
+}
+
+.ReportRows {
+    border-bottom:1px solid white; 
+}
+
+.ReportRows:hover {
+   background-color:rgba(198, 238, 238, 0.13);
+   
+}
+
+.pager {
+    margin:7px 0;
+    padding-right:20%;
+}
+
+#RefSearchTable_wrapper {
+margin:20px;
+} 
+ 
+
+ .figuresummary 
+    {
+        border:1px solid rgba(148, 78, 132, 0.16);;
+         background-color: rgba(148, 78, 132, 0.16);;
+         border-radius: 10px;
+    }
+
+
+.border-bottom {
+    border-bottom:1px solid #f4f4f4;
+    
+}
+
+.description-block > .description-text {
+     text-transform: capitalize!important;
+}
+
+.dashLink {
+    cursor:pointer;
+}
+
+
+td.opeingRow {
+
+    background-color:#f1f7f9;
+}
+
+td.closingRow {
+
+    background-color:#f1f7f9;
+}
+
+td.totalRow {
+
+    background-color:rgba(245, 214, 238, 0.63);
+}
+
+
