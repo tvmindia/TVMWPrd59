@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.RepositoryServices.Contracts
 {
-    interface IDynamicUIRepository
+    public interface IDynamicUIRepository
     {
     }
 }

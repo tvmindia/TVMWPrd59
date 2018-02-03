@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.BusinessService.Contracts
 {
-    interface IDynamicUIBusiness
+    public interface IDynamicUIBusiness
     {
     }
 }

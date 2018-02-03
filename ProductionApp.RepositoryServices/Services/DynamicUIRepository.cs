@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.RepositoryServices.Services
 {
-    class DynamicUIRepository
+    public class DynamicUIRepository
     {
     }
 }

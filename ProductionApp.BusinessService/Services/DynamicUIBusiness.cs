@@ -7,7 +7,7 @@ using ProductionApp.BusinessService.Contracts;
 
 namespace ProductionApp.BusinessService.Services
 {
-    class DynamicUIBusiness:IDynamicUIBusiness
+    public class DynamicUIBusiness:IDynamicUIBusiness
     {
     }
 }

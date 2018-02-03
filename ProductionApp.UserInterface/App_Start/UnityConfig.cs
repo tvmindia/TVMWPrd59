@@ -1,6 +1,9 @@
+using ProductionApp.BusinessService.Contracts;
+using ProductionApp.BusinessService.Services;
 using System;
-
+using System.Linq;
 using Unity;
+using Unity.RegistrationByConvention;
 
 namespace ProductionApp.UserInterface
 {
@@ -42,6 +45,15 @@ namespace ProductionApp.UserInterface
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
+
+            // TODO: Register your types here
+            // container.RegisterType<IProductRepository, ProductRepository>();
+            container.RegisterTypes(AllClasses.FromLoadedAssemblies().Where(t => t.Namespace == "ProductionApp.BusinessService.Services"), WithMappings.FromMatchingInterface, WithName.Default, WithLifetime.Transient);
+            container.RegisterTypes(AllClasses.FromLoadedAssemblies().Where(t => t.Namespace == "ProductionApp.RepositoryServices.Services"), WithMappings.FromMatchingInterface, WithName.Default, WithLifetime.Transient);
+            //container.RegisterType<IDynamicUIBusiness, DynamicUIBusiness>();
+            //SAMTOOL DEPENDENCIES
+            container.RegisterTypes(AllClasses.FromLoadedAssemblies().Where(t => t.Namespace == "SAMTool.BusinessServices.Services"), WithMappings.FromMatchingInterface, WithName.Default, WithLifetime.Transient);
+            container.RegisterTypes(AllClasses.FromLoadedAssemblies().Where(t => t.Namespace == "SAMTool.RepositoryServices.Services"), WithMappings.FromMatchingInterface, WithName.Default, WithLifetime.Transient);
         }
     }
 }
