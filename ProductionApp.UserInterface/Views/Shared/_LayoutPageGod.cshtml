@@ -1,0 +1,135 @@
+﻿ @using ProductionApp.DataAccessObject.DTO
+@using ProductionApp.UserInterface.App_Start
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/png" href=@Url.Content("~/Content/images/logo.png") />    
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/AdminLTE/css/plugins")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/bootstrapdatepicker")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/boot")
+
+    @RenderSection("styles", required: false)
+     
+</head>
+<body class="hold-transition skin-green-light sidebar-mini">
+    <div class="wrapper">
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="Dashboard" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>M ERP</b></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Manufacturing</b>ERP</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <span class="main-header title" >@ViewBag.Title</span>
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                      <li class="dropdown notifications-menu" id="undepositedCount1">
+     
+                       <a href="@Url.Action("undeposited", "DepositAndWithdrawals")">
+                       <i class="fa fa-bell-o" ></i>
+                       <span class="label label-warning"  id="undepositedCount"  ></span>
+                       </a>
+            <ul class="dropdown-menu">
+            <li class="header">You have 0 notifications</li>
+            <li>
+                <!-- inner menu: contains the actual data -->
+
+            </li>
+
+        </ul>
+    </li>
+    <!-- Tasks: style can be found in dropdown.less -->
+    @* <li class="dropdown tasks-menu">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-flag-o"></i>
+            <span class="label label-danger">0</span>
+        </a>
+        <ul class="dropdown-menu">
+            <li class="header">You have 0 tasks</li>
+            <li>
+                 inner menu: contains the actual data
+
+            </li>
+
+        </ul>
+    </li>*@
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                <span class="hidden-xs"><strong>@User.Identity.Name</strong></span>
+                            </a>
+                            <ul class="dropdown-menu">
+
+                                <!-- Menu Body -->
+                                <li class="user-body">
+                                   @{
+                                       if (Session["AppUA"] != null)
+                                       {
+                                           AppUA _appUA = Session["AppUA"] as AppUA;
+                                        <span>Role : @_appUA.RolesCSV </span>
+                                       }
+
+
+                                }
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="/Account/Logout" class="btn btn-default btn-flat">Sign out</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Control Sidebar Toggle Button -->
+                        @*<li>
+                              <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                            </li>*@
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        @*@Html.Action("_MenuNavBar", "DynamicUI")*@
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content">
+            <div class="container-fluid">
+                @RenderBody()
+
+            </div>
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+
+            <strong> &copy; 2017 <a href="http://thrithvam.com">Thrithvam Tehnology</a>.</strong>
+        </footer>
+        <!-- Control Sidebar -->
+        <!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div>
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrap")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrapdatepicker")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/AdminLTE")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/userpluginjs")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -221,6 +221,7 @@
     <Content Include="Content\AdminLTE\css\alt\AdminLTE-select2.min.css" />
     <Content Include="Content\AdminLTE\css\alt\AdminLTE-without-plugins.css" />
     <Content Include="Content\AdminLTE\css\alt\AdminLTE-without-plugins.min.css" />
+    <Content Include="Content\AdminLTE\css\ionicons.min.css" />
     <Content Include="Content\AdminLTE\css\jquery-jvectormap-1.2.2.css" />
     <Content Include="Content\AdminLTE\css\skins\skin-black-light.css" />
     <Content Include="Content\AdminLTE\css\skins\skin-black-light.min.css" />
@@ -616,6 +617,7 @@
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
+    <Compile Include="Controllers\PurchaseDashboardController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SAMPanelController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -659,6 +661,8 @@
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Privileges\Index.cshtml" />
     <Content Include="Views\Privileges\PrivilegesView.cshtml" />
+    <Content Include="Views\Shared\_LayoutPageGod.cshtml" />
+    <Content Include="Views\PurchaseDashboard\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
