@@ -1,0 +1,101 @@
+﻿@model ProductionApp.UserInterface.Models.ApplicationViewModel
+@using ProductionApp.UserInterface.App_Start
+
+@{
+    ViewBag.Title = "Applications";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><i class="fa fa-cogs"></i> Settings</li>
+        <li><a href=@Url.Content("~/SAMPanel")><i class="fa fa-users"></i> User management</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+
+<div id="MainDiv" class="container SCtabContainer" style="height:680px">
+    <div id="ButtonPatchDiv" class="col-md-12">
+        <div class="" id="btnPatchManageUser" style="min-height:25px">
+
+            @{
+                var data = new { ActionType = "List" };
+                @Html.Action("ChangeButtonStyle", "User", data);
+            }
+        </div>
+
+    </div>
+
+    <div id="ManageApplicationEditDiv" hidden="hidden" class="col-md-12">
+
+        @using (Ajax.BeginForm("InsertUpdateApplication", "Application", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "ApplicationSaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", id = "applicationform" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="inputForm col-md-12">
+                    &nbsp;
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control BlockEnter" } })
+                                @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "control-label col-lg-2", id = "ID", Value = Guid.Empty })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1 mandatory"></div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                    </div>
+                
+                </div>
+                <div class="col-md-3 ">
+
+                </div>
+                <div class="form-group" hidden="hidden">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="btnInsertUpdate" type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div id="ManageApplicationTableDiv" class="col-md-12">
+        <table id="tblList" class="table table-striped table-bordered table-hover" cellspacing="0">
+            <thead>
+                <tr class="text-center">
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Created Date</th>
+                    <th>...</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div id="UserDelete" hidden="hidden">
+        @using (Ajax.BeginForm("DeleteApplication", "Application", new AjaxOptions { HttpMethod = "POST", OnSuccess = "DeleteSuccess", Confirm = "Are you sure?", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form" }))
+            {
+            @Html.AntiForgeryToken()
+            <div class="form-actions no-color">
+                @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-4", id = "deleteId" })
+                <input id="btnDelete" type="submit" value="Delete" class="btn btn-default" />
+            </div>
+        }
+    </div>
+
+</div>
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/Application")
+}
+

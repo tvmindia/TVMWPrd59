@@ -1,0 +1,390 @@
+﻿@model ProductionApp.UserInterface.Models.ToolboxViewModel
+
+<div class="buttonpatch" style="width:auto;float:right;">
+
+    @if (Model.backbtn.Visible)
+    {
+        if (Model.backbtn.Disable || Model.backbtn.HasAccess==false)
+        {
+
+            <a class="thr_disbtn" title="@Model.backbtn.Title-@Model.backbtn.DisableReason">
+
+                <img class="btnImg" src="@Url.Content("~/Content/images/back.PNG")">
+                <span class="btnText">@Model.backbtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.backbtn.Title" class="thr_btn" onclick=@Model.backbtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/back.PNG")">
+                <span class="btnText">@Model.backbtn.Text</span>
+            </a>
+        }
+
+    }
+    @if (Model.addbtn.Visible)
+    {
+        if (Model.addbtn.Disable || Model.addbtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.addbtn.Title-@Model.addbtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/add.PNG")">
+                <span class="btnText">@Model.addbtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.addbtn.Title" class="thr_btn" onclick=@Model.addbtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/add.PNG")">
+                <span class="btnText">@Model.addbtn.Text</span>
+            </a>
+        }
+
+    }
+    @if (Model.savebtn.Visible)
+    {
+        if (Model.savebtn.Disable || Model.savebtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.savebtn.Title-@Model.savebtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/save.PNG")">
+                <span class="btnText">@Model.savebtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.savebtn.Title" class="thr_btn" onclick=@Model.savebtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/save.PNG")">
+                <span class="btnText">@Model.savebtn.Text</span>
+            </a>
+        }
+
+    }
+
+    @if (Model.deletebtn.Visible)
+    {
+        if (Model.deletebtn.Disable || Model.deletebtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.deletebtn.Title-@Model.deletebtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/delete.PNG")">
+                <span class="btnText">@Model.deletebtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.deletebtn.Title" class="thr_btn" onclick=@Model.deletebtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/delete.PNG")">
+                <span class="btnText">@Model.deletebtn.Text</span>
+            </a>
+        }
+
+    }
+
+    @if (Model.resetbtn.Visible)
+    {
+        if (Model.resetbtn.Disable || Model.resetbtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.resetbtn.Title-@Model.resetbtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/reset.png")">
+                <span class="btnText">@Model.resetbtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.resetbtn.Title" class="thr_btn" onclick=@Model.resetbtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/reset.png")">
+                <span class="btnText">@Model.resetbtn.Text</span>
+            </a>
+        }
+
+    }
+
+    
+
+    @if (Model.PrintBtn.Visible)
+    {
+        if (Model.PrintBtn.Disable || Model.PrintBtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.PrintBtn.Title-@Model.PrintBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/printer.png")">
+                <span class="btnText">@Model.PrintBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.PrintBtn.Title" class="thr_btn" onclick=@Model.PrintBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/printer.png")">
+                <span class="btnText">@Model.PrintBtn.Text</span>
+            </a>
+        }
+
+    }
+    @if (Model.NotyBtn.Visible)
+    {
+        if (Model.NotyBtn.Disable || Model.NotyBtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.NotyBtn.Title-@Model.NotyBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/Notification.PNG")">
+                <span class="btnText">@Model.NotyBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.NotyBtn.Title" class="thr_btn" onclick=@Model.NotyBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/Notification.PNG")">
+                <span class="btnText">@Model.NotyBtn.Text</span>
+            </a>
+        }
+
+    }
+    @if (Model.PayBtn.Visible)
+    {
+        if (Model.PayBtn.Disable || Model.PayBtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.PayBtn.Title-@Model.PayBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/rupee1.PNG")">
+                <span class="btnText">@Model.PayBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.PayBtn.Title" class="thr_btn" onclick=@Model.PayBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/rupee1.PNG")">
+                <span class="btnText">@Model.PayBtn.Text</span>
+            </a>
+        }
+
+    }
+
+    @if (Model.CloseBtn.Visible)
+    {
+        if (Model.CloseBtn.Disable || Model.CloseBtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.CloseBtn.Title-@Model.CloseBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/close.png")">
+                <span class="btnText">@Model.CloseBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.CloseBtn.Title" class="thr_btn" onclick=@Model.CloseBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/close.png")">
+                <span class="btnText">@Model.CloseBtn.Text</span>
+            </a>
+        }
+
+    }
+
+    @if (Model.DepositBtn.Visible)
+    {
+        if (Model.DepositBtn.Disable || Model.DepositBtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.DepositBtn.Title-@Model.DepositBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/deposit.png")">
+                <span class="btnText">@Model.DepositBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.DepositBtn.Title" class="thr_btn" onclick=@Model.DepositBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/deposit.png")">
+                <span class="btnText">@Model.DepositBtn.Text</span>
+            </a>
+        }
+
+    }
+
+    @if (Model.WithdrawBtn.Visible)
+    {
+        if (Model.WithdrawBtn.Disable || Model.WithdrawBtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.WithdrawBtn.Title-@Model.WithdrawBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/withdraw.png")">
+                <span class="btnText">@Model.WithdrawBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.WithdrawBtn.Title" class="thr_btn" onclick=@Model.WithdrawBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/withdraw.png")">
+                <span class="btnText">@Model.WithdrawBtn.Text</span>
+            </a>
+        }
+
+    }
+    @if (Model.ClearBtn.Visible)
+    {
+        if (Model.ClearBtn.Disable || Model.ClearBtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.ClearBtn.Title-@Model.ClearBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/save.PNG")">
+                <span class="btnText">@Model.ClearBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.ClearBtn.Title" class="thr_btn" onclick=@Model.ClearBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/save.PNG")">
+                <span class="btnText">@Model.ClearBtn.Text</span>
+            </a>
+        }
+
+    }
+
+    @if (Model.ClearOutBtn.Visible)
+    {
+        if (Model.ClearOutBtn.Disable || Model.ClearOutBtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.ClearOutBtn.Title-@Model.ClearOutBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/save.PNG")">
+                <span class="btnText">@Model.ClearOutBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.ClearOutBtn.Title" class="thr_btn" onclick=@Model.ClearOutBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/save.PNG")">
+                <span class="btnText">@Model.ClearOutBtn.Text</span>
+            </a>
+        }
+
+    }
+
+
+    @if (Model.TransferBtn.Visible)
+    {
+        if (Model.TransferBtn.Disable || Model.TransferBtn.HasAccess == false)
+        {
+
+            <a class="thr_disbtn" title="@Model.TransferBtn.Title-@Model.TransferBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/Transfer.PNG")">
+                <span class="btnText">@Model.TransferBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.TransferBtn.Title" class="thr_btn" onclick=@Model.TransferBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/Transfer.PNG")">
+                <span class="btnText">@Model.TransferBtn.Text</span>
+            </a>
+        }
+
+    }
+
+    @*--This is a special case where access resulting visibility--//*@
+    @if (Model.LimitBtn.Visible && Model.LimitBtn.HasAccess)
+    {
+        if (Model.LimitBtn.Disable )
+        {
+
+            <a class="thr_disbtn" title="@Model.LimitBtn.Title-@Model.LimitBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/MaxLimit.PNG")">
+                <span class="btnText">@Model.LimitBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.LimitBtn.Title" class="thr_btn" onclick=@Model.LimitBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/MaxLimit.PNG")">
+                <span class="btnText">@Model.LimitBtn.Text</span>
+            </a>
+        }
+
+    }
+
+
+    @if (Model.downloadBtn.Visible) 
+    {
+        if (Model.downloadBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.downloadBtn.Title-@Model.downloadBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/Download.PNG")">
+                <span class="btnText">@Model.downloadBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.downloadBtn.Title" class="thr_btn" onclick=@Model.downloadBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/Download.PNG")">
+                <span class="btnText">@Model.downloadBtn.Text</span>
+            </a>
+        }
+
+    }
+
+
+    @if (Model.HistoryBtn.Visible)
+    {
+        if (Model.HistoryBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.HistoryBtn.Title-@Model.HistoryBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/history.PNG")">
+                <span class="btnText">@Model.HistoryBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.HistoryBtn.Title" class="thr_btn" onclick=@Model.HistoryBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/history.PNG")">
+                <span class="btnText">@Model.HistoryBtn.Text</span>
+            </a>
+        }
+
+    }
+
+
+
+
+    @if (Model.AssignBtn.Visible && Model.AssignBtn.HasAccess)
+    {
+        if (Model.AssignBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.AssignBtn.Title-@Model.AssignBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/Assign.PNG")">
+                <span class="btnText">@Model.AssignBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.AssignBtn.Title" class="thr_btn" onclick=@Model.AssignBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/Assign.PNG")">
+                <span class="btnText">@Model.AssignBtn.Text</span>
+            </a>
+        }
+
+    }
+
+
+ 
+</div>

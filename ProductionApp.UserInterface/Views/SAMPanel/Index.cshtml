@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewBag.Title = "System Access Management Panel";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+@model ProductionApp.UserInterface.Models.SAMPanelViewModel
+
+@*@model IEnumerable<HomeViewModel>*@
+@using ProductionApp.UserInterface.App_Start
+
+<style>
+    .container {
+        min-height: 650px;
+    }
+
+    list-group-item.active small {
+    }
+
+    .list-group-item-heading {
+        margin-top: 5px;
+    }
+
+    .ListDesc {
+        color: #808080;
+        padding-bottom: 10px;
+        font-size: 11px;
+        font-family: 'Segoe UI';
+    }
+
+    .list-group-item {
+        border: none;
+        height: 110px;
+    }
+</style>
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><i class="fa fa-truck"></i> Settings</li>
+        <li><i class="fa fa-users"></i> User Management</li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+<div class="container">
+    
+    <div class="col-md-12">
+        <br/>
+        <br/>
+    </div>
+
+  
+
+    <div class="row">
+        <div>
+           <div class="col-lg-12">
+
+                @{
+                    if (Model._LHSSysMenuViewModel != null && Model._LHSSysMenuViewModel.Count > 0)
+                    {
+                        <div class="col-lg-6">
+                            <div class="list-group">
+                                @foreach (ProductionApp.UserInterface.Models.SysMenuViewModel svm in Model._LHSSysMenuViewModel)
+                                {
+
+                                    <div class="list-group-item">
+
+                                        <div class="col-md-10">
+                                            <a href="/@svm.Controller/@svm.Action" class="btn btn-link">
+                                                <h4 class="list-group-item-heading"> @svm.LinkName </h4>
+                                            </a>
+                                            <p class="list-group-item-text ListDesc">
+                                                @svm.LinkDescription
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+
+                        </div>
+                    }
+
+                }
+
+
+
+
+                @{
+                    if (Model._RHSSysMenuViewModel != null && Model._RHSSysMenuViewModel.Count>0)
+                    {
+                        <div class="col-lg-6">
+                            <div class="list-group">
+                                @foreach (ProductionApp.UserInterface.Models.SysMenuViewModel svm in Model._RHSSysMenuViewModel)
+                                {
+
+                                    <div class="list-group-item">
+
+                                        <div class="col-md-10">
+                                            <a href="/@svm.Controller/@svm.Action" class="btn btn-link">
+                                                <h4 class="list-group-item-heading"> @svm.LinkName </h4>
+                                            </a>
+                                            <p class="list-group-item-text ListDesc">
+                                                @svm.LinkDescription
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                }
+                            </div>
+                        </div>
+
+                    }
+
+                }
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+  
+  
+  
+}
+
+
+

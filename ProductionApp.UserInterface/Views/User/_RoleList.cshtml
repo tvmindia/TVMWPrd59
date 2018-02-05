@@ -1,0 +1,12 @@
+﻿@model ProductionApp.UserInterface.Models.UserViewModel
+    @for (int i = 0; i < Model.RoleList.Count; i++)
+    {
+        @Html.CheckBox(Model.RoleList[i].RoleName, false, new { id = "Role_" + Model.RoleList[i].ID, @class = "col-md-2" })
+        @Html.LabelFor(x => x.RoleList[i].RoleName, Model.RoleList[i].RoleName, htmlAttributes: new { @class = "col-md-9" })
+        <br />
+    }
+    @if (Model.RoleList.Count == 0)
+    {
+        <br />
+        @Html.Label("--No Roles Found,Add Roles--");
+    }

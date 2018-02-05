@@ -1,0 +1,214 @@
+﻿@model ProductionApp.UserInterface.Models.UserViewModel
+@using ProductionApp.UserInterface.App_Start
+
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><i class="fa fa-cogs"></i> Settings</li>
+        <li><a href=@Url.Content("~/SAMPanel")><i class="fa fa-users"></i> User management</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+<div id="MainDiv" class="container SCtabContainer" style="height:680px">
+    <div id="ButtonPatchDiv" class="col-md-12">
+        <div class="" id="btnPatchManageUser" style="min-height:25px">
+
+            @{
+                var data = new { ActionType = "List" };
+                @Html.Action("ChangeButtonStyle", "User", data);
+            }
+        </div>
+
+    </div>
+    <div id="ManageUserTableDiv" class="col-md-12">
+        <table id="tblUsersList" class="table table-striped table-bordered table-hover" cellspacing="0">
+            <thead>
+                <tr class="text-center">
+                    <th>ID</th>
+                    <th>User Name</th>
+                    <th>Login Name</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    <th>Active</th>
+                    <th>Created Date</th>
+                    <th>...</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div id="ManageUserEditDiv" hidden="hidden" class="col-md-12">
+        @using (Ajax.BeginForm("InsertUpdateUser", "User", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "UserSaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", id = "userform" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="col-md-7">
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter", @autofocus = true } })
+                                @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "control-label col-lg-2", id = "ID", Value = Guid.Empty })
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.LoginName, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.LoginName, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" } })
+                                @Html.ValidationMessageFor(model => model.LoginName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control HeaderBox BlockEnter" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.PasswordFor(model => model.Password, htmlAttributes:new { @class = "form-control HeaderBox  BlockEnter" } )
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.PasswordFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "form-control HeaderBox BlockEnter"  })
+                                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @{
+                                    List<SelectListItem> listItems = new List<SelectListItem>();
+                                    listItems.Add(new SelectListItem
+                                    { Text = "Yes", Value = "true" });
+                                    listItems.Add(new SelectListItem
+                                    { Text = "No", Value = "false" });
+                                }
+                                @Html.DropDownListFor(model => model.Active, listItems, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
+                            <label class="control-label">Select Application</label>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.AppID, Model.ApplicationList, "--Select Application--", new { @class = "form-control", @onchange = "ChangeRolesData(this)", @id = "ddlApplication" })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                            </div>
+                        </div>
+           
+                </div>
+                <div class="col-md-3 ">
+                    
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RoleList, htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-12"> &nbsp;</div>
+                        <div class="col-md-6  form-control" style="height:250px; overflow-y:auto; padding-left:3%;" id="divRoleList">
+                            @*@for (int i = 0; i < Model.RoleList.Count; i++)
+                            {
+                                @Html.CheckBox(Model.RoleList[i].RoleName, false, new { id = "Role_" + Model.RoleList[i].ID, @class = "col-md-2" })
+                                @Html.LabelFor(x => x.RoleList[i].RoleName, Model.RoleList[i].RoleName, htmlAttributes: new { @class = "col-md-9" })
+                                <br />
+                            }
+                            @if (Model.RoleList.Count == 0)
+                            {
+                                <br />
+                                @Html.Label("--No Roles Found,Add Roles--");
+                            }*@
+                        </div>
+                        <div hidden="hidden">
+                            @Html.EditorFor(model => model.RoleCSV, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" hidden="hidden">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="btnInsertUpdateUser" type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+                                }
+        <div>
+        </div>
+    </div>
+
+    <div id="UserDelete" hidden="hidden">
+        @using (Ajax.BeginForm("DeleteUser", "User", new AjaxOptions { HttpMethod = "POST", OnSuccess = "DeleteSuccess", Confirm = "Are you sure?", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form" }))
+            {
+            @Html.AntiForgeryToken()
+            <div class="form-actions no-color">
+                @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-4", id = "deleteId" })
+                <input id="btnuserFormDelete" type="submit" value="Delete" class="btn btn-default" />
+            </div>
+        }
+    </div>
+
+</div>
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/User")
+}
+
+
+
+
+
+

@@ -43,7 +43,7 @@ var fileArray = [];
 
 
 $(document).ready(function () {
-    
+    debugger;
     var wrap = $(".EntryForms");
     wrap.on("scroll", function (e) {
         if (this.scrollTop > 147) {
@@ -56,7 +56,7 @@ $(document).ready(function () {
             $("#divStatus").show();
         }
     });
-    GetUndepositedChequeBubbleCount();
+    //GetUndepositedChequeBubbleCount();
     $('input.datepicker').datepicker({
         format: "dd-M-yyyy",//",
         maxViewMode: 0,

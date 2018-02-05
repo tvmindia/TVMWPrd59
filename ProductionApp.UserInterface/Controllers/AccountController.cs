@@ -20,7 +20,6 @@ namespace ProductionApp.UserInterface.Controllers
         {
             _userBusiness = userBusiness;
         }
-        // GET: Account
         public ActionResult Index()
         {
             return View();
@@ -82,6 +81,26 @@ namespace ProductionApp.UserInterface.Controllers
 
             }
         }
+        #region Logout
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Logout()
+        {
+            try
+            {
+                FormsAuthentication.SignOut();
+                Session.Remove("TvmValid");
+                Session.Remove("UserRights");
+                Session.Remove("AppUA");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return RedirectToLogin();
+        }
+
+        #endregion Logout
         private ActionResult RedirectToLocal()
         {
             return RedirectToAction("Index", "DashBoard");
