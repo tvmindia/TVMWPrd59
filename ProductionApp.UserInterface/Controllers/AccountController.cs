@@ -111,7 +111,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
         private ActionResult RedirectToAdminDashboard()
         {
-            return RedirectToAction("Index", "DashBoard");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]

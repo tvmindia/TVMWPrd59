@@ -42,8 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IDynamicUIBusiness.cs" />
+    <Compile Include="Contracts\ISysModuleBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DynamicUIBusiness.cs" />
+    <Compile Include="Services\SysModuleBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProductionApp.DataAccessObject\ProductionApp.DataAccessObject.csproj">

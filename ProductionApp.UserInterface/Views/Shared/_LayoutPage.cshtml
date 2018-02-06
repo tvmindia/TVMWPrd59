@@ -1,7 +1,10 @@
 ﻿ @using ProductionApp.DataAccessObject.DTO
+@using ProductionApp.UserInterface.Models
 @using ProductionApp.UserInterface.App_Start
 <!DOCTYPE html>
-
+@{ 
+    SysModuleViewModel sysModuleVM = ViewBag.SysModuleObj;
+}
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -121,7 +124,7 @@
             </nav>
         </header>
         <!-- Left side column. contains the logo and sidebar -->
-        @*@Html.Action("_MenuNavBar", "DynamicUI")*@
+        @Html.Action("_MenuNavBar", "DynamicUI", sysModuleVM)
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">

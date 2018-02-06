@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="DTO\Common.cs" />
     <Compile Include="DTO\Dashboard.cs" />
+    <Compile Include="DTO\SysModule.cs" />
     <Compile Include="DTO\Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

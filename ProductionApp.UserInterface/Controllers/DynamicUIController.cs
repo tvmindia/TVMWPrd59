@@ -21,7 +21,7 @@ namespace ProductionApp.UserInterface.Controllers
            
         }
 
-        public ActionResult _MenuNavBar()
+        public ActionResult _MenuNavBar(SysModuleViewModel sysModuleVM)
         {
             List<Menu> menulist = _dynamicUIBusiness.GetAllMenues();
             DynamicUIViewModel dUIObj = new DynamicUIViewModel();
