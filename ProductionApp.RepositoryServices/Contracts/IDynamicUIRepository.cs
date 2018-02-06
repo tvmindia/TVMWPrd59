@@ -9,6 +9,7 @@ namespace ProductionApp.RepositoryServices.Contracts
 {
     public interface IDynamicUIRepository
     {
-        List<Menu> GetAllMenues();
+        List<AMCSysModule> GetAllModule();
+        List<AMCSysMenu> GetAllMenu(string Code);
     }
 }

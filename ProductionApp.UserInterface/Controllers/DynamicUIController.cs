@@ -21,11 +21,11 @@ namespace ProductionApp.UserInterface.Controllers
            
         }
 
-        public ActionResult _MenuNavBar(SysModuleViewModel sysModuleVM)
+        public ActionResult _MenuNavBar(AMCSysModuleViewModel sysModuleVM)
         {
-            List<Menu> menulist = _dynamicUIBusiness.GetAllMenues();
+            List<AMCSysMenu> menulist = _dynamicUIBusiness.GetAllMenu(sysModuleVM.Code);
             DynamicUIViewModel dUIObj = new DynamicUIViewModel();
-            dUIObj.MenuViewModelList = Mapper.Map<List<Menu>, List<MenuViewModel>>(menulist);
+            dUIObj.AMCSysMenuViewModelList = Mapper.Map<List<AMCSysMenu>, List<AMCSysMenuViewModel>>(menulist);
             return View(dUIObj);
         }
 

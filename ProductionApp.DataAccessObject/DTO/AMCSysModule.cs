@@ -9,9 +9,11 @@ namespace ProductionApp.DataAccessObject.DTO
     /// <summary>
     /// SysModules Object
     /// </summary>
-    public class SysModule
+    public class AMCSysModule
     {
         public string Code { get; set; }
         public string Name { get; set; }
+        public string Controller { get; set; }
+        public string IconClass { get; set; }
     }
 }

@@ -1,0 +1,76 @@
+﻿@model ProductionApp.UserInterface.Models.DynamicUIViewModel
+
+@{
+    List<ProductionApp.UserInterface.Models.AMCSysMenuViewModel> menuList = Model.AMCSysMenuViewModelList;
+}
+
+
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+
+        <!-- /.search form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree">
+
+            @foreach (var mp in menuList.Where(p => p.ParentID == 0))
+            {
+
+                if (menuList.Count(p => p.ParentID == mp.ID) == 0)
+                {
+                    if (mp.ID == 100)
+                    {
+                        <li class="">
+                            <a href="@Url.Action(mp.Action, mp.Controller, mp.AMCSysModuleObj)"><i class="@mp.IconClass"></i> <span>@mp.MenuText</span></a>
+
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="@Url.Action(mp.Action, mp.Controller, mp.AMCSysModuleObj)">   <i class="@mp.IconClass"></i> <span>@mp.MenuText</span>   </a>
+
+                        </li>
+
+                    }
+
+                }
+                else
+                {
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="@mp.IconClass"></i> <span>@mp.MenuText</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @RenderMenuItem(menuList, mp)
+                        </ul>
+                    </li>
+
+
+
+                }
+            }
+
+
+
+                @helper RenderMenuItem(List<ProductionApp.UserInterface.Models.AMCSysMenuViewModel> menuList, ProductionApp.UserInterface.Models.AMCSysMenuViewModel mi)
+                {
+                    foreach (var cp in menuList.Where(p => p.ParentID == mi.ID))
+                    {
+
+                        
+                            <li><a href="@Url.Action(cp.Action, cp.Controller, cp.AMCSysModuleObj)"><i class="@cp.IconClass"></i>@cp.MenuText</a></li>
+ 
+
+                    }
+                }
+             
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

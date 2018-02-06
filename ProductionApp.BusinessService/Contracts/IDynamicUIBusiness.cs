@@ -9,6 +9,8 @@ namespace ProductionApp.BusinessService.Contracts
 {
     public interface IDynamicUIBusiness
     {
-        List<Menu> GetAllMenues();
+        List<AMCSysModule> GetAllModule();
+        List<AMCSysMenu> GetAllMenu(string Code);
+
     }
 }

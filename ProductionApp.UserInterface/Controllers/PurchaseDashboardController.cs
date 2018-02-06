@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProductionApp.UserInterface.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,8 +10,9 @@ namespace ProductionApp.UserInterface.Controllers
     public class PurchaseDashboardController : Controller
     {
         // GET: PurchaseDashboard
-        public ActionResult Index()
+        public ActionResult Index(AMCSysModuleViewModel sysModuleVM)
         {
+            ViewBag.SysModuleObj = sysModuleVM;
             return View();
         }
     }

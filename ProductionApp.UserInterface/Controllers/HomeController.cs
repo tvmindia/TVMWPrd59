@@ -12,19 +12,20 @@ namespace ProductionApp.UserInterface.Controllers
 {
     public class HomeController : Controller
     {
-        ISysModuleBusiness _sysModuleBusiness;
-        public HomeController(ISysModuleBusiness sysModuleBusiness)
+        IDynamicUIBusiness _dynamicUIBusiness;
+        public HomeController(IDynamicUIBusiness dynamicUIBusiness)
         {
-            _sysModuleBusiness = sysModuleBusiness;
+            _dynamicUIBusiness = dynamicUIBusiness;
         }
         // GET: Home
         public ActionResult Index()
         {
             AppUA appUA = Session["AppUA"] as AppUA;
             HomeViewModel homeVm = new HomeViewModel();
-            List<SysModuleViewModel> SysModuleVMList = Mapper.Map<List<SysModule>, List<SysModuleViewModel>>(_sysModuleBusiness.GetAllModule());
-            homeVm.SysModuleVMObj = new SysModuleViewModel();
-            homeVm.SysModuleVMObj.SysModuleList = SysModuleVMList;
+            List<AMCSysModuleViewModel> SysModuleVMList = Mapper.Map<List<AMCSysModule>, List<AMCSysModuleViewModel>>(_dynamicUIBusiness.GetAllModule());
+            homeVm.SysModuleVMObj = new AMCSysModuleViewModel {
+                SysModuleList = SysModuleVMList
+            };
             return View(homeVm);
         }
     }

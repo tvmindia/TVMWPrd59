@@ -30,7 +30,7 @@ namespace ProductionApp.UserInterface.App_Start
 
 
                 //****SAMTOOL MODELS 
-                config.CreateMap<SysModuleViewModel, SysModule>().ReverseMap();
+                config.CreateMap<AMCSysModuleViewModel, AMCSysModule>().ReverseMap();
 
 
 

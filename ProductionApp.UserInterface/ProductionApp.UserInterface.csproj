@@ -630,9 +630,9 @@
     <Compile Include="Models\CommonViewModel.cs" />
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
-    <Compile Include="Models\SysModuleViewModel.cs" />
+    <Compile Include="Models\AMCSysModuleViewModel.cs" />
     <Compile Include="Models\ManageAccessViewModel.cs" />
-    <Compile Include="Models\MenuViewModel.cs" />
+    <Compile Include="Models\AMCSysMenuViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
@@ -667,7 +667,8 @@
     <Content Include="Views\Shared\_LayoutPageGod.cshtml" />
     <Content Include="Views\PurchaseDashboard\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\_DashboardTiles.cshtml" />
+    <Content Include="Views\DynamicUI\_MenuNavBar.cshtml" />
+    <Content Include="Views\DynamicUI\UnderConstruction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,6 +1,6 @@
 ﻿@using ProductionApp.UserInterface.Models;
 @{
-    List<ProductionApp.UserInterface.Models.SysModuleViewModel> sysModuleList = Model.SysModuleVMObj.SysModuleList;
+    List<ProductionApp.UserInterface.Models.AMCSysModuleViewModel> sysModuleList = Model.SysModuleVMObj.SysModuleList;
 }
 @{
     ViewBag.Title = "Index";
@@ -10,7 +10,7 @@
     @{
         if (Model != null)
         {
-            foreach (SysModuleViewModel sysModuleLst in sysModuleList)
+            foreach (AMCSysModuleViewModel sysModuleLst in sysModuleList)
             {
                 <div class="col-lg-3 col-xs-6">
                     <!-- small box -->
@@ -20,9 +20,9 @@
                             <p>@sysModuleLst.Name</p>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-bag"></i>
+                            <i class="@sysModuleLst.IconClass"></i>
                         </div>
-                        <a href="@Url.Action("Index",sysModuleLst.Name+"Dashboard",sysModuleLst)" class="small-box-footer">Dashboard <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="@Url.Action("Index",sysModuleLst.Controller,sysModuleLst)" class="small-box-footer">Dashboard <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                    

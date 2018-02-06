@@ -7,6 +7,6 @@ namespace ProductionApp.UserInterface.Models
 {
     public class DynamicUIViewModel
     {
-        public List<MenuViewModel> MenuViewModelList { get; set; }
+        public List<AMCSysMenuViewModel> AMCSysMenuViewModelList { get; set; }
     }
 }

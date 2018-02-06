@@ -10,7 +10,7 @@ namespace ProductionApp.UserInterface.Controllers
     public class AccountsDashboardController : Controller
     {
         // GET: Dashboard
-        public ActionResult Index(SysModuleViewModel sysModuleVM)
+        public ActionResult Index(AMCSysModuleViewModel sysModuleVM)
         {
             ViewBag.SysModuleObj = sysModuleVM;
             return View();

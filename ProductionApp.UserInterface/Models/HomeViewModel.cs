@@ -7,6 +7,6 @@ namespace ProductionApp.UserInterface.Models
 {
     public class HomeViewModel
     {
-        public SysModuleViewModel SysModuleVMObj { get; set; }
+        public AMCSysModuleViewModel SysModuleVMObj { get; set; }
     }
 }
