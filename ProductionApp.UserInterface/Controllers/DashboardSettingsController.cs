@@ -7,9 +7,9 @@ using System.Web.Mvc;
 
 namespace ProductionApp.UserInterface.Controllers
 {
-    public class AccountsDashboardController : Controller
+    public class DashboardSettingsController : Controller
     {
-        // GET: Dashboard
+        // GET: DashboardSettings
         public ActionResult Index(AMCSysModuleViewModel sysModuleVM)
         {
             ViewBag.SysModuleObj = sysModuleVM;
