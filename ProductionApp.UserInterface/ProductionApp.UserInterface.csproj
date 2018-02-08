@@ -613,13 +613,15 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\AppObjectController.cs" />
-    <Compile Include="Controllers\DashboardAccountsController.cs" />
-    <Compile Include="Controllers\DashboardSalesController.cs" />
+    <Compile Include="Controllers\BankController.cs" />
+    <Compile Include="Controllers\DashboardAccountController.cs" />
+    <Compile Include="Controllers\DashboardMasterController.cs" />
+    <Compile Include="Controllers\DashboardSaleController.cs" />
     <Compile Include="Controllers\DashboardSettingsController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\DashboardHRController.cs" />
-    <Compile Include="Controllers\DashboardInventoryController.cs" />
+    <Compile Include="Controllers\DashboardStoreController.cs" />
+    <Compile Include="Controllers\DashboardReportController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\DashboardProductionController.cs" />
@@ -674,11 +676,13 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\DynamicUI\_MenuNavBar.cshtml" />
     <Content Include="Views\DynamicUI\UnderConstruction.cshtml" />
-    <Content Include="Views\DashboardInventory\Index.cshtml" />
-    <Content Include="Views\DashboardHR\Index.cshtml" />
+    <Content Include="Views\DashboardReport\Index.cshtml" />
+    <Content Include="Views\DashboardStore\Index.cshtml" />
     <Content Include="Views\DashboardProduction\Index.cshtml" />
-    <Content Include="Views\DashboardSales\Index.cshtml" />
+    <Content Include="Views\DashboardSale\Index.cshtml" />
     <Content Include="Views\DashboardSettings\Index.cshtml" />
+    <Content Include="Views\DashboardMaster\Index.cshtml" />
+    <Content Include="Views\Bank\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

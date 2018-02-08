@@ -64,7 +64,8 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return moduleList;
         }
-        public List<AMCSysMenu> GetAllMenu(string Code)
+
+        public List<AMCSysMenu> GetAllMenu(string code)
         {
             List<AMCSysMenu> menuList = null;
             try
@@ -78,7 +79,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.Parameters.Add("@Code", SqlDbType.NVarChar, 5).Value = Code;
+                        cmd.Parameters.Add("@Code", SqlDbType.NVarChar, 5).Value = code;
                         cmd.CommandText = "[AMC].[GetAllMenu]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

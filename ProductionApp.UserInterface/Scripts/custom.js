@@ -230,7 +230,7 @@ function GetDataFromServerTraditional(page, formData) {
 
 function ChangeButtonPatchView(Controller, Dom, Action) {
     debugger
-    var data = { ActionType: Action };
+    var data = { actionType: Action };
     var ds = {};
     ds = GetDataFromServer(Controller + "/ChangeButtonStyle/", data);
     if (ds == "Nochange")
@@ -242,8 +242,7 @@ function ChangeButtonPatchView(Controller, Dom, Action) {
 }
 
 function NetworkFailure(data, status, xhr) {
-    var i = JSON.parse(data)
-    notyAlert('error', status);
+    console.log(e.message);
 }
 
 

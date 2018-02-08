@@ -12,6 +12,5 @@ namespace ProductionApp.RepositoryServices.Contracts
     {
         SqlConnection GetDBConnection();
         Boolean DisconectDB();
-        OleDbConnection GetOleDBConnection(int flag, string fname);
     }
 }

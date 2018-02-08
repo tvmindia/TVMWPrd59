@@ -78,14 +78,15 @@ namespace ProductionApp.UserInterface.Controllers
             object result = null;
             if (ModelState.IsValid)
             {
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
+                DataAccessObject.DTO.Common commonObj = new DataAccessObject.DTO.Common();
                 if (PrivilegesObj.ID == Guid.Empty)
                 {
                     try
                     {
                         PrivilegesObj.commonDetails = new CommonViewModel();
-                        PrivilegesObj.commonDetails.CreatedBy = _appUA.UserName;
-                        PrivilegesObj.commonDetails.CreatedDate= _appUA.DateTime;
+                        PrivilegesObj.commonDetails.CreatedBy = appUA.UserName;
+                        PrivilegesObj.commonDetails.CreatedDate = commonObj.GetCurrentDateTime();
                         result = _privillegesBusiness.InsertPrivileges(Mapper.Map<PrivilegesViewModel, Privileges>(PrivilegesObj));
 
                     }
@@ -99,8 +100,8 @@ namespace ProductionApp.UserInterface.Controllers
                     try
                     {
                         PrivilegesObj.commonDetails = new CommonViewModel();
-                        PrivilegesObj.commonDetails.UpdatedBy = _appUA.UserName;
-                        PrivilegesObj.commonDetails.UpdatedDate = _appUA.DateTime;
+                        PrivilegesObj.commonDetails.UpdatedBy = appUA.UserName;
+                        PrivilegesObj.commonDetails.UpdatedDate = commonObj.GetCurrentDateTime();
                         result = _privillegesBusiness.UpdatePrivileges(Mapper.Map<PrivilegesViewModel, Privileges>(PrivilegesObj));
                     }
                     catch (Exception ex)
@@ -223,117 +224,117 @@ namespace ProductionApp.UserInterface.Controllers
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Privileges", Mode = "R")]
-        public ActionResult ChangeButtonStyle(string ActionType)
+        public ActionResult ChangeButtonStyle(string actionType)
         {
-            ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
-            Permission _permission = Session["UserRights"] as Permission;
-            switch (ActionType)
+            ToolboxViewModel toolboxVMObj = new ToolboxViewModel();
+            Permission permission = Session["UserRights"] as Permission;
+            switch (actionType)
             {
                 case "List":
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonAdd").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonAdd").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.addbtn.Visible = true;
+                        toolboxVMObj.addbtn.Visible = true;
                     }
-                    ToolboxViewModelObj.addbtn.Text = "Add";
-                    ToolboxViewModelObj.addbtn.Title = "Add New";
-                    ToolboxViewModelObj.addbtn.Event = "Add();";
+                    toolboxVMObj.addbtn.Text = "Add";
+                    toolboxVMObj.addbtn.Title = "Add New";
+                    toolboxVMObj.addbtn.Event = "Add();";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.backbtn.Visible = true;
+                        toolboxVMObj.backbtn.Visible = true;
                     }
                     
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.Title = "Back to list";
-                    ToolboxViewModelObj.backbtn.Event = "goHome()";
+                    toolboxVMObj.backbtn.Text = "Back";
+                    toolboxVMObj.backbtn.Title = "Back to list";
+                    toolboxVMObj.backbtn.Event = "goHome()";
 
                     break;
                 case "Edit":
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.backbtn.Visible = true;
+                        toolboxVMObj.backbtn.Visible = true;
                     }
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.Title = "Back to list";
-                    ToolboxViewModelObj.backbtn.Event = "Back()";
+                    toolboxVMObj.backbtn.Text = "Back";
+                    toolboxVMObj.backbtn.Title = "Back to list";
+                    toolboxVMObj.backbtn.Event = "Back()";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.savebtn.Visible = true;
+                        toolboxVMObj.savebtn.Visible = true;
                     }
                    
-                    ToolboxViewModelObj.savebtn.Text = "Save";
-                    ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "save();";
+                    toolboxVMObj.savebtn.Text = "Save";
+                    toolboxVMObj.savebtn.Title = "Save";
+                    toolboxVMObj.savebtn.Event = "save();";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonDelete").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonDelete").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.deletebtn.Visible = true;
+                        toolboxVMObj.deletebtn.Visible = true;
                     }
                    
-                    ToolboxViewModelObj.deletebtn.Text = "Delete";
-                    ToolboxViewModelObj.deletebtn.Title = "Delete";
-                    ToolboxViewModelObj.deletebtn.Event = "DeleteClick();";
+                    toolboxVMObj.deletebtn.Text = "Delete";
+                    toolboxVMObj.deletebtn.Title = "Delete";
+                    toolboxVMObj.deletebtn.Event = "DeleteClick();";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.resetbtn.Visible = true;
+                        toolboxVMObj.resetbtn.Visible = true;
                     }
                    
-                    ToolboxViewModelObj.resetbtn.Text = "Reset";
-                    ToolboxViewModelObj.resetbtn.Title = "Reset";
-                    ToolboxViewModelObj.resetbtn.Event = "reset();";
+                    toolboxVMObj.resetbtn.Text = "Reset";
+                    toolboxVMObj.resetbtn.Title = "Reset";
+                    toolboxVMObj.resetbtn.Event = "reset();";
 
                     break;
                 case "Add":
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.backbtn.Visible = true;
+                        toolboxVMObj.backbtn.Visible = true;
                     }
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.Title = "Back to list";
-                    ToolboxViewModelObj.backbtn.Event = "Back()";
+                    toolboxVMObj.backbtn.Text = "Back";
+                    toolboxVMObj.backbtn.Title = "Back to list";
+                    toolboxVMObj.backbtn.Event = "Back()";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.savebtn.Visible = true;
+                        toolboxVMObj.savebtn.Visible = true;
                     }
-                    ToolboxViewModelObj.savebtn.Text = "Save";
-                    ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "save();";
+                    toolboxVMObj.savebtn.Text = "Save";
+                    toolboxVMObj.savebtn.Title = "Save";
+                    toolboxVMObj.savebtn.Event = "save();";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonDelete").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonDelete").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.deletebtn.Visible = true;
+                        toolboxVMObj.deletebtn.Visible = true;
                     }
-                    ToolboxViewModelObj.deletebtn.Text = "Delete";
-                    ToolboxViewModelObj.deletebtn.Title = "Delete";
-                    ToolboxViewModelObj.deletebtn.Disable = true;
-                    ToolboxViewModelObj.deletebtn.Event = "DeleteClick()";
+                    toolboxVMObj.deletebtn.Text = "Delete";
+                    toolboxVMObj.deletebtn.Title = "Delete";
+                    toolboxVMObj.deletebtn.Disable = true;
+                    toolboxVMObj.deletebtn.Event = "DeleteClick()";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.resetbtn.Visible = true;
+                        toolboxVMObj.resetbtn.Visible = true;
                     }
 
-                    ToolboxViewModelObj.resetbtn.Text = "Reset";
-                    ToolboxViewModelObj.resetbtn.Title = "Reset";
-                    ToolboxViewModelObj.resetbtn.Event = "reset();";
+                    toolboxVMObj.resetbtn.Text = "Reset";
+                    toolboxVMObj.resetbtn.Title = "Reset";
+                    toolboxVMObj.resetbtn.Event = "reset();";
 
                     break;
                 case "GoBack":
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.backbtn.Visible = true;
+                        toolboxVMObj.backbtn.Visible = true;
                     }
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.Title = "Back to list";
-                    ToolboxViewModelObj.backbtn.Event = "goHome()";
+                    toolboxVMObj.backbtn.Text = "Back";
+                    toolboxVMObj.backbtn.Title = "Back to list";
+                    toolboxVMObj.backbtn.Event = "goHome()";
                     break;
                 default:
                     return Content("Nochange");
             }
-            return PartialView("ToolboxView", ToolboxViewModelObj);
+            return PartialView("ToolboxView", toolboxVMObj);
         }
 
         #endregion

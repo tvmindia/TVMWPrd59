@@ -17,11 +17,11 @@ namespace ProductionApp.BusinessService.Services
             _dynamicUIRepository = dynamicUIRespository;
 
         }
-        public List<AMCSysMenu> GetAllMenu(string Code)
+        public List<AMCSysMenu> GetAllMenu(string code)
         {
             try
             {
-                return _dynamicUIRepository.GetAllMenu(Code);
+                return _dynamicUIRepository.GetAllMenu(code);
             }
             catch (Exception)
             {

@@ -3,9 +3,9 @@ using System.Web.Mvc;
 
 namespace ProductionApp.UserInterface.Controllers
 {
-    public class DashboardPurchaseController : Controller
+    public class DashboardSaleController : Controller
     {
-        // GET: PurchaseDashboard
+        // GET: DashboardSales
         public ActionResult Index(AMCSysModuleViewModel sysModuleVM)
         {
             ViewBag.SysModuleObj = sysModuleVM;

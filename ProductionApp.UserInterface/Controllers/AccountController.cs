@@ -6,7 +6,6 @@ using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using ProductionApp.BusinessService.Contracts;
 using ProductionApp.UserInterface.Models;
 
 namespace ProductionApp.UserInterface.Controllers
@@ -71,14 +70,10 @@ namespace ProductionApp.UserInterface.Controllers
                     loginVM.Message = _const.LoginFailed;
                     return View("Index", loginVM);
                 }
-
-
-
             }
             catch (Exception ex)
             {
                 throw ex;
-
             }
         }
         #region Logout

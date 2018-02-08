@@ -57,7 +57,7 @@ namespace ProductionApp.UserInterface.SecurityFilter
                     appUA.UserName = _ua.UserName;
                     LoggedUserName = appUA.UserName;
                     ProductionApp.DataAccessObject.DTO.Common common = new ProductionApp.DataAccessObject.DTO.Common();
-                    appUA.DateTime = common.GetCurrentDateTime();
+                    appUA.LoginDateTime = common.GetCurrentDateTime();
                     appUA.AppID = _ua.AppID;
                     filterContext.HttpContext.Session.Add("AppUA", appUA);
             }

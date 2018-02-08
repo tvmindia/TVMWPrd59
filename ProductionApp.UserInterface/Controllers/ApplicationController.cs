@@ -7,7 +7,6 @@ using ProductionApp.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using ProductionApp.UserInterface.Models;
 
@@ -16,13 +15,10 @@ namespace ProductionApp.UserInterface.Controllers
     public class ApplicationController : Controller
     {
         private IApplicationBusiness _applicationBusiness;
-
-
         public ApplicationController(IApplicationBusiness applicationBusiness)
         {
             _applicationBusiness = applicationBusiness;
         }
-
 
         // GET: Application
         [HttpGet]
@@ -32,26 +28,25 @@ namespace ProductionApp.UserInterface.Controllers
             return View();
         }
 
-
         #region InsertUpdateApplication
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthSecurityFilter(ProjectObject = "Application", Mode = "W")]
-        public string InsertUpdateApplication(ApplicationViewModel appObj)
+        public string InsertUpdateApplication(ApplicationViewModel applicationVM)
         {
             object result = null;
             if (ModelState.IsValid)
             {
-                AppUA _appUA = Session["AppUA"] as AppUA;
-                if (appObj.ID == Guid.Empty)
+                AppUA appUA = Session["AppUA"] as AppUA;
+                DataAccessObject.DTO.Common commonObj = new DataAccessObject.DTO.Common();
+                if (applicationVM.ID == Guid.Empty)
                 {
                     try
                     {
-                        appObj.commonDetails = new CommonViewModel();
-                        appObj.commonDetails.CreatedBy = _appUA.UserName;
-                        appObj.commonDetails.CreatedDate = _appUA.DateTime;
-                        result = _applicationBusiness.InsertApplication(Mapper.Map<ApplicationViewModel, Application>(appObj));
+                        applicationVM.commonDetails = new CommonViewModel();
+                        applicationVM.commonDetails.CreatedBy = appUA.UserName;
+                        applicationVM.commonDetails.CreatedDate = commonObj.GetCurrentDateTime();
+                        result = _applicationBusiness.InsertApplication(Mapper.Map<ApplicationViewModel, Application>(applicationVM));
                     }
                     catch (Exception ex)
                     {
@@ -62,10 +57,10 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     try
                     {
-                        appObj.commonDetails = new CommonViewModel();
-                        appObj.commonDetails.UpdatedBy = _appUA.UserName;
-                        appObj.commonDetails.UpdatedDate = _appUA.DateTime;
-                        result = _applicationBusiness.UpdateApplication(Mapper.Map<ApplicationViewModel, Application>(appObj));
+                        applicationVM.commonDetails = new CommonViewModel();
+                        applicationVM.commonDetails.UpdatedBy = appUA.UserName;
+                        applicationVM.commonDetails.UpdatedDate = commonObj.GetCurrentDateTime();
+                        result = _applicationBusiness.UpdateApplication(Mapper.Map<ApplicationViewModel, Application>(applicationVM));
                     }
                     catch (Exception ex)
                     {
@@ -80,14 +75,14 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region GetAllApplication
         [HttpGet]
-       [AuthSecurityFilter(ProjectObject = "Application", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Application", Mode = "R")]
         public string GetAllApplication()
         {
             try
             {
 
-                List<ApplicationViewModel> appList = Mapper.Map<List<Application>, List<ApplicationViewModel>>(_applicationBusiness.GetAllApplication());
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = appList });
+                List<ApplicationViewModel> applicationVMList = Mapper.Map<List<Application>, List<ApplicationViewModel>>(_applicationBusiness.GetAllApplication());
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = applicationVMList });
             }
             catch (Exception ex)
             {
@@ -97,137 +92,131 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetAllApplication
 
         #region DeleteApplication
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthSecurityFilter(ProjectObject = "Application", Mode = "D")]
-        public string DeleteApplication(ApplicationViewModel appObj)
+        public string DeleteApplication(ApplicationViewModel applicationVM)
         {
             object result = null;
-            if (appObj.ID != Guid.Empty)
+            if (applicationVM.ID != Guid.Empty)
             {
                 try
                 {
-                    result = _applicationBusiness.DeleteApplication(Mapper.Map<ApplicationViewModel, Application>(appObj));
+                    result = _applicationBusiness.DeleteApplication(Mapper.Map<ApplicationViewModel, Application>(applicationVM));
                 }
                 catch (Exception ex)
                 {
                     return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
                 }
             }
-            else
-            {
-
-            }
             return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
         }
-
         #endregion DeleteApplication
 
         #region ButtonStyling
         [HttpGet]
-     [AuthSecurityFilter(ProjectObject = "Application", Mode = "R")]
-        public ActionResult ChangeButtonStyle(string ActionType)
+        [AuthSecurityFilter(ProjectObject = "Application", Mode = "R")]
+        public ActionResult ChangeButtonStyle(string actionType)
         {
-            Permission _permission = Session["UserRights"] as Permission;
-            ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
-            switch (ActionType)
+            Permission permission = Session["UserRights"] as Permission;
+            ToolboxViewModel toolboxVM = new ToolboxViewModel();
+            switch (actionType)
             {
                 case "List":
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonAdd").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonAdd").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.addbtn.Visible = true;
+                        toolboxVM.addbtn.Visible = true;
                     }
-                    ToolboxViewModelObj.addbtn.Text = "Add";
-                    ToolboxViewModelObj.addbtn.Title = "Add New";
-                    ToolboxViewModelObj.addbtn.Event = "Add();";
+                    toolboxVM.addbtn.Text = "Add";
+                    toolboxVM.addbtn.Title = "Add New";
+                    toolboxVM.addbtn.Event = "Add();";
 
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.backbtn.Visible = true;
+                        toolboxVM.backbtn.Visible = true;
                     }
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.Title = "Back to list";
-                    ToolboxViewModelObj.backbtn.Event = "goHome()";
+                    toolboxVM.backbtn.Text = "Back";
+                    toolboxVM.backbtn.Title = "Back to list";
+                    toolboxVM.backbtn.Event = "goHome()";
 
                     break;
                 case "Edit":
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.backbtn.Visible = true;
+                        toolboxVM.backbtn.Visible = true;
                     }
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.Title = "Back to list";
-                    ToolboxViewModelObj.backbtn.Event = "Back()";
+                    toolboxVM.backbtn.Text = "Back";
+                    toolboxVM.backbtn.Title = "Back to list";
+                    toolboxVM.backbtn.Event = "Back()";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.savebtn.Visible = true;
+                        toolboxVM.savebtn.Visible = true;
                     }
-                    ToolboxViewModelObj.savebtn.Text = "Save";
-                    ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "save();";
+                    toolboxVM.savebtn.Text = "Save";
+                    toolboxVM.savebtn.Title = "Save";
+                    toolboxVM.savebtn.Event = "save();";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonDelete").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonDelete").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.deletebtn.Visible = true;
+                        toolboxVM.deletebtn.Visible = true;
                     }
-                    ToolboxViewModelObj.deletebtn.Text = "Delete";
-                    ToolboxViewModelObj.deletebtn.Title = "Delete";
-                    ToolboxViewModelObj.deletebtn.Event = "DeleteClick();";
+                    toolboxVM.deletebtn.Text = "Delete";
+                    toolboxVM.deletebtn.Title = "Delete";
+                    toolboxVM.deletebtn.Event = "DeleteClick();";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.resetbtn.Visible = true;
+                        toolboxVM.resetbtn.Visible = true;
                     }
-                    ToolboxViewModelObj.resetbtn.Text = "Reset";
-                    ToolboxViewModelObj.resetbtn.Title = "Reset";
-                    ToolboxViewModelObj.resetbtn.Event = "reset();";
+                    toolboxVM.resetbtn.Text = "Reset";
+                    toolboxVM.resetbtn.Title = "Reset";
+                    toolboxVM.resetbtn.Event = "reset();";
 
                     break;
                 case "Add":
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.backbtn.Visible = true;
+                        toolboxVM.backbtn.Visible = true;
                     }
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.Title = "Back to list";
-                    ToolboxViewModelObj.backbtn.Event = "Back()";
+                    toolboxVM.backbtn.Text = "Back";
+                    toolboxVM.backbtn.Title = "Back to list";
+                    toolboxVM.backbtn.Event = "Back()";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.savebtn.Visible = true;
+                        toolboxVM.savebtn.Visible = true;
                     }
-                    ToolboxViewModelObj.savebtn.Text = "Save";
-                    ToolboxViewModelObj.savebtn.Title = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "save();";
+                    toolboxVM.savebtn.Text = "Save";
+                    toolboxVM.savebtn.Title = "Save";
+                    toolboxVM.savebtn.Event = "save();";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonDelete").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonDelete").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.deletebtn.Visible = true;
+                        toolboxVM.deletebtn.Visible = true;
                     }
-                    ToolboxViewModelObj.deletebtn.Text = "Delete";
-                    ToolboxViewModelObj.deletebtn.Title = "Delete";
-                    ToolboxViewModelObj.deletebtn.Disable = true;
-                    ToolboxViewModelObj.deletebtn.Event = "DeleteClick()";
+                    toolboxVM.deletebtn.Text = "Delete";
+                    toolboxVM.deletebtn.Title = "Delete";
+                    toolboxVM.deletebtn.Disable = true;
+                    toolboxVM.deletebtn.Event = "DeleteClick()";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.resetbtn.Visible = true;
+                        toolboxVM.resetbtn.Visible = true;
                     }
-                    ToolboxViewModelObj.resetbtn.Text = "Reset";
-                    ToolboxViewModelObj.resetbtn.Title = "Reset";
-                    ToolboxViewModelObj.resetbtn.Event = "reset();";
+                    toolboxVM.resetbtn.Text = "Reset";
+                    toolboxVM.resetbtn.Title = "Reset";
+                    toolboxVM.resetbtn.Event = "reset();";
 
                     break;
               
                 default:
                     return Content("Nochange");
             }
-            return PartialView("ToolboxView", ToolboxViewModelObj);
+            return PartialView("ToolboxView", toolboxVM);
         }
 
-        #endregion
+        #endregion ButtonStyling
     }
 }

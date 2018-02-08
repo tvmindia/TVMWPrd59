@@ -7,7 +7,6 @@ using ProductionApp.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using ProductionApp.UserInterface.Models;
 
@@ -163,24 +162,24 @@ namespace ProductionApp.UserInterface.Controllers
        
         [AuthSecurityFilter(ProjectObject = "ManageAccess", Mode = "W")]
         [HttpPost]
-        public string AddAccessChanges(ManageAccessViewModel manageAccessViewModelObj)
+        public string AddAccessChanges(ManageAccessViewModel manageAccessVM)
         {
           
             try
             {
-                AppUA _appUA = Session["AppUA"] as AppUA;
-                // if (ModelState.IsValid)
-                //  {
-                manageAccessViewModelObj.commonObj = new CommonViewModel();
-                manageAccessViewModelObj.commonObj.CreatedBy = _appUA.UserName;
-                manageAccessViewModelObj.commonObj.CreatedDate = _appUA.DateTime;
-                foreach (ManageAccessViewModel ManageAccessObj in manageAccessViewModelObj.ManageAccessList)
+                AppUA appUA = Session["AppUA"] as AppUA;
+                DataAccessObject.DTO.Common commonObj = new DataAccessObject.DTO.Common();
+                
+                manageAccessVM.commonObj = new CommonViewModel();
+                manageAccessVM.commonObj.CreatedBy = appUA.UserName;
+                manageAccessVM.commonObj.CreatedDate = commonObj.GetCurrentDateTime();
+                foreach (ManageAccessViewModel manageAccessVMObj in manageAccessVM.ManageAccessList)
                 {
-                    ManageAccessObj.commonObj = new CommonViewModel();
-                    ManageAccessObj.commonObj = manageAccessViewModelObj.commonObj;
+                    manageAccessVMObj.commonObj = new CommonViewModel();
+                    manageAccessVMObj.commonObj = manageAccessVM.commonObj;
                 }
-                ManageAccessViewModel r = Mapper.Map<ManageAccess, ManageAccessViewModel>(_manageAccessBusiness.AddAccessChanges(Mapper.Map<List<ManageAccessViewModel>, List<ManageAccess>>(manageAccessViewModelObj.ManageAccessList)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = r });
+                ManageAccessViewModel result = Mapper.Map<ManageAccess, ManageAccessViewModel>(_manageAccessBusiness.AddAccessChanges(Mapper.Map<List<ManageAccessViewModel>, List<ManageAccess>>(manageAccessVM.ManageAccessList)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = result });
                 // }
 
             }
@@ -209,12 +208,13 @@ namespace ProductionApp.UserInterface.Controllers
             
             try
             {
-                AppUA _appUA = Session["AppUA"] as AppUA;
+                AppUA appUA = Session["AppUA"] as AppUA;
+                DataAccessObject.DTO.Common commonObj = new DataAccessObject.DTO.Common();
                 //if (ModelState.IsValid)
                 // {
                 manageSubObjectAccessViewModelObj.commonObj = new CommonViewModel();
-                manageSubObjectAccessViewModelObj.commonObj.CreatedBy = _appUA.UserName;
-                manageSubObjectAccessViewModelObj.commonObj.CreatedDate = _appUA.DateTime;
+                manageSubObjectAccessViewModelObj.commonObj.CreatedBy = appUA.UserName;
+                manageSubObjectAccessViewModelObj.commonObj.CreatedDate = commonObj.GetCurrentDateTime();
                 foreach (ManageSubObjectAccessViewModel ManageSubObjectAccessObj in manageSubObjectAccessViewModelObj.ManageSubObjectAccessList)
                 {
                     ManageSubObjectAccessObj.commonObj = new CommonViewModel();
@@ -236,69 +236,69 @@ namespace ProductionApp.UserInterface.Controllers
         #region ButtonStyling
         [AuthSecurityFilter(ProjectObject = "ManageAccess", Mode = "R")]
         [HttpGet]
-        public ActionResult ChangeButtonStyle(string ActionType)
+        public ActionResult ChangeButtonStyle(string actionType)
         {
-            Permission _permission = Session["UserRights"] as Permission;
-            ToolboxViewModel ToolboxViewModelObj = new ToolboxViewModel();
-            switch (ActionType)
+            Permission permission = Session["UserRights"] as Permission;
+            ToolboxViewModel toolboxVMObj = new ToolboxViewModel();
+            switch (actionType)
             {
                 case "Default":
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.backbtn.Visible = true;
+                        toolboxVMObj.backbtn.Visible = true;
                     }
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.Title = "Back";
-                    ToolboxViewModelObj.backbtn.Event = "GobackMangeAccess()";
+                    toolboxVMObj.backbtn.Text = "Back";
+                    toolboxVMObj.backbtn.Title = "Back";
+                    toolboxVMObj.backbtn.Event = "GobackMangeAccess()";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.savebtn.Visible = true;
+                        toolboxVMObj.savebtn.Visible = true;
                     }
 
-                    ToolboxViewModelObj.savebtn.Disable = true;
-                    ToolboxViewModelObj.savebtn.Text = "Save";
-                    ToolboxViewModelObj.savebtn.DisableReason = "No changes yet";
+                    toolboxVMObj.savebtn.Disable = true;
+                    toolboxVMObj.savebtn.Text = "Save";
+                    toolboxVMObj.savebtn.DisableReason = "No changes yet";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.resetbtn.Visible = true;
+                        toolboxVMObj.resetbtn.Visible = true;
                     }
-                    ToolboxViewModelObj.resetbtn.Disable = true;
-                    ToolboxViewModelObj.resetbtn.Text = "Reset";
-                    ToolboxViewModelObj.resetbtn.DisableReason = "No changes yet";
+                    toolboxVMObj.resetbtn.Disable = true;
+                    toolboxVMObj.resetbtn.Text = "Reset";
+                    toolboxVMObj.resetbtn.DisableReason = "No changes yet";
                     break;
                 case "Checked":
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonBack").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.backbtn.Visible = true;
+                        toolboxVMObj.backbtn.Visible = true;
                     }
-                    ToolboxViewModelObj.backbtn.Text = "Back";
-                    ToolboxViewModelObj.backbtn.Title = "Back";
-                    ToolboxViewModelObj.backbtn.Event = "GobackMangeAccess()";
+                    toolboxVMObj.backbtn.Text = "Back";
+                    toolboxVMObj.backbtn.Title = "Back";
+                    toolboxVMObj.backbtn.Event = "GobackMangeAccess()";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonSave").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.savebtn.Visible = true;
+                        toolboxVMObj.savebtn.Visible = true;
                     }
-                    ToolboxViewModelObj.savebtn.Title = "Update";
-                    ToolboxViewModelObj.savebtn.Text = "Save";
-                    ToolboxViewModelObj.savebtn.Event = "SaveChanges();";
+                    toolboxVMObj.savebtn.Title = "Update";
+                    toolboxVMObj.savebtn.Text = "Save";
+                    toolboxVMObj.savebtn.Event = "SaveChanges();";
 
-                    if ((_permission.SubPermissionList != null ? _permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
+                    if ((permission.SubPermissionList != null ? permission.SubPermissionList.First(s => s.Name == "ButtonReset").AccessCode : string.Empty).Contains("R"))
                     {
-                        ToolboxViewModelObj.resetbtn.Visible = true;
+                        toolboxVMObj.resetbtn.Visible = true;
                     }
-                    ToolboxViewModelObj.resetbtn.Title = "Reset Changes";
-                    ToolboxViewModelObj.resetbtn.Text = "Reset";
-                    ToolboxViewModelObj.resetbtn.Event = "Reset();";
+                    toolboxVMObj.resetbtn.Title = "Reset Changes";
+                    toolboxVMObj.resetbtn.Text = "Reset";
+                    toolboxVMObj.resetbtn.Event = "Reset();";
                     break;
                 default:
                     return Content("Nochange");
             }
-            return PartialView("ToolboxView", ToolboxViewModelObj);
+            return PartialView("ToolboxView", toolboxVMObj);
         }
 
         #endregion

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.DataAccessObject.DTO
 {
-    class Dashboard
+    public class Dashboard
     {
     }
 }

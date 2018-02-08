@@ -25,7 +25,7 @@ namespace ProductionApp.DataAccessObject.DTO
     public class AppUA
     {
         public string UserName { get; set; }
-        public DateTime DateTime { get; set; }
+        public DateTime LoginDateTime { get; set; }
         public Guid AppID { get; set; }
         public string RolesCSV { get; set; }
     }
@@ -33,7 +33,7 @@ namespace ProductionApp.DataAccessObject.DTO
     public class Settings
     {
 
-        public string dateformat = "dd-MMM-yyyy";
+        public string DateFormat = "dd-MMM-yyyy";
     }
 
 
@@ -41,12 +41,12 @@ namespace ProductionApp.DataAccessObject.DTO
     {
         #region Messages
 
-        private List<AppConstMessage> ConstMessage = new List<AppConstMessage>();
+        private List<AppConstMessage> constMessage = new List<AppConstMessage>();
 
         public AppConst()
         {
-            ConstMessage.Add(new AppConstMessage("Test message", "DF8D1", "ERROR"));
-            ConstMessage.Add(new AppConstMessage(FKviolation, "FK_Exec", "ERROR"));
+            constMessage.Add(new AppConstMessage("Test message", "DF8D1", "ERROR"));
+            constMessage.Add(new AppConstMessage(FKviolation, "FK_Exec", "ERROR"));
             //
         }
 
@@ -106,15 +106,15 @@ namespace ProductionApp.DataAccessObject.DTO
         {
             get { return "Password is wrong"; }
         }
-        public AppConstMessage GetMessage(string MsgCode)
+        public AppConstMessage GetMessage(string messageCode)
         {
-            AppConstMessage result = new AppConstMessage(MsgCode, "", "ERROR");
+            AppConstMessage result = new AppConstMessage(messageCode, "", "ERROR");
 
             try
             {
-                foreach (AppConstMessage c in ConstMessage)
+                foreach (AppConstMessage c in constMessage)
                 {
-                    if (c.Code == MsgCode)
+                    if (c.Code == messageCode)
                     {
                         result = c;
                         break;
@@ -150,12 +150,12 @@ namespace ProductionApp.DataAccessObject.DTO
     {
         public string Message;
         public string Code;
-        public string type;
-        public AppConstMessage(string msg, string cd, string typ)
+        public string Type;
+        public AppConstMessage(string message, string code, string type)
         {
-            Message = (cd == "" ? "" : cd + "-") + msg;
-            Code = cd;
-            type = typ;
+            Message = (code == "" ? "" : code + "-") + message;
+            Code = code;
+            Type = type;
 
         }
     }
@@ -168,7 +168,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string FileType { get; set; }
         public string FileSize { get; set; }
         public string AttachmentURL { get; set; }
-        public Common commonObj { get; set; }
+        public Common CommonObj { get; set; }
     }
 
 }
