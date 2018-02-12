@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\Bank.cs" />
     <Compile Include="DTO\Common.cs" />
     <Compile Include="DTO\Dashboard.cs" />
     <Compile Include="DTO\AMCSysModule.cs" />

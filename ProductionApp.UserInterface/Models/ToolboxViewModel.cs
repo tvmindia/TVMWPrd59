@@ -88,7 +88,7 @@ namespace ProductionApp.UserInterface.Models
         public bool Disable { get; set; }
         public bool HasAccess { get; set; }
         public string SecurityObject { get; set; }
-
+        public string Href { get; set; }
         public static explicit operator ToolBoxStructure(PropertyInfo v)
         {
             throw new NotImplementedException();

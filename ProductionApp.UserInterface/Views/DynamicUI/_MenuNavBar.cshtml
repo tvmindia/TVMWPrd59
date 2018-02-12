@@ -22,14 +22,14 @@
                     if (mp.ID == 100)
                     {
                         <li class="">
-                            <a href="@Url.Action(mp.Action, mp.Controller, mp.AMCSysModuleObj)"><i class="@mp.IconClass"></i> <span>@mp.MenuText</span></a>
+                            <a href="@Url.Action(mp.Action, mp.Controller,new { Code=mp.AMCSysModuleObj.Code })"><i class="@mp.IconClass"></i> <span>@mp.MenuText</span></a>
 
                         </li>
                     }
                     else
                     {
                         <li>
-                            <a href="@Url.Action(mp.Action, mp.Controller, mp.AMCSysModuleObj)">   <i class="@mp.IconClass"></i> <span>@mp.MenuText</span>   </a>
+                            <a href="@Url.Action(mp.Action, mp.Controller,new { Code=mp.AMCSysModuleObj.Code })">   <i class="@mp.IconClass"></i> <span>@mp.MenuText</span>   </a>
 
                         </li>
 
@@ -64,7 +64,7 @@
                     {
 
                         
-                            <li><a href="@Url.Action(cp.Action, cp.Controller, cp.AMCSysModuleObj)"><i class="@cp.IconClass"></i>@cp.MenuText</a></li>
+                            <li><a href="@Url.Action(cp.Action, cp.Controller,new { Code = cp.AMCSysModuleObj.Code })"><i class="@cp.IconClass"></i>@cp.MenuText</a></li>
  
 
                     }

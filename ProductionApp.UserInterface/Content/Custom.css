@@ -413,7 +413,7 @@ color: #e32;
     height:5em;
     margin-top: -2em; /*set to a negative number 1/2 of your height*/
     margin-left: -8em; /*set to a negative number 1/2 of your width*/
-    border: 1px solid rgb(250, 250, 250);  ;   
+    border: 1px solid rgb(250, 250, 250);     
      background:rgba(252, 251, 251, 0.96);  
      border-radius:10px;
      box-shadow:inset;
@@ -804,8 +804,8 @@ margin:20px;
 
  .figuresummary 
     {
-        border:1px solid rgba(148, 78, 132, 0.16);;
-         background-color: rgba(148, 78, 132, 0.16);;
+        border:1px solid rgba(148, 78, 132, 0.16);
+         background-color: rgba(148, 78, 132, 0.16);
          border-radius: 10px;
     }
 

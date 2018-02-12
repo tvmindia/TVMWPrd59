@@ -10,9 +10,9 @@ namespace ProductionApp.UserInterface.Controllers
     public class DashboardStoreController : Controller
     {
         // GET: HR
-        public ActionResult Index(AMCSysModuleViewModel sysModuleVM)
+        public ActionResult Index(string Code)
         {
-            ViewBag.SysModuleObj = sysModuleVM;
+            ViewBag.SysModuleCode = Code;
             return View();
         }
     }

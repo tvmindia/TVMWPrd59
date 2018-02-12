@@ -3,7 +3,7 @@
 @using ProductionApp.UserInterface.App_Start
 <!DOCTYPE html>
 @{ 
-    AMCSysModuleViewModel sysModuleVM = ViewBag.SysModuleObj;
+    string sysModuleCode = ViewBag.SysModuleCode;
 }
 <html>
 <head>
@@ -124,7 +124,7 @@
             </nav>
         </header>
         <!-- Left side column. contains the logo and sidebar -->
-        @Html.Action("_MenuNavBar", "DynamicUI", sysModuleVM)
+        @Html.Action("_MenuNavBar", "DynamicUI", new { Code = sysModuleCode })
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">

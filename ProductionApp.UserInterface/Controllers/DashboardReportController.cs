@@ -6,9 +6,9 @@ namespace ProductionApp.UserInterface.Controllers
     public class DashboardReportController : Controller
     {
         // GET: Inventory
-        public ActionResult Index(AMCSysModuleViewModel sysModuleVM)
+        public ActionResult Index(string Code)
         {
-            ViewBag.SysModuleObj = sysModuleVM;
+            ViewBag.SysModuleCode = Code;
             return View();
         }
     }

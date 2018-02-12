@@ -594,6 +594,8 @@
     <Content Include="Scripts\UserJS\Application.js" />
     <Content Include="Scripts\UserJS\AppObject.js" />
     <Content Include="Scripts\UserJS\AppSubobject.js" />
+    <Content Include="Scripts\UserJS\BankJS\AddBank.js" />
+    <Content Include="Scripts\UserJS\BankJS\ViewBank.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
@@ -634,7 +636,9 @@
     </Compile>
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AppObjectViewModel.cs" />
+    <Compile Include="Models\BankViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
+    <Compile Include="Models\DataTableAjaxPostModel.cs" />
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\AMCSysModuleViewModel.cs" />
@@ -682,7 +686,8 @@
     <Content Include="Views\DashboardSale\Index.cshtml" />
     <Content Include="Views\DashboardSettings\Index.cshtml" />
     <Content Include="Views\DashboardMaster\Index.cshtml" />
-    <Content Include="Views\Bank\Index.cshtml" />
+    <Content Include="Views\Bank\AddBank.cshtml" />
+    <Content Include="Views\Bank\ViewBank.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

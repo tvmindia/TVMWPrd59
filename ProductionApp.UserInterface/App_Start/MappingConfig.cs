@@ -35,7 +35,8 @@ namespace ProductionApp.UserInterface.App_Start
 
 
                 //****PRODUCTION APP MODELS 
-
+                config.CreateMap<BankViewModel, Bank>().ReverseMap();
+                config.CreateMap<BankAdvanceSearchViewModel, BankAdvanceSearch>().ReverseMap();
 
             });
         }
