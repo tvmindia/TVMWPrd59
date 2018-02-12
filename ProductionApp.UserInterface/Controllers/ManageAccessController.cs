@@ -30,6 +30,7 @@ namespace ProductionApp.UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "ManageAccess", Mode = "R")]
         public ActionResult Index()
         {
+            ViewBag.SysModuleCode = "";
             ManageAccessViewModel _manageAccessViewModelObj = new ManageAccessViewModel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
