@@ -64,97 +64,87 @@ namespace ProductionApp.UserInterface.Controllers
         //[AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
-            ToolboxViewModel toolboxVMObj = new ToolboxViewModel();
+            ToolboxViewModel toolboxVM = new ToolboxViewModel();
             switch (actionType)
             {
                 case "List":
-                    toolboxVMObj.addbtn.Visible = true;
-                    toolboxVMObj.addbtn.Text = "Add";
-                    toolboxVMObj.addbtn.Title = "Add New";
-                    toolboxVMObj.addbtn.Href = Url.Action("AddBank", "Bank", new { Code = "SETT" });
-                    toolboxVMObj.addbtn.Event = "";
+                    toolboxVM.addbtn.Visible = true;
+                    toolboxVM.addbtn.Text = "Add";
+                    toolboxVM.addbtn.Title = "Add New";
+                    toolboxVM.addbtn.Href = Url.Action("AddBank", "Bank", new { Code = "SETT" });
+                    toolboxVM.addbtn.Event = "";
                     //----added for reset button---------------
-                    toolboxVMObj.resetbtn.Visible = true;
-                    toolboxVMObj.resetbtn.Text = "Reset";
-                    toolboxVMObj.resetbtn.Title = "Reset All";
-                    toolboxVMObj.resetbtn.Event = "ResetBankList();";
+                    toolboxVM.resetbtn.Visible = true;
+                    toolboxVM.resetbtn.Text = "Reset";
+                    toolboxVM.resetbtn.Title = "Reset All";
+                    toolboxVM.resetbtn.Event = "ResetBankList();";
                     //----added for export button--------------
-                    toolboxVMObj.PrintBtn.Visible = true;
-                    toolboxVMObj.PrintBtn.Text = "Export";
-                    toolboxVMObj.PrintBtn.Title = "Export";
-                    toolboxVMObj.PrintBtn.Event = "PrintReport();";
+                    toolboxVM.PrintBtn.Visible = true;
+                    toolboxVM.PrintBtn.Text = "Export";
+                    toolboxVM.PrintBtn.Title = "Export";
+                    toolboxVM.PrintBtn.Event = "PrintReport();";
                     //---------------------------------------
 
                     break;
                 case "Edit":
 
-                    toolboxVMObj.addbtn.Visible = true;
-                    toolboxVMObj.addbtn.Text = "New";
-                    toolboxVMObj.addbtn.Title = "Add New";
-                    toolboxVMObj.addbtn.Event = "openNav();";
+                    toolboxVM.addbtn.Visible = true;
+                    toolboxVM.addbtn.Text = "New";
+                    toolboxVM.addbtn.Title = "Add New";
+                    toolboxVM.addbtn.Event = "openNav();";
 
-                    toolboxVMObj.savebtn.Visible = true;
-                    toolboxVMObj.savebtn.Text = "Save";
-                    toolboxVMObj.savebtn.Title = "Save Bank";
-                    toolboxVMObj.savebtn.Event = "Save();";
+                    toolboxVM.savebtn.Visible = true;
+                    toolboxVM.savebtn.Text = "Save";
+                    toolboxVM.savebtn.Title = "Save Bank";
+                    toolboxVM.savebtn.Event = "Save();";
 
-                    toolboxVMObj.deletebtn.Visible = true;
-                    toolboxVMObj.deletebtn.Text = "Delete";
-                    toolboxVMObj.deletebtn.Title = "Delete Bank";
-                    toolboxVMObj.deletebtn.Event = "Delete()";
+                    toolboxVM.deletebtn.Visible = true;
+                    toolboxVM.deletebtn.Text = "Delete";
+                    toolboxVM.deletebtn.Title = "Delete Bank";
+                    toolboxVM.deletebtn.Event = "Delete()";
 
-                    toolboxVMObj.resetbtn.Visible = true;
-                    toolboxVMObj.resetbtn.Text = "Reset";
-                    toolboxVMObj.resetbtn.Title = "Reset";
-                    toolboxVMObj.resetbtn.Event = "Reset();";
+                    toolboxVM.resetbtn.Visible = true;
+                    toolboxVM.resetbtn.Text = "Reset";
+                    toolboxVM.resetbtn.Title = "Reset";
+                    toolboxVM.resetbtn.Event = "Reset();";
 
-                    toolboxVMObj.CloseBtn.Visible = true;
-                    toolboxVMObj.CloseBtn.Text = "Close";
-                    toolboxVMObj.CloseBtn.Title = "Close";
-                    toolboxVMObj.CloseBtn.Event = "closeNav();";
+                    toolboxVM.CloseBtn.Visible = true;
+                    toolboxVM.CloseBtn.Text = "Close";
+                    toolboxVM.CloseBtn.Title = "Close";
+                    toolboxVM.CloseBtn.Event = "closeNav();";
 
                     break;
                 case "Add":
 
-                    toolboxVMObj.savebtn.Visible = true;
-                    toolboxVMObj.savebtn.Text = "Save";
-                    toolboxVMObj.savebtn.Title = "Save";
-                    toolboxVMObj.savebtn.Event = "Save();";
+                    toolboxVM.savebtn.Visible = true;
+                    toolboxVM.savebtn.Text = "Save";
+                    toolboxVM.savebtn.Title = "Save";
+                    toolboxVM.savebtn.Event = "Save();";
 
-                    toolboxVMObj.CloseBtn.Visible = true;
-                    toolboxVMObj.CloseBtn.Text = "Close";
-                    toolboxVMObj.CloseBtn.Title = "Close";
-                    toolboxVMObj.CloseBtn.Event = "closeNav();";
+                    toolboxVM.CloseBtn.Visible = true;
+                    toolboxVM.CloseBtn.Text = "Close";
+                    toolboxVM.CloseBtn.Title = "Close";
+                    toolboxVM.CloseBtn.Event = "closeNav();";
 
-                    toolboxVMObj.resetbtn.Visible = false;
-                    toolboxVMObj.resetbtn.Text = "Reset";
-                    toolboxVMObj.resetbtn.Title = "Reset";
-                    toolboxVMObj.resetbtn.Event = "Reset();";
+                    toolboxVM.resetbtn.Visible = false;
+                    toolboxVM.resetbtn.Text = "Reset";
+                    toolboxVM.resetbtn.Title = "Reset";
+                    toolboxVM.resetbtn.Event = "Reset();";
 
-                    toolboxVMObj.deletebtn.Visible = false;
-                    toolboxVMObj.deletebtn.Text = "Delete";
-                    toolboxVMObj.deletebtn.Title = "Delete Bank";
-                    toolboxVMObj.deletebtn.Event = "Delete()";
+                    toolboxVM.deletebtn.Visible = false;
+                    toolboxVM.deletebtn.Text = "Delete";
+                    toolboxVM.deletebtn.Title = "Delete Bank";
+                    toolboxVM.deletebtn.Event = "Delete()";
 
-                    toolboxVMObj.addbtn.Visible = false;
-                    toolboxVMObj.addbtn.Text = "New";
-                    toolboxVMObj.addbtn.Title = "Add New";
-                    toolboxVMObj.addbtn.Event = "openNav();";
-
-                    break;
-                case "AddSub":
-
-                    break;
-                case "tab1":
-
-                    break;
-                case "tab2":
-
+                    toolboxVM.addbtn.Visible = false;
+                    toolboxVM.addbtn.Text = "New";
+                    toolboxVM.addbtn.Title = "Add New";
+                    toolboxVM.addbtn.Event = "openNav();";
                     break;
                 default:
                     return Content("Nochange");
             }
-            return PartialView("ToolboxView", toolboxVMObj);
+            return PartialView("ToolboxView", toolboxVM);
         }
 
         #endregion
