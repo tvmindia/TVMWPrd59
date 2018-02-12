@@ -12,7 +12,7 @@ function BindOrReloadBankTable(action) {
         //switch case to check the operation
         switch (action) {
             case 'Reset':
-                $('#txtsearch').val('');
+                $('SearchTerm').val('');
                 break;
             case 'Init':
                 break;
@@ -23,7 +23,7 @@ function BindOrReloadBankTable(action) {
         }
         //creating advancesearch object
         BankAdvanceSearchViewModel = new Object();
-        BankAdvanceSearchViewModel.SearchTerm = $('#txtsearch').val();
+        BankAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
         //apply datatable plugin on bank table
         DataTables.BankList = $('#tblBank').DataTable(
         {

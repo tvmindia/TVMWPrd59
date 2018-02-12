@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -19,6 +20,7 @@ namespace ProductionApp.UserInterface.Models
     }
     public class BankAdvanceSearchViewModel
     {
+        [Display(Name = "Search")]
         public string SearchTerm { get; set; }
         public int Start { get; set; }
         public int Length { get; set; }

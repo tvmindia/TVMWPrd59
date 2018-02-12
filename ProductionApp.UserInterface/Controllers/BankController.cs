@@ -23,8 +23,8 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ViewBank(string Code)
         {
             ViewBag.SysModuleCode = Code;
-            BankViewModel bankVM = new BankViewModel();
-            return View(bankVM);
+            BankAdvanceSearchViewModel bankAdvanceSearchVM = new BankAdvanceSearchViewModel();
+            return View(bankAdvanceSearchVM);
         }
         // GET: Add Bank
         public ActionResult AddBank(string Code)
