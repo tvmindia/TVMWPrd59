@@ -82,7 +82,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.PrintBtn.Visible = true;
                     toolboxVM.PrintBtn.Text = "Export";
                     toolboxVM.PrintBtn.Title = "Export";
-                    toolboxVM.PrintBtn.Event = "PrintReport();";
+                    toolboxVM.PrintBtn.Event = "ImportBankData();";
                     //---------------------------------------
 
                     break;

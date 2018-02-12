@@ -4,30 +4,42 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     BindOrReloadBankTable('Init');
+    $(".buttons-excel").hide();
 });
 //function bind the bank list checking search and filter
 function BindOrReloadBankTable(action) {
     try
     {
+        //creating advancesearch object
+        BankAdvanceSearchViewModel = new Object();
         //switch case to check the operation
         switch (action) {
             case 'Reset':
-                $('SearchTerm').val('');
+                $('#SearchTerm').val('');
                 break;
             case 'Init':
                 break;
             case 'Search':
                 break;
+            case 'Import':
+                BankAdvanceSearchViewModel.Length = -1;
+                break;
             default:
                 break;
         }
-        //creating advancesearch object
-        BankAdvanceSearchViewModel = new Object();
+        
         BankAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
         //apply datatable plugin on bank table
         DataTables.BankList = $('#tblBank').DataTable(
         {
-            dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+            dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
+            buttons: [{
+                extend: 'excel',
+                exportOptions:
+                             {
+                                 columns: [0, 1]
+                             }
+            }],
             order:false,
             searching: false,
             paging: true,
@@ -67,6 +79,14 @@ function BindOrReloadBankTable(action) {
                 { className: "text-left", "targets": [1, 2, 3] },
                 { className: "text-center", "targets": [0] }],           
             destroy: true,
+            //for performing the import operation after the data loaded
+            initComplete: function (settings, json) {
+                if (action === 'Import')
+                {
+                    $(".buttons-excel").trigger('click');
+                    ResetBankList();
+                }
+            }
         });
     }
     catch(e)
@@ -78,4 +98,9 @@ function BindOrReloadBankTable(action) {
 function ResetBankList()
 {
     BindOrReloadBankTable('Reset');
+}
+//function export data to excel
+function ImportBankData()
+{
+    BindOrReloadBankTable('Import');   
 }
