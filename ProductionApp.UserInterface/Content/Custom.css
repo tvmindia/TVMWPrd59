@@ -637,7 +637,7 @@ color: #e32;
     
 }
 .addEmp {
-    border:2px solid #954c84;padding-bottom:8px;z-index:10;position:absolute;border-radius:15px;width:90%;background-color:whitesmoke;
+    border:2px solid #8BC34A;padding-bottom:8px;z-index:10;position:absolute;border-radius:15px;width:90%;background-color:whitesmoke;
 
 }
 .addEmp::before {
@@ -648,7 +648,7 @@ color: #e32;
 	position: absolute;
    left: 85%;
 	top: -20px;
-	border-bottom: 10px solid #954c84;
+	border-bottom: 10px solid #8BC34A;
 }
 
 .addEmp::after {
@@ -779,7 +779,7 @@ color: #e32;
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
 
     background-color: white!important;
-    border-bottom:#954c84 solid 3px;
+    border-bottom:#8BC34A solid 3px;
     border-top-color: white;
 }
 
