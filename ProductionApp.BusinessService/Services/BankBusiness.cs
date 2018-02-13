@@ -24,5 +24,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _bankRepository.InsertUpdateBank(bank);
         }
+        public Bank GetBank(string code)
+        {
+            return _bankRepository.GetBank(code);
+        }
     }
 }

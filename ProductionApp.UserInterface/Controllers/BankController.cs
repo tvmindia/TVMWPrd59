@@ -19,26 +19,12 @@ namespace ProductionApp.UserInterface.Controllers
         {
             _bankBusiness = bankBusiness;
         }
-        // GET: View Bank
-        public ActionResult ViewBank(string code)
+        public ActionResult Index(string code)
         {
             ViewBag.SysModuleCode = code;
             BankAdvanceSearchViewModel bankAdvanceSearchVM = new BankAdvanceSearchViewModel();
             return View(bankAdvanceSearchVM);
-        }
-        // GET: Add Bank
-        public ActionResult AddBank(string code,string id)
-        {
-            ViewBag.SysModuleCode = code;
-            ViewBag.actionType = "Add";
-            BankViewModel bankVM = new BankViewModel();
-            bankVM.Code = id;
-            bankVM.Common = new CommonViewModel
-            {
-                IsUpdate = string.IsNullOrEmpty(id) ? false : true,
-            };
-            return View(bankVM);
-        }
+        }        
         [HttpPost]
         public JsonResult GetAllBank(DataTableAjaxPostModel model,BankAdvanceSearchViewModel bankAdvanceSearchVM)
         {
@@ -72,6 +58,16 @@ namespace ProductionApp.UserInterface.Controllers
             var result = _bankBusiness.InsertUpdateBank(Mapper.Map<BankViewModel,Bank > (bankVM));
             return result;
         }
+        #region MasterPartial
+        [HttpGet]
+        //[AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
+        public ActionResult AddMasterPartial(string masterCode)
+        {
+            BankViewModel bankVM = string.IsNullOrEmpty(masterCode)?new BankViewModel(): Mapper.Map <Bank, BankViewModel>(_bankBusiness.GetBank(masterCode));            
+            return PartialView("_AddBankPartial", bankVM);
+        }
+
+        #endregion
         #region ButtonStyling
         [HttpGet]
         //[AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
@@ -84,8 +80,8 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("AddBank", "Bank", new { code = "SETT" });
-                    toolboxVM.addbtn.Event = "";
+                    //toolboxVM.addbtn.Href = Url.Action("AddBank", "Bank", new { code = "SETT" });
+                    toolboxVM.addbtn.Event = "AddBankMaster()";
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";

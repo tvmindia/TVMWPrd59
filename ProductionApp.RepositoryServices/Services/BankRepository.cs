@@ -77,6 +77,46 @@ namespace ProductionApp.RepositoryServices.Services
 
             return bankList;
         }
+        public Bank GetBank(string code)
+        {
+            Bank bank = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetBank]";
+                        cmd.Parameters.Add("@Code", SqlDbType.NVarChar, 10).Value = code;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                                if (sdr.Read())
+                                {
+                                    bank = new Bank();
+                                    bank.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : bank.Code);
+                                    bank.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : bank.Name);
+                                    bank.ActualODLimit = (sdr["ActualODLimit"].ToString() != "" ? Convert.ToDecimal(sdr["ActualODLimit"].ToString()) : bank.ActualODLimit);
+                                    bank.DisplayODLimit = (sdr["DisplayODLimit"].ToString() != "" ? Convert.ToDecimal(sdr["DisplayODLimit"].ToString()) : bank.DisplayODLimit);
+                                }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return bank;
+        }
         #region InsertBank
         public object InsertUpdateBank(Bank bank)
         {
@@ -135,7 +175,6 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
         #endregion InsertBank    
-
         #region DeleteBank
         public object DeleteBank(string code)
         {

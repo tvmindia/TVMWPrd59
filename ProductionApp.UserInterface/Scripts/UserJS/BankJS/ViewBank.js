@@ -56,7 +56,7 @@ function BindOrReloadBankTable(action) {
             proccessing: true,
             serverSide: true,
             ajax: {
-                url: "GetAllBank/",
+                url: "Bank/GetAllBank/",
                 data: { "bankAdvanceSearchVM": BankAdvanceSearchViewModel },
                 type: 'POST'
             },
@@ -115,5 +115,12 @@ function ResetBankList()
 function ImportBankData()
 {
     BindOrReloadBankTable('Export');
+}
+//add bank 
+function AddBankMaster()
+{
+    GetMasterPartial("Bank", "");
+    $('#h3ModelMasterContextLabel').text('Add Master')
+    $('#divModelMasterPopUp').modal('show');
 }
  

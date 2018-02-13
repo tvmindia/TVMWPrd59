@@ -240,7 +240,25 @@ function ChangeButtonPatchView(Controller, Dom, Action) {
     $("#" + Dom).empty();
     $("#" + Dom).html(ds);
 }
-
+function GetMasterPartial(Controller, MasterCode) {
+    try
+    {
+        debugger
+        var data = { "masterCode": MasterCode };
+        var ds = {};
+        ds = GetDataFromServer(Controller + "/AddMasterPartial/", data);
+        if (ds == "Nochange") {
+            return; 0
+        }
+        $("#divMasterBody").empty();
+        $("#divMasterBody").html(ds);
+    }
+    catch(e)
+    {
+        console.log(e.message);
+    }
+    
+}
 function NetworkFailure(data, status, xhr) {
     console.log(e.message);
 }

@@ -135,7 +135,6 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-
             <strong> &copy; 2017 <a href="http://thrithvam.com">Thrithvam Tehnology</a>.</strong>
         </footer>
         <!-- Control Sidebar -->
@@ -143,6 +142,31 @@
         <!-- Add the sidebar's background. This div must be placed
              immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
+        </div>
+
+    <!-- Master Model-->
+    <div class="modal fade" id="divModelMasterPopUp" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true" @*style="overflow-y:hidden !important;"*@>
+        <div class="modal-dialog" role="document" style="min-width:900px !important;">
+            <div class="modal-content">
+                <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(149, 76, 132)!important;">
+                    <div class="container-fluid" style="padding-right: 0px;">
+                        <div class="col-md-4">
+                            <h3 class="modal-title SCHeader" id="h3ModelMasterContextLabel"></h3>
+                        </div>
+                        <div class="col-md-8" style="padding-right: 4px;">
+                            <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body" id="divMasterBody">
+
+                </div>
+                <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
+
+                </div>
+
+            </div>
+        </div>
     </div>
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrap")
