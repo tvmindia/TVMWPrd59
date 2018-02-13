@@ -14,6 +14,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
         public string UpdatedDateString { get; set; }
+        public bool IsUpdate { get; set; }
         public DateTime GetCurrentDateTime()
         {
             string tz = System.Web.Configuration.WebConfigurationManager.AppSettings["TimeZone"];

@@ -67,9 +67,9 @@
   <ItemGroup>
     <Compile Include="DTO\Bank.cs" />
     <Compile Include="DTO\Common.cs" />
-    <Compile Include="DTO\Dashboard.cs" />
     <Compile Include="DTO\AMCSysModule.cs" />
     <Compile Include="DTO\AMCSysMenu.cs" />
+    <Compile Include="DTO\DataTablePaging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

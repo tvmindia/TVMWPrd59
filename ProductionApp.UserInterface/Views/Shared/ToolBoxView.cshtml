@@ -384,7 +384,26 @@
         }
 
     }
+    @if (Model.ListBtn.Visible && Model.ListBtn.HasAccess)
+    {
+        if (Model.ListBtn.Disable)
+        {
 
+            <a class="thr_disbtn" title="@Model.ListBtn.Title-@Model.ListBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/List1.PNG")">
+                <span class="btnText">@Model.ListBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a href="@Model.ListBtn.Href" title="@Model.ListBtn.Title" class="thr_btn" onclick=@Model.ListBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/List1.PNG")">
+                <span class="btnText">@Model.ListBtn.Text</span>
+            </a>
+        }
+
+    }
 
  
 </div>

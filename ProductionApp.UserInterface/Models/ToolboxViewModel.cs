@@ -28,6 +28,7 @@ namespace ProductionApp.UserInterface.Models
         public ToolBoxStructure downloadBtn;
         public ToolBoxStructure AssignBtn;
         public ToolBoxStructure HistoryBtn;
+        public ToolBoxStructure ListBtn;
 
         public ToolboxViewModel()
         {

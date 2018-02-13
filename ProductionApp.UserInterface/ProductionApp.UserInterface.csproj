@@ -435,6 +435,7 @@
     <Content Include="Content\images\history.png" />
     <Content Include="Content\images\hourglass.png" />
     <Content Include="Content\images\indian-rupee.png" />
+    <Content Include="Content\images\List1.png" />
     <Content Include="Content\images\listdlt.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\logo.png" />
@@ -640,6 +641,7 @@
     <Compile Include="Models\BankViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
     <Compile Include="Models\DataTableAjaxPostModel.cs" />
+    <Compile Include="Models\DataTablePagingViewModel.cs" />
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\AMCSysModuleViewModel.cs" />

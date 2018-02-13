@@ -16,16 +16,12 @@ namespace ProductionApp.UserInterface.Models
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public CommonViewModel Common { get; set; }
-        public BankAdvanceSearchViewModel BankAdvanceSearch { get; set; }
     }
     public class BankAdvanceSearchViewModel
     {
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
-        public int Start { get; set; }
-        public int Length { get; set; }
-        public string OrderColumn { get; set; }
-        public string OrderDir { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
     }
 
 }

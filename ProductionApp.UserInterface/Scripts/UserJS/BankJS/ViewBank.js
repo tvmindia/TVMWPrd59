@@ -3,8 +3,14 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 //-------------------------------------------------------------
 $(document).ready(function () {
     debugger;
-    BindOrReloadBankTable('Init');
-    $(".buttons-excel").hide();
+    try
+    {
+        BindOrReloadBankTable('Init');        
+    }
+    catch(e)
+    {
+        console.log(e.message);
+    }    
 });
 //function bind the bank list checking search and filter
 function BindOrReloadBankTable(action) {
@@ -12,6 +18,8 @@ function BindOrReloadBankTable(action) {
     {
         //creating advancesearch object
         BankAdvanceSearchViewModel = new Object();
+        DataTablePagingViewModel = new Object();
+        DataTablePagingViewModel.Length = 0;
         //switch case to check the operation
         switch (action) {
             case 'Reset':
@@ -21,14 +29,15 @@ function BindOrReloadBankTable(action) {
                 break;
             case 'Search':
                 break;
-            case 'Import':
-                BankAdvanceSearchViewModel.Length = -1;
+            case 'Export':
+                DataTablePagingViewModel.Length = -1;
                 break;
             default:
                 break;
         }
-        
+        BankAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
         BankAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+        
         //apply datatable plugin on bank table
         DataTables.BankList = $('#tblBank').DataTable(
         {
@@ -72,7 +81,9 @@ function BindOrReloadBankTable(action) {
                         return roundoff(data, 1);
                 }, "defaultContent": "<i>-</i>"
             },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="Edit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+            { "data": "Code", "orderable": false, render: function(data,type,row){
+                return '<a href="/Bank/AddBank?code=SETT&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+            },"defaultContent": "<i>-</i>" }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [3, 4] },
@@ -81,17 +92,18 @@ function BindOrReloadBankTable(action) {
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {
-                if (action === 'Import')
+                if (action === 'Export')
                 {
                     $(".buttons-excel").trigger('click');
                     ResetBankList();
                 }
             }
         });
+        $(".buttons-excel").hide();
     }
     catch(e)
     {
-        
+        console.log(e.message);
     }    
 }
 //function reset the list to initial
@@ -102,5 +114,6 @@ function ResetBankList()
 //function export data to excel
 function ImportBankData()
 {
-    BindOrReloadBankTable('Import');   
+    BindOrReloadBankTable('Export');
 }
+ 

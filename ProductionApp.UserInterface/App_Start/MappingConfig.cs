@@ -29,15 +29,17 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<PrivilegesViewModel, SAMTool.DataAccessObject.DTO.Privileges>().ReverseMap();
 
 
-                //****SAMTOOL MODELS 
+                //****SAMTOOL MODELS END
+
+                //****PRODUCTION APP MODELS
                 config.CreateMap<AMCSysModuleViewModel, AMCSysModule>().ReverseMap();
+                config.CreateMap<AMCSysMenuViewModel, AMCSysMenu>().ReverseMap();
+                config.CreateMap<DataTablePagingViewModel, DataTablePaging>().ReverseMap();
+                config.CreateMap<CommonViewModel, DataAccessObject.DTO.Common>().ReverseMap();
 
-
-
-                //****PRODUCTION APP MODELS 
                 config.CreateMap<BankViewModel, Bank>().ReverseMap();
                 config.CreateMap<BankAdvanceSearchViewModel, BankAdvanceSearch>().ReverseMap();
-
+                
             });
         }
     }

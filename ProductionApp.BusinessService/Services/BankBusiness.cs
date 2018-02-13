@@ -20,5 +20,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _bankRepository.GetAllBank(bankAdvanceSearch);
         }
+        public object InsertUpdateBank(Bank bank)
+        {
+            return _bankRepository.InsertUpdateBank(bank);
+        }
     }
 }

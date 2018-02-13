@@ -20,27 +20,35 @@ namespace ProductionApp.UserInterface.Controllers
             _bankBusiness = bankBusiness;
         }
         // GET: View Bank
-        public ActionResult ViewBank(string Code)
+        public ActionResult ViewBank(string code)
         {
-            ViewBag.SysModuleCode = Code;
+            ViewBag.SysModuleCode = code;
             BankAdvanceSearchViewModel bankAdvanceSearchVM = new BankAdvanceSearchViewModel();
             return View(bankAdvanceSearchVM);
         }
         // GET: Add Bank
-        public ActionResult AddBank(string Code)
+        public ActionResult AddBank(string code,string id)
         {
-            ViewBag.SysModuleCode = Code;
+            ViewBag.SysModuleCode = code;
+            ViewBag.actionType = "Add";
             BankViewModel bankVM = new BankViewModel();
+            bankVM.Code = id;
+            bankVM.Common = new CommonViewModel
+            {
+                IsUpdate = string.IsNullOrEmpty(id) ? false : true,
+            };
             return View(bankVM);
         }
         [HttpPost]
         public JsonResult GetAllBank(DataTableAjaxPostModel model,BankAdvanceSearchViewModel bankAdvanceSearchVM)
         {
             //setting options to our model
-            bankAdvanceSearchVM.Start = model.start;
-            bankAdvanceSearchVM.Length = (bankAdvanceSearchVM.Length==0)?model.length: bankAdvanceSearchVM.Length;
+            bankAdvanceSearchVM.DataTablePaging.Start = model.start;
+            bankAdvanceSearchVM.DataTablePaging.Length = (bankAdvanceSearchVM.DataTablePaging.Length==0)?model.length: bankAdvanceSearchVM.DataTablePaging.Length;
+            
             //bankAdvanceSearchVM.OrderColumn = model.order[0].column;
             //bankAdvanceSearchVM.OrderDir = model.order[0].dir;
+
             // action inside a standard controller
             List<BankViewModel> bankObjList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBank(Mapper.Map<BankAdvanceSearchViewModel, BankAdvanceSearch>(bankAdvanceSearchVM)));
             
@@ -58,7 +66,12 @@ namespace ProductionApp.UserInterface.Controllers
                 data = bankObjList
             });
         }
-       
+       [HttpPost]
+       public object InsertUpdateBank(BankViewModel bankVM)
+        {
+            var result = _bankBusiness.InsertUpdateBank(Mapper.Map<BankViewModel,Bank > (bankVM));
+            return result;
+        }
         #region ButtonStyling
         [HttpGet]
         //[AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
@@ -71,7 +84,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("AddBank", "Bank", new { Code = "SETT" });
+                    toolboxVM.addbtn.Href = Url.Action("AddBank", "Bank", new { code = "SETT" });
                     toolboxVM.addbtn.Event = "";
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
@@ -121,25 +134,13 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.savebtn.Title = "Save";
                     toolboxVM.savebtn.Event = "Save();";
 
-                    toolboxVM.CloseBtn.Visible = true;
-                    toolboxVM.CloseBtn.Text = "Close";
-                    toolboxVM.CloseBtn.Title = "Close";
-                    toolboxVM.CloseBtn.Event = "closeNav();";
+                    toolboxVM.ListBtn.Visible = true;
+                    toolboxVM.ListBtn.Text = "List";
+                    toolboxVM.ListBtn.Title = "List";
+                    toolboxVM.ListBtn.Event = "";
+                    toolboxVM.ListBtn.Href = Url.Action("ViewBank", "Bank", new { Code = "SETT" });
 
-                    toolboxVM.resetbtn.Visible = false;
-                    toolboxVM.resetbtn.Text = "Reset";
-                    toolboxVM.resetbtn.Title = "Reset";
-                    toolboxVM.resetbtn.Event = "Reset();";
 
-                    toolboxVM.deletebtn.Visible = false;
-                    toolboxVM.deletebtn.Text = "Delete";
-                    toolboxVM.deletebtn.Title = "Delete Bank";
-                    toolboxVM.deletebtn.Event = "Delete()";
-
-                    toolboxVM.addbtn.Visible = false;
-                    toolboxVM.addbtn.Text = "New";
-                    toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Event = "openNav();";
                     break;
                 default:
                     return Content("Nochange");

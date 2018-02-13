@@ -16,14 +16,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public Common Common { get; set; }
-        public BankAdvanceSearch BankAdvanceSearch { get; set; }
     }
     public class BankAdvanceSearch
     {
-        public string SearchTerm { get; set; }
-        public int Start { get; set; }
-        public int Length { get; set; }
-        public string OrderColumn { get; set; }
-        public string OrderDir { get; set; }
+        public string SearchTerm { get; set; }       
+        public DataTablePaging DataTablePaging { get; set; }
     }
 }
