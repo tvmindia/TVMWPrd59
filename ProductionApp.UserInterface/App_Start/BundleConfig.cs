@@ -58,6 +58,7 @@ namespace ProductionApp.UserInterface.App_Start
 
             //---------------------------------
             bundles.Add(new ScriptBundle("~/bundles/UserJs/BankJS/ViewBank").Include("~/Scripts/UserJS/BankJS/ViewBank.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/RawMaterial").Include("~/Scripts/UserJS/RawMaterial.js"));
         }
     }
 }
