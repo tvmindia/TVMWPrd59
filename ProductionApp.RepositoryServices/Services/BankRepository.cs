@@ -37,7 +37,7 @@ namespace ProductionApp.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetAllBank]";
-                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(bankAdvanceSearch.SearchTerm)?" ": bankAdvanceSearch.SearchTerm;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(bankAdvanceSearch.SearchTerm)?"": bankAdvanceSearch.SearchTerm;
                         cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = bankAdvanceSearch.DataTablePaging.Start;
                         if (bankAdvanceSearch.DataTablePaging.Length == -1)
                             cmd.Parameters.AddWithValue("@Length", DBNull.Value);

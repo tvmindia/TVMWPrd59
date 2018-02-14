@@ -15,6 +15,10 @@
 }
 .main-sidebar{
     border-right: 1px solid #015E9A!important;
+    /*background-color:black!important;*/
+}
+.skin-green-light .sidebar a{
+   /*color:white!important;*/
 }
 .btn-info {
     color: #fff;
