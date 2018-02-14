@@ -13,7 +13,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal Opening { get; set; }
         public decimal ActualODLimit { get; set; }
         public decimal DisplayODLimit { get; set; }
-        //additional fileds for calculations
+        //additional fields
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public bool IsUpdate { get; set; }

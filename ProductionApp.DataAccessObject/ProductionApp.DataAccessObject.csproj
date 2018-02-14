@@ -71,6 +71,8 @@
     <Compile Include="DTO\AMCSysMenu.cs" />
     <Compile Include="DTO\DataTablePaging.cs" />
     <Compile Include="DTO\Requisition.cs" />
+    <Compile Include="DTO\PurchaseOrder.cs" />
+    <Compile Include="DTO\RawMaterial.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

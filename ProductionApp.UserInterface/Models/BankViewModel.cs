@@ -16,7 +16,7 @@ namespace ProductionApp.UserInterface.Models
         public decimal Opening { get; set; }
         public decimal ActualODLimit { get; set; }
         public decimal DisplayODLimit { get; set; }
-        //additional fields for paging purposes
+        //additional fields
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public bool IsUpdate { get; set; }
