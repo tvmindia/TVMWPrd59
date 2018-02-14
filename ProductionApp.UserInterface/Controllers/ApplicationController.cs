@@ -23,8 +23,9 @@ namespace ProductionApp.UserInterface.Controllers
         // GET: Application
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Application", Mode = "R")]
-        public ActionResult Index()
+        public ActionResult Index(string code)
         {
+            ViewBag.SysModuleCode = code;
             return View();
         }
 
