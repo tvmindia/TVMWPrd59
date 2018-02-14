@@ -46,6 +46,11 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<PurchaseOrderHeaderViewModel, PurchaseOrderHeader>().ReverseMap();
                 config.CreateMap<PurchaseOrderAdvanceSearchViewModel, PurchaseOrderAdvanceSearch>().ReverseMap();
 
+                config.CreateMap<RequisitionViewModel, Requisition>().ReverseMap();
+                config.CreateMap<RequisitionDetailViewModel, RequisitionDetail>().ReverseMap();
+                config.CreateMap<RequisitionAdvanceSearchViewModel, RequisitionAdvanceSearch>().ReverseMap();
+
+
             });
         }
     }

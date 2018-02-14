@@ -602,9 +602,9 @@
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\NewRequisition.js" />
+    <Content Include="Scripts\UserJS\RequisitionJS\RequisitionApproval.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\ViewRequisition.js" />
     <Content Include="Scripts\UserJS\PurchaseOrderJS\ViewPurchaseOrder.js" />
-  
     <Content Include="Scripts\UserJS\RawMaterial.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
     <Content Include="Scripts\UserJS\User.js" />
