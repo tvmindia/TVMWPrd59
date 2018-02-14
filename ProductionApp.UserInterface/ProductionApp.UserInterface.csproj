@@ -602,6 +602,8 @@
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
+    <Content Include="Scripts\UserJS\Requisition\NewRequisition.js" />
+    <Content Include="Scripts\UserJS\Requisition\ViewRequisition.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
     <Content Include="Scripts\UserJS\User.js" />
     <Content Include="Web.config" />
@@ -630,6 +632,7 @@
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\DashboardProductionController.cs" />
     <Compile Include="Controllers\DashboardPurchaseController.cs" />
+    <Compile Include="Controllers\RequisitionController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SAMPanelController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -648,6 +651,7 @@
     <Compile Include="Models\ManageAccessViewModel.cs" />
     <Compile Include="Models\AMCSysMenuViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
+    <Compile Include="Models\RequisitionViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
@@ -691,6 +695,9 @@
     <Content Include="Views\DashboardMaster\Index.cshtml" />
     <Content Include="Views\Bank\_AddBankPartial.cshtml" />
     <Content Include="Views\Bank\Index.cshtml" />
+    <Content Include="Views\Requisition\ViewRequisition.cshtml" />
+    <Content Include="Views\Requisition\NewRequisition.cshtml" />
+    <Content Include="Views\Requisition\RequisitionApproval.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
