@@ -10,5 +10,7 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface IRawMaterialRepository
     {
         List<RawMaterial> GetAllRawMaterial(RawMaterialAdvanceSearch rawMaterialAdvanceSearch);
+        bool CheckMaterialCodeExist(string materialCode);
+        object InsertUpdateRawMaterial(RawMaterial rawMaterial);
     }
 }

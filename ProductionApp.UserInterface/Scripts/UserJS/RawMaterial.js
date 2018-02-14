@@ -103,3 +103,39 @@ function ImportRawMaterialData()
 {
     BindOrReloadRawMaterialTable('Export');
 }
+
+// add Raw material
+function AddRawMaterialMaster()
+{
+    GetMasterPartial("RawMaterial", "");
+    $('#h3ModelMasterContextLabel').text('Add RawMaterial')
+    $('#divModelMasterPopUp').modal('show');
+}
+
+//edit Raw material
+function EditRawMaterialMaster(this_obj) {
+    debugger;
+    rowData = DataTables.RawMaterialList.row($(this_obj).parents('tr')).data();
+    GetMasterPartial("RawMaterial", rowData.Code);
+    $('#h3ModelMasterContextLabel').text('Edit RawMaterial')
+    $('#divModelMasterPopUp').modal('show');
+}
+
+// Function After Save 
+function SaveSuccessRawMaterial(data, status)
+{
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            BindOrReloadRawMaterialTable('Reset');
+            notyAlert('success', JsonResult.Records.Message);           
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message);
+            break;
+        default:
+            notyAlert('error', JsonResult.Message);
+            break;
+    }
+}

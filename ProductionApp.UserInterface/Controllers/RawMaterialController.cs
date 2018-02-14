@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
+using ProductionApp.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace ProductionApp.UserInterface.Controllers
     public class RawMaterialController : Controller
     {
         private IRawMaterialBusiness _rawMaterialBusiness;
+        private Common _common = new Common();
+
         public RawMaterialController(IRawMaterialBusiness rawMaterialBusiness)
         {
             _rawMaterialBusiness = rawMaterialBusiness;
@@ -24,6 +27,17 @@ namespace ProductionApp.UserInterface.Controllers
             ViewBag.SysModuleCode = code;
             RawMaterialAdvanceSearchViewModel rawMaterialAdvanceSearchVM = new RawMaterialAdvanceSearchViewModel();
             return View(rawMaterialAdvanceSearchVM);
+        }
+        [AcceptVerbs("Get", "Post")]
+        public ActionResult CheckMaterialCodeExist(RawMaterialViewModel rawMaterialVM)
+        {
+            bool exists = rawMaterialVM.IsUpdate ? false : _rawMaterialBusiness.CheckMaterialCodeExist(rawMaterialVM.MaterialCode);
+            if (exists)
+            {
+                return Json("<p><span style='vertical-align: 2px'>Material code already in use </span> <i class='fa fa-close' style='font-size:19px; color: red'></i></p>", JsonRequestBehavior.AllowGet);
+            }
+            //var result = new { success = true, message = "Success" };
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -53,6 +67,35 @@ namespace ProductionApp.UserInterface.Controllers
                 data = rawMaterialObjList
             });
         }
+        #region InsertUpdateRawMaterial
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "RawMaterial", Mode = "")]
+        public string InsertUpdateRawMaterial(RawMaterialViewModel rawMaterialVM)
+        {
+            AppUA appUA = Session["AppUA"] as AppUA;
+            rawMaterialVM.Common = new CommonViewModel
+            {
+                CreatedBy = appUA.UserName,
+                CreatedDate = _common.GetCurrentDateTime(),
+                UpdatedBy = appUA.UserName,
+                UpdatedDate = _common.GetCurrentDateTime(),
+            };
+            var result = _rawMaterialBusiness.InsertUpdateRawMaterial(Mapper.Map<RawMaterialViewModel, RawMaterial>(rawMaterialVM));
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+        }
+        #endregion InsertUpdateRawMaterial
+
+        #region MasterPartial
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "RawMaterial", Mode = "")]
+        public ActionResult MasterPartial(string masterCode)
+        {
+            //RawMaterialViewModel rawMaterialVM = string.IsNullOrEmpty(masterCode) ? new RawMaterialViewModel() : Mapper.Map<RawMaterial, RawMaterialViewModel>(_rawMaterialBusiness.GetRawMaterial(masterCode));
+            RawMaterialViewModel rawMaterialVM = new RawMaterialViewModel();
+            rawMaterialVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
+            return PartialView("_AddRawMaterialPartial", rawMaterialVM);
+        }
+        #endregion MasterPartial
 
         #region ButtonStyling
         [HttpGet]
@@ -80,49 +123,49 @@ namespace ProductionApp.UserInterface.Controllers
                     //---------------------------------------
 
                     break;
-                case "Edit":
+                //case "Edit":
 
-                    toolboxVM.addbtn.Visible = true;
-                    toolboxVM.addbtn.Text = "New";
-                    toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Event = "openNav();";
+                //    toolboxVM.addbtn.Visible = true;
+                //    toolboxVM.addbtn.Text = "New";
+                //    toolboxVM.addbtn.Title = "Add New";
+                //    toolboxVM.addbtn.Event = "openNav();";
 
-                    toolboxVM.savebtn.Visible = true;
-                    toolboxVM.savebtn.Text = "Save";
-                    toolboxVM.savebtn.Title = "Save RawMaterial";
-                    toolboxVM.savebtn.Event = "Save();";
+                //    toolboxVM.savebtn.Visible = true;
+                //    toolboxVM.savebtn.Text = "Save";
+                //    toolboxVM.savebtn.Title = "Save RawMaterial";
+                //    toolboxVM.savebtn.Event = "Save();";
 
-                    toolboxVM.deletebtn.Visible = true;
-                    toolboxVM.deletebtn.Text = "Delete";
-                    toolboxVM.deletebtn.Title = "Delete RawMaterial";
-                    toolboxVM.deletebtn.Event = "Delete()";
+                //    toolboxVM.deletebtn.Visible = true;
+                //    toolboxVM.deletebtn.Text = "Delete";
+                //    toolboxVM.deletebtn.Title = "Delete RawMaterial";
+                //    toolboxVM.deletebtn.Event = "Delete()";
 
-                    toolboxVM.resetbtn.Visible = true;
-                    toolboxVM.resetbtn.Text = "Reset";
-                    toolboxVM.resetbtn.Title = "Reset";
-                    toolboxVM.resetbtn.Event = "Reset();";
+                //    toolboxVM.resetbtn.Visible = true;
+                //    toolboxVM.resetbtn.Text = "Reset";
+                //    toolboxVM.resetbtn.Title = "Reset";
+                //    toolboxVM.resetbtn.Event = "Reset();";
 
-                    toolboxVM.CloseBtn.Visible = true;
-                    toolboxVM.CloseBtn.Text = "Close";
-                    toolboxVM.CloseBtn.Title = "Close";
-                    toolboxVM.CloseBtn.Event = "closeNav();";
+                //    toolboxVM.CloseBtn.Visible = true;
+                //    toolboxVM.CloseBtn.Text = "Close";
+                //    toolboxVM.CloseBtn.Title = "Close";
+                //    toolboxVM.CloseBtn.Event = "closeNav();";
 
-                    break;
-                case "Add":
+                //    break;
+                //case "Add":
 
-                    toolboxVM.savebtn.Visible = true;
-                    toolboxVM.savebtn.Text = "Save";
-                    toolboxVM.savebtn.Title = "Save";
-                    toolboxVM.savebtn.Event = "Save();";
+                //    toolboxVM.savebtn.Visible = true;
+                //    toolboxVM.savebtn.Text = "Save";
+                //    toolboxVM.savebtn.Title = "Save";
+                //    toolboxVM.savebtn.Event = "Save();";
 
-                    toolboxVM.ListBtn.Visible = true;
-                    toolboxVM.ListBtn.Text = "List";
-                    toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Event = "";
-                    toolboxVM.ListBtn.Href = Url.Action("Index", "RawMaterial", new { Code = "MSTR" });
+                //    toolboxVM.ListBtn.Visible = true;
+                //    toolboxVM.ListBtn.Text = "List";
+                //    toolboxVM.ListBtn.Title = "List";
+                //    toolboxVM.ListBtn.Event = "";
+                //    toolboxVM.ListBtn.Href = Url.Action("Index", "RawMaterial", new { Code = "MSTR" });
 
 
-                    break;
+                //    break;
                 default:
                     return Content("Nochange");
             }

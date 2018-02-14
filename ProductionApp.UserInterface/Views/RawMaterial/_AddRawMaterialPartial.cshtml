@@ -1,0 +1,93 @@
+﻿@model ProductionApp.UserInterface.Models.RawMaterialViewModel
+
+@using (Ajax.BeginForm("InsertUpdateRawMaterial","RawMaterial",null,new AjaxOptions { HttpMethod="POST",Confirm="",OnSuccess= "SaveSuccessRawMaterial", OnFailure="NetworkFailure",AllowCache=false,LoadingElementId="",OnBegin="",OnComplete=""},new { @class="form-horizontal",role="form",id= "RawMaterialForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+    @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.MaterialCode, htmlAttributes: new { @class = "control-label lblrequired" })
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.MaterialCode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MaterialCode, "", new { @class = "text-danger" })
+                </div>
+            </div>  
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.Rate, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-12">
+               <div class="col-md-12">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+               </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.UnitCode, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.UnitCode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.ReorderQty, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.ReorderQty, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ReorderQty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group ">
+            <div class="col-md-12">
+                <input type="submit" value="Save Changes" class="btn btn-info" style="margin-left:5%" />
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse("#RawMaterialForm");
+    });
+</script>

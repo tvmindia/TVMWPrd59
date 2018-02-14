@@ -20,5 +20,13 @@ namespace ProductionApp.BusinessService.Services
         {
             return _rawMaterialRepository.GetAllRawMaterial(rawMaterialAdvanceSearch);
         }
+        public bool CheckMaterialCodeExist(string materialCode)
+        {
+            return _rawMaterialRepository.CheckMaterialCodeExist(materialCode);
+        }
+        public object InsertUpdateRawMaterial(RawMaterial rawMaterial)
+        {
+            return _rawMaterialRepository.InsertUpdateRawMaterial(rawMaterial);
+        }
     }
 }

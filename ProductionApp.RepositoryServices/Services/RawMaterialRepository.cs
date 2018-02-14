@@ -13,6 +13,7 @@ namespace ProductionApp.RepositoryServices.Services
     public class RawMaterialRepository: IRawMaterialRepository
     {
         private IDatabaseFactory _databaseFactory;
+        AppConst _appConst = new AppConst();
         public RawMaterialRepository(IDatabaseFactory databaseFactory)
         {
             _databaseFactory = databaseFactory;
@@ -81,41 +82,106 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetAllRawMaterial
 
-        #region InsertUpdateRawMaterial
-        //public object InsertUpdateRawMaterial(RawMaterial rawMaterial)
-        //{
-        //    SqlParameter outputStatus, OutputID;
-        //    try
-        //    {
-        //        using (SqlConnection con = _databaseFactory.GetDBConnection())
-        //        {
-        //            using (SqlCommand cmd = new SqlCommand())
-        //            {
-        //                if (con.State == ConnectionState.Closed)
-        //                {
-        //                    con.Open();
-        //                }
-        //                cmd.Connection = con;
-        //                cmd.CommandText = "[AMC].[InsertUpdateRawMaterial]";
-        //                cmd.CommandType = CommandType.StoredProcedure;
-        //                cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = rawMaterial.IsUpdate;
-        //                cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = rawMaterial.ID;
-        //                cmd.Parameters.Add("@MaterialCode", SqlDbType.VarChar).Value = rawMaterial.MaterialCode;
-        //                cmd.Parameters.Add("@Rate", SqlDbType.Decimal).Value = rawMaterial.Rate;
-        //                cmd.Parameters.Add("@Type", SqlDbType.VarChar).Value = rawMaterial.Type;
-        //                cmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = rawMaterial.Description;
-        //                cmd.Parameters.Add("@UnitCode", SqlDbType.VarChar).Value = rawMaterial.UnitCode;
-        //                cmd.Parameters.Add("@ReorderQty", SqlDbType.Decimal).Value = rawMaterial.ReorderQty;
-        //                cmd.Parameters.Add("@CreatedBy",SqlDbType.VarChar).Value=rawMaterial.
-        //            }
-        //        }
+        #region CheckMaterialCodeExist
+        /// <summary>
+        /// To Check whether MaterialCode Existing or not
+        /// </summary>
+        /// <param name="materialCode"></param>
+        /// <returns>bool</returns>
+        public bool CheckMaterialCodeExist(string materialCode)
+        {
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[CheckMaterialCodeExist]";
+                        cmd.Parameters.Add("@MaterialCode", SqlDbType.VarChar).Value = materialCode;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        Object res = cmd.ExecuteScalar();
+                        return (res.ToString() == "Exists" ? true : false);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion CheckMaterialCodeExist
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+        #region InsertUpdateRawMaterial
+        /// <summary>
+        /// To Insert and update Raw Material
+        /// </summary>
+        /// <param name="rawMaterial"></param>
+        /// <returns>object</returns>
+        public object InsertUpdateRawMaterial(RawMaterial rawMaterial)
+        {
+            SqlParameter outputStatus, OutputID;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[InsertUpdateRawMaterial]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = rawMaterial.IsUpdate;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = rawMaterial.ID;
+                        cmd.Parameters.Add("@MaterialCode", SqlDbType.VarChar).Value = rawMaterial.MaterialCode;
+                        cmd.Parameters.Add("@Rate", SqlDbType.Decimal).Value = rawMaterial.Rate;
+                        cmd.Parameters.Add("@Type", SqlDbType.VarChar).Value = rawMaterial.Type;
+                        cmd.Parameters.Add("@Description", SqlDbType.VarChar).Value = rawMaterial.Description;
+                        cmd.Parameters.Add("@UnitCode", SqlDbType.VarChar).Value = rawMaterial.UnitCode;
+                        cmd.Parameters.Add("@ReorderQty", SqlDbType.Decimal).Value = rawMaterial.ReorderQty;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar).Value = rawMaterial.Common.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = rawMaterial.Common.CreatedDate;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.VarChar).Value = rawMaterial.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = rawMaterial.Common.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        OutputID = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier);
+                        OutputID.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(_appConst.InsertFailure);
+                    case "1":
+                        rawMaterial.ID = Guid.Parse(OutputID.Value.ToString());
+                        return new
+                        {
+                            ID = Guid.Parse(OutputID.Value.ToString()),
+                            Status = outputStatus.Value.ToString(),
+                            Message = rawMaterial.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+                        };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                ID = Guid.Parse(OutputID.Value.ToString()),
+                Status = outputStatus.Value.ToString(),
+                Message = rawMaterial.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+            };
+        }
         #endregion InsertUpdateRawMaterial
 
     }
