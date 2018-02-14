@@ -9,8 +9,8 @@
         <div class="with-border @Model.Color " style="height:2px!important"></div>
         <div class="box-body">
             <div class="table-responsive">
-                <table class="table no-margin" style="overflow-y: scroll;">
-                    <thead>
+                <table class="table no-margin">
+                    <thead style="display:table;width:100%;table-layout:fixed;">
                         <tr>
                             <th>Issue No.</th>
                             <th>Issued To</th>
@@ -18,16 +18,15 @@
                             <th>Issue Date</th>
                         </tr>
                     </thead>
-                    <tbody>
-
+                    <tbody style="height:100px;max-height:500px;display:block;overflow-y:scroll;table-layout:auto;">
                         @if (Model.MaterialIssueHeaderList != null)
                         {
                             for (int i = 0; i < Model.MaterialIssueHeaderList.Count; i++)
                             {
                                 <tr>
-                                    <th><a href="@Model.MaterialIssueHeaderList[i].ID">@Model.MaterialIssueHeaderList[i].IssueTo</a></th>
-                                    <td>@Model.MaterialIssueHeaderList[i].IssueTo</td>
-                                    <td>@Model.MaterialIssueHeaderList[i].IssuedBy</td>
+                                    <th><a href="@Model.MaterialIssueHeaderList[i].ID">@Model.MaterialIssueHeaderList[i].IssueNo</a></th>
+                                    <td>@Model.MaterialIssueHeaderList[i].IssueToEmployee.Name</td>
+                                    <td>@Model.MaterialIssueHeaderList[i].IssuedByEmployee.Name</td>
                                     <td><span class="label label-info">@Model.MaterialIssueHeaderList[i].IssueDate</span></td>
                                 </tr>
                             }
@@ -54,15 +53,10 @@
                                 </tr>
                             }
                         }
-
                     </tbody>
-
                 </table>
             </div>
-        </div>
 
-        <div class="box-footer clearfix">
-            <a href="@Model.URL" class="label @Model.Color">View All</a>
         </div>
 
     </div>
