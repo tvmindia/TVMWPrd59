@@ -70,6 +70,7 @@
     <Compile Include="DTO\AMCSysModule.cs" />
     <Compile Include="DTO\AMCSysMenu.cs" />
     <Compile Include="DTO\DataTablePaging.cs" />
+    <Compile Include="DTO\Employee.cs" />
     <Compile Include="DTO\MaterialIssue.cs" />
     <Compile Include="DTO\MaterialStockAdj.cs" />
     <Compile Include="DTO\Requisition.cs" />

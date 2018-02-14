@@ -49,8 +49,8 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<RequisitionViewModel, Requisition>().ReverseMap();
                 config.CreateMap<RequisitionDetailViewModel, RequisitionDetail>().ReverseMap();
                 config.CreateMap<RequisitionAdvanceSearchViewModel, RequisitionAdvanceSearch>().ReverseMap();
-
-
+                config.CreateMap<EmployeeViewModel, Employee>().ReverseMap();
+                config.CreateMap<MaterialStockAdjViewModel, MaterialStockAdj>().ReverseMap();
             });
         }
     }

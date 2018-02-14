@@ -650,6 +650,7 @@
     <Compile Include="Models\DataTableAjaxPostModel.cs" />
     <Compile Include="Models\DataTablePagingViewModel.cs" />
     <Compile Include="Models\DynamicUIViewModel.cs" />
+    <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\AMCSysModuleViewModel.cs" />
     <Compile Include="Models\IssueSummaryViewModel.cs" />
