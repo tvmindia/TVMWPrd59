@@ -602,8 +602,8 @@
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
-    <Content Include="Scripts\UserJS\Requisition\NewRequisition.js" />
-    <Content Include="Scripts\UserJS\Requisition\ViewRequisition.js" />
+    <Content Include="Scripts\UserJS\RequisitionJS\NewRequisition.js" />
+    <Content Include="Scripts\UserJS\RequisitionJS\ViewRequisition.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
     <Content Include="Scripts\UserJS\User.js" />
     <Content Include="Web.config" />
