@@ -10,6 +10,8 @@ namespace ProductionApp.BusinessService.Contracts
     public interface IBankBusiness
     {
         List<Bank> GetAllBank(BankAdvanceSearch bankAdvanceSearch);
+        Bank GetBank(string code);
+        bool CheckCodeExist(string code);
         object InsertUpdateBank(Bank bank);
     }
 }

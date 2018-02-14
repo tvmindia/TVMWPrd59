@@ -10,6 +10,8 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface IBankRepository
     {
         List<Bank> GetAllBank(BankAdvanceSearch bankAdvanceSearch);
+        Bank GetBank(string code);
+        bool CheckCodeExist(string code);
         object InsertUpdateBank(Bank bank);
     }
 }

@@ -1,7 +1,7 @@
 ﻿@using ProductionApp.UserInterface.App_Start
 @model ProductionApp.UserInterface.Models.BankAdvanceSearchViewModel
 @{
-    ViewBag.Title = "ViewBank";
+    ViewBag.Title = "Bank";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 @section styles {
@@ -10,7 +10,7 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i> Bank</a></li>
+        <li><a href="#"><i class="fa fa-cogs"></i> Masters</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -44,10 +44,10 @@
                 </div>
                 <div class="col-md-2">
                     <input type="button" value="Search" onclick="BindOrReloadBankTable('Search')" />
-                </div>                
+                </div>
             </div>
         </div>
-        
+
         <div class="col-md-12">
             <table id="tblBank" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
                 <thead>
@@ -68,6 +68,7 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/BankJS/ViewBank")
 }
 

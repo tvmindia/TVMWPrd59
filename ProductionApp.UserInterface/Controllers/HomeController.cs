@@ -2,6 +2,7 @@
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
+using ProductionApp.UserInterface.SecurityFilter;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
@@ -15,6 +16,7 @@ namespace ProductionApp.UserInterface.Controllers
             _dynamicUIBusiness = dynamicUIBusiness;
         }
         // GET: Home
+        [AuthSecurityFilter(ProjectObject = "Home", Mode = "")]
         public ActionResult Index()
         {
             AppUA appUA = Session["AppUA"] as AppUA;
