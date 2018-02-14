@@ -81,9 +81,7 @@ function BindOrReloadBankTable(action) {
                         return roundoff(data, 1);
                 }, "defaultContent": "<i>-</i>"
             },
-            { "data": "Code", "orderable": false, render: function(data,type,row){
-                return '<a href="/Bank/AddBank?code=SETT&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
-            },"defaultContent": "<i>-</i>" }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditBankMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [3, 4] },
@@ -120,7 +118,31 @@ function ImportBankData()
 function AddBankMaster()
 {
     GetMasterPartial("Bank", "");
-    $('#h3ModelMasterContextLabel').text('Add Master')
+    $('#h3ModelMasterContextLabel').text('Add Bank')
     $('#divModelMasterPopUp').modal('show');
 }
- 
+//edit bank 
+function EditBankMaster(this_obj) {
+    debugger;
+    rowData = DataTables.BankList.row($(this_obj).parents('tr')).data();
+    GetMasterPartial("Bank", rowData.Code);
+    $('#h3ModelMasterContextLabel').text('Edit Bank')
+    $('#divModelMasterPopUp').modal('show');
+}
+function SaveSuccessBank(data, status)
+{
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            BindOrReloadBankTable('Reset');
+            notyAlert('success', JsonResult.Records.Message);           
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message);
+            break;
+        default:
+            notyAlert('error', JsonResult.Message);
+            break;
+    }
+}
