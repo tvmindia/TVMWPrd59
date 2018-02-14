@@ -28,9 +28,9 @@ namespace ProductionApp.UserInterface.Controllers
 
        [AuthSecurityFilter(ProjectObject = "User", Mode = "R")]
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string code)
         {
-            
+            ViewBag.SysModuleCode = code;
             UserViewModel userobj = new UserViewModel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();

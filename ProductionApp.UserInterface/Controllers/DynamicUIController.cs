@@ -19,7 +19,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         public ActionResult _MenuNavBar(string Code)
         {
-            List<AMCSysMenu> menulist = _dynamicUIBusiness.GetAllMenu(Code);
+            List<AMCSysMenu> menulist = _dynamicUIBusiness.GetAllMenu(string.IsNullOrEmpty(Code)?"":Code);
             DynamicUIViewModel dUIObj = new DynamicUIViewModel();
             dUIObj.AMCSysMenuViewModelList = Mapper.Map<List<AMCSysMenu>, List<AMCSysMenuViewModel>>(menulist);
             return View(dUIObj);
@@ -32,7 +32,8 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
 
-        public ActionResult UnderConstruction() {
+        public ActionResult UnderConstruction(string code) {
+            ViewBag.SysModuleCode = code;
             return View();
         }
     }

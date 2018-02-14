@@ -73,7 +73,7 @@
                     <div class="col-md-5">
                         @Html.LabelFor(model => model.Supplier, htmlAttributes: new { @class = "control-label" })
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.Supplier, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                            @Html.DropDownListFor(model => model.Supplier, Model.Supplier.SupplierList, new { @class = "form-control BlockEnter", value = 0, style = "padding:4px 12px;" })
                         </div>
                     </div>
 

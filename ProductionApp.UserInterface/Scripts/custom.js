@@ -44,6 +44,7 @@ var fileArray = [];
 
 $(document).ready(function () {
     debugger;
+    $('#divMainBody').attr('style',"height:"+screen.height + "px");
     var wrap = $(".EntryForms");
     wrap.on("scroll", function (e) {
         if (this.scrollTop > 147) {

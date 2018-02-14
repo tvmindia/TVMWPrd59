@@ -13,6 +13,7 @@ namespace ProductionApp.DataAccessObject.DTO
     {
         public string Code { get; set; }
         public string Name { get; set; }
+        public string Action { get; set; }
         public string Controller { get; set; }
         public string IconClass { get; set; }
     }

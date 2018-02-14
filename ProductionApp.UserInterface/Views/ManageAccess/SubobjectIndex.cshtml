@@ -12,7 +12,7 @@
 <div style="width:100%;">
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-cogs"></i> Settings</a></li>
-        <li><a href=@Url.Content("~/SAMPanel")><i class="fa fa-users"></i> User management</a></li>
+        <li><a href="@Url.Action("Index", "SAMPanel",new { code = ViewBag.SysModuleCode })"><i class="fa fa-users"></i> User management</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -85,7 +85,7 @@
     </div>
 
     <div id="backlink" style="display:none;">
-        @Html.ActionLink("Back to List", "Index", "ManageAccess", null, new { name = ViewBag.Appid })
+        @Html.ActionLink("Back to List", "Index", "ManageAccess", null, new { name = ViewBag.Appid,code=ViewBag.SysModuleCode })
     </div>
 </div>
 

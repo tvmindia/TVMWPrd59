@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.RepositoryServices.Contracts
 {
-    public interface IPurchaseOrderRepository
+    public interface ISupplierRepository
     {
-        List<PurchaseOrder> GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch);
+        List<Supplier> GetAllSupplier();
     }
 }
