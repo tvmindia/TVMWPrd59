@@ -703,8 +703,6 @@
     <Content Include="Views\DashboardSale\Index.cshtml" />
     <Content Include="Views\DashboardSettings\Index.cshtml" />
     <Content Include="Views\DashboardMaster\Index.cshtml" />
-    <Content Include="Views\Bank\AddBank.cshtml" />
-    <Content Include="Views\Bank\ViewBank.cshtml" />
     <Content Include="Views\DashboardStore\_IssueSummary.cshtml" />
     <Content Include="Views\Bank\_AddBankPartial.cshtml" />
     <Content Include="Views\Bank\Index.cshtml" />
