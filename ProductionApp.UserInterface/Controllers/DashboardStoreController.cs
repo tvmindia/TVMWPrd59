@@ -38,7 +38,7 @@ namespace ProductionApp.UserInterface.Controllers
             data.Title = "Issue Summary";
             data.Color = "bg-aqua";
             data.URL = "localhost:23589";
-            data.MaterialIssueHeaderList = Mapper.Map<List<MaterialIssueHeader>,List<MaterialIssueHeaderViewModel>>(_dashboardStoreBusiness.GetRecentIssueSummary());
+            data.MaterialIssueHeaderList = Mapper.Map<List<MaterialIssue>,List<MaterialIssueViewModel>>(_dashboardStoreBusiness.GetRecentIssueSummary());
             return PartialView("_IssueSummary",data);
         }
 

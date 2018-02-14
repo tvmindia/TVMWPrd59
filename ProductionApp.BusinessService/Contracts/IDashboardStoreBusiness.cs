@@ -9,6 +9,6 @@ namespace ProductionApp.BusinessService.Contracts
 {
     public interface IDashboardStoreBusiness
     {
-        List<MaterialIssueHeader> GetRecentIssueSummary();
+        List<MaterialIssue> GetRecentIssueSummary();
     }
 }

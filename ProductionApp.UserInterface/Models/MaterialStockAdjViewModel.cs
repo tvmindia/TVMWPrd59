@@ -5,7 +5,7 @@ using System.Web;
 
 namespace ProductionApp.UserInterface.Models
 {
-    public class MaterialStockAdjHeaderViewModel
+    public class MaterialStockAdjViewModel
     {
         public Guid ID { get; set; }
         public Guid AdjustedBy { get; set; }

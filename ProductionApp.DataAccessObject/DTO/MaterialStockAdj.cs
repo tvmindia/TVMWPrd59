@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.DataAccessObject.DTO
 {
-    public class MaterialStockAdjHeader
+    public class MaterialStockAdj
     {
         public Guid ID { get; set; }
         public Guid AdjustedBy { get; set; }

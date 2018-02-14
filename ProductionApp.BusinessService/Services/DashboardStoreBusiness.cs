@@ -17,7 +17,7 @@ namespace ProductionApp.BusinessService.Services
             _dashboardStoreRepository = dashboardStoreRepository;
         }
 
-        public List<MaterialIssueHeader> GetRecentIssueSummary()
+        public List<MaterialIssue> GetRecentIssueSummary()
         {
             return _dashboardStoreRepository.GetRecentIssueSummary();
         }

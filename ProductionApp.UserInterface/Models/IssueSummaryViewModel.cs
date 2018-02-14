@@ -11,6 +11,6 @@ namespace ProductionApp.UserInterface.Models
         public string URL { get; set; }
         public string Title { get; set; }
         public string Color { get; set; }
-        public List<MaterialIssueHeaderViewModel> MaterialIssueHeaderList { get; set; }
+        public List<MaterialIssueViewModel> MaterialIssueHeaderList { get; set; }
     }
 }

@@ -21,10 +21,10 @@ namespace ProductionApp.RepositoryServices.Services
         }
 
         #region GetRecentIssueSummary
-        public List<MaterialIssueHeader> GetRecentIssueSummary()
+        public List<MaterialIssue> GetRecentIssueSummary()
         {
-            List<MaterialIssueHeader> materialIssueList = new List<MaterialIssueHeader>();
-            MaterialIssueHeader materialIssueHeader = null;
+            List<MaterialIssue> materialIssueList = new List<MaterialIssue>();
+            MaterialIssue materialIssueHeader = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -44,7 +44,7 @@ namespace ProductionApp.RepositoryServices.Services
                             {
                                 while (sdr.Read())
                                 {
-                                    materialIssueHeader = new MaterialIssueHeader();
+                                    materialIssueHeader = new MaterialIssue();
                                     materialIssueHeader.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
                                     materialIssueHeader.IssueNo= (sdr["IssueNo"].ToString() != "" ? sdr["IssueNo"].ToString() : materialIssueHeader.IssueNo);
                                     materialIssueHeader.IssueTo= (sdr["IssueTo"].ToString() != "" ? Guid.Parse(sdr["IssueTo"].ToString()) : materialIssueHeader.IssueTo);

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ProductionApp.UserInterface.Models
+namespace ProductionApp.DataAccessObject.DTO
 {
-    public class MaterialIssueHeaderViewModel
+    public class MaterialIssue
     {
         public Guid ID { get; set; }
         public Guid IssueTo { get; set; }
@@ -13,6 +14,6 @@ namespace ProductionApp.UserInterface.Models
         public string IssueNo { get; set; }
         public string IssueDate { get; set; }
         public string GeneralNotes { get; set; }
-        public CommonViewModel common { get; set; }
+        public Common common { get; set; }
     }
 }

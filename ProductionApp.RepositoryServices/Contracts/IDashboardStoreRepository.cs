@@ -9,6 +9,6 @@ namespace ProductionApp.RepositoryServices.Contracts
 {
     public interface IDashboardStoreRepository
     {
-        List<MaterialIssueHeader> GetRecentIssueSummary();
+        List<MaterialIssue> GetRecentIssueSummary();
     }
 }
