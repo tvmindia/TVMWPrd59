@@ -140,9 +140,9 @@ body, html {
 }
 
 .customLogin {
-    background-color: #00a65a!important;
-    background-image: linear-gradient(to bottom, #3bdc92 0%, #00a65a 100%)!important;
-    border-color: #4b6d5e!important;
+    background-color: #5bc0de!important;
+    background-image: linear-gradient(to bottom, #015E9A 0%, #5bc0de 100%)!important;
+    border-color: #015E9A!important;
 }
 
 .card {

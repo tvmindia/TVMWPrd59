@@ -640,7 +640,7 @@
  * -----------
  */
 .skin-green .main-header .navbar {
-  background-color: #8BC34A;
+  background-color: #01abe3;
 }
 .skin-green .main-header .navbar .nav > li > a {
   color: #ffffff;
@@ -666,7 +666,7 @@
   color: #fff;
 }
 .skin-green .main-header .navbar .sidebar-toggle:hover {
-  background-color: #8BC34A;
+  background-color: #01abe3;
 }
 @media (max-width: 767px) {
   .skin-green .main-header .navbar .dropdown-menu li.divider {
@@ -680,7 +680,7 @@
   }
 }
 .skin-green .main-header .logo {
-  background-color: #8BC34A;
+  background-color: #01abe3;
   color: #ffffff;
   border-bottom: 0 solid transparent;
 }

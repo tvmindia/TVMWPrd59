@@ -15,17 +15,33 @@ namespace ProductionApp.UserInterface.Controllers
     public class BankController : Controller
     {
         private IBankBusiness _bankBusiness;
+        private Common _common = new Common();
         public BankController(IBankBusiness bankBusiness)
         {
             _bankBusiness = bankBusiness;
         }
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "")]
         public ActionResult Index(string code)
         {
             ViewBag.SysModuleCode = code;
             BankAdvanceSearchViewModel bankAdvanceSearchVM = new BankAdvanceSearchViewModel();
             return View(bankAdvanceSearchVM);
-        }        
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        public ActionResult CheckCodeExist(BankViewModel bankVM)
+        {
+            bool exists = bankVM.IsUpdate ? false : _bankBusiness.CheckCodeExist(bankVM.Code);
+            if (exists)
+            {
+                return Json("<p><span style='vertical-align: 2px'>Bank code already in use </span> <i class='fa fa-close' style='font-size:19px; color: red'></i></p>", JsonRequestBehavior.AllowGet);
+            }
+            //var result = new { success = true, message = "Success" };
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "")]
         public JsonResult GetAllBank(DataTableAjaxPostModel model,BankAdvanceSearchViewModel bankAdvanceSearchVM)
         {
             //setting options to our model
@@ -36,7 +52,7 @@ namespace ProductionApp.UserInterface.Controllers
             //bankAdvanceSearchVM.OrderDir = model.order[0].dir;
 
             // action inside a standard controller
-            List<BankViewModel> bankObjList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBank(Mapper.Map<BankAdvanceSearchViewModel, BankAdvanceSearch>(bankAdvanceSearchVM)));
+            List<BankViewModel> bankVMList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBank(Mapper.Map<BankAdvanceSearchViewModel, BankAdvanceSearch>(bankAdvanceSearchVM)));
             
             var settings = new JsonSerializerSettings
             {
@@ -47,30 +63,40 @@ namespace ProductionApp.UserInterface.Controllers
             {
                 // this is what datatables wants sending back
                 draw = model.draw,
-                recordsTotal = bankObjList.Count != 0 ? bankObjList[0].TotalCount : 0,
-                recordsFiltered = bankObjList.Count != 0 ? bankObjList[0].FilteredCount : 0,
-                data = bankObjList
+                recordsTotal = bankVMList.Count != 0 ? bankVMList[0].TotalCount : 0,
+                recordsFiltered = bankVMList.Count != 0 ? bankVMList[0].FilteredCount : 0,
+                data = bankVMList
             });
         }
-       [HttpPost]
-       public object InsertUpdateBank(BankViewModel bankVM)
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "")]
+        public string InsertUpdateBank(BankViewModel bankVM)
         {
+            AppUA appUA = Session["AppUA"] as AppUA;
+            bankVM.Common = new CommonViewModel
+            {
+               CreatedBy = appUA.UserName,
+               CreatedDate = _common.GetCurrentDateTime(),
+               UpdatedBy = appUA.UserName,
+               UpdatedDate = _common.GetCurrentDateTime(),
+           };            
             var result = _bankBusiness.InsertUpdateBank(Mapper.Map<BankViewModel,Bank > (bankVM));
-            return result;
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
         }
         #region MasterPartial
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
-        public ActionResult AddMasterPartial(string masterCode)
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "")]
+        public ActionResult MasterPartial(string masterCode)
         {
-            BankViewModel bankVM = string.IsNullOrEmpty(masterCode)?new BankViewModel(): Mapper.Map <Bank, BankViewModel>(_bankBusiness.GetBank(masterCode));            
+            BankViewModel bankVM = string.IsNullOrEmpty(masterCode)?new BankViewModel(): Mapper.Map <Bank, BankViewModel>(_bankBusiness.GetBank(masterCode));
+            bankVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
             return PartialView("_AddBankPartial", bankVM);
         }
 
         #endregion
         #region ButtonStyling
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();

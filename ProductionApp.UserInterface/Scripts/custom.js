@@ -246,7 +246,7 @@ function GetMasterPartial(Controller, MasterCode) {
         debugger
         var data = { "masterCode": MasterCode };
         var ds = {};
-        ds = GetDataFromServer(Controller + "/AddMasterPartial/", data);
+        ds = GetDataFromServer(Controller + "/MasterPartial/", data);
         if (ds == "Nochange") {
             return; 0
         }

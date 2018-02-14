@@ -11,6 +11,7 @@ namespace ProductionApp.BusinessService.Contracts
     {
         List<Bank> GetAllBank(BankAdvanceSearch bankAdvanceSearch);
         Bank GetBank(string code);
+        bool CheckCodeExist(string code);
         object InsertUpdateBank(Bank bank);
     }
 }
