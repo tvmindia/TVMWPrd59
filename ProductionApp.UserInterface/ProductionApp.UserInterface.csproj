@@ -652,8 +652,11 @@
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\AMCSysModuleViewModel.cs" />
+    <Compile Include="Models\IssueSummaryViewModel.cs" />
     <Compile Include="Models\ManageAccessViewModel.cs" />
     <Compile Include="Models\AMCSysMenuViewModel.cs" />
+    <Compile Include="Models\MaterialIssueHeaderViewModel.cs" />
+    <Compile Include="Models\MaterialStockAdjHeaderViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\RequisitionViewModel.cs" />
     <Compile Include="Models\PurchaseOrderViewModel.cs" />
@@ -699,6 +702,9 @@
     <Content Include="Views\DashboardSale\Index.cshtml" />
     <Content Include="Views\DashboardSettings\Index.cshtml" />
     <Content Include="Views\DashboardMaster\Index.cshtml" />
+    <Content Include="Views\Bank\AddBank.cshtml" />
+    <Content Include="Views\Bank\ViewBank.cshtml" />
+    <Content Include="Views\DashboardStore\_IssueSummary.cshtml" />
     <Content Include="Views\Bank\_AddBankPartial.cshtml" />
     <Content Include="Views\Bank\Index.cshtml" />
     <Content Include="Views\Requisition\ViewRequisition.cshtml" />

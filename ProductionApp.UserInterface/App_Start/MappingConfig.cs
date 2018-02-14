@@ -39,6 +39,7 @@ namespace ProductionApp.UserInterface.App_Start
 
                 config.CreateMap<BankViewModel, Bank>().ReverseMap();
                 config.CreateMap<BankAdvanceSearchViewModel, BankAdvanceSearch>().ReverseMap();
+                config.CreateMap<MaterialIssueHeaderViewModel, MaterialIssueHeader>().ReverseMap();
                 config.CreateMap<RawMaterialViewModel, RawMaterial>().ReverseMap();
                 config.CreateMap<RawMaterialAdvanceSearchViewModel, RawMaterialAdvanceSearch>().ReverseMap();
 

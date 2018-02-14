@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IBankRepository.cs" />
+    <Compile Include="Contracts\IDashboardStoreRepository.cs" />
     <Compile Include="Contracts\IDatabaseFactory.cs" />
     <Compile Include="Contracts\IDynamicUIRepository.cs" />
     <Compile Include="Contracts\IRequisitionRepository.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Contracts\IRawMaterialRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BankRepository.cs" />
+    <Compile Include="Services\DashboardStoreRepository.cs" />
     <Compile Include="Services\DatabaseFactory.cs" />
     <Compile Include="Services\DynamicUIRepository.cs" />
     <Compile Include="Services\RequisitionRepository.cs" />
