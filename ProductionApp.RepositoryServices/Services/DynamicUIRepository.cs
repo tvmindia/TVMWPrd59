@@ -23,7 +23,7 @@ namespace ProductionApp.RepositoryServices.Services
         }
         public List<AMCSysModule> GetAllModule()
         {
-            List<AMCSysModule> moduleList = null;
+            List<AMCSysModule> sysModuleList = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -41,17 +41,18 @@ namespace ProductionApp.RepositoryServices.Services
                         {
                             if ((sdr != null) && (sdr.HasRows))
                             {
-                                moduleList = new List<AMCSysModule>();
+                                sysModuleList = new List<AMCSysModule>();
                                 while (sdr.Read())
                                 {
-                                    AMCSysModule moduleObj = new AMCSysModule();
+                                    AMCSysModule sysModule = new AMCSysModule();
                                     {
-                                        moduleObj.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : moduleObj.Code);
-                                        moduleObj.Name = (sdr["Name"].ToString() != "" ? (sdr["Name"].ToString()) : moduleObj.Name);
-                                        moduleObj.Controller = sdr["Controller"].ToString();
-                                        moduleObj.IconClass = sdr["IconClass"].ToString();
+                                        sysModule.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : sysModule.Code);
+                                        sysModule.Name = (sdr["Name"].ToString() != "" ? (sdr["Name"].ToString()) : sysModule.Name);
+                                        sysModule.Action= sdr["Action"].ToString();
+                                        sysModule.Controller = sdr["Controller"].ToString();
+                                        sysModule.IconClass = sdr["IconClass"].ToString();
                                     }
-                                    moduleList.Add(moduleObj);
+                                    sysModuleList.Add(sysModule);
                                 }
                             }
                         }
@@ -62,12 +63,12 @@ namespace ProductionApp.RepositoryServices.Services
             {
                 throw ex;
             }
-            return moduleList;
+            return sysModuleList;
         }
 
         public List<AMCSysMenu> GetAllMenu(string code)
         {
-            List<AMCSysMenu> menuList = null;
+            List<AMCSysMenu> sysMenuList = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -86,28 +87,28 @@ namespace ProductionApp.RepositoryServices.Services
                         {
                             if ((sdr != null) && (sdr.HasRows))
                             {
-                                menuList = new List<AMCSysMenu>();
+                                sysMenuList = new List<AMCSysMenu>();
                                 while (sdr.Read())
                                 {
-                                    AMCSysMenu menuObj = new AMCSysMenu();
+                                    AMCSysMenu sysMenu = new AMCSysMenu();
                                     {
-                                        menuObj.ID = (sdr["ID"].ToString() != "" ? Int16.Parse(sdr["ID"].ToString()) : menuObj.ID);
-                                        menuObj.Module= sdr["Module"].ToString();
-                                        menuObj.AMCSysModuleObj = new AMCSysModule
+                                        sysMenu.ID = (sdr["ID"].ToString() != "" ? Int16.Parse(sdr["ID"].ToString()) : sysMenu.ID);
+                                        sysMenu.Module= sdr["Module"].ToString();
+                                        sysMenu.AMCSysModuleObj = new AMCSysModule
                                         {
                                             Code = sdr["Module"].ToString(),
                                             Name = sdr["Name"].ToString()
                                         };
-                                        menuObj.ParentID = (sdr["ParentID"].ToString() != "" ? Int16.Parse(sdr["ParentID"].ToString()) : menuObj.ParentID);
-                                        menuObj.MenuText = sdr["MenuText"].ToString();
-                                        menuObj.Controller = sdr["Controller"].ToString();
-                                        menuObj.Action = sdr["Action"].ToString();
-                                        menuObj.IconClass = sdr["IconClass"].ToString();
-                                        menuObj.IconURL = sdr["IconURL"].ToString();
-                                        menuObj.Parameters= sdr["Parameters"].ToString();
-                                        menuObj.MenuOrder= (sdr["MenuOrder"].ToString() != "" ? decimal.Parse(sdr["MenuOrder"].ToString()) : menuObj.MenuOrder);
+                                        sysMenu.ParentID = (sdr["ParentID"].ToString() != "" ? Int16.Parse(sdr["ParentID"].ToString()) : sysMenu.ParentID);
+                                        sysMenu.MenuText = sdr["MenuText"].ToString();
+                                        sysMenu.Controller = sdr["Controller"].ToString();
+                                        sysMenu.Action = sdr["Action"].ToString();
+                                        sysMenu.IconClass = sdr["IconClass"].ToString();
+                                        sysMenu.IconURL = sdr["IconURL"].ToString();
+                                        sysMenu.Parameters= sdr["Parameters"].ToString();
+                                        sysMenu.MenuOrder= (sdr["MenuOrder"].ToString() != "" ? decimal.Parse(sdr["MenuOrder"].ToString()) : sysMenu.MenuOrder);
                                     }
-                                    menuList.Add(menuObj);
+                                    sysMenuList.Add(sysMenu);
                                 }
                             }
                         }
@@ -120,7 +121,7 @@ namespace ProductionApp.RepositoryServices.Services
                 throw ex;
             }
 
-            return menuList;
+            return sysMenuList;
         }
     }
 }

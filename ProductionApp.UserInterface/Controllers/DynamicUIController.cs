@@ -32,7 +32,8 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
 
-        public ActionResult UnderConstruction() {
+        public ActionResult UnderConstruction(string code) {
+            ViewBag.SysModuleCode = code;
             return View();
         }
     }
