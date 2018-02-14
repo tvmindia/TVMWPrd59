@@ -23,9 +23,9 @@ namespace ProductionApp.BusinessService.Services
             {
                 return _dynamicUIRepository.GetAllMenu(code);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
 
 

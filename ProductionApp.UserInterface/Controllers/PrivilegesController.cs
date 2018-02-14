@@ -28,8 +28,9 @@ namespace ProductionApp.UserInterface.Controllers
         // GET: Privileges
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Privileges", Mode = "R")]
-        public ActionResult Index()
+        public ActionResult Index(string code)
         {
+            ViewBag.SysModuleCode = code;
             PrivilegesViewModel _privillegesObj = new PrivilegesViewModel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
 
@@ -62,8 +63,9 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         [AuthSecurityFilter(ProjectObject = "PrivilegesView", Mode = "R")]
-        public ActionResult PrivilegesView()
+        public ActionResult PrivilegesView(string code)
         {
+            ViewBag.SysModuleCode = code;
             return View();
         }
 

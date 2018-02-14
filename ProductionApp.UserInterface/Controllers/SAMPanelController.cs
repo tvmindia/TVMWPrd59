@@ -20,10 +20,11 @@ namespace ProductionApp.UserInterface.Controllers
         }
     
         [AuthSecurityFilter(ProjectObject = "SAMPanel", Mode = "R")]
-        public ActionResult Index() 
+        public ActionResult Index(string code) 
         {
+            ViewBag.SysModuleCode = code;
             // AppUA _appUA= Session["AppUA"] as AppUA;
-              Permission permission = Session["UserRights"] as Permission;
+            Permission permission = Session["UserRights"] as Permission;
               
             // string R = _permission.SubPermissionList.First(s => s.Name == "RHS").AccessCode;
             SAMPanelViewModel SAMPanelVMObj = new SAMPanelViewModel();
