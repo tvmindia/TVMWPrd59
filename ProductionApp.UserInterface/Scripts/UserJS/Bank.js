@@ -110,7 +110,7 @@ function ResetBankList()
     BindOrReloadBankTable('Reset');
 }
 //function export data to excel
-function ImportBankData()
+function ExportBankData()
 {
     BindOrReloadBankTable('Export');
 }

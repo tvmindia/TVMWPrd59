@@ -596,8 +596,7 @@
     <Content Include="Scripts\UserJS\Application.js" />
     <Content Include="Scripts\UserJS\AppObject.js" />
     <Content Include="Scripts\UserJS\AppSubobject.js" />
-    <Content Include="Scripts\UserJS\BankJS\AddBank.js" />
-    <Content Include="Scripts\UserJS\BankJS\ViewBank.js" />
+    <Content Include="Scripts\UserJS\Bank.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
