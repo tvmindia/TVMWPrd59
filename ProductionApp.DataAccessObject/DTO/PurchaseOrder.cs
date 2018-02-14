@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.DataAccessObject.DTO
 {
-   public class PurchaseOrderHeader
+   public class PurchaseOrder
     {
        public Guid ID { get; set; }
        public string PurchaseOrderNo { get; set; }

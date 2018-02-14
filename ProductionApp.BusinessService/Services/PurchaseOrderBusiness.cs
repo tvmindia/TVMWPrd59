@@ -16,7 +16,7 @@ namespace ProductionApp.BusinessService.Services
         {
             _purchaseOrderRepository =  purchaseOrderRepository;
         }
-        public List<PurchaseOrderHeader> GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch)
+        public List<PurchaseOrder> GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch)
         {
             return _purchaseOrderRepository.GetAllPurchaseOrder(purchaseOrderAdvanceSearch);
         }

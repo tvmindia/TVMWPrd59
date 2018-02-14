@@ -47,6 +47,7 @@
     <Compile Include="Contracts\IRequisitionRepository.cs" />
     <Compile Include="Contracts\IPurchaseOrderRepository.cs" />
     <Compile Include="Contracts\IRawMaterialRepository.cs" />
+    <Compile Include="Contracts\ISupplierRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BankRepository.cs" />
     <Compile Include="Services\DatabaseFactory.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Services\RequisitionRepository.cs" />
     <Compile Include="Services\PurchaseOrderRepository.cs" />
     <Compile Include="Services\RawMaterialRepository.cs" />
+    <Compile Include="Services\SupplierRepository.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

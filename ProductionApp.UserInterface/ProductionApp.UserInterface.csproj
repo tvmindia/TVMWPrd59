@@ -658,6 +658,7 @@
     <Compile Include="Models\PurchaseOrderViewModel.cs" />
     <Compile Include="Models\RawMaterialViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
+    <Compile Include="Models\SupplierViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

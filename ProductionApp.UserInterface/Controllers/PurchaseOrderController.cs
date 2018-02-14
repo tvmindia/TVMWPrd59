@@ -15,10 +15,12 @@ namespace ProductionApp.UserInterface.Controllers
     {
         // GET: PurchaseOrder
         private IPurchaseOrderBusiness _purchaseOrderBusiness;
+        private ISupplierBusiness _supplierBusiness;
         Common _common = new Common();
-        public PurchaseOrderController(IPurchaseOrderBusiness purchaseOrderBusiness)
+        public PurchaseOrderController(IPurchaseOrderBusiness purchaseOrderBusiness, ISupplierBusiness supplierBusiness)
         {
             _purchaseOrderBusiness = purchaseOrderBusiness;
+            _supplierBusiness = supplierBusiness;
         }
         public ActionResult ViewPurchaseOrder(string code)
         {
@@ -32,6 +34,21 @@ namespace ProductionApp.UserInterface.Controllers
             selectListItem.Add(new SelectListItem { Text = "Closed", Value = "Closed", Selected = false });
             selectListItem.Add(new SelectListItem { Text = "All", Value = "ALL", Selected = false });
             purchaseOrderAdvanceSearchVM.Status = selectListItem;
+
+            purchaseOrderAdvanceSearchVM.Supplier = new SupplierViewModel();
+            purchaseOrderAdvanceSearchVM.Supplier.SupplierList = new List<SelectListItem>();
+            selectListItem = new List<SelectListItem>();
+            List<SupplierViewModel> supplierList = Mapper.Map<List<Supplier>, List<SupplierViewModel>>(_supplierBusiness.GetAllSupplier());
+            foreach(SupplierViewModel supplier in supplierList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = supplier.CompanyName,
+                    Value = supplier.ID.ToString(),
+                    Selected = false
+                });
+            }
+            purchaseOrderAdvanceSearchVM.Supplier.SupplierList = selectListItem;
             return View(purchaseOrderAdvanceSearchVM);
         }
         #region GetAllPurchaseOrder
@@ -40,7 +57,7 @@ namespace ProductionApp.UserInterface.Controllers
         {
             purchaseOrderAdvanceSearchVM.DataTablePaging.Start = model.start;
             purchaseOrderAdvanceSearchVM.DataTablePaging.Length = (purchaseOrderAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : purchaseOrderAdvanceSearchVM.DataTablePaging.Length);
-            List<PurchaseOrderHeaderViewModel> purchaseOrderList = Mapper.Map<List<PurchaseOrderHeader>, List<PurchaseOrderHeaderViewModel>>(_purchaseOrderBusiness.GetAllPurchaseOrder(Mapper.Map<PurchaseOrderAdvanceSearchViewModel, PurchaseOrderAdvanceSearch>(purchaseOrderAdvanceSearchVM)));
+            List<PurchaseOrderViewModel> purchaseOrderList = Mapper.Map<List<PurchaseOrder>, List<PurchaseOrderViewModel>>(_purchaseOrderBusiness.GetAllPurchaseOrder(Mapper.Map<PurchaseOrderAdvanceSearchViewModel, PurchaseOrderAdvanceSearch>(purchaseOrderAdvanceSearchVM)));
             var settings = new JsonSerializerSettings
             {
                 Formatting = Formatting.None

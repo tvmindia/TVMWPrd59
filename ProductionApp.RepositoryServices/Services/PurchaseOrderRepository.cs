@@ -19,9 +19,9 @@ namespace ProductionApp.RepositoryServices.Services
         {
             _databaseFactory = databaseFactory;
         }
-        public List<PurchaseOrderHeader>GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch)
+        public List<PurchaseOrder>GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch)
         {
-            List<PurchaseOrderHeader> purchaseOrderList = null;
+            List<PurchaseOrder> purchaseOrderList = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -45,10 +45,10 @@ namespace ProductionApp.RepositoryServices.Services
                         {
                             if ((sdr != null) && (sdr.HasRows))
                             {
-                                purchaseOrderList = new List<PurchaseOrderHeader>();
+                                purchaseOrderList = new List<PurchaseOrder>();
                                 while (sdr.Read())
                                 {
-                                    PurchaseOrderHeader purchaseOrder = new PurchaseOrderHeader();
+                                    PurchaseOrder purchaseOrder = new PurchaseOrder();
                                     {
                                         purchaseOrder.ID= (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : purchaseOrder.ID);
                                         purchaseOrder.PurchaseOrderNo = (sdr["PurchaseOrderNo"].ToString() != "" ? sdr["PurchaseOrderNo"].ToString() : purchaseOrder.PurchaseOrderNo);
