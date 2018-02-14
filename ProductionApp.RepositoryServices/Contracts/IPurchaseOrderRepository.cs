@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.RepositoryServices.Contracts
 {
-    public interface IBankRepository
+    public interface IPurchaseOrderRepository
     {
-        List<Bank> GetAllBank(BankAdvanceSearch bankAdvanceSearch);
-        Bank GetBank(string code);
-        bool CheckCodeExist(string code);
-        object InsertUpdateBank(Bank bank);
+        List<PurchaseOrderHeader> GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch);
     }
 }

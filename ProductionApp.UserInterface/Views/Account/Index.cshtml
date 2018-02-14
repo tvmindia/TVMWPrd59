@@ -12,12 +12,13 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
+    
 </head>
 <body>
     <div class="container">
     <br/><br /><br />
         <div class="card card-container">
-            <div style="text-align:center;width:100%;font-size:35px;color: #3bdc92;font-family:'Lucida Sans'">
+            <div style="text-align:center;width:100%;font-size:35px;color: #015E9A;font-family:'Lucida Sans'">
             SIGN  IN
             </div>
             <p id="profile-name" class="profile-name-card"></p>
@@ -35,7 +36,7 @@
 
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
-                <button class="btn btn-lg btn-info btn-block btn-signin customLogin" type="submit">GO</button>
+                <button class="btn btn-lg btn-block btn-signin customLogin btn-info" type="submit">GO</button>
 
             }
 

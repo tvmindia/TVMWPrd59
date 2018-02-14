@@ -8,19 +8,33 @@
 }
 
 .main-footer {
+    background: #015E9A;
     padding:5px!important;
-    color:grey!important;
+    color:white!important;
     font-size:10px;
 }
-
+.main-sidebar{
+    border-right: 1px solid #015E9A!important;
+    /*background-color:black!important;*/
+}
+.skin-green-light .sidebar a{
+   /*color:white!important;*/
+}
+.btn-info {
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+}
+.lblrequired{
+    color:red!important;
+}
 .SCHeader {
-   font-size: 25px!important;
+   font-size: 20px!important;
     color:  #545454;    
     margin-left:4%;
     margin-top:0%;
     text-align:left;
-    
-    
+    text-align:center;    
 }
 
 .ReportTitle {
@@ -637,7 +651,7 @@ color: #e32;
     
 }
 .addEmp {
-    border:2px solid #8BC34A;padding-bottom:8px;z-index:10;position:absolute;border-radius:15px;width:90%;background-color:whitesmoke;
+    border:2px solid #01abe3;padding-bottom:8px;z-index:10;position:absolute;border-radius:15px;width:90%;background-color:whitesmoke;
 
 }
 .addEmp::before {
@@ -648,7 +662,7 @@ color: #e32;
 	position: absolute;
    left: 85%;
 	top: -20px;
-	border-bottom: 10px solid #8BC34A;
+	border-bottom: 10px solid #01abe3;
 }
 
 .addEmp::after {
@@ -779,7 +793,7 @@ color: #e32;
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
 
     background-color: white!important;
-    border-bottom:#8BC34A solid 3px;
+    border-bottom:#01abe3 solid 3px;
     border-top-color: white;
 }
 

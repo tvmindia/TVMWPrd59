@@ -72,6 +72,9 @@
     <Compile Include="DTO\DataTablePaging.cs" />
     <Compile Include="DTO\MaterialIssueHeader.cs" />
     <Compile Include="DTO\MaterialStockAdjHeader.cs" />
+    <Compile Include="DTO\Requisition.cs" />
+    <Compile Include="DTO\PurchaseOrder.cs" />
+    <Compile Include="DTO\RawMaterial.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

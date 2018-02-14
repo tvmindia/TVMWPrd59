@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.BusinessService.Contracts
 {
-    public interface IBankBusiness
+    public interface IRawMaterialBusiness
     {
-        List<Bank> GetAllBank(BankAdvanceSearch bankAdvanceSearch);
-        Bank GetBank(string code);
-        bool CheckCodeExist(string code);
-        object InsertUpdateBank(Bank bank);
+        List<RawMaterial> GetAllRawMaterial(RawMaterialAdvanceSearch rawMaterialAdvanceSearch);
     }
 }
