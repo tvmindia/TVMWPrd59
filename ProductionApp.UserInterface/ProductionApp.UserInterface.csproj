@@ -601,9 +601,10 @@
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
+    <Content Include="Scripts\UserJS\RequisitionJS\NewRequisition.js" />
+    <Content Include="Scripts\UserJS\RequisitionJS\RequisitionApproval.js" />
+    <Content Include="Scripts\UserJS\RequisitionJS\ViewRequisition.js" />
     <Content Include="Scripts\UserJS\PurchaseOrderJS\ViewPurchaseOrder.js" />
-    <Content Include="Scripts\UserJS\Requisition\NewRequisition.js" />
-    <Content Include="Scripts\UserJS\Requisition\ViewRequisition.js" />
     <Content Include="Scripts\UserJS\RawMaterial.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
     <Content Include="Scripts\UserJS\User.js" />
@@ -649,10 +650,14 @@
     <Compile Include="Models\DataTableAjaxPostModel.cs" />
     <Compile Include="Models\DataTablePagingViewModel.cs" />
     <Compile Include="Models\DynamicUIViewModel.cs" />
+    <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\AMCSysModuleViewModel.cs" />
+    <Compile Include="Models\IssueSummaryViewModel.cs" />
     <Compile Include="Models\ManageAccessViewModel.cs" />
     <Compile Include="Models\AMCSysMenuViewModel.cs" />
+    <Compile Include="Models\MaterialIssueViewModel.cs" />
+    <Compile Include="Models\MaterialStockAdjViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\RequisitionViewModel.cs" />
     <Compile Include="Models\PurchaseOrderViewModel.cs" />
@@ -699,6 +704,7 @@
     <Content Include="Views\DashboardSale\Index.cshtml" />
     <Content Include="Views\DashboardSettings\Index.cshtml" />
     <Content Include="Views\DashboardMaster\Index.cshtml" />
+    <Content Include="Views\DashboardStore\_IssueSummary.cshtml" />
     <Content Include="Views\Bank\_AddBankPartial.cshtml" />
     <Content Include="Views\Bank\Index.cshtml" />
     <Content Include="Views\Requisition\ViewRequisition.cshtml" />

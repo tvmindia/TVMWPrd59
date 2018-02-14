@@ -39,12 +39,18 @@ namespace ProductionApp.UserInterface.App_Start
 
                 config.CreateMap<BankViewModel, Bank>().ReverseMap();
                 config.CreateMap<BankAdvanceSearchViewModel, BankAdvanceSearch>().ReverseMap();
+                config.CreateMap<MaterialIssueViewModel, MaterialIssue>().ReverseMap();
                 config.CreateMap<RawMaterialViewModel, RawMaterial>().ReverseMap();
                 config.CreateMap<RawMaterialAdvanceSearchViewModel, RawMaterialAdvanceSearch>().ReverseMap();
                 config.CreateMap<PurchaseOrderViewModel, PurchaseOrder>().ReverseMap();
                 config.CreateMap<PurchaseOrderAdvanceSearchViewModel, PurchaseOrderAdvanceSearch>().ReverseMap();
                 config.CreateMap<SupplierViewModel, Supplier>().ReverseMap();
 
+                config.CreateMap<RequisitionViewModel, Requisition>().ReverseMap();
+                config.CreateMap<RequisitionDetailViewModel, RequisitionDetail>().ReverseMap();
+                config.CreateMap<RequisitionAdvanceSearchViewModel, RequisitionAdvanceSearch>().ReverseMap();
+                config.CreateMap<EmployeeViewModel, Employee>().ReverseMap();
+                config.CreateMap<MaterialStockAdjViewModel, MaterialStockAdj>().ReverseMap();
             });
         }
     }

@@ -29,8 +29,9 @@ namespace ProductionApp.UserInterface.Controllers
         // GET: Roles
         [AuthSecurityFilter(ProjectObject = "Roles", Mode = "R")]
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string code)
         {
+            ViewBag.SysModuleCode = code;
             RolesViewModel _rolesObj = new RolesViewModel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();

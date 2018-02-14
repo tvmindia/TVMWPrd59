@@ -21,7 +21,7 @@
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo -->
-            <a href="Home" class="logo">
+            <a href="@Url.Action("Index", "Home")" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>M ERP</b></span>
                 <!-- logo for regular state and mobile devices -->
@@ -126,7 +126,7 @@
         <!-- Left side column. contains the logo and sidebar -->
         @Html.Action("_MenuNavBar", "DynamicUI", new { Code = sysModuleCode })
 
-        <!-- Content Wrapper. Contains page content -->
+        <!-- Content Wrapper. Contains page content --> 
         <div class="content-wrapper">
             <div class="container-fluid">
                 @RenderBody()

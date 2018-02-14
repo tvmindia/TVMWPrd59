@@ -24,8 +24,9 @@ namespace ProductionApp.UserInterface.Controllers
         // GET: AppObject
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
-        public ActionResult Index()
+        public ActionResult Index(string code)
         {
+            ViewBag.SysModuleCode = code;
             if (Request.QueryString["appId"] != null)
             {
                 string Appid = Request.QueryString["appId"].ToString();
@@ -50,11 +51,12 @@ namespace ProductionApp.UserInterface.Controllers
         }
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "AppObject", Mode = "R")]
-        public ActionResult Subobjects(string id)
+        public ActionResult Subobjects(string id,string appId, string code)
         {
+            ViewBag.SysModuleCode = code;
             ViewBag.objectID = id;
-            string Appid = Request.QueryString["appId"].ToString();
-            ViewBag.AppID = Appid;
+            //string Appid = Request.QueryString["appId"].ToString();
+            ViewBag.AppID = appId;
 
             AppSubobjectViewmodel appObjectVM = new AppSubobjectViewmodel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
@@ -72,7 +74,7 @@ namespace ProductionApp.UserInterface.Controllers
             appObjectVM.ApplicationList = selectListItem;
 
             selectListItem = new List<SelectListItem>();
-            List<AppObjectViewModel> List = Mapper.Map<List<AppObject>, List<AppObjectViewModel>>(_appObjectBusiness.GetAllAppObjects(Guid.Parse(Appid)));
+            List<AppObjectViewModel> List = Mapper.Map<List<AppObject>, List<AppObjectViewModel>>(_appObjectBusiness.GetAllAppObjects(Guid.Parse(appId)));
             foreach (AppObjectViewModel appObjectVMObj in List)
             {
                 selectListItem.Add(new SelectListItem

@@ -28,9 +28,9 @@ namespace ProductionApp.UserInterface.Controllers
         }
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "ManageAccess", Mode = "R")]
-        public ActionResult Index()
+        public ActionResult Index(string code)
         {
-            ViewBag.SysModuleCode = "";
+            ViewBag.SysModuleCode = code;
             ManageAccessViewModel _manageAccessViewModelObj = new ManageAccessViewModel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             selectListItem = new List<SelectListItem>();
