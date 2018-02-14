@@ -1,0 +1,63 @@
+﻿@model ProductionApp.UserInterface.Models.IssueSummaryViewModel
+
+<div class="col-md-12">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">@Model.Title</h3>
+        </div>
+
+        <div class="with-border @Model.Color " style="height:2px!important"></div>
+        <div class="box-body">
+            <div class="table-responsive">
+                <table class="table no-margin">
+                    <thead style="display:table;width:100%;table-layout:fixed;">
+                        <tr>
+                            <th>Issue No.</th>
+                            <th>Issued To</th>
+                            <th>Issued By</th>
+                            <th>Issue Date</th>
+                        </tr>
+                    </thead>
+                    <tbody style="height:100px;max-height:500px;display:block;overflow-y:scroll;table-layout:auto;">
+                        @if (Model.MaterialIssueHeaderList != null)
+                        {
+                            for (int i = 0; i < Model.MaterialIssueHeaderList.Count; i++)
+                            {
+                                <tr>
+                                    <th><a href="@Model.MaterialIssueHeaderList[i].ID">@Model.MaterialIssueHeaderList[i].IssueNo</a></th>
+                                    <td>@Model.MaterialIssueHeaderList[i].IssueToEmployee.Name</td>
+                                    <td>@Model.MaterialIssueHeaderList[i].IssuedByEmployee.Name</td>
+                                    <td><span class="label label-info">@Model.MaterialIssueHeaderList[i].IssueDate</span></td>
+                                </tr>
+                            }
+
+                            for (int i = (Model.MaterialIssueHeaderList == null ? 0 : Model.MaterialIssueHeaderList.Count); i < 5; i++)
+                            {
+                                <tr>
+                                    <th>-</th>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td><span class="label label-info">-</span></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < 5; i++)
+                            {
+                                <tr>
+                                    <th>-</th>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td><span class="label label-info">-</span></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>

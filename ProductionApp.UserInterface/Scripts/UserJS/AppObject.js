@@ -22,7 +22,7 @@ $(document).ready(function () {
              ],
              columnDefs: [{ "targets": [0], "visible": false, "searchable": false }, {
                  "targets": [5], "render": function (data, type, row) {
-                     return '<a href="/AppObject/Subobjects/' + row.ID + '?appId=' + row.AppID + '" >Manage Sub-objects</a>'
+                     return '<a href="/AppObject/Subobjects?id=' + row.ID + '&appId=' + row.AppID + '&code=SETT" >Manage Sub-objects</a>'
                  } 
              }
              ]

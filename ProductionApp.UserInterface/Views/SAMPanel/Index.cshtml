@@ -63,7 +63,7 @@
                                     <div class="list-group-item">
 
                                         <div class="col-md-10">
-                                            <a href="/@svm.Controller/@svm.Action" class="btn btn-link">
+                                            <a href="@Url.Action(svm.Action, svm.Controller,new { code = ViewBag.SysModuleCode })" class="btn btn-link">
                                                 <h4 class="list-group-item-heading"> @svm.LinkName </h4>
                                             </a>
                                             <p class="list-group-item-text ListDesc">
@@ -94,7 +94,7 @@
                                     <div class="list-group-item">
 
                                         <div class="col-md-10">
-                                            <a href="/@svm.Controller/@svm.Action" class="btn btn-link">
+                                            <a href="@Url.Action(svm.Action, svm.Controller,new { code = ViewBag.SysModuleCode })" class="btn btn-link">
                                                 <h4 class="list-group-item-heading"> @svm.LinkName </h4>
                                             </a>
                                             <p class="list-group-item-text ListDesc">

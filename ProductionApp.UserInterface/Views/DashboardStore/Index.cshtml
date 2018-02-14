@@ -1,8 +1,49 @@
-﻿
+﻿@using ProductionApp.UserInterface.App_Start
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
-<h2>Index</h2>
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li>Store</li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div> 
 
+<h2>Index</h2>
+<div class="col-md-12">
+    <div class="col-md-4">
+        <div class="col-md-12" style="width:100%">@*min-height:10px;max-height:50px;*@@*background-color:greenyellow;*@
+            @{
+                @Html.Action("IssueSummary", "DashboardStore");
+            }
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+        <div class="col-md-12" style="background-color:aqua;height:260px;">
+            @{ 
+                @*Html.Action("MyApprovals", "DashboardStore");*@
+            }
+            <div class="col-md-12">&nbsp;</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        @{ 
+            @*Html.Action("RecentMRNLink", "DashboardStore");*@
+        }
+        <div class="col-md-12" style="background-color:orangered">
+            <div class="col-md-12">&nbsp;</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        @{ 
+            @*Html.Action("ReOrderAlert", "DashboardStore");*@
+        }
+        <div class="col-md-12" style="background-color:mediumvioletred">
+            <div class="col-md-12">&nbsp;</div>
+        </div>
+    </div>
+</div>
+
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")

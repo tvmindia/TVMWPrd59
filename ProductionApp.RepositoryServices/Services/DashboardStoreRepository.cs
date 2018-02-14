@@ -24,7 +24,7 @@ namespace ProductionApp.RepositoryServices.Services
         public List<MaterialIssue> GetRecentIssueSummary()
         {
             List<MaterialIssue> materialIssueList = new List<MaterialIssue>();
-            MaterialIssue materialIssueHeader = null;
+            MaterialIssue materialIssue = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -44,14 +44,17 @@ namespace ProductionApp.RepositoryServices.Services
                             {
                                 while (sdr.Read())
                                 {
-                                    materialIssueHeader = new MaterialIssue();
-                                    materialIssueHeader.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
-                                    materialIssueHeader.IssueNo= (sdr["IssueNo"].ToString() != "" ? sdr["IssueNo"].ToString() : materialIssueHeader.IssueNo);
-                                    materialIssueHeader.IssueTo= (sdr["IssueTo"].ToString() != "" ? Guid.Parse(sdr["IssueTo"].ToString()) : materialIssueHeader.IssueTo);
-                                    materialIssueHeader.IssuedBy= (sdr["IssuedBy"].ToString() != "" ? Guid.Parse(sdr["IssuedBy"].ToString()) : materialIssueHeader.IssuedBy);
-                                    materialIssueHeader.IssueDate = (sdr["IssueDate"].ToString() != "" ? DateTime.Parse(sdr["IssueDate"].ToString()).ToString(settings.DateFormat) : materialIssueHeader.IssueDate);
-
-                                    materialIssueList.Add(materialIssueHeader);
+                                    materialIssue = new MaterialIssue();
+                                    materialIssue.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    materialIssue.IssueNo= (sdr["IssueNo"].ToString() != "" ? sdr["IssueNo"].ToString() : materialIssue.IssueNo);
+                                    materialIssue.IssueTo= (sdr["IssueTo"].ToString() != "" ? Guid.Parse(sdr["IssueTo"].ToString()) : materialIssue.IssueTo);
+                                    materialIssue.IssuedBy= (sdr["IssuedBy"].ToString() != "" ? Guid.Parse(sdr["IssuedBy"].ToString()) : materialIssue.IssuedBy);
+                                    materialIssue.IssueDate = (sdr["IssueDate"].ToString() != "" ? DateTime.Parse(sdr["IssueDate"].ToString()).ToString(settings.DateFormat) : materialIssue.IssueDate);
+                                    materialIssue.IssuedByEmployee = new Employee();
+                                    materialIssue.IssueToEmployee = new Employee();
+                                    materialIssue.IssuedByEmployee.Name= (sdr["IssuedByName"].ToString() != "" ? sdr["IssuedByName"].ToString() : materialIssue.IssuedByEmployee.Name);
+                                    materialIssue.IssueToEmployee.Name = (sdr["IssueToName"].ToString() != "" ? sdr["IssueToName"].ToString() : materialIssue.IssueToEmployee.Name);
+                                    materialIssueList.Add(materialIssue);
                                 }
                             }
                         }
