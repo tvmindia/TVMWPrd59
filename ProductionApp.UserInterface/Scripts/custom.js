@@ -124,12 +124,14 @@ $(document).ready(function () {
 });
 //for showing loading while saving data
 function OnMasterBegin() {
-    $('#imgMasterLoading').show()
+    debugger;
     $('#btnSaveMaster').prop('disabled', true);
+    $('#imgMasterLoading').show()    
 }
 function OnMasterComplete() {
-    $('#imgMasterLoading').fadeOut(1000)
     $('#btnSaveMaster').prop('disabled', false);
+    $('#imgMasterLoading').fadeOut(1000)
+    
 }
 function OnServerCallBegin(){
     $('#divLoader').show();    
@@ -138,6 +140,26 @@ function OnServerCallComplete() {
     $('#divLoader').fadeOut(1000);
 }
 //---------------------------------------------
+function MasterAlert(type,msgtxt,title)
+{
+    $.notify({
+        title: title,
+        message: msgtxt
+    }, {
+        type: 'pastel-' + type,
+        allow_dismiss: false,
+        placement: {
+            from: 'top',
+            align: 'right'
+        },
+        z_index: 21031,
+        delay: 5000,
+        template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+            '<span data-notify="title">{1}</span>' +
+            '<span data-notify="message">{2}</span>' +
+        '</div>'
+    });
+}
 function notyAlert(type, msgtxt,title) {
     var t = '';
     if (title == undefined) {

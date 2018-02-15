@@ -29,11 +29,6 @@ namespace ProductionApp.UserInterface.Controllers
             //ViewBag.fromDate=_common.
             PurchaseOrderAdvanceSearchViewModel purchaseOrderAdvanceSearchVM = new PurchaseOrderAdvanceSearchViewModel();
             List<SelectListItem> selectListItem = new List<SelectListItem>();
-            selectListItem = new List<SelectListItem>();
-            selectListItem.Add(new SelectListItem { Text = "Open", Value = "Open", Selected = true });
-            selectListItem.Add(new SelectListItem { Text = "Closed", Value = "Closed", Selected = false });
-            selectListItem.Add(new SelectListItem { Text = "All", Value = "ALL", Selected = false });
-            purchaseOrderAdvanceSearchVM.Status = selectListItem;
 
             purchaseOrderAdvanceSearchVM.Supplier = new SupplierViewModel();
             purchaseOrderAdvanceSearchVM.Supplier.SupplierList = new List<SelectListItem>();

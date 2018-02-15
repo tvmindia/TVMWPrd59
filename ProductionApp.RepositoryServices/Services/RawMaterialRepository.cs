@@ -14,10 +14,18 @@ namespace ProductionApp.RepositoryServices.Services
     {
         private IDatabaseFactory _databaseFactory;
         AppConst _appConst = new AppConst();
+
+        #region Constructor Injection
+        /// <summary>
+        /// Constructor Injection:-Getting IDatabaseFactory implementing object
+        /// </summary>
+        /// <param name="databaseFactory"></param>
         public RawMaterialRepository(IDatabaseFactory databaseFactory)
         {
             _databaseFactory = databaseFactory;
         }
+        #endregion Constructor Injection
+
         #region GetAllRawMaterial
         /// <summary>
         /// To Get List of All raw materials
@@ -64,6 +72,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         rawMaterial.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : rawMaterial.Type);
                                         rawMaterial.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : rawMaterial.Description);
                                         rawMaterial.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : rawMaterial.UnitCode);
+                                        rawMaterial.ReorderQty = (sdr["ReorderQty"].ToString() != "" ? decimal.Parse(sdr["ReorderQty"].ToString()) : rawMaterial.ReorderQty);
                                         rawMaterial.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : rawMaterial.FilteredCount);
                                         rawMaterial.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : rawMaterial.TotalCount);
                                     }
@@ -89,7 +98,7 @@ namespace ProductionApp.RepositoryServices.Services
         /// <param name="materialCode"></param>
         /// <returns>bool</returns>
         public bool CheckMaterialCodeExist(string materialCode)
-        {
+       {
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -160,7 +169,7 @@ namespace ProductionApp.RepositoryServices.Services
                 switch (outputStatus.Value.ToString())
                 {
                     case "0":
-                        throw new Exception(_appConst.InsertFailure);
+                        throw new Exception(rawMaterial.IsUpdate ? _appConst.UpdateFailure:_appConst.InsertFailure);
                     case "1":
                         rawMaterial.ID = Guid.Parse(OutputID.Value.ToString());
                         return new
@@ -183,6 +192,58 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
         #endregion InsertUpdateRawMaterial
+
+        #region GetRawMaterial
+        /// <summary>
+        /// To Get RawMaterial Details corresponding to ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>RawMaterial</returns>
+        public RawMaterial GetRawMaterial(Guid id)
+        {
+            RawMaterial rawMaterial=null;
+
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRawMaterial]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    rawMaterial = new RawMaterial();
+                                    rawMaterial.ID = sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : rawMaterial.ID;
+                                    rawMaterial.MaterialCode = sdr["MaterialCode"].ToString() != "" ? (sdr["MaterialCode"].ToString()) : rawMaterial.MaterialCode;
+                                    rawMaterial.Rate = sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : rawMaterial.Rate;
+                                    rawMaterial.Type = sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : rawMaterial.Type;
+                                    rawMaterial.Description = sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : rawMaterial.Description;
+                                    rawMaterial.UnitCode = sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : rawMaterial.UnitCode;
+                                    rawMaterial.ReorderQty = sdr["ReorderQty"].ToString() != "" ? decimal.Parse(sdr["ReorderQty"].ToString()) : rawMaterial.ReorderQty;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return rawMaterial;
+        }
+        #endregion GetRawMaterial
 
     }
 }

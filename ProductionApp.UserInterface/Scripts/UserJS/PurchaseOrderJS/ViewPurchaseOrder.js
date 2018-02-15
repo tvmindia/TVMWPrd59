@@ -16,15 +16,20 @@ function BindOrReloadPurchaseOrderTable(action) {
         debugger;
     PurchaseOrderAdvanceSearchViewModel = new Object();
     DataTablePagingViewModel = new Object();
+    SupplierViewModel = new Object();
     DataTablePagingViewModel.Length = 0;
     //switch case to check the operation
     switch (action) {
         case 'Reset':
             $('#SearchTerm').val('');
+            $('#FromDate').val('');
+            $('#ToDate').val('');
+            $('#Supplier_ID').val('');
+            $('#Status').val('');
             break;
         case 'Init':
             break;
-        case 'Search':
+        case 'Apply':
             break;
         case 'Export':
             DataTablePagingViewModel.Length = -1;
@@ -34,6 +39,11 @@ function BindOrReloadPurchaseOrderTable(action) {
     }
     PurchaseOrderAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
     PurchaseOrderAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+    PurchaseOrderAdvanceSearchViewModel.FromDate = $('#FromDate').val();
+    PurchaseOrderAdvanceSearchViewModel.ToDate = $('#ToDate').val();
+    SupplierViewModel.ID = $('#Supplier_ID').val();
+    PurchaseOrderAdvanceSearchViewModel.Supplier = SupplierViewModel;
+    PurchaseOrderAdvanceSearchViewModel.Status = $('#Status').val();
     DataTables.PurchaseOrderList = $('#tblPurchaseOrder').DataTable(
         {
             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
