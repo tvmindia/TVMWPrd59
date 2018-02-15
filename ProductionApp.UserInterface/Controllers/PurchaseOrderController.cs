@@ -25,27 +25,15 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ViewPurchaseOrder(string code)
         {
             ViewBag.SysModuleCode = code;
-            //ViewBag.toDate = (_common.GetCurrentDateTime()).ToString("dd-MMM-yyyy");
-            //ViewBag.fromDate=_common.
-            PurchaseOrderAdvanceSearchViewModel purchaseOrderAdvanceSearchVM = new PurchaseOrderAdvanceSearchViewModel();
-            List<SelectListItem> selectListItem = new List<SelectListItem>();
-
-            purchaseOrderAdvanceSearchVM.Supplier = new SupplierViewModel();
-            purchaseOrderAdvanceSearchVM.Supplier.SupplierList = new List<SelectListItem>();
-            selectListItem = new List<SelectListItem>();
-            List<SupplierViewModel> supplierList = Mapper.Map<List<Supplier>, List<SupplierViewModel>>(_supplierBusiness.GetAllSupplier());
-            foreach(SupplierViewModel supplier in supplierList)
-            {
-                selectListItem.Add(new SelectListItem
-                {
-                    Text = supplier.CompanyName,
-                    Value = supplier.ID.ToString(),
-                    Selected = false
-                });
-            }
-            purchaseOrderAdvanceSearchVM.Supplier.SupplierList = selectListItem;
-            return View(purchaseOrderAdvanceSearchVM);
+            return View();
         }
+
+        public ActionResult NewPurchaseOrder(string code)
+        {
+            PurchaseOrderViewModel purchaseOrderVM = new PurchaseOrderViewModel();
+            return View();
+        }
+
         #region GetAllPurchaseOrder
         [HttpPost]
         public JsonResult GetAllPurchaseOrder(DataTableAjaxPostModel model, PurchaseOrderAdvanceSearchViewModel purchaseOrderAdvanceSearchVM)

@@ -1,0 +1,3 @@
+﻿@model ProductionApp.UserInterface.Models.SupplierViewModel
+@Html.DropDownList("Supplier_ID", Model.SelectList,"-----select supplier----", new { @class = "form-control" })
+@Html.ValidationMessage("Supplier_ID", "", new { @class = "text-danger" })

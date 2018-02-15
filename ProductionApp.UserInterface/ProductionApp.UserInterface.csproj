@@ -641,6 +641,7 @@
     <Compile Include="Controllers\RawMaterialController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SAMPanelController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -721,6 +722,8 @@
     <Content Include="Views\RawMaterial\_AddRawMaterialPartial.cshtml" />
     <Content Include="Views\DashboardStore\_ReceiptSummary.cshtml" />
     <Content Include="Views\PurchaseOrder\NewPurchaseOrder.cshtml" />
+    <Content Include="Views\Supplier\Index.cshtml" />
+    <Content Include="Views\Supplier\_SupplierDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -73,7 +73,7 @@
                     <div class="col-md-5">
                         @Html.LabelFor(model => model.Supplier, htmlAttributes: new { @class = "control-label" })
                         <div class="col-md-12">
-                            @Html.DropDownListFor(model => model.Supplier.ID, Model.Supplier.SupplierList,"-------select Supplier-------", new { @class = "form-control BlockEnter", value = 0, style = "padding:4px 12px;" })
+                            @Html.Action("SupplierDropdown", "Supplier")
                         </div>
                     </div>
 

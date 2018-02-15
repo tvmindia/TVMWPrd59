@@ -11,15 +11,25 @@ namespace ProductionApp.UserInterface.Models
         public class PurchaseOrderViewModel
         {
             public Guid ID { get; set; }
+            [Display(Name = "PO Number")]
             public string PurchaseOrderNo { get; set; }
+            [Display(Name = "PO Dtae")]
             public DateTime PurchaseOrderDate { get; set; }
+            [Display(Name = "PO Issued Dtae")]
             public DateTime PurchaseOrderIssuedDate { get; set; }
             public Guid SupplierID { get; set; }
+            [Display(Name = "Title")]
             public string PurchaseOrderTitle { get; set; }
+            [Display(Name = "Mailing Address")]
+            [DataType(DataType.MultilineText)]
             public string MailingAddress { get; set; }
+            [Display(Name = "Shipping Address")]
+            [DataType(DataType.MultilineText)]
             public string ShippingAddress { get; set; }
             public decimal Discount { get; set; }
+            [DataType(DataType.MultilineText)]
             public string GeneralNotes { get; set; }
+            [Display(Name = "PO Status")]
             public string PurchaseOrderStatus { get; set; }
             public string MailBodyHeader { get; set; }
             public string MailBodyFooter { get; set; }
