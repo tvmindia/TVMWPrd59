@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using ProductionApp.BusinessService.Contracts;
+using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
 using ProductionApp.UserInterface.SecurityFilter;
 
@@ -10,7 +13,14 @@ namespace ProductionApp.UserInterface.Controllers
 {
     public class RequisitionController : Controller
     {
+
         // GET: Requisitions
+        private IRequisitionBusiness _requisitionBusiness;
+        Common _common = new Common();
+        public RequisitionController(IRequisitionBusiness requisitionBusiness)
+        {
+            _requisitionBusiness = requisitionBusiness;
+        }
         public ActionResult ViewRequisition(string code)
         {
             ViewBag.SysModuleCode = code;
@@ -28,6 +38,26 @@ namespace ProductionApp.UserInterface.Controllers
             ViewBag.SysModuleCode = code;
             return View();
         }
+
+        #region GetAllRequisition
+        public JsonResult GetAllRequisition(DataTableAjaxPostModel model, RequisitionAdvanceSearchViewModel requisitionAdvanceSearchVM) 
+        {
+            requisitionAdvanceSearchVM.DataTablePaging.Start = model.start;
+            requisitionAdvanceSearchVM.DataTablePaging.Length = (requisitionAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : requisitionAdvanceSearchVM.DataTablePaging.Length);
+            List<RequisitionViewModel> requisitionOrderList = Mapper.Map<List<Requisition>, List<RequisitionViewModel>>(_requisitionBusiness.GetAllRequisition(Mapper.Map<RequisitionAdvanceSearchViewModel, RequisitionAdvanceSearch>(requisitionAdvanceSearchVM)));
+
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = requisitionOrderList.Count != 0 ? requisitionOrderList[0].TotalCount : 0,
+                recordsFiltered = requisitionOrderList.Count != 0 ? requisitionOrderList[0].FilteredCount : 0,
+                data = requisitionOrderList
+            });
+        }
+
+
+        #endregion GetAllRequisition
 
 
         #region ButtonStyling
