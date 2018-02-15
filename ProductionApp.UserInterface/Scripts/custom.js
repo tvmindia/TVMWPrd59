@@ -124,12 +124,14 @@ $(document).ready(function () {
 });
 //for showing loading while saving data
 function OnMasterBegin() {
-    $('#imgMasterLoading').show()
+    debugger;
     $('#btnSaveMaster').prop('disabled', true);
+    $('#imgMasterLoading').show()    
 }
 function OnMasterComplete() {
-    $('#imgMasterLoading').fadeOut(1000)
     $('#btnSaveMaster').prop('disabled', false);
+    $('#imgMasterLoading').fadeOut(1000)
+    
 }
 function OnServerCallBegin(){
     $('#divLoader').show();    
