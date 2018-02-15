@@ -12,6 +12,7 @@ namespace ProductionApp.BusinessService.Services
     public class RawMaterialBusiness:IRawMaterialBusiness
     {
         private IRawMaterialRepository _rawMaterialRepository;
+
         public RawMaterialBusiness(IRawMaterialRepository rawMaterialRepository)
         {
             _rawMaterialRepository = rawMaterialRepository;
@@ -28,5 +29,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _rawMaterialRepository.InsertUpdateRawMaterial(rawMaterial);
         }
+        public RawMaterial GetRawMaterial(Guid id)
+        {
+            return _rawMaterialRepository.GetRawMaterial(id);
+        }
+
     }
 }

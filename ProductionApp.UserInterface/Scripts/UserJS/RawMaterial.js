@@ -1,8 +1,20 @@
-﻿var DataTables = {};
+﻿
+//*****************************************************************************
+//*****************************************************************************
+//Author: Jais
+//CreatedDate: 13-Feb-2018 
+//LastModified: 15-Feb-2018 
+//FileName: RawMaterial.js
+//Description: Client side coding for RawMaterial
+//******************************************************************************
+//******************************************************************************
+
+//--Global Declaration--//
+var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
-//-------------------------------------------------------------
+
+//--Loading DOM--//
 $(document).ready(function () {
-    debugger;
     try {
         debugger;
         BindOrReloadRawMaterialTable('Init');
@@ -11,10 +23,10 @@ $(document).ready(function () {
         console.log(e.message);
     }
 });
-//function bind the Raw Material list checking search and filter
+
+//--function bind the Raw Material list checking search and filter--//
 function BindOrReloadRawMaterialTable(action) {
     try {
-        debugger;
         //creating advancesearch object
         RawMaterialAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
@@ -45,7 +57,7 @@ function BindOrReloadRawMaterialTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [0, 1,2,3,4]
+                                 columns: [ 1,2,3,4,5,6]
                              }
             }],
             order: false,
@@ -61,20 +73,18 @@ function BindOrReloadRawMaterialTable(action) {
             },
             pageLength: 10,
             columns: [
+            { "data": "ID", "defaultContent": "<i>-</i>" },
             { "data": "MaterialCode", "defaultContent": "<i>-</i>" },
             { "data": "Rate", "defaultContent": "<i>-</i>" },
             { "data": "Type", "defaultContent": "<i>-<i>" },
             { "data": "Description", "defaultContent": "<i>-<i>" },
             { "data": "UnitCode", "defaultContent": "<i>-<i>" },
-            {
-                "data": "Code", "orderable": false, render: function (data, type, row) {
-                    return '<a href="/RawMaterial/AddRawMaterial?code=MSTR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
-                }, "defaultContent": "<i>-</i>"
-            }
+            { "data": "ReorderQty", "defaultContent": "<i>-<i>" },
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditRawMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
-            columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [1] },
-                { className: "text-left", "targets": [0, 2, 3,4,5] },
+            columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
+                { className: "text-right", "targets": [2,6] },
+                { className: "text-left", "targets": [1, 3,4,5,6] },
                 { className: "text-center", "targets": [] }],
             destroy: true,
             //for performing the import operation after the data loaded
@@ -92,50 +102,51 @@ function BindOrReloadRawMaterialTable(action) {
     }
 }
 
-//function reset the list to initial
+//--function reset the list to initial--//
 function ResetRawMaterialList()
 {
     BindOrReloadRawMaterialTable('Reset');
 }
 
-//function export data to excel
+//--function export data to excel--//
 function ImportRawMaterialData()
 {
     BindOrReloadRawMaterialTable('Export');
 }
 
-// add Raw material
+//-- add Raw material--//
 function AddRawMaterialMaster()
 {
     GetMasterPartial("RawMaterial", "");
-    $('#h3ModelMasterContextLabel').text('Add RawMaterial')
+    $('#h3ModelMasterContextLabel').text('Add Raw Material')
     $('#divModelMasterPopUp').modal('show');
 }
 
-//edit Raw material
+//--edit Raw material--//
 function EditRawMaterialMaster(this_obj) {
-    debugger;
-    rowData = DataTables.RawMaterialList.row($(this_obj).parents('tr')).data();
-    GetMasterPartial("RawMaterial", rowData.Code);
-    $('#h3ModelMasterContextLabel').text('Edit RawMaterial')
+    rowData = DataTables.rawMaterialList.row($(this_obj).parents('tr')).data();
+    GetMasterPartial("RawMaterial", rowData.ID);
+    $('#h3ModelMasterContextLabel').text('Edit Raw Material')
     $('#divModelMasterPopUp').modal('show');
 }
 
-// Function After Save 
+//-- Function After Save --//
 function SaveSuccessRawMaterial(data, status)
 {
     debugger;
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
+            $('#IsUpdate').val('True');
+            $('#ID').val(JsonResult.Records.ID);
             BindOrReloadRawMaterialTable('Reset');
-            notyAlert('success', JsonResult.Records.Message);           
+            MasterAlert("success", JsonResult.Records.Message, "Success")                    
             break;
         case "ERROR":
-            notyAlert('error', JsonResult.Message);
+            MasterAlert("danger", JsonResult.Message, "Error")
             break;
         default:
-            notyAlert('error', JsonResult.Message);
+            MasterAlert("danger", JsonResult.Message, "Error")
             break;
     }
 }

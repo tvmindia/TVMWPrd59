@@ -12,5 +12,6 @@ namespace ProductionApp.BusinessService.Contracts
         List<RawMaterial> GetAllRawMaterial(RawMaterialAdvanceSearch rawMaterialAdvanceSearch);
         bool CheckMaterialCodeExist(string materialCode);
         object InsertUpdateRawMaterial(RawMaterial rawMaterial);
+        RawMaterial GetRawMaterial(Guid id);
     }
 }
