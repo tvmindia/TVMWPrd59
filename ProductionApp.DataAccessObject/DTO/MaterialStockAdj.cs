@@ -11,10 +11,11 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid ID { get; set; }
         public Guid AdjustedBy { get; set; }
         public Guid LatestApprovalID { get; set; }
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
+        public string DateFormatted { get; set; }
         public string Remarks { get; set; }
         public int LatestApprovalstatus { get; set; }
         public bool IsFinalApproved { get; set; }
-        public Common common { get; set; }
+        public Common Common { get; set; }
     }
 }

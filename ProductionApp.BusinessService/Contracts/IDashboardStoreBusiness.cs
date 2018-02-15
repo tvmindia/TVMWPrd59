@@ -10,5 +10,6 @@ namespace ProductionApp.BusinessService.Contracts
     public interface IDashboardStoreBusiness
     {
         List<MaterialIssue> GetRecentIssueSummary();
+        List<MaterialReceipt> GetRecentMaterialReceiptSummary();
     }
 }

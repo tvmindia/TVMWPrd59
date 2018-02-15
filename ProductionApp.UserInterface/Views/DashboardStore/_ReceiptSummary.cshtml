@@ -1,6 +1,6 @@
-﻿@model ProductionApp.UserInterface.Models.IssueSummaryViewModel
+﻿@model ProductionApp.UserInterface.Models.ReceiptSummaryViewModel
 
-<div class="col-md-12">
+<div class="col-md-12" style="height:500px">
     <div class="box box-info">
         <div class="box-header with-border">
             <h3 class="box-title">@Model.Title</h3>
@@ -18,38 +18,38 @@
                             <th>Issue Date</th>
                         </tr>
                     </thead>
-                    <tbody style="height:150px;max-height:500px;display:block;overflow-y:scroll;table-layout:auto;">
-                        @if (Model.MaterialIssueList != null)
+                    <tbody style="display:block;overflow-y:scroll;table-layout:auto;height:475px">
+                        @if (Model.MaterialReceiptList != null)
                         {
-                            for (int i = 0; i < Model.MaterialIssueList.Count; i++)
+                            for (int i = 0; i < Model.MaterialReceiptList.Count; i++)
                             {
                                 <tr>
-                                    <th><a href="@Model.MaterialIssueList[i].ID">@Model.MaterialIssueList[i].IssueNo</a></th>
-                                    <td>@Model.MaterialIssueList[i].IssueToEmployee.Name</td>
-                                    <td>@Model.MaterialIssueList[i].IssuedByEmployee.Name</td>
-                                    <td><span class="label label-info @Model.Color ">@Model.MaterialIssueList[i].IssueDateFormatted</span></td>
+                                    <th><a href="@Model.MaterialReceiptList[i].ID">@Model.MaterialReceiptList[i].MRNNo</a></th>
+                                    <td>@Model.MaterialReceiptList[i].PurchaseOrder.PurchaseOrderTitle</td>
+                                    <td>@Model.MaterialReceiptList[i].Supplier.CompanyName</td>
+                                    <td><span class="label label-info  @Model.Color">@Model.MaterialReceiptList[i].MRNDateFormatted</span></td>
                                 </tr>
                             }
 
-                            for (int i = (Model.MaterialIssueList == null ? 0 : Model.MaterialIssueList.Count); i < 5; i++)
+                            for (int i = (Model.MaterialReceiptList == null ? 0 : Model.MaterialReceiptList.Count); i < 10; i++)
                             {
                                 <tr>
                                     <th>-</th>
                                     <td>-</td>
                                     <td>-</td>
-                                    <td><span class="label label-info @Model.Color ">-</span></td>
+                                    <td><span class="label label-info  @Model.Color">-</span></td>
                                 </tr>
                             }
                         }
                         else
                         {
-                            for (int i = 0; i < 5; i++)
+                            for (int i = 0; i < 10; i++)
                             {
                                 <tr>
                                     <th>-</th>
                                     <td>-</td>
                                     <td>-</td>
-                                    <td><span class="label label-info @Model.Color ">-</span></td>
+                                    <td><span class="label label-info bg @Model.Color">-</span></td>
                                 </tr>
                             }
                         }

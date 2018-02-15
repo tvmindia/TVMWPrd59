@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProductionApp.UserInterface.Models;
 
 namespace ProductionApp.UserInterface.Models
 {
-    public class IssueSummaryViewModel
+    public class ReceiptSummaryViewModel
     {
         public string URL { get; set; }
         public string Title { get; set; }
         public string Color { get; set; }
-        public List<MaterialIssueViewModel> MaterialIssueList { get; set; }
+        public List<MaterialReceiptViewModel> MaterialReceiptList { get; set; }
     }
 }

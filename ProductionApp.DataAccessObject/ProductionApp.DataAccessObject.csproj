@@ -65,6 +65,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\ApprovalLog.cs" />
+    <Compile Include="DTO\ApprovalStatus.cs" />
     <Compile Include="DTO\Bank.cs" />
     <Compile Include="DTO\Common.cs" />
     <Compile Include="DTO\AMCSysModule.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="DTO\DataTablePaging.cs" />
     <Compile Include="DTO\Employee.cs" />
     <Compile Include="DTO\MaterialIssue.cs" />
+    <Compile Include="DTO\MaterialReceipt.cs" />
     <Compile Include="DTO\MaterialStockAdj.cs" />
     <Compile Include="DTO\Requisition.cs" />
     <Compile Include="DTO\PurchaseOrder.cs" />

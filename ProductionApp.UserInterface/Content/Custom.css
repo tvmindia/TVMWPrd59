@@ -724,15 +724,14 @@ color: #e32;
 }
 
 .headSeperator {
-    font-size:20px;
-   color:#9ec2c4;
-   border-bottom:1px solid #c2dee0;
-   text-align:left;
-   margin-left:5%;
-   margin-top:15px;
-   
-   margin-bottom:25px;
-   width:80%;
+  font-size:20px;
+  color:#9ec2c4;
+  border-bottom:1px solid #c2dee0;
+  text-align:left;
+  /*margin-left:5%;*/
+  margin-top:15px;
+  margin-bottom:25px;
+  /*width:80%;*/
 }
 
 .OverlayHeader {

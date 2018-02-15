@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using ProductionApp.BusinessService.Contracts;
+using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
 using ProductionApp.UserInterface.SecurityFilter;
 
@@ -10,7 +13,14 @@ namespace ProductionApp.UserInterface.Controllers
 {
     public class RequisitionController : Controller
     {
+
         // GET: Requisitions
+        private IRequisitionBusiness _requisitionBusiness;
+        Common _common = new Common();
+        public RequisitionController(IRequisitionBusiness requisitionBusiness)
+        {
+            _requisitionBusiness = requisitionBusiness;
+        }
         public ActionResult ViewRequisition(string code)
         {
             ViewBag.SysModuleCode = code;
@@ -29,6 +39,26 @@ namespace ProductionApp.UserInterface.Controllers
             return View();
         }
 
+        #region GetAllRequisition
+        public JsonResult GetAllRequisition(DataTableAjaxPostModel model, RequisitionAdvanceSearchViewModel requisitionAdvanceSearchVM) 
+        {
+            requisitionAdvanceSearchVM.DataTablePaging.Start = model.start;
+            requisitionAdvanceSearchVM.DataTablePaging.Length = (requisitionAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : requisitionAdvanceSearchVM.DataTablePaging.Length);
+            List<RequisitionViewModel> requisitionOrderList = Mapper.Map<List<Requisition>, List<RequisitionViewModel>>(_requisitionBusiness.GetAllRequisition(Mapper.Map<RequisitionAdvanceSearchViewModel, RequisitionAdvanceSearch>(requisitionAdvanceSearchVM)));
+
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = requisitionOrderList.Count != 0 ? requisitionOrderList[0].TotalCount : 0,
+                recordsFiltered = requisitionOrderList.Count != 0 ? requisitionOrderList[0].FilteredCount : 0,
+                data = requisitionOrderList
+            });
+        }
+
+
+        #endregion GetAllRequisition
+
 
         #region ButtonStyling
         [HttpGet]
@@ -42,8 +72,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    //toolboxVM.addbtn.Href = Url.Action("AddBank", "Bank", new { code = "SETT" });
-                    toolboxVM.addbtn.Event = "AddRequisition()";
+                    toolboxVM.addbtn.Href = Url.Action("NewRequisition", "Requisition", new { Code = "PURCH" });
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
@@ -62,7 +91,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Event = "openNav();";
+                    toolboxVM.addbtn.Href = Url.Action("NewRequisition", "Requisition", new { Code = "PURCH" });
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
@@ -96,9 +125,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
                     toolboxVM.ListBtn.Event = "";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewBank", "Bank", new { Code = "SETT" });
-
-
+                    toolboxVM.ListBtn.Href = Url.Action("ViewRequisition", "Requisition", new { Code = "PURCH" });
                     break;
                 default:
                     return Content("Nochange");

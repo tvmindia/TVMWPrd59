@@ -49,7 +49,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     materialIssue.IssueNo= (sdr["IssueNo"].ToString() != "" ? sdr["IssueNo"].ToString() : materialIssue.IssueNo);
                                     materialIssue.IssueTo= (sdr["IssueTo"].ToString() != "" ? Guid.Parse(sdr["IssueTo"].ToString()) : materialIssue.IssueTo);
                                     materialIssue.IssuedBy= (sdr["IssuedBy"].ToString() != "" ? Guid.Parse(sdr["IssuedBy"].ToString()) : materialIssue.IssuedBy);
-                                    materialIssue.IssueDate = (sdr["IssueDate"].ToString() != "" ? DateTime.Parse(sdr["IssueDate"].ToString()).ToString(settings.DateFormat) : materialIssue.IssueDate);
+                                    materialIssue.IssueDateFormatted = (sdr["IssueDate"].ToString() != "" ? DateTime.Parse(sdr["IssueDate"].ToString()).ToString(settings.DateFormat) : materialIssue.IssueDateFormatted);
                                     materialIssue.IssuedByEmployee = new Employee();
                                     materialIssue.IssueToEmployee = new Employee();
                                     materialIssue.IssuedByEmployee.Name= (sdr["IssuedByName"].ToString() != "" ? sdr["IssuedByName"].ToString() : materialIssue.IssuedByEmployee.Name);
@@ -68,5 +68,52 @@ namespace ProductionApp.RepositoryServices.Services
             return materialIssueList;
         }
         #endregion GetRecentIssueSummary
+
+        #region GetRecentMaterialReceiptSummary
+        public List<MaterialReceipt> GetRecentMaterialReceiptSummary()
+        {
+            List<MaterialReceipt> materialReceiptList = new List<MaterialReceipt>();
+            MaterialReceipt materialReceipt = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRecentMaterialReceiptSummary]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    materialReceipt = new MaterialReceipt();
+                                    materialReceipt.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    materialReceipt.MRNDateFormatted = (sdr["MRNDate"].ToString() != "" ? DateTime.Parse(sdr["MRNDate"].ToString()).ToString(settings.DateFormat) : materialReceipt.MRNDateFormatted);
+                                    materialReceipt.MRNNo = (sdr["MRNNo"].ToString() != "" ? sdr["MRNNo"].ToString() : materialReceipt.MRNNo);
+                                    materialReceipt.Supplier = new Supplier();
+                                    materialReceipt.PurchaseOrder = new PurchaseOrder();
+                                    materialReceipt.Supplier.CompanyName= (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : materialReceipt.Supplier.CompanyName);
+                                    materialReceipt.PurchaseOrder.PurchaseOrderTitle= (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : materialReceipt.PurchaseOrder.PurchaseOrderTitle);
+                                    materialReceiptList.Add(materialReceipt);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return materialReceiptList;
+        }
+        #endregion GetRecentMaterialReceiptSummary
     }
 }
