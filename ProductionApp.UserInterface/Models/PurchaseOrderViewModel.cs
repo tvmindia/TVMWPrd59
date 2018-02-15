@@ -34,6 +34,7 @@ namespace ProductionApp.UserInterface.Models
             public CommonViewModel Common { get; set; }
             public string PurchaseOrderDateFormatted { get; set; }
             public string PurchaseOrderIssuedDateFormatted { get; set; }
+            public PurchaseOrderDetailViewModel PurchaseOrderDetail { get; set; }
     }
         public class PurchaseOrderDetailViewModel
         {
@@ -72,7 +73,7 @@ namespace ProductionApp.UserInterface.Models
             [Display(Name = "Supplier")]
             public SupplierViewModel Supplier { get; set; }
             [Display(Name = "Status")]
-            public List<SelectListItem> Status { get; set; }
+            public string Status { get; set; }
             
     }
     

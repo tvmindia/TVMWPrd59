@@ -718,6 +718,7 @@
     <Content Include="Views\RawMaterial\Index.cshtml" />
     <Content Include="Views\RawMaterial\_AddRawMaterialPartial.cshtml" />
     <Content Include="Views\DashboardStore\_ReceiptSummary.cshtml" />
+    <Content Include="Views\PurchaseOrder\NewPurchaseOrder.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
