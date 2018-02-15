@@ -135,14 +135,74 @@ function SaveSuccessBank(data, status)
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
+            $('#IsUpdate').val('True');
             BindOrReloadBankTable('Reset');
-            notyAlert('success', JsonResult.Records.Message);           
+            $.notify({
+                title: 'Success',
+                message: JsonResult.Records.Message
+            }, {
+                type: 'pastel-success',
+                allow_dismiss: false,
+                placement: {
+                    from: 'top',
+                    align: 'right'
+                },
+                z_index: 21031,
+                delay: 5000,
+                template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                    '<span data-notify="title">{1}</span>' +
+                    '<span data-notify="message">{2}</span>' +
+                '</div>'
+            });
+            //$.notify(JsonResult.Records.Message, {                                    
+            //    allow_dismiss: false,
+            //    placement: {
+            //        from: 'bottom',
+            //        align: 'left'
+            //    },
+            //    z_index: 21031,
+            //    delay: 5000,
+            //    type: 'success',
+            //    animate: {
+            //                enter: 'animated fadeInDown',
+            //                exit: 'animated fadeOutUp'
+            //            },
+            //});
+
+            //notyAlert('success', JsonResult.Records.Message);           
             break;
         case "ERROR":
-            notyAlert('error', JsonResult.Message);
+            $.notify(JsonResult.Message, {
+                offset: {
+                    x: 390,
+                    y: 70
+                },
+                z_index: 21031,
+                delay: 5000,
+                type: 'error',
+                animate: {
+                    enter: 'animated fadeInDown',
+                    exit: 'animated fadeOutUp'
+                },
+            });
+            //notyAlert('error', JsonResult.Message);
             break;
         default:
-            notyAlert('error', JsonResult.Message);
+            $.notify(JsonResult.Message, {               
+                allow_dismiss: false,
+                placement: {
+                    from: 'bottom',
+                    align: 'left'
+                },
+                z_index: 21031,
+                delay: 5000,
+                type: 'error',
+                animate: {
+                    enter: 'animated fadeInDown',
+                    exit: 'animated fadeOutUp'
+                },
+            });
+            //notyAlert('error', JsonResult.Message);
             break;
     }
 }

@@ -41,7 +41,11 @@ var fileArray = [];
 //    });
 //})();
 
-
+//LOADER/SPINNER
+$(window).bind("load", function () {
+    "use strict";
+    $(".spn_hol").fadeOut(1000);
+});
 $(document).ready(function () {
     debugger;
     $('#divMainBody').attr('style',"height:"+screen.height + "px");
@@ -118,7 +122,24 @@ $(document).ready(function () {
     });
    
 });
-
+//for showing loading while saving data
+function OnMasterBegin() {
+    debugger;
+    $('#btnSaveMaster').prop('disabled', true);
+    $('#imgMasterLoading').show()    
+}
+function OnMasterComplete() {
+    $('#btnSaveMaster').prop('disabled', false);
+    $('#imgMasterLoading').fadeOut(1000)
+    
+}
+function OnServerCallBegin(){
+    $('#divLoader').show();    
+}
+function OnServerCallComplete() {
+    $('#divLoader').fadeOut(1000);
+}
+//---------------------------------------------
 function notyAlert(type, msgtxt,title) {
     var t = '';
     if (title == undefined) {
