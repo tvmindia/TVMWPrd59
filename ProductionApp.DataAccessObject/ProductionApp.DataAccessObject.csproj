@@ -65,6 +65,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\ApprovalLog.cs" />
+    <Compile Include="DTO\ApprovalStatus.cs" />
     <Compile Include="DTO\Bank.cs" />
     <Compile Include="DTO\Common.cs" />
     <Compile Include="DTO\AMCSysModule.cs" />

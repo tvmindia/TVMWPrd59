@@ -645,6 +645,8 @@
     </Compile>
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AppObjectViewModel.cs" />
+    <Compile Include="Models\ApprovalLogViewModel.cs" />
+    <Compile Include="Models\ApprovalStatusViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
     <Compile Include="Models\DataTableAjaxPostModel.cs" />
