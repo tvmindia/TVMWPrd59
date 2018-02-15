@@ -9,3 +9,15 @@ $(document).ready(function () {
         console.log(e.message);
     }
 });
+
+function ShowRequisitionDetailsModal()
+{
+    debugger;
+    $('#RequisitionDetailsModal').modal('show');
+}
+
+function AddRequisitionDetails()
+{
+    debugger;
+    $('#RequisitionDetailsModal').modal('hide');
+}
