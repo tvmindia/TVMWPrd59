@@ -19,6 +19,6 @@ namespace ProductionApp.UserInterface.Models
         public string Department { get; set; }
         public string EmployeeCategory { get; set; }
         public bool IsActive { get; set; }
-        public CommonViewModel common { get; set; }
+        public CommonViewModel Common { get; set; }
     }
 }

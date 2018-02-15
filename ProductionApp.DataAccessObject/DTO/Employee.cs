@@ -20,6 +20,6 @@ namespace ProductionApp.DataAccessObject.DTO
         public string Department { get; set; }
         public string EmployeeCategory { get; set; }
         public bool IsActive { get; set; }
-        public Common common { get; set; }
+        public Common Common { get; set; }
     }
 }

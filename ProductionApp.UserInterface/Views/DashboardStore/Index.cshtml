@@ -11,36 +11,31 @@
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div> 
-
-<h2>Index</h2>
+<div class="col-md-12">&nbsp;</div>
 <div class="col-md-12">
-    <div class="col-md-4">
-        <div class="col-md-12" style="width:100%">@*min-height:10px;max-height:50px;*@@*background-color:greenyellow;*@
+    <div class="col-md-4" style="height:600px">
+        <div class="col-md-12" style="width:100%;">@*min-height:10px;max-height:50px;*@@*background-color:greenyellow;*@
             @{
                 @Html.Action("IssueSummary", "DashboardStore");
             }
         </div>
-        <div class="col-md-12">&nbsp;</div>
-        <div class="col-md-12" style="background-color:aqua;height:260px;">
-            @{ 
+        <div class="col-md-12" style="width:100%;">
+            @{
+                @Html.Action("IssueSummary", "DashboardStore");
                 @*Html.Action("MyApprovals", "DashboardStore");*@
             }
-            <div class="col-md-12">&nbsp;</div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" style="height:600px">
         @{ 
-            @*Html.Action("RecentMRNLink", "DashboardStore");*@
+            @Html.Action("ReceiptSummary", "DashboardStore");
         }
-        <div class="col-md-12" style="background-color:orangered">
-            <div class="col-md-12">&nbsp;</div>
-        </div>
     </div>
     <div class="col-md-4">
         @{ 
             @*Html.Action("ReOrderAlert", "DashboardStore");*@
         }
-        <div class="col-md-12" style="background-color:mediumvioletred">
+        <div class="col-md-12" style="height:600px">
             <div class="col-md-12">&nbsp;</div>
         </div>
     </div>
