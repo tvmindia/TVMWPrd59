@@ -12,7 +12,11 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
-    
+    <style>
+        .spn_hol {
+            background:#ffffff;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -55,9 +59,24 @@
             }
         </div><!-- /card-container -->
     </div><!-- /container -->
+    <!-- PRELOADER -->
+    <div class="spn_hol">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <!-- END PRELOADER -->
 </body>
 </html>
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/bootstrap")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/Login")
+<script>
+    $(window).bind("load", function () {
+        "use strict";
+        $(".spn_hol").fadeOut(1000);
+    });
+</script>

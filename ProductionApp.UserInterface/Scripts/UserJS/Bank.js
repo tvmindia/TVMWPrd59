@@ -136,13 +136,53 @@ function SaveSuccessBank(data, status)
     switch (JsonResult.Result) {
         case "OK":
             BindOrReloadBankTable('Reset');
-            notyAlert('success', JsonResult.Records.Message);           
+            $.notify(JsonResult.Records.Message, {
+                offset: {
+                    x: 390,
+                    y: 70
+                },
+                z_index: 21031,
+                delay: 5000,
+                type: 'success',
+                animate: {
+                            enter: 'animated fadeInDown',
+                            exit: 'animated fadeOutUp'
+                        },
+            });
+
+            //notyAlert('success', JsonResult.Records.Message);           
             break;
         case "ERROR":
-            notyAlert('error', JsonResult.Message);
+            $.notify(JsonResult.Message, {
+                offset: {
+                    x: 390,
+                    y: 70
+                },
+                z_index: 21031,
+                delay: 5000,
+                type: 'error',
+                animate: {
+                    enter: 'animated fadeInDown',
+                    exit: 'animated fadeOutUp'
+                },
+            });
+            //notyAlert('error', JsonResult.Message);
             break;
         default:
-            notyAlert('error', JsonResult.Message);
+            $.notify(JsonResult.Message, {
+                offset: {
+                    x: 390,
+                    y: 70
+                },
+                z_index: 21031,
+                delay: 5000,
+                type: 'error',
+                animate: {
+                    enter: 'animated fadeInDown',
+                    exit: 'animated fadeOutUp'
+                },
+            });
+            //notyAlert('error', JsonResult.Message);
             break;
     }
 }
