@@ -184,7 +184,7 @@ namespace ProductionApp.RepositoryServices.Services
                 switch (outputStatus.Value.ToString())
                 {
                     case "0":                       
-                        throw new Exception(_appConst.InsertFailure);
+                        throw new Exception(bank.IsUpdate ? _appConst.UpdateFailure:_appConst.InsertFailure);
                     case "1":
                         bank.Code = outputCode.Value.ToString();
                         return new

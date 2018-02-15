@@ -1,8 +1,18 @@
-﻿var DataTables = {};
+﻿//*****************************************************************************
+//*****************************************************************************
+//Author: Thomson
+//CreatedDate: 12-Feb-2018 
+//LastModified: 14-Feb-2018 
+//FileName: Bank.js
+//Description: Client side coding for Bank
+//******************************************************************************
+//******************************************************************************
+
+//--Global Declaration--//
+var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 //-------------------------------------------------------------
 $(document).ready(function () {
-    debugger;
     try
     {
         BindOrReloadBankTable('Init');        
@@ -53,7 +63,7 @@ function BindOrReloadBankTable(action) {
             searching: false,
             paging: true,
             lengthChange: false,
-            proccessing: true,
+            processing: true,
             serverSide: true,
             ajax: {
                 url: "Bank/GetAllBank/",
@@ -129,6 +139,7 @@ function EditBankMaster(this_obj) {
     $('#h3ModelMasterContextLabel').text('Edit Bank')
     $('#divModelMasterPopUp').modal('show');
 }
+//onsuccess function for formsubmitt
 function SaveSuccessBank(data, status)
 {
     debugger;
@@ -137,72 +148,13 @@ function SaveSuccessBank(data, status)
         case "OK":
             $('#IsUpdate').val('True');
             BindOrReloadBankTable('Reset');
-            $.notify({
-                title: 'Success',
-                message: JsonResult.Records.Message
-            }, {
-                type: 'pastel-success',
-                allow_dismiss: false,
-                placement: {
-                    from: 'top',
-                    align: 'right'
-                },
-                z_index: 21031,
-                delay: 5000,
-                template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-                    '<span data-notify="title">{1}</span>' +
-                    '<span data-notify="message">{2}</span>' +
-                '</div>'
-            });
-            //$.notify(JsonResult.Records.Message, {                                    
-            //    allow_dismiss: false,
-            //    placement: {
-            //        from: 'bottom',
-            //        align: 'left'
-            //    },
-            //    z_index: 21031,
-            //    delay: 5000,
-            //    type: 'success',
-            //    animate: {
-            //                enter: 'animated fadeInDown',
-            //                exit: 'animated fadeOutUp'
-            //            },
-            //});
-
-            //notyAlert('success', JsonResult.Records.Message);           
+            MasterAlert("success",JsonResult.Records.Message)
             break;
         case "ERROR":
-            $.notify(JsonResult.Message, {
-                offset: {
-                    x: 390,
-                    y: 70
-                },
-                z_index: 21031,
-                delay: 5000,
-                type: 'error',
-                animate: {
-                    enter: 'animated fadeInDown',
-                    exit: 'animated fadeOutUp'
-                },
-            });
-            //notyAlert('error', JsonResult.Message);
+            MasterAlert("danger", JsonResult.Message)
             break;
         default:
-            $.notify(JsonResult.Message, {               
-                allow_dismiss: false,
-                placement: {
-                    from: 'bottom',
-                    align: 'left'
-                },
-                z_index: 21031,
-                delay: 5000,
-                type: 'error',
-                animate: {
-                    enter: 'animated fadeInDown',
-                    exit: 'animated fadeOutUp'
-                },
-            });
-            //notyAlert('error', JsonResult.Message);
+            MasterAlert("danger", JsonResult.Message)            
             break;
     }
 }

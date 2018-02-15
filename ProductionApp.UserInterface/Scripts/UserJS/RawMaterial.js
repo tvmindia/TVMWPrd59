@@ -64,7 +64,7 @@ function BindOrReloadRawMaterialTable(action) {
             searching: false,
             paging: true,
             lengthChange: false,
-            proccessing: true,
+            processing: true,
             serverSide: true,
             ajax: {
                 url: "RawMaterial/GetAllRawMaterial/",
@@ -140,13 +140,13 @@ function SaveSuccessRawMaterial(data, status)
             $('#IsUpdate').val('True');
             $('#ID').val(JsonResult.Records.ID);
             BindOrReloadRawMaterialTable('Reset');
-            MasterAlert("success", JsonResult.Records.Message, "Success")                    
+            MasterAlert("success", JsonResult.Records.Message)                    
             break;
         case "ERROR":
-            MasterAlert("danger", JsonResult.Message, "Error")
+            MasterAlert("danger", JsonResult.Message)
             break;
         default:
-            MasterAlert("danger", JsonResult.Message, "Error")
+            MasterAlert("danger", JsonResult.Message)
             break;
     }
 }

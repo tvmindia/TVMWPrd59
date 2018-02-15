@@ -140,11 +140,11 @@ function OnServerCallComplete() {
     $('#divLoader').fadeOut(1000);
 }
 //---------------------------------------------
-function MasterAlert(type,msgtxt,title)
+function MasterAlert(type,msgtxt)
 {
     $.notify({
-        title: title,
-        message: msgtxt
+        title: msgtxt,
+        message: ""
     }, {
         type: 'pastel-' + type,
         allow_dismiss: false,
@@ -156,7 +156,7 @@ function MasterAlert(type,msgtxt,title)
         delay: 5000,
         template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
             '<span data-notify="title">{1}</span>' +
-            '<span data-notify="message">{2}</span>' +
+            '<i class="fa fa-check" style="font-size:48px;color:white"></i></span>' +
         '</div>'
     });
 }

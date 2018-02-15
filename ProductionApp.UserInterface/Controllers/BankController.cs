@@ -14,20 +14,27 @@ namespace ProductionApp.UserInterface.Controllers
 {
     public class BankController : Controller
     {
+        #region Global Declaration
         private IBankBusiness _bankBusiness;
+        AppConst _appConst = new AppConst();
         private Common _common = new Common();
+        #endregion Global Declaration
+        #region Construction Injection
         public BankController(IBankBusiness bankBusiness)
         {
             _bankBusiness = bankBusiness;
         }
-        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "")]
+        #endregion Construction Injection
+        #region Index
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
         public ActionResult Index(string code)
         {
             ViewBag.SysModuleCode = code;
             BankAdvanceSearchViewModel bankAdvanceSearchVM = new BankAdvanceSearchViewModel();
             return View(bankAdvanceSearchVM);
         }
-
+        #endregion Index
+        #region CheckBankCodeExist
         [AcceptVerbs("Get", "Post")]
         public ActionResult CheckCodeExist(BankViewModel bankVM)
         {
@@ -39,9 +46,10 @@ namespace ProductionApp.UserInterface.Controllers
             //var result = new { success = true, message = "Success" };
             return Json(true, JsonRequestBehavior.AllowGet);
         }
-
+        #endregion CheckBankCodeExist
+        #region GetAllBank
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "")]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
         public JsonResult GetAllBank(DataTableAjaxPostModel model,BankAdvanceSearchViewModel bankAdvanceSearchVM)
         {
             //setting options to our model
@@ -68,24 +76,37 @@ namespace ProductionApp.UserInterface.Controllers
                 data = bankVMList
             });
         }
+        #endregion GetAllBank
+        #region InsertUpdateBank
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "")]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
         public string InsertUpdateBank(BankViewModel bankVM)
         {
-            AppUA appUA = Session["AppUA"] as AppUA;
-            bankVM.Common = new CommonViewModel
+            try
             {
-               CreatedBy = appUA.UserName,
-               CreatedDate = _common.GetCurrentDateTime(),
-               UpdatedBy = appUA.UserName,
-               UpdatedDate = _common.GetCurrentDateTime(),
-           };            
-            var result = _bankBusiness.InsertUpdateBank(Mapper.Map<BankViewModel,Bank > (bankVM));
-            return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+                AppUA appUA = Session["AppUA"] as AppUA;
+                bankVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                var result = _bankBusiness.InsertUpdateBank(Mapper.Map<BankViewModel, Bank>(bankVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+           
         }
+        #endregion InsertUpdateBank
         #region MasterPartial
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "")]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
         public ActionResult MasterPartial(string masterCode)
         {
             BankViewModel bankVM = string.IsNullOrEmpty(masterCode)?new BankViewModel(): Mapper.Map <Bank, BankViewModel>(_bankBusiness.GetBank(masterCode));
@@ -96,7 +117,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
         #region ButtonStyling
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "")]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();
