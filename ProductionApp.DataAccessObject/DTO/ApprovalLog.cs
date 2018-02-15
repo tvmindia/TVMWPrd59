@@ -14,7 +14,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string DocumentType { get; set; }
         public int ApproverLevel { get; set; }
         public int Status { get; set; }
-        public string ApprovalDate { get; set; }
+        public DateTime ApprovalDate { get; set; }
         public bool IsLevelMandatory { get; set; }
         public string Remarks { get; set; }
         public Common Common { get; set; }

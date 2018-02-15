@@ -12,7 +12,8 @@ namespace ProductionApp.UserInterface.Models
         public Guid PurchaseOrderID { get; set; }
         public string PurchaseOrderNo { get; set; }
         public string MRNNo { get; set; }
-        public string MRNDate { get; set; }
+        public DateTime MRNDate { get; set; }
+        public string MRNDateFormatted { get; set; }
         public string GeneralNotes { get; set; }
         public CommonViewModel Common { get; set; }
 
