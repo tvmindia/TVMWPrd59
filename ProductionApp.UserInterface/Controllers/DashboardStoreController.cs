@@ -37,21 +37,21 @@ namespace ProductionApp.UserInterface.Controllers
             IssueSummaryViewModel data = new IssueSummaryViewModel();
             data.Title = "Issue Summary";
             data.Color = "bg-aqua";
-            data.URL = "localhost:23589";
-            data.MaterialIssueHeaderList = Mapper.Map<List<MaterialIssue>,List<MaterialIssueViewModel>>(_dashboardStoreBusiness.GetRecentIssueSummary());
+            data.URL = "localhost/dashboard/";
+            data.MaterialIssueList = Mapper.Map<List<MaterialIssue>,List<MaterialIssueViewModel>>(_dashboardStoreBusiness.GetRecentIssueSummary());
             return PartialView("_IssueSummary",data);
         }
 
         public ActionResult ReceiptSummary()
         {
-            return PartialView("_ReceiptSummary");
+            ReceiptSummaryViewModel data = new ReceiptSummaryViewModel();
+            data.Title = "Receipt Summary";
+            data.Color = "bg-fuchsia";
+            data.URL = "localhost/dashboard/";
+            data.MaterialReceiptList = Mapper.Map<List<MaterialReceipt>, List<MaterialReceiptViewModel>>(_dashboardStoreBusiness.GetRecentMaterialReceiptSummary());
+            return PartialView("_ReceiptSummary",data);
         }
-
-        public ActionResult RecentMRNLink()
-        {
-            return PartialView("_RecentMRNLink");
-        }
-
+        
         public ActionResult ReOrderAlert()
         {
             return PartialView("_ReOrderAlert");

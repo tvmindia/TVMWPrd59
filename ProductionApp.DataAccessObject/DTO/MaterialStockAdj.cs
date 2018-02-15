@@ -15,6 +15,6 @@ namespace ProductionApp.DataAccessObject.DTO
         public string Remarks { get; set; }
         public int LatestApprovalstatus { get; set; }
         public bool IsFinalApproved { get; set; }
-        public Common common { get; set; }
+        public Common Common { get; set; }
     }
 }

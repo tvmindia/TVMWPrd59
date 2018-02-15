@@ -13,7 +13,7 @@ namespace ProductionApp.UserInterface.Models
         public string IssueNo { get; set; }
         public string IssueDate { get; set; }
         public string GeneralNotes { get; set; }
-        public CommonViewModel common { get; set; }
+        public CommonViewModel Common { get; set; }
 
         public EmployeeViewModel IssueToEmployee { get; set; }
         public EmployeeViewModel IssuedByEmployee { get; set; }

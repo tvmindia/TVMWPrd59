@@ -14,6 +14,6 @@ namespace ProductionApp.UserInterface.Models
         public string Remarks { get; set; }
         public int LatestApprovalstatus { get; set; }
         public bool IsFinalApproved { get; set; }
-        public CommonViewModel common { get; set; }
+        public CommonViewModel Common { get; set; }
     }
 }

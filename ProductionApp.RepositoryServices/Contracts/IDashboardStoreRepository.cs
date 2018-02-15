@@ -10,5 +10,6 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface IDashboardStoreRepository
     {
         List<MaterialIssue> GetRecentIssueSummary();
+        List<MaterialReceipt> GetRecentMaterialReceiptSummary();
     }
 }

@@ -657,8 +657,10 @@
     <Compile Include="Models\ManageAccessViewModel.cs" />
     <Compile Include="Models\AMCSysMenuViewModel.cs" />
     <Compile Include="Models\MaterialIssueViewModel.cs" />
+    <Compile Include="Models\MaterialReceiptViewModel.cs" />
     <Compile Include="Models\MaterialStockAdjViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
+    <Compile Include="Models\ReceiptSummaryViewModel.cs" />
     <Compile Include="Models\RequisitionViewModel.cs" />
     <Compile Include="Models\PurchaseOrderViewModel.cs" />
     <Compile Include="Models\RawMaterialViewModel.cs" />
@@ -713,6 +715,7 @@
     <Content Include="Views\PurchaseOrder\ViewPurchaseOrder.cshtml" />
     <Content Include="Views\RawMaterial\Index.cshtml" />
     <Content Include="Views\RawMaterial\_AddRawMaterialPartial.cshtml" />
+    <Content Include="Views\DashboardStore\_ReceiptSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
