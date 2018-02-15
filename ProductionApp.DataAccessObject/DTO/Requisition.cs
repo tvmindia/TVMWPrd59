@@ -19,6 +19,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public int LatestApprovalStatus { get; set; }
         public bool IsFinalApproved { get; set; }
         public bool IsUpdate { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
         public Common Common { get; set; }
         public RequisitionDetail RequisitionDetail { get; set; }
     }

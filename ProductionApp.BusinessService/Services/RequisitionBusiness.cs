@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProductionApp.BusinessService.Contracts;
+using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.RepositoryServices.Contracts;
 
 namespace ProductionApp.BusinessService.Services
@@ -16,5 +17,9 @@ namespace ProductionApp.BusinessService.Services
             _requisitionRepository = requisitionRepository;
         }
 
+        public List<Requisition> GetAllRequisition(RequisitionAdvanceSearch requisitionAdvanceSearch)
+        {
+            return _requisitionRepository.GetAllRequisition(requisitionAdvanceSearch);
+        }
     }
 }

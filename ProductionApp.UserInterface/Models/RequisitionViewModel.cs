@@ -19,6 +19,11 @@ namespace ProductionApp.UserInterface.Models
         public int LatestApprovalStatus { get; set; }
         public bool IsFinalApproved { get; set; }
         public bool IsUpdate { get; set; }
+
+        //additional properties
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+
         public CommonViewModel Common { get; set; }
         public RequisitionDetailViewModel RequisitionDetail { get; set; }
 
