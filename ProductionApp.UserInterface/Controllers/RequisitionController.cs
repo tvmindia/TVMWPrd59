@@ -72,8 +72,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    //toolboxVM.addbtn.Href = Url.Action("AddBank", "Bank", new { code = "SETT" });
-                    toolboxVM.addbtn.Event = "AddRequisition()";
+                    toolboxVM.addbtn.Href = Url.Action("NewRequisition", "Requisition", new { Code = "PURCH" });
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
@@ -92,7 +91,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Event = "openNav();";
+                    toolboxVM.addbtn.Href = Url.Action("NewRequisition", "Requisition", new { Code = "PURCH" });
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
@@ -126,9 +125,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
                     toolboxVM.ListBtn.Event = "";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewBank", "Bank", new { Code = "SETT" });
-
-
+                    toolboxVM.ListBtn.Href = Url.Action("ViewRequisition", "Requisition", new { Code = "PURCH" });
                     break;
                 default:
                     return Content("Nochange");
