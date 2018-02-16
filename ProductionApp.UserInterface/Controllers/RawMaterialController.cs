@@ -159,6 +159,7 @@ namespace ProductionApp.UserInterface.Controllers
             RawMaterialViewModel rawMaterialVM = string.IsNullOrEmpty(masterCode) ? new RawMaterialViewModel() : Mapper.Map<RawMaterial, RawMaterialViewModel>(_rawMaterialBusiness.GetRawMaterial(Guid.Parse(masterCode)));
             //RawMaterialViewModel rawMaterialVM = new RawMaterialViewModel();
             rawMaterialVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
+            rawMaterialVM.MaterialType = new MaterialTypeViewModel();
             return PartialView("_AddRawMaterialPartial", rawMaterialVM);
         }
         #endregion MasterPartial

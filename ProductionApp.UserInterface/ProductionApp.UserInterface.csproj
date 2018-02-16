@@ -457,7 +457,6 @@
     <Content Include="Content\images\Transfer.png" />
     <Content Include="Content\images\wheel.png" />
     <Content Include="Content\images\withdraw.png" />
-    <Content Include="Content\Site.css" />
     <Content Include="Content\sweetalert.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.min.css" />
@@ -636,6 +635,7 @@
     <Compile Include="Controllers\DashboardReportController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\MaterialReceiptController.cs" />
+    <Compile Include="Controllers\MaterialTypeController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\DashboardProductionController.cs" />
     <Compile Include="Controllers\DashboardPurchaseController.cs" />
@@ -645,6 +645,7 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SAMPanelController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -667,6 +668,7 @@
     <Compile Include="Models\MaterialIssueViewModel.cs" />
     <Compile Include="Models\MaterialReceiptViewModel.cs" />
     <Compile Include="Models\MaterialStockAdjViewModel.cs" />
+    <Compile Include="Models\MaterialTypeViewModel.cs" />
     <Compile Include="Models\MyApprovalsViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\ReceiptSummaryViewModel.cs" />
@@ -676,6 +678,7 @@
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
+    <Compile Include="Models\UnitViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityFilter\AuthSecurityFilter.cs" />
@@ -733,8 +736,9 @@
     <Content Include="Views\Employee\_EmployeeDropdown.cshtml" />
     <Content Include="Views\DashboardStore\_MyApprovals.cshtml" />
     <Content Include="Views\DashboardStore\_ReOrderAlert.cshtml" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\MaterialReceipt\Index.cshtml" />
+    <Content Include="Views\Unit\_UnitDropdown.cshtml" />
+    <Content Include="Views\MaterialType\_MaterialTypeDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

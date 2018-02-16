@@ -42,6 +42,8 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<MaterialIssueViewModel, MaterialIssue>().ReverseMap();
                 config.CreateMap<RawMaterialViewModel, RawMaterial>().ReverseMap();
                 config.CreateMap<RawMaterialAdvanceSearchViewModel, RawMaterialAdvanceSearch>().ReverseMap();
+                config.CreateMap<UnitViewModel, Unit>().ReverseMap();
+                config.CreateMap<MaterialTypeViewModel, MaterialType>().ReverseMap();
                 config.CreateMap<PurchaseOrderViewModel, PurchaseOrder>().ReverseMap();
                 config.CreateMap<PurchaseOrderAdvanceSearchViewModel, PurchaseOrderAdvanceSearch>().ReverseMap();
                 config.CreateMap<SupplierViewModel, Supplier>().ReverseMap();

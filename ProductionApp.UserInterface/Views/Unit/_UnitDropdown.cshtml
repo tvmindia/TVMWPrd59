@@ -1,0 +1,3 @@
+﻿@model ProductionApp.UserInterface.Models.UnitViewModel
+@Html.DropDownList("Unit_ID", Model.SelectList, "---Select Unit Code---", new { @class = "form-control" })
+@Html.ValidationMessage("Unit_ID", "", new { @class = "text-danger" })
