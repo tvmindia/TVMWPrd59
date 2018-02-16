@@ -115,5 +115,53 @@ namespace ProductionApp.RepositoryServices.Services
             return materialReceiptList;
         }
         #endregion GetRecentMaterialReceiptSummary
+
+        #region GetRecentStockAdjustment
+        public List<MaterialStockAdj> GetRecentStockAdjustment()
+        {
+            List<MaterialStockAdj> materialStockAdjList = new List<MaterialStockAdj>();
+            MaterialStockAdj materialStockAdj = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRecentStockAdjustment]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    materialStockAdj = new MaterialStockAdj();
+                                    materialStockAdj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    materialStockAdj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.DateFormat) : materialStockAdj.DateFormatted);
+                                    materialStockAdj.MaterialStockAdjDetail = new MaterialStockAdjDetail();
+                                    materialStockAdj.RawMaterial = new RawMaterial();
+                                    materialStockAdj.Employee = new Employee();
+                                    materialStockAdj.MaterialStockAdjDetail.Qty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : materialStockAdj.MaterialStockAdjDetail.Qty);
+                                    materialStockAdj.RawMaterial.Description = (sdr["Material"].ToString() != "" ? sdr["Material"].ToString() : materialStockAdj.RawMaterial.Description);
+                                    materialStockAdj.Employee.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : materialStockAdj.Employee.Name);
+                                    materialStockAdjList.Add(materialStockAdj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return materialStockAdjList;
+        }
+        #endregion GetRecentStockAdjustment
     }
 }

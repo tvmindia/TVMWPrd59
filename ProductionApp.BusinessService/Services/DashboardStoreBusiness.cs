@@ -26,5 +26,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _dashboardStoreRepository.GetRecentMaterialReceiptSummary();
         }
+
+        public List<MaterialStockAdj> GetRecentStockAdjustment()
+        {
+            return _dashboardStoreRepository.GetRecentStockAdjustment();
+        }
     }
 }

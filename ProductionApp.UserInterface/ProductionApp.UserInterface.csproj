@@ -457,6 +457,7 @@
     <Content Include="Content\images\Transfer.png" />
     <Content Include="Content\images\wheel.png" />
     <Content Include="Content\images\withdraw.png" />
+    <Content Include="Content\Site.css" />
     <Content Include="Content\sweetalert.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.min.css" />
@@ -634,6 +635,7 @@
     <Compile Include="Controllers\DashboardStoreController.cs" />
     <Compile Include="Controllers\DashboardReportController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
+    <Compile Include="Controllers\MaterialReceiptController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\DashboardProductionController.cs" />
     <Compile Include="Controllers\DashboardPurchaseController.cs" />
@@ -665,6 +667,7 @@
     <Compile Include="Models\MaterialIssueViewModel.cs" />
     <Compile Include="Models\MaterialReceiptViewModel.cs" />
     <Compile Include="Models\MaterialStockAdjViewModel.cs" />
+    <Compile Include="Models\MyApprovalsViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\ReceiptSummaryViewModel.cs" />
     <Compile Include="Models\RequisitionViewModel.cs" />
@@ -728,6 +731,10 @@
     <Content Include="Views\RawMaterial\_RawMaterialDropdown.cshtml" />
     <Content Include="Views\Employee\Employee.cshtml" />
     <Content Include="Views\Employee\_EmployeeDropdown.cshtml" />
+    <Content Include="Views\DashboardStore\_MyApprovals.cshtml" />
+    <Content Include="Views\DashboardStore\_ReOrderAlert.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\MaterialReceipt\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

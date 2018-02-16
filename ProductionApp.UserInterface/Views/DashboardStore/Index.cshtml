@@ -14,30 +14,26 @@
 <div class="col-md-12">&nbsp;</div>
 <div class="col-md-12">
     <div class="col-md-4" style="height:600px">
-        <div class="col-md-12" style="width:100%;">@*min-height:10px;max-height:50px;*@@*background-color:greenyellow;*@
+        <div class="col-md-12" style="width:100%;">
             @{
-                @Html.Action("IssueSummary", "DashboardStore");
+                @Html.Action("MyApprovals", "DashboardStore");
             }
         </div>
         <div class="col-md-12" style="width:100%;">
             @{
                 @Html.Action("IssueSummary", "DashboardStore");
-                @*Html.Action("MyApprovals", "DashboardStore");*@
             }
         </div>
     </div>
-    <div class="col-md-4" style="height:600px">
+    <div class="col-md-4" style="height:600px;">
         @{ 
             @Html.Action("ReceiptSummary", "DashboardStore");
         }
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" style="height:600px;">
         @{ 
-            @*Html.Action("ReOrderAlert", "DashboardStore");*@
+            @Html.Action("ReOrderAlert", "DashboardStore");
         }
-        <div class="col-md-12" style="height:600px">
-            <div class="col-md-12">&nbsp;</div>
-        </div>
     </div>
 </div>
 
