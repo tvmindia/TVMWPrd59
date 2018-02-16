@@ -16,7 +16,7 @@ namespace ProductionApp.UserInterface.Models
         public string GeneralNotes { get; set; }
         public CommonViewModel Common { get; set; }
 
-        public EmployeeViewModel IssueToEmployee { get; set; }
-        public EmployeeViewModel IssuedByEmployee { get; set; }
+        public string IssueToEmployeeName { get; set; }
+        public string IssuedByEmployeeName { get; set; }
     }
 }

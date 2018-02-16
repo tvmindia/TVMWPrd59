@@ -9,6 +9,6 @@ namespace ProductionApp.BusinessService.Contracts
 {
     public interface IEmployeeBusiness
     {
-        List<Employee> GetAllEmployee();
+        List<Employee> GetEmployeeForSelectList();
     }
 }

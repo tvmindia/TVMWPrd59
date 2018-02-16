@@ -164,8 +164,7 @@
                             @Html.LabelFor(model => model.RequisitionDetail.MaterialID, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                          @*  @Html.DropDownListFor(model => model.RequisitionDetail.MaterialID,null, new { @class = "form-control", style = "padding:4px 12px;" })*@
-                            @Html.ValidationMessageFor(model => model.RequisitionDetail.MaterialID, "", new { @class = "text-danger" })
+                            @Html.Action("RawMaterialDropdown", "RawMaterial")
                         </div>
                     </div>
                     <div class="col-md-12 headSeperator"></div>
