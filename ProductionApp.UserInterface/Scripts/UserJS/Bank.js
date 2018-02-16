@@ -108,10 +108,12 @@ function BindOrReloadBankTable(action) {
                 debugger;
                 if (action === 'Export')
                 {
-                    if (json.data[0].TotalCount > 10000)
+                    if (json.data.length > 0)
                     {
-                        MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                    }
+                        if (json.data[0].TotalCount > 10000) {
+                            MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
+                        }
+                    }                    
                     $(".buttons-excel").trigger('click');
                     ResetBankList();
                 }
