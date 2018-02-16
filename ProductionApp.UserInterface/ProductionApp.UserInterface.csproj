@@ -725,6 +725,7 @@
     <Content Include="Views\PurchaseOrder\NewPurchaseOrder.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Supplier\_SupplierDropdown.cshtml" />
+    <Content Include="Views\RawMaterial\_RawMaterialDropdown.cshtml" />
     <Content Include="Views\Employee\Employee.cshtml" />
     <Content Include="Views\Employee\_EmployeeDropdown.cshtml" />
     <None Include="Web.Debug.config">

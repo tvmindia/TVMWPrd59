@@ -26,6 +26,59 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion Constructor Injection
 
+        #region GetRawMaterialForSelectList
+        /// <summary>
+        /// To Get List of All raw materials for Select List
+        /// </summary>
+        /// <returns>List</returns>
+        public List<RawMaterial> GetRawMaterialForSelectList()
+        {
+            List<RawMaterial> rawMaterialList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRawMaterialForSelectList]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                rawMaterialList = new List<RawMaterial>();
+                                while (sdr.Read())
+                                {
+                                    RawMaterial rawMaterial = new RawMaterial();
+                                    {
+                                        rawMaterial.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : rawMaterial.ID);
+                                        rawMaterial.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : rawMaterial.MaterialCode);
+                                        rawMaterial.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : rawMaterial.Rate);
+                                        rawMaterial.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : rawMaterial.Type);
+                                        rawMaterial.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : rawMaterial.Description);
+                                        rawMaterial.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : rawMaterial.UnitCode);
+                                        rawMaterial.ReorderQty = (sdr["ReorderQty"].ToString() != "" ? decimal.Parse(sdr["ReorderQty"].ToString()) : rawMaterial.ReorderQty);
+                                    }
+                                    rawMaterialList.Add(rawMaterial);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return rawMaterialList;
+        }
+        #endregion GetRawMaterialForSelectList
+
         #region GetAllRawMaterial
         /// <summary>
         /// To Get List of All raw materials
