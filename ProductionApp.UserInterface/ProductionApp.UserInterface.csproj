@@ -439,6 +439,7 @@
     <Content Include="Content\images\listdlt.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\MasterLoading.gif" />
     <Content Include="Content\images\MaxLimit.png" />
     <Content Include="Content\images\Notification.png" />
     <Content Include="Content\images\paperclip.png" />
@@ -494,6 +495,7 @@
     <Content Include="Scripts\AdminLTE\jquery.slimscroll.min.js" />
     <Content Include="Scripts\AdminLTE\jquery.sparkline.min.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
+    <Content Include="Scripts\bootstrap-notify.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Chart.js" />
@@ -628,6 +630,7 @@
     <Compile Include="Controllers\DashboardSaleController.cs" />
     <Compile Include="Controllers\DashboardSettingsController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DashboardStoreController.cs" />
     <Compile Include="Controllers\DashboardReportController.cs" />
@@ -641,6 +644,7 @@
     <Compile Include="Controllers\RawMaterialController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SAMPanelController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -721,6 +725,12 @@
     <Content Include="Views\RawMaterial\Index.cshtml" />
     <Content Include="Views\RawMaterial\_AddRawMaterialPartial.cshtml" />
     <Content Include="Views\DashboardStore\_ReceiptSummary.cshtml" />
+    <Content Include="Views\PurchaseOrder\NewPurchaseOrder.cshtml" />
+    <Content Include="Views\Supplier\Index.cshtml" />
+    <Content Include="Views\Supplier\_SupplierDropdown.cshtml" />
+    <Content Include="Views\RawMaterial\_RawMaterialDropdown.cshtml" />
+    <Content Include="Views\Employee\Employee.cshtml" />
+    <Content Include="Views\Employee\_EmployeeDropdown.cshtml" />
     <Content Include="Views\DashboardStore\_MyApprovals.cshtml" />
     <Content Include="Views\DashboardStore\_ReOrderAlert.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />

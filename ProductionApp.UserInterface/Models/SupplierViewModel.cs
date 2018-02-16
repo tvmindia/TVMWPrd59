@@ -25,6 +25,6 @@ namespace ProductionApp.UserInterface.Models
         public string TaxRegNo { get; set; }
         public string PANNo { get; set; }
         public string GeneralNotes { get; set; }
-        public List<SelectListItem> SupplierList { get; set; }
+        public List<SelectListItem> SelectList { get; set; }
     }
 }

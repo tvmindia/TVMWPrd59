@@ -23,7 +23,7 @@ namespace ProductionApp.UserInterface.Controllers
             DynamicUIViewModel dUIObj = new DynamicUIViewModel();
             dUIObj.AMCSysMenuViewModelList = Mapper.Map<List<AMCSysMenu>, List<AMCSysMenuViewModel>>(menulist);
             return View(dUIObj);
-        }
+        }  
 
 
         public ActionResult Index()

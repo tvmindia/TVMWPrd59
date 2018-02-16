@@ -32,6 +32,8 @@ namespace ProductionApp.DataAccessObject.DTO
        public Common Common { get; set; }
        public string PurchaseOrderDateFormatted { get; set; }
        public string PurchaseOrderIssuedDateFormatted { get; set; }
+       public PurchaseOrderDetail PurchaseOrderDetail { get; set; }
+       
     }
     public class PurchaseOrderDetail
     {
@@ -64,7 +66,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public DataTablePaging DataTablePaging { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
-        public string Supplier { get; set; }
+        public Supplier Supplier { get; set; }
         public string Status { get; set; }
     }
 }

@@ -41,7 +41,12 @@ var fileArray = [];
 //    });
 //})();
 
-
+//LOADER/SPINNER
+$(window).bind("load", function () {
+    "use strict";
+    $('.dataTables_processing').hide();
+    $(".spn_hol").fadeOut(1000);
+});
 $(document).ready(function () {
     debugger;
     $('#divMainBody').attr('style',"height:"+screen.height + "px");
@@ -118,7 +123,45 @@ $(document).ready(function () {
     });
    
 });
-
+//for showing loading while saving data
+function OnMasterBegin() {
+    debugger;
+    $('#btnSaveMaster').prop('disabled', true);
+    $('#imgMasterLoading').show()    
+}
+function OnMasterComplete() {
+    $('#btnSaveMaster').prop('disabled', false);
+    $('#imgMasterLoading').fadeOut(1000)
+    
+}
+function OnServerCallBegin(){
+    $('#divLoader').show();    
+}
+function OnServerCallComplete() {
+    $('#divLoader').fadeOut(1000);
+}
+//---------------------------------------------
+function MasterAlert(type,msgtxt)
+{
+    var iconclass = (type == "success") ? "fa fa-check" : ((type == "info") ? "fa fa-info-circle" : "fa fa-warning")
+    $.notify({
+        title: msgtxt,
+        message: ""
+    }, {
+        type: 'pastel-' + type,
+        allow_dismiss: false,
+        placement: {
+            from: 'top',
+            align: 'right'
+        },
+        z_index: 21031,
+        delay: 10000,
+        template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+            '<span data-notify="title">{1}</span>' +
+            '<i class="'+iconclass+'" style="font-size:48px;color:white"></i></span>' +
+        '</div>'
+    });
+}
 function notyAlert(type, msgtxt,title) {
     var t = '';
     if (title == undefined) {

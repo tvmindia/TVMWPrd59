@@ -1,8 +1,18 @@
-﻿var DataTables = {};
+﻿//*****************************************************************************
+//*****************************************************************************
+//Author: Thomson
+//CreatedDate: 12-Feb-2018 
+//LastModified: 14-Feb-2018 
+//FileName: Bank.js
+//Description: Client side coding for Bank
+//******************************************************************************
+//******************************************************************************
+
+//--Global Declaration--//
+var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 //-------------------------------------------------------------
 $(document).ready(function () {
-    debugger;
     try
     {
         BindOrReloadBankTable('Init');        
@@ -30,6 +40,7 @@ function BindOrReloadBankTable(action) {
             case 'Search':
                 break;
             case 'Export':
+                if ($('#SearchTerm').val()=="")
                 DataTablePagingViewModel.Length = -1;
                 break;
             default:
@@ -53,7 +64,11 @@ function BindOrReloadBankTable(action) {
             searching: false,
             paging: true,
             lengthChange: false,
-            proccessing: true,
+            processing: true,
+            language: {
+
+                "processing": "<div class='spinner'><div class='bounce1'></div><div class='bounce2'></div><div class='bounce3'></div></div>"
+            },
             serverSide: true,
             ajax: {
                 url: "Bank/GetAllBank/",
@@ -90,8 +105,15 @@ function BindOrReloadBankTable(action) {
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {
+                debugger;
                 if (action === 'Export')
                 {
+                    if (json.data.length > 0)
+                    {
+                        if (json.data[0].TotalCount > 10000) {
+                            MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
+                        }
+                    }                    
                     $(".buttons-excel").trigger('click');
                     ResetBankList();
                 }
@@ -129,20 +151,22 @@ function EditBankMaster(this_obj) {
     $('#h3ModelMasterContextLabel').text('Edit Bank')
     $('#divModelMasterPopUp').modal('show');
 }
+//onsuccess function for formsubmitt
 function SaveSuccessBank(data, status)
 {
     debugger;
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
+            $('#IsUpdate').val('True');
             BindOrReloadBankTable('Reset');
-            notyAlert('success', JsonResult.Records.Message);           
+            MasterAlert("success",JsonResult.Records.Message)
             break;
         case "ERROR":
-            notyAlert('error', JsonResult.Message);
+            MasterAlert("danger", JsonResult.Message)
             break;
         default:
-            notyAlert('error', JsonResult.Message);
+            MasterAlert("danger", JsonResult.Message)            
             break;
     }
 }

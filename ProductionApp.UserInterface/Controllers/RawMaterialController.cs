@@ -14,84 +14,145 @@ namespace ProductionApp.UserInterface.Controllers
 {
     public class RawMaterialController : Controller
     {
-        private IRawMaterialBusiness _rawMaterialBusiness;
+        AppConst _appConst = new AppConst();
         private Common _common = new Common();
+        private IRawMaterialBusiness _rawMaterialBusiness;
 
+        #region Constructor Injection
         public RawMaterialController(IRawMaterialBusiness rawMaterialBusiness)
         {
             _rawMaterialBusiness = rawMaterialBusiness;
         }
+        #endregion Constructor Injection
+
+        #region Index
         // GET: RawMaterial
+        [AuthSecurityFilter(ProjectObject = "RawMaterial", Mode = "R")]
         public ActionResult Index(string code)
         {
             ViewBag.SysModuleCode = code;
             RawMaterialAdvanceSearchViewModel rawMaterialAdvanceSearchVM = new RawMaterialAdvanceSearchViewModel();
             return View(rawMaterialAdvanceSearchVM);
         }
+        #endregion Index
+
+        #region RawMaterialDropdown
+        public ActionResult RawMaterialDropdown()
+        {
+            RawMaterialViewModel rawMaterialVM = new RawMaterialViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            rawMaterialVM.SelectList = new List<SelectListItem>();
+            List<RawMaterialViewModel> rawMaterialList = Mapper.Map<List<RawMaterial>, List<RawMaterialViewModel>>(_rawMaterialBusiness.GetRawMaterialForSelectList());
+            if (rawMaterialList != null)
+                foreach (RawMaterialViewModel rawMaterial in rawMaterialList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = rawMaterial.MaterialCode,
+                        Value = rawMaterial.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            rawMaterialVM.SelectList = selectListItem;
+            return PartialView("_RawMaterialDropdown", rawMaterialVM);
+        }
+        #endregion RawMaterialDropdown
+
+        #region CheckMaterialCodeExist
         [AcceptVerbs("Get", "Post")]
         public ActionResult CheckMaterialCodeExist(RawMaterialViewModel rawMaterialVM)
         {
-            bool exists = rawMaterialVM.IsUpdate ? false : _rawMaterialBusiness.CheckMaterialCodeExist(rawMaterialVM.MaterialCode);
-            if (exists)
+            try
             {
-                return Json("<p><span style='vertical-align: 2px'>Material code already in use </span> <i class='fa fa-close' style='font-size:19px; color: red'></i></p>", JsonRequestBehavior.AllowGet);
+                bool exists = rawMaterialVM.IsUpdate ? false : _rawMaterialBusiness.CheckMaterialCodeExist(rawMaterialVM.MaterialCode);
+                if (exists)
+                {
+                    return Json("<p><span style='vertical-align: 2px'>Material code already in use </span> <i class='fa fa-close' style='font-size:19px; color: red'></i></p>", JsonRequestBehavior.AllowGet);
+                }
+                //var result = new { success = true, message = "Success" };
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
-            //var result = new { success = true, message = "Success" };
-            return Json(true, JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return Json(new { Result = "ERROR", Message = cm.Message });
+            }
         }
+        #endregion CheckMaterialCodeExist
 
+        #region GetAllRawMaterial
         [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "RawMaterial", Mode = "R")]
         public JsonResult GetAllRawMaterial(DataTableAjaxPostModel model,RawMaterialAdvanceSearchViewModel rawMaterialAdvanceSearchVM)
         {
-            //setting options to our model
-            rawMaterialAdvanceSearchVM.DataTablePaging.Start = model.start;
-            rawMaterialAdvanceSearchVM.DataTablePaging.Length = (rawMaterialAdvanceSearchVM.DataTablePaging.Length == 0) ? model.length : rawMaterialAdvanceSearchVM.DataTablePaging.Length;
-
-            //bankAdvanceSearchVM.OrderColumn = model.order[0].column;
-            //bankAdvanceSearchVM.OrderDir = model.order[0].dir;
-
-            // action inside a standard controller
-            List<RawMaterialViewModel> rawMaterialObjList = Mapper.Map<List<RawMaterial>, List<RawMaterialViewModel>>(_rawMaterialBusiness.GetAllRawMaterial(Mapper.Map<RawMaterialAdvanceSearchViewModel, RawMaterialAdvanceSearch>(rawMaterialAdvanceSearchVM)));
-
-            var settings = new JsonSerializerSettings
+            try
             {
-                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Formatting = Formatting.None
-            };
-            return Json(new
+                //setting options to our model
+                rawMaterialAdvanceSearchVM.DataTablePaging.Start = model.start;
+                rawMaterialAdvanceSearchVM.DataTablePaging.Length = (rawMaterialAdvanceSearchVM.DataTablePaging.Length == 0) ? model.length : rawMaterialAdvanceSearchVM.DataTablePaging.Length;
+
+                //bankAdvanceSearchVM.OrderColumn = model.order[0].column;
+                //bankAdvanceSearchVM.OrderDir = model.order[0].dir;
+
+                // action inside a standard controller
+                List<RawMaterialViewModel> rawMaterialObjList = Mapper.Map<List<RawMaterial>, List<RawMaterialViewModel>>(_rawMaterialBusiness.GetAllRawMaterial(Mapper.Map<RawMaterialAdvanceSearchViewModel, RawMaterialAdvanceSearch>(rawMaterialAdvanceSearchVM)));
+
+                var settings = new JsonSerializerSettings
+                {
+                    //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    Formatting = Formatting.None
+                };
+                return Json(new
+                {
+                    // this is what datatables wants sending back
+                    draw = model.draw,
+                    recordsTotal = rawMaterialObjList.Count != 0 ? rawMaterialObjList[0].TotalCount : 0,
+                    recordsFiltered = rawMaterialObjList.Count != 0 ? rawMaterialObjList[0].FilteredCount : 0,
+                    data = rawMaterialObjList
+                });
+            }
+            catch(Exception ex)
             {
-                // this is what datatables wants sending back
-                draw = model.draw,
-                recordsTotal = rawMaterialObjList.Count != 0 ? rawMaterialObjList[0].TotalCount : 0,
-                recordsFiltered = rawMaterialObjList.Count != 0 ? rawMaterialObjList[0].FilteredCount : 0,
-                data = rawMaterialObjList
-            });
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return Json(new { Result = "ERROR", Message = cm.Message });
+            }
         }
+        #endregion GetAllRawMaterial
+
         #region InsertUpdateRawMaterial
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "RawMaterial", Mode = "")]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "RawMaterial", Mode = "R")]
         public string InsertUpdateRawMaterial(RawMaterialViewModel rawMaterialVM)
         {
-            AppUA appUA = Session["AppUA"] as AppUA;
-            rawMaterialVM.Common = new CommonViewModel
+            try
             {
-                CreatedBy = appUA.UserName,
-                CreatedDate = _common.GetCurrentDateTime(),
-                UpdatedBy = appUA.UserName,
-                UpdatedDate = _common.GetCurrentDateTime(),
-            };
-            var result = _rawMaterialBusiness.InsertUpdateRawMaterial(Mapper.Map<RawMaterialViewModel, RawMaterial>(rawMaterialVM));
-            return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+                AppUA appUA = Session["AppUA"] as AppUA;
+                rawMaterialVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                var result = _rawMaterialBusiness.InsertUpdateRawMaterial(Mapper.Map<RawMaterialViewModel, RawMaterial>(rawMaterialVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch(Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message=cm.Message });
+            }
         }
         #endregion InsertUpdateRawMaterial
 
         #region MasterPartial
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "RawMaterial", Mode = "")]
+        [AuthSecurityFilter(ProjectObject = "RawMaterial", Mode = "R")]
         public ActionResult MasterPartial(string masterCode)
         {
-            //RawMaterialViewModel rawMaterialVM = string.IsNullOrEmpty(masterCode) ? new RawMaterialViewModel() : Mapper.Map<RawMaterial, RawMaterialViewModel>(_rawMaterialBusiness.GetRawMaterial(masterCode));
-            RawMaterialViewModel rawMaterialVM = new RawMaterialViewModel();
+            RawMaterialViewModel rawMaterialVM = string.IsNullOrEmpty(masterCode) ? new RawMaterialViewModel() : Mapper.Map<RawMaterial, RawMaterialViewModel>(_rawMaterialBusiness.GetRawMaterial(Guid.Parse(masterCode)));
+            //RawMaterialViewModel rawMaterialVM = new RawMaterialViewModel();
             rawMaterialVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
             return PartialView("_AddRawMaterialPartial", rawMaterialVM);
         }
@@ -99,7 +160,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "RawMaterial", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();
@@ -121,51 +182,8 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.PrintBtn.Title = "Export";
                     toolboxVM.PrintBtn.Event = "ImportRawMaterialData();";
                     //---------------------------------------
-
                     break;
-                //case "Edit":
-
-                //    toolboxVM.addbtn.Visible = true;
-                //    toolboxVM.addbtn.Text = "New";
-                //    toolboxVM.addbtn.Title = "Add New";
-                //    toolboxVM.addbtn.Event = "openNav();";
-
-                //    toolboxVM.savebtn.Visible = true;
-                //    toolboxVM.savebtn.Text = "Save";
-                //    toolboxVM.savebtn.Title = "Save RawMaterial";
-                //    toolboxVM.savebtn.Event = "Save();";
-
-                //    toolboxVM.deletebtn.Visible = true;
-                //    toolboxVM.deletebtn.Text = "Delete";
-                //    toolboxVM.deletebtn.Title = "Delete RawMaterial";
-                //    toolboxVM.deletebtn.Event = "Delete()";
-
-                //    toolboxVM.resetbtn.Visible = true;
-                //    toolboxVM.resetbtn.Text = "Reset";
-                //    toolboxVM.resetbtn.Title = "Reset";
-                //    toolboxVM.resetbtn.Event = "Reset();";
-
-                //    toolboxVM.CloseBtn.Visible = true;
-                //    toolboxVM.CloseBtn.Text = "Close";
-                //    toolboxVM.CloseBtn.Title = "Close";
-                //    toolboxVM.CloseBtn.Event = "closeNav();";
-
-                //    break;
-                //case "Add":
-
-                //    toolboxVM.savebtn.Visible = true;
-                //    toolboxVM.savebtn.Text = "Save";
-                //    toolboxVM.savebtn.Title = "Save";
-                //    toolboxVM.savebtn.Event = "Save();";
-
-                //    toolboxVM.ListBtn.Visible = true;
-                //    toolboxVM.ListBtn.Text = "List";
-                //    toolboxVM.ListBtn.Title = "List";
-                //    toolboxVM.ListBtn.Event = "";
-                //    toolboxVM.ListBtn.Href = Url.Action("Index", "RawMaterial", new { Code = "MSTR" });
-
-
-                //    break;
+          
                 default:
                     return Content("Nochange");
             }

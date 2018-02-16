@@ -45,6 +45,7 @@
     <Compile Include="Contracts\IDashboardStoreRepository.cs" />
     <Compile Include="Contracts\IDatabaseFactory.cs" />
     <Compile Include="Contracts\IDynamicUIRepository.cs" />
+    <Compile Include="Contracts\IEmployeeRepository.cs" />
     <Compile Include="Contracts\IRequisitionRepository.cs" />
     <Compile Include="Contracts\IPurchaseOrderRepository.cs" />
     <Compile Include="Contracts\IRawMaterialRepository.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Services\DashboardStoreRepository.cs" />
     <Compile Include="Services\DatabaseFactory.cs" />
     <Compile Include="Services\DynamicUIRepository.cs" />
+    <Compile Include="Services\EmployeeRepository.cs" />
     <Compile Include="Services\RequisitionRepository.cs" />
     <Compile Include="Services\PurchaseOrderRepository.cs" />
     <Compile Include="Services\RawMaterialRepository.cs" />

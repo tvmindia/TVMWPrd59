@@ -36,6 +36,13 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[GetAllPurchaseOrder]";
                         cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(purchaseOrderAdvanceSearch.SearchTerm) ? "" : purchaseOrderAdvanceSearch.SearchTerm;
                         cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = purchaseOrderAdvanceSearch.DataTablePaging.Start;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = purchaseOrderAdvanceSearch.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = purchaseOrderAdvanceSearch.ToDate;
+                        cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = purchaseOrderAdvanceSearch.Status;
+                        if(purchaseOrderAdvanceSearch.Supplier.ID == Guid.Empty)
+                            cmd.Parameters.AddWithValue("@SupplierID", DBNull.Value);
+                        else
+                        cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = purchaseOrderAdvanceSearch.Supplier.ID;
                         if (purchaseOrderAdvanceSearch.DataTablePaging.Length == -1)
                             cmd.Parameters.AddWithValue("@Length", DBNull.Value);
                         else
