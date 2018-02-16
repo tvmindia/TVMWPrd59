@@ -1,0 +1,3 @@
+﻿@model ProductionApp.UserInterface.Models.RawMaterialViewModel
+@Html.DropDownList("RawMaterial_ID", Model.SelectList, "-----select Code----", new { @class = "form-control" })
+@Html.ValidationMessage("RawMaterial_ID", "", new { @class = "text-danger" })

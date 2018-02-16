@@ -78,7 +78,8 @@
                     @Html.LabelFor(model => model.RequisitionBy, htmlAttributes: new { @class = "control-label " })
                 </div>
                 <div class="col-md-12">
-                    @{
+                    @Html.Action("EmployeeDropdown", "Employee")
+                    @*@{
                         List<SelectListItem> RequisitionStatus1 = new List<SelectListItem>();
                         RequisitionStatus1.Add(new SelectListItem
                         { Text = "Open", Value = "Open", Selected = true });
@@ -86,7 +87,7 @@
                         { Text = "Closed", Value = "Closed" });
                     }
                     @Html.DropDownListFor(model => model.RequisitionBy, RequisitionStatus1, new { @class = "form-control", style = "padding:4px 12px;" })
-                    @Html.ValidationMessageFor(model => model.RequisitionBy, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.RequisitionBy, "", new { @class = "text-danger" })*@
                 </div>
             </div>
             <div class="form-group col-md-6">

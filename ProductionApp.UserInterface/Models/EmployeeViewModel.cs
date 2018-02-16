@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ProductionApp.UserInterface.Models
 {
@@ -20,5 +21,7 @@ namespace ProductionApp.UserInterface.Models
         public string EmployeeCategory { get; set; }
         public bool IsActive { get; set; }
         public CommonViewModel Common { get; set; }
+        public List<SelectListItem> SelectList { get; set; }
+
     }
 }
