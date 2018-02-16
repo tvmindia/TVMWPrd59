@@ -11,5 +11,6 @@ namespace ProductionApp.RepositoryServices.Contracts
     {
         List<MaterialIssue> GetRecentIssueSummary();
         List<MaterialReceipt> GetRecentMaterialReceiptSummary();
+        List<MaterialStockAdj> GetRecentStockAdjustment();
     }
 }

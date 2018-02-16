@@ -17,5 +17,19 @@ namespace ProductionApp.DataAccessObject.DTO
         public int LatestApprovalstatus { get; set; }
         public bool IsFinalApproved { get; set; }
         public Common Common { get; set; }
+
+        public Employee Employee { get; set; }
+        public RawMaterial RawMaterial { get; set; }
+        public MaterialStockAdjDetail MaterialStockAdjDetail { get; set; }
+    }
+
+    public class MaterialStockAdjDetail
+    {
+        public Guid ID { get; set; }
+        public Guid AdjustmentBy { get; set; }
+        public Guid MaterialID { get; set; }
+        public decimal Qty { get; set; }
+        public string Remarks { get; set; }
+        public Common Common { get; set; }
     }
 }

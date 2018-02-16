@@ -1,4 +1,4 @@
-﻿@model ProductionApp.UserInterface.Models.IssueSummaryViewModel
+﻿@model ProductionApp.UserInterface.Models.MyApprovalsViewModel
 
 <div class="col-md-12">
     <div class="box box-info">
@@ -12,26 +12,26 @@
                 <table class="table no-margin">
                     <thead style="display:table;width:100%;table-layout:fixed;">
                         <tr>
-                            <th>Issue No.</th>
-                            <th>Issued To</th>
-                            <th>Issued By</th>
-                            <th>Issue Date</th>
+                            <th>Name</th>
+                            <th>Material</th>
+                            <th>Qty.</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
-                    <tbody style="height:150px;max-height:500px;display:table;overflow-y:scroll;table-layout:auto;">
-                        @if (Model.MaterialIssueList != null)
+                    <tbody style="height:150px;max-height:500px;display:table;overflow-y:scroll;table-layout:auto;width:100%;">@*Need display to be changed into block*@
+                        @if (Model.MaterialStockAdjList != null)
                         {
-                            for (int i = 0; i < Model.MaterialIssueList.Count; i++)
+                            for (int i = 0; i < Model.MaterialStockAdjList.Count; i++)
                             {
                                 <tr>
-                                    <th><a href="@Model.MaterialIssueList[i].ID">@Model.MaterialIssueList[i].IssueNo</a></th>
-                                    <td>@Model.MaterialIssueList[i].IssueToEmployee.Name</td>
-                                    <td>@Model.MaterialIssueList[i].IssuedByEmployee.Name</td>
-                                    <td><span class="label label-info @Model.Color ">@Model.MaterialIssueList[i].IssueDateFormatted</span></td>
+                                    <th><a href="@Model.MaterialStockAdjList[i].ID">@Model.MaterialStockAdjList[i].Employee.Name</a></th>
+                                    <td>@Model.MaterialStockAdjList[i].RawMaterial.Description</td>
+                                    <td>@Model.MaterialStockAdjList[i].MaterialStockAdjDetail.Qty</td>
+                                    <td><span class="label label-info @Model.Color ">@Model.MaterialStockAdjList[i].DateFormatted</span></td>
                                 </tr>
                             }
 
-                            for (int i = (Model.MaterialIssueList == null ? 0 : Model.MaterialIssueList.Count); i < 5; i++)
+                            for (int i = (Model.MaterialStockAdjList == null ? 0 : Model.MaterialStockAdjList.Count); i < 5; i++)
                             {
                                 <tr>
                                     <th>-</th>

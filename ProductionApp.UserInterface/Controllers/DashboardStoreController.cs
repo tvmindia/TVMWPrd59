@@ -29,7 +29,12 @@ namespace ProductionApp.UserInterface.Controllers
 
         public ActionResult MyApprovals()
         {
-            return PartialView("_MyApprovals");
+            MyApprovalsViewModel data = new MyApprovalsViewModel();
+            data.Title = "My Stock Approvals";
+            data.Color = "bg-green";
+            data.URL = "localhost/dashboard/";
+            data.MaterialStockAdjList = Mapper.Map<List<MaterialStockAdj>, List<MaterialStockAdjViewModel>>(_dashboardStoreBusiness.GetRecentStockAdjustment());
+            return PartialView("_MyApprovals",data);
         }
 
         public ActionResult IssueSummary()
@@ -46,15 +51,20 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ReceiptSummaryViewModel data = new ReceiptSummaryViewModel();
             data.Title = "Receipt Summary";
-            data.Color = "bg-fuchsia";
+            data.Color = "bg-purple";
             data.URL = "localhost/dashboard/";
             data.MaterialReceiptList = Mapper.Map<List<MaterialReceipt>, List<MaterialReceiptViewModel>>(_dashboardStoreBusiness.GetRecentMaterialReceiptSummary());
             return PartialView("_ReceiptSummary",data);
         }
         
         public ActionResult ReOrderAlert()
-        {
-            return PartialView("_ReOrderAlert");
+        {//The view model is given for temporary purpose need to be made later
+            ReceiptSummaryViewModel data = new ReceiptSummaryViewModel();
+            data.Title = "Reorder Alert";
+            data.Color = "bg-maroon";
+            data.URL = "localhost/dashboard/";
+            data.MaterialReceiptList = new List<MaterialReceiptViewModel>();
+            return PartialView("_ReOrderAlert",data);
         }
     }
 }
