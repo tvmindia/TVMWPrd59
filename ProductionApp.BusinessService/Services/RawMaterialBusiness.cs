@@ -17,6 +17,10 @@ namespace ProductionApp.BusinessService.Services
         {
             _rawMaterialRepository = rawMaterialRepository;
         }
+        public List<RawMaterial> GetRawMaterialForSelectList()
+        {
+            return _rawMaterialRepository.GetRawMaterialForSelectList();
+        }
         public List<RawMaterial> GetAllRawMaterial(RawMaterialAdvanceSearch rawMaterialAdvanceSearch)
         {
             return _rawMaterialRepository.GetAllRawMaterial(rawMaterialAdvanceSearch);

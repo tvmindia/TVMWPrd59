@@ -9,6 +9,7 @@ namespace ProductionApp.BusinessService.Contracts
 {
     public interface IRawMaterialBusiness
     {
+        List<RawMaterial> GetRawMaterialForSelectList();
         List<RawMaterial> GetAllRawMaterial(RawMaterialAdvanceSearch rawMaterialAdvanceSearch);
         bool CheckMaterialCodeExist(string materialCode);
         object InsertUpdateRawMaterial(RawMaterial rawMaterial);

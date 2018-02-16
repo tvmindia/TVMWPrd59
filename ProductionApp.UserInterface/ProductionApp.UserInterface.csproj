@@ -724,6 +724,7 @@
     <Content Include="Views\PurchaseOrder\NewPurchaseOrder.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Supplier\_SupplierDropdown.cshtml" />
+    <Content Include="Views\RawMaterial\_RawMaterialDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

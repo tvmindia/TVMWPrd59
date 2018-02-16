@@ -36,6 +36,28 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion Index
 
+        #region RawMaterialDropdown
+        public ActionResult RawMaterialDropdown()
+        {
+            RawMaterialViewModel rawMaterialVM = new RawMaterialViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            rawMaterialVM.SelectList = new List<SelectListItem>();
+            List<RawMaterialViewModel> rawMaterialList = Mapper.Map<List<RawMaterial>, List<RawMaterialViewModel>>(_rawMaterialBusiness.GetRawMaterialForSelectList());
+            if (rawMaterialList != null)
+                foreach (RawMaterialViewModel rawMaterial in rawMaterialList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = rawMaterial.MaterialCode,
+                        Value = rawMaterial.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            rawMaterialVM.SelectList = selectListItem;
+            return PartialView("_RawMaterialDropdown", rawMaterialVM);
+        }
+        #endregion RawMaterialDropdown
+
         #region CheckMaterialCodeExist
         [AcceptVerbs("Get", "Post")]
         public ActionResult CheckMaterialCodeExist(RawMaterialViewModel rawMaterialVM)
