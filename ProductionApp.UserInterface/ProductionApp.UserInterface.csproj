@@ -629,6 +629,7 @@
     <Compile Include="Controllers\DashboardSaleController.cs" />
     <Compile Include="Controllers\DashboardSettingsController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DashboardStoreController.cs" />
     <Compile Include="Controllers\DashboardReportController.cs" />
@@ -724,6 +725,8 @@
     <Content Include="Views\PurchaseOrder\NewPurchaseOrder.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Supplier\_SupplierDropdown.cshtml" />
+    <Content Include="Views\Employee\Employee.cshtml" />
+    <Content Include="Views\Employee\_EmployeeDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
