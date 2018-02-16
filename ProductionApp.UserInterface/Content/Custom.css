@@ -13,6 +13,7 @@
 	border-left-color: rgba(98, 225, 108, 0.78);
 }
 [data-notify="container"].alert-pastel-info {
+    background-color:rgba(245, 106, 36, 0.79);
 	border-left-color: rgb(255, 179, 40);
 }
 [data-notify="container"].alert-pastel-danger {
@@ -946,4 +947,7 @@ td.totalRow {
         -webkit-transform: scale(1.0);
     }
 }
-
+.dataTables_processing {
+        background-color:transparent;
+        border:hidden;
+        }

@@ -40,6 +40,7 @@ function BindOrReloadBankTable(action) {
             case 'Search':
                 break;
             case 'Export':
+                if ($('#SearchTerm').val()=="")
                 DataTablePagingViewModel.Length = -1;
                 break;
             default:
@@ -64,6 +65,10 @@ function BindOrReloadBankTable(action) {
             paging: true,
             lengthChange: false,
             processing: true,
+            language: {
+
+                "processing": "<div class='spinner'><div class='bounce1'></div><div class='bounce2'></div><div class='bounce3'></div></div>"
+            },
             serverSide: true,
             ajax: {
                 url: "Bank/GetAllBank/",
@@ -100,8 +105,13 @@ function BindOrReloadBankTable(action) {
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {
+                debugger;
                 if (action === 'Export')
                 {
+                    if (json.data[0].TotalCount > 10000)
+                    {
+                        MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
+                    }
                     $(".buttons-excel").trigger('click');
                     ResetBankList();
                 }

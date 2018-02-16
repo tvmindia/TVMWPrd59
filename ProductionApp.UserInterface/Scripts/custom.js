@@ -44,6 +44,7 @@ var fileArray = [];
 //LOADER/SPINNER
 $(window).bind("load", function () {
     "use strict";
+    $('.dataTables_processing').hide();
     $(".spn_hol").fadeOut(1000);
 });
 $(document).ready(function () {
@@ -142,6 +143,7 @@ function OnServerCallComplete() {
 //---------------------------------------------
 function MasterAlert(type,msgtxt)
 {
+    var iconclass = (type == "success") ? "fa fa-check" : ((type == "info") ? "fa fa-info-circle" : "fa fa-warning")
     $.notify({
         title: msgtxt,
         message: ""
@@ -153,10 +155,10 @@ function MasterAlert(type,msgtxt)
             align: 'right'
         },
         z_index: 21031,
-        delay: 5000,
+        delay: 10000,
         template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
             '<span data-notify="title">{1}</span>' +
-            '<i class="fa fa-check" style="font-size:48px;color:white"></i></span>' +
+            '<i class="'+iconclass+'" style="font-size:48px;color:white"></i></span>' +
         '</div>'
     });
 }

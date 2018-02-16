@@ -61,7 +61,12 @@ namespace ProductionApp.UserInterface.Controllers
 
             // action inside a standard controller
             List<BankViewModel> bankVMList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetAllBank(Mapper.Map<BankAdvanceSearchViewModel, BankAdvanceSearch>(bankAdvanceSearchVM)));
-            
+            if(bankAdvanceSearchVM.DataTablePaging.Length==-1)
+            {
+                int totalResult = bankVMList.Count != 0 ? bankVMList[0].TotalCount : 0;
+                int filteredResult = bankVMList.Count != 0 ? bankVMList[0].FilteredCount : 0;
+                bankVMList = bankVMList.Skip(0).Take(filteredResult>10000?10000: filteredResult).ToList();
+            }
             var settings = new JsonSerializerSettings
             {
                 //ContractResolver = new CamelCasePropertyNamesContractResolver(),
