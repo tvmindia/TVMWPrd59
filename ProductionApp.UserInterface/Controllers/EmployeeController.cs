@@ -26,7 +26,7 @@ namespace ProductionApp.UserInterface.Controllers
         {
             EmployeeViewModel employeeVM = new EmployeeViewModel();
             employeeVM.SelectList = new List<SelectListItem>();
-            List<EmployeeViewModel> employeeList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_employeeBusiness.GetAllEmployee());
+            List<EmployeeViewModel> employeeList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_employeeBusiness.GetEmployeeForSelectList());
             if (employeeList != null)
                 foreach (EmployeeViewModel employee in employeeList)
                 {

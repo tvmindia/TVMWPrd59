@@ -9,7 +9,7 @@ namespace ProductionApp.RepositoryServices.Contracts
 {
     public interface IEmployeeRepository
     {
-        List<Employee> GetAllEmployee();
+        List<Employee> GetEmployeeForSelectList();
 
     }
 }

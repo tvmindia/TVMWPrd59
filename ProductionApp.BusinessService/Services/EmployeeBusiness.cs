@@ -16,9 +16,9 @@ namespace ProductionApp.BusinessService.Services
         {
             _employeeRepository = employeeRepository;
         }
-        public List<Employee> GetAllEmployee()
+        public List<Employee> GetEmployeeForSelectList()
         {
-            return _employeeRepository.GetAllEmployee();
+            return _employeeRepository.GetEmployeeForSelectList();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace ProductionApp.RepositoryServices.Services
         {
             _databaseFactory = databaseFactory;
         }
-        public List<Employee> GetAllEmployee()
+        public List<Employee> GetEmployeeForSelectList()
         {
             List<Employee> employeeList = null;
             try
@@ -31,7 +31,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetAllEmployee]";
+                        cmd.CommandText = "[AMC].[GetEmployeeForSelectList]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
