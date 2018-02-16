@@ -17,7 +17,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string GeneralNotes { get; set; }
         public Common Common { get; set; }
 
-        public Employee IssueToEmployee { get; set; }
-        public Employee IssuedByEmployee { get; set; }
+        public string IssueToEmployeeName { get; set; }
+        public string IssuedByEmployeeName { get; set; }
     }
 }
