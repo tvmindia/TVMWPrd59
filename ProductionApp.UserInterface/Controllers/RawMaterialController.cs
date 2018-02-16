@@ -48,7 +48,7 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     selectListItem.Add(new SelectListItem
                     {
-                        Text = rawMaterial.MaterialCode,
+                        Text = rawMaterial.MaterialCode + '-'+ rawMaterial.Description,
                         Value = rawMaterial.ID.ToString(),
                         Selected = false
                     });
@@ -95,8 +95,13 @@ namespace ProductionApp.UserInterface.Controllers
                 //bankAdvanceSearchVM.OrderDir = model.order[0].dir;
 
                 // action inside a standard controller
-                List<RawMaterialViewModel> rawMaterialObjList = Mapper.Map<List<RawMaterial>, List<RawMaterialViewModel>>(_rawMaterialBusiness.GetAllRawMaterial(Mapper.Map<RawMaterialAdvanceSearchViewModel, RawMaterialAdvanceSearch>(rawMaterialAdvanceSearchVM)));
-
+                List<RawMaterialViewModel> rawMaterialVMList = Mapper.Map<List<RawMaterial>, List<RawMaterialViewModel>>(_rawMaterialBusiness.GetAllRawMaterial(Mapper.Map<RawMaterialAdvanceSearchViewModel, RawMaterialAdvanceSearch>(rawMaterialAdvanceSearchVM)));
+                if (rawMaterialAdvanceSearchVM.DataTablePaging.Length == -1)
+                {
+                    int totalResult = rawMaterialVMList.Count != 0 ? rawMaterialVMList[0].TotalCount : 0;
+                    int filteredResult = rawMaterialVMList.Count != 0 ? rawMaterialVMList[0].FilteredCount : 0;
+                    rawMaterialVMList = rawMaterialVMList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+                }
                 var settings = new JsonSerializerSettings
                 {
                     //ContractResolver = new CamelCasePropertyNamesContractResolver(),
@@ -106,9 +111,9 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     // this is what datatables wants sending back
                     draw = model.draw,
-                    recordsTotal = rawMaterialObjList.Count != 0 ? rawMaterialObjList[0].TotalCount : 0,
-                    recordsFiltered = rawMaterialObjList.Count != 0 ? rawMaterialObjList[0].FilteredCount : 0,
-                    data = rawMaterialObjList
+                    recordsTotal = rawMaterialVMList.Count != 0 ? rawMaterialVMList[0].TotalCount : 0,
+                    recordsFiltered = rawMaterialVMList.Count != 0 ? rawMaterialVMList[0].FilteredCount : 0,
+                    data = rawMaterialVMList
                 });
             }
             catch(Exception ex)

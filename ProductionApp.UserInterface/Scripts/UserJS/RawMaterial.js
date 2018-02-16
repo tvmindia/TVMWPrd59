@@ -3,7 +3,7 @@
 //*****************************************************************************
 //Author: Jais
 //CreatedDate: 13-Feb-2018 
-//LastModified: 15-Feb-2018 
+//LastModified: 16-Feb-2018 
 //FileName: RawMaterial.js
 //Description: Client side coding for RawMaterial
 //******************************************************************************
@@ -94,6 +94,11 @@ function BindOrReloadRawMaterialTable(action) {
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {
                 if (action === 'Export') {
+                    if (json.data[0].TotalCount > 10000) {
+                        MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
+                    }
+                    if (json.data.length > 0) {
+                    }
                     $(".buttons-excel").trigger('click');
                     ResetRawMaterialList();
                 }
