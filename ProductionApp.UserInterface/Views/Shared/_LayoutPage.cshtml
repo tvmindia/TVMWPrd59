@@ -21,6 +21,7 @@
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo -->
+            <a id="ahrefHome" class='button glyphicon glyphicon-equalizer'></a>
             <a href="@Url.Action("Index", "Home")" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>M ERP</b></span>
@@ -53,41 +54,23 @@
     </li> 
     *@
     <!-- Notifications: style can be found in dropdown.less -->
-    @*<li class="dropdown notifications-menu" id="undepositedCount1">
-     
-       <a href="@Url.Action("undeposited", "DepositAndWithdrawals")">
-            <i class="fa fa-bell-o" ></i>
-            <span class="label label-warning"  id="undepositedCount"  ></span>
+    <li class="dropdown notifications-menu">     
+       <a href="@Url.Action("Index", "Home")" >
+            <i class="fa fa-home" style="font-size:15px"> Home </i>
         </a>
-        <ul class="dropdown-menu">
-            <li class="header">You have 0 notifications</li>
-            <li>
-                 inner menu: contains the actual data 
-
-            </li>
-
-        </ul>
-    </li>*@
+    </li>
     <!-- Tasks: style can be found in dropdown.less -->
-    @* <li class="dropdown tasks-menu">
+     @*<li class="dropdown tasks-menu">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-flag-o"></i>
             <span class="label label-danger">0</span>
         </a>
-        <ul class="dropdown-menu">
-            <li class="header">You have 0 tasks</li>
-            <li>
-                 inner menu: contains the actual data
-
-            </li>
-
-        </ul>
     </li>*@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                <i class="fa fa-user-o" aria-hidden="true" style="font-size:15px"></i>
                                 <span class="hidden-xs"><strong>@User.Identity.Name</strong></span>
                             </a>
                             <ul class="dropdown-menu">
@@ -169,6 +152,123 @@
             <div class="bounce1"></div>
             <div class="bounce2"></div>
             <div class="bounce3"></div>
+        </div>
+    </div>
+    <div class='wrap'>
+        <div class='content'>
+            <div class="container-fluid">
+
+
+                <div class="row" style="margin-top:2%;">
+                    <div class="col-lg-4 col-xs-8">
+                        <!-- small box -->
+                        <div class="small-box bg-blue-gradient">
+                            <div class="inner">
+                                <h3>⚝</h3>
+                                <p>Purchase</p>
+                            </div>
+                            <div class="icon">
+                                <i class=""></i>
+                            </div>
+                            <a href="/DynamicUI/UnderConstruction?Code=PURCH&amp;Name=Purchase" class="small-box-footer">Dashboard <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-xs-8">
+                        <!-- small box -->
+                        <div class="small-box bg-blue-gradient">
+                            <div class="inner">
+                                <h3>⚝</h3>
+                                <p>Stores</p>
+                            </div>
+                            <div class="icon">
+                                <i class=""></i>
+                            </div>
+                            <a href="/DashboardStore?Code=STR&amp;Name=Stores" class="small-box-footer">Dashboard <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-xs-8">
+                        <!-- small box -->
+                        <div class="small-box bg-blue-gradient">
+                            <div class="inner">
+                                <h3>⚝</h3>
+                                <p>Production</p>
+                            </div>
+                            <div class="icon">
+                                <i class=""></i>
+                            </div>
+                            <a href="/DynamicUI/UnderConstruction?Code=PROD&amp;Name=Production" class="small-box-footer">Dashboard <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-xs-8">
+                        <!-- small box -->
+                        <div class="small-box bg-blue-gradient">
+                            <div class="inner">
+                                <h3>⚝</h3>
+                                <p>Sales</p>
+                            </div>
+                            <div class="icon">
+                                <i class=""></i>
+                            </div>
+                            <a href="/DynamicUI/UnderConstruction?Code=SALE&amp;Name=Sales" class="small-box-footer">Dashboard <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-xs-8">
+                        <!-- small box -->
+                        <div class="small-box bg-blue-gradient">
+                            <div class="inner">
+                                <h3>⚝</h3>
+                                <p>Accounts</p>
+                            </div>
+                            <div class="icon">
+                                <i class=""></i>
+                            </div>
+                            <a href="/DynamicUI/UnderConstruction?Code=ACC&amp;Name=Accounts" class="small-box-footer">Dashboard <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-xs-8">
+                        <!-- small box -->
+                        <div class="small-box bg-blue-gradient">
+                            <div class="inner">
+                                <h3>⚝</h3>
+                                <p>Masters</p>
+                            </div>
+                            <div class="icon">
+                                <i class=""></i>
+                            </div>
+                            <a href="/DynamicUI/UnderConstruction?Code=MSTR&amp;Name=Masters" class="small-box-footer">Dashboard <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-xs-8">
+                        <!-- small box -->
+                        <div class="small-box bg-blue-gradient">
+                            <div class="inner">
+                                <h3>⚝</h3>
+                                <p>Reports</p>
+                            </div>
+                            <div class="icon">
+                                <i class=""></i>
+                            </div>
+                            <a href="/DynamicUI/UnderConstruction?Code=RPT&amp;Name=Reports" class="small-box-footer">Dashboard <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-xs-8">
+                        <!-- small box -->
+                        <div class="small-box bg-blue-gradient">
+                            <div class="inner">
+                                <h3>⚝</h3>
+                                <p>Settings</p>
+                            </div>
+                            <div class="icon">
+                                <i class=""></i>
+                            </div>
+                            <a href="/DynamicUI/UnderConstruction?Code=SETT&amp;Name=Settings" class="small-box-footer">Dashboard <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>   
         </div>
     </div>
     <!-- END PRELOADER -->

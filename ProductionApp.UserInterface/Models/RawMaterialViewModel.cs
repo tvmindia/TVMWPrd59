@@ -18,7 +18,7 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Please Enter Rate")]
         public decimal Rate { get; set; }
         [Required(ErrorMessage = "Please Enter Type")]
-        public string Type { get; set; }
+        public string MaterialType { get; set; }
         public string Description { get; set; }
         [Required(ErrorMessage = "Please Enter UnitCode")]
         [Display(Name = "Unit Code")]
