@@ -29,42 +29,31 @@ namespace ProductionApp.UserInterface.Controllers
 
         public ActionResult MyApprovals()
         {
-            MyApprovalsViewModel data = new MyApprovalsViewModel();
-            data.Title = "My Stock Approvals";
-            data.Color = "bg-green";
-            data.URL = "localhost/dashboard/";
-            data.MaterialStockAdjList = Mapper.Map<List<MaterialStockAdj>, List<MaterialStockAdjViewModel>>(_dashboardStoreBusiness.GetRecentStockAdjustment());
-            return PartialView("_MyApprovals",data);
+            MaterialStockAdjViewModel MaterialStockAdj = new MaterialStockAdjViewModel();
+            MaterialStockAdj.MaterialStockAdjList = new List<MaterialStockAdjViewModel>();
+            return PartialView("_MyApprovals",MaterialStockAdj);
         }
 
         public ActionResult IssueSummary()
         {
-            IssueSummaryViewModel data = new IssueSummaryViewModel();
-            data.Title = "Issue Summary";
-            data.Color = "bg-aqua";
-            data.URL = "localhost/dashboard/";
-            data.MaterialIssueList = Mapper.Map<List<MaterialIssue>,List<MaterialIssueViewModel>>(_dashboardStoreBusiness.GetRecentIssueSummary());
-            return PartialView("_IssueSummary",data);
+            MaterialIssueViewModel MaterialIssue = new MaterialIssueViewModel();
+            MaterialIssue.MaterialIssueList = Mapper.Map<List<MaterialIssue>,List<MaterialIssueViewModel>>(_dashboardStoreBusiness.GetRecentIssueSummary());
+            return PartialView("_IssueSummary",MaterialIssue);
         }
 
         public ActionResult ReceiptSummary()
         {
-            ReceiptSummaryViewModel data = new ReceiptSummaryViewModel();
-            data.Title = "Receipt Summary";
-            data.Color = "bg-purple";
-            data.URL = "localhost/dashboard/";
-            data.MaterialReceiptList = Mapper.Map<List<MaterialReceipt>, List<MaterialReceiptViewModel>>(_dashboardStoreBusiness.GetRecentMaterialReceiptSummary());
-            return PartialView("_ReceiptSummary",data);
+            MaterialReceiptViewModel MaterialReceipt = new MaterialReceiptViewModel();
+            MaterialReceipt.MaterialReceiptList = Mapper.Map<List<MaterialReceipt>, List<MaterialReceiptViewModel>>(_dashboardStoreBusiness.GetRecentMaterialReceiptSummary());
+            return PartialView("_ReceiptSummary",MaterialReceipt);
         }
         
         public ActionResult ReOrderAlert()
-        {//The view model is given for temporary purpose need to be made later
-            ReceiptSummaryViewModel data = new ReceiptSummaryViewModel();
-            data.Title = "Reorder Alert";
-            data.Color = "bg-maroon";
-            data.URL = "localhost/dashboard/";
-            data.MaterialReceiptList = new List<MaterialReceiptViewModel>();
-            return PartialView("_ReOrderAlert",data);
+        {
+            //The view model is given for temporary purpose need to be made later
+            MaterialReceiptViewModel MaterialReceipt = new MaterialReceiptViewModel();
+            MaterialReceipt.MaterialReceiptList = new List<MaterialReceiptViewModel>();
+            return PartialView("_ReOrderAlert",MaterialReceipt);
         }
     }
 }

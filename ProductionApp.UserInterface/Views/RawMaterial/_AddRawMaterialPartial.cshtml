@@ -35,12 +35,12 @@
 
         <div class="form-group col-md-12">
             <div class="col-md-12">
-                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label lblrequired" })
+                @Html.LabelFor(model => model.MaterialType, htmlAttributes: new { @class = "control-label lblrequired" })
             </div>
             <div class="col-md-12">
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                    @Html.Action("MaterialTypeDropdown", "MaterialType")
+                    @Html.ValidationMessageFor(model => model.MaterialType, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
             </div>
             <div class="col-md-12">
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.UnitCode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.Action("UnitDropdown", "Unit")
                     @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
                 </div>
             </div>

@@ -10,6 +10,6 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface IRequisitionRepository
     {
         List<Requisition> GetAllRequisition(RequisitionAdvanceSearch requisitionAdvanceSearch);
-
+        object InsertUpdateRequisition(Requisition requisition);
     }
 }

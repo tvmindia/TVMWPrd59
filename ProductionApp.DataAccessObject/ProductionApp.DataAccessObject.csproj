@@ -76,10 +76,13 @@
     <Compile Include="DTO\MaterialIssue.cs" />
     <Compile Include="DTO\MaterialReceipt.cs" />
     <Compile Include="DTO\MaterialStockAdj.cs" />
+    <Compile Include="DTO\MaterialType.cs" />
+    <Compile Include="DTO\Product.cs" />
     <Compile Include="DTO\Requisition.cs" />
     <Compile Include="DTO\PurchaseOrder.cs" />
     <Compile Include="DTO\RawMaterial.cs" />
     <Compile Include="DTO\Supplier.cs" />
+    <Compile Include="DTO\Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

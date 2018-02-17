@@ -20,6 +20,7 @@ namespace ProductionApp.UserInterface.Models
         public EmployeeViewModel Employee { get; set; }
         public RawMaterialViewModel RawMaterial { get; set; }
         public MaterialStockAdjDetailViewModel MaterialStockAdjDetail { get; set; }
+        public List<MaterialStockAdjViewModel> MaterialStockAdjList { get; set; }
     }
 
     public class MaterialStockAdjDetailViewModel

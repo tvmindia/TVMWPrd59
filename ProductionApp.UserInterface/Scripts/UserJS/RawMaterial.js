@@ -41,6 +41,7 @@ function BindOrReloadRawMaterialTable(action) {
             case 'Search':
                 break;
             case 'Export':
+                if ($('#SearchTerm').val() == "")
                 DataTablePagingViewModel.Length = -1;
                 break;
             default:
@@ -80,7 +81,7 @@ function BindOrReloadRawMaterialTable(action) {
             { "data": "ID", "defaultContent": "<i>-</i>" },
             { "data": "MaterialCode", "defaultContent": "<i>-</i>" },
             { "data": "Rate", "defaultContent": "<i>-</i>" },
-            { "data": "Type", "defaultContent": "<i>-<i>" },
+            { "data": "MaterialType", "defaultContent": "<i>-<i>" },
             { "data": "Description", "defaultContent": "<i>-<i>" },
             { "data": "UnitCode", "defaultContent": "<i>-<i>" },
             { "data": "ReorderQty", "defaultContent": "<i>-<i>" },
@@ -94,10 +95,10 @@ function BindOrReloadRawMaterialTable(action) {
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {
                 if (action === 'Export') {
-                    if (json.data[0].TotalCount > 10000) {
-                        MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                    }
                     if (json.data.length > 0) {
+                        if (json.data[0].TotalCount > 10000) {
+                            MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
+                        }
                     }
                     $(".buttons-excel").trigger('click');
                     ResetRawMaterialList();
