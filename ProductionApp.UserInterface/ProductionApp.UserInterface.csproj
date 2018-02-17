@@ -675,7 +675,6 @@
     <Compile Include="Models\MaterialTypeViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
-    <Compile Include="Models\ReceiptSummaryViewModel.cs" />
     <Compile Include="Models\RequisitionViewModel.cs" />
     <Compile Include="Models\PurchaseOrderViewModel.cs" />
     <Compile Include="Models\RawMaterialViewModel.cs" />

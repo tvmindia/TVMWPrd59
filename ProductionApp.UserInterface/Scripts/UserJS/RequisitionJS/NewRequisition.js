@@ -32,7 +32,7 @@ $(document).ready(function () {
           ]
       });
 
-        $("#RawMaterial_ID").change(function () {
+        $("#MaterialID").change(function () {
            BindRawMaterialDetails(this.value)
         });
     }
