@@ -20,6 +20,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public Common Common { get; set; }
+        public MaterialType MaterialType { get; set; }
+
     }
     public class RawMaterialAdvanceSearch
     {
