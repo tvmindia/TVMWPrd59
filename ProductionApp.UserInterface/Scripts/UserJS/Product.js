@@ -2,10 +2,10 @@
 //*****************************************************************************
 //*****************************************************************************
 //Author: Jais
-//CreatedDate: 13-Feb-2018 
-//LastModified: 16-Feb-2018 
-//FileName: RawMaterial.js
-//Description: Client side coding for RawMaterial
+//CreatedDate: 17-Feb-2018 
+//LastModified: 17-Feb-2018 
+//FileName: Product.js
+//Description: Client side coding for Product
 //******************************************************************************
 //******************************************************************************
 
@@ -17,18 +17,18 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     try {
         debugger;
-        BindOrReloadRawMaterialTable('Init');
+        BindOrReloadProductTable('Init');
     }
     catch (e) {
         console.log(e.message);
     }
 });
 
-//--function bind the Raw Material list checking search and filter--//
-function BindOrReloadRawMaterialTable(action) {
+//--function bind the Product list checking search and filter--//
+function BindOrReloadProductTable(action) {
     try {
         //creating advancesearch object
-        RawMaterialAdvanceSearchViewModel = new Object();
+        ProductAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
         //switch case to check the operation
@@ -42,23 +42,23 @@ function BindOrReloadRawMaterialTable(action) {
                 break;
             case 'Export':
                 if ($('#SearchTerm').val() == "")
-                DataTablePagingViewModel.Length = -1;
+                    DataTablePagingViewModel.Length = -1;
                 break;
             default:
                 break;
         }
-        RawMaterialAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
-        RawMaterialAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+        ProductAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
+        ProductAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
 
         //apply datatable plugin on Raw Material table
-        DataTables.rawMaterialList = $('#tblRawMaterial').DataTable(
+        DataTables.productList = $('#tblproduct').DataTable(
         {
             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
             buttons: [{
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [ 1,2,3,4,5,6]
+                                 columns: [1, 2, 3, 4, 5, 6]
                              }
             }],
             order: false,
@@ -72,24 +72,24 @@ function BindOrReloadRawMaterialTable(action) {
             },
             serverSide: true,
             ajax: {
-                url: "RawMaterial/GetAllRawMaterial/",
-                data: { "rawMaterialAdvanceSearchVM": RawMaterialAdvanceSearchViewModel },
+                url: "Product/GetAllProduct/",
+                data: { "productAdvanceSearchVM": ProductAdvanceSearchViewModel },
                 type: 'POST'
             },
             pageLength: 10,
             columns: [
             { "data": "ID", "defaultContent": "<i>-</i>" },
-            { "data": "MaterialCode", "defaultContent": "<i>-</i>" },
-            { "data": "Rate", "defaultContent": "<i>-</i>" },
-            { "data": "MaterialType", "defaultContent": "<i>-<i>" },
+            { "data": "Code", "defaultContent": "<i>-</i>" },
+            { "data": "Name", "defaultContent": "<i>-</i>" },
             { "data": "Description", "defaultContent": "<i>-<i>" },
             { "data": "UnitCode", "defaultContent": "<i>-<i>" },
-            { "data": "ReorderQty", "defaultContent": "<i>-<i>" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditRawMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+            { "data": "Category", "defaultContent": "<i>-<i>" },
+            { "data": "Rate", "defaultContent": "<i>-<i>" },
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [2,6] },
-                { className: "text-left", "targets": [1, 3,4,5,6] },
+                { className: "text-right", "targets": [2, 6] },
+                { className: "text-left", "targets": [1, 3, 4, 5, 6] },
                 { className: "text-center", "targets": [] }],
             destroy: true,
             //for performing the import operation after the data loaded
@@ -101,7 +101,7 @@ function BindOrReloadRawMaterialTable(action) {
                         }
                     }
                     $(".buttons-excel").trigger('click');
-                    ResetRawMaterialList();
+                    ResetProductList();
                 }
             }
         });
@@ -113,36 +113,32 @@ function BindOrReloadRawMaterialTable(action) {
 }
 
 //--function reset the list to initial--//
-function ResetRawMaterialList()
-{
-    BindOrReloadRawMaterialTable('Reset');
+function ResetProductList() {
+    BindOrReloadProductTable('Reset');
 }
 
 //--function export data to excel--//
-function ImportRawMaterialData()
-{
-    BindOrReloadRawMaterialTable('Export');
+function ImportProductData() {
+    BindOrReloadProductTable('Export');
 }
 
-//-- add Raw material--//
-function AddRawMaterialMaster()
-{
-    GetMasterPartial("RawMaterial", "");
-    $('#h3ModelMasterContextLabel').text('Add Raw Material')
+//-- add Product--//
+function AddProductMaster() {
+    GetMasterPartial("Product", "");
+    $('#h3ModelMasterContextLabel').text('Add Product')
     $('#divModelMasterPopUp').modal('show');
 }
 
-//--edit Raw material--//
-function EditRawMaterialMaster(this_obj) {
-    rowData = DataTables.rawMaterialList.row($(this_obj).parents('tr')).data();
-    GetMasterPartial("RawMaterial", rowData.ID);
-    $('#h3ModelMasterContextLabel').text('Edit Raw Material')
+//--edit Product--//
+function EditProductMaster(this_obj) {
+    rowData = DataTables.productList.row($(this_obj).parents('tr')).data();
+    GetMasterPartial("Product", rowData.ID);
+    $('#h3ModelMasterContextLabel').text('Edit Product')
     $('#divModelMasterPopUp').modal('show');
 }
 
 //-- Function After Save --//
-function SaveSuccessRawMaterial(data, status)
-{
+function SaveSuccessRawMaterial(data, status) {
     debugger;
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
@@ -150,7 +146,7 @@ function SaveSuccessRawMaterial(data, status)
             $('#IsUpdate').val('True');
             $('#ID').val(JsonResult.Records.ID);
             BindOrReloadRawMaterialTable('Reset');
-            MasterAlert("success", JsonResult.Records.Message)                    
+            MasterAlert("success", JsonResult.Records.Message)
             break;
         case "ERROR":
             MasterAlert("danger", JsonResult.Message)

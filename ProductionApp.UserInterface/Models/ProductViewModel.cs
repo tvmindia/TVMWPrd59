@@ -7,24 +7,15 @@ using System.Web.Mvc;
 
 namespace ProductionApp.UserInterface.Models
 {
-    public class RawMaterialViewModel
-    {        
-
+    public class ProductViewModel
+    {
         public Guid ID { get; set; }
-        [Remote(action: "CheckMaterialCodeExist", controller: "RawMaterial", AdditionalFields = nameof(IsUpdate))]
-        [Required(ErrorMessage = "Please Enter Material Code")]
-        [Display(Name = "Material Code")]
-        public string MaterialCode { get; set; }
-        [Required(ErrorMessage = "Please Enter Rate")]
-        public decimal Rate { get; set; }
-        [Required(ErrorMessage = "Please Enter Type")]
-        public string MaterialType { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
-        [Required(ErrorMessage = "Please Enter UnitCode")]
-        [Display(Name = "Unit Code")]
         public string UnitCode { get; set; }
-        [Display(Name = "Reorder Qty")]
-        public decimal? ReorderQty { get; set; }
+        public string Category { get; set; }
+        public decimal Rate { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
@@ -33,7 +24,7 @@ namespace ProductionApp.UserInterface.Models
         public List<SelectListItem> SelectList { get; set; }
     }
 
-    public class RawMaterialAdvanceSearchViewModel
+    public class ProductAdvanceSearchViewModel
     {
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
