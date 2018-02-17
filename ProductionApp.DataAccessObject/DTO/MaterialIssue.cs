@@ -17,6 +17,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public string GeneralNotes { get; set; }
         public Common Common { get; set; }
 
+        public List<MaterialIssue> MaterialIssueList { get; set; }
+
         public string IssueToEmployeeName { get; set; }
         public string IssuedByEmployeeName { get; set; }
     }

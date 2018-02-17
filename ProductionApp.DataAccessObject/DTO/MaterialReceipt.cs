@@ -18,7 +18,23 @@ namespace ProductionApp.DataAccessObject.DTO
         public string GeneralNotes { get; set; }
         public Common Common { get; set; }
 
-        public Supplier Supplier { get; set; }
+        public List<MaterialReceipt> MaterialReceiptList { get; set; }
+
+        public MaterialReceiptDetail MaterialReceiptDetail { get; set; }
+        public RawMaterial RawMaterial { get; set; }
+        public string SupplierName { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }
     }
+
+    public class MaterialReceiptDetail
+    {
+        public Guid ID { get; set; }
+        public Guid HeaderID { get; set; }
+        public Guid MaterialID { get; set; }
+        public string MaterialDesc { get; set; }
+        public string UnitCode { get; set; }
+        public decimal Qty { get; set; }
+        public Common Common { get; set; }
+    }
+    
 }

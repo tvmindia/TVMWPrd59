@@ -50,10 +50,8 @@ namespace ProductionApp.RepositoryServices.Services
                                     materialIssue.IssueTo= (sdr["IssueTo"].ToString() != "" ? Guid.Parse(sdr["IssueTo"].ToString()) : materialIssue.IssueTo);
                                     materialIssue.IssuedBy= (sdr["IssuedBy"].ToString() != "" ? Guid.Parse(sdr["IssuedBy"].ToString()) : materialIssue.IssuedBy);
                                     materialIssue.IssueDateFormatted = (sdr["IssueDate"].ToString() != "" ? DateTime.Parse(sdr["IssueDate"].ToString()).ToString(settings.DateFormat) : materialIssue.IssueDateFormatted);
-                                    materialIssue.IssuedByEmployee = new Employee();
-                                    materialIssue.IssueToEmployee = new Employee();
-                                    materialIssue.IssuedByEmployee.Name= (sdr["IssuedByName"].ToString() != "" ? sdr["IssuedByName"].ToString() : materialIssue.IssuedByEmployee.Name);
-                                    materialIssue.IssueToEmployee.Name = (sdr["IssueToName"].ToString() != "" ? sdr["IssueToName"].ToString() : materialIssue.IssueToEmployee.Name);
+                                    materialIssue.IssuedByEmployeeName= (sdr["IssuedByName"].ToString() != "" ? sdr["IssuedByName"].ToString() : materialIssue.IssuedByEmployee.Name);
+                                    materialIssue.IssueToEmployeeName = (sdr["IssueToName"].ToString() != "" ? sdr["IssueToName"].ToString() : materialIssue.IssueToEmployee.Name);
                                     materialIssueList.Add(materialIssue);
                                 }
                             }
@@ -97,10 +95,8 @@ namespace ProductionApp.RepositoryServices.Services
                                     materialReceipt.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
                                     materialReceipt.MRNDateFormatted = (sdr["MRNDate"].ToString() != "" ? DateTime.Parse(sdr["MRNDate"].ToString()).ToString(settings.DateFormat) : materialReceipt.MRNDateFormatted);
                                     materialReceipt.MRNNo = (sdr["MRNNo"].ToString() != "" ? sdr["MRNNo"].ToString() : materialReceipt.MRNNo);
-                                    materialReceipt.Supplier = new Supplier();
-                                    materialReceipt.PurchaseOrder = new PurchaseOrder();
-                                    materialReceipt.Supplier.CompanyName= (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : materialReceipt.Supplier.CompanyName);
-                                    materialReceipt.PurchaseOrder.PurchaseOrderTitle= (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : materialReceipt.PurchaseOrder.PurchaseOrderTitle);
+                                    materialReceipt.SupplierName= (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : materialReceipt.SupplierName.CompanyName);
+                                    materialReceipt.PurchaseOrderNo= (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : materialReceipt.PurchaseOrder.PurchaseOrderTitle);
                                     materialReceiptList.Add(materialReceipt);
                                 }
                             }
@@ -116,6 +112,7 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetRecentMaterialReceiptSummary
 
+        //The following function to be editted after knowing the actual requirements [not valid now]
         #region GetRecentStockAdjustment
         public List<MaterialStockAdj> GetRecentStockAdjustment()
         {
@@ -141,14 +138,6 @@ namespace ProductionApp.RepositoryServices.Services
                                 while (sdr.Read())
                                 {
                                     materialStockAdj = new MaterialStockAdj();
-                                    materialStockAdj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
-                                    materialStockAdj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.DateFormat) : materialStockAdj.DateFormatted);
-                                    materialStockAdj.MaterialStockAdjDetail = new MaterialStockAdjDetail();
-                                    materialStockAdj.RawMaterial = new RawMaterial();
-                                    materialStockAdj.Employee = new Employee();
-                                    materialStockAdj.MaterialStockAdjDetail.Qty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : materialStockAdj.MaterialStockAdjDetail.Qty);
-                                    materialStockAdj.RawMaterial.Description = (sdr["Material"].ToString() != "" ? sdr["Material"].ToString() : materialStockAdj.RawMaterial.Description);
-                                    materialStockAdj.Employee.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : materialStockAdj.Employee.Name);
                                     materialStockAdjList.Add(materialStockAdj);
                                 }
                             }

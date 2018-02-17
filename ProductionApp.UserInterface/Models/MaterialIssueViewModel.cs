@@ -15,8 +15,10 @@ namespace ProductionApp.UserInterface.Models
         public string IssueDateFormatted { get; set; }
         public string GeneralNotes { get; set; }
         public CommonViewModel Common { get; set; }
-
+        //Additional Fields
         public string IssueToEmployeeName { get; set; }
         public string IssuedByEmployeeName { get; set; }
+
+        public List<MaterialIssueViewModel> MaterialIssueList { get; set; }
     }
 }
