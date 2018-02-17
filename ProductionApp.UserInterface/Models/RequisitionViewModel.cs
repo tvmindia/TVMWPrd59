@@ -12,8 +12,10 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Requisition #")]
         public string ReqNo { get; set; }
         [Display(Name = "Title")]
+        [Required(ErrorMessage = "Title required")]
         public string Title { get; set; }
         [Display(Name = "Requisition Date")]
+        [Required(ErrorMessage = "Requisition Date required")]
         public DateTime ReqDate { get; set; }
         [Display(Name = "Requisition Date")]
         public string ReqDateFormatted { get; set; }
@@ -29,10 +31,11 @@ namespace ProductionApp.UserInterface.Models
         //additional properties
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
+        public string DetailJSON { get; set; }
 
         public CommonViewModel Common { get; set; }
         public RequisitionDetailViewModel RequisitionDetail { get; set; }
-
+        public List<RequisitionDetailViewModel> RequisitionDetailList { get; set; }
     }
 
     public class RequisitionDetailViewModel 
@@ -46,6 +49,7 @@ namespace ProductionApp.UserInterface.Models
         public string RequestedQty { get; set; }
         [Display(Name = "Current Stock")]
         public string CurrentStock { get; set; }
+        public string MaterialCode { get; set; }
         [Display(Name = "Approximate Rate")]
         public string ApproximateRate { get; set; }
         public CommonViewModel Common { get; set; }

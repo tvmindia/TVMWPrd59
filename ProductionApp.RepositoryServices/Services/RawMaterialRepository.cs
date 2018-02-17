@@ -283,6 +283,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     rawMaterial.MaterialType = sdr["MaterialType"].ToString() != "" ? sdr["MaterialType"].ToString() : rawMaterial.MaterialType;
                                     rawMaterial.Description = sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : rawMaterial.Description;
                                     rawMaterial.UnitCode = sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : rawMaterial.UnitCode;
+                                    rawMaterial.CurrentStock = sdr["CurrentStock"].ToString() != "" ? sdr["CurrentStock"].ToString() : rawMaterial.CurrentStock;
                                     rawMaterial.ReorderQty = sdr["ReorderQty"].ToString() != "" ? decimal.Parse(sdr["ReorderQty"].ToString()) : rawMaterial.ReorderQty;
                                 }
                             }

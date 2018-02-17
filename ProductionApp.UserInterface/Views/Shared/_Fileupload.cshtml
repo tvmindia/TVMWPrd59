@@ -1,0 +1,92 @@
+﻿
+<div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Attachments</div>
+<div class="col-md-12">
+    <div class="col-md-10">
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div class="col-md-6" style="min-height:250px;max-height:250px;border:1px solid #ccc;border-right:none;color:dimgrey;background-color:#f9f9f9;margin-top:1%">
+                        New attachments
+                        <div class="col-md-12" id="UploadPreview" style="margin-top:2%;max-height:222px;background-color:#f9f9f9;overflow-x:auto">
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6" style="min-height:250px;max-height:250px;border:1px solid #ccc;border-left:none;color:dimgrey;margin-top:1%">
+                        Existing attachments
+                        <div class="col-md-12" id="ExistingPreview" style="margin-top:2%;max-height:222px;overflow-x:auto">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-8" style="max-height:50px;margin-top:1%;">
+                    <input type="hidden" id="hdnFileSizebytes" value=0 />
+                    <input type="file" multiple id="FileUpload1" style="display:none;" onchange="BindFiles()" />
+                    <input type="button" id="btnUpload" value="Upload Files" class="btn uploadbtn" />
+                    <input type="button" id="btnCancel" value="Cancel All" onclick="cancelAll()" class="btn" style="color:#000000;font-weight:500;" />
+                    <a class="attachbutton" onclick="$('#FileUpload1').click();"><img src="~/Content/images/paperclip.png" style="padding:1px;border-radius:5px;" /></a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<script>
+
+    function cancelAll()
+    {
+        debugger;
+        $('#UploadPreview').empty();
+        $('#UploadPreview').append('New attachments');
+        var file = document.getElementById('FileUpload1');
+        file.value = '';
+        $('#hdnFileSizebytes').val(0);
+        if ($('#ID').val()!="")
+        PaintImages($('#ID').val());
+    }
+function BindFiles()
+    {
+    debugger;
+    var fileUpload = $("#FileUpload1").get(0);
+    var files = fileUpload.files;
+
+    // Looping over all files and add it to FormData object
+    $('#UploadPreview').empty();
+    for (var i = 0; i < files.length; i++) {
+        //<img src="/Content/images/listdlt.png"/>
+        var html = '<div class="col-md-12 list"><img src="/Content/images/circle.png"/><span>' + (files[i].name).substring(0, 25) + '</span><a href="javascript:void(0)" fileguid="'+files[i].lastModified+'" onclick="Attachment_Remove(this)" style="float:right;"></a></div>'
+        $('#UploadPreview').append(html);
+    }
+}
+
+</script>
+<style>
+    @@import url('../../Content/filemanage.css');
+
+    .attachbutton img:hover {
+        background-color: #e2dddd;
+        padding: 1px;
+        cursor: pointer;
+    }
+
+    .uploadbtn {
+        background-color: #246076;
+        color: #ffffff !important;
+    }
+
+        .uploadbtn:hover {
+            background-color: #07424a;
+            color: #ffffff;
+        }
+
+    .list {
+        border: 1px solid #e8e7e7;
+        background-color: white;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+</style>

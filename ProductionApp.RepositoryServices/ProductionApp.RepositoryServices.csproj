@@ -33,6 +33,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +47,7 @@
     <Compile Include="Contracts\IDatabaseFactory.cs" />
     <Compile Include="Contracts\IDynamicUIRepository.cs" />
     <Compile Include="Contracts\IEmployeeRepository.cs" />
+    <Compile Include="Contracts\IFileUploadRepository.cs" />
     <Compile Include="Contracts\IMaterialTypeRepository.cs" />
     <Compile Include="Contracts\IProductRepository.cs" />
     <Compile Include="Contracts\IRequisitionRepository.cs" />
@@ -59,6 +61,7 @@
     <Compile Include="Services\DatabaseFactory.cs" />
     <Compile Include="Services\DynamicUIRepository.cs" />
     <Compile Include="Services\EmployeeRepository.cs" />
+    <Compile Include="Services\FileUploadRepository.cs" />
     <Compile Include="Services\MaterialTypeRepository.cs" />
     <Compile Include="Services\ProductRepository.cs" />
     <Compile Include="Services\RequisitionRepository.cs" />
@@ -67,7 +70,6 @@
     <Compile Include="Services\SupplierRepository.cs" />
     <Compile Include="Services\UnitRepository.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ProductionApp.DataAccessObject\ProductionApp.DataAccessObject.csproj">
       <Project>{bcb1cba6-1e3b-4637-9a90-5b7543f0a732}</Project>

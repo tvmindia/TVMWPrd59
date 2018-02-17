@@ -33,7 +33,8 @@ namespace ProductionApp.DataAccessObject.DTO
        public string PurchaseOrderDateFormatted { get; set; }
        public string PurchaseOrderIssuedDateFormatted { get; set; }
        public PurchaseOrderDetail PurchaseOrderDetail { get; set; }
-       
+       public decimal GrossAmount { get; set; }
+
     }
     public class PurchaseOrderDetail
     {

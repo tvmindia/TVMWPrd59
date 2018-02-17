@@ -18,7 +18,7 @@ namespace ProductionApp.UserInterface.Models
         //Additional Fields
         public string IssueToEmployeeName { get; set; }
         public string IssuedByEmployeeName { get; set; }
-
+        public MaterialIssueDetailViewModel MaterialIssueDetail { get; set; }
         public List<MaterialIssueViewModel> MaterialIssueList { get; set; }
     }
     public class MaterialIssueDetailViewModel
