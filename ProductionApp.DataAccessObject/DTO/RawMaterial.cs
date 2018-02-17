@@ -17,6 +17,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal ReorderQty { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }
+        public string CurrentStock { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public Common Common { get; set; }

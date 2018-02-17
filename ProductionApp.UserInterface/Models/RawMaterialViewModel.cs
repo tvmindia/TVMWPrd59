@@ -26,6 +26,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Reorder Qty")]
         public decimal? ReorderQty { get; set; }
         //additional fields 
+        public string CurrentStock { get; set; }
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
