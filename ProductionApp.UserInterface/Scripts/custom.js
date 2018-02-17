@@ -49,6 +49,14 @@ $(window).bind("load", function () {
 });
 $(document).ready(function () {
     debugger;
+    $('#ahrefHome').on('click',function () {
+        $('.wrap,a').toggleClass('active');
+        return false;
+    });    
+    $('.wrap').mouseleave(function () {
+        $('.wrap,a').removeClass('active');
+        return false;
+    });
     $('#divMainBody').attr('style',"height:"+screen.height + "px");
     var wrap = $(".EntryForms");
     wrap.on("scroll", function (e) {

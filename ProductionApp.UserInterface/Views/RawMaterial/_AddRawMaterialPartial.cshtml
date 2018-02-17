@@ -39,9 +39,12 @@
             </div>
             <div class="col-md-12">
                 <div class="col-md-12">
+                    @Html.Action("MaterialTypeDropdown", "MaterialType")
+                </div>
+                @*<div class="col-md-12">
                     @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
-                </div>
+                </div>*@
             </div>
         </div>
 
@@ -63,8 +66,7 @@
             </div>
             <div class="col-md-12">
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.UnitCode, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
+                    @Html.Action("UnitDropdown", "Unit")
                 </div>
             </div>
         </div>
