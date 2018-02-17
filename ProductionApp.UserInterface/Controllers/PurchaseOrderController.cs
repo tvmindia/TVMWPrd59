@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
+using ProductionApp.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,20 +23,23 @@ namespace ProductionApp.UserInterface.Controllers
             _purchaseOrderBusiness = purchaseOrderBusiness;
             _supplierBusiness = supplierBusiness;
         }
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public ActionResult ViewPurchaseOrder(string code)
         {
             ViewBag.SysModuleCode = code;
             return View();
         }
-
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public ActionResult NewPurchaseOrder(string code)
         {
+            ViewBag.SysModuleCode = code;
             PurchaseOrderViewModel purchaseOrderVM = new PurchaseOrderViewModel();
             return View();
         }
 
         #region GetAllPurchaseOrder
         [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public JsonResult GetAllPurchaseOrder(DataTableAjaxPostModel model, PurchaseOrderAdvanceSearchViewModel purchaseOrderAdvanceSearchVM)
         {
             purchaseOrderAdvanceSearchVM.DataTablePaging.Start = model.start;
@@ -57,7 +61,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetAllPurchaseOrder
         #region ButtonStyling
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();
