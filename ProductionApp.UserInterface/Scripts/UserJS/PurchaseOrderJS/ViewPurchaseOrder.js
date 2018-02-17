@@ -3,6 +3,10 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
+        $("#SupplierID").select2({
+        });
+        $("#Status").select2({
+        });
         BindOrReloadPurchaseOrderTable('Init');
     }
     catch (e) {
@@ -24,7 +28,7 @@ function BindOrReloadPurchaseOrderTable(action) {
             $('#SearchTerm').val('');
             $('#FromDate').val('');
             $('#ToDate').val('');
-            $('#Supplier_ID').val('');
+            $('#SupplierID').val('');
             $('#Status').val('');
             break;
         case 'Init':
@@ -41,7 +45,7 @@ function BindOrReloadPurchaseOrderTable(action) {
     PurchaseOrderAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
     PurchaseOrderAdvanceSearchViewModel.FromDate = $('#FromDate').val();
     PurchaseOrderAdvanceSearchViewModel.ToDate = $('#ToDate').val();
-    SupplierViewModel.ID = $('#Supplier_ID').val();
+    SupplierViewModel.ID = $('#SupplierID').val();
     PurchaseOrderAdvanceSearchViewModel.Supplier = SupplierViewModel;
     PurchaseOrderAdvanceSearchViewModel.Status = $('#Status').val();
     DataTables.PurchaseOrderList = $('#tblPurchaseOrder').DataTable(
