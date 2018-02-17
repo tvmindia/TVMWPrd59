@@ -22,6 +22,7 @@ namespace ProductionApp.DataAccessObject.DTO
 
         public MaterialReceiptDetail MaterialReceiptDetail { get; set; }
         public RawMaterial RawMaterial { get; set; }
+        public Supplier Supplier { get; set; }
         public string SupplierName { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }
     }
