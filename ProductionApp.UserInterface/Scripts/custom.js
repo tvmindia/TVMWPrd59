@@ -510,7 +510,7 @@ function UploadFile(FileObject)
                 }
 
                 // Adding one more key to FormData object  
-                fileData.append('ParentID', FileObject.ParentID);
+                fileData.append('ParentID', "");
                 fileData.append('ParentType', FileObject.ParentType);
                 $.ajax({
                     url: '/' + FileObject.Controller + '/UploadFiles',
