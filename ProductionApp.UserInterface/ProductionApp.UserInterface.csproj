@@ -675,7 +675,6 @@
     <Compile Include="Models\MaterialTypeViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
-    <Compile Include="Models\ReceiptSummaryViewModel.cs" />
     <Compile Include="Models\RequisitionViewModel.cs" />
     <Compile Include="Models\PurchaseOrderViewModel.cs" />
     <Compile Include="Models\RawMaterialViewModel.cs" />
@@ -745,6 +744,7 @@
     <Content Include="Views\MaterialType\_MaterialTypeDropdown.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\IssueToProduction\AddIssueToProduction.cshtml" />
+    <Content Include="Views\Product\_AddProductPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

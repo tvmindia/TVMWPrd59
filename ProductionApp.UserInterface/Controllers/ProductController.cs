@@ -77,6 +77,44 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetAllProduct
 
+        #region InsertUpdateProduct
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "Product", Mode = "R")]
+        public string InsertUpdateProduct(ProductViewModel productVM)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                productVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                var result = _productBusiness.InsertUpdateProduct(Mapper.Map<ProductViewModel, Product>(productVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion InsertUpdateProduct
+
+        #region MasterPartial
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Product", Mode = "R")]
+        public ActionResult MasterPartial(string masterCode)
+        {
+            ProductViewModel productVM = string.IsNullOrEmpty(masterCode) ? new ProductViewModel() : Mapper.Map<Product, ProductViewModel>(_productBusiness.GetProduct(Guid.Parse(masterCode)));
+            productVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
+            return PartialView("_AddProductPartial", productVM);
+        }
+        #endregion MasterPartial
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Product", Mode = "R")]

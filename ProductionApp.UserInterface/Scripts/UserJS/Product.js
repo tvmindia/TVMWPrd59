@@ -27,6 +27,7 @@ $(document).ready(function () {
 //--function bind the Product list checking search and filter--//
 function BindOrReloadProductTable(action) {
     try {
+        debugger;
         //creating advancesearch object
         ProductAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
@@ -51,7 +52,7 @@ function BindOrReloadProductTable(action) {
         ProductAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
 
         //apply datatable plugin on Raw Material table
-        DataTables.productList = $('#tblproduct').DataTable(
+        DataTables.productList = $('#tblProduct').DataTable(
         {
             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
             buttons: [{

@@ -22,5 +22,14 @@ namespace ProductionApp.BusinessService.Services
         {
             return _productRepository.GetAllProduct(productAdvanceSearch);
         }
+        public object InsertUpdateProduct(Product product)
+        {
+            return _productRepository.InsertUpdateProduct(product);
+        }
+        public Product GetProduct(Guid id)
+        {
+            return _productRepository.GetProduct(id);
+        }
+
     }
 }
