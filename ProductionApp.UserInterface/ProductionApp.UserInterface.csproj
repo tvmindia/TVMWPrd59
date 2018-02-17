@@ -668,7 +668,6 @@
     <Compile Include="Models\MaterialReceiptViewModel.cs" />
     <Compile Include="Models\MaterialStockAdjViewModel.cs" />
     <Compile Include="Models\MaterialTypeViewModel.cs" />
-    <Compile Include="Models\MyApprovalsViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\RequisitionViewModel.cs" />
     <Compile Include="Models\PurchaseOrderViewModel.cs" />

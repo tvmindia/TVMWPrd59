@@ -50,8 +50,8 @@ namespace ProductionApp.RepositoryServices.Services
                                     materialIssue.IssueTo= (sdr["IssueTo"].ToString() != "" ? Guid.Parse(sdr["IssueTo"].ToString()) : materialIssue.IssueTo);
                                     materialIssue.IssuedBy= (sdr["IssuedBy"].ToString() != "" ? Guid.Parse(sdr["IssuedBy"].ToString()) : materialIssue.IssuedBy);
                                     materialIssue.IssueDateFormatted = (sdr["IssueDate"].ToString() != "" ? DateTime.Parse(sdr["IssueDate"].ToString()).ToString(settings.DateFormat) : materialIssue.IssueDateFormatted);
-                                    materialIssue.IssuedByEmployeeName= (sdr["IssuedByName"].ToString() != "" ? sdr["IssuedByName"].ToString() : materialIssue.IssuedByEmployee.Name);
-                                    materialIssue.IssueToEmployeeName = (sdr["IssueToName"].ToString() != "" ? sdr["IssueToName"].ToString() : materialIssue.IssueToEmployee.Name);
+                                    materialIssue.IssuedByEmployeeName= (sdr["IssuedByName"].ToString() != "" ? sdr["IssuedByName"].ToString() : materialIssue.IssuedByEmployeeName);
+                                    materialIssue.IssueToEmployeeName = (sdr["IssueToName"].ToString() != "" ? sdr["IssueToName"].ToString() : materialIssue.IssueToEmployeeName);
                                     materialIssueList.Add(materialIssue);
                                 }
                             }
@@ -95,7 +95,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     materialReceipt.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
                                     materialReceipt.MRNDateFormatted = (sdr["MRNDate"].ToString() != "" ? DateTime.Parse(sdr["MRNDate"].ToString()).ToString(settings.DateFormat) : materialReceipt.MRNDateFormatted);
                                     materialReceipt.MRNNo = (sdr["MRNNo"].ToString() != "" ? sdr["MRNNo"].ToString() : materialReceipt.MRNNo);
-                                    materialReceipt.SupplierName= (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : materialReceipt.SupplierName.CompanyName);
+                                    materialReceipt.SupplierName= (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : materialReceipt.SupplierName);
                                     materialReceipt.PurchaseOrderNo= (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : materialReceipt.PurchaseOrder.PurchaseOrderTitle);
                                     materialReceiptList.Add(materialReceipt);
                                 }
