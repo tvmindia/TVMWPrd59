@@ -7,6 +7,8 @@
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Selectmin")
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
@@ -56,6 +58,7 @@
                         </div>
                         <div class="col-md-12">
                                 @Html.Action("SupplierDropdown", "Supplier")
+                                @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group col-md-12"></div>
@@ -106,26 +109,22 @@
                             </div>
                            
                         </div>
-                    </div>
+                  
                     <div class="form-group col-md-12"></div>
                     <div class="form-group col-md-6">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.MailingAddress, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                          
                                 @Html.EditorFor(model => model.MailingAddress, new { htmlAttributes = new { @class = "form-control"  } })
-                          
                     </div>
+                        </div>
                     <div class="form-group col-md-6">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.ShippingAddress, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                           
                                 @Html.EditorFor(model => model.ShippingAddress, new { htmlAttributes = new { @class = "form-control"} })
-                            
-                        
                         </div>
                     </div>
                     <div class="form-group col-md-12"></div>
@@ -134,26 +133,25 @@
                             @Html.LabelFor(model => model.PurchaseOrderTitle, htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="col-md-12">
-                            
                                 @Html.EditorFor(model => model.PurchaseOrderTitle, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
-                           
                         </div>
                     </div>
-                    </div>
-               &nbsp;
+             </div>
+                &nbsp;
                 <div class="form-group col-md-4" style="padding-left:2%;border-left:1px solid #c2dee0;white-space:nowrap;">
                     <div class="form-group col-md-12 box-header figuresummary rounded">
                         Document Status Block
                     </div>
                 </div>
                 </div>
+                
         }
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
         <div class="col-md-12">
             <div class="col-md-11">
             </div>
             <div class="col-md-1">
-                <a class="btn btn-openid"  style="color:white;font-weight:bold"><i class="glyphicon"></i>Add Item</a>
+                <a class="btn btn-openid" onclick="AddPurchaseOrderDetail()"  style="color:white;font-weight:bold"><i class="glyphicon"></i>Add Item</a>
             </div>
         </div>
         <div class="col-md-12">
@@ -170,5 +168,184 @@
                 </table>
 
         </div>
+        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Commercial</div>
+
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <div class="form-group col-md-4">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.GrossAmount, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.GrossAmount, new { htmlattributes = new { @class = "form-control HeaderBox Amount", @disabled = "true" } })
+                            @Html.ValidationMessageFor(model => model.GrossAmount, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
+                    </div>
                 </div>
+                <div class="form-group col-md-4">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Discount, new { htmlattributes = new { @class = "form-control HeaderBox Amount", onclick = "SelectAllValue(this);", onkeypress = "return isNumber(event)", onkeyup = "AmountSummary()" } })
+                            @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.PurchaseOrderDetail.TaxType, htmlAttributes: new { @class = "control-label " })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.PurchaseOrderDetail.TaxType, new { htmlattributes = new { @class = "form-control HeaderBox Amount", onclick = "SelectAllValue(this);", onkeypress = "return isNumber(event)", onkeyup = "AmountSummary()" } })
+                            @Html.ValidationMessageFor(model => model.PurchaseOrderDetail.TaxType, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12"></div>
+                @*<div class="form-group col-md-4">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.TaxPercApplied, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.TaxPercApplied, new { htmlattributes = new { @class = "form-control HeaderBox Roundoff ApplyPer" } })
+                            @Html.ValidationMessageFor(model => model.TaxPercApplied, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.TaxAmount, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.TaxAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount" } })
+                            @Html.ValidationMessageFor(model => model.TaxAmount, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>*@
+                @*<div class="form-group col-md-4">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.TotalAmount, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount" } })
+                            @Html.ValidationMessageFor(model => model.TotalAmount, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
+                    </div>
+
+                </div>*@
+            </div>
+        </div>
+
+        <div class="col-md-12  ">&nbsp;</div>
+        <div class="col-md-12  ">&nbsp;</div>
+
+        <div>
+            @Html.Partial("_Fileupload")
+        </div>
+
+        <div class="col-md-12  ">&nbsp;</div>
+        <div class="col-md-12  ">&nbsp;</div>
+
+     </div>
 </section>
+
+<!--ItemAdd Popup-->
+<div class="modal fade bs-example-modal-lg" id="RequisitionDetailsModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="min-width:900px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-9">
+                        <h3 class="modal-title SCHeader" id="modelContextLabel">Add Requisition Details</h3>
+                    </div>
+                    <div class="col-md-3" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <ul class="nav nav-pills">
+                        <li class="active">
+                            <a id="tabList" onclick="ViewRequisitionList()" href="#List" data-toggle="tab"> <span class="fa fa-list">&nbsp;&nbsp;</span>REQUISITION LIST</a>
+                        </li>
+                        <li>
+                            <a id="tabDetail" onclick="ViewRequisitionDetails()" href="#Detail" data-toggle="tab"><span class="fa fa-file-o">&nbsp;&nbsp;</span>SELECTED REQUISITION DETAILS</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content clearfix">
+                        <div class="tab-pane fade in active" id="List">
+                            <table id="tblRequisitionList" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="text-center">
+                                        
+                                        <th></th>
+                                        <th>Req No.</th>
+                                        <th>Title</th>
+                                        <th>Req Date</th>
+                                        <th>Approval Date</th>
+                                        <th>Status</th>
+                                        <th>Requested BY</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="Detail">
+                            <table id="tblRequisitionDetails" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>ID</th>
+                                        <th>ReqID</th>
+                                        <th>MaterialID</th>
+                                        <th></th>
+                                        <th>Req No.</th>
+                                        <th>Item</th>
+                                        <th>Description</th>
+                                        <th>Rate</th>
+                                        <th>Req Qty</th>
+                                        <th>Ordered Qty</th>
+                                        <th>PO Qty</th>
+                                        <th>Unit</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <div><b>**</b> Requistion items in 'Placed Orders' are avoided and the rest will be listed here.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="height: 50px;padding: 7px;">
+                <a id="btnBackward" class="btn btn-primary"><i class="glyphicon glyphicon-step-backward">Back </i></a>
+                <a id="btnForward" class="btn btn-primary" >Next <i class="glyphicon glyphicon-step-forward"></i></a>
+                <a id="btnAddSPODetails" class="btn btn-primary" ><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/PurchaseOrderJS/NewPurchaseOrder")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/selectmin")
+}

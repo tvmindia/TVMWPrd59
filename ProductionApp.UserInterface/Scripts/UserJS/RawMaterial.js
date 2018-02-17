@@ -81,7 +81,7 @@ function BindOrReloadRawMaterialTable(action) {
             { "data": "ID", "defaultContent": "<i>-</i>" },
             { "data": "MaterialCode", "defaultContent": "<i>-</i>" },
             { "data": "Rate", "defaultContent": "<i>-</i>" },
-            { "data": "Type", "defaultContent": "<i>-<i>" },
+            { "data": "MaterialType", "defaultContent": "<i>-<i>" },
             { "data": "Description", "defaultContent": "<i>-<i>" },
             { "data": "UnitCode", "defaultContent": "<i>-<i>" },
             { "data": "ReorderQty", "defaultContent": "<i>-<i>" },
