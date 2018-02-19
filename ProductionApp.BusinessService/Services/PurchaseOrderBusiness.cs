@@ -20,5 +20,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _purchaseOrderRepository.GetAllPurchaseOrder(purchaseOrderAdvanceSearch);
         }
+        public List<PurchaseOrder> GetAllPurchaseOrderForSelectList()
+        {
+            return _purchaseOrderRepository.GetAllPurchaseOrderForSelectList();
+        }
     }
 }

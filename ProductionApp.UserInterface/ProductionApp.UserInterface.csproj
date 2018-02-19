@@ -807,6 +807,7 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\IssueToProduction\AddIssueToProduction.cshtml" />
     <Content Include="Views\Product\_AddProductPartial.cshtml" />
+    <Content Include="Views\PurchaseOrder\_PurchaseOrderDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

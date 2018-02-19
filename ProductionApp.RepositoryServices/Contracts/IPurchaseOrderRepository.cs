@@ -10,5 +10,6 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface IPurchaseOrderRepository
     {
         List<PurchaseOrder> GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch);
+        List<PurchaseOrder> GetAllPurchaseOrderForSelectList();
     }
 }

@@ -84,5 +84,50 @@ namespace ProductionApp.RepositoryServices.Services
 
             return purchaseOrderList;
         }
+        #region PurchaseOrder Dropdown
+        public List<PurchaseOrder> GetAllPurchaseOrderForSelectList()
+        {
+            List<PurchaseOrder> purchaseOrderList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetPurchaseOrderForSelectList]";
+                        
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                purchaseOrderList = new List<PurchaseOrder>();
+                                while (sdr.Read())
+                                {
+                                    PurchaseOrder purchaseOrder = new PurchaseOrder();
+                                    {
+                                        purchaseOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : purchaseOrder.ID);
+                                        purchaseOrder.PurchaseOrderNo = (sdr["PurchaseOrderNo"].ToString() != "" ? sdr["PurchaseOrderNo"].ToString() : purchaseOrder.PurchaseOrderNo);
+                                    }
+                                    purchaseOrderList.Add(purchaseOrder);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return purchaseOrderList;
+        }
+        #endregion PurchaseOrder Dropdown
     }
 }
