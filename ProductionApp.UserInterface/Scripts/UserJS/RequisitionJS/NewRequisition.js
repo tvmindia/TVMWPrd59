@@ -44,7 +44,7 @@ $(document).ready(function () {
 function ShowRequisitionDetailsModal()
 {
     debugger;
-    $("#RawMaterial_ID").val('')
+    $("#MaterialID").val('')
     $('#RequisitionDetail_MaterialCode').val('');
     $('#RequisitionDetail_CurrentStock').val('');
     $('#RequisitionDetail_Description').val('');
@@ -88,11 +88,11 @@ function GetRawMaterial(ID) {
 function AddRequisitionDetails()
 {
     debugger;
-    if ( $("#RawMaterial_ID").val() != "") 
+    if ($("#MaterialID").val() != "")
     {
         _RequistionDetail = [];
         RequisitionMaterial = new Object();
-        RequisitionMaterial.MaterialID = $("#RawMaterial_ID").val();
+        RequisitionMaterial.MaterialID = $("#MaterialID").val();
         RequisitionMaterial.MaterialCode=$('#RequisitionDetail_MaterialCode').val();
         RequisitionMaterial.Description = $('#RequisitionDetail_Description').val();
         RequisitionMaterial.RequestedQty = $('#RequisitionDetail_RequestedQty').val();
@@ -107,7 +107,7 @@ function AddRequisitionDetails()
             if (allData.length > 0) {
                 var checkPoint = 0;
                 for (var i = 0; i < allData.length; i++) {
-                    if (allData[i].MaterialID == $("#RawMaterial_ID").val()) {
+                    if (allData[i].MaterialID == $("#MaterialID").val()) {
                         allData[i].Description = $('#RequisitionDetail_Description').val();
                         allData[i].CurrentStock = $('#RequisitionDetail_CurrentStock').val();
                         allData[i].RequestedQty = $('#RequisitionDetail_RequestedQty').val();
