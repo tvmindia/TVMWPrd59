@@ -23,6 +23,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public int FilteredCount { get; set; }
         public Common Common { get; set; }
         public RequisitionDetail RequisitionDetail { get; set; }
+        public List<RequisitionDetail> RequisitionDetailList { get; set; }
+        public string DetailXML { get; set; }
+
     }
 
 
@@ -33,6 +36,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid MaterialID { get; set; }
         public string Description { get; set; }
         public string RequestedQty { get; set; }
+        public string MaterialCode { get; set; }
         public string CurrentStock { get; set; }
         public string ApproximateRate { get; set; }
         public Common Common { get; set; }

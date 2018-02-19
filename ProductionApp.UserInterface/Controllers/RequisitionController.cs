@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
@@ -16,10 +17,14 @@ namespace ProductionApp.UserInterface.Controllers
 
         // GET: Requisitions
         private IRequisitionBusiness _requisitionBusiness;
+        private IRawMaterialBusiness _rawMaterialBusiness;
         Common _common = new Common();
-        public RequisitionController(IRequisitionBusiness requisitionBusiness)
+        AppConst _appConst = new AppConst();
+
+        public RequisitionController(IRequisitionBusiness requisitionBusiness,IRawMaterialBusiness rawMaterialBusiness)
         {
             _requisitionBusiness = requisitionBusiness;
+            _rawMaterialBusiness = rawMaterialBusiness;
         }
         public ActionResult ViewRequisition(string code)
         {
@@ -38,6 +43,38 @@ namespace ProductionApp.UserInterface.Controllers
             ViewBag.SysModuleCode = code;
             return View();
         }
+
+        #region InsertUpdateRequisition
+        [HttpPost]
+       // [ValidateAntiForgeryToken]
+       // [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]
+        public string InsertUpdateRequisition(RequisitionViewModel requisitionVM)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                requisitionVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                //Deserialize items
+                object ResultFromJS = JsonConvert.DeserializeObject(requisitionVM.DetailJSON);
+                string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                requisitionVM.RequisitionDetailList = JsonConvert.DeserializeObject<List<RequisitionDetailViewModel>>(ReadableFormat);
+                var result =_requisitionBusiness.InsertUpdateRequisition(Mapper.Map<RequisitionViewModel, Requisition>(requisitionVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+        }
+        #endregion InsertUpdateRequisition
 
         #region GetAllRequisition
         public JsonResult GetAllRequisition(DataTableAjaxPostModel model, RequisitionAdvanceSearchViewModel requisitionAdvanceSearchVM) 
@@ -59,6 +96,23 @@ namespace ProductionApp.UserInterface.Controllers
 
         #endregion GetAllRequisition
 
+        #region GetRawMaterial
+        public string GetRawMaterial(string ID)
+        {
+            try
+            {
+                RawMaterialViewModel rawMaterialVM = new RawMaterialViewModel();
+                rawMaterialVM = Mapper.Map<RawMaterial, RawMaterialViewModel>(_rawMaterialBusiness.GetRawMaterial(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = rawMaterialVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+
+
+        #endregion GetRawMaterial
 
         #region ButtonStyling
         [HttpGet]

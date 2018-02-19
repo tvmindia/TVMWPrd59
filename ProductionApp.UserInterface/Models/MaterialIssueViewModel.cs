@@ -19,7 +19,19 @@ namespace ProductionApp.UserInterface.Models
         public string IssueDateFormatted { get; set; }
         public string IssueToEmployeeName { get; set; }
         public string IssuedByEmployeeName { get; set; }
-
+        public MaterialIssueDetailViewModel MaterialIssueDetail { get; set; }
         public List<MaterialIssueViewModel> MaterialIssueList { get; set; }
+    }
+    public class MaterialIssueDetailViewModel
+    {
+        public Guid ID { get; set; }
+        public Guid HeaderID { get; set; }
+        public Guid MaterialID { get; set; }
+        public string MaterialDec { get; set; }
+        public string UnitCode { get; set; }
+        public decimal Qty { get; set; }
+        public string OtherUnit { get; set; }
+        public decimal OtherQty { get; set; }
+        public CommonViewModel Common { get; set; }       
     }
 }

@@ -22,8 +22,8 @@ namespace ProductionApp.UserInterface.App_Start
 
             //-------------------
             bundles.Add(new StyleBundle("~/Content/UserCSS/Login").Include("~/Content/UserCSS/Login.css"));
-
-
+            bundles.Add(new StyleBundle("~/Content/css/Select2").Include("~/Content/css/select2.css"));
+            bundles.Add(new StyleBundle("~/Content/css/Selectmin").Include("~/Content/css/select2.min.css"));
 
             //---------------------
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include("~/Scripts/jquery-3.1.1.min.js"));
@@ -41,8 +41,8 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/userpluginjs").Include("~/Scripts/jquery.noty.packaged.min.js", "~/Scripts/custom.js", "~/Scripts/Chart.js", "~/Scripts/sweetalert.min.js", "~/Scripts/bootstrap-notify.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/bootstrapdatepicker").Include("~/Scripts/bootstrap-datepicker.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/MvcDatalist/DataList").Include("~/Scripts/MvcDatalist/mvc-datalist.min.js"));
-            bundles.Add(new ScriptBundle("~/bundles/select2").Include("~/Scripts/select2.min.js"));
-
+            bundles.Add(new ScriptBundle("~/bundles/selectmin").Include("~/Scripts/select2.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/select2").Include("~/Scripts/select2.js"));
 
             //----------------------
             bundles.Add(new ScriptBundle("~/bundles/ManageAccess").Include("~/Scripts/UserJS/ManageAccess.js"));
@@ -58,11 +58,14 @@ namespace ProductionApp.UserInterface.App_Start
 
             //---------------------------------
             bundles.Add(new ScriptBundle("~/bundles/UserJs/RawMaterial").Include("~/Scripts/UserJS/RawMaterial.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Product").Include("~/Scripts/UserJS/Product.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Bank").Include("~/Scripts/UserJS/Bank.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/PurchaseOrderJS/ViewPurchaseOrder").Include("~/Scripts/UserJS/PurchaseOrderJS/ViewPurchaseOrder.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/PurchaseOrderJS/NewPurchaseOrder").Include("~/Scripts/UserJS/PurchaseOrderJS/NewPurchaseOrder.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/RequisitionJS/ViewRequisition").Include("~/Scripts/UserJS/RequisitionJS/ViewRequisition.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/RequisitionJS/NewRequisition").Include("~/Scripts/UserJS/RequisitionJS/NewRequisition.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/RequisitionJS/RequisitionApproval").Include("~/Scripts/UserJS/RequisitionJS/RequisitionApproval.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJS/IssueToProduction/AddIssueToProduction").Include("~/Scripts/UserJS/IssueToProduction/AddIssueToProduction.js"));
         }
     }
 }

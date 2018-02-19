@@ -37,6 +37,7 @@
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
     @using (Ajax.BeginForm("InsertUpdateRequisition", "Requisition", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessRequisition", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "RequisitionForm" }))
     {
+        @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
         @*@Html.HiddenFor(model => model.ViewOnly, htmlAttributes: new { @class = "", Value = ViewBag.viewOnly })*@
         @*@Html.HiddenFor(model => model.hdnFileID, htmlAttributes: new { @class = "", @id = "hdnFileDupID", @value = Guid.Empty })*@
@@ -79,15 +80,6 @@
                 </div>
                 <div class="col-md-12">
                     @Html.Action("EmployeeDropdown", "Employee")
-                    @*@{
-                        List<SelectListItem> RequisitionStatus1 = new List<SelectListItem>();
-                        RequisitionStatus1.Add(new SelectListItem
-                        { Text = "Open", Value = "Open", Selected = true });
-                        RequisitionStatus1.Add(new SelectListItem
-                        { Text = "Closed", Value = "Closed" });
-                    }
-                    @Html.DropDownListFor(model => model.RequisitionBy, RequisitionStatus1, new { @class = "form-control", style = "padding:4px 12px;" })
-                    @Html.ValidationMessageFor(model => model.RequisitionBy, "", new { @class = "text-danger" })*@
                 </div>
             </div>
             <div class="form-group col-md-6">
@@ -115,6 +107,12 @@
            </div>
         </div>
     </div>
+    <div class="form-group" hidden="hidden">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.HiddenFor(model => model.DetailJSON, htmlAttributes: new { @class = "" })
+            <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
     }
 
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
@@ -129,7 +127,9 @@
             <table id="tblRequisitionDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center TableHead">
-                        <th>Code</th>
+                        <th>ID</th>
+                        <th>Material ID</th>
+                        <th>Material Code</th>
                         <th>Description</th>
                         <th>Current Stock</th>
                         <th>Requested Qty</th>
@@ -168,6 +168,15 @@
                         </div>
                     </div>
                     <div class="col-md-12 headSeperator"></div>
+                   
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.RequisitionDetail.MaterialCode, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.RequisitionDetail.MaterialCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.RequisitionDetail.Description, htmlAttributes: new { @class = "control-label " })

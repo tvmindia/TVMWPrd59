@@ -45,6 +45,8 @@ namespace ProductionApp.UserInterface.Models
             public string PurchaseOrderDateFormatted { get; set; }
             public string PurchaseOrderIssuedDateFormatted { get; set; }
             public PurchaseOrderDetailViewModel PurchaseOrderDetail { get; set; }
+            [Display(Name = "Gross Amount")]
+            public decimal GrossAmount { get; set; }
     }
         public class PurchaseOrderDetailViewModel
         {
