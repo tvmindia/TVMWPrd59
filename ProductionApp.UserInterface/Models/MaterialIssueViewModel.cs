@@ -12,10 +12,11 @@ namespace ProductionApp.UserInterface.Models
         public Guid IssuedBy { get; set; }
         public string IssueNo { get; set; }
         public DateTime IssueDate { get; set; }
-        public string IssueDateFormatted { get; set; }
         public string GeneralNotes { get; set; }
         public CommonViewModel Common { get; set; }
+
         //Additional Fields
+        public string IssueDateFormatted { get; set; }
         public string IssueToEmployeeName { get; set; }
         public string IssuedByEmployeeName { get; set; }
         public MaterialIssueDetailViewModel MaterialIssueDetail { get; set; }

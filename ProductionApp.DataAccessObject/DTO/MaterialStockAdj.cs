@@ -10,19 +10,20 @@ namespace ProductionApp.DataAccessObject.DTO
     {
         public Guid ID { get; set; }
         public Guid AdjustedBy { get; set; }
-        public Guid LatestApprovalID { get; set; }
-        public DateTime Date { get; set; }
-        public string DateFormatted { get; set; }
+        public Guid? LatestApprovalID { get; set; }
+        public DateTime AdjustmentDate { get; set; }
         public string Remarks { get; set; }
         public int LatestApprovalstatus { get; set; }
         public bool IsFinalApproved { get; set; }
         public Common Common { get; set; }
 
-        public List<MaterialStockAdj> MaterialStockAdjList { get; set; }
-
+        //Additional Fields
+        public string AdjustmentDateFormatted { get; set; }
         public Employee Employee { get; set; }
         public RawMaterial RawMaterial { get; set; }
         public MaterialStockAdjDetail MaterialStockAdjDetail { get; set; }
+
+        public List<MaterialStockAdj> MaterialStockAdjList { get; set; }
     }
 
     public class MaterialStockAdjDetail

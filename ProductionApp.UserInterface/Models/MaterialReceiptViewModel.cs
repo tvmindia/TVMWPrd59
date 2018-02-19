@@ -14,14 +14,15 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Purchase Order Number")]
         public string PurchaseOrderNo { get; set; }
         [Display(Name ="Receipt No")]
-        public string MRNNo { get; set; }
+        public string ReceiptNo { get; set; }
         [Display(Name = "Receipt Date")]
-        public DateTime MRNDate { get; set; }
-        public string MRNDateFormatted { get; set; }
+        public DateTime ReceiptDate { get; set; }
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
         public CommonViewModel Common { get; set; }
 
+        //Additional Fields
+        public string ReceiptDateFormatted { get; set; }
         public MaterialReceiptDetailViewModel MaterialReceiptDetail { get; set; }
         [Display(Name = "Raw Material")]
         public RawMaterialViewModel RawMaterial { get; set; }

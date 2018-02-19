@@ -296,6 +296,7 @@
     <Content Include="Content\DataTables\css\dataTables.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\dataTables.bootstrap4.css" />
     <Content Include="Content\DataTables\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.checkboxes.css" />
     <Content Include="Content\DataTables\css\dataTables.foundation.css" />
     <Content Include="Content\DataTables\css\dataTables.foundation.min.css" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.css" />
@@ -806,6 +807,7 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\IssueToProduction\AddIssueToProduction.cshtml" />
     <Content Include="Views\Product\_AddProductPartial.cshtml" />
+    <Content Include="Views\PurchaseOrder\_PurchaseOrderDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -92,10 +92,11 @@ namespace ProductionApp.RepositoryServices.Services
                                 while (sdr.Read())
                                 {
                                     materialReceipt = new MaterialReceipt();
+                                    materialReceipt.Supplier = new Supplier();
                                     materialReceipt.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
-                                    materialReceipt.MRNDateFormatted = (sdr["MRNDate"].ToString() != "" ? DateTime.Parse(sdr["MRNDate"].ToString()).ToString(settings.DateFormat) : materialReceipt.MRNDateFormatted);
-                                    materialReceipt.MRNNo = (sdr["MRNNo"].ToString() != "" ? sdr["MRNNo"].ToString() : materialReceipt.MRNNo);
-                                    materialReceipt.SupplierName= (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : materialReceipt.SupplierName);
+                                    materialReceipt.ReceiptDateFormatted = (sdr["MRNDate"].ToString() != "" ? DateTime.Parse(sdr["MRNDate"].ToString()).ToString(settings.DateFormat) : materialReceipt.ReceiptDateFormatted);
+                                    materialReceipt.ReceiptNo = (sdr["MRNNo"].ToString() != "" ? sdr["MRNNo"].ToString() : materialReceipt.ReceiptNo);
+                                    materialReceipt.Supplier.CompanyName= (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : materialReceipt.Supplier.CompanyName);
                                     materialReceipt.PurchaseOrderNo= (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : materialReceipt.PurchaseOrder.PurchaseOrderTitle);
                                     materialReceiptList.Add(materialReceipt);
                                 }

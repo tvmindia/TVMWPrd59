@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.BusinessService.Contracts
 {
-    public interface IPurchaseOrderBusiness
+    public interface IMaterialReceiptBusiness
     {
-        List<PurchaseOrder> GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch);
-        List<PurchaseOrder> GetAllPurchaseOrderForSelectList();
+        List<MaterialReceipt> GetAllMaterialReceipt();
     }
 }
