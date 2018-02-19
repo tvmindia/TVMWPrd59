@@ -79,11 +79,11 @@ function BindOrReloadRawMaterialTable(action) {
             pageLength: 10,
             columns: [
             { "data": "ID", "defaultContent": "<i>-</i>" },
-            { "data": "MaterialCode", "defaultContent": "<i>-</i>" },
+            { "data": "MaterialTypeCode", "defaultContent": "<i>-</i>" },
             { "data": "Rate", "defaultContent": "<i>-</i>" },
-            { "data": "MaterialType", "defaultContent": "<i>-<i>" },
+            { "data": "MaterialType.Description", "defaultContent": "<i>-<i>" },
             { "data": "Description", "defaultContent": "<i>-<i>" },
-            { "data": "UnitCode", "defaultContent": "<i>-<i>" },
+            { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
             { "data": "ReorderQty", "defaultContent": "<i>-<i>" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditRawMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],

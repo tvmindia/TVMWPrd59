@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProductionApp.DataAccessObject.DTO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,7 +19,8 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Please Enter Rate")]
         public decimal Rate { get; set; }
         [Required(ErrorMessage = "Please Enter Type")]
-        public string MaterialType { get; set; }
+        [Display(Name = "Material Type")]
+        public string MaterialTypeCode { get; set; }
         public string Description { get; set; }
         [Required(ErrorMessage = "Please Enter UnitCode")]
         [Display(Name = "Unit Code")]
@@ -31,6 +33,8 @@ namespace ProductionApp.UserInterface.Models
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public CommonViewModel Common { get; set; }
+        public UnitViewModel Unit { get; set; }
+        public MaterialTypeViewModel MaterialType { get; set; }
         public List<SelectListItem> SelectList { get; set; }
     }
 

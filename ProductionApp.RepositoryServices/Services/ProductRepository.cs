@@ -71,8 +71,12 @@ namespace ProductionApp.RepositoryServices.Services
                                         product.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : product.Name);
                                         product.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : product.Description);
                                         product.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : product.UnitCode);
+                                        product.Unit = new Unit();
+                                        product.Unit.Description= (sdr["UnitDescrption"].ToString() != "" ? sdr["UnitDescrption"].ToString() : product.Unit.Description);
                                         product.Category = (sdr["Category"].ToString() != "" ? sdr["Category"].ToString() : product.Category);
                                         product.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : product.Rate);
+                                        product.OpeningStock = (sdr["OpeningStock"].ToString() != "" ? decimal.Parse(sdr["OpeningStock"].ToString()) : product.OpeningStock);
+                                        product.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : product.CurrentStock);
                                         product.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : product.FilteredCount);
                                         product.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : product.TotalCount);
                                     }
@@ -158,6 +162,40 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
         #endregion InsertUpdateProduct
+
+        #region CheckProductCodeExist
+        /// <summary>
+        /// To Check whether Product Code Existing or not
+        /// </summary>
+        /// <param name="productCode"></param>
+        /// <returns>bool</returns>
+        public bool CheckProductCodeExist(string productCode)
+        {
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[CheckProductCodeExist]";
+                        cmd.Parameters.Add("@ProductCode", SqlDbType.VarChar).Value = productCode;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        Object res = cmd.ExecuteScalar();
+                        return (res.ToString() == "Exists" ? true : false);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion CheckProductCodeExist
 
         #region GetProduct
         /// <summary>

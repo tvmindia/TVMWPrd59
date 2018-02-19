@@ -51,7 +51,7 @@
             </div>
             <div class="col-md-12">
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.UnitCode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.Action("UnitDropdown", "Unit")
                     @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -77,6 +77,18 @@
                 <div class="col-md-12">
                     @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.CurrentStock, htmlAttributes: new { @class = "control-label " })
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.CurrentStock, new { htmlAttributes = new { @class = "form-control" ,@readonly= "readonly" } })
+                    @Html.ValidationMessageFor(model => model.CurrentStock, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
