@@ -80,7 +80,27 @@ namespace ProductionApp.UserInterface.Controllers
 
 
         #endregion GetAllRequisitionForPurchaseOrder
-
+        #region PurchaseOrder Dropdown
+        public ActionResult PurchaseOrderDropdown()
+        {
+            PurchaseOrderViewModel purchaseOrderVM = new PurchaseOrderViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            purchaseOrderVM.SelectList=new List<SelectListItem>();
+            List<PurchaseOrderViewModel> purchaseOrderList = Mapper.Map<List<PurchaseOrder>, List<PurchaseOrderViewModel>>(_purchaseOrderBusiness.GetAllPurchaseOrderForSelectList());
+            if (purchaseOrderList != null)
+                foreach (PurchaseOrderViewModel purchaseOrder in purchaseOrderList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = purchaseOrder.PurchaseOrderNo,
+                        Value = purchaseOrder.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            purchaseOrderVM.SelectList = selectListItem;
+            return PartialView("_PurchaseOrderDropdown", purchaseOrderVM);
+        }
+        #endregion
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]

@@ -24,7 +24,8 @@ namespace ProductionApp.UserInterface.Controllers
             _productBusiness = productBusiness;
         }
         #endregion Constructor Injection
-        // GET: Product
+
+        #region Index
         [AuthSecurityFilter(ProjectObject = "Product", Mode = "R")]
         public ActionResult Index(string code)
         {
@@ -32,6 +33,7 @@ namespace ProductionApp.UserInterface.Controllers
             ProductAdvanceSearchViewModel productAdvanceSearchVM = new ProductAdvanceSearchViewModel();
             return View(productAdvanceSearchVM);
         }
+        #endregion Index
 
         #region GetAllProduct
         [HttpPost]
@@ -76,6 +78,28 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion GetAllProduct
+
+        #region CheckProductCodeExist
+        [AcceptVerbs("Get", "Post")]
+        public ActionResult CheckProductCodeExist(Product productVM)
+        {
+            try
+            {
+                bool exists = productVM.IsUpdate ? false : _productBusiness.CheckProductCodeExist(productVM.Code);
+                if (exists)
+                {
+                    return Json("<p><span style='vertical-align: 2px'>Product code already in use </span> <i class='fa fa-close' style='font-size:19px; color: red'></i></p>", JsonRequestBehavior.AllowGet);
+                }
+                //var result = new { success = true, message = "Success" };
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return Json(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion CheckProductCodeExist
 
         #region InsertUpdateProduct
         [HttpPost]

@@ -72,7 +72,7 @@ function BindOrReloadRequisitionListTable(action) {
             },
             columns: [
                  { "data": "ID", "defaultContent": "<i>-</i>" },
-                 { "data": null, "defaultContent": "", "width": "5%" },
+                 { "data": "Checkbox", "defaultContent": "", "width": "5%" },
                  { "data": "ReqNo", "defaultContent": "<i>-</i>" },
                  { "data": "Title", "defaultContent": "<i>-</i>" },
                  { "data": "ReqDateFormatted", "defaultContent": "<i>-</i>" },

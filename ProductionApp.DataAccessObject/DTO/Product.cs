@@ -15,11 +15,14 @@ namespace ProductionApp.DataAccessObject.DTO
         public string UnitCode { get; set; }
         public string Category { get; set; }
         public decimal Rate { get; set; }
+        public decimal OpeningStock { get; set; }
+        public decimal CurrentStock { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public Common Common { get; set; }
+        public Unit Unit { get; set; }
     }
     public class ProductAdvanceSearch
     {
