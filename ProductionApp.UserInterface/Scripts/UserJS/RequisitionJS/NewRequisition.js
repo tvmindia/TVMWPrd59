@@ -163,3 +163,22 @@ function AddRequistionDetailList() {
         _RequistionDetailList.push(RequisitionDetail);
     }
 }
+
+function SaveSuccessRequisition(data, status)
+{
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            $('#IsUpdate').val('True');
+            notyAlert("success", JsonResult.Records.Message)
+            break;
+        case "ERROR":
+            notyAlert("danger", JsonResult.Message)
+            break;
+        default:
+            notyAlert("danger", JsonResult.Message)
+            break;
+    }
+
+}
