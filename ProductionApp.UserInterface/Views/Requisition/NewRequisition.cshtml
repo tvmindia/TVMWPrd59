@@ -39,7 +39,7 @@
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
-        @*@Html.HiddenFor(model => model.ViewOnly, htmlAttributes: new { @class = "", Value = ViewBag.viewOnly })*@
+        @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
         @*@Html.HiddenFor(model => model.hdnFileID, htmlAttributes: new { @class = "", @id = "hdnFileDupID", @value = Guid.Empty })*@
     <div class="col-md-12">
         <div class="form-group col-md-8">

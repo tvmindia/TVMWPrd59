@@ -15,6 +15,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string ReqDateFormatted { get; set; }
         public string ReqStatus { get; set; }
         public string RequisitionBy { get; set; }
+        public Guid EmployeeID { get; set; }
         public Guid LatestApprovalID { get; set; }
         public int LatestApprovalStatus { get; set; }
         public bool IsFinalApproved { get; set; }

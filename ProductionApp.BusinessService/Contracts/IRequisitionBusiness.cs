@@ -10,6 +10,7 @@ namespace ProductionApp.BusinessService.Contracts
     public interface IRequisitionBusiness
     {
         List<Requisition> GetAllRequisition(RequisitionAdvanceSearch requisitionAdvanceSearch);
+        Requisition GetRequisition(Guid ID);
         object InsertUpdateRequisition(Requisition requisition);
         List<Requisition> GetAllRequisitionForPurchaseOrder(RequisitionAdvanceSearch requisitionAdvanceSearch);
     }

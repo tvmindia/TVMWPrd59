@@ -10,6 +10,7 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface IRequisitionRepository
     {
         List<Requisition> GetAllRequisition(RequisitionAdvanceSearch requisitionAdvanceSearch);
+        Requisition GetRequisition(Guid ID);
         object InsertUpdateRequisition(Requisition requisition);
         List<Requisition> GetAllRequisitionForPurchaseOrder(RequisitionAdvanceSearch requisitionAdvanceSearch);
     }

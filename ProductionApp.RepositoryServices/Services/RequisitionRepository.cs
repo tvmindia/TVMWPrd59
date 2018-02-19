@@ -86,7 +86,7 @@ namespace ProductionApp.RepositoryServices.Services
         public object InsertUpdateRequisition(Requisition requisition)
         {
 
-            SqlParameter outputStatus, outputCode = null;
+            SqlParameter outputStatus, IDOut = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -103,7 +103,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = requisition.IsUpdate;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = requisition.ID;
                         cmd.Parameters.Add("@Title", SqlDbType.VarChar, 250).Value = requisition.Title;
-                        cmd.Parameters.Add("@RequisitionBy", SqlDbType.VarChar, 250).Value = requisition.RequisitionBy;
+                        cmd.Parameters.Add("@RequisitionBy", SqlDbType.UniqueIdentifier).Value = requisition.EmployeeID;
                         cmd.Parameters.Add("@ReqStatus", SqlDbType.VarChar, 250).Value = requisition.ReqStatus;
                         cmd.Parameters.Add("@ReqDate", SqlDbType.DateTime).Value = requisition.ReqDateFormatted;
                         cmd.Parameters.Add("@DetailXML", SqlDbType.VarChar, -1).Value = requisition.DetailXML;
@@ -114,8 +114,8 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = requisition.Common.UpdatedDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
-                        outputCode = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier);
-                        outputCode.Direction = ParameterDirection.Output;
+                        IDOut = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier);
+                        IDOut.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -125,10 +125,10 @@ namespace ProductionApp.RepositoryServices.Services
                     case "0":
                         throw new Exception(requisition.IsUpdate ? _appConst.UpdateFailure : _appConst.InsertFailure);
                     case "1":
-                        requisition.ID = Guid.Parse(outputCode.Value.ToString());
+                      //  requisition.ID = Guid.Parse(IDOut.Value.ToString());
                         return new
                         {
-                            Code = outputCode.Value.ToString(),
+                            ID = IDOut.Value.ToString(),
                             Status = outputStatus.Value.ToString(),
                             Message = requisition.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
                         };
@@ -141,7 +141,7 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return new
             {
-                Code = outputCode.Value.ToString(),
+                Code = IDOut.Value.ToString(),
                 Status = outputStatus.Value.ToString(),
                 Message = requisition.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
             };
@@ -202,7 +202,47 @@ namespace ProductionApp.RepositoryServices.Services
 
             return requisitionList;
         }
-
         #endregion GetAllrequisition For purchaseOrder
+
+        public Requisition GetRequisition(Guid ID)
+        {
+            Requisition requisition = new Requisition();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRequisition]";
+                        cmd.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                    requisition.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : requisition.ID);
+                                    requisition.ReqNo = (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : requisition.ReqNo);
+                                    requisition.ReqDate = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()) : requisition.ReqDate);
+                                    requisition.ReqDateFormatted = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()).ToString(settings.DateFormat) : requisition.ReqDateFormatted);
+                                    requisition.Title = (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : requisition.Title);
+                                    requisition.ReqStatus = (sdr["ReqStatus"].ToString() != "" ? sdr["ReqStatus"].ToString() : requisition.ReqStatus);
+                                    requisition.EmployeeID = (sdr["EmployeeID"].ToString() != "" ? Guid.Parse(sdr["EmployeeID"].ToString()) : requisition.EmployeeID);
+                                    requisition.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : requisition.RequisitionBy);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return requisition;
+        }
     }
 }

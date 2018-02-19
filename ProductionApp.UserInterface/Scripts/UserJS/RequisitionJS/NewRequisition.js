@@ -35,6 +35,12 @@ $(document).ready(function () {
         $("#MaterialID").change(function () {
            BindRawMaterialDetails(this.value)
         });
+        debugger;
+        if( $('#IsUpdate').val()==1)
+        {
+        BindRequisitionByID()
+        }
+
     }
     catch (e) {
         console.log(e.message);
@@ -170,7 +176,9 @@ function SaveSuccessRequisition(data, status)
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            $('#IsUpdate').val('True');
+            $('#IsUpdate').val(1);
+           // $('#ID').val(JsonResult.Records.ID);
+            BindRequisitionByID(ID)
             notyAlert("success", JsonResult.Records.Message)
             break;
         case "ERROR":
@@ -181,4 +189,32 @@ function SaveSuccessRequisition(data, status)
             break;
     }
 
+}
+function BindRequisitionByID(ID)
+{
+    debugger;
+    var result = GetRequisitionByID(ID);
+
+}
+
+function GetRequisitionByID()
+{
+    try {
+        debugger;
+        var data = { "ID": ID };
+        var ds = {};
+        ds = GetDataFromServer("Requisition/GetRequisition/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }

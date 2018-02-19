@@ -23,6 +23,7 @@ namespace ProductionApp.UserInterface.Models
         public string ReqStatus { get; set; }
         [Display(Name = "Requisition By")]
         public string RequisitionBy { get; set; }
+        public Guid EmployeeID { get; set; }
         public Guid LatestApprovalID { get; set; }
         public int LatestApprovalStatus { get; set; }
         public bool IsFinalApproved { get; set; }

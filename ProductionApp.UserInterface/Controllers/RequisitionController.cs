@@ -96,6 +96,23 @@ namespace ProductionApp.UserInterface.Controllers
 
         #endregion GetAllRequisition
 
+        #region GetRequisition
+        public string GetRequisition(string ID)
+        {
+            try
+            {
+                RequisitionViewModel rawMaterialVM = new RequisitionViewModel();
+                rawMaterialVM = Mapper.Map<Requisition, RequisitionViewModel>(_requisitionBusiness.GetRequisition(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = rawMaterialVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+
+        #endregion GetRequisition
+
         #region GetRawMaterial
         public string GetRawMaterial(string ID)
         {

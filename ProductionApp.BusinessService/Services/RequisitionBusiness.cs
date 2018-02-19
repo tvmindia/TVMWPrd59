@@ -69,5 +69,9 @@ namespace ProductionApp.BusinessService.Services
             return _requisitionRepository.GetAllRequisitionForPurchaseOrder(requisitionAdvanceSearch);
         }
 
+        public Requisition GetRequisition(Guid ID)
+        {
+            return _requisitionRepository.GetRequisition(ID);
+        }
     }
 }
