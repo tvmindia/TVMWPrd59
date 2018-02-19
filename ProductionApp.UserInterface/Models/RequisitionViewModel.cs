@@ -33,7 +33,8 @@ namespace ProductionApp.UserInterface.Models
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public string DetailJSON { get; set; }
-
+        public DateTime ApprovalDate { get; set; }
+        public string ApprovalDateFormatted { get; set; }
         public CommonViewModel Common { get; set; }
         public RequisitionDetailViewModel RequisitionDetail { get; set; }
         public List<RequisitionDetailViewModel> RequisitionDetailList { get; set; }
@@ -53,6 +54,10 @@ namespace ProductionApp.UserInterface.Models
         public string MaterialCode { get; set; }
         [Display(Name = "Approximate Rate")]
         public string ApproximateRate { get; set; }
+        public string POQty { get; set; }
+        public string OrderedQty { get; set; }
+        public string ReqNo { get; set; }
+        public RawMaterialViewModel RawMaterialVM { get; set; }
         public CommonViewModel Common { get; set; }
     }
 

@@ -58,7 +58,7 @@ function BindOrReloadRequisitionListTable(action) {
         DataTables.RequisitionList = $('#tblRequisitionList').DataTable({
             dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
             order: [],
-            searching: false,
+            searching: true,
             paging: true,
             pageLength: 10,
 
@@ -77,7 +77,7 @@ function BindOrReloadRequisitionListTable(action) {
                  { "data": "Title", "defaultContent": "<i>-</i>" },
                  { "data": "ReqDateFormatted", "defaultContent": "<i>-</i>" },
                  { "data": "ReqStatus", "defaultContent": "<i>-</i>" },
-                 { "data": "FinalApprovalDateFormatted", "defaultContent": "<i>-</i>" },
+                 { "data": "ApprovalDateFormatted", "defaultContent": "<i>-</i>" },
                  { "data": "RequisitionBy", "defaultContent": "<i>-</i>" }
             ],
             columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 1 }

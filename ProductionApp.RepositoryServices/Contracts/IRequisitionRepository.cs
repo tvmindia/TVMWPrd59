@@ -13,5 +13,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         Requisition GetRequisition(Guid ID);
         object InsertUpdateRequisition(Requisition requisition);
         List<Requisition> GetAllRequisitionForPurchaseOrder(RequisitionAdvanceSearch requisitionAdvanceSearch);
+        List<RequisitionDetail> GetRequisitionDetailsByIDs(string IDs, string POID);
     }
 }

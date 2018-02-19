@@ -22,6 +22,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
+        public DateTime ApprovalDate { get; set; }
+        public string ApprovalDateFormatted { get; set; }
         public Common Common { get; set; }
         public RequisitionDetail RequisitionDetail { get; set; }
         public List<RequisitionDetail> RequisitionDetailList { get; set; }
@@ -40,7 +42,11 @@ namespace ProductionApp.DataAccessObject.DTO
         public string MaterialCode { get; set; }
         public string CurrentStock { get; set; }
         public string ApproximateRate { get; set; }
+        public string POQty { get; set; }
+        public string OrderedQty { get; set; }
+        public string ReqNo { get; set; }
         public Common Common { get; set; }
+        public RawMaterial RawMaterial { get; set; }
     }
 
     public class RequisitionAdvanceSearch
