@@ -13,13 +13,14 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid IssuedBy { get; set; }
         public string IssueNo { get; set; }
         public DateTime IssueDate { get; set; }
-        public string IssueDateFormatted { get; set; }
         public string GeneralNotes { get; set; }
         public Common Common { get; set; }
 
-        public List<MaterialIssue> MaterialIssueList { get; set; }
-
+        //Additional Fields
+        public string IssueDateFormatted { get; set; }
         public string IssueToEmployeeName { get; set; }
         public string IssuedByEmployeeName { get; set; }
+
+        public List<MaterialIssue> MaterialIssueList { get; set; }
     }
 }

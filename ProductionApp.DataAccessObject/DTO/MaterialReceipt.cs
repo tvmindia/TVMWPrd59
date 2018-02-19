@@ -12,19 +12,19 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid SupplierID { get; set; }
         public Guid PurchaseOrderID { get; set; }
         public string PurchaseOrderNo { get; set; }
-        public string MRNNo { get; set; }
-        public DateTime MRNDate { get; set; }
-        public string MRNDateFormatted { get; set; }
+        public string ReceiptNo { get; set; }
+        public DateTime ReceiptDate { get; set; }
         public string GeneralNotes { get; set; }
         public Common Common { get; set; }
 
-        public List<MaterialReceipt> MaterialReceiptList { get; set; }
-
+        //Additional Fields
+        public string ReceiptDateFormatted { get; set; }
         public MaterialReceiptDetail MaterialReceiptDetail { get; set; }
         public RawMaterial RawMaterial { get; set; }
         public Supplier Supplier { get; set; }
-        public string SupplierName { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }
+
+        public List<MaterialReceipt> MaterialReceiptList { get; set; }
     }
 
     public class MaterialReceiptDetail
