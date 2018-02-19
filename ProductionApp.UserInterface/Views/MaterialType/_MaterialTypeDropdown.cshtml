@@ -1,2 +1,2 @@
 ﻿@model ProductionApp.UserInterface.Models.MaterialTypeViewModel
-@Html.DropDownList("MaterialTypeCode", Model.SelectList, "---Select MaterialType---", new { @class = "form-control" })
+@Html.DropDownListFor(model=>model.MaterialTypeCode, Model.SelectList, "---Select MaterialType---", new { @class = "form-control" })
