@@ -11,5 +11,6 @@ namespace ProductionApp.RepositoryServices.Contracts
     {
         List<Requisition> GetAllRequisition(RequisitionAdvanceSearch requisitionAdvanceSearch);
         object InsertUpdateRequisition(Requisition requisition);
+        List<Requisition> GetAllRequisitionForPurchaseOrder(RequisitionAdvanceSearch requisitionAdvanceSearch);
     }
 }

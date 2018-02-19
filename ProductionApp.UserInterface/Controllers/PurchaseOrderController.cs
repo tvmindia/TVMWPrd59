@@ -17,11 +17,13 @@ namespace ProductionApp.UserInterface.Controllers
         // GET: PurchaseOrder
         private IPurchaseOrderBusiness _purchaseOrderBusiness;
         private ISupplierBusiness _supplierBusiness;
+        private IRequisitionBusiness _requisitionBusiness;
         Common _common = new Common();
-        public PurchaseOrderController(IPurchaseOrderBusiness purchaseOrderBusiness, ISupplierBusiness supplierBusiness)
+        public PurchaseOrderController(IPurchaseOrderBusiness purchaseOrderBusiness, ISupplierBusiness supplierBusiness, IRequisitionBusiness requisitionBusiness)
         {
             _purchaseOrderBusiness = purchaseOrderBusiness;
             _supplierBusiness = supplierBusiness;
+            _requisitionBusiness = requisitionBusiness;
         }
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public ActionResult ViewPurchaseOrder(string code)
@@ -59,6 +61,26 @@ namespace ProductionApp.UserInterface.Controllers
         });
         }
         #endregion GetAllPurchaseOrder
+        #region GetAllRequisitionForPurchaseOrder
+        public JsonResult GetAllRequisitionForPurchaseOrder(DataTableAjaxPostModel model, RequisitionAdvanceSearchViewModel requisitionAdvanceSearchVM)
+        {
+            requisitionAdvanceSearchVM.DataTablePaging.Start = model.start;
+            requisitionAdvanceSearchVM.DataTablePaging.Length = (requisitionAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : requisitionAdvanceSearchVM.DataTablePaging.Length);
+            List<RequisitionViewModel> requisitionOrderList = Mapper.Map<List<Requisition>, List<RequisitionViewModel>>(_requisitionBusiness.GetAllRequisitionForPurchaseOrder(Mapper.Map<RequisitionAdvanceSearchViewModel, RequisitionAdvanceSearch>(requisitionAdvanceSearchVM)));
+
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = requisitionOrderList.Count != 0 ? requisitionOrderList[0].TotalCount : 0,
+                recordsFiltered = requisitionOrderList.Count != 0 ? requisitionOrderList[0].FilteredCount : 0,
+                data = requisitionOrderList
+            });
+        }
+
+
+        #endregion GetAllRequisitionForPurchaseOrder
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]

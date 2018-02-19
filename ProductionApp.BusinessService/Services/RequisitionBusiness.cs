@@ -64,6 +64,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return obj.GetType().GetProperties();
         }
+       public List<Requisition> GetAllRequisitionForPurchaseOrder(RequisitionAdvanceSearch requisitionAdvanceSearch)
+        {
+            return _requisitionRepository.GetAllRequisitionForPurchaseOrder(requisitionAdvanceSearch);
+        }
 
     }
 }

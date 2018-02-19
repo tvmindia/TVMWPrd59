@@ -7,6 +7,7 @@
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatablecheckbox")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Selectmin")
 }
@@ -163,7 +164,9 @@
                         <th>Unit</th>
                         <th>Quantity</th>
                         <th>Rate</th>
-                        <th>Amount</th>
+                        <th>Discount</th>
+                        <th>Taxable Amount</th>
+                        <th>Tax Amount</th>
                         </thead>
                 </table>
 
@@ -298,12 +301,13 @@
                                 <thead>
                                     <tr class="text-center">
                                         
+                                        <th>ID</th>
                                         <th></th>
                                         <th>Req No.</th>
                                         <th>Title</th>
                                         <th>Req Date</th>
-                                        <th>Approval Date</th>
                                         <th>Status</th>
+                                        <th>Approval Status</th>
                                         <th>Requested BY</th>
                                     </tr>
                                 </thead>
@@ -343,9 +347,10 @@
 </div>
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/PurchaseOrderJS/NewPurchaseOrder")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/selectmin")
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/PurchaseOrderJS/NewPurchaseOrder")
 }

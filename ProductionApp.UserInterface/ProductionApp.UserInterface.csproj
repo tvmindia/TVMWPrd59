@@ -296,6 +296,7 @@
     <Content Include="Content\DataTables\css\dataTables.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\dataTables.bootstrap4.css" />
     <Content Include="Content\DataTables\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.checkboxes.css" />
     <Content Include="Content\DataTables\css\dataTables.foundation.css" />
     <Content Include="Content\DataTables\css\dataTables.foundation.min.css" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.css" />
