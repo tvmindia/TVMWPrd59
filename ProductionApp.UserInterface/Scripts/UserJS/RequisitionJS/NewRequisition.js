@@ -64,8 +64,8 @@ function BindRawMaterialDetails(ID)
 {
     debugger;
     var result = GetRawMaterial(ID);
-    $('#RequisitionDetail_RawMaterial_MaterialCode').val(result.RawMaterial.MaterialCode);
-    $('#RequisitionDetail_RawMaterial_CurrentStock').val(result.RawMaterial.CurrentStock);
+    $('#RequisitionDetail_RawMaterial_MaterialCode').val(result.MaterialCode);
+    $('#RequisitionDetail_RawMaterial_CurrentStock').val(result.CurrentStock);
     $('#RequisitionDetail_Description').val(result.Description);
     $('#RequisitionDetail_ApproximateRate').val(result.Rate);
 }
@@ -163,6 +163,8 @@ function AddRequistionDetailList() {
     var data = DataTables.RequisitionDetailTable.rows().data();
     for (var r = 0; r < data.length; r++) {
         RequisitionDetail = new Object();
+        RequisitionDetail.ID = data[r].ID;
+        RequisitionDetail.ReqID = data[r].ReqID;
         RequisitionDetail.MaterialID = data[r].MaterialID;
         RequisitionDetail.Description = data[r].Description;
         RequisitionDetail.RequestedQty = data[r].RequestedQty;
