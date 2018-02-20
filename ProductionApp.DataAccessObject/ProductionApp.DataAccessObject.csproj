@@ -34,6 +34,9 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SAMTool.DataAccessObject">
+      <HintPath>..\ProductionApp.UserInterface\bin\SAMTool.DataAccessObject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -67,6 +70,7 @@
   <ItemGroup>
     <Compile Include="DTO\ApprovalLog.cs" />
     <Compile Include="DTO\ApprovalStatus.cs" />
+    <Compile Include="DTO\Approver.cs" />
     <Compile Include="DTO\Bank.cs" />
     <Compile Include="DTO\Common.cs" />
     <Compile Include="DTO\AMCSysModule.cs" />
@@ -83,6 +87,7 @@
     <Compile Include="DTO\RawMaterial.cs" />
     <Compile Include="DTO\Supplier.cs" />
     <Compile Include="DTO\Unit.cs" />
+    <Compile Include="DTO\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

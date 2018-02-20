@@ -38,6 +38,7 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<CommonViewModel, DataAccessObject.DTO.Common>().ReverseMap();
 
                 config.CreateMap<BankViewModel, Bank>().ReverseMap();
+                config.CreateMap<UserViewModel, ProductionApp.DataAccessObject.DTO.User>().ReverseMap();
                 config.CreateMap<BankAdvanceSearchViewModel, BankAdvanceSearch>().ReverseMap();
                 config.CreateMap<MaterialIssueViewModel, MaterialIssue>().ReverseMap();
                 config.CreateMap<RawMaterialViewModel, RawMaterial>().ReverseMap();
@@ -46,6 +47,8 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<MaterialTypeViewModel, MaterialType>().ReverseMap();
                 config.CreateMap<ProductViewModel, Product>().ReverseMap();
                 config.CreateMap<ProductAdvanceSearchViewModel, ProductAdvanceSearch>().ReverseMap();
+                config.CreateMap<ApproverViewModel, Approver>().ReverseMap();
+                config.CreateMap<ApproverAdvanceSearchViewModel, ApproverAdvanceSearch>().ReverseMap();
                 config.CreateMap<PurchaseOrderViewModel, PurchaseOrder>().ReverseMap();
                 config.CreateMap<PurchaseOrderAdvanceSearchViewModel, PurchaseOrderAdvanceSearch>().ReverseMap();
                 config.CreateMap<SupplierViewModel, Supplier>().ReverseMap();

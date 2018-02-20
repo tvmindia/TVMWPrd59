@@ -74,7 +74,7 @@ namespace ProductionApp.UserInterface.Controllers
                         UserObj.commonDetails = new CommonViewModel();
                         UserObj.commonDetails.CreatedBy = appUA.UserName;
                         UserObj.commonDetails.CreatedDate = commonObj.GetCurrentDateTime();
-                        result = _userBusiness.InsertUser(Mapper.Map<UserViewModel, User>(UserObj));
+                        result = _userBusiness.InsertUser(Mapper.Map<UserViewModel, SAMTool.DataAccessObject.DTO.User>(UserObj));
                     }
                     catch (Exception ex)
                     {
@@ -88,7 +88,7 @@ namespace ProductionApp.UserInterface.Controllers
                         UserObj.commonDetails = new CommonViewModel();
                         UserObj.commonDetails.UpdatedBy = appUA.UserName;
                         UserObj.commonDetails.UpdatedDate = commonObj.GetCurrentDateTime();
-                        result = _userBusiness.UpdateUser(Mapper.Map<UserViewModel, User>(UserObj));
+                        result = _userBusiness.UpdateUser(Mapper.Map<UserViewModel, SAMTool.DataAccessObject.DTO.User>(UserObj));
                     }
                     catch (Exception ex)
                     {
@@ -108,7 +108,7 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                List<UserViewModel> userList = Mapper.Map<List<User>, List<UserViewModel>>(_userBusiness.GetAllUsers());
+                List<UserViewModel> userList = Mapper.Map<List<SAMTool.DataAccessObject.DTO.User>, List<UserViewModel>>(_userBusiness.GetAllUsers());
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = userList });
             }
             catch (Exception ex)
@@ -126,7 +126,7 @@ namespace ProductionApp.UserInterface.Controllers
             try
             {
 
-                UserViewModel userList = Mapper.Map<User, UserViewModel>(_userBusiness.GetUserDetailsByID(Id));
+                UserViewModel userList = Mapper.Map<SAMTool.DataAccessObject.DTO.User, UserViewModel>(_userBusiness.GetUserDetailsByID(Id));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = userList });
             }
             catch (Exception ex)
@@ -149,7 +149,7 @@ namespace ProductionApp.UserInterface.Controllers
             {
                 try
                 {
-                    result = _userBusiness.DeleteUser(Mapper.Map<UserViewModel, User>(UserObj));
+                    result = _userBusiness.DeleteUser(Mapper.Map<UserViewModel, SAMTool.DataAccessObject.DTO.User>(UserObj));
                 }
                 catch (Exception ex)
                 {

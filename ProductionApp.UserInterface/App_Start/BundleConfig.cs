@@ -60,6 +60,7 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJs/RawMaterial").Include("~/Scripts/UserJS/RawMaterial.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Product").Include("~/Scripts/UserJS/Product.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Bank").Include("~/Scripts/UserJS/Bank.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Approver").Include("~/Scripts/UserJS/Approver.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/PurchaseOrderJS/ViewPurchaseOrder").Include("~/Scripts/UserJS/PurchaseOrderJS/ViewPurchaseOrder.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/PurchaseOrderJS/NewPurchaseOrder").Include("~/Scripts/UserJS/PurchaseOrderJS/NewPurchaseOrder.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/RequisitionJS/ViewRequisition").Include("~/Scripts/UserJS/RequisitionJS/ViewRequisition.js"));
