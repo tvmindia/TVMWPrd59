@@ -285,8 +285,12 @@ namespace ProductionApp.RepositoryServices.Services
                                     rawMaterial.MaterialCode = sdr["MaterialCode"].ToString() != "" ? (sdr["MaterialCode"].ToString()) : rawMaterial.MaterialCode;
                                     rawMaterial.Rate = sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : rawMaterial.Rate;
                                     rawMaterial.MaterialTypeCode = sdr["MaterialType"].ToString() != "" ? sdr["MaterialType"].ToString() : rawMaterial.MaterialTypeCode;
+                                    rawMaterial.MaterialType = new MaterialType();
+                                    rawMaterial.MaterialType.Code= sdr["MaterialType"].ToString() != "" ? sdr["MaterialType"].ToString() : rawMaterial.MaterialTypeCode;
                                     rawMaterial.Description = sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : rawMaterial.Description;
                                     rawMaterial.UnitCode = sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : rawMaterial.UnitCode;
+                                    rawMaterial.Unit = new Unit();
+                                    rawMaterial.Unit.Code= sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : rawMaterial.UnitCode;
                                     rawMaterial.CurrentStock = sdr["CurrentStock"].ToString() != "" ? sdr["CurrentStock"].ToString() : rawMaterial.CurrentStock;
                                     rawMaterial.ReorderQty = sdr["ReorderQty"].ToString() != "" ? decimal.Parse(sdr["ReorderQty"].ToString()) : rawMaterial.ReorderQty;
                                 }
