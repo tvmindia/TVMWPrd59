@@ -17,8 +17,6 @@ namespace ProductionApp.DataAccessObject.DTO
         public Common Common { get; set; }
         public bool IsUpdate { get; set; }
         public List<MaterialIssueDetail> MaterialIssueDetailList { get; set; }
-        public List<MaterialIssue> MaterialIssueList { get; set; }
-
 
         //Additional Fields
         public string IssueDateFormatted { get; set; }
