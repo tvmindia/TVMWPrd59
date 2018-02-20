@@ -51,8 +51,8 @@ function ShowRequisitionDetailsModal()
 {
     debugger;
     $("#MaterialID").val('')
-    $('#RequisitionDetail_MaterialCode').val('');
-    $('#RequisitionDetail_CurrentStock').val('');
+    $('#RequisitionDetail_RawMaterial_MaterialCode').val('');
+    $('#RequisitionDetail_RawMaterial_CurrentStock').val('');
     $('#RequisitionDetail_Description').val('');
     $('#RequisitionDetail_ApproximateRate').val('');
     $('#RequisitionDetail_RequestedQty').val('');
@@ -64,8 +64,8 @@ function BindRawMaterialDetails(ID)
 {
     debugger;
     var result = GetRawMaterial(ID);
-    $('#RequisitionDetail_MaterialCode').val(result.MaterialCode);
-    $('#RequisitionDetail_CurrentStock').val(result.CurrentStock);
+    $('#RequisitionDetail_RawMaterial_MaterialCode').val(result.RawMaterial.MaterialCode);
+    $('#RequisitionDetail_RawMaterial_CurrentStock').val(result.RawMaterial.CurrentStock);
     $('#RequisitionDetail_Description').val(result.Description);
     $('#RequisitionDetail_ApproximateRate').val(result.Rate);
 }
@@ -99,10 +99,11 @@ function AddRequisitionDetails()
         _RequistionDetail = [];
         RequisitionMaterial = new Object();
         RequisitionMaterial.MaterialID = $("#MaterialID").val();
-        RequisitionMaterial.MaterialCode=$('#RequisitionDetail_MaterialCode').val();
+        RequisitionMaterial.RawMaterial = new Object();
+        RequisitionMaterial.RawMaterial.MaterialCode = $('#RequisitionDetail_RawMaterial_MaterialCode').val();
         RequisitionMaterial.Description = $('#RequisitionDetail_Description').val();
         RequisitionMaterial.RequestedQty = $('#RequisitionDetail_RequestedQty').val();
-        RequisitionMaterial.CurrentStock = $('#RequisitionDetail_CurrentStock').val();
+        RequisitionMaterial.RawMaterial.CurrentStock = $('#RequisitionDetail_RawMaterial_CurrentStock').val();
         RequisitionMaterial.ApproximateRate = $('#RequisitionDetail_ApproximateRate').val();
         _RequistionDetail.push(RequisitionMaterial);
 
@@ -115,7 +116,7 @@ function AddRequisitionDetails()
                 for (var i = 0; i < allData.length; i++) {
                     if (allData[i].MaterialID == $("#MaterialID").val()) {
                         allData[i].Description = $('#RequisitionDetail_Description').val();
-                        allData[i].CurrentStock = $('#RequisitionDetail_CurrentStock').val();
+                        allData[i].CurrentStock = $('#RequisitionDetail_RawMaterial_CurrentStock').val();
                         allData[i].RequestedQty = $('#RequisitionDetail_RequestedQty').val();
                         allData[i].ApproximateRate = $('#RequisitionDetail_ApproximateRate').val();
                         checkPoint = 1;
