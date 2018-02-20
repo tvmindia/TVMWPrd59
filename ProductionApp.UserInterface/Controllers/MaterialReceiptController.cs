@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
@@ -28,11 +29,36 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         #region GetAllMaterialReceipt
-        public void GetAllMaterialReceipt()
+        [HttpPost]
+        public JsonResult GetAllMaterialReceipt(DataTableAjaxPostModel model, MaterialReceiptAdvanceSearchViewModel MaterialReceiptAdvanceSearchVM)
         {
-            List<MaterialReceiptViewModel> materialReceiptList = Mapper.Map<List<MaterialReceipt>, List<MaterialReceiptViewModel>>(_materialReceiptBusiness.GetAllMaterialReceipt());
+            MaterialReceiptAdvanceSearchVM.DataTablePaging.Start = model.start;
+            MaterialReceiptAdvanceSearchVM.DataTablePaging.Length = (MaterialReceiptAdvanceSearchVM.DataTablePaging.Length == 0) ? model.length : MaterialReceiptAdvanceSearchVM.DataTablePaging.Length;
+            List<MaterialReceiptViewModel> materialReceiptList = Mapper.Map<List<MaterialReceipt>, List<MaterialReceiptViewModel>>(
+                _materialReceiptBusiness.GetAllMaterialReceipt(
+                    Mapper.Map<MaterialReceiptAdvanceSearchViewModel, MaterialReceiptAdvanceSearch>(MaterialReceiptAdvanceSearchVM)));
+            if (MaterialReceiptAdvanceSearchVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = materialReceiptList.Count != 0 ? materialReceiptList[0].TotalCount : 0;
+                int filteredResult = materialReceiptList.Count != 0 ? materialReceiptList[0].FilteredCount : 0;
+                materialReceiptList = materialReceiptList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.None
+            };
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = materialReceiptList.Count != 0 ? materialReceiptList[0].TotalCount : 0,
+                recordsFiltered = materialReceiptList.Count != 0 ? materialReceiptList[0].FilteredCount : 0,
+                data = materialReceiptList
+            });
         }
         #endregion GetAllMaterialReceipt
+
+        #region MaterialReceiptDropDown
+        #endregion MaterialReceiptDropDown
 
         #region ButtonStyling
         [HttpGet]
@@ -52,12 +78,12 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset All";
-                    //toolboxVM.resetbtn.Event = "ResetPurchaseOrderList();";
+                    toolboxVM.resetbtn.Event = "ResetMaterialReceipt();";
 
                     toolboxVM.PrintBtn.Visible = true;
                     toolboxVM.PrintBtn.Text = "Export";
                     toolboxVM.PrintBtn.Title = "Export";
-                    //toolboxVM.PrintBtn.Event = "ImportPurchaseOrderData();";
+                    toolboxVM.PrintBtn.Event = "ImportMaterialReceipt();";
 
                     break;
                 case "Edit":
@@ -69,7 +95,6 @@ namespace ProductionApp.UserInterface.Controllers
             }
             return PartialView("ToolboxView", toolboxVM);
         }
-
-        #endregion
+        #endregion ButtonStyling
     }
 }

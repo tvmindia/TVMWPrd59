@@ -1,5 +1,5 @@
 ﻿@using ProductionApp.UserInterface.App_Start
-@model ProductionApp.UserInterface.Models.MaterialReceiptViewModel
+@model ProductionApp.UserInterface.Models.MaterialReceiptAdvanceSearchViewModel
 
 @{
     ViewBag.Title = "Material Receipt Notes";
@@ -9,6 +9,8 @@
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Selectmin")
 }
 
 <div style="width:100%;">
@@ -36,25 +38,77 @@
         &nbsp;
     </div>
     <div class="row tableContainer">
-        @*//<input type="text" id="txtsearch" />*@
-        <div class="form-group col-md-8">
+        @*Advance Search *@
+        <div class="row">
             <div class="col-md-12">
-                @*@Html.LabelFor(model => model.SearchTerm, htmlAttributes: new { @class = "control-label" })*@
-            </div>
-            <div class="col-md-12">
-                <div class="col-md-10">
-                    @*@Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })*@
+                <div class="col-md-8">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    @*<input type="button" value="Search" onclick="BindOrReloadBankTable('Search')" />*@
+                <div class="col-md-4">
+                    <div class="col-md-12">
+                        <a class="btn btn-primary" style="bottom:5px;position:relative;" onclick="BindOrReloadMaterialReceiptTable('Apply')">
+                            Search
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-        @Html.Action("GetAllMaterialReceipt", "MaterialReceipt");
+        @*Advance Filter *@
+        <div class="row">
+            <p id="filter" style="float:right;font-size:small"><i class="fa fa-filter" aria-hidden="true" style="color:purple"></i><a href="#" class="accordion" data-toggle="collapse" data-target="#demo">Advanced Filter</a></p>
+            <div id="demo" class="collapse" style="border-top:1px solid #d9d9d9">
+                <div class="col-md-12">
+                    <div class="col-md-5">
+                        @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3" } })
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3" } })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        &nbsp;
+                        <div class="col-md-12">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-5">
+                        @Html.LabelFor(model => model.Supplier, htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-12">
+                            @Html.Action("SupplierDropdown", "Supplier")
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        @Html.LabelFor(model => model.PurchaseOrder, htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-12">
+                            @Html.Action("PurchaseOrderDropdown", "PurchaseOrder")
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        &nbsp;
+                        <div class="col-md-12">
+                            <a class="btn btn-primary" onclick="BindOrReloadMaterialReceiptTable('Apply')">Apply</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12">&nbsp;</div>
         <div class="col-md-12">
             <table id="tblMaterialReceipt" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center TableHead">
+                        <th>ID</th>
                         <th>Receipt No</th>
                         <th>Receipt Date</th>
                         <th>PO No</th>
@@ -66,6 +120,7 @@
             </table>
         </div>
     </div>
+
 </section>
 
 @section Scripts {
@@ -73,5 +128,7 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
-    @*@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/Bank")*@
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/MaterialReceiptJS/ViewMaterialReceipt")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/selectmin")
 }

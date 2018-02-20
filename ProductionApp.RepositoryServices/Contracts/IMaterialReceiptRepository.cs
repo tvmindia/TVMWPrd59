@@ -9,6 +9,6 @@ namespace ProductionApp.RepositoryServices.Contracts
 {
     public interface IMaterialReceiptRepository
     {
-        List<MaterialReceipt> GetAllMaterialReceipt();
+        List<MaterialReceipt> GetAllMaterialReceipt(MaterialReceiptAdvanceSearch MaterialReceiptAdvanceSearch);
     }
 }
