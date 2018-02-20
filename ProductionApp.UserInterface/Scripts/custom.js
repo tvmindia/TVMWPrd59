@@ -57,14 +57,16 @@ $(document).ready(function () {
         $('.wrap,a').removeClass('active');
         return false;
     });
-    $('#divMainBody').attr('style',"height:"+screen.height + "px");
+    //$('#divMainBody').attr('style',"height:"+screen.height + "px");
     var wrap = $(".EntryForms");
     wrap.on("scroll", function (e) {
         if (this.scrollTop > 147) {
+            $('#buttonpatch').addClass("fix-button");
             $('#CommonFigure').addClass("fix-search");
             $("#outstandingdetailsdiv").hide();
             $("#divStatus").hide();
         } else {
+            $('#buttonpatch').removeClass("fix-button");
             $('#CommonFigure').removeClass("fix-search");
             $("#outstandingdetailsdiv").show();
             $("#divStatus").show();
