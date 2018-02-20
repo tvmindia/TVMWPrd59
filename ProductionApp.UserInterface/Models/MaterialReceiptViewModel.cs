@@ -22,10 +22,10 @@ namespace ProductionApp.UserInterface.Models
         public CommonViewModel Common { get; set; }
 
         //Additional Fields
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
         public string ReceiptDateFormatted { get; set; }
         public MaterialReceiptDetailViewModel MaterialReceiptDetail { get; set; }
-        [Display(Name = "Raw Material")]
-        public RawMaterialViewModel RawMaterial { get; set; }
         [Display(Name ="Supplier")]
         public SupplierViewModel Supplier { get; set; }
 
@@ -45,5 +45,24 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Quantity")]
         public decimal Qty { get; set; }
         public CommonViewModel Common { get; set; }
+
+        //Additional Fields
+        [Display(Name = "Raw Material")]
+        public RawMaterialViewModel RawMaterial { get; set; }
+    }
+
+    public class MaterialReceiptAdvanceSearchViewModel
+    {
+        public DataTablePagingViewModel DataTablePaging { get; set; }
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        [Display(Name = "FromDate")]
+        public string FromDate { get; set; }
+        [Display(Name = "ToDate")]
+        public string ToDate { get; set; }
+        [Display(Name = "Supplier")]
+        public SupplierViewModel Supplier { get; set; }
+        [Display(Name = "Purchase Order")]
+        public PurchaseOrderViewModel PurchaseOrder { get; set; }
     }
 }
