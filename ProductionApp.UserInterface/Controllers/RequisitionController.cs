@@ -29,13 +29,22 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ViewRequisition(string code)
         {
             ViewBag.SysModuleCode = code;
+         
             return View();
         }
 
-        public ActionResult NewRequisition(string code)
+        public ActionResult NewRequisition(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
-            return View();
+             RequisitionViewModel requisitionVM = new RequisitionViewModel
+                {
+                    ID = id==null?Guid.Empty:(Guid)id,
+                    IsUpdate = id == null ?false: true
+                };
+                return View(requisitionVM);
+
+            
+           
         }
 
         public ActionResult RequisitionApproval(string code)
