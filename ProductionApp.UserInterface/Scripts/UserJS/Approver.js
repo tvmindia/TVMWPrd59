@@ -2,10 +2,10 @@
 //*****************************************************************************
 //*****************************************************************************
 //Author: Jais
-//CreatedDate: 17-Feb-2018 
-//LastModified: 19-Feb-2018 
-//FileName: Product.js
-//Description: Client side coding for Product
+//CreatedDate: 20-Feb-2018 
+//LastModified: 20-Feb-2018 
+//FileName: Approver.js
+//Description: Client side coding for Approver
 //******************************************************************************
 //******************************************************************************
 
@@ -17,19 +17,19 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     try {
         debugger;
-        BindOrReloadProductTable('Init');
+        BindOrReloadApproverTable('Init');
     }
     catch (e) {
         console.log(e.message);
     }
 });
 
-//--function bind the Product list checking search and filter--//
-function BindOrReloadProductTable(action) {
+
+//--function bind the Approver list checking search and filter--//
+function BindOrReloadApproverTable(action) {
     try {
-        debugger;
         //creating advancesearch object
-        ProductAdvanceSearchViewModel = new Object();
+        ApproverAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
         //switch case to check the operation
@@ -48,18 +48,18 @@ function BindOrReloadProductTable(action) {
             default:
                 break;
         }
-        ProductAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
-        ProductAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+        ApproverAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
+        ApproverAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
 
-        //apply datatable plugin on Raw Material table
-        DataTables.productList = $('#tblProduct').DataTable(
+        //apply datatable plugin on Approver table
+        DataTables.approverList = $('#tblApprover').DataTable(
         {
             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
             buttons: [{
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [1, 2, 3, 4, 5, 6,7]
+                                 columns: [1, 2, 3, 4, 5, 6]
                              }
             }],
             order: false,
@@ -73,25 +73,24 @@ function BindOrReloadProductTable(action) {
             },
             serverSide: true,
             ajax: {
-                url: "Product/GetAllProduct/",
-                data: { "productAdvanceSearchVM": ProductAdvanceSearchViewModel },
+                url: "Approver/GetAllApprover/",
+                data: { "approverAdvanceSearchVM": ApproverAdvanceSearchViewModel },
                 type: 'POST'
             },
             pageLength: 10,
             columns: [
             { "data": "ID", "defaultContent": "<i>-</i>" },
-            { "data": "Code", "defaultContent": "<i>-</i>" },
-            { "data": "Name", "defaultContent": "<i>-</i>" },
-            { "data": "Description", "defaultContent": "<i>-<i>" },
-            { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
-            { "data": "Category", "defaultContent": "<i>-<i>" },
-            { "data": "Rate", "defaultContent": "<i>-<i>" },
-            { "data": "CurrentStock", "defaultContent": "<i>-<i>" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+            { "data": "DocType", "defaultContent": "<i>-</i>" },
+            { "data": "Level", "defaultContent": "<i>-</i>" },
+            { "data": "UserID", "defaultContent": "<i>-<i>" },
+            { "data": "User.LoginName", "defaultContent": "<i>-<i>" },
+            { "data": "IsDefault", "defaultContent": "<i>-<i>" },
+            { "data": "IsActive", "defaultContent": "<i>-<i>" },
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditApproverMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
-            columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [6,7] },
-                { className: "text-left", "targets": [1,2, 3, 4, 5] },
+            columnDefs: [{ "targets": [0,3], "visible": false, "searchable": false },
+                { className: "text-right", "targets": [ 6] },
+                { className: "text-left", "targets": [1, 2, 4, 5, 6] },
                 { className: "text-center", "targets": [] }],
             destroy: true,
             //for performing the import operation after the data loaded
@@ -103,7 +102,7 @@ function BindOrReloadProductTable(action) {
                         }
                     }
                     $(".buttons-excel").trigger('click');
-                    ResetProductList();
+                    ResetApproverList();
                 }
             }
         });
@@ -115,38 +114,12 @@ function BindOrReloadProductTable(action) {
 }
 
 //--function reset the list to initial--//
-function ResetProductList() {
-    BindOrReloadProductTable('Reset');
+function ResetApproverList() {
+    BindOrReloadApproverTable('Reset');
 }
 
 //--function export data to excel--//
-function ImportProductData() {
-    BindOrReloadProductTable('Export');
-}
-//--edit Product--//
-function EditProductMaster(this_obj) {
-    rowData = DataTables.productList.row($(this_obj).parents('tr')).data();
-    GetMasterPartial("Product", rowData.ID);
-    $('#h3ModelMasterContextLabel').text('Edit Product')
-    $('#divModelMasterPopUp').modal('show');
+function ImportApproverData() {
+    BindOrReloadApproverTable('Export');
 }
 
-//-- Function After Save --//
-function SaveSuccessProduct(data, status) {
-    debugger;
-    var JsonResult = JSON.parse(data)
-    switch (JsonResult.Result) {
-        case "OK":
-            $('#IsUpdate').val('True');
-            $('#ID').val(JsonResult.Records.ID);
-            BindOrReloadProductTable('Reset');
-            MasterAlert("success", JsonResult.Records.Message)
-            break;
-        case "ERROR":
-            MasterAlert("danger", JsonResult.Message)
-            break;
-        default:
-            MasterAlert("danger", JsonResult.Message)
-            break;
-    }
-}

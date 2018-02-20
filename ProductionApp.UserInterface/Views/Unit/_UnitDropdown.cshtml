@@ -1,3 +1,6 @@
 ﻿@model ProductionApp.UserInterface.Models.UnitViewModel
-@Html.DropDownListFor(model=>model.UnitCode,Model.SelectList, "--- Select Unit ---", new { @class = "form-control" })
+<div class="input-group">
+    @Html.DropDownListFor(model => model.UnitCode, Model.SelectList, "--- Select Unit ---", new { @class = "form-control" })
+    <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick=""><i class="fa fa-plus-square-o"></i></span>
+    </div>
 

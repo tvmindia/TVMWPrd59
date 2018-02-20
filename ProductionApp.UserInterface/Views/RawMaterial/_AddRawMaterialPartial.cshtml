@@ -35,12 +35,12 @@
 
         <div class="form-group col-md-12">
             <div class="col-md-12">
-                @Html.LabelFor(model => model.MaterialType, htmlAttributes: new { @class = "control-label lblrequired" })
+                @Html.LabelFor(model => model.MaterialTypeCode, htmlAttributes: new { @class = "control-label lblrequired" })
             </div>
             <div class="col-md-12">
                 <div class="col-md-12">
                     @{Html.RenderAction("MaterialTypeDropdown", "MaterialType",Model.MaterialType);}
-                    <span class="text-danger field-validation-error" data-valmsg-for="MaterialTypeCode" data-valmsg-replace="true"><span for="MaterialTypeCode" class="">The MaterialType Code field is required.</span></span>
+                    @Html.ValidationMessageFor(model => model.MaterialTypeCode, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
             <div class="col-md-12">
                 <div class="col-md-12">
                     @{Html.RenderAction("UnitDropdown", "Unit", Model.Unit);}
-                    <span class="text-danger field-validation-error" data-valmsg-for="UnitCode" data-valmsg-replace="true"><span for="MaterialTypeCode" class="">The Unit Code field is required.</span></span>
+                    @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>

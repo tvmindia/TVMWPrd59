@@ -80,6 +80,23 @@ namespace ProductionApp.UserInterface.Controllers
 
 
         #endregion GetAllRequisitionForPurchaseOrder
+
+        #region GetRequisitionDetailsByIDs
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
+        public string GetRequisitionDetailsByIDs(string IDs, string POID)
+        {
+            try
+            {
+                List<RequisitionDetailViewModel> purchaseOrderRequisitionList = Mapper.Map<List<RequisitionDetail>, List<RequisitionDetailViewModel>>(_requisitionBusiness.GetRequisitionDetailsByIDs(IDs, POID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderRequisitionList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+        #endregion GetRequisitionDetailsByIDs
+
         #region PurchaseOrder Dropdown
         public ActionResult PurchaseOrderDropdown()
         {

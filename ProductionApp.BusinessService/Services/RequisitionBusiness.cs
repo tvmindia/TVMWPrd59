@@ -76,5 +76,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _requisitionRepository.GetRequisition(ID);
         }
+
+        public List<RequisitionDetail> GetRequisitionDetail(Guid ID)
+        {
+            return _requisitionRepository.GetRequisitionDetail(ID);
+        }
     }
 }

@@ -1,3 +1,8 @@
 ﻿@model ProductionApp.UserInterface.Models.EmployeeViewModel
-@Html.DropDownList("EmployeeID", Model.SelectList@*, "--Select Employee--"*@, new { @class = "form-control" })
+@Html.DropDownList("Employee_ID", Model.SelectList,"--Select Employee--", new { @class = "form-control Employee_ID" })
+@Html.ValidationMessage("Employee_ID", "", new { @class = "text-danger" })
+<div class="input-group">
+    @Html.DropDownList("EmployeeID", Model.SelectList@*, "--Select Employee--"*@, new { @class = "form-control" })
+    <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick=""><i class="fa fa-plus-square-o"></i></span>
+</div>
 @Html.ValidationMessage("EmployeeID", "", new { @class = "text-danger" })

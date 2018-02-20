@@ -49,15 +49,15 @@ namespace ProductionApp.UserInterface.Models
         public string Description { get; set; }
         [Display(Name = "Requested Quantity")]
         public string RequestedQty { get; set; }
-        [Display(Name = "Current Stock")]
-        public string CurrentStock { get; set; }
-        public string MaterialCode { get; set; }
+      //  [Display(Name = "Current Stock")]
+       // public string CurrentStock { get; set; }
+       // public string MaterialCode { get; set; }
         [Display(Name = "Approximate Rate")]
         public string ApproximateRate { get; set; }
         public string POQty { get; set; }
         public string OrderedQty { get; set; }
         public string ReqNo { get; set; }
-        public RawMaterialViewModel RawMaterialVM { get; set; }
+        public RawMaterialViewModel RawMaterial { get; set; }
         public CommonViewModel Common { get; set; }
     }
 
