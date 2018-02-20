@@ -36,7 +36,7 @@ $(document).ready(function () {
            BindRawMaterialDetails(this.value)
         });
         debugger;
-        if( $('#IsUpdate').val()==1)
+        if( $('#IsUpdate').val()=='True')
         {
         BindRequisitionByID()
         }
@@ -176,9 +176,9 @@ function SaveSuccessRequisition(data, status)
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            $('#IsUpdate').val(1);
-           // $('#ID').val(JsonResult.Records.ID);
-            BindRequisitionByID(ID)
+            $('#IsUpdate').val('True');
+            $('#ID').val(JsonResult.Records.ID)
+            BindRequisitionByID();
             notyAlert("success", JsonResult.Records.Message)
             break;
         case "ERROR":
@@ -190,14 +190,20 @@ function SaveSuccessRequisition(data, status)
     }
 
 }
-function BindRequisitionByID(ID)
+function BindRequisitionByID()
 {
-    debugger;
+    var ID = $('#ID').val();
     var result = GetRequisitionByID(ID);
-
+    debugger;
+    $('#ID').val(result.ID);
+    $('#Title').val(result.Title);
+    $('#ReqNo').val(result.ReqNo);
+    $('#ReqDateFormatted').val(result.ReqDateFormatted);
+    $('#RequisitionBy').val(result.EmployeeID);
+    $('#ReqStatus').val(result.ReqStatus);
 }
 
-function GetRequisitionByID()
+function GetRequisitionByID(ID)
 {
     try {
         debugger;
