@@ -123,14 +123,6 @@ function ResetProductList() {
 function ImportProductData() {
     BindOrReloadProductTable('Export');
 }
-
-//-- add Product--//
-function AddProductMaster() {
-    GetMasterPartial("Product", "");
-    $('#h3ModelMasterContextLabel').text('Add Product')
-    $('#divModelMasterPopUp').modal('show');
-}
-
 //--edit Product--//
 function EditProductMaster(this_obj) {
     rowData = DataTables.productList.row($(this_obj).parents('tr')).data();

@@ -136,13 +136,6 @@ function ExportBankData()
 {
     BindOrReloadBankTable('Export');
 }
-//add bank 
-function AddBankMaster()
-{
-    GetMasterPartial("Bank", "");
-    $('#h3ModelMasterContextLabel').text('Add Bank')
-    $('#divModelMasterPopUp').modal('show');
-}
 //edit bank 
 function EditBankMaster(this_obj) {
     debugger;
