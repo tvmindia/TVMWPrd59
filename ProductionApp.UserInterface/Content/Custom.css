@@ -1,7 +1,7 @@
 ﻿
 
 .wrap {
-  position: absolute;
+  position: fixed;
   overflow: hidden;
   top: 10%;
   right: 30%;
@@ -59,7 +59,7 @@
 }
 
 a.button {
-  padding: 8px 11px 8px 13px;
+  padding: 8px 8px 8px 10px;
   outline: none;
   border-radius: 25%;
   background: #015e9a;
@@ -1035,3 +1035,16 @@ td.totalRow {
         background-color:transparent;
         border:hidden;
         }
+.main-sidebar{
+    position:fixed;
+}
+.logo{
+    position:fixed;
+}
+/*for buttonpatch fixing*/
+.fix-button{
+    position: fixed!important;
+    right: 16%!important;
+    top: 0!important;
+    z-index: 1030!important;
+}

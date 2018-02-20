@@ -23,6 +23,7 @@ namespace ProductionApp.UserInterface.Models
         public string ReqStatus { get; set; }
         [Display(Name = "Requisition By")]
         public string RequisitionBy { get; set; }
+        public Guid EmployeeID { get; set; }
         public Guid LatestApprovalID { get; set; }
         public int LatestApprovalStatus { get; set; }
         public bool IsFinalApproved { get; set; }
@@ -32,7 +33,8 @@ namespace ProductionApp.UserInterface.Models
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public string DetailJSON { get; set; }
-
+        public DateTime ApprovalDate { get; set; }
+        public string ApprovalDateFormatted { get; set; }
         public CommonViewModel Common { get; set; }
         public RequisitionDetailViewModel RequisitionDetail { get; set; }
         public List<RequisitionDetailViewModel> RequisitionDetailList { get; set; }
@@ -47,11 +49,15 @@ namespace ProductionApp.UserInterface.Models
         public string Description { get; set; }
         [Display(Name = "Requested Quantity")]
         public string RequestedQty { get; set; }
-        [Display(Name = "Current Stock")]
-        public string CurrentStock { get; set; }
-        public string MaterialCode { get; set; }
+      //  [Display(Name = "Current Stock")]
+       // public string CurrentStock { get; set; }
+       // public string MaterialCode { get; set; }
         [Display(Name = "Approximate Rate")]
         public string ApproximateRate { get; set; }
+        public string POQty { get; set; }
+        public string OrderedQty { get; set; }
+        public string ReqNo { get; set; }
+        public RawMaterialViewModel RawMaterial { get; set; }
         public CommonViewModel Common { get; set; }
     }
 

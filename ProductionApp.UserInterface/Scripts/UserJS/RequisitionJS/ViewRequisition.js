@@ -64,7 +64,11 @@ function BindOrReloadRequisitionTable(action) {
                     { "data": "ReqStatus", "defaultContent": "<i>-</i>" },
                     { "data": "RequisitionBy", "defaultContent": "<i>-</i>" },
                     { "data": "ApprovalStatus", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" }
+                     {
+                         "data": "ID", "orderable": false, render: function (data, type, row) {
+                             return '<a href="/Requisition/NewRequisition?code=PURCH&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                         }, "defaultContent": "<i>-</i>"
+                     }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                     { className: "text-left", "targets": [1, 4, 5,6] },

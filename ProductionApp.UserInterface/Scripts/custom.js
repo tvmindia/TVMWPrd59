@@ -57,7 +57,7 @@ $(document).ready(function () {
         $('.wrap,a').removeClass('active');
         return false;
     });
-    $('#divMainBody').attr('style',"height:"+screen.height + "px");
+    //$('#divMainBody').attr('style',"height:"+screen.height + "px");
     var wrap = $(".EntryForms");
     wrap.on("scroll", function (e) {
         if (this.scrollTop > 147) {
@@ -163,7 +163,7 @@ function MasterAlert(type,msgtxt)
             align: 'right'
         },
         z_index: 21031,
-        delay: 10000,
+        delay: 5000,
         template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
             '<span data-notify="title">{1}</span>' +
             '<i class="'+iconclass+'" style="font-size:48px;color:white"></i></span>' +
@@ -510,7 +510,7 @@ function UploadFile(FileObject)
                 }
 
                 // Adding one more key to FormData object  
-                fileData.append('ParentID', FileObject.ParentID);
+                fileData.append('ParentID', "");
                 fileData.append('ParentType', FileObject.ParentType);
                 $.ajax({
                     url: '/' + FileObject.Controller + '/UploadFiles',

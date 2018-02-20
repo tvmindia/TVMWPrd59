@@ -22,5 +22,18 @@ namespace ProductionApp.BusinessService.Services
         {
             return _productRepository.GetAllProduct(productAdvanceSearch);
         }
+        public object InsertUpdateProduct(Product product)
+        {
+            return _productRepository.InsertUpdateProduct(product);
+        }
+        public bool CheckProductCodeExist(string productCode)
+        {
+            return _productRepository.CheckProductCodeExist(productCode);
+        }
+        public Product GetProduct(Guid id)
+        {
+            return _productRepository.GetProduct(id);
+        }
+
     }
 }

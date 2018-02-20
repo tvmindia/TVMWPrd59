@@ -24,7 +24,9 @@ namespace ProductionApp.UserInterface.Models
         [DataType(DataType.MultilineText)]
         public string GeneralNotes { get; set; }
         public CommonViewModel Common { get; set; }
+
         //Additional Fields
+        public string IssueDateFormatted { get; set; }
         public string IssueToEmployeeName { get; set; }
         public string IssuedByEmployeeName { get; set; }
         public MaterialIssueDetailViewModel MaterialIssueDetail { get; set; }

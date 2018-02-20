@@ -1,6 +1,6 @@
 ﻿@model ProductionApp.UserInterface.Models.RawMaterialViewModel
 
-@using (Ajax.BeginForm("InsertUpdateRawMaterial","RawMaterial",null,new AjaxOptions { HttpMethod="POST",Confirm="",OnSuccess= "SaveSuccessRawMaterial", OnFailure="NetworkFailure",AllowCache=false,LoadingElementId="",OnBegin= "OnMasterBegin", OnComplete= "OnMasterComplete" },new { @class="form-horizontal",role="form",id= "FormRawMaterial" }))
+@using (Ajax.BeginForm("InsertUpdateRawMaterial", "RawMaterial", null, new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessRawMaterial", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "OnMasterBegin", OnComplete = "OnMasterComplete" }, new { @class = "form-horizontal", role = "form", id = "FormRawMaterial" }))
 {
     @Html.AntiForgeryToken()
 
@@ -35,12 +35,12 @@
 
         <div class="form-group col-md-12">
             <div class="col-md-12">
-                @Html.LabelFor(model => model.MaterialType, htmlAttributes: new { @class = "control-label lblrequired" })
+                @Html.LabelFor(model => model.MaterialTypeCode, htmlAttributes: new { @class = "control-label lblrequired" })
             </div>
             <div class="col-md-12">
                 <div class="col-md-12">
-                    @Html.Action("MaterialTypeDropdown", "MaterialType")
-                    @Html.ValidationMessageFor(model => model.MaterialType, "", new { @class = "text-danger" })
+                    @{Html.RenderAction("MaterialTypeDropdown", "MaterialType",Model.MaterialType);}
+                    @Html.ValidationMessageFor(model => model.MaterialTypeCode, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
             </div>
             <div class="col-md-12">
                 <div class="col-md-12">
-                    @Html.Action("UnitDropdown", "Unit")
+                    @{Html.RenderAction("UnitDropdown", "Unit", Model.Unit);}
                     @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
                 </div>
             </div>

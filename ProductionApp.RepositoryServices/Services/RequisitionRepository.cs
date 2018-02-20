@@ -86,51 +86,53 @@ namespace ProductionApp.RepositoryServices.Services
         public object InsertUpdateRequisition(Requisition requisition)
         {
 
-            SqlParameter outputStatus, outputCode = null;
+            SqlParameter outputStatus, IDOut = null;
             try
             {
-                //    using (SqlConnection con = _databaseFactory.GetDBConnection())
-                //    {
-                //        using (SqlCommand cmd = new SqlCommand())
-                //        {
-                //            if (con.State == ConnectionState.Closed)
-                //            {
-                //                con.Open();
-                //            }
-                //            cmd.Connection = con;
-                //            cmd.CommandText = "[AMC].[InsertUpdateRequisition]";
-                //            cmd.CommandType = CommandType.StoredProcedure;
-                //            cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = requisition.IsUpdate;
-                //            cmd.Parameters.Add("@ID", SqlDbType.VarChar, 5).Value = requisition.ID;
-                //            cmd.Parameters.Add("@RequisitionBy", SqlDbType.VarChar, 100).Value = requisition.RequisitionBy;
-                //            cmd.Parameters.Add("@ReqDate", SqlDbType.DateTime).Value = requisition.ReqDate;
-                //            cmd.Parameters.Add("@DetailXML", SqlDbType.VarChar, -1).Value = requisition.DetailXML;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[InsertUpdateRequisition]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = requisition.IsUpdate;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = requisition.ID;
+                        cmd.Parameters.Add("@Title", SqlDbType.VarChar, 250).Value = requisition.Title;
+                        cmd.Parameters.Add("@RequisitionBy", SqlDbType.UniqueIdentifier).Value = requisition.EmployeeID;
+                        cmd.Parameters.Add("@ReqStatus", SqlDbType.VarChar, 250).Value = requisition.ReqStatus;
+                        cmd.Parameters.Add("@ReqDate", SqlDbType.DateTime).Value = requisition.ReqDateFormatted;
+                        cmd.Parameters.Add("@DetailXML", SqlDbType.VarChar, -1).Value = requisition.DetailXML;
 
-                //            cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = requisition.Common.CreatedBy;
-                //            cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = requisition.Common.CreatedDate;
-                //            cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = requisition.Common.UpdatedBy;
-                //            cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = requisition.Common.UpdatedDate;
-                //            outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
-                //            outputStatus.Direction = ParameterDirection.Output;
-                //            outputCode = cmd.Parameters.Add("@IDOut", SqlDbType.VarChar, 5);
-                //            outputCode.Direction = ParameterDirection.Output;
-                //            cmd.ExecuteNonQuery();
-                //        }
-                //    }
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = requisition.Common.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = requisition.Common.CreatedDate;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = requisition.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = requisition.Common.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        IDOut = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier);
+                        IDOut.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
 
-                //    switch (outputStatus.Value.ToString())
-                //    {
-                //        case "0":
-                //            throw new Exception(requisition.IsUpdate ? _appConst.UpdateFailure : _appConst.InsertFailure);
-                //        case "1":
-                //            requisition.ID = Guid.Parse(outputCode.Value.ToString());
-                //            return new
-                //            {
-                //                Code = outputCode.Value.ToString(),
-                //                Status = outputStatus.Value.ToString(),
-                //                Message = requisition.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
-                //            };
-                //    }
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(requisition.IsUpdate ? _appConst.UpdateFailure : _appConst.InsertFailure);
+                    case "1":
+                      //  requisition.ID = Guid.Parse(IDOut.Value.ToString());
+                        return new
+                        {
+                            ID = IDOut.Value.ToString(),
+                            Status = outputStatus.Value.ToString(),
+                            Message = requisition.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+                        };
+                }
             }
             catch (Exception ex)
             {
@@ -139,10 +141,223 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return new
             {
-                Code = "",//outputCode.Value.ToString(),
-                Status = "1",//outputStatus.Value.ToString(),
+                Code = IDOut.Value.ToString(),
+                Status = outputStatus.Value.ToString(),
                 Message = requisition.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
             };
+        }
+
+        #region GetAllrequisition For purchaseOrder
+        public List<Requisition> GetAllRequisitionForPurchaseOrder(RequisitionAdvanceSearch requisitionAdvanceSearch)
+        {
+            List<Requisition> requisitionList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetAllRequsitionForPurchaseOrder]";
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = requisitionAdvanceSearch.DataTablePaging.Start;
+                        if (requisitionAdvanceSearch.DataTablePaging.Length == -1)
+                            cmd.Parameters.AddWithValue("@Length", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@Length", SqlDbType.Int).Value = requisitionAdvanceSearch.DataTablePaging.Length;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                requisitionList = new List<Requisition>();
+                                while (sdr.Read())
+                                {
+                                    Requisition requisition = new Requisition();
+                                    {
+                                        requisition.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : requisition.ID);
+                                        requisition.ReqNo = (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : requisition.ReqNo);
+                                        requisition.ReqDate = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()) : requisition.ReqDate);
+                                        requisition.ReqDateFormatted = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()).ToString(settings.DateFormat) : requisition.ReqDateFormatted);
+                                        requisition.Title = (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : requisition.Title);
+                                        requisition.ReqStatus = (sdr["ReqStatus"].ToString() != "" ? sdr["ReqStatus"].ToString() : requisition.ReqStatus);
+                                        requisition.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : requisition.RequisitionBy);
+                                        requisition.ApprovalDate = (sdr["ApprovalDate"].ToString() != "" ? DateTime.Parse(sdr["ApprovalDate"].ToString()) : requisition.ApprovalDate);
+                                        requisition.ApprovalDateFormatted = (sdr["ApprovalDate"].ToString() != "" ? DateTime.Parse(sdr["ApprovalDate"].ToString()).ToString(settings.DateFormat) : requisition.ApprovalDateFormatted);
+                                        requisition.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : requisition.TotalCount);
+                                        requisition.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : requisition.FilteredCount);
+                                    }
+                                    requisitionList.Add(requisition);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return requisitionList;
+        }
+        #endregion GetAllrequisition For purchaseOrder
+        #region GetRequisitionDetailsByID
+        public List<RequisitionDetail> GetRequisitionDetailsByIDs(string IDs, string POID)
+        {
+            List<RequisitionDetail> requisitionList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRequisitionDetailsByIDs]";
+                        cmd.Parameters.Add("@IDs", SqlDbType.NVarChar, -1).Value = IDs;
+                        if (!string.IsNullOrEmpty(POID))
+                            cmd.Parameters.Add("@POID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(POID);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                requisitionList = new List<RequisitionDetail>();
+                                while (sdr.Read())
+                                {
+                                    RequisitionDetail requisition = new RequisitionDetail();
+                                    {
+                                        requisition.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : requisition.ID);
+                                        requisition.ReqID = (sdr["ReqID"].ToString() != "" ? Guid.Parse(sdr["ReqID"].ToString()) : requisition.ReqID);
+                                        requisition.MaterialID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : requisition.MaterialID);
+                                        requisition.ReqNo = (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : requisition.ReqNo);
+                                        requisition.ApproximateRate = (sdr["Rate"].ToString() != "" ? sdr["Rate"].ToString() : requisition.ApproximateRate);
+                                        requisition.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : requisition.Description);
+                                        requisition.RequestedQty = (sdr["RequestedQty"].ToString() != "" ? sdr["RequestedQty"].ToString() : requisition.RequestedQty);
+                                        requisition.OrderedQty = (sdr["OrderedQty"].ToString() != "" ? sdr["OrderedQty"].ToString() : requisition.OrderedQty);
+                                        requisition.RawMaterial = new RawMaterial();
+                                        requisition.RawMaterial.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : requisition.RawMaterial.MaterialCode);
+                                        requisition.RawMaterial.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : requisition.RawMaterial.UnitCode);
+                                        requisition.POQty = (decimal.Parse(requisition.RequestedQty) - decimal.Parse(requisition.OrderedQty)).ToString();
+                                    }
+                                    requisitionList.Add(requisition);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return requisitionList;
+        }
+
+
+        #endregion GetRequisitionDetailsByID
+
+        public Requisition GetRequisition(Guid ID)
+        {
+            Requisition requisition = new Requisition();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRequisition]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    requisition.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : requisition.ID);
+                                    requisition.ReqNo = (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : requisition.ReqNo);
+                                    requisition.ReqDate = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()) : requisition.ReqDate);
+                                    requisition.ReqDateFormatted = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()).ToString(settings.DateFormat) : requisition.ReqDateFormatted);
+                                    requisition.Title = (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : requisition.Title);
+                                    requisition.ReqStatus = (sdr["ReqStatus"].ToString() != "" ? sdr["ReqStatus"].ToString() : requisition.ReqStatus);
+                                    requisition.EmployeeID = (sdr["EmployeeID"].ToString() != "" ? Guid.Parse(sdr["EmployeeID"].ToString()) : requisition.EmployeeID);
+                                    requisition.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : requisition.RequisitionBy);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return requisition;
+        }
+
+        public List<RequisitionDetail> GetRequisitionDetail(Guid ID)
+        {
+            List<RequisitionDetail> requisitionList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRequisitionDetail]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value =ID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                requisitionList = new List<RequisitionDetail>();
+                                while (sdr.Read())
+                                {
+                                    RequisitionDetail requisition = new RequisitionDetail();
+                                    {
+                                        requisition.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : requisition.ID);
+                                        requisition.ReqID = (sdr["ReqID"].ToString() != "" ? Guid.Parse(sdr["ReqID"].ToString()) : requisition.ReqID);
+                                        requisition.MaterialID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : requisition.MaterialID);
+                                        requisition.ApproximateRate = (sdr["Rate"].ToString() != "" ? sdr["Rate"].ToString() : requisition.ApproximateRate);
+                                        requisition.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : requisition.Description);
+                                        requisition.RequestedQty = (sdr["RequestedQty"].ToString() != "" ? sdr["RequestedQty"].ToString() : requisition.RequestedQty);
+                                        requisition.RawMaterial = new RawMaterial();
+                                        requisition.RawMaterial.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : requisition.RawMaterial.MaterialCode);
+                                        requisition.RawMaterial.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? sdr["CurrentStock"].ToString() : requisition.RawMaterial.CurrentStock);
+                                    }
+                                    requisitionList.Add(requisition);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return requisitionList;
         }
     }
 }

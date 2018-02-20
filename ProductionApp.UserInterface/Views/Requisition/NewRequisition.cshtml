@@ -39,7 +39,7 @@
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
-        @*@Html.HiddenFor(model => model.ViewOnly, htmlAttributes: new { @class = "", Value = ViewBag.viewOnly })*@
+        @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
         @*@Html.HiddenFor(model => model.hdnFileID, htmlAttributes: new { @class = "", @id = "hdnFileDupID", @value = Guid.Empty })*@
     <div class="col-md-12">
         <div class="form-group col-md-8">
@@ -171,10 +171,10 @@
                    
                     <div class="col-md-6">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.RequisitionDetail.MaterialCode, htmlAttributes: new { @class = "control-label " })
+                            @Html.LabelFor(model => model.RequisitionDetail.RawMaterial.MaterialCode, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.RequisitionDetail.MaterialCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                            @Html.EditorFor(model => model.RequisitionDetail.RawMaterial.MaterialCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -196,10 +196,10 @@
                     </div>
                     <div class="col-md-6">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.RequisitionDetail.CurrentStock, htmlAttributes: new { @class = "control-label " })
+                            @Html.LabelFor(model => model.RequisitionDetail.RawMaterial.CurrentStock, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.RequisitionDetail.CurrentStock, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                            @Html.EditorFor(model => model.RequisitionDetail.RawMaterial.CurrentStock, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -224,4 +224,5 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/RequisitionJS/NewRequisition")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
 }

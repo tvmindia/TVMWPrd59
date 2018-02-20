@@ -296,6 +296,7 @@
     <Content Include="Content\DataTables\css\dataTables.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\dataTables.bootstrap4.css" />
     <Content Include="Content\DataTables\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.checkboxes.css" />
     <Content Include="Content\DataTables\css\dataTables.foundation.css" />
     <Content Include="Content\DataTables\css\dataTables.foundation.min.css" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.css" />
@@ -653,11 +654,13 @@
     <Content Include="Scripts\tether.min.js" />
     <Content Include="Scripts\UserJS\Application.js" />
     <Content Include="Scripts\UserJS\AppObject.js" />
+    <Content Include="Scripts\UserJS\Approver.js" />
     <Content Include="Scripts\UserJS\AppSubobject.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
     <Content Include="Scripts\UserJS\IssueToProduction\AddIssueToProduction.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
+    <Content Include="Scripts\UserJS\Master.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\PurchaseOrderJS\NewPurchaseOrder.js" />
@@ -682,6 +685,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\AppObjectController.cs" />
+    <Compile Include="Controllers\ApproverController.cs" />
     <Compile Include="Controllers\BankController.cs" />
     <Compile Include="Controllers\DashboardAccountController.cs" />
     <Compile Include="Controllers\DashboardMasterController.cs" />
@@ -717,6 +721,7 @@
     <Compile Include="Models\AppObjectViewModel.cs" />
     <Compile Include="Models\ApprovalLogViewModel.cs" />
     <Compile Include="Models\ApprovalStatusViewModel.cs" />
+    <Compile Include="Models\ApproverViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
     <Compile Include="Models\DataTableAjaxPostModel.cs" />
@@ -805,6 +810,9 @@
     <Content Include="Views\MaterialType\_MaterialTypeDropdown.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\IssueToProduction\AddIssueToProduction.cshtml" />
+    <Content Include="Views\Product\_AddProductPartial.cshtml" />
+    <Content Include="Views\PurchaseOrder\_PurchaseOrderDropdown.cshtml" />
+    <Content Include="Views\Approver\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

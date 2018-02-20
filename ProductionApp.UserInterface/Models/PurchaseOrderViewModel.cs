@@ -47,6 +47,7 @@ namespace ProductionApp.UserInterface.Models
             public PurchaseOrderDetailViewModel PurchaseOrderDetail { get; set; }
             [Display(Name = "Gross Amount")]
             public decimal GrossAmount { get; set; }
+            public List<SelectListItem> SelectList { get; set; }
     }
         public class PurchaseOrderDetailViewModel
         {

@@ -29,13 +29,22 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ViewRequisition(string code)
         {
             ViewBag.SysModuleCode = code;
+         
             return View();
         }
 
-        public ActionResult NewRequisition(string code)
+        public ActionResult NewRequisition(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
-            return View();
+             RequisitionViewModel requisitionVM = new RequisitionViewModel
+                {
+                    ID = id==null?Guid.Empty:(Guid)id,
+                    IsUpdate = id == null ?false: true
+                };
+                return View(requisitionVM);
+
+            
+           
         }
 
         public ActionResult RequisitionApproval(string code)
@@ -95,6 +104,40 @@ namespace ProductionApp.UserInterface.Controllers
 
 
         #endregion GetAllRequisition
+
+        #region GetRequisition
+        public string GetRequisition(string ID)
+        {
+            try
+            {
+                RequisitionViewModel requisitionVM = new RequisitionViewModel();
+                requisitionVM = Mapper.Map<Requisition, RequisitionViewModel>(_requisitionBusiness.GetRequisition(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = requisitionVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+
+        #endregion GetRequisition
+
+        #region GetRequisitionDetail
+        public string GetRequisitionDetail(string ID)
+        {
+            try
+            {
+                List<RequisitionDetailViewModel> requisitionDetailVM = new List<RequisitionDetailViewModel>();
+                requisitionDetailVM = Mapper.Map<List<RequisitionDetail>,List<RequisitionDetailViewModel>>(_requisitionBusiness.GetRequisitionDetail(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = requisitionDetailVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+
+        #endregion GetRequisitionDetail
 
         #region GetRawMaterial
         public string GetRawMaterial(string ID)

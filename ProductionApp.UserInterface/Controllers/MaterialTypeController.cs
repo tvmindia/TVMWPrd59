@@ -29,9 +29,9 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         #region MaterialTypeDropdown
-        public ActionResult MaterialTypeDropdown()
+        public ActionResult MaterialTypeDropdown(MaterialTypeViewModel materialTypeVM)
         {
-            MaterialTypeViewModel materialTypeVM = new MaterialTypeViewModel();
+            materialTypeVM.MaterialTypeCode = materialTypeVM.Code;
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             materialTypeVM.SelectList = new List<SelectListItem>();
             List<MaterialTypeViewModel> materialTypeList = Mapper.Map<List<MaterialType>, List<MaterialTypeViewModel>>(_materialTypeBusiness.GetMaterialTypeForSelectList());

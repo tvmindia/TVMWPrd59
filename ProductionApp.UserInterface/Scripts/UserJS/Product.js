@@ -3,7 +3,7 @@
 //*****************************************************************************
 //Author: Jais
 //CreatedDate: 17-Feb-2018 
-//LastModified: 17-Feb-2018 
+//LastModified: 19-Feb-2018 
 //FileName: Product.js
 //Description: Client side coding for Product
 //******************************************************************************
@@ -27,6 +27,7 @@ $(document).ready(function () {
 //--function bind the Product list checking search and filter--//
 function BindOrReloadProductTable(action) {
     try {
+        debugger;
         //creating advancesearch object
         ProductAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
@@ -51,14 +52,14 @@ function BindOrReloadProductTable(action) {
         ProductAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
 
         //apply datatable plugin on Raw Material table
-        DataTables.productList = $('#tblproduct').DataTable(
+        DataTables.productList = $('#tblProduct').DataTable(
         {
             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
             buttons: [{
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [1, 2, 3, 4, 5, 6]
+                                 columns: [1, 2, 3, 4, 5, 6,7]
                              }
             }],
             order: false,
@@ -82,14 +83,15 @@ function BindOrReloadProductTable(action) {
             { "data": "Code", "defaultContent": "<i>-</i>" },
             { "data": "Name", "defaultContent": "<i>-</i>" },
             { "data": "Description", "defaultContent": "<i>-<i>" },
-            { "data": "UnitCode", "defaultContent": "<i>-<i>" },
+            { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
             { "data": "Category", "defaultContent": "<i>-<i>" },
             { "data": "Rate", "defaultContent": "<i>-<i>" },
+            { "data": "CurrentStock", "defaultContent": "<i>-<i>" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [2, 6] },
-                { className: "text-left", "targets": [1, 3, 4, 5, 6] },
+                { className: "text-right", "targets": [6,7] },
+                { className: "text-left", "targets": [1,2, 3, 4, 5] },
                 { className: "text-center", "targets": [] }],
             destroy: true,
             //for performing the import operation after the data loaded
@@ -121,14 +123,6 @@ function ResetProductList() {
 function ImportProductData() {
     BindOrReloadProductTable('Export');
 }
-
-//-- add Product--//
-function AddProductMaster() {
-    GetMasterPartial("Product", "");
-    $('#h3ModelMasterContextLabel').text('Add Product')
-    $('#divModelMasterPopUp').modal('show');
-}
-
 //--edit Product--//
 function EditProductMaster(this_obj) {
     rowData = DataTables.productList.row($(this_obj).parents('tr')).data();
@@ -138,14 +132,14 @@ function EditProductMaster(this_obj) {
 }
 
 //-- Function After Save --//
-function SaveSuccessRawMaterial(data, status) {
+function SaveSuccessProduct(data, status) {
     debugger;
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
             $('#IsUpdate').val('True');
             $('#ID').val(JsonResult.Records.ID);
-            BindOrReloadRawMaterialTable('Reset');
+            BindOrReloadProductTable('Reset');
             MasterAlert("success", JsonResult.Records.Message)
             break;
         case "ERROR":

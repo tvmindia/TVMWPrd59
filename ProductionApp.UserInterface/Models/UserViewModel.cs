@@ -36,7 +36,8 @@ namespace ProductionApp.UserInterface.Models
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Password and Confirmation Password must match.")]
         [StringLength(250, MinimumLength = 6, ErrorMessage = "{0} should be minimum 6 Char")]
         public string ConfirmPassword { get; set; }
-
+        public string ResetLink { get; set; }
+        public DateTime LinkExpiryTime { get; set; }
 
         public string RoleCSV { get; set; }
         public string RoleIDCSV { get; set; }
@@ -45,7 +46,7 @@ namespace ProductionApp.UserInterface.Models
         public List<RolesViewModel> RoleList { get; set; }
 
         public CommonViewModel commonDetails { get; set; }
-
+        public UserViewModel User { get; set; }
         public List<SelectListItem> userList { get; set; }
         public List<SelectListItem> ApplicationList { get; set; }
     }

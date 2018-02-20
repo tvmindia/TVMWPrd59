@@ -130,23 +130,38 @@ namespace ProductionApp.UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "RawMaterial", Mode = "R")]
         public string InsertUpdateRawMaterial(RawMaterialViewModel rawMaterialVM)
         {
-            try
+            if (ModelState.IsValid)
             {
-                AppUA appUA = Session["AppUA"] as AppUA;
-                rawMaterialVM.Common = new CommonViewModel
+                try
                 {
-                    CreatedBy = appUA.UserName,
-                    CreatedDate = _common.GetCurrentDateTime(),
-                    UpdatedBy = appUA.UserName,
-                    UpdatedDate = _common.GetCurrentDateTime(),
-                };
-                var result = _rawMaterialBusiness.InsertUpdateRawMaterial(Mapper.Map<RawMaterialViewModel, RawMaterial>(rawMaterialVM));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+                    AppUA appUA = Session["AppUA"] as AppUA;
+                    rawMaterialVM.Common = new CommonViewModel
+                    {
+                        CreatedBy = appUA.UserName,
+                        CreatedDate = _common.GetCurrentDateTime(),
+                        UpdatedBy = appUA.UserName,
+                        UpdatedDate = _common.GetCurrentDateTime(),
+                    };
+                    var result = _rawMaterialBusiness.InsertUpdateRawMaterial(Mapper.Map<RawMaterialViewModel, RawMaterial>(rawMaterialVM));
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+                }
+                catch (Exception ex)
+                {
+                    AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+                }
             }
-            catch(Exception ex)
+            else
             {
-                AppConstMessage cm = _appConst.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message=cm.Message });
+                List<string> modelErrors = new List<string>();
+                foreach (var modelState in ModelState.Values)
+                {
+                    foreach (var modelError in modelState.Errors)
+                    {
+                        modelErrors.Add(modelError.ErrorMessage);
+                    }
+                }
+                return JsonConvert.SerializeObject(new { Result = "VALIDATION", Message = string.Join(",", modelErrors) });
             }
         }
         #endregion InsertUpdateRawMaterial

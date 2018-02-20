@@ -10,5 +10,6 @@ namespace ProductionApp.BusinessService.Contracts
     public interface IPurchaseOrderBusiness
     {
         List<PurchaseOrder> GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch);
+        List<PurchaseOrder> GetAllPurchaseOrderForSelectList();
     }
 }
