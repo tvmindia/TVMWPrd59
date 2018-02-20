@@ -38,7 +38,12 @@ $(document).ready(function () {
         debugger;
         if( $('#IsUpdate').val()=='True')
         {
-        BindRequisitionByID()
+            BindRequisitionByID()
+            ChangeButtonPatchView('Requisition', 'divbuttonPatchAddRequisition', 'Edit');
+        }
+        else
+        {
+            $('#lblReqNo').text('Requisition# : New');
         }
 
     }
@@ -201,8 +206,10 @@ function BindRequisitionByID()
     $('#Title').val(result.Title);
     $('#ReqNo').val(result.ReqNo);
     $('#ReqDateFormatted').val(result.ReqDateFormatted);
-    $('#RequisitionBy').val(result.EmployeeID);
+    $('#EmployeeID').val(result.EmployeeID);
     $('#ReqStatus').val(result.ReqStatus);
+    $('#lblReqNo').text('Requisition# : ' + result.ReqNo);
+    
     //detail Table values binding with header id
     BindRequisitionDetailTable(ID);
 }
