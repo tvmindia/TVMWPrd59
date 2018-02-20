@@ -4,21 +4,62 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ProductionApp.UserInterface.Models;
+using ProductionApp.BusinessService.Contracts;
+using ProductionApp.DataAccessObject.DTO;
+using ProductionApp.UserInterface.SecurityFilter;
+using Newtonsoft.Json;
+using AutoMapper;
+
 
 namespace ProductionApp.UserInterface.Controllers
 {
     public class IssueToProductionController : Controller
     {
         // GET: IssueToProduction
+        private IRawMaterialBusiness _rawMaterialBusiness;
+        private IIssueToProductionBusiness _issueToProductionBusiness;
+        private IEmployeeBusiness _employeeBusiness;
+        Common _common = new Common();
+        AppConst _appConst = new AppConst();
+        //private IIssueToProductionBusiness _issueToProductionBusiness;
+
+        public IssueToProductionController(IIssueToProductionBusiness issueToProductionBusiness,IRawMaterialBusiness rawMaterialBusiness, IEmployeeBusiness employeeBusiness)
+        {
+            _issueToProductionBusiness = issueToProductionBusiness;
+            _rawMaterialBusiness = rawMaterialBusiness;
+            _employeeBusiness = employeeBusiness;
+        }
+
         public ActionResult Index(string code)
         {
-            ViewBag.SysModuleCode = code;
+            ViewBag.SysModuleCode = code;          
             return View();
         }
         #region AddIssueToProduction
         public ActionResult AddIssueToProduction(string code)
         {
-            return View();
+            ViewBag.SysModuleCode = code;
+            MaterialIssueViewModel materialIssueVM = new MaterialIssueViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            materialIssueVM.Employee = new EmployeeViewModel();
+            materialIssueVM.Employee.SelectList = new List<SelectListItem>();
+            List<EmployeeViewModel> employeeList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_employeeBusiness.GetEmployeeForSelectList());
+            if (employeeList != null)
+            {
+                foreach (EmployeeViewModel Emp in employeeList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Emp.Name,
+                        Value = Emp.ID.ToString(),
+                        Selected = false,
+                    });
+
+                }
+            }
+            materialIssueVM.Employee.SelectList = selectListItem;
+
+            return View(materialIssueVM);
         }
         #endregion
 
@@ -26,6 +67,57 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ListIssueToProduction()
         {
             return View();
+        }
+        #endregion
+
+        #region InsertUpdateIssueToProduction
+        [HttpPost]
+        public string InsertUpdateIssueToProduction(MaterialIssueViewModel materialIssueVM)
+        {
+
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                materialIssueVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };               
+                //Deserialize items
+                object ResultFromJS = JsonConvert.DeserializeObject(materialIssueVM.DetailJSON);
+                string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                materialIssueVM.MaterialIssueDetailList = JsonConvert.DeserializeObject<List<MaterialIssueDetailViewModel>>(ReadableFormat);
+                var result = _issueToProductionBusiness.InsertUpdateIssueToProduction(Mapper.Map<MaterialIssueViewModel, MaterialIssue>(materialIssueVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+
+
+                //selectListItem = new List<SelectListItem>();
+               
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+           
+        }
+        #endregion
+
+        #region GetRawMaterial
+        public string GetRawMaterial(string ID)
+        {
+            try
+            {
+                RawMaterialViewModel rawMaterialVM = new RawMaterialViewModel();
+                rawMaterialVM = Mapper.Map<RawMaterial, RawMaterialViewModel>(_rawMaterialBusiness.GetRawMaterial(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = rawMaterialVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
         }
         #endregion
 
