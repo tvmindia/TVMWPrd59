@@ -231,8 +231,10 @@ namespace ProductionApp.RepositoryServices.Services
                                     product.ID = sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : product.ID;
                                     product.Code = sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : product.Code;
                                     product.Name = sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : product.Name;
-                                    product.Description = sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : product.Description;
+                                    product.Description = sdr["Description"].ToString() != "" ? sdr["Description"].ToString() :product.Description;
                                     product.UnitCode = sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : product.UnitCode;
+                                    product.Unit = new Unit();
+                                    product.Unit.Code = sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : product.UnitCode;
                                     product.Category = sdr["Category"].ToString() != "" ? sdr["Category"].ToString() : product.Category;
                                     product.Rate = sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : product.Rate;
                                 }

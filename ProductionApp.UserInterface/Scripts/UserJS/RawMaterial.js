@@ -123,15 +123,6 @@ function ImportRawMaterialData()
 {
     BindOrReloadRawMaterialTable('Export');
 }
-
-//-- add Raw material--//
-function AddRawMaterialMaster()
-{
-    GetMasterPartial("RawMaterial", "");
-    $('#h3ModelMasterContextLabel').text('Add Raw Material')
-    $('#divModelMasterPopUp').modal('show');
-}
-
 //--edit Raw material--//
 function EditRawMaterialMaster(this_obj) {
     rowData = DataTables.rawMaterialList.row($(this_obj).parents('tr')).data();
