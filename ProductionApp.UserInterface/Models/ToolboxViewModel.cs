@@ -51,7 +51,7 @@ namespace ProductionApp.UserInterface.Models
             downloadBtn.SecurityObject = "ButtonDownload";
             AssignBtn.SecurityObject = "ButtonAssign";
             HistoryBtn.SecurityObject = "ButtonHistory";
-
+            ListBtn.SecurityObject = "ButtonList";
             ClearOutBtn.SecurityObject = "ButtonClear";
 
             backbtn.HasAccess = true;
@@ -75,6 +75,7 @@ namespace ProductionApp.UserInterface.Models
             downloadBtn.HasAccess = true;
             AssignBtn.HasAccess = true;
             HistoryBtn.HasAccess = true;
+            ListBtn.HasAccess = true;
         }
 
     }

@@ -18,7 +18,7 @@
 <section class="content">
     <div class="row" id="OverlayHeader">
         <div class="col-md-6" style="text-align:left">
-            <span id="lblReqNo" class="SCHeader">Requisition# : New</span>
+            <span id="lblReqNo" class="SCHeader"></span>
         </div>
         <div class="col-md-6" id="divbuttonPatchAddRequisition" style="min-height:25px;">
             @{
@@ -171,10 +171,10 @@
                    
                     <div class="col-md-6">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.RequisitionDetail.MaterialCode, htmlAttributes: new { @class = "control-label " })
+                            @Html.LabelFor(model => model.RequisitionDetail.RawMaterial.MaterialCode, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.RequisitionDetail.MaterialCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                            @Html.EditorFor(model => model.RequisitionDetail.RawMaterial.MaterialCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -196,10 +196,10 @@
                     </div>
                     <div class="col-md-6">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.RequisitionDetail.CurrentStock, htmlAttributes: new { @class = "control-label " })
+                            @Html.LabelFor(model => model.RequisitionDetail.RawMaterial.CurrentStock, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.RequisitionDetail.CurrentStock, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                            @Html.EditorFor(model => model.RequisitionDetail.RawMaterial.CurrentStock, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                     </div>
                     <div class="col-md-6">

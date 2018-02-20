@@ -39,8 +39,6 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid MaterialID { get; set; }
         public string Description { get; set; }
         public string RequestedQty { get; set; }
-        public string MaterialCode { get; set; }
-        public string CurrentStock { get; set; }
         public string ApproximateRate { get; set; }
         public string POQty { get; set; }
         public string OrderedQty { get; set; }

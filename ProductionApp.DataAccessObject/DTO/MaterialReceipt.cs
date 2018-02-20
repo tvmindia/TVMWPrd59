@@ -18,6 +18,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public Common Common { get; set; }
 
         //Additional Fields
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
         public string ReceiptDateFormatted { get; set; }
         public MaterialReceiptDetail MaterialReceiptDetail { get; set; }
         public RawMaterial RawMaterial { get; set; }
@@ -37,5 +39,14 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal Qty { get; set; }
         public Common Common { get; set; }
     }
-    
+
+    public class MaterialReceiptAdvanceSearch
+    {
+        public DataTablePaging DataTablePaging { get; set; }
+        public string SearchTerm { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public Supplier Supplier { get; set; }
+        public PurchaseOrder PurchaseOrder { get; set; }
+    }
 }

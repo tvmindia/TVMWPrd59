@@ -19,9 +19,9 @@ namespace ProductionApp.BusinessService.Services
         }
         #endregion Constructor Injection
 
-        public List<MaterialReceipt> GetAllMaterialReceipt()
+        public List<MaterialReceipt> GetAllMaterialReceipt(MaterialReceiptAdvanceSearch materialReceiptAdvanceSearch)
         {
-            return _materialReceiptRepository.GetAllMaterialReceipt();
+            return _materialReceiptRepository.GetAllMaterialReceipt(materialReceiptAdvanceSearch);
         }
     }
 }

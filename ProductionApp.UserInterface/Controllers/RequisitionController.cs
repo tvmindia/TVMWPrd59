@@ -205,10 +205,10 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Title = "Reset";
                     toolboxVM.resetbtn.Event = "Reset();";
 
-                    toolboxVM.CloseBtn.Visible = true;
-                    toolboxVM.CloseBtn.Text = "Close";
-                    toolboxVM.CloseBtn.Title = "Close";
-                    toolboxVM.CloseBtn.Event = "closeNav();";
+                    //toolboxVM.CloseBtn.Visible = true;
+                    //toolboxVM.CloseBtn.Text = "Close";
+                    //toolboxVM.CloseBtn.Title = "Close";
+                    //toolboxVM.CloseBtn.Event = "closeNav();";
 
                     break;
                 case "Add":
