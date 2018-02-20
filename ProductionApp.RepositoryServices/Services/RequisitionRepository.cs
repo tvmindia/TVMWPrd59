@@ -221,8 +221,8 @@ namespace ProductionApp.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetRequisitionDetailsByIDs]";
-                        cmd.Parameters.Add("@IDs", SqlDbType.NVarChar, -1).Value = @IDs;
-                        if (POID != "")
+                        cmd.Parameters.Add("@IDs", SqlDbType.NVarChar, -1).Value = IDs;
+                        if (!string.IsNullOrEmpty(POID))
                             cmd.Parameters.Add("@POID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(POID);
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -236,12 +236,15 @@ namespace ProductionApp.RepositoryServices.Services
                                     {
                                         requisition.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : requisition.ID);
                                         requisition.ReqID = (sdr["ReqID"].ToString() != "" ? Guid.Parse(sdr["ReqID"].ToString()) : requisition.ReqID);
-                                        requisition.MaterialID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : requisition.MaterialID); ;
+                                        requisition.MaterialID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : requisition.MaterialID);
+                                        requisition.ReqNo = (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : requisition.ReqNo);
                                         requisition.ApproximateRate = (sdr["Rate"].ToString() != "" ? sdr["Rate"].ToString() : requisition.ApproximateRate);
                                         requisition.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : requisition.Description);
                                         requisition.RequestedQty = (sdr["RequestedQty"].ToString() != "" ? sdr["RequestedQty"].ToString() : requisition.RequestedQty);
+                                        requisition.OrderedQty = (sdr["OrderedQty"].ToString() != "" ? sdr["OrderedQty"].ToString() : requisition.OrderedQty);
                                         requisition.RawMaterial = new RawMaterial();
-                                        requisition.RawMaterial.MaterialCode= (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : requisition.MaterialCode);
+                                        requisition.RawMaterial.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : requisition.RawMaterial.MaterialCode);
+                                        requisition.RawMaterial.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : requisition.RawMaterial.UnitCode);
                                         requisition.POQty = (decimal.Parse(requisition.RequestedQty) - decimal.Parse(requisition.OrderedQty)).ToString();
                                     }
                                     requisitionList.Add(requisition);
@@ -258,9 +261,9 @@ namespace ProductionApp.RepositoryServices.Services
 
             return requisitionList;
         }
-       
 
-            #endregion GetRequisitionDetailsByID
+
+        #endregion GetRequisitionDetailsByID
 
         public Requisition GetRequisition(Guid ID)
         {
