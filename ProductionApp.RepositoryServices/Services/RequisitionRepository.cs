@@ -305,5 +305,56 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return requisition;
         }
+
+        public List<RequisitionDetail> GetRequisitionDetail(Guid ID)
+        {
+            List<RequisitionDetail> requisitionList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRequisitionDetail]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value =ID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                requisitionList = new List<RequisitionDetail>();
+                                while (sdr.Read())
+                                {
+                                    RequisitionDetail requisition = new RequisitionDetail();
+                                    {
+                                        requisition.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : requisition.ID);
+                                        requisition.ReqID = (sdr["ReqID"].ToString() != "" ? Guid.Parse(sdr["ReqID"].ToString()) : requisition.ReqID);
+                                        requisition.MaterialID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : requisition.MaterialID);
+                                        requisition.ApproximateRate = (sdr["Rate"].ToString() != "" ? sdr["Rate"].ToString() : requisition.ApproximateRate);
+                                        requisition.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : requisition.Description);
+                                        requisition.RequestedQty = (sdr["RequestedQty"].ToString() != "" ? sdr["RequestedQty"].ToString() : requisition.RequestedQty);
+                                        requisition.RawMaterial = new RawMaterial();
+                                        requisition.RawMaterial.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : requisition.RawMaterial.MaterialCode);
+                                        requisition.RawMaterial.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? sdr["CurrentStock"].ToString() : requisition.RawMaterial.CurrentStock);
+                                    }
+                                    requisitionList.Add(requisition);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return requisitionList;
+        }
     }
 }
