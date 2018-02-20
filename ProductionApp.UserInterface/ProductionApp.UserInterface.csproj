@@ -691,6 +691,7 @@
     <Compile Include="Controllers\DashboardMasterController.cs" />
     <Compile Include="Controllers\DashboardSaleController.cs" />
     <Compile Include="Controllers\DashboardSettingsController.cs" />
+    <Compile Include="Controllers\DocumentTypeController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
@@ -726,6 +727,7 @@
     <Compile Include="Models\CommonViewModel.cs" />
     <Compile Include="Models\DataTableAjaxPostModel.cs" />
     <Compile Include="Models\DataTablePagingViewModel.cs" />
+    <Compile Include="Models\DocumentTypeViewModel.cs" />
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
@@ -813,6 +815,8 @@
     <Content Include="Views\Product\_AddProductPartial.cshtml" />
     <Content Include="Views\PurchaseOrder\_PurchaseOrderDropdown.cshtml" />
     <Content Include="Views\Approver\Index.cshtml" />
+    <Content Include="Views\Approver\_AddApproverPartial.cshtml" />
+    <Content Include="Views\DocumentType\_DocumentTypeDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

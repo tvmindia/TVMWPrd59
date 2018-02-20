@@ -123,3 +123,28 @@ function ImportApproverData() {
     BindOrReloadApproverTable('Export');
 }
 
+//-- add Approver--//
+function AddApproverMaster() {
+    GetMasterPartial("Approver", "");
+    $('#h3ModelMasterContextLabel').text('Add Approver')
+    $('#divModelMasterPopUp').modal('show');
+}
+//-- Function After Save Approver--//
+function SaveSuccessApprover(data, status) {
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            $('#IsUpdate').val('True');
+            $('#ID').val(JsonResult.Records.ID);
+            MasterAlert("success", JsonResult.Records.Message)
+            BindOrReloadApproverTable('Reset');
+            break;
+        case "ERROR":
+            MasterAlert("danger", JsonResult.Message)
+            break;
+        default:
+            MasterAlert("danger", JsonResult.Message)
+            break;
+    }
+}

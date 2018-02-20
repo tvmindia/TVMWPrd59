@@ -92,5 +92,125 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetAllApprover
 
+        #region InsertUpdateApprover
+        /// <summary>
+        /// To Insert and update Approver
+        /// </summary>
+        /// <param name="approver"></param>
+        /// <returns>object</returns>
+        public object InsertUpdateApprover(Approver approver)
+        {
+            SqlParameter outputStatus, OutputID;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[InsertUpdateApprover]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = approver.IsUpdate;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = approver.ID;
+                        cmd.Parameters.Add("@DocType", SqlDbType.VarChar).Value = approver.DocType;
+                        cmd.Parameters.Add("@Level", SqlDbType.Decimal).Value = approver.Level;
+                        cmd.Parameters.Add("@UserID", SqlDbType.VarChar).Value = approver.UserID;
+                        cmd.Parameters.Add("@IsDefault", SqlDbType.VarChar).Value = approver.IsDefault;
+                        cmd.Parameters.Add("@IsActive", SqlDbType.VarChar).Value = approver.IsActive;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar).Value = approver.Common.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = approver.Common.CreatedDate;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.VarChar).Value = approver.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = approver.Common.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        OutputID = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier);
+                        OutputID.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(approver.IsUpdate ? _appConst.UpdateFailure : _appConst.InsertFailure);
+                    case "1":
+                        approver.ID = Guid.Parse(OutputID.Value.ToString());
+                        return new
+                        {
+                            ID = Guid.Parse(OutputID.Value.ToString()),
+                            Status = outputStatus.Value.ToString(),
+                            Message = approver.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+                        };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                ID = Guid.Parse(OutputID.Value.ToString()),
+                Status = outputStatus.Value.ToString(),
+                Message = approver.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+            };
+        }
+        #endregion InsertUpdateApprover
+
+        #region GetApprover
+        /// <summary>
+        /// To Get Approver Details corresponding to ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Approver</returns>
+        public Approver GetApprover(Guid id)
+        {
+            Approver approver = null;
+
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetApprover]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    approver = new Approver();
+                                    approver.ID = sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : approver.ID;
+                                    approver.DocType = sdr["DocType"].ToString() != "" ? (sdr["DocType"].ToString()) : approver.DocType;
+                                    approver.Level = sdr["Level"].ToString() != "" ? int.Parse(sdr["Level"].ToString()) : approver.Level;
+                                    approver.UserID = sdr["UserID"].ToString() != "" ? Guid.Parse(sdr["UserID"].ToString()) : approver.UserID;
+                                    //approver.IsDefault = new MaterialType();
+                                    approver.IsDefault = sdr["IsDefault"].ToString() != "" ? bool.Parse(sdr["IsDefault"].ToString()) : approver.IsDefault;
+                                    approver.IsActive = sdr["IsActive"].ToString() != "" ? bool.Parse(sdr["IsActive"].ToString()) : approver.IsActive;
+                                   
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return approver;
+        }
+        #endregion GetApprover
+
     }
 }

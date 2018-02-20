@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.RepositoryServices.Contracts
 {
-    public interface IApproverRepository
+    public interface IDocumentTypeRepository
     {
-        List<Approver> GetAllApprover(ApproverAdvanceSearch approverAdvanceSearch);
-        object InsertUpdateApprover(Approver approver);
-        Approver GetApprover(Guid id);
-
+        List<DocumentType> GetDocumentTypeForSelectList();
     }
 }

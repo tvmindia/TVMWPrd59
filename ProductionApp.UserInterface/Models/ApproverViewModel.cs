@@ -9,10 +9,16 @@ namespace ProductionApp.UserInterface.Models
     public class ApproverViewModel
     {
         public Guid ID { get; set; }
+        [Required(ErrorMessage = "Please Enter Document Type")]
+        [Display(Name = "Document Type")]
         public string DocType { get; set; }
         public int Level { get; set; }
+        [Required(ErrorMessage = "Please Enter User ")]
+        [Display(Name = "User")]
         public Guid UserID { get; set; }
+        [Display(Name = "Is Default Approver")]
         public bool IsDefault { get; set; }
+        [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }

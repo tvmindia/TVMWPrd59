@@ -79,6 +79,59 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetAllRawMaterial
 
+        #region MasterPartial
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]
+        public ActionResult MasterPartial(string masterCode)
+        {
+            ApproverViewModel approverVM = string.IsNullOrEmpty(masterCode) ? new ApproverViewModel() : Mapper.Map<Approver, ApproverViewModel>(_approverBusiness.GetApprover(Guid.Parse(masterCode)));
+            approverVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
+            return PartialView("_AddApproverPartial", approverVM);
+        }
+        #endregion MasterPartial
+
+        #region InsertUpdateApprover
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]
+        public string InsertUpdateApprover(ApproverViewModel rawMaterialVM)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    AppUA appUA = Session["AppUA"] as AppUA;
+                    rawMaterialVM.Common = new CommonViewModel
+                    {
+                        CreatedBy = appUA.UserName,
+                        CreatedDate = _common.GetCurrentDateTime(),
+                        UpdatedBy = appUA.UserName,
+                        UpdatedDate = _common.GetCurrentDateTime(),
+                    };
+                    var result = _approverBusiness.InsertUpdateApprover(Mapper.Map<ApproverViewModel, Approver>(rawMaterialVM));
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+                }
+                catch (Exception ex)
+                {
+                    AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+                }
+            }
+            else
+            {
+                List<string> modelErrors = new List<string>();
+                foreach (var modelState in ModelState.Values)
+                {
+                    foreach (var modelError in modelState.Errors)
+                    {
+                        modelErrors.Add(modelError.ErrorMessage);
+                    }
+                }
+                return JsonConvert.SerializeObject(new { Result = "VALIDATION", Message = string.Join(",", modelErrors) });
+            }
+        }
+        #endregion InsertUpdateApprover
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]

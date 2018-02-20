@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.BusinessService.Contracts
 {
-    public interface IApproverBusiness
+    public interface IDocumentTypeBusiness
     {
-        List<Approver> GetAllApprover(ApproverAdvanceSearch approverAdvanceSearch);
-        Approver GetApprover(Guid id);
-        object InsertUpdateApprover(Approver Approver);
+        List<DocumentType> GetDocumentTypeForSelectList();
     }
 }

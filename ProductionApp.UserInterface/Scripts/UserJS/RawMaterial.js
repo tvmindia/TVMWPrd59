@@ -79,7 +79,7 @@ function BindOrReloadRawMaterialTable(action) {
             pageLength: 10,
             columns: [
             { "data": "ID", "defaultContent": "<i>-</i>" },
-            { "data": "MaterialTypeCode", "defaultContent": "<i>-</i>" },
+            { "data": "MaterialCode", "defaultContent": "<i>-</i>" },
             { "data": "Rate", "defaultContent": "<i>-</i>" },
             { "data": "MaterialType.Description", "defaultContent": "<i>-<i>" },
             { "data": "Description", "defaultContent": "<i>-<i>" },
@@ -129,25 +129,4 @@ function EditRawMaterialMaster(this_obj) {
     GetMasterPartial("RawMaterial", rowData.ID);
     $('#h3ModelMasterContextLabel').text('Edit Raw Material')
     $('#divModelMasterPopUp').modal('show');
-}
-
-//-- Function After Save --//
-function SaveSuccessRawMaterial(data, status)
-{
-    debugger;
-    var JsonResult = JSON.parse(data)
-    switch (JsonResult.Result) {
-        case "OK":
-            $('#IsUpdate').val('True');
-            $('#ID').val(JsonResult.Records.ID);
-            BindOrReloadRawMaterialTable('Reset');
-            MasterAlert("success", JsonResult.Records.Message)                    
-            break;
-        case "ERROR":
-            MasterAlert("danger", JsonResult.Message)
-            break;
-        default:
-            MasterAlert("danger", JsonResult.Message)
-            break;
-    }
 }
