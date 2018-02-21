@@ -13,9 +13,11 @@ namespace ProductionApp.BusinessService.Services
     public class RequisitionBusiness: IRequisitionBusiness
     {
         private IRequisitionRepository _requisitionRepository;
-        public RequisitionBusiness(IRequisitionRepository requisitionRepository)
+        private ICommonBusiness _commonBusiness;
+        public RequisitionBusiness(IRequisitionRepository requisitionRepository, ICommonBusiness commonBusiness)
         {
             _requisitionRepository = requisitionRepository;
+            _commonBusiness = commonBusiness;
         }
 
         public List<Requisition> GetAllRequisition(RequisitionAdvanceSearch requisitionAdvanceSearch)
@@ -35,35 +37,13 @@ namespace ProductionApp.BusinessService.Services
             int totalRows = 0;
             foreach (object some_object in requisition.RequisitionDetailList)
             {
-                XML(some_object, ref result, ref totalRows);
+                _commonBusiness.XML(some_object, ref result, ref totalRows);
             }
             result = result + "</Details>";
 
             requisition.DetailXML = result;
         }
 
-        private void XML(object some_object, ref string result, ref int totalRows)
-        {
-            var properties = GetProperties(some_object);
-            result = result + "<item ";
-            foreach (var p in properties)
-            {
-                string name = p.Name;
-                var value = p.GetValue(some_object, null);
-                result = result + " " + name + @"=""" + value + @""" ";
-            }
-            result = result + "></item>";
-            totalRows = totalRows + 1;
-        }
-        /// <summary>
-        /// using System.Reflection;
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        private static PropertyInfo[] GetProperties(object obj)
-        {
-            return obj.GetType().GetProperties();
-        }
        public List<Requisition> GetAllRequisitionForPurchaseOrder(RequisitionAdvanceSearch requisitionAdvanceSearch)
         {
             return _requisitionRepository.GetAllRequisitionForPurchaseOrder(requisitionAdvanceSearch);
