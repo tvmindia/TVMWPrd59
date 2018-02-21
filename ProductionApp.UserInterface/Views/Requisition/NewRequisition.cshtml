@@ -120,7 +120,7 @@
             <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
         </div>
     </div>
-    }
+                        }
 
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
         <div class="col-md-12">
@@ -171,7 +171,10 @@
                             @Html.LabelFor(model => model.RequisitionDetail.MaterialID, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                            @Html.Action("RawMaterialDropdown", "RawMaterial")
+                            <div id="divRawMaterialDropdown">
+                                @{Html.RenderAction("RawMaterialDropdown", "RawMaterial"); }
+                            </div>
+                            
                         </div>
                     </div>
                     <div class="col-md-12 headSeperator"></div>

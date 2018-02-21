@@ -63,7 +63,9 @@
             </div>
             <div class="col-md-12">
                 <div class="col-md-12">
-                    @{Html.RenderAction("UnitDropdown", "Unit", Model.Unit);}
+                    <div id="divUnitDropdown">
+                        @{Html.RenderAction("UnitDropdown", "Unit", Model.Unit);}
+                    </div>
                     @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
                 </div>
             </div>
