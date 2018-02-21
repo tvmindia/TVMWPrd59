@@ -17,14 +17,14 @@ namespace ProductionApp.UserInterface.Controllers
 
         // GET: Requisitions
         private IRequisitionBusiness _requisitionBusiness;
-        private IMaterialBusiness _rawMaterialBusiness;
+        private IMaterialBusiness _materialBusiness;
         Common _common = new Common();
         AppConst _appConst = new AppConst();
 
-        public RequisitionController(IRequisitionBusiness requisitionBusiness,IMaterialBusiness rawMaterialBusiness)
+        public RequisitionController(IRequisitionBusiness requisitionBusiness,IMaterialBusiness materialBusiness)
         {
             _requisitionBusiness = requisitionBusiness;
-            _rawMaterialBusiness = rawMaterialBusiness;
+            _materialBusiness = materialBusiness;
         }
         public ActionResult ViewRequisition(string code)
         {
@@ -143,14 +143,14 @@ namespace ProductionApp.UserInterface.Controllers
 
         #endregion GetRequisitionDetail
 
-        #region GetRawMaterial
-        public string GetRawMaterial(string ID)
+        #region GetMaterial
+        public string GetMaterial(string ID)
         {
             try
             {
-                MaterialViewModel rawMaterialVM = new MaterialViewModel();
-                rawMaterialVM = Mapper.Map<Material, MaterialViewModel>(_rawMaterialBusiness.GetMaterial(Guid.Parse(ID)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = rawMaterialVM });
+                MaterialViewModel materialVM = new MaterialViewModel();
+                materialVM = Mapper.Map<Material, MaterialViewModel>(_materialBusiness.GetMaterial(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = materialVM });
             }
             catch (Exception ex)
             {
@@ -159,7 +159,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
 
-        #endregion GetRawMaterial
+        #endregion GetMaterial
 
         #region ButtonStyling
         [HttpGet]

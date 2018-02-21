@@ -18,9 +18,9 @@ $(document).ready(function () {
           columns: [
           { "data": "ID", "defaultContent": "<i></i>" },
           { "data": "MaterialID", "defaultContent": "<i></i>" },
-          { "data": "RawMaterial.MaterialCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
+          { "data": "Material.MaterialCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
           { "data": "Description", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
-          { "data": "RawMaterial.CurrentStock", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
+          { "data": "Material.CurrentStock", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
           { "data": "RequestedQty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
           { "data": "ApproximateRate", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>" },
           { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a> | <a href="#" class="actionLink"  onclick="ProductEdit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
@@ -33,7 +33,7 @@ $(document).ready(function () {
       });
 
         $("#MaterialID").change(function () {
-           BindRawMaterialDetails(this.value)
+           BindMaterialDetails(this.value)
         });
         debugger;
         if( $('#IsUpdate').val()=='True')
@@ -56,8 +56,8 @@ function ShowRequisitionDetailsModal()
 {
     debugger;
     $("#MaterialID").val('')
-    $('#RequisitionDetail_RawMaterial_MaterialCode').val('');
-    $('#RequisitionDetail_RawMaterial_CurrentStock').val('');
+    $('#RequisitionDetail_Material_MaterialCode').val('');
+    $('#RequisitionDetail_Material_CurrentStock').val('');
     $('#RequisitionDetail_Description').val('');
     $('#RequisitionDetail_ApproximateRate').val('');
     $('#RequisitionDetail_RequestedQty').val('');
@@ -65,22 +65,22 @@ function ShowRequisitionDetailsModal()
 
 }
 
-function BindRawMaterialDetails(ID)
+function BindMaterialDetails(ID)
 {
     debugger;
-    var result = GetRawMaterial(ID);
-    $('#RequisitionDetail_RawMaterial_MaterialCode').val(result.MaterialCode);
-    $('#RequisitionDetail_RawMaterial_CurrentStock').val(result.CurrentStock);
+    var result = GetMaterial(ID);
+    $('#RequisitionDetail_Material_MaterialCode').val(result.MaterialCode);
+    $('#RequisitionDetail_Material_CurrentStock').val(result.CurrentStock);
     $('#RequisitionDetail_Description').val(result.Description);
     $('#RequisitionDetail_ApproximateRate').val(result.Rate);
 }
 
-function GetRawMaterial(ID) {
+function GetMaterial(ID) {
     try {
         debugger;
         var data = { "ID": ID };
         var ds = {};
-        ds = GetDataFromServer("Requisition/GetRawMaterial/", data);
+        ds = GetDataFromServer("Requisition/GetMaterial/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }
@@ -104,11 +104,11 @@ function AddRequisitionDetails()
         _RequistionDetail = [];
         RequisitionMaterial = new Object();
         RequisitionMaterial.MaterialID = $("#MaterialID").val();
-        RequisitionMaterial.RawMaterial = new Object();
-        RequisitionMaterial.RawMaterial.MaterialCode = $('#RequisitionDetail_RawMaterial_MaterialCode').val();
+        RequisitionMaterial.Material = new Object();
+        RequisitionMaterial.Material.MaterialCode = $('#RequisitionDetail_Material_MaterialCode').val();
         RequisitionMaterial.Description = $('#RequisitionDetail_Description').val();
         RequisitionMaterial.RequestedQty = $('#RequisitionDetail_RequestedQty').val();
-        RequisitionMaterial.RawMaterial.CurrentStock = $('#RequisitionDetail_RawMaterial_CurrentStock').val();
+        RequisitionMaterial.Material.CurrentStock = $('#RequisitionDetail_Material_CurrentStock').val();
         RequisitionMaterial.ApproximateRate = $('#RequisitionDetail_ApproximateRate').val();
         _RequistionDetail.push(RequisitionMaterial);
 
@@ -121,7 +121,7 @@ function AddRequisitionDetails()
                 for (var i = 0; i < allData.length; i++) {
                     if (allData[i].MaterialID == $("#MaterialID").val()) {
                         allData[i].Description = $('#RequisitionDetail_Description').val();
-                        allData[i].CurrentStock = $('#RequisitionDetail_RawMaterial_CurrentStock').val();
+                        allData[i].CurrentStock = $('#RequisitionDetail_Material_CurrentStock').val();
                         allData[i].RequestedQty = $('#RequisitionDetail_RequestedQty').val();
                         allData[i].ApproximateRate = $('#RequisitionDetail_ApproximateRate').val();
                         checkPoint = 1;
@@ -262,17 +262,29 @@ function GetRequisitionDetail(ID) {
     }
 }
 
-function Delete(curObj)
+function Delete(curobj)
 {
     debugger;
     var rowData = DataTables.RequisitionDetailTable.row($(curobj).parents('tr')).data();
+    var Rowindex = DataTables.RequisitionDetailTable.row($(curobj).parents('tr')).index();
+
     if ((rowData != null) && (rowData.ID != null)) {
         notyConfirm('Are you sure to delete?', 'DeleteItem("' + rowData.ID + '")');
     }
     else {
-        DataTables.RequisitionDetailTable.row($(curobj).parents('tr')).remove().draw(false);
-        notyAlert('success', 'Deleted Successfully');
+        var res = notyConfirm('Are you sure to delete?', 'DeleteTempItem("' + Rowindex + '")');
+
     }
+}
+
+function DeleteTempItem(Rowindex)
+{
+    debugger;
+    //var Itemtabledata = DataTables.RequisitionDetailList.rows().data();
+    //Itemtabledata.splice(Rowindex, 1);
+    //DataTables.RequisitionDetailList.clear().rows.add(Itemtabledata).draw(false);
+    DataTables.RequisitionDetailTable.row(Rowindex).remove().draw(false);
+    notyAlert('success', 'Deleted Successfully');
 }
 
 function DeleteItem(ID) {

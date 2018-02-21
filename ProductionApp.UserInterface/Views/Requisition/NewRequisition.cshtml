@@ -27,12 +27,12 @@
             }
         </div>
     </div>
-    <div class="row summaryboxes">
+    @*<div class="row summaryboxes">
         <div class="clearfix visible-sm-block"></div>
     </div>
     <div class="row">
         &nbsp;
-    </div>
+    </div>*@
     <div class="row tableContainer">
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
     @using (Ajax.BeginForm("InsertUpdateRequisition", "Requisition", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessRequisition", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "RequisitionForm" }))
@@ -171,8 +171,8 @@
                             @Html.LabelFor(model => model.RequisitionDetail.MaterialID, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                            <div id="divMaterialDropdown">
-                                @{Html.RenderAction("MaterialDropdown", "Material",Model.RequisitionDetail.RawMaterial); }
+                            <div id="divRawMaterialDropdown">
+                                @{Html.RenderAction("MaterialDropdown", "Material",Model.RequisitionDetail.Material); }
                             </div>
                             
                         </div>
@@ -181,10 +181,10 @@
                    
                     <div class="col-md-6">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.RequisitionDetail.RawMaterial.MaterialCode, htmlAttributes: new { @class = "control-label " })
+                            @Html.LabelFor(model => model.RequisitionDetail.Material.MaterialCode, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.RequisitionDetail.RawMaterial.MaterialCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                            @Html.EditorFor(model => model.RequisitionDetail.Material.MaterialCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -206,10 +206,10 @@
                     </div>
                     <div class="col-md-6">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.RequisitionDetail.RawMaterial.CurrentStock, htmlAttributes: new { @class = "control-label " })
+                            @Html.LabelFor(model => model.RequisitionDetail.Material.CurrentStock, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.RequisitionDetail.RawMaterial.CurrentStock, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                            @Html.EditorFor(model => model.RequisitionDetail.Material.CurrentStock, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                     </div>
                     <div class="col-md-6">
