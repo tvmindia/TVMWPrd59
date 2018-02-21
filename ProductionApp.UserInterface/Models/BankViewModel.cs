@@ -20,7 +20,9 @@ namespace ProductionApp.UserInterface.Models
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public bool IsUpdate { get; set; }
+        public string BankCode { get; set; }
         public CommonViewModel Common { get; set; }
+        public List<SelectListItem> SelectList { get; set; }
     }
     public class BankAdvanceSearchViewModel
     {

@@ -109,6 +109,27 @@ namespace ProductionApp.UserInterface.Controllers
            
         }
         #endregion InsertUpdateBank
+        #region BankDropdown
+        public ActionResult BankDropdown(BankViewModel bankVM)
+        {
+            bankVM.BankCode = bankVM.Code;
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            bankVM.SelectList = new List<SelectListItem>();
+            List<BankViewModel> bankList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetBankForSelectList());
+            if (bankList != null)
+                foreach (BankViewModel bank in bankList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = bank.Name,
+                        Value = bank.Code.ToString(),
+                        Selected = false
+                    });
+                }
+            bankVM.SelectList = selectListItem;
+            return PartialView("_BankDropdown", bankVM);
+        }
+        #endregion BankDropdown
         #region MasterPartial
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
@@ -132,7 +153,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Event = "AddBankMaster()";
+                    toolboxVM.addbtn.Event = "AddBankMaster('MSTR')";
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";

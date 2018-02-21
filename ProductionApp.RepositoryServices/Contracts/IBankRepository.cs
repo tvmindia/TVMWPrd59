@@ -9,6 +9,7 @@ namespace ProductionApp.RepositoryServices.Contracts
 {
     public interface IBankRepository
     {
+        List<Bank> GetBankForSelectList();
         List<Bank> GetAllBank(BankAdvanceSearch bankAdvanceSearch);
         Bank GetBank(string code);
         bool CheckCodeExist(string code);

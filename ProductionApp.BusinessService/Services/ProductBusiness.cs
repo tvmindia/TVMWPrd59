@@ -17,7 +17,10 @@ namespace ProductionApp.BusinessService.Services
         {
             _productRepository = productRepository;
         }
-
+        public List<Product> GetProductForSelectList()
+        {
+            return _productRepository.GetProductForSelectList();
+        }
         public List<Product> GetAllProduct(ProductAdvanceSearch productAdvanceSearch)
         {
             return _productRepository.GetAllProduct(productAdvanceSearch);

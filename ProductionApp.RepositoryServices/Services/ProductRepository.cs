@@ -24,7 +24,51 @@ namespace ProductionApp.RepositoryServices.Services
         {
             _databaseFactory = databaseFactory;
         }
-        #endregion Constructor Injection
+        #endregion Constructor Injection 
+
+        public List<Product> GetProductForSelectList()
+        {
+            List<Product> productList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetProductForSelectList]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                productList = new List<Product>();
+                                while (sdr.Read())
+                                {
+                                    Product product = new Product();
+                                    {
+                                        product.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : product.ID);
+                                        product.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : product.Code);
+                                        product.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : product.Name);
+                                    }
+                                    productList.Add(product);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return productList;
+
+        }
 
         #region GetAllProduct
         /// <summary>

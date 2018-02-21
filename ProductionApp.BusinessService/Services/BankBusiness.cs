@@ -16,6 +16,10 @@ namespace ProductionApp.BusinessService.Services
         {
             _bankRepository = bankRepository;
         }
+        public List<Bank> GetBankForSelectList()
+        {
+            return _bankRepository.GetBankForSelectList();
+        }
         public List<Bank> GetAllBank(BankAdvanceSearch bankAdvanceSearch)
         {
             return _bankRepository.GetAllBank(bankAdvanceSearch);

@@ -139,6 +139,28 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion MasterPartial
 
+        #region ProductDropdown
+        public ActionResult ProductDropdown(ProductViewModel productVM)
+        {
+            productVM.ProductID = productVM.ID;
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            productVM.SelectList = new List<SelectListItem>();
+            List<ProductViewModel> productList = Mapper.Map<List<Product>, List<ProductViewModel>>(_productBusiness.GetProductForSelectList());
+            if (productList != null)
+                foreach (ProductViewModel product in productList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = product.Name,
+                        Value = product.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            productVM.SelectList = selectListItem;
+            return PartialView("_ProductDropdown", productVM);
+        }
+        #endregion ProductDropdown
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Product", Mode = "R")]
@@ -151,7 +173,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Event = "AddProductMaster()";
+                    toolboxVM.addbtn.Event = "AddProductMaster('MSTR')";
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";

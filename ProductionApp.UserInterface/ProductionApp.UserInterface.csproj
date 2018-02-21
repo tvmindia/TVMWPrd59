@@ -818,6 +818,9 @@
     <Content Include="Views\Approver\Index.cshtml" />
     <Content Include="Views\Approver\_AddApproverPartial.cshtml" />
     <Content Include="Views\DocumentType\_DocumentTypeDropdown.cshtml" />
+    <Content Include="Views\Bank\_BankDropDown.cshtml" />
+    <Content Include="Views\Product\_ProductDropdown.cshtml" />
+    <Content Include="Views\MaterialType\_AddMaterialType.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
