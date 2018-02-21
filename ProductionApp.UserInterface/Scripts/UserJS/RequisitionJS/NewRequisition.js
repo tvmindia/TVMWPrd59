@@ -261,3 +261,79 @@ function GetRequisitionDetail(ID) {
         notyAlert('error', e.message);
     }
 }
+
+function Delete(curObj)
+{
+    debugger;
+    var rowData = DataTables.RequisitionDetailTable.row($(curobj).parents('tr')).data();
+    if ((rowData != null) && (rowData.ID != null)) {
+        notyConfirm('Are you sure to delete?', 'DeleteItem("' + rowData.ID + '")');
+    }
+    else {
+        DataTables.RequisitionDetailTable.row($(curobj).parents('tr')).remove().draw(false);
+        notyAlert('success', 'Deleted Successfully');
+    }
+}
+
+function DeleteItem(ID) {
+
+    try {
+        debugger;
+        var data = { "ID": ID };
+        var ds = {};
+        ds = GetDataFromServer("Requisition/DeleteRequisitionDetail/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            switch (ds.Result) {
+                case "OK":
+                    notyAlert('success', ds.Message);
+                    break;
+                case "ERROR":
+                    notyAlert('error', ds.Message);
+                    break;
+                default:
+                    break;
+            }
+            return ds.Record;
+        }
+    }
+    catch (e) {
+
+        notyAlert('error', e.message);
+    }
+}
+
+function DeleteClick() {
+    debugger;
+    notyConfirm('Are you sure to delete?', 'DeleteRequisition()');
+}
+
+
+function DeleteRequisition() {
+    try {
+        debugger;
+        var id = $('#ID').val();
+        if (id != '' && id != null) {
+            var data = { "ID": id };
+            var ds = {};
+            ds = GetDataFromServer("Requisition/DeleteRequisition/", data);
+            if (ds != '') {
+                ds = JSON.parse(ds);
+            }
+            if (ds.Result == "OK") {
+                notyAlert('success', ds.Record.Message);
+            }
+            if (ds.Result == "ERROR") {
+                notyAlert('error', ds.Message);
+                return 0;
+            }
+            return 1;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
+    }
+}

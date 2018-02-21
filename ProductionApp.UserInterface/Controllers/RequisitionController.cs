@@ -192,13 +192,13 @@ namespace ProductionApp.UserInterface.Controllers
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
-                    toolboxVM.savebtn.Title = "Save Bank";
+                    toolboxVM.savebtn.Title = "Save";
                     toolboxVM.savebtn.Event = "Save();";
 
                     toolboxVM.deletebtn.Visible = true;
                     toolboxVM.deletebtn.Text = "Delete";
-                    toolboxVM.deletebtn.Title = "Delete Bank";
-                    toolboxVM.deletebtn.Event = "Delete()";
+                    toolboxVM.deletebtn.Title = "Delete";
+                    toolboxVM.deletebtn.Event = "DeleteClick()";
 
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
