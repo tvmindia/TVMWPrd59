@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.DataAccessObject.DTO
 {
-    public class RawMaterial
+    public class Material
     {
         public Guid ID { get; set; }
         public string MaterialCode { get; set; }
@@ -25,7 +25,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Unit Unit { get; set; }
         public MaterialType MaterialType { get; set; }
     }
-    public class RawMaterialAdvanceSearch
+    public class MaterialAdvanceSearch
     {
         public string SearchTerm { get; set; }
         public DataTablePaging DataTablePaging { get; set; }

@@ -19,7 +19,7 @@ namespace ProductionApp.UserInterface.Models
         //Additional Fields Adjustment
         public string AdjustmentDateFormatted { get; set; }
         public EmployeeViewModel Employee { get; set; }
-        public RawMaterialViewModel RawMaterial { get; set; }
+        public MaterialViewModel RawMaterial { get; set; }
         public MaterialStockAdjDetailViewModel MaterialStockAdjDetail { get; set; }
 
         public List<MaterialStockAdjViewModel> MaterialStockAdjList { get; set; }

@@ -4,15 +4,15 @@ function AddBankMaster() {
     $('#h3ModelMasterContextLabel').text('Add Bank')
     $('#divModelMasterPopUp').modal('show');
 }
-//-- add Raw material--//
-function AddRawMaterialMaster(flag) {
-    GetMasterPartial("RawMaterial", "");
+//-- add  material--//
+function AddMaterialMaster(flag) {
+    GetMasterPartial("Material", "");
     $('#h3ModelMasterContextLabel').text('Add Raw Material')
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val(flag);
 }
-//-- Function After Save rawmaterial--//
-function SaveSuccessRawMaterial(data, status) {
+//-- Function After Save material--//
+function SaveSuccessMaterial(data, status) {
     debugger;
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
@@ -21,11 +21,11 @@ function SaveSuccessRawMaterial(data, status) {
             {
                 $('#IsUpdate').val('True');
                 $('#ID').val(JsonResult.Records.ID);
-                BindOrReloadRawMaterialTable('Reset');
+                BindOrReloadMaterialTable('Reset');
             }
             else if ($('#hdnMasterCall').val() == "OTR")
             {
-                $('#divRawMaterialDropdown').load('/RawMaterial/RawMaterialDropdown');
+                $('#divMaterialDropdown').load('/Material/MaterialDropdown');
             }            
             MasterAlert("success", JsonResult.Records.Message)
             

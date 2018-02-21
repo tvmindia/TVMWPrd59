@@ -20,7 +20,7 @@ namespace ProductionApp.DataAccessObject.DTO
         //Additional Fields
         public string AdjustmentDateFormatted { get; set; }
         public Employee Employee { get; set; }
-        public RawMaterial RawMaterial { get; set; }
+        public Material RawMaterial { get; set; }
         public MaterialStockAdjDetail MaterialStockAdjDetail { get; set; }
 
         public List<MaterialStockAdj> MaterialStockAdjList { get; set; }

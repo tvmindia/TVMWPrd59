@@ -17,11 +17,11 @@ namespace ProductionApp.UserInterface.Controllers
 
         // GET: Requisitions
         private IRequisitionBusiness _requisitionBusiness;
-        private IRawMaterialBusiness _rawMaterialBusiness;
+        private IMaterialBusiness _rawMaterialBusiness;
         Common _common = new Common();
         AppConst _appConst = new AppConst();
 
-        public RequisitionController(IRequisitionBusiness requisitionBusiness,IRawMaterialBusiness rawMaterialBusiness)
+        public RequisitionController(IRequisitionBusiness requisitionBusiness,IMaterialBusiness rawMaterialBusiness)
         {
             _requisitionBusiness = requisitionBusiness;
             _rawMaterialBusiness = rawMaterialBusiness;
@@ -144,8 +144,8 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                RawMaterialViewModel rawMaterialVM = new RawMaterialViewModel();
-                rawMaterialVM = Mapper.Map<RawMaterial, RawMaterialViewModel>(_rawMaterialBusiness.GetRawMaterial(Guid.Parse(ID)));
+                MaterialViewModel rawMaterialVM = new MaterialViewModel();
+                rawMaterialVM = Mapper.Map<Material, MaterialViewModel>(_rawMaterialBusiness.GetMaterial(Guid.Parse(ID)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = rawMaterialVM });
             }
             catch (Exception ex)

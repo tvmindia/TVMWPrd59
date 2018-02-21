@@ -242,7 +242,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         requisition.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : requisition.Description);
                                         requisition.RequestedQty = (sdr["RequestedQty"].ToString() != "" ? sdr["RequestedQty"].ToString() : requisition.RequestedQty);
                                         requisition.OrderedQty = (sdr["OrderedQty"].ToString() != "" ? sdr["OrderedQty"].ToString() : requisition.OrderedQty);
-                                        requisition.RawMaterial = new RawMaterial();
+                                        requisition.RawMaterial = new Material();
                                         requisition.RawMaterial.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : requisition.RawMaterial.MaterialCode);
                                         requisition.RawMaterial.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : requisition.RawMaterial.UnitCode);
                                         requisition.POQty = (decimal.Parse(requisition.RequestedQty) - decimal.Parse(requisition.OrderedQty)).ToString();
@@ -341,7 +341,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         requisition.ApproximateRate = (sdr["Rate"].ToString() != "" ? sdr["Rate"].ToString() : requisition.ApproximateRate);
                                         requisition.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : requisition.Description);
                                         requisition.RequestedQty = (sdr["RequestedQty"].ToString() != "" ? sdr["RequestedQty"].ToString() : requisition.RequestedQty);
-                                        requisition.RawMaterial = new RawMaterial();
+                                        requisition.RawMaterial = new Material();
                                         requisition.RawMaterial.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : requisition.RawMaterial.MaterialCode);
                                         requisition.RawMaterial.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? sdr["CurrentStock"].ToString() : requisition.RawMaterial.CurrentStock);
                                     }

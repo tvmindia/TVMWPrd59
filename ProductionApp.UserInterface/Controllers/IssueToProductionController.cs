@@ -16,14 +16,14 @@ namespace ProductionApp.UserInterface.Controllers
     public class IssueToProductionController : Controller
     {
         // GET: IssueToProduction
-        private IRawMaterialBusiness _rawMaterialBusiness;
+        private IMaterialBusiness _rawMaterialBusiness;
         private IIssueToProductionBusiness _issueToProductionBusiness;
         private IEmployeeBusiness _employeeBusiness;
         Common _common = new Common();
         AppConst _appConst = new AppConst();
         //private IIssueToProductionBusiness _issueToProductionBusiness;
 
-        public IssueToProductionController(IIssueToProductionBusiness issueToProductionBusiness,IRawMaterialBusiness rawMaterialBusiness, IEmployeeBusiness employeeBusiness)
+        public IssueToProductionController(IIssueToProductionBusiness issueToProductionBusiness,IMaterialBusiness rawMaterialBusiness, IEmployeeBusiness employeeBusiness)
         {
             _issueToProductionBusiness = issueToProductionBusiness;
             _rawMaterialBusiness = rawMaterialBusiness;
@@ -110,8 +110,8 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                RawMaterialViewModel rawMaterialVM = new RawMaterialViewModel();
-                rawMaterialVM = Mapper.Map<RawMaterial, RawMaterialViewModel>(_rawMaterialBusiness.GetRawMaterial(Guid.Parse(ID)));
+                MaterialViewModel rawMaterialVM = new MaterialViewModel();
+                rawMaterialVM = Mapper.Map<Material, MaterialViewModel>(_rawMaterialBusiness.GetMaterial(Guid.Parse(ID)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = rawMaterialVM });
             }
             catch (Exception ex)

@@ -54,7 +54,7 @@
     <Compile Include="Contracts\IProductBusiness.cs" />
     <Compile Include="Contracts\IRequisitionBusiness.cs" />
     <Compile Include="Contracts\IPurchaseOrderBusiness.cs" />
-    <Compile Include="Contracts\IRawMaterialBusiness.cs" />
+    <Compile Include="Contracts\IMaterialBusiness.cs" />
     <Compile Include="Contracts\ISupplierBusiness.cs" />
     <Compile Include="Contracts\IUnitBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,7 +71,7 @@
     <Compile Include="Services\ProductBusiness.cs" />
     <Compile Include="Services\PurchaseOrderBusiness.cs" />
     <Compile Include="Services\RequisitionBusiness.cs" />
-    <Compile Include="Services\RawMaterialBusiness.cs" />
+    <Compile Include="Services\MaterialBusiness.cs" />
     <Compile Include="Services\SupplierBusiness.cs" />
     <Compile Include="Services\UnitBusiness.cs" />
   </ItemGroup>

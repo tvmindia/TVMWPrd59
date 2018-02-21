@@ -22,7 +22,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public int FilteredCount { get; set; }
         public string ReceiptDateFormatted { get; set; }
         public MaterialReceiptDetail MaterialReceiptDetail { get; set; }
-        public RawMaterial RawMaterial { get; set; }
+        public Material RawMaterial { get; set; }
         public Supplier Supplier { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }
 

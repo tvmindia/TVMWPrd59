@@ -48,7 +48,7 @@ namespace ProductionApp.UserInterface.Models
 
         //Additional Fields
         [Display(Name = "Raw Material")]
-        public RawMaterialViewModel RawMaterial { get; set; }
+        public MaterialViewModel RawMaterial { get; set; }
     }
 
     public class MaterialReceiptAdvanceSearchViewModel

@@ -59,7 +59,7 @@ function BindOrReloadApproverTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [1, 2, 3, 4, 5, 6]
+                                 columns: [1, 2, 4, 5, 6]
                              }
             }],
             order: false,
@@ -147,4 +147,12 @@ function SaveSuccessApprover(data, status) {
             MasterAlert("danger", JsonResult.Message)
             break;
     }
+}
+
+//--edit Approver--//
+function EditApproverMaster(this_obj) {
+    rowData = DataTables.approverList.row($(this_obj).parents('tr')).data();
+    GetMasterPartial("Approver", rowData.ID);
+    $('#h3ModelMasterContextLabel').text('Edit Approver')
+    $('#divModelMasterPopUp').modal('show');
 }

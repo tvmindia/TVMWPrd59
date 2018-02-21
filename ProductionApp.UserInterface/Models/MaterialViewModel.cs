@@ -8,11 +8,11 @@ using System.Web.Mvc;
 
 namespace ProductionApp.UserInterface.Models
 {
-    public class RawMaterialViewModel
+    public class MaterialViewModel
     {        
 
         public Guid ID { get; set; }
-        [Remote(action: "CheckMaterialCodeExist", controller: "RawMaterial", AdditionalFields = nameof(IsUpdate))]
+        [Remote(action: "CheckMaterialCodeExist", controller: "Material", AdditionalFields = nameof(IsUpdate))]
         [Required(ErrorMessage = "Please Enter Material Code")]
         [Display(Name = "Material Code")]
         public string MaterialCode { get; set; }
@@ -28,6 +28,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Reorder Qty")]
         public decimal? ReorderQty { get; set; }
         //additional fields 
+        public Guid MaterialID { get; set; }
         [Display(Name = "Current Stock")]
         public string CurrentStock { get; set; }
         public bool IsUpdate { get; set; }
@@ -39,7 +40,7 @@ namespace ProductionApp.UserInterface.Models
         public List<SelectListItem> SelectList { get; set; }
     }
 
-    public class RawMaterialAdvanceSearchViewModel
+    public class MaterialAdvanceSearchViewModel
     {
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }

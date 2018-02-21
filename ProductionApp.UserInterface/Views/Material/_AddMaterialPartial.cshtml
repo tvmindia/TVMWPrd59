@@ -1,6 +1,6 @@
-﻿@model ProductionApp.UserInterface.Models.RawMaterialViewModel
+﻿@model ProductionApp.UserInterface.Models.MaterialViewModel
 
-@using (Ajax.BeginForm("InsertUpdateRawMaterial", "RawMaterial", null, new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessRawMaterial", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "OnMasterBegin", OnComplete = "OnMasterComplete" }, new { @class = "form-horizontal", role = "form", id = "FormRawMaterial" }))
+@using (Ajax.BeginForm("InsertUpdateMaterial", "Material", null, new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessMaterial", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "OnMasterBegin", OnComplete = "OnMasterComplete" }, new { @class = "form-horizontal", role = "form", id = "FormMaterial" }))
 {
     @Html.AntiForgeryToken()
 
@@ -93,6 +93,6 @@
 }
 <script>
     $(document).ready(function () {
-        $.validator.unobtrusive.parse("#FormRawMaterial");
+        $.validator.unobtrusive.parse("#FormMaterial");
     });
 </script>

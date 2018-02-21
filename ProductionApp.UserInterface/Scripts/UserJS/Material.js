@@ -4,8 +4,8 @@
 //Author: Jais
 //CreatedDate: 13-Feb-2018 
 //LastModified: 16-Feb-2018 
-//FileName: RawMaterial.js
-//Description: Client side coding for RawMaterial
+//FileName: Material.js
+//Description: Client side coding for Material
 //******************************************************************************
 //******************************************************************************
 
@@ -17,7 +17,7 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     try {
         debugger;
-        BindOrReloadRawMaterialTable('Init');
+        BindOrReloadMaterialTable('Init');
     }
     catch (e) {
         console.log(e.message);
@@ -25,10 +25,10 @@ $(document).ready(function () {
 });
 
 //--function bind the Raw Material list checking search and filter--//
-function BindOrReloadRawMaterialTable(action) {
+function BindOrReloadMaterialTable(action) {
     try {
         //creating advancesearch object
-        RawMaterialAdvanceSearchViewModel = new Object();
+        MaterialAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
         //switch case to check the operation
@@ -47,11 +47,11 @@ function BindOrReloadRawMaterialTable(action) {
             default:
                 break;
         }
-        RawMaterialAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
-        RawMaterialAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+        MaterialAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
+        MaterialAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
 
         //apply datatable plugin on Raw Material table
-        DataTables.rawMaterialList = $('#tblRawMaterial').DataTable(
+        DataTables.materialList = $('#tblMaterial').DataTable(
         {
             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
             buttons: [{
@@ -72,8 +72,8 @@ function BindOrReloadRawMaterialTable(action) {
             },
             serverSide: true,
             ajax: {
-                url: "RawMaterial/GetAllRawMaterial/",
-                data: { "rawMaterialAdvanceSearchVM": RawMaterialAdvanceSearchViewModel },
+                url: "Material/GetAllMaterial/",
+                data: { "materialAdvanceSearchVM": MaterialAdvanceSearchViewModel },
                 type: 'POST'
             },
             pageLength: 10,
@@ -85,7 +85,7 @@ function BindOrReloadRawMaterialTable(action) {
             { "data": "Description", "defaultContent": "<i>-<i>" },
             { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
             { "data": "ReorderQty", "defaultContent": "<i>-<i>" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditRawMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [2,6] },
@@ -101,7 +101,7 @@ function BindOrReloadRawMaterialTable(action) {
                         }
                     }
                     $(".buttons-excel").trigger('click');
-                    ResetRawMaterialList();
+                    ResetMaterialList();
                 }
             }
         });
@@ -113,20 +113,20 @@ function BindOrReloadRawMaterialTable(action) {
 }
 
 //--function reset the list to initial--//
-function ResetRawMaterialList()
+function ResetMaterialList()
 {
-    BindOrReloadRawMaterialTable('Reset');
+    BindOrReloadMaterialTable('Reset');
 }
 
 //--function export data to excel--//
-function ImportRawMaterialData()
+function ImportMaterialData()
 {
-    BindOrReloadRawMaterialTable('Export');
+    BindOrReloadMaterialTable('Export');
 }
 //--edit Raw material--//
-function EditRawMaterialMaster(this_obj) {
-    rowData = DataTables.rawMaterialList.row($(this_obj).parents('tr')).data();
-    GetMasterPartial("RawMaterial", rowData.ID);
-    $('#h3ModelMasterContextLabel').text('Edit Raw Material')
+function EditMaterialMaster(this_obj) {
+    rowData = DataTables.materialList.row($(this_obj).parents('tr')).data();
+    GetMasterPartial("Material", rowData.ID);
+    $('#h3ModelMasterContextLabel').text('Edit Material')
     $('#divModelMasterPopUp').modal('show');
 }
