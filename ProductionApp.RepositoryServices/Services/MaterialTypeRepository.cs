@@ -73,5 +73,45 @@ namespace ProductionApp.RepositoryServices.Services
             return materialTypeList;
         }
         #endregion GetMaterialTypeForSelectList
+
+        public MaterialType GetMaterialType(string code)
+        {
+            MaterialType materialType = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetMaterialType]";
+                        cmd.Parameters.Add("@Code", SqlDbType.NVarChar, 10).Value = code;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                                if (sdr.Read())
+                                {
+                                    materialType = new MaterialType();
+                                    materialType.Code = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : materialType.Code);
+                                    materialType.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : materialType.Description);
+                                    
+                                }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return materialType;
+        }
     }
 }

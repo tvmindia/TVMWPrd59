@@ -820,7 +820,8 @@
     <Content Include="Views\DocumentType\_DocumentTypeDropdown.cshtml" />
     <Content Include="Views\Bank\_BankDropDown.cshtml" />
     <Content Include="Views\Product\_ProductDropdown.cshtml" />
-    <Content Include="Views\MaterialType\_AddMaterialType.cshtml" />
+    <Content Include="Views\MaterialType\_AddMaterialTypePartial.cshtml" />
+    <Content Include="Views\MaterialType\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

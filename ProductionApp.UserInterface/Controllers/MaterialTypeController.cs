@@ -23,11 +23,20 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion Constructor Injection
         // GET: MaterialType
-        public ActionResult Index()
+        public ActionResult Index(string code)
         {
+            ViewBag.SysModuleCode = code;
             return View();
         }
-
+        #region MasterPartial
+        [HttpGet]
+        public ActionResult MasterPartial(string masterCode)
+        {
+            MaterialTypeViewModel materTypeVM = string.IsNullOrEmpty(masterCode) ? new MaterialTypeViewModel() : Mapper.Map<MaterialType, MaterialTypeViewModel>(_materialTypeBusiness.GetMaterialType(masterCode));
+            materTypeVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
+            return PartialView("_AddMaterialTypePartial", materTypeVM);
+        }
+        #endregion MasterPartial
         #region MaterialTypeDropdown
         public ActionResult MaterialTypeDropdown(MaterialTypeViewModel materialTypeVM)
         {

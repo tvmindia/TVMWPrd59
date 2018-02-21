@@ -10,5 +10,6 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface IMaterialTypeRepository
     {
         List<MaterialType> GetMaterialTypeForSelectList();
+        MaterialType GetMaterialType(string code);
     }
 }

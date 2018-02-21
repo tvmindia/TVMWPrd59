@@ -10,5 +10,6 @@ namespace ProductionApp.BusinessService.Contracts
     public interface IMaterialTypeBusiness
     {
         List<MaterialType> GetMaterialTypeForSelectList();
+        MaterialType GetMaterialType(string code);
     }
 }
