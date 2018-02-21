@@ -145,12 +145,10 @@ body    {
     color:red!important;
 }
 .SCHeader {
-   font-size: 20px!important;
+   font-size: 25px!important;
     color:  #545454;    
-    margin-left:4%;
     margin-top:0%;
     text-align:left;
-    text-align:center;    
 }
 
 .ReportTitle {

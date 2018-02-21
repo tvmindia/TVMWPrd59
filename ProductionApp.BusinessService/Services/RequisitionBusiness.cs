@@ -81,5 +81,14 @@ namespace ProductionApp.BusinessService.Services
         {
             return _requisitionRepository.GetRequisitionDetail(ID);
         }
+
+        public object DeleteRequisitionDetail(Guid ID)
+        {
+            return _requisitionRepository.DeleteRequisitionDetail(ID);
+        }
+        public object DeleteRequisition(Guid ID)
+        {
+            return _requisitionRepository.DeleteRequisition(ID);
+        }
     }
 }

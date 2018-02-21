@@ -155,9 +155,54 @@ namespace ProductionApp.UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
             }
         }
-
-
         #endregion GetMaterial
+
+        #region DeleteRequisitionDetail
+        public string DeleteRequisitionDetail(string ID)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _requisitionBusiness.DeleteRequisitionDetail(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+        }
+
+        #endregion DeleteRequisitionDetail
+
+
+        #region DeleteRequisition
+        public string DeleteRequisition(string ID)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _requisitionBusiness.DeleteRequisition(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+        }
+
+        #endregion DeleteRequisition
 
         #region ButtonStyling
         [HttpGet]

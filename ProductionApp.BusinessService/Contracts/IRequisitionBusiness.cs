@@ -15,5 +15,7 @@ namespace ProductionApp.BusinessService.Contracts
         object InsertUpdateRequisition(Requisition requisition);
         List<Requisition> GetAllRequisitionForPurchaseOrder(RequisitionAdvanceSearch requisitionAdvanceSearch);
         List<RequisitionDetail> GetRequisitionDetailsByIDs(string IDs, string POID);
+        object DeleteRequisitionDetail(Guid ID);
+        object DeleteRequisition(Guid ID);
     }
 }

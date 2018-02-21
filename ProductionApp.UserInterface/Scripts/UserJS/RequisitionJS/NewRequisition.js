@@ -23,11 +23,11 @@ $(document).ready(function () {
           { "data": "Material.CurrentStock", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
           { "data": "RequestedQty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
           { "data": "ApproximateRate", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>" },
-          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a> | <a href="#" class="actionLink"  onclick="ProductEdit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
+          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a> | <a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>' },
           ],
           columnDefs: [{ "targets": [0,1], "visible": false, searchable: false },
-              { className: "text-center", "targets": [6],"width": "8%" },
-              { className: "text-right", "targets": [4,5] },
+              { className: "text-center", "targets": [7],"width": "7%" },
+              { className: "text-right", "targets": [4,5,6] },
               { className: "text-left", "targets": [2,3] }
           ]
       });
@@ -62,6 +62,19 @@ function ShowRequisitionDetailsModal()
     $('#RequisitionDetail_ApproximateRate').val('');
     $('#RequisitionDetail_RequestedQty').val('');
     $('#RequisitionDetailsModal').modal('show');
+
+}
+
+function MaterialEdit(curObj)
+{
+    debugger;
+    $('#RequisitionDetailsModal').modal('show');
+
+    var rowData = DataTables.RequisitionDetailTable.row($(curObj).parents('tr')).data();
+    BindMaterialDetails(rowData.MaterialID);
+    $("#MaterialID").val(rowData.MaterialID);
+    $('#RequisitionDetail_RequestedQty').val(rowData.RequestedQty);
+    $('#RequisitionDetail_Description').val(rowData.Description);
 
 }
 
@@ -297,19 +310,18 @@ function DeleteItem(ID) {
         if (ds != '') {
             ds = JSON.parse(ds);
         }
-        if (ds.Result == "OK") {
-            switch (ds.Result) {
-                case "OK":
-                    notyAlert('success', ds.Message);
-                    break;
-                case "ERROR":
-                    notyAlert('error', ds.Message);
-                    break;
-                default:
-                    break;
-            }
-            return ds.Record;
+        switch (ds.Result) {
+            case "OK":
+                notyAlert('success', ds.Message);
+                BindRequisitionByID();
+                break;
+            case "ERROR":
+                notyAlert('error', ds.Message);
+                break;
+            default:
+                break;
         }
+        return ds.Record;
     }
     catch (e) {
 
@@ -336,6 +348,7 @@ function DeleteRequisition() {
             }
             if (ds.Result == "OK") {
                 notyAlert('success', ds.Record.Message);
+               // $('#').load(controllername/actionname)
             }
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);
