@@ -143,23 +143,5 @@ function EditBankMaster(this_obj) {
     GetMasterPartial("Bank", rowData.Code);
     $('#h3ModelMasterContextLabel').text('Edit Bank')
     $('#divModelMasterPopUp').modal('show');
-}
-//onsuccess function for formsubmitt
-function SaveSuccessBank(data, status)
-{
-    debugger;
-    var JsonResult = JSON.parse(data)
-    switch (JsonResult.Result) {
-        case "OK":
-            $('#IsUpdate').val('True');
-            BindOrReloadBankTable('Reset');
-            MasterAlert("success",JsonResult.Records.Message)
-            break;
-        case "ERROR":
-            MasterAlert("danger", JsonResult.Message)
-            break;
-        default:
-            MasterAlert("danger", JsonResult.Message)            
-            break;
-    }
+    $('#hdnMasterCall').val('MSTR');
 }

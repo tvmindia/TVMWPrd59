@@ -131,22 +131,3 @@ function EditProductMaster(this_obj) {
     $('#divModelMasterPopUp').modal('show');
 }
 
-//-- Function After Save --//
-function SaveSuccessProduct(data, status) {
-    debugger;
-    var JsonResult = JSON.parse(data)
-    switch (JsonResult.Result) {
-        case "OK":
-            $('#IsUpdate').val('True');
-            $('#ID').val(JsonResult.Records.ID);
-            BindOrReloadProductTable('Reset');
-            MasterAlert("success", JsonResult.Records.Message)
-            break;
-        case "ERROR":
-            MasterAlert("danger", JsonResult.Message)
-            break;
-        default:
-            MasterAlert("danger", JsonResult.Message)
-            break;
-    }
-}

@@ -1,0 +1,5 @@
+﻿@model ProductionApp.UserInterface.Models.ProductViewModel
+<div class="input-group">
+    @Html.DropDownListFor(model => model.ProductID, Model.SelectList, "---Select Product---", new { @class = "form-control" })
+    <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddProductMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
+</div>

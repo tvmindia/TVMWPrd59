@@ -22,6 +22,48 @@ namespace ProductionApp.RepositoryServices.Services
         {
             _databaseFactory = databaseFactory;
         }
+        public List<Bank> GetBankForSelectList()
+        {
+            List<Bank> bankList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetBankForSelectList]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                bankList = new List<Bank>();
+                                while (sdr.Read())
+                                {
+                                    Bank bank = new Bank();
+                                    {
+                                        bank.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : bank.Code);
+                                        bank.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : bank.Name);
+                                    }
+                                    bankList.Add(bank);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return bankList;
+
+        }
         public List<Bank> GetAllBank(BankAdvanceSearch bankAdvanceSearch)
         {
             List<Bank> bankList = null;

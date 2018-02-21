@@ -9,6 +9,7 @@ namespace ProductionApp.BusinessService.Contracts
 {
     public interface IBankBusiness
     {
+        List<Bank> GetBankForSelectList();
         List<Bank> GetAllBank(BankAdvanceSearch bankAdvanceSearch);
         Bank GetBank(string code);
         bool CheckCodeExist(string code);

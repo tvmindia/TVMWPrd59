@@ -22,5 +22,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _materialTypeRepository.GetMaterialTypeForSelectList();
         }
+        public MaterialType GetMaterialType(string code)
+        {
+            return _materialTypeRepository.GetMaterialType(code);
+        }
     }
 }

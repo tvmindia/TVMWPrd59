@@ -36,13 +36,15 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult NewRequisition(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
-             RequisitionViewModel requisitionVM = new RequisitionViewModel
+            RequisitionViewModel requisitionVM = new RequisitionViewModel
+            {
+                ID = id == null ? Guid.Empty : (Guid)id,
+                IsUpdate = id == null ? false : true,
+                RequisitionDetail = new RequisitionDetailViewModel
                 {
-                    ID = id==null?Guid.Empty:(Guid)id,
-                    IsUpdate = id == null ?false: true,
-             };
-            requisitionVM.RequisitionDetail = new RequisitionDetailViewModel();
-            requisitionVM.RequisitionDetail.Material = new MaterialViewModel();
+                    Material = new MaterialViewModel()
+                    }
+                };
                 return View(requisitionVM);
 
             

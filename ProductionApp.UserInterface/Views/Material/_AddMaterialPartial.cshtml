@@ -39,7 +39,9 @@
             </div>
             <div class="col-md-12">
                 <div class="col-md-12">
-                    @{Html.RenderAction("MaterialTypeDropdown", "MaterialType",Model.MaterialType);}
+                    <div id="divMaterialTypeDropdown">
+                        @{Html.RenderAction("MaterialTypeDropdown", "MaterialType", Model.MaterialType);}
+                    </div>                    
                     @Html.ValidationMessageFor(model => model.MaterialTypeCode, "", new { @class = "text-danger" })
                 </div>
             </div>
