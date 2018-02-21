@@ -42,7 +42,7 @@ namespace ProductionApp.UserInterface.Controllers
                 IsUpdate = id == null ? false : true,
                 RequisitionDetail = new RequisitionDetailViewModel
                 {
-                    RawMaterial = new MaterialViewModel()
+                    Material = new MaterialViewModel()
                     }
                 };
                 return View(requisitionVM);
