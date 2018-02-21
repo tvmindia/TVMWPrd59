@@ -44,7 +44,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string OrderedQty { get; set; }
         public string ReqNo { get; set; }
         public Common Common { get; set; }
-        public Material RawMaterial { get; set; }
+        public Material Material { get; set; }
     }
 
     public class RequisitionAdvanceSearch

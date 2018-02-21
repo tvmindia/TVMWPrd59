@@ -57,7 +57,7 @@ namespace ProductionApp.UserInterface.Models
         public string POQty { get; set; }
         public string OrderedQty { get; set; }
         public string ReqNo { get; set; }
-        public MaterialViewModel RawMaterial { get; set; }
+        public MaterialViewModel Material { get; set; }
         public CommonViewModel Common { get; set; }
     }
 
