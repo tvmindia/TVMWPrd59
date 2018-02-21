@@ -9,6 +9,7 @@ function AddRawMaterialMaster(flag) {
     GetMasterPartial("RawMaterial", "");
     $('#h3ModelMasterContextLabel').text('Add Raw Material')
     $('#divModelMasterPopUp').modal('show');
+    $('#hdnMasterCall').val(flag);
 }
 //-- Function After Save rawmaterial--//
 function SaveSuccessRawMaterial(data, status) {
@@ -16,10 +17,19 @@ function SaveSuccessRawMaterial(data, status) {
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
-            $('#IsUpdate').val('True');
-            $('#ID').val(JsonResult.Records.ID);           
+            if ($('#hdnMasterCall').val() == "MSTR")
+            {
+                $('#IsUpdate').val('True');
+                $('#ID').val(JsonResult.Records.ID);
+                BindOrReloadRawMaterialTable('Reset');
+            }
+            else if ($('#hdnMasterCall').val() == "OTR")
+            {
+                $('#divRawMaterialDropdown').load('/RawMaterial/RawMaterialDropdown');
+            }            
             MasterAlert("success", JsonResult.Records.Message)
-            BindOrReloadRawMaterialTable('Reset');
+            
+            
             break;
         case "ERROR":
             MasterAlert("danger", JsonResult.Message)
