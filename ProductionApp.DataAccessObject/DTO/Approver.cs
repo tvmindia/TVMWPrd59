@@ -10,7 +10,7 @@ namespace ProductionApp.DataAccessObject.DTO
     public class Approver
     {
         public Guid ID { get; set; }
-        public string DocType { get; set; }
+        public string DocumentTypeCode { get; set; }
         public int Level { get; set; }
         public Guid UserID { get; set; }
         public bool IsDefault { get; set; }
@@ -21,6 +21,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public int FilteredCount { get; set; }
         public Common Common { get; set; }
         public User User { get; set; }
+        public DocumentType DocumentType { get; set; }
     }
 
     public class ApproverAdvanceSearch

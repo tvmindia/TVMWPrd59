@@ -822,6 +822,7 @@
     <Content Include="Views\Product\_ProductDropdown.cshtml" />
     <Content Include="Views\MaterialType\_AddMaterialTypePartial.cshtml" />
     <Content Include="Views\MaterialType\Index.cshtml" />
+    <Content Include="Views\User\_UserDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

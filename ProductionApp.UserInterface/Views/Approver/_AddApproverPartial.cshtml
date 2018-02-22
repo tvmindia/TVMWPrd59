@@ -11,13 +11,13 @@
 
         <div class="form-group col-md-12">
             <div class="col-md-12">
-                @Html.LabelFor(model => model.DocType, htmlAttributes: new { @class = "control-label lblrequired" })
+                @Html.LabelFor(model => model.DocumentTypeCode, htmlAttributes: new { @class = "control-label lblrequired" })
             </div>
             <div class="col-md-12">
                 <div class="col-md-12">
-                    @{Html.RenderAction("DocumentTypeDropdown", "DocumentType");}
+                    @{Html.RenderAction("DocumentTypeDropdown", "DocumentType",Model.DocumentType);}
                     @*@Html.EditorFor(model => model.DocType, new { htmlAttributes = new { @class = "form-control" } })*@
-                    @Html.ValidationMessageFor(model => model.DocType, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.DocumentTypeCode, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -40,32 +40,36 @@
             </div>
             <div class="col-md-12">
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
-                </div>
+                    <div id="divUserDropdown">
+                        @{Html.RenderAction("UserDropdown", "User", Model.User);}
+                        </div>
+                        @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+                    </div>
             </div>
         </div>
 
         <div class="form-group col-md-12">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.IsDefault, htmlAttributes: new { @class = "control-label lblrequired" })
-            </div>
-            <div class="col-md-12">
+            <div class="form-group col-md-6">
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.IsDefault, new { htmlAttributes = new { @class = "" } })
-                    @Html.ValidationMessageFor(model => model.IsDefault, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.IsDefault, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.IsDefault, new { htmlAttributes = new { @class = "" } })
+                        @Html.ValidationMessageFor(model => model.IsDefault, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="form-group col-md-12">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label lblrequired" })
-            </div>
-            <div class="col-md-12">
+            <div class="form-group col-md-6">
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "" } })
-                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label " })
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "" } })
+                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
         </div>

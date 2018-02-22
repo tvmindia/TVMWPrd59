@@ -56,7 +56,7 @@ namespace ProductionApp.RepositoryServices.Services
                                 {
                                     DocumentType documentType = new DocumentType();
                                     {
-                                        documentType.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : documentType.Type);
+                                        documentType.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : documentType.Code);
                                         documentType.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : documentType.Description);
                                     }
                                     documentTypeList.Add(documentType);

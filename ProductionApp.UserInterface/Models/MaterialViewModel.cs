@@ -13,6 +13,7 @@ namespace ProductionApp.UserInterface.Models
 
         public Guid ID { get; set; }
         [Remote(action: "CheckMaterialCodeExist", controller: "Material", AdditionalFields = nameof(IsUpdate))]
+        [MaxLength(50)]
         [Required(ErrorMessage = "Please Enter Material Code")]
         [Display(Name = "Material Code")]
         public string MaterialCode { get; set; }
