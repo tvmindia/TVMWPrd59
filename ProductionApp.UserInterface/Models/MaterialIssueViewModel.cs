@@ -40,13 +40,17 @@ namespace ProductionApp.UserInterface.Models
         public Guid ID { get; set; }
         public Guid HeaderID { get; set; }
         public Guid MaterialID { get; set; }
-        public string MaterialCode { get; set; }
+        [Display(Name ="Material Description")]
         public string MaterialDesc { get; set; }
+        [Display(Name = "Unit Code")]
         public string UnitCode { get; set; }
+        [Display(Name = "Quantity")]
         public decimal Qty { get; set; }
         public string OtherUnit { get; set; }
         public decimal OtherQty { get; set; }
-        public CommonViewModel Common { get; set; }       
+        public CommonViewModel Common { get; set; }   
+        public MaterialIssueViewModel MaterialIssue { get; set; }
+        public MaterialViewModel Material { get; set; }
     }
 
     public class MaterialIssueAdvanceSearchViewModel

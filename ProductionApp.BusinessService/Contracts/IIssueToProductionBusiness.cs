@@ -11,5 +11,9 @@ namespace ProductionApp.BusinessService.Contracts
     {
         //List<MaterialIssue> GetAllIssueToProduction(MaterialIssueAdvanceSearch materialAdvanceSearch);
         object InsertUpdateIssueToProduction(MaterialIssue materialIssue);
+        MaterialIssue GetIssueToProduction(Guid ID);
+        List<MaterialIssueDetail> GetIssueToProductionDetail(Guid ID);
+        object DeleteIssueToProductionDetail(Guid ID);
+        object DeleteIssueToProduction(Guid ID);
     }
 }

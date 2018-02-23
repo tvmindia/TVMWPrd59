@@ -23,6 +23,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string IssueToEmployeeName { get; set; }
         public string IssuedByEmployeeName { get; set; }
         public Employee Employee { get; set; }
+        public string DetailXML { get; set; }
 
         public List<MaterialIssue> MaterialIssueList { get; set; }
     }
@@ -32,13 +33,13 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid ID { get; set; }
         public Guid HeaderID { get; set; }
         public Guid MaterialID { get; set; }
-        public string MaterialCode { get; set; }
-        public string MaterialDec { get; set; }
+        public string MaterialDesc { get; set; }
         public string UnitCode { get; set; }
         public decimal Qty { get; set; }
         public string OtherUnit { get; set; }
         public decimal OtherQty { get; set; }
         public Common Common { get; set; }
+        public Material Material { get; set; }
     }
 
     public class MaterialIssueAdvanceSearch

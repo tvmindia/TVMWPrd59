@@ -58,7 +58,8 @@ namespace ProductionApp.UserInterface.Controllers
                 }
             }
             materialIssueVM.Employee.SelectList = selectListItem;
-
+            materialIssueVM.MaterialIssueDetail = new MaterialIssueDetailViewModel();
+            materialIssueVM.MaterialIssueDetail.MaterialIssue = new MaterialIssueViewModel();
             return View(materialIssueVM);
         }
         #endregion
@@ -72,6 +73,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateIssueToProduction
         [HttpPost]
+        [AuthSecurityFilter(ProjectObject ="IssueToProduction",Mode ="R")]
         public string InsertUpdateIssueToProduction(MaterialIssueViewModel materialIssueVM)
         {
 
@@ -105,8 +107,8 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion
 
-        #region GetRawMaterial
-        public string GetRawMaterial(string ID)
+        #region GetMaterial
+        public string GetMaterial(string ID)
         {
             try
             {
@@ -121,9 +123,83 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion
 
+        #region GetIssueToProduction
+        public string GetIssueToProduction(string ID)
+        {
+            try
+            {
+                MaterialIssueViewModel materialIssueVM = new MaterialIssueViewModel();
+                materialIssueVM = Mapper.Map<MaterialIssue, MaterialIssueViewModel>(_issueToProductionBusiness.GetIssueToProduction(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = materialIssueVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+        #endregion
+
+        #region GetIssueToProductionDetail
+        public string GetIssueToProductionDetail(string ID)
+        {
+            try
+            {
+                List<MaterialIssueDetailViewModel> materialIssueDetailVM = new List<MaterialIssueDetailViewModel>();
+                materialIssueDetailVM = Mapper.Map<List<MaterialIssueDetail>, List<MaterialIssueDetailViewModel>>(_issueToProductionBusiness.GetIssueToProductionDetail(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = materialIssueDetailVM });
+            }
+            catch(Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+        #endregion
+
+        #region DeleteIssueToProductionDetail
+        public string DeleteIssueToProductionDetail(string ID)
+        {
+            object result = null;
+            try
+            {
+                if(string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _issueToProductionBusiness.DeleteIssueToProductionDetail(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch(Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion
+
+        #region DeleteIssueToProduction
+        public string DeleteIssueToProduction(string ID)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _issueToProductionBusiness.DeleteIssueToProduction(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion
+
         #region ButtonStyling
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "IssueToProduction", Mode = "")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();
@@ -133,8 +209,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("AddIssueToProduction", "IssueToProduction", new { code = "STR" });
-                    toolboxVM.addbtn.Event = "";
+                    toolboxVM.addbtn.Href = Url.Action("AddIssueToProduction", "IssueToProduction", new { code = "STR" });                    
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
@@ -153,27 +228,27 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Event = "openNav();";
+                    toolboxVM.addbtn.Href =Url.Action("AddIssueToProduction","IssueToProduction",new { code="STR"});
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
-                    toolboxVM.savebtn.Title = "Save Bank";
+                    toolboxVM.savebtn.Title = "Save";
                     toolboxVM.savebtn.Event = "Save();";
 
                     toolboxVM.deletebtn.Visible = true;
                     toolboxVM.deletebtn.Text = "Delete";
-                    toolboxVM.deletebtn.Title = "Delete Bank";
-                    toolboxVM.deletebtn.Event = "Delete()";
+                    toolboxVM.deletebtn.Title = "Delete";
+                    toolboxVM.deletebtn.Event = "DeleteClick()";
 
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset";
                     toolboxVM.resetbtn.Event = "Reset();";
 
-                    toolboxVM.CloseBtn.Visible = true;
-                    toolboxVM.CloseBtn.Text = "Close";
-                    toolboxVM.CloseBtn.Title = "Close";
-                    toolboxVM.CloseBtn.Event = "closeNav();";
+                    //toolboxVM.CloseBtn.Visible = true;
+                    //toolboxVM.CloseBtn.Text = "Close";
+                    //toolboxVM.CloseBtn.Title = "Close";
+                    //toolboxVM.CloseBtn.Event = "closeNav();";
 
                     break;
                 case "Add":
@@ -187,7 +262,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
                     toolboxVM.ListBtn.Event = "";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewPurchaseOrder", "PurchaseOrder", new { Code = "PURCH" });
+                    toolboxVM.ListBtn.Href = Url.Action("ListIssueToProduction", "IssueToProduction", new { Code = "STR" });
 
 
                     break;
