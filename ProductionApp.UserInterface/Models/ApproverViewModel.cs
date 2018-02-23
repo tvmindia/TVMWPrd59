@@ -18,7 +18,7 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Please Enter User ")]
         [Display(Name = "User")]
         public Guid UserID { get; set; }
-        [Remote(action: "CheckDefaultApproverExist", controller: "Approver", AdditionalFields = "DocumentTypeCode,Level")]
+        //[Remote(action: "CheckDefaultApproverExist", controller: "Approver", AdditionalFields = "DocumentTypeCode,Level")]
         [Display(Name = "Is Default Approver")]
         public bool IsDefault { get; set; }
         [Display(Name = "Is Active")]

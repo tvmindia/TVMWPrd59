@@ -17,7 +17,7 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     try {
         debugger;
-        BindOrReloadApproverTable('Init');
+        BindOrReloadApproverTable('Init');        
     }
     catch (e) {
         console.log(e.message);
@@ -138,4 +138,21 @@ function EditApproverMaster(this_obj) {
     $('#h3ModelMasterContextLabel').text('Edit Approver')
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val('MSTR');
+}
+
+//--Function To get emailid on user dropdown change--//
+function GetEmailId(UserID) {
+    debugger;
+    var data = { "Id": UserID };
+    var ds = {};
+    ds = GetDataFromServer("User/GetUserDetailsByID/", data);
+    if (ds != '') {
+        ds = JSON.parse(ds);
+        $('label[for="email"]').text(ds.Records.Email);
+        $('label[for="email"]').show();
+    }
+    if (ds.Result == "OK") {
+        return ds.Records;
+    }
+    
 }
