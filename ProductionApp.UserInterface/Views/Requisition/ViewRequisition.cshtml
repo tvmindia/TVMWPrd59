@@ -76,11 +76,11 @@
                             @{
                                 List<SelectListItem> RequisitionStatus = new List<SelectListItem>();
                                 RequisitionStatus.Add(new SelectListItem
-                                { Text = "Open", Value = "Open", Selected = true });
+                                { Text = "Open", Value = "Open"});
                                 RequisitionStatus.Add(new SelectListItem
                                 { Text = "Closed", Value = "Closed" });
                             }
-                            @Html.DropDownListFor(model => model.ReqStatus, RequisitionStatus, new { @class = "form-control", style = "padding:4px 12px;" })
+                            @Html.DropDownListFor(model => model.ReqStatus, RequisitionStatus,"--Select Status--", new { @class = "form-control", style = "padding:4px 12px;" })
                          </div>
                     </div>
                     <div class="col-md-2">
