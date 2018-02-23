@@ -11,5 +11,8 @@ namespace ProductionApp.BusinessService.Contracts
     {
         List<PurchaseOrder> GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch);
         List<PurchaseOrder> GetAllPurchaseOrderForSelectList();
+        object InsertPurchaseOrder(PurchaseOrder purchaseOrder);
+        PurchaseOrder GetPurchaseOrderByID(Guid ID);
+        List<PurchaseOrderDetail> GetPurchaseOrderDetailByID(Guid ID);
     }
 }

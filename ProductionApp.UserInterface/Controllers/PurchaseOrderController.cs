@@ -16,14 +16,17 @@ namespace ProductionApp.UserInterface.Controllers
     {
         // GET: PurchaseOrder
         private IPurchaseOrderBusiness _purchaseOrderBusiness;
+        private ITaxTypeBusiness _taxTypeBusiness;
         private ISupplierBusiness _supplierBusiness;
         private IRequisitionBusiness _requisitionBusiness;
         Common _common = new Common();
-        public PurchaseOrderController(IPurchaseOrderBusiness purchaseOrderBusiness, ISupplierBusiness supplierBusiness, IRequisitionBusiness requisitionBusiness)
+        AppConst _appConst = new AppConst();
+        public PurchaseOrderController(IPurchaseOrderBusiness purchaseOrderBusiness, ISupplierBusiness supplierBusiness, IRequisitionBusiness requisitionBusiness, ITaxTypeBusiness taxTypeBusiness)
         {
             _purchaseOrderBusiness = purchaseOrderBusiness;
             _supplierBusiness = supplierBusiness;
             _requisitionBusiness = requisitionBusiness;
+            _taxTypeBusiness = taxTypeBusiness;
         }
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public ActionResult ViewPurchaseOrder(string code)
@@ -38,7 +41,62 @@ namespace ProductionApp.UserInterface.Controllers
             PurchaseOrderViewModel purchaseOrderVM = new PurchaseOrderViewModel();
             return View();
         }
-
+        #region InsertPurchaseOrder
+        [HttpPost]
+        public string InsertPurchaseOrder(PurchaseOrderViewModel purchaseOrderVM)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                purchaseOrderVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                //object ResultFromJS = JsonConvert.DeserializeObject(purchaseOrderVM.PurchaseOrderDetail);
+                //string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+               // purchaseOrderVM.RequisitionDetailList = JsonConvert.DeserializeObject<List<RequisitionDetailViewModel>>(ReadableFormat);
+                var result = _purchaseOrderBusiness.InsertPurchaseOrder(Mapper.Map<PurchaseOrderViewModel, PurchaseOrder>(purchaseOrderVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion InsertPurchaseOrder
+        #region GetPurchaseOrderByID
+        
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
+        public string GetPurchaseOrderByID(string ID)
+        {
+            try { 
+            PurchaseOrderViewModel purchaseOrderVM = Mapper.Map<PurchaseOrder, PurchaseOrderViewModel>(_purchaseOrderBusiness.GetPurchaseOrderByID(Guid.Parse( ID)));
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+        #endregion GetPurchaseOrderByID
+        #region GetPurchaseOrderDetailTableByID
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
+        public string GetPurchaseOrderDetailByID(string ID)
+        {
+            try { 
+            List<PurchaseOrderDetailViewModel> purchaseOrderList = Mapper.Map<List<PurchaseOrderDetail>, List<PurchaseOrderDetailViewModel>>(_purchaseOrderBusiness.GetPurchaseOrderDetailByID(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+        #endregion GetPurchaseOrderDetailTableByID
         #region GetAllPurchaseOrder
         [HttpPost]
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
@@ -97,6 +155,23 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetRequisitionDetailsByIDs
 
+        #region TaxTypeByDesc
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
+        public string GetTaxtype(string Code)
+        {
+            try
+            {
+                TaxTypeViewModel taxTypeVM = new TaxTypeViewModel();
+                taxTypeVM = Mapper.Map<TaxType,TaxTypeViewModel>(_taxTypeBusiness.GetTaxTypeDetailsByCode(Code));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = taxTypeVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+        #endregion TaxTypeByDesc
+
         #region PurchaseOrder Dropdown
         public ActionResult PurchaseOrderDropdown()
         {
@@ -130,7 +205,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("AddPurchaseOrder", "PurchaseOrder", new { code = "PURCH" });
+                    toolboxVM.addbtn.Href = Url.Action("NewPurchaseOrder", "PurchaseOrder", new { code = "PURCH" });
                     toolboxVM.addbtn.Event = "";
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
