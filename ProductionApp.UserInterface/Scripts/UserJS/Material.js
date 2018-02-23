@@ -129,4 +129,5 @@ function EditMaterialMaster(this_obj) {
     GetMasterPartial("Material", rowData.ID);
     $('#h3ModelMasterContextLabel').text('Edit Material')
     $('#divModelMasterPopUp').modal('show');
+    $('#hdnMasterCall').val('MSTR');
 }

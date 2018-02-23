@@ -32,7 +32,7 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult DocumentTypeDropdown(DocumentTypeViewModel documentTypeVM)
         {
             //UnitViewModel unitVM = new UnitViewModel();
-            //documentTypeVM.UnitCode = documentTypeVM.Code;
+            documentTypeVM.DocumentTypeCode = documentTypeVM.Code;
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             documentTypeVM.SelectList = new List<SelectListItem>();
             List<DocumentTypeViewModel> documentTypeList = Mapper.Map<List<DocumentType>, List<DocumentTypeViewModel>>(_documentTypeBusiness.GetDocumentTypeForSelectList());
@@ -42,7 +42,7 @@ namespace ProductionApp.UserInterface.Controllers
                     selectListItem.Add(new SelectListItem
                     {
                         Text = documentType.Description,
-                        Value = documentType.Type,
+                        Value = documentType.Code,
                         Selected = false
                     });
                 }

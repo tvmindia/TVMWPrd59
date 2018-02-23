@@ -24,10 +24,12 @@ namespace ProductionApp.DataAccessObject.DTO
         public int FilteredCount { get; set; }
         public DateTime ApprovalDate { get; set; }
         public string ApprovalDateFormatted { get; set; }
+        public Guid hdnFileID { get; set; }
+        public string DetailXML { get; set; }
+
         public Common Common { get; set; }
         public RequisitionDetail RequisitionDetail { get; set; }
         public List<RequisitionDetail> RequisitionDetailList { get; set; }
-        public string DetailXML { get; set; }
 
     }
 
@@ -53,5 +55,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public string SearchTerm { get; set; }
         public DataTablePaging DataTablePaging { get; set; }
 
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string ReqStatus { get; set; }
+        public string RequisitionBy { get; set; }
+        public Guid EmployeeID { get; set; }
     }
 }

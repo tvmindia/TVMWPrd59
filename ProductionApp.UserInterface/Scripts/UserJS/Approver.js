@@ -17,7 +17,7 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     try {
         debugger;
-        BindOrReloadApproverTable('Init');
+        BindOrReloadApproverTable('Init');        
     }
     catch (e) {
         console.log(e.message);
@@ -80,7 +80,7 @@ function BindOrReloadApproverTable(action) {
             pageLength: 10,
             columns: [
             { "data": "ID", "defaultContent": "<i>-</i>" },
-            { "data": "DocType", "defaultContent": "<i>-</i>" },
+            { "data": "DocumentType.Description", "defaultContent": "<i>-</i>" },
             { "data": "Level", "defaultContent": "<i>-</i>" },
             { "data": "UserID", "defaultContent": "<i>-<i>" },
             { "data": "User.LoginName", "defaultContent": "<i>-<i>" },
@@ -124,29 +124,11 @@ function ImportApproverData() {
 }
 
 //-- add Approver--//
-function AddApproverMaster() {
+function AddApproverMaster(flag) {
     GetMasterPartial("Approver", "");
     $('#h3ModelMasterContextLabel').text('Add Approver')
     $('#divModelMasterPopUp').modal('show');
-}
-//-- Function After Save Approver--//
-function SaveSuccessApprover(data, status) {
-    debugger;
-    var JsonResult = JSON.parse(data)
-    switch (JsonResult.Result) {
-        case "OK":
-            $('#IsUpdate').val('True');
-            $('#ID').val(JsonResult.Records.ID);
-            MasterAlert("success", JsonResult.Records.Message)
-            BindOrReloadApproverTable('Reset');
-            break;
-        case "ERROR":
-            MasterAlert("danger", JsonResult.Message)
-            break;
-        default:
-            MasterAlert("danger", JsonResult.Message)
-            break;
-    }
+    $('#hdnMasterCall').val(flag);
 }
 
 //--edit Approver--//
@@ -155,4 +137,22 @@ function EditApproverMaster(this_obj) {
     GetMasterPartial("Approver", rowData.ID);
     $('#h3ModelMasterContextLabel').text('Edit Approver')
     $('#divModelMasterPopUp').modal('show');
+    $('#hdnMasterCall').val('MSTR');
+}
+
+//--Function To get emailid on user dropdown change--//
+function GetEmailId(UserID) {
+    debugger;
+    var data = { "Id": UserID };
+    var ds = {};
+    ds = GetDataFromServer("User/GetUserDetailsByID/", data);
+    if (ds != '') {
+        ds = JSON.parse(ds);
+        $('label[for="email"]').text(ds.Records.Email);
+        $('label[for="email"]').show();
+    }
+    if (ds.Result == "OK") {
+        return ds.Records;
+    }
+    
 }

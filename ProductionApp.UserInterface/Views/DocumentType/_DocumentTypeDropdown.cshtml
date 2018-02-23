@@ -1,6 +1,6 @@
 ﻿@model ProductionApp.UserInterface.Models.DocumentTypeViewModel
 <div class="input-group">
-    @Html.DropDownListFor(model => model.Type, Model.SelectList, "--- Select Document Type ---", new { @class = "form-control" })
+    @Html.DropDownListFor(model => model.DocumentTypeCode, Model.SelectList, "--- Select Document Type ---", new { @class = "form-control" })
     <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick=""><i class="fa fa-plus-square-o"></i></span>
 </div>
 

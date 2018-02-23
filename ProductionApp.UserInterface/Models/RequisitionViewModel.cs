@@ -30,6 +30,8 @@ namespace ProductionApp.UserInterface.Models
         public bool IsUpdate { get; set; }
 
         //additional properties
+        public Guid hdnFileID { get; set; }
+
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public string DetailJSON { get; set; }
@@ -67,6 +69,16 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
+
+        [Display(Name = "FromDate")]
+        public string FromDate { get; set; }
+        [Display(Name = "ToDate")]
+        public string ToDate { get; set; }
+        [Display(Name = "Requisition Status")]
+        public string ReqStatus { get; set; }
+        [Display(Name = "Requisition By")]
+        public string RequisitionBy { get; set; }
+        public Guid EmployeeID { get; set; }
 
     }
 }

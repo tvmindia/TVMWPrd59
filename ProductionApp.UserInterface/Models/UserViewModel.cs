@@ -42,11 +42,11 @@ namespace ProductionApp.UserInterface.Models
         public string RoleCSV { get; set; }
         public string RoleIDCSV { get; set; }
         public Guid? AppID { get; set; }
+        public Guid? UserID { get; set; }
         [Display(Name = "Select Roles")]
         public List<RolesViewModel> RoleList { get; set; }
 
         public CommonViewModel commonDetails { get; set; }
-        public UserViewModel User { get; set; }
         public List<SelectListItem> userList { get; set; }
         public List<SelectListItem> ApplicationList { get; set; }
     }

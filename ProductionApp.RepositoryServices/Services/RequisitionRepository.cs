@@ -48,6 +48,12 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.AddWithValue("@Length", DBNull.Value);
                         else
                             cmd.Parameters.Add("@Length", SqlDbType.Int).Value = requisitionAdvanceSearch.DataTablePaging.Length;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value =requisitionAdvanceSearch.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = requisitionAdvanceSearch.ToDate;
+                        cmd.Parameters.Add("@ReqStatus", SqlDbType.VarChar).Value = requisitionAdvanceSearch.ReqStatus;
+                        if (requisitionAdvanceSearch.EmployeeID != Guid.Empty)
+                            cmd.Parameters.Add("@RequisitionBy", SqlDbType.UniqueIdentifier).Value = requisitionAdvanceSearch.EmployeeID;
+
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {

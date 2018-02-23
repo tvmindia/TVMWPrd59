@@ -67,7 +67,9 @@ namespace ProductionApp.RepositoryServices.Services
                                     Approver approver = new Approver();
                                     {
                                         approver.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : approver.ID);
-                                        approver.DocType = (sdr["DocType"].ToString() != "" ? sdr["DocType"].ToString() : approver.DocType);
+                                        approver.DocumentTypeCode = (sdr["DocumentTypeCode"].ToString() != "" ? sdr["DocumentTypeCode"].ToString() : approver.DocumentTypeCode);
+                                        approver.DocumentType = new DocumentType();
+                                        approver.DocumentType.Description= (sdr["DocumentDescription"].ToString() != "" ? sdr["DocumentDescription"].ToString() : approver.DocumentType.Description);
                                         approver.Level = (sdr["Level"].ToString() != "" ? int.Parse(sdr["Level"].ToString()) : approver.Level);
                                         approver.UserID = (sdr["UserID"].ToString() != "" ? Guid.Parse(sdr["UserID"].ToString()) : approver.UserID);
                                         approver.User = new User();
@@ -116,9 +118,9 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = approver.IsUpdate;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = approver.ID;
-                        cmd.Parameters.Add("@DocType", SqlDbType.VarChar).Value = approver.DocType;
+                        cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.VarChar,5).Value = approver.DocumentTypeCode;
                         cmd.Parameters.Add("@Level", SqlDbType.Decimal).Value = approver.Level;
-                        cmd.Parameters.Add("@UserID", SqlDbType.VarChar).Value = approver.UserID;
+                        cmd.Parameters.Add("@UserID", SqlDbType.UniqueIdentifier).Value = approver.UserID;
                         cmd.Parameters.Add("@IsDefault", SqlDbType.VarChar).Value = approver.IsDefault;
                         cmd.Parameters.Add("@IsActive", SqlDbType.VarChar).Value = approver.IsActive;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar).Value = approver.Common.CreatedBy;
@@ -159,6 +161,42 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion InsertUpdateApprover
 
+        #region CheckDefaultApproverExist
+        /// <summary>
+        /// To Check whether DefaultApprover Existing or not
+        /// </summary>
+        /// <param name="documentTypeCode"></param>
+        /// <param name="level"></param>
+        /// <returns>bool</returns>
+        public bool CheckDefaultApproverExist(string documentTypeCode,int level)
+        {
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[CheckDefaultApproverExist]";
+                        cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.VarChar).Value = documentTypeCode;
+                        cmd.Parameters.Add("@Level", SqlDbType.Int).Value = level;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        Object res = cmd.ExecuteScalar();
+                        return (res.ToString() == "Exists" ? true : false);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion CheckDefaultApproverExist
+
         #region GetApprover
         /// <summary>
         /// To Get Approver Details corresponding to ID
@@ -191,9 +229,13 @@ namespace ProductionApp.RepositoryServices.Services
                                 {
                                     approver = new Approver();
                                     approver.ID = sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : approver.ID;
-                                    approver.DocType = sdr["DocType"].ToString() != "" ? (sdr["DocType"].ToString()) : approver.DocType;
+                                    approver.DocumentTypeCode = sdr["DocumentTypeCode"].ToString() != "" ? (sdr["DocumentTypeCode"].ToString()) : approver.DocumentTypeCode;
+                                    approver.DocumentType = new DocumentType();
+                                    approver.DocumentType.Code= sdr["DocumentTypeCode"].ToString() != "" ? (sdr["DocumentTypeCode"].ToString()) : approver.DocumentTypeCode;
                                     approver.Level = sdr["Level"].ToString() != "" ? int.Parse(sdr["Level"].ToString()) : approver.Level;
                                     approver.UserID = sdr["UserID"].ToString() != "" ? Guid.Parse(sdr["UserID"].ToString()) : approver.UserID;
+                                    approver.User = new User();
+                                    approver.User.ID= sdr["UserID"].ToString() != "" ? Guid.Parse(sdr["UserID"].ToString()) : approver.UserID;
                                     //approver.IsDefault = new MaterialType();
                                     approver.IsDefault = sdr["IsDefault"].ToString() != "" ? bool.Parse(sdr["IsDefault"].ToString()) : approver.IsDefault;
                                     approver.IsActive = sdr["IsActive"].ToString() != "" ? bool.Parse(sdr["IsActive"].ToString()) : approver.IsActive;

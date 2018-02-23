@@ -7,6 +7,8 @@
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")
+
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
@@ -34,7 +36,7 @@
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
         @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
-        @*@Html.HiddenFor(model => model.hdnFileID, htmlAttributes: new { @class = "", @id = "hdnFileDupID", @value = Guid.Empty })*@
+        @Html.HiddenFor(model => model.hdnFileID, htmlAttributes: new { @class = "", @id = "hdnFileDupID", @value = Guid.Empty })
     <div class="col-md-12">
         <div class="form-group col-md-8">
             
@@ -99,7 +101,7 @@
            <div class="form-group col-md-12 box-header figuresummary rounded">
                <div class="form-group col-md-12">
                     <div class="rightAmtCaption">Requisition Status</div>
-                    <div class="rightAmt" id="lblReqStatus">Open</div>
+                    <div class="rightAmt" id="lblReqStatus">-</div>
                </div>
                <div class="form-group col-md-12">
                     <div class="rightAmtCaption">Approval Status</div>
@@ -139,6 +141,11 @@
                     </tr>
                 </thead>
             </table>
+        </div>
+
+        <div class="col-md-12  ">&nbsp;</div>
+        <div>
+            @Html.Partial("_Fileupload")
         </div>
     </div>
 
@@ -228,5 +235,6 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/RequisitionJS/NewRequisition")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
 }

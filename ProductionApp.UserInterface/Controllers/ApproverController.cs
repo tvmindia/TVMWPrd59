@@ -86,6 +86,11 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ApproverViewModel approverVM = string.IsNullOrEmpty(masterCode) ? new ApproverViewModel() : Mapper.Map<Approver, ApproverViewModel>(_approverBusiness.GetApprover(Guid.Parse(masterCode)));
             approverVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
+            if (string.IsNullOrEmpty(masterCode))
+            {
+                approverVM.IsActive = true;
+                approverVM.IsDefault = true;
+            }
             return PartialView("_AddApproverPartial", approverVM);
         }
         #endregion MasterPartial
@@ -94,21 +99,21 @@ namespace ProductionApp.UserInterface.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]
-        public string InsertUpdateApprover(ApproverViewModel rawMaterialVM)
+        public string InsertUpdateApprover(ApproverViewModel approverVM)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     AppUA appUA = Session["AppUA"] as AppUA;
-                    rawMaterialVM.Common = new CommonViewModel
+                    approverVM.Common = new CommonViewModel
                     {
                         CreatedBy = appUA.UserName,
                         CreatedDate = _common.GetCurrentDateTime(),
                         UpdatedBy = appUA.UserName,
                         UpdatedDate = _common.GetCurrentDateTime(),
                     };
-                    var result = _approverBusiness.InsertUpdateApprover(Mapper.Map<ApproverViewModel, Approver>(rawMaterialVM));
+                    var result = _approverBusiness.InsertUpdateApprover(Mapper.Map<ApproverViewModel, Approver>(approverVM));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
                 }
                 catch (Exception ex)
@@ -132,6 +137,28 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion InsertUpdateApprover
 
+        #region CheckDefaultApproverExist
+        [AcceptVerbs("Get", "Post")]
+        public ActionResult CheckDefaultApproverExist(ApproverViewModel approverVM)
+        {
+            try
+            {
+                bool exists = approverVM.IsUpdate ? false : _approverBusiness.CheckDefaultApproverExist(approverVM.DocumentTypeCode,approverVM.Level);
+                if ((!exists )&& (approverVM.IsDefault))
+                {
+                    return Json("<p><span style='vertical-align: 2px'>Default approver Existing for Current document with current level  </span> <i class='fa fa-close' style='font-size:19px; color: red'></i></p>", JsonRequestBehavior.AllowGet);
+                }
+                //var result = new { success = true, message = "Success" };
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return Json(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion CheckDefaultApproverExist
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]
@@ -144,7 +171,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Event = "AddApproverMaster()";
+                    toolboxVM.addbtn.Event = "AddApproverMaster('MSTR')";
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";

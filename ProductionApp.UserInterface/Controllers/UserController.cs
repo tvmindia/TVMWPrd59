@@ -165,27 +165,28 @@ namespace ProductionApp.UserInterface.Controllers
 
         #endregion DeleteUser
 
-        //#region UserDropdown
-        //public ActionResult UserDropdown()
-        //{
-        //    UserViewModel userVM = new UserViewModel();
-        //    List<SelectListItem> selectListItem = new List<SelectListItem>();
-        //    userVM.SelectList = new List<SelectListItem>();
-        //    List<UserViewModel> rawMaterialList = Mapper.Map<List<SAMTool.DataAccessObject.DTO.User>, List<UserViewModel>>(_userBusiness.GetAllUsers());
-        //    if (rawMaterialList != null)
-        //        foreach (UserViewModel rawMaterial in rawMaterialList)
-        //        {
-        //            selectListItem.Add(new SelectListItem
-        //            {
-        //                Text = rawMaterial.MaterialCode + '-' + rawMaterial.Description,
-        //                Value = rawMaterial.ID.ToString(),
-        //                Selected = false
-        //            });
-        //        }
-        //    userVM.SelectList = selectListItem;
-        //    return PartialView("_RawMaterialDropdown", userVM);
-        //}
-        //#endregion UserDropdown
+        #region UserDropdown
+        public ActionResult UserDropdown(UserViewModel userVM)
+        {
+            userVM.UserID = userVM.ID;
+            //UserViewModel userVM = new UserViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            userVM.userList = new List<SelectListItem>();
+            List<UserViewModel> userList = Mapper.Map<List<SAMTool.DataAccessObject.DTO.User>, List<UserViewModel>>(_userBusiness.GetAllUsers());
+            if (userList != null)
+                foreach (UserViewModel user in userList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = user.LoginName,
+                        Value = user.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            userVM.userList = selectListItem;
+            return PartialView("_UserDropdown", userVM);
+        }
+        #endregion UserDropdown
 
         #region ButtonStyling
         [HttpGet]
