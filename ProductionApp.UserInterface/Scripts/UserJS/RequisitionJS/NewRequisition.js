@@ -6,7 +6,11 @@ var _RequistionDetailList = [];
 $(document).ready(function () {
     debugger;
     try {
-
+        $("#MaterialID").select2({
+            dropdownParent: $("#RequisitionDetailsModal")
+        });
+        $("#EmployeeID").select2({
+        });
         DataTables.RequisitionDetailTable = $('#tblRequisitionDetail').DataTable(
       {
           dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
@@ -209,6 +213,10 @@ function SaveSuccessRequisition(data, status)
             notyAlert("danger", JsonResult.Message)
             break;
     }
+}
+function Reset()
+{
+    BindRequisitionByID();
 }
 function BindRequisitionByID()
 {

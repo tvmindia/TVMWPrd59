@@ -53,5 +53,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public string SearchTerm { get; set; }
         public DataTablePaging DataTablePaging { get; set; }
 
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string ReqStatus { get; set; }
+        public string RequisitionBy { get; set; }
+        public Guid EmployeeID { get; set; }
     }
 }
