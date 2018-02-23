@@ -11,5 +11,8 @@ namespace ProductionApp.RepositoryServices.Contracts
     {
         List<PurchaseOrder> GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch);
         List<PurchaseOrder> GetAllPurchaseOrderForSelectList();
+        object InsertPurchaseOrder(PurchaseOrder PO);
+        PurchaseOrder GetPurchaseOrderByID(Guid ID);
+        List<PurchaseOrderDetail> GetPurchaseOrderDetailByID(Guid ID);
     }
 }

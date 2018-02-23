@@ -34,6 +34,10 @@ namespace ProductionApp.DataAccessObject.DTO
        public string PurchaseOrderIssuedDateFormatted { get; set; }
        public PurchaseOrderDetail PurchaseOrderDetail { get; set; }
        public decimal GrossAmount { get; set; }
+       public List<PurchaseOrderDetail> PODDetail { get; set; }
+       public List<PurchaseOrderDetailRequisitionLink> PODDetailLink { get; set; }
+       public string PODDetailXML { get; set; }
+       public string PODDetailLinkXML { get; set; }
 
     }
     public class PurchaseOrderDetail
@@ -45,10 +49,14 @@ namespace ProductionApp.DataAccessObject.DTO
         public string UnitCode { get; set; }
         public decimal Qty { get; set; }
         public decimal Rate { get; set; }
-        public string TaxType { get; set; }
+        public string TaxTypeCode { get; set; }
         public decimal CGSTAmt { get; set; }
         public decimal SGSTAmt { get; set; }
         public decimal IGSTAmt { get; set;  }
+        public decimal Discount { get; set; }
+        //additional prop
+        public string MaterialCode { get; set; }
+        public decimal Amount { get; set; }
     }
     public class PurchaseOrderOtherCharges
     {
@@ -69,5 +77,13 @@ namespace ProductionApp.DataAccessObject.DTO
         public string ToDate { get; set; }
         public Supplier Supplier { get; set; }
         public string Status { get; set; }
+    }
+    public class PurchaseOrderDetailRequisitionLink
+    {
+        public Guid ID { get; set; }
+        public Guid PurchaseOrderDetailID { get; set; }
+        public Guid ReqDetailID { get; set; }
+        public decimal PurchaseOrderQty { get; set; }
+        public Guid MaterialID { get; set; }
     }
 }

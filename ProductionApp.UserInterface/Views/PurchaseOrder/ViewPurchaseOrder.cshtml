@@ -84,11 +84,11 @@
                             @{
                                 List<SelectListItem> selectListItem = new List<SelectListItem>();
                                 selectListItem.Add(new SelectListItem
+                                { Text = "-------Select Status-------", Value = "", Selected = true });
+                                selectListItem.Add(new SelectListItem
                                 { Text = "Open", Value = "Open", Selected = false });
                                 selectListItem.Add(new SelectListItem
                                 { Text = "Closed", Value = "Closed", Selected = false });
-                                selectListItem.Add(new SelectListItem
-                                { Text = "-------Select Status-------",Value="", Selected = true });
                             }
                             @Html.DropDownListFor(model => model.Status, selectListItem, new { @class = "form-control BlockEnter", value = 0, style = "padding:4px 12px; width:480px" })
                         </div>

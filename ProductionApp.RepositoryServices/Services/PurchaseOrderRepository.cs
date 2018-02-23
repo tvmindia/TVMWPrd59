@@ -129,5 +129,197 @@ namespace ProductionApp.RepositoryServices.Services
             return purchaseOrderList;
         }
         #endregion PurchaseOrder Dropdown
+
+        #region InsertPurchaseOrder
+        public object InsertPurchaseOrder(PurchaseOrder purchaseOrder)
+        {
+            SqlParameter outputStatus, outputID;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[InsertPurchaseOrder]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@PONo", SqlDbType.VarChar, 20).Value = purchaseOrder.PurchaseOrderNo;
+                        cmd.Parameters.Add("@PODate", SqlDbType.DateTime).Value = purchaseOrder.PurchaseOrderDate;
+                        cmd.Parameters.Add("@POIssuedDate", SqlDbType.DateTime).Value = purchaseOrder.PurchaseOrderIssuedDate;
+                        cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = purchaseOrder.SupplierID;
+                        cmd.Parameters.Add("@POTitle", SqlDbType.VarChar, 10).Value = purchaseOrder.PurchaseOrderTitle;
+                        cmd.Parameters.Add("@MailingAddress", SqlDbType.NVarChar, -1).Value = purchaseOrder.MailingAddress;
+                        cmd.Parameters.Add("@ShippingAddress", SqlDbType.NVarChar, -1).Value = purchaseOrder.ShippingAddress;
+                        cmd.Parameters.Add("@MailBodyHeader", SqlDbType.VarChar, 500).Value = purchaseOrder.MailBodyHeader;
+                        cmd.Parameters.Add("@MailBodyFooter", SqlDbType.NVarChar, -1).Value = purchaseOrder.MailBodyFooter;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = purchaseOrder.GeneralNotes;
+                        cmd.Parameters.Add("@POStatus", SqlDbType.VarChar,10).Value = purchaseOrder.PurchaseOrderStatus;
+                        cmd.Parameters.Add("@Discount", SqlDbType.Decimal).Value = purchaseOrder.Discount;
+                        cmd.Parameters.Add("@PODDetailLinkXML", SqlDbType.NVarChar, -1).Value = purchaseOrder.PODDetailLinkXML;
+                        cmd.Parameters.Add("@PODDetailXML", SqlDbType.NVarChar, -1).Value = purchaseOrder.PODDetailXML;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = purchaseOrder.Common.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = purchaseOrder.Common.CreatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        outputID = cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier);
+                        outputID.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                //AppConst Cobj = new AppConst();
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(_appConst.InsertFailure);
+                    case "1":
+                        //success
+                        return new
+                        {
+                            ID = outputID.Value.ToString(),
+                            Status = outputStatus.Value.ToString(),
+                            Message = _appConst.InsertSuccess
+                        };
+                    case "2":
+                        //Exceed the limit
+                        return new
+                        {
+                            Status = outputStatus.Value.ToString(),
+                            Message = _appConst.InsertFailure
+                        };
+
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                ID = outputID.Value.ToString(),
+                Status = outputStatus.Value.ToString(),
+                Message = _appConst.InsertSuccess
+            };
+        }
+        #endregion InsertPurcgaseOrder
+
+        #region GetPurchaseOrderByID
+        public PurchaseOrder GetPurchaseOrderByID(Guid ID)
+        {
+            PurchaseOrder purchaseOrder = new PurchaseOrder();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetPurchaseOrderByID]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    purchaseOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : purchaseOrder.ID);
+                                    purchaseOrder.PurchaseOrderNo = (sdr["PurchaseOrderNo"].ToString() != "" ? sdr["PurchaseOrderNo"].ToString() : purchaseOrder.PurchaseOrderNo);
+                                    purchaseOrder.Supplier = (sdr["Supplier"].ToString() != "" ? sdr["Supplier"].ToString() : purchaseOrder.Supplier);
+                                    purchaseOrder.PurchaseOrderDate = (sdr["PurchaseOrderDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderDate"].ToString()) : purchaseOrder.PurchaseOrderDate);
+                                    purchaseOrder.PurchaseOrderDateFormatted = (sdr["PurchaseOrderDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderDate"].ToString()).ToString(settings.DateFormat) : purchaseOrder.PurchaseOrderDateFormatted);
+                                    purchaseOrder.PurchaseOrderIssuedDate = (sdr["PurchaseOrderIssuedDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderIssuedDate"].ToString()) : purchaseOrder.PurchaseOrderIssuedDate);
+                                    purchaseOrder.PurchaseOrderIssuedDateFormatted = (sdr["PurchaseOrderIssuedDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderIssuedDate"].ToString()).ToString(settings.DateFormat) : purchaseOrder.PurchaseOrderIssuedDateFormatted);
+                                    purchaseOrder.SupplierID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : purchaseOrder.SupplierID);
+                                    purchaseOrder.PurchaseOrderStatus = (sdr["PurchaseOrderStatus"].ToString() != "" ? sdr["PurchaseOrderStatus"].ToString() : purchaseOrder.PurchaseOrderStatus);
+                                    purchaseOrder.PurchaseOrderTitle = (sdr["PurchaseOrderTitle"].ToString() != "" ? sdr["PurchaseOrderTitle"].ToString() : purchaseOrder.PurchaseOrderTitle);
+                                    purchaseOrder.MailingAddress = (sdr["MailingAddress"].ToString() != "" ? sdr["MailingAddress"].ToString() : purchaseOrder.MailingAddress);
+                                    purchaseOrder.ShippingAddress = (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : purchaseOrder.ShippingAddress);
+                                    purchaseOrder.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : purchaseOrder.GeneralNotes);
+                                    purchaseOrder.Discount = (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseOrder.Discount);
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return purchaseOrder;
+        }
+        #endregion GetPurchaseOrderByID
+        #region GetPurchaseOrderDetailsBYID
+        public List<PurchaseOrderDetail> GetPurchaseOrderDetailByID(Guid ID)
+        {
+            List<PurchaseOrderDetail> PODList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetPurchaseOrderDetailsByID]";
+                        cmd.Parameters.Add("@POID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                PODList = new List<PurchaseOrderDetail>();
+                                while (sdr.Read())
+                                {
+                                    PurchaseOrderDetail purchaseOrderDetail = new PurchaseOrderDetail();
+                                    {
+
+                                        purchaseOrderDetail.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : purchaseOrderDetail.ID);
+                                        purchaseOrderDetail.MaterialID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : purchaseOrderDetail.MaterialID);
+                                        purchaseOrderDetail.MaterialDesc = (sdr["MaterialDesc"].ToString() != "" ? sdr["MaterialDesc"].ToString() : purchaseOrderDetail.MaterialDesc);
+                                        purchaseOrderDetail.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : purchaseOrderDetail.MaterialCode);
+                                        purchaseOrderDetail.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : purchaseOrderDetail.UnitCode);
+                                        purchaseOrderDetail.Qty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : purchaseOrderDetail.Qty);
+                                        purchaseOrderDetail.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : purchaseOrderDetail.Rate);
+                                        purchaseOrderDetail.CGSTAmt = (sdr["CGSTAmt"].ToString() != "" ? decimal.Parse(sdr["CGSTAmt"].ToString()) : purchaseOrderDetail.CGSTAmt);
+                                        purchaseOrderDetail.SGSTAmt= (sdr["SGSTAmt"].ToString() != "" ? decimal.Parse(sdr["SGSTAmt"].ToString()) : purchaseOrderDetail.SGSTAmt);
+                                        purchaseOrderDetail.Discount = (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseOrderDetail.Discount);
+                                        purchaseOrderDetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : purchaseOrderDetail.Amount);
+                                    }
+                                    PODList.Add(purchaseOrderDetail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return PODList;
+
+        }
+        #endregion GetPurchaseOrderDetailsBYID
+
     }
 }
