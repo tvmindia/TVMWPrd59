@@ -24,10 +24,12 @@ namespace ProductionApp.DataAccessObject.DTO
         public int FilteredCount { get; set; }
         public DateTime ApprovalDate { get; set; }
         public string ApprovalDateFormatted { get; set; }
+        public Guid hdnFileID { get; set; }
+        public string DetailXML { get; set; }
+
         public Common Common { get; set; }
         public RequisitionDetail RequisitionDetail { get; set; }
         public List<RequisitionDetail> RequisitionDetailList { get; set; }
-        public string DetailXML { get; set; }
 
     }
 

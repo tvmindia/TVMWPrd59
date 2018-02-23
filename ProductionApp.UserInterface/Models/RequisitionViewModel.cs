@@ -30,6 +30,8 @@ namespace ProductionApp.UserInterface.Models
         public bool IsUpdate { get; set; }
 
         //additional properties
+        public Guid hdnFileID { get; set; }
+
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public string DetailJSON { get; set; }

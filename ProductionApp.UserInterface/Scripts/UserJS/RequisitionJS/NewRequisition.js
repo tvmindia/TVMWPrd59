@@ -59,14 +59,14 @@ $(document).ready(function () {
 function ShowRequisitionDetailsModal()
 {
     debugger;
-    $("#MaterialID").val('')
+    $("#MaterialID").val('').select2();
     $('#RequisitionDetail_Material_MaterialCode').val('');
     $('#RequisitionDetail_Material_CurrentStock').val('');
     $('#RequisitionDetail_Description').val('');
     $('#RequisitionDetail_ApproximateRate').val('');
     $('#RequisitionDetail_RequestedQty').val('');
-    $('#RequisitionDetailsModal').modal('show');
 
+    $('#RequisitionDetailsModal').modal('show');
 }
 
 function MaterialEdit(curObj)
@@ -76,7 +76,7 @@ function MaterialEdit(curObj)
 
     var rowData = DataTables.RequisitionDetailTable.row($(curObj).parents('tr')).data();
     BindMaterialDetails(rowData.MaterialID);
-    $("#MaterialID").val(rowData.MaterialID);
+    $("#MaterialID").val(rowData.MaterialID).trigger('change');
     $('#RequisitionDetail_RequestedQty').val(rowData.RequestedQty);
     $('#RequisitionDetail_Description').val(rowData.Description);
 
@@ -227,9 +227,10 @@ function BindRequisitionByID()
     $('#Title').val(result.Title);
     $('#ReqNo').val(result.ReqNo);
     $('#ReqDateFormatted').val(result.ReqDateFormatted);
-    $('#EmployeeID').val(result.EmployeeID);
+    $('#EmployeeID').val(result.EmployeeID).select2();
     $('#ReqStatus').val(result.ReqStatus);
     $('#lblReqNo').text('Requisition# : ' + result.ReqNo);
+    $('#lblReqStatus').text(result.ReqStatus);
     
     //detail Table values binding with header id
     BindRequisitionDetailTable(ID);

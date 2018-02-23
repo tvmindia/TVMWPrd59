@@ -23,6 +23,10 @@ function BindOrReloadRequisitionTable(action) {
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
+                $('#FromDate').val('');
+                $('#ToDate').val('');
+                $('#ReqStatus').val('');
+                $("#EmployeeID").val('').select2();
                 break;
             case 'Init':
                 break;
