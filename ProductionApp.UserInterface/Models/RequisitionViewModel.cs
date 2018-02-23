@@ -31,7 +31,7 @@ namespace ProductionApp.UserInterface.Models
 
         //additional properties
         public Guid hdnFileID { get; set; }
-
+        public string Employee { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public string DetailJSON { get; set; }

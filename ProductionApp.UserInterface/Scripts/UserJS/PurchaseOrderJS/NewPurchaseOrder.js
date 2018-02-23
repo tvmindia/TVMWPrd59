@@ -274,7 +274,7 @@ function BindOrReloadRequisitionListTable(action) {
                  { "data": "ReqDateFormatted", "defaultContent": "<i>-</i>" },
                  { "data": "ReqStatus", "defaultContent": "<i>-</i>" },
                  { "data": "ApprovalDateFormatted", "defaultContent": "<i>-</i>" },
-                 { "data": "RequisitionBy", "defaultContent": "<i>-</i>" }
+                 { "data": "Employee", "defaultContent": "<i>-</i>" }
             ],
             columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 1 }
                 , { className: "text-left", "targets": [2, 3, 7, 6] }
