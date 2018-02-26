@@ -116,7 +116,7 @@ function GetMaterial(ID) {
 function AddRequisitionDetails()
 {
     debugger;
-    if ($("#MaterialID").val() != "")
+    if ($("#MaterialID").val() != "" && $('#RequisitionDetail_RequestedQty').val()!="")
     {
         _RequistionDetail = [];
         RequisitionMaterial = new Object();
@@ -160,7 +160,7 @@ function AddRequisitionDetails()
     }
     else
     {
-        notyAlert('warning', "Material is Empty");
+        notyAlert('warning', "Material and Quantity fields are required ");
     }
 }
 
@@ -357,7 +357,7 @@ function DeleteRequisition() {
             }
             if (ds.Result == "OK") {
                 notyAlert('success', ds.Record.Message);
-               // $('#').load(controllername/actionname)
+                window.location.replace("NewRequisition?code=PURCH");
             }
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);
@@ -370,4 +370,7 @@ function DeleteRequisition() {
         notyAlert('error', e.message);
         return 0;
     }
+}
+
+function PageRefresh() {
 }

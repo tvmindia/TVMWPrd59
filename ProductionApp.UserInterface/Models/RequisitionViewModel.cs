@@ -18,6 +18,7 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Requisition Date required")]
         public DateTime ReqDate { get; set; }
         [Display(Name = "Requisition Date")]
+        [Required(ErrorMessage = "Requisition Date required")]
         public string ReqDateFormatted { get; set; }
         [Display(Name = "Requisition Status")]
         public string ReqStatus { get; set; }
