@@ -190,7 +190,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         requisition.ReqDateFormatted = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()).ToString(settings.DateFormat) : requisition.ReqDateFormatted);
                                         requisition.Title = (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : requisition.Title);
                                         requisition.ReqStatus = (sdr["ReqStatus"].ToString() != "" ? sdr["ReqStatus"].ToString() : requisition.ReqStatus);
-                                        requisition.Employee = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : requisition.Employee);
+                                        requisition.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : requisition.RequisitionBy);
                                         requisition.ApprovalDate = (sdr["ApprovalDate"].ToString() != "" ? DateTime.Parse(sdr["ApprovalDate"].ToString()) : requisition.ApprovalDate);
                                         requisition.ApprovalDateFormatted = (sdr["ApprovalDate"].ToString() != "" ? DateTime.Parse(sdr["ApprovalDate"].ToString()).ToString(settings.DateFormat) : requisition.ApprovalDateFormatted);
                                         requisition.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : requisition.TotalCount);
@@ -302,7 +302,6 @@ namespace ProductionApp.RepositoryServices.Services
                                     requisition.ReqStatus = (sdr["ReqStatus"].ToString() != "" ? sdr["ReqStatus"].ToString() : requisition.ReqStatus);
                                     requisition.EmployeeID = (sdr["EmployeeID"].ToString() != "" ? Guid.Parse(sdr["EmployeeID"].ToString()) : requisition.EmployeeID);
                                     requisition.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : requisition.RequisitionBy);
-                                    requisition.Employee = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : requisition.Employee);
                                 }
                             }
                         }
