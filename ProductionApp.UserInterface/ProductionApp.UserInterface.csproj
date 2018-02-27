@@ -832,6 +832,8 @@
     <Content Include="Views\DocumentApproval\ViewPendingDocuments.cshtml" />
     <Content Include="Views\IssueToProduction\ListIssueToProduction.cshtml" />
     <Content Include="Views\DocumentApproval\ApproveDocument.cshtml" />
+    <Content Include="Views\DocumentApproval\_ApprovalHistory.cshtml" />
+    <Content Include="Views\DocumentApproval\_DocumentSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
