@@ -11,6 +11,22 @@ $(document).ready(function () {
         });
         $("#EmployeeID").select2({
         });
+
+        $('#btnUpload').click(function () {
+            debugger;
+            //Pass the controller name
+            var FileObject = new Object;
+            if ($('#hdnFileDupID').val() != EmptyGuid) {
+                FileObject.ParentID = (($('#ID').val()) != EmptyGuid ? ($('#ID').val()) : $('#hdnFileDupID').val());
+            }
+            else {
+                FileObject.ParentID = ($('#ID').val() == EmptyGuid) ? "" : $('#ID').val();
+            }
+            FileObject.ParentType = "Requisition";
+            FileObject.Controller = "FileUpload";
+            UploadFile(FileObject);
+        });
+
         DataTables.RequisitionDetailTable = $('#tblRequisitionDetail').DataTable(
       {
           dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
@@ -22,12 +38,12 @@ $(document).ready(function () {
           columns: [
           { "data": "ID", "defaultContent": "<i></i>" },
           { "data": "MaterialID", "defaultContent": "<i></i>" },
-          { "data": "Material.MaterialCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
-          { "data": "Description", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
+          { "data": "Material.MaterialCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "10%" },
+          { "data": "Description", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "43%" },
           { "data": "Material.CurrentStock", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
           { "data": "RequestedQty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
           { "data": "ApproximateRate", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>" },
-          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a> | <a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>' },
+          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
           ],
           columnDefs: [{ "targets": [0,1], "visible": false, searchable: false },
               { className: "text-center", "targets": [7],"width": "7%" },
@@ -231,9 +247,11 @@ function BindRequisitionByID()
     $('#ReqStatus').val(result.ReqStatus);
     $('#lblReqNo').text('Requisition# : ' + result.ReqNo);
     $('#lblReqStatus').text(result.ReqStatus);
+    $('#lblApprovalStatus').text(result.ApprovalStatus);
     
     //detail Table values binding with header id
     BindRequisitionDetailTable(ID);
+    PaintImages(ID);//bind attachments
 }
 
 function GetRequisitionByID(ID)

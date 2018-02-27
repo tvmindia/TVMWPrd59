@@ -59,8 +59,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateRequisition
         [HttpPost]
-       // [ValidateAntiForgeryToken]
-       // [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]
         public string InsertUpdateRequisition(RequisitionViewModel requisitionVM)
         {
             try
@@ -90,6 +89,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion InsertUpdateRequisition
 
         #region GetAllRequisition
+        [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]
         public JsonResult GetAllRequisition(DataTableAjaxPostModel model, RequisitionAdvanceSearchViewModel requisitionAdvanceSearchVM) 
         {
             requisitionAdvanceSearchVM.DataTablePaging.Start = model.start;
@@ -110,6 +110,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetAllRequisition
 
         #region GetRequisition
+        [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]
         public string GetRequisition(string ID)
         {
             try
@@ -127,6 +128,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetRequisition
 
         #region GetRequisitionDetail
+        [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]
         public string GetRequisitionDetail(string ID)
         {
             try
@@ -144,6 +146,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetRequisitionDetail
 
         #region GetMaterial
+        [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]
         public string GetMaterial(string ID)
         {
             try
@@ -160,6 +163,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetMaterial
 
         #region DeleteRequisitionDetail
+        [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "D")]
         public string DeleteRequisitionDetail(string ID)
         {
             object result = null;
@@ -184,6 +188,7 @@ namespace ProductionApp.UserInterface.Controllers
 
 
         #region DeleteRequisition
+        [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "D")]
         public string DeleteRequisition(string ID)
         {
             object result = null;

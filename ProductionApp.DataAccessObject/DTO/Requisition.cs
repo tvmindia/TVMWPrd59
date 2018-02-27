@@ -18,6 +18,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid EmployeeID { get; set; }
         public Guid LatestApprovalID { get; set; }
         public int LatestApprovalStatus { get; set; }
+        public string ApprovalStatus { get; set; }
+
         public bool IsFinalApproved { get; set; }
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }

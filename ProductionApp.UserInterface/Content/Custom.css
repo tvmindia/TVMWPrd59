@@ -829,6 +829,10 @@ color: #e32;
     margin-right:45%
 
 }
+.lblStatusDisplay{
+    font-weight:bold;
+    font-size:22px;
+}
 
 .rightAmt {
     font-family:'Times New Roman';
