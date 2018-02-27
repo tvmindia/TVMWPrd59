@@ -44,9 +44,9 @@ namespace ProductionApp.BusinessService.Services
             requisition.DetailXML = result;
         }
 
-       public List<Requisition> GetAllRequisitionForPurchaseOrder(RequisitionAdvanceSearch requisitionAdvanceSearch)
+        public List<Requisition> GetAllRequisitionForPurchaseOrder()
         {
-            return _requisitionRepository.GetAllRequisitionForPurchaseOrder(requisitionAdvanceSearch);
+            return _requisitionRepository.GetAllRequisitionForPurchaseOrder();
         }
         public List<RequisitionDetail> GetRequisitionDetailsByIDs(string IDs, string POID)
         {

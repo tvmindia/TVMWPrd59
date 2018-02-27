@@ -28,25 +28,32 @@ namespace ProductionApp.UserInterface.Controllers
             _requisitionBusiness = requisitionBusiness;
             _taxTypeBusiness = taxTypeBusiness;
         }
+
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public ActionResult ViewPurchaseOrder(string code)
         {
             ViewBag.SysModuleCode = code;
             return View();
         }
+
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
-        public ActionResult NewPurchaseOrder(string code)
+        public ActionResult NewPurchaseOrder(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
             PurchaseOrderViewModel purchaseOrderVM = new PurchaseOrderViewModel();
-            return View();
+
+            purchaseOrderVM.ID = id == null ? Guid.Empty : (Guid)id;
+                
+            return View(purchaseOrderVM);
         }
+
         #region InsertPurchaseOrder
         [HttpPost]
         public string InsertPurchaseOrder(PurchaseOrderViewModel purchaseOrderVM)
         {
             try
             {
+                object result = null;
                 AppUA appUA = Session["AppUA"] as AppUA;
                 purchaseOrderVM.Common = new CommonViewModel
                 {
@@ -55,10 +62,11 @@ namespace ProductionApp.UserInterface.Controllers
                     UpdatedBy = appUA.UserName,
                     UpdatedDate = _common.GetCurrentDateTime(),
                 };
-                //object ResultFromJS = JsonConvert.DeserializeObject(purchaseOrderVM.PurchaseOrderDetail);
-                //string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
-               // purchaseOrderVM.RequisitionDetailList = JsonConvert.DeserializeObject<List<RequisitionDetailViewModel>>(ReadableFormat);
-                var result = _purchaseOrderBusiness.InsertPurchaseOrder(Mapper.Map<PurchaseOrderViewModel, PurchaseOrder>(purchaseOrderVM));
+                
+                if (purchaseOrderVM.ID==Guid.Empty)
+                    result = _purchaseOrderBusiness.InsertPurchaseOrder(Mapper.Map<PurchaseOrderViewModel, PurchaseOrder>(purchaseOrderVM));
+                else
+                    result = _purchaseOrderBusiness.UpdatePurchaseOrder(Mapper.Map<PurchaseOrderViewModel, PurchaseOrder>(purchaseOrderVM));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
             catch (Exception ex)
@@ -68,8 +76,50 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion InsertPurchaseOrder
-        #region GetPurchaseOrderByID
+
+        #region UpdatePurchaseOrderDetailLink
+        public string UpdatePurchaseOrderDetailLink(PurchaseOrderViewModel purchaseOrderVM)
+        {
+            try
+            {
+                object result = null;
+                AppUA appUA = Session["AppUA"] as AppUA;
+                purchaseOrderVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                    result = _purchaseOrderBusiness.UpdatePurchaseOrderDetailLink(Mapper.Map<PurchaseOrderViewModel, PurchaseOrder>(purchaseOrderVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion UpdatePurchaseOrderDetailLink
+
+        #region EditPurchaseOrderDetail
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
+        public string EditPurchaseOrderDetail(string ID)
+        {
+            try
+            {
+                PurchaseOrderDetailViewModel purchaseOrderVM = Mapper.Map<PurchaseOrderDetail, PurchaseOrderDetailViewModel>(_purchaseOrderBusiness.GetPurchaseOrderDetailByIDForEdit(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+        #endregion EditPurchaseOrderDetail
         
+        #region GetPurchaseOrderByID
+
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public string GetPurchaseOrderByID(string ID)
         {
@@ -83,6 +133,7 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion GetPurchaseOrderByID
+
         #region GetPurchaseOrderDetailTableByID
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public string GetPurchaseOrderDetailByID(string ID)
@@ -97,6 +148,7 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion GetPurchaseOrderDetailTableByID
+
         #region GetAllPurchaseOrder
         [HttpPost]
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
@@ -119,24 +171,19 @@ namespace ProductionApp.UserInterface.Controllers
         });
         }
         #endregion GetAllPurchaseOrder
+
         #region GetAllRequisitionForPurchaseOrder
-        public JsonResult GetAllRequisitionForPurchaseOrder(DataTableAjaxPostModel model, RequisitionAdvanceSearchViewModel requisitionAdvanceSearchVM)
+        public string GetAllRequisitionForPurchaseOrder()
         {
-            requisitionAdvanceSearchVM.DataTablePaging.Start = model.start;
-            requisitionAdvanceSearchVM.DataTablePaging.Length = (requisitionAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : requisitionAdvanceSearchVM.DataTablePaging.Length);
-            List<RequisitionViewModel> requisitionOrderList = Mapper.Map<List<Requisition>, List<RequisitionViewModel>>(_requisitionBusiness.GetAllRequisitionForPurchaseOrder(Mapper.Map<RequisitionAdvanceSearchViewModel, RequisitionAdvanceSearch>(requisitionAdvanceSearchVM)));
-
-
-            return Json(new
+            try { 
+            List<RequisitionViewModel> requisitionOrderList = Mapper.Map<List<Requisition>, List<RequisitionViewModel>>(_requisitionBusiness.GetAllRequisitionForPurchaseOrder());
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = requisitionOrderList });
+            }
+            catch (Exception ex)
             {
-                draw = model.draw,
-                recordsTotal = requisitionOrderList.Count != 0 ? requisitionOrderList[0].TotalCount : 0,
-                recordsFiltered = requisitionOrderList.Count != 0 ? requisitionOrderList[0].FilteredCount : 0,
-                data = requisitionOrderList
-            });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
         }
-
-
         #endregion GetAllRequisitionForPurchaseOrder
 
         #region GetRequisitionDetailsByIDs
@@ -154,7 +201,49 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion GetRequisitionDetailsByIDs
+       
+        #region DeletePurchaseOrder
+        public string DeletePurchaseOrder(string ID)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _purchaseOrderBusiness.DeletePurchaseOrder(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion DeletePurchaseOrder
 
+        #region DeletePurchaseOrderDetail
+        public string DeletePurchaseOrderDetail(string ID)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _purchaseOrderBusiness.DeletePurchaseOrderDetail(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion DeletePurchaseOrderDetail
+        
         #region TaxTypeByDesc
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public string GetTaxtype(string Code)
@@ -193,9 +282,10 @@ namespace ProductionApp.UserInterface.Controllers
             return PartialView("_PurchaseOrderDropdown", purchaseOrderVM);
         }
         #endregion
+
         #region ButtonStyling
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();
@@ -225,27 +315,24 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Event = "openNav();";
+                    toolboxVM.addbtn.Href = Url.Action("NewPurchaseOrder", "PurchaseOrder", new { code = "PURCH" });
+                    toolboxVM.addbtn.Event = "";
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
-                    toolboxVM.savebtn.Title = "Save Bank";
+                    toolboxVM.savebtn.Title = "Save PurchaseOrder";
                     toolboxVM.savebtn.Event = "Save();";
 
                     toolboxVM.deletebtn.Visible = true;
                     toolboxVM.deletebtn.Text = "Delete";
-                    toolboxVM.deletebtn.Title = "Delete Bank";
-                    toolboxVM.deletebtn.Event = "Delete()";
+                    toolboxVM.deletebtn.Title = "Delete PurchaseOrder";
+                    toolboxVM.deletebtn.Event = "DeleteClick()";
 
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset";
                     toolboxVM.resetbtn.Event = "Reset();";
 
-                    toolboxVM.CloseBtn.Visible = true;
-                    toolboxVM.CloseBtn.Text = "Close";
-                    toolboxVM.CloseBtn.Title = "Close";
-                    toolboxVM.CloseBtn.Event = "closeNav();";
 
                     break;
                 case "Add":

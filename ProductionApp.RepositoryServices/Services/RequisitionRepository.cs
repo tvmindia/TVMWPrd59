@@ -156,7 +156,7 @@ namespace ProductionApp.RepositoryServices.Services
         }
 
         #region GetAllrequisition For purchaseOrder
-        public List<Requisition> GetAllRequisitionForPurchaseOrder(RequisitionAdvanceSearch requisitionAdvanceSearch)
+        public List<Requisition> GetAllRequisitionForPurchaseOrder()
         {
             List<Requisition> requisitionList = null;
             try
@@ -171,11 +171,6 @@ namespace ProductionApp.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetAllRequsitionForPurchaseOrder]";
-                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = requisitionAdvanceSearch.DataTablePaging.Start;
-                        if (requisitionAdvanceSearch.DataTablePaging.Length == -1)
-                            cmd.Parameters.AddWithValue("@Length", DBNull.Value);
-                        else
-                            cmd.Parameters.Add("@Length", SqlDbType.Int).Value = requisitionAdvanceSearch.DataTablePaging.Length;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -192,11 +187,9 @@ namespace ProductionApp.RepositoryServices.Services
                                         requisition.ReqDateFormatted = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()).ToString(settings.DateFormat) : requisition.ReqDateFormatted);
                                         requisition.Title = (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : requisition.Title);
                                         requisition.ReqStatus = (sdr["ReqStatus"].ToString() != "" ? sdr["ReqStatus"].ToString() : requisition.ReqStatus);
-                                        requisition.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : requisition.RequisitionBy);
+                                        requisition.RequisitionBy = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : requisition.RequisitionBy);
                                         requisition.ApprovalDate = (sdr["ApprovalDate"].ToString() != "" ? DateTime.Parse(sdr["ApprovalDate"].ToString()) : requisition.ApprovalDate);
                                         requisition.ApprovalDateFormatted = (sdr["ApprovalDate"].ToString() != "" ? DateTime.Parse(sdr["ApprovalDate"].ToString()).ToString(settings.DateFormat) : requisition.ApprovalDateFormatted);
-                                        requisition.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : requisition.TotalCount);
-                                        requisition.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : requisition.FilteredCount);
                                     }
                                     requisitionList.Add(requisition);
                                 }
@@ -213,6 +206,7 @@ namespace ProductionApp.RepositoryServices.Services
             return requisitionList;
         }
         #endregion GetAllrequisition For purchaseOrder
+
         #region GetRequisitionDetailsByID
         public List<RequisitionDetail> GetRequisitionDetailsByIDs(string IDs, string POID)
         {

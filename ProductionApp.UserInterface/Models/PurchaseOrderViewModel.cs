@@ -13,9 +13,9 @@ namespace ProductionApp.UserInterface.Models
             public Guid ID { get; set; }
             [Display(Name = "PO Number")]
             public string PurchaseOrderNo { get; set; }
-            [Display(Name = "PO Dtae")]
+            [Display(Name = "PO Date")]
             public DateTime PurchaseOrderDate { get; set; }
-            [Display(Name = "PO Issued Dtae")]
+            [Display(Name = "PO Issued Date")]
             public DateTime PurchaseOrderIssuedDate { get; set; }
             public Guid SupplierID { get; set; }
             [Display(Name = "PO Title")]
@@ -79,6 +79,7 @@ namespace ProductionApp.UserInterface.Models
             //additional prop
             public string MaterialCode { get; set; }
             public decimal Amount { get; set; }
+            public RequisitionDetailViewModel RequisitionDetail { get; set; }
     }
         public class PurchaseOrderOtherChargesViewModel
         {

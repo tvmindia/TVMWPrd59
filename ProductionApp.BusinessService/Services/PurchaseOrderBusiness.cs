@@ -32,29 +32,39 @@ namespace ProductionApp.BusinessService.Services
             return _purchaseOrderRepository.InsertPurchaseOrder(purchaseOrder);
 
         }
-        public void DetailsXMl(PurchaseOrder PO)
+        public void DetailsXMl(PurchaseOrder purchaseOrder)
         {
             string result = "<Details>";
             int totalRows = 0;
-            foreach (object some_object in PO.PODDetail)
+            foreach (object some_object in purchaseOrder.PODDetail)
             {
                 _commonBusiness.XML(some_object, ref result, ref totalRows);
             }
             result = result + "</Details>";
 
-            PO.PODDetailXML = result;
+            purchaseOrder.PODDetailXML = result;
 
             //reqDetailLink
             result = "<Details>";
             totalRows = 0;
-            foreach (object some_object in PO.PODDetailLink)
+            foreach (object some_object in purchaseOrder.PODDetailLink)
             {
                 _commonBusiness.XML(some_object, ref result, ref totalRows);
             }
             result = result + "</Details>";
 
-            PO.PODDetailLinkXML = result;
+            purchaseOrder.PODDetailLinkXML = result;
 
+        }
+        public object UpdatePurchaseOrder(PurchaseOrder purchaseOrder)
+        {
+            DetailsXMl(purchaseOrder);
+            return _purchaseOrderRepository.UpdatePurchaseOrder(purchaseOrder);
+        }
+        public object UpdatePurchaseOrderDetailLink(PurchaseOrder purchaseOrder)
+        {
+            DetailsXMl(purchaseOrder);
+            return _purchaseOrderRepository.UpdatePurchaseOrderDetailLink(purchaseOrder);
         }
         public PurchaseOrder GetPurchaseOrderByID(Guid ID)
         {
@@ -63,6 +73,18 @@ namespace ProductionApp.BusinessService.Services
         public List<PurchaseOrderDetail> GetPurchaseOrderDetailByID(Guid ID)
         {
             return _purchaseOrderRepository.GetPurchaseOrderDetailByID(ID);
+        }
+        public PurchaseOrderDetail GetPurchaseOrderDetailByIDForEdit(Guid ID)
+        {
+            return _purchaseOrderRepository.GetPurchaseOrderDetailByIDForEdit(ID);
+        }
+        public object DeletePurchaseOrder(Guid ID)
+        {
+            return _purchaseOrderRepository.DeletePurchaseOrder(ID);
+        }
+        public object DeletePurchaseOrderDetail(Guid ID)
+        {
+            return _purchaseOrderRepository.DeletePurchaseOrderDetail(ID);
         }
     }
 }
