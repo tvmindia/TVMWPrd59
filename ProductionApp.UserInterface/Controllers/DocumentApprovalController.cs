@@ -14,12 +14,24 @@ namespace ProductionApp.UserInterface.Controllers
 {
     public class DocumentApprovalController : Controller
     {
-
+        private IDocumentApprovalBusiness _documentApprovalBusiness;
         Common _common = new Common();
         AppConst _appConst = new AppConst();
+
+        public DocumentApprovalController(IDocumentApprovalBusiness documentApprovalBusiness)
+        {
+            _documentApprovalBusiness = documentApprovalBusiness;
+        }
+
         // GET: DocumentApproval
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
         public ActionResult ViewPendingDocuments(string code)
+        {
+            ViewBag.SysModuleCode = code;
+            return View();
+        }
+
+        public ActionResult ApproveDocument(string code)
         {
             ViewBag.SysModuleCode = code;
             return View();

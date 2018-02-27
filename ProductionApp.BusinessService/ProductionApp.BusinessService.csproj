@@ -45,6 +45,7 @@
     <Compile Include="Contracts\IBankBusiness.cs" />
     <Compile Include="Contracts\ICommonBusiness.cs" />
     <Compile Include="Contracts\IDashboardStoreBusiness.cs" />
+    <Compile Include="Contracts\IDocumentApprovalBusiness.cs" />
     <Compile Include="Contracts\IDocumentTypeBusiness.cs" />
     <Compile Include="Contracts\IDynamicUIBusiness.cs" />
     <Compile Include="Contracts\IEmployeeBusiness.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Services\BankBusiness.cs" />
     <Compile Include="Services\CommonBusiness.cs" />
     <Compile Include="Services\DashboardStoreBusiness.cs" />
+    <Compile Include="Services\DocumentApprovalBusiness.cs" />
     <Compile Include="Services\DocumentTypeBusiness.cs" />
     <Compile Include="Services\DynamicUIBusiness.cs" />
     <Compile Include="Services\EmployeeBusiness.cs" />
