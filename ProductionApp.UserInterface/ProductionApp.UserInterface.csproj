@@ -692,6 +692,7 @@
     <Compile Include="Controllers\DashboardMasterController.cs" />
     <Compile Include="Controllers\DashboardSaleController.cs" />
     <Compile Include="Controllers\DashboardSettingsController.cs" />
+    <Compile Include="Controllers\DocumentApprovalController.cs" />
     <Compile Include="Controllers\DocumentTypeController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
@@ -728,6 +729,7 @@
     <Compile Include="Models\CommonViewModel.cs" />
     <Compile Include="Models\DataTableAjaxPostModel.cs" />
     <Compile Include="Models\DataTablePagingViewModel.cs" />
+    <Compile Include="Models\DocumentApprovalViewModel.cs" />
     <Compile Include="Models\DocumentTypeViewModel.cs" />
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
@@ -824,6 +826,8 @@
     <Content Include="Views\MaterialType\_AddMaterialTypePartial.cshtml" />
     <Content Include="Views\MaterialType\Index.cshtml" />
     <Content Include="Views\User\_UserDropdown.cshtml" />
+    <Content Include="Views\DocumentApproval\Index.cshtml" />
+    <Content Include="Views\DocumentApproval\ViewPendingDocuments.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
