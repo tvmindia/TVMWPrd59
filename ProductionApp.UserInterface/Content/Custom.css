@@ -62,9 +62,9 @@ a.button {
   padding: 8px 8px 8px 10px;
   outline: none;
   border-radius: 25%;
-  background: #015e9a;
+  background: #0597c7;
   color: #fff;
-  font-size: 26px;
+  font-size: 20px;
   display: block;
   z-index:2018;
   position: fixed;
@@ -76,7 +76,8 @@ a.button {
 }
 a.button:hover {
   text-decoration: none;
-  background: #2198ff;
+  background: #0780a8;
+  cursor:pointer;
 }
 /*a.button.active {
   transform: rotate(135deg);
