@@ -1051,3 +1051,8 @@ td.totalRow {
     top: 0!important;
     z-index: 1030!important;
 }
+
+
+.advanceFilterLink {
+    color:#01abe3;
+}
