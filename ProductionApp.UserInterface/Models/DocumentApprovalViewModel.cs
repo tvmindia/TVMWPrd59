@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -35,6 +36,19 @@ namespace ProductionApp.UserInterface.Models
         object DataTable { get; set; }
     }
 
+    public class DocumentApprovalAdvanceSearchViewModel
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
+        [Display(Name = "Document Date From")]
+        public string FromDate { get; set; }
+        [Display(Name = "Document Date To")]
+        public string ToDate { get; set; }
+        [Display(Name = "Document Type")]
+        public DocumentTypeViewModel DocumentType { get; set; }
+      
 
+    }
 
 }
