@@ -433,6 +433,7 @@ background-image: -o-linear-gradient(top, #ffffff, #eeeeee);*/
 .control-label {
     font-weight:400!important;
     font-size:13px;
+        padding-top: 10px;
 }
 
 
