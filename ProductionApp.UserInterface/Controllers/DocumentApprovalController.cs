@@ -36,5 +36,16 @@ namespace ProductionApp.UserInterface.Controllers
             ViewBag.SysModuleCode = code;
             return View();
         }
+
+        public ActionResult ApprovalHistory()
+        {
+            ApprovalHistoryViewModel approvalHistoryVM = new ApprovalHistoryViewModel();
+            return PartialView("_ApprovalHistory", approvalHistoryVM);
+        }
+        public ActionResult DocumentSummary()
+        {
+            DocumentSummaryViewModel documentSummaryVM = new DocumentSummaryViewModel();
+            return PartialView("_DocumentSummary", documentSummaryVM);
+        }
     }
 }

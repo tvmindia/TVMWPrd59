@@ -25,4 +25,16 @@ namespace ProductionApp.UserInterface.Models
         public int LatestDocumentStatus { get; set; }
         public Boolean IsNextApprover { get; set; }
     }
+
+    public class ApprovalHistoryViewModel
+    {
+
+    }
+    public class DocumentSummaryViewModel
+    {
+        object DataTable { get; set; }
+    }
+
+
+
 }
