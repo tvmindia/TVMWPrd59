@@ -18,6 +18,7 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Requisition Date required")]
         public DateTime ReqDate { get; set; }
         [Display(Name = "Requisition Date")]
+        [Required(ErrorMessage = "Requisition Date required")]
         public string ReqDateFormatted { get; set; }
         [Display(Name = "Requisition Status")]
         public string ReqStatus { get; set; }
@@ -25,13 +26,13 @@ namespace ProductionApp.UserInterface.Models
         public string RequisitionBy { get; set; }
         public Guid EmployeeID { get; set; }
         public Guid LatestApprovalID { get; set; }
+        public string ApprovalStatus { get; set; }
         public int LatestApprovalStatus { get; set; }
         public bool IsFinalApproved { get; set; }
         public bool IsUpdate { get; set; }
 
         //additional properties
         public Guid hdnFileID { get; set; }
-        public string Employee { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public string DetailJSON { get; set; }

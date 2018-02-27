@@ -11,8 +11,13 @@ namespace ProductionApp.RepositoryServices.Contracts
     {
         List<PurchaseOrder> GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch);
         List<PurchaseOrder> GetAllPurchaseOrderForSelectList();
-        object InsertPurchaseOrder(PurchaseOrder PO);
+        object InsertPurchaseOrder(PurchaseOrder purchaseOrder);
+        object UpdatePurchaseOrder(PurchaseOrder purchaseOrder);
         PurchaseOrder GetPurchaseOrderByID(Guid ID);
         List<PurchaseOrderDetail> GetPurchaseOrderDetailByID(Guid ID);
+        PurchaseOrderDetail GetPurchaseOrderDetailByIDForEdit(Guid ID);
+        object DeletePurchaseOrder(Guid ID);
+        object DeletePurchaseOrderDetail(Guid ID);
+        object UpdatePurchaseOrderDetailLink(PurchaseOrder purchaseOrder);
     }
 }

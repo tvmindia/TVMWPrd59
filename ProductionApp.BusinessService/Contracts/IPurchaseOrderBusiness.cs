@@ -12,7 +12,12 @@ namespace ProductionApp.BusinessService.Contracts
         List<PurchaseOrder> GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch);
         List<PurchaseOrder> GetAllPurchaseOrderForSelectList();
         object InsertPurchaseOrder(PurchaseOrder purchaseOrder);
+        object UpdatePurchaseOrder(PurchaseOrder purchaseOrder);
+        object UpdatePurchaseOrderDetailLink(PurchaseOrder purchaseOrder);
         PurchaseOrder GetPurchaseOrderByID(Guid ID);
         List<PurchaseOrderDetail> GetPurchaseOrderDetailByID(Guid ID);
+        PurchaseOrderDetail GetPurchaseOrderDetailByIDForEdit(Guid ID);
+        object DeletePurchaseOrder(Guid ID);
+        object DeletePurchaseOrderDetail(Guid ID);
     }
 }
