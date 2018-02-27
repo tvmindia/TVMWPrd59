@@ -12,10 +12,8 @@ $(document).ready(function () {
         $("#IssuedBy").select2({
             placeholder: "Select Employee..",
 
-        });
-        //$("#materialSearch").select2({
-        //    dropdownParent: $("#AddIssueToProductionItemModal")
-        //});
+        });       
+        $("#MaterialID").select2({ dropdownParent: $("#AddIssueToProductionItemModal") });
 
         DataTables.MaterialIssueDetailTable = $('#tblIssueToProductionDetail').DataTable(
      {
@@ -140,8 +138,7 @@ function AddIssueToProductItem()
                 for(var i=0; i< allData.length;i++)
                 {
                     if (allData[i].MaterialID == $('#MaterialID').val())
-                    {
-                        //allData[i].MaterialCode = $('#MaterialIssueDetail_MaterialCode').val();
+                    {                       
                         allData[i].MaterialDesc = $('#MaterialIssueDetail_MaterialDesc').val();
                         allData[i].UnitCode = $('#MaterialIssueDetail_UnitCode').val();
                         allData[i].Qty = $('#MaterialIssueDetail_Qty').val();
@@ -256,9 +253,7 @@ function DeleteIssueToProduction()
                 ds = JSON.parse(ds);
             }
             if (ds.Result == "OK") {
-                notyAlert('success', ds.Record.Message);
-                
-                // $('#').load(controllername/actionname)
+                notyAlert('success', ds.Record.Message);                               
             }
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);

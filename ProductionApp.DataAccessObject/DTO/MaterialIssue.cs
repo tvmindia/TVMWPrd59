@@ -24,6 +24,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public string IssuedByEmployeeName { get; set; }
         public Employee Employee { get; set; }
         public string DetailXML { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
 
         public List<MaterialIssue> MaterialIssueList { get; set; }
     }
@@ -46,6 +48,14 @@ namespace ProductionApp.DataAccessObject.DTO
     {
         public string SearchTerm { get; set; }
         public DataTablePaging DataTablePaging { get; set; }
+
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public Guid IssuedBy { get; set; }
+        public Guid IssueTo { get; set; }
+        public string IssuedByEmployeeName { get; set; }
+        public string IssueToEmployeeName { get; set; }     
+        public Employee Employee { get; set; }
     }
 }
 

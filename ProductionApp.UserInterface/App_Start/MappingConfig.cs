@@ -62,6 +62,7 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<MaterialStockAdjViewModel, MaterialStockAdj>().ReverseMap();
                 config.CreateMap<MaterialReceiptViewModel, MaterialReceipt>().ReverseMap();
                 config.CreateMap<MaterialReceiptAdvanceSearchViewModel, MaterialReceiptAdvanceSearch>().ReverseMap();
+                config.CreateMap<MaterialIssueAdvanceSearchViewModel, MaterialIssueAdvanceSearch>().ReverseMap();
             });
         }
     }

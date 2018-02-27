@@ -22,6 +22,70 @@ namespace ProductionApp.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
 
+
+        #region GetAllIssueToProduction
+        public List<MaterialIssue> GetAllIssueToProduction(MaterialIssueAdvanceSearch materialIssueAdvanceSearch)
+        {
+            List<MaterialIssue> materialIssueList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetAllIssueToProduction]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(materialIssueAdvanceSearch.SearchTerm)?"": materialIssueAdvanceSearch.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = materialIssueAdvanceSearch.DataTablePaging.Start;
+                        if (materialIssueAdvanceSearch.DataTablePaging.Length == -1)
+                            cmd.Parameters.AddWithValue("@Length", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@Length", SqlDbType.Int).Value = materialIssueAdvanceSearch.DataTablePaging.Length;
+                            cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = materialIssueAdvanceSearch.FromDate;
+                            cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = materialIssueAdvanceSearch.ToDate;
+                        if (materialIssueAdvanceSearch.IssuedBy != Guid.Empty)
+                            cmd.Parameters.Add("@IssuedBy", SqlDbType.UniqueIdentifier).Value = materialIssueAdvanceSearch.IssuedBy;
+                        if (materialIssueAdvanceSearch.IssueTo != Guid.Empty)
+                            cmd.Parameters.Add("@IssueTo", SqlDbType.UniqueIdentifier).Value = materialIssueAdvanceSearch.IssueTo;
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                materialIssueList = new List<MaterialIssue>();
+                                while(sdr.Read())
+                                {
+                                    MaterialIssue materialIssue = new MaterialIssue();
+                                    {
+                                        materialIssue.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : materialIssue.ID);
+                                        materialIssue.IssueNo = (sdr["IssueNo"].ToString() != "" ? sdr["IssueNo"].ToString() : materialIssue.IssueNo);
+                                        materialIssue.IssueDate = (sdr["IssueDate"].ToString() != "" ? DateTime.Parse(sdr["IssueDate"].ToString()) : materialIssue.IssueDate);
+                                        materialIssue.IssueDateFormatted = (sdr["IssueDate"].ToString() != "" ? DateTime.Parse(sdr["IssueDate"].ToString()).ToString(settings.DateFormat) : materialIssue.IssueDateFormatted);                                  
+                                        materialIssue.IssueToEmployeeName = (sdr["IssueToEmployeeName"].ToString() != "" ? sdr["IssueToEmployeeName"].ToString() : materialIssue.IssueToEmployeeName);
+                                        materialIssue.IssuedByEmployeeName = (sdr["IssuedByEmployeeName"].ToString() != "" ? sdr["IssuedByEmployeeName"].ToString() : materialIssue.IssuedByEmployeeName);
+                                        materialIssue.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : materialIssue.TotalCount);
+                                        materialIssue.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : materialIssue.FilteredCount);
+                                    }
+                                    materialIssueList.Add(materialIssue);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return materialIssueList;
+         }
+
+        #endregion
         #region InsertUpdateIssueToProduction
         public object InsertUpdateIssueToProduction(MaterialIssue materialIssue)
         {

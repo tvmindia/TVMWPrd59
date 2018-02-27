@@ -20,10 +20,10 @@ namespace ProductionApp.BusinessService.Services
             _commonBusiness = commonBusiness;
         }
 
-        //    //public List<MaterialIssue> GetAllIssueToProduction(MaterialIssueAdvanceSearch materialAdvanceSearch)
-        //    //{
-        //    //    return _issueToProductionRepository.GetAllIssueToProduction(materialAdvanceSearch);
-        //    //}
+        public List<MaterialIssue> GetAllIssueToProduction(MaterialIssueAdvanceSearch materialIssueAdvanceSearch)
+        {
+            return _issueToProductionRepository.GetAllIssueToProduction(materialIssueAdvanceSearch);
+        }
 
         public object InsertUpdateIssueToProduction(MaterialIssue materialIssue)
         {

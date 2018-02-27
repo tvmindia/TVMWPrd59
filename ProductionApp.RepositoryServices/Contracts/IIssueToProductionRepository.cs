@@ -9,7 +9,7 @@ namespace ProductionApp.RepositoryServices.Contracts
 {
     public interface IIssueToProductionRepository
     {
-        //List<MaterialIssue> GetAllIssueToProduction(MaterialIssueAdvanceSearch materialAdvanceSearch);
+        List<MaterialIssue> GetAllIssueToProduction(MaterialIssueAdvanceSearch materialIssueAdvanceSearch);
         object InsertUpdateIssueToProduction(MaterialIssue materialIssue);
         MaterialIssue GetIssueToProduction(Guid ID);
         List<MaterialIssueDetail> GetIssueToProductionDetail(Guid ID);

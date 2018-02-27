@@ -33,12 +33,15 @@ namespace ProductionApp.UserInterface.Models
         public bool IsUpdate { get; set; }
         public List<MaterialIssueDetailViewModel> MaterialIssueDetailList { get; set; }
         public List<MaterialIssueViewModel> MaterialIssueList { get; set; }
-        public EmployeeViewModel Employee { get; set; }         
+        public EmployeeViewModel Employee { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
     }
     public class MaterialIssueDetailViewModel
     {
         public Guid ID { get; set; }
         public Guid HeaderID { get; set; }
+        [Display(Name ="Material")]
         public Guid MaterialID { get; set; }
         [Display(Name ="Material Description")]
         public string MaterialDesc { get; set; }
@@ -51,6 +54,7 @@ namespace ProductionApp.UserInterface.Models
         public CommonViewModel Common { get; set; }   
         public MaterialIssueViewModel MaterialIssue { get; set; }
         public MaterialViewModel Material { get; set; }
+      
     }
 
     public class MaterialIssueAdvanceSearchViewModel
@@ -60,5 +64,16 @@ namespace ProductionApp.UserInterface.Models
         public string SearchTerm { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
 
+        [Display(Name = "FromDate")]
+        public string FromDate { get; set; }
+        [Display(Name = "ToDate")]
+        public string ToDate { get; set; }
+        [Display(Name ="Issued By")]
+        public Guid IssuedBy { get; set; }
+        [Display(Name ="Issue To")]
+        public Guid IssueTo { get; set; }
+        public string IssuedByEmployeeName { get; set; }
+        public string IssueToEmployeeName { get; set; }       
+        public EmployeeViewModel Employee { get; set; }
     }
 }

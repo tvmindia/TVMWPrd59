@@ -658,6 +658,7 @@
     <Content Include="Scripts\UserJS\AppSubobject.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
     <Content Include="Scripts\UserJS\IssueToProduction\AddIssueToProduction.js" />
+    <Content Include="Scripts\UserJS\IssueToProduction\ListIssueToProduction.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
     <Content Include="Scripts\UserJS\Master.js" />
@@ -824,6 +825,7 @@
     <Content Include="Views\MaterialType\_AddMaterialTypePartial.cshtml" />
     <Content Include="Views\MaterialType\Index.cshtml" />
     <Content Include="Views\User\_UserDropdown.cshtml" />
+    <Content Include="Views\IssueToProduction\ListIssueToProduction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

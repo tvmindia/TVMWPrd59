@@ -65,10 +65,49 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region ListIssueToProduction
-        public ActionResult ListIssueToProduction()
+        public ActionResult ListIssueToProduction(string code)
         {
-            return View();
+            ViewBag.SysModuleCode = code;
+            MaterialIssueAdvanceSearchViewModel materialIssueAdvanceSearchVM = new MaterialIssueAdvanceSearchViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            materialIssueAdvanceSearchVM.Employee = new EmployeeViewModel();
+            materialIssueAdvanceSearchVM.Employee.SelectList = new List<SelectListItem>();
+            List<EmployeeViewModel> employeeList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_employeeBusiness.GetEmployeeForSelectList());
+            if (employeeList != null)
+            {
+                foreach (EmployeeViewModel Emp in employeeList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Emp.Name,
+                        Value = Emp.ID.ToString(),
+                        Selected = false,
+                    });
+
+                }
+            }
+            materialIssueAdvanceSearchVM.Employee.SelectList = selectListItem;      
+            return View(materialIssueAdvanceSearchVM);
         }
+        #endregion
+
+        #region GetAllIssueToProduction
+        public JsonResult GetAllIssueToProduction(DataTableAjaxPostModel model, MaterialIssueAdvanceSearchViewModel materialIssueAdvanceSearchVM)
+        {
+            materialIssueAdvanceSearchVM.DataTablePaging.Start = model.start;
+            materialIssueAdvanceSearchVM.DataTablePaging.Length = (materialIssueAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : materialIssueAdvanceSearchVM.DataTablePaging.Length);
+            List<MaterialIssueViewModel> materialIssueOrderList = Mapper.Map<List<MaterialIssue>, List<MaterialIssueViewModel>>(_issueToProductionBusiness.GetAllIssueToProduction(Mapper.Map<MaterialIssueAdvanceSearchViewModel, MaterialIssueAdvanceSearch>(materialIssueAdvanceSearchVM)));
+
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = materialIssueOrderList.Count != 0 ? materialIssueOrderList[0].TotalCount : 0,
+                recordsFiltered = materialIssueOrderList.Count != 0 ? materialIssueOrderList[0].FilteredCount : 0,
+                data = materialIssueOrderList
+            });
+        }
+
         #endregion
 
         #region InsertUpdateIssueToProduction
