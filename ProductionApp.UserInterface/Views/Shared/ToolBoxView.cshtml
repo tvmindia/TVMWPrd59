@@ -405,5 +405,26 @@
 
     }
 
+
+    @if (Model.SendForApprovalBtn.Visible && Model.SendForApprovalBtn.HasAccess)
+    {
+        if (Model.SendForApprovalBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.SendForApprovalBtn.Title-@Model.SendForApprovalBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/Notification.PNG")">
+                <span class="btnText">@Model.SendForApprovalBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a  title="@Model.SendForApprovalBtn.Title" class="thr_btn" onclick=@Model.SendForApprovalBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/Notification.PNG")">
+                <span class="btnText">@Model.SendForApprovalBtn.Text</span>
+            </a>
+        }
+
+    }
  
 </div>
