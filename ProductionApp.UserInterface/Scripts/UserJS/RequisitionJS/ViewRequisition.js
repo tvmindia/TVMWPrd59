@@ -6,11 +6,23 @@ $(document).ready(function () {
         $("#EmployeeID").select2({
         });
         BindOrReloadRequisitionTable('Init');
+
+        $('#tblRequisition tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
     }
     catch (e) {
         console.log(e.message);
     }
 });
+
+function Edit (curObj)
+{
+    debugger;
+    var rowData = DataTables.RequisitionList.row($(curObj).parents('tr')).data();
+    window.location.replace("NewRequisition?code=PURCH&ID=" + rowData.ID);
+
+}
 //bind purchae order list
 function BindOrReloadRequisitionTable(action) {
     try {
