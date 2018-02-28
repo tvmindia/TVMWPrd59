@@ -72,7 +72,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         documentApproval.UserID = (sdr["UserID"].ToString() != "" ? Guid.Parse(sdr["UserID"].ToString()) : documentApproval.UserID);
                                         documentApproval.LastApprovedUserID = (sdr["LastApprovedUserID"].ToString() != "" ? Guid.Parse(sdr["LastApprovedUserID"].ToString()) : documentApproval.LastApprovedUserID);
                                         documentApproval.DocumentID = (sdr["DocumentID"].ToString() != "" ? Guid.Parse(sdr["DocumentID"].ToString()) : documentApproval.DocumentID);
-
+                                        documentApproval.DocumentTypeCode = (sdr["DocumentTypeCode"].ToString() != "" ? sdr["DocumentTypeCode"].ToString() : documentApproval.DocumentTypeCode);
                                         documentApproval.DocumentType = (sdr["DocumentType"].ToString() != "" ? sdr["DocumentType"].ToString() : documentApproval.DocumentType);
                                         documentApproval.DocumentNo = (sdr["DocumentNo"].ToString() != "" ? sdr["DocumentNo"].ToString() : documentApproval.DocumentNo);
 

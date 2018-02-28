@@ -76,7 +76,7 @@ function BindOrReloadDocumetApprovals(action) {
                 },
                 pageLength: 10,
                 columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
+                    { "data": "ApprovalLogID", "defaultContent": "<i>-</i>" },
                     { "data": "DocumentTypeCode", "defaultContent": "<i>-</i>" },
                     { "data": "DocumentType", "defaultContent": "<i>-</i>" },
                     { "data": "DocumentNo", "defaultContent": "<i>-</i>" },
@@ -85,8 +85,9 @@ function BindOrReloadDocumetApprovals(action) {
                     { "data": "DocumentCreatedBy", "defaultContent": "<i>-</i>" },
                     //{ "data": "DocumentCreatedDate", "defaultContent": "<i>-</i>" },
                     {
-                        "data": "ID", "orderable": false, render: function (data, type, row) {
-                            return '<a href="/DocumentApproval/ApproveDocument?code=APR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                        "data": "ApprovalLogID", "orderable": false, render: function (data, type, row) {
+                            debugger;
+                            return '<a href="/DocumentApproval/ApproveDocument?code=APR&ID=' + data + '&DocType=' + row.DocumentTypeCode + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
                         }, "defaultContent": "<i>-</i>"
                     }
                 ],
