@@ -9,6 +9,7 @@ namespace ProductionApp.BusinessService.Contracts
 {
     public interface IDocumentApprovalBusiness
     {
+        List<ApprovalHistory> GetApprovalHistory(Guid DocumentID, string DocumentTypeCode);
         List<DocumentApproval> GetAllDocumentsPendingForApprovals(DocumentApprovalAdvanceSearch documentApprovalAdvanceSearch);
     }
 }

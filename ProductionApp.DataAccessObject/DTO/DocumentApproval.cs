@@ -31,7 +31,12 @@ namespace ProductionApp.DataAccessObject.DTO
     }
     public class ApprovalHistory
     {
-
+        public Guid ApproverID { get; set; }
+        public string ApproverName { get; set; }
+        public string ApproverLevel { get; set; }
+        public string ApprovalDate { get; set; }
+        public string ApprovalStatus { get; set; }
+        public string Remarks { get; set; }
     }
     public class DocumentSummary
     {

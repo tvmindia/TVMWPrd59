@@ -75,6 +75,21 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetAllDocumentApproval
 
 
+        public string GetApprovalHistory(string DocumentID, string DocumentTypeCode)
+            {
+            try
+            {
+                List<ApprovalHistoryViewModel> approvalHistoryVMList = new List<ApprovalHistoryViewModel>();
+                approvalHistoryVMList = Mapper.Map<List<ApprovalHistory>,List< ApprovalHistoryViewModel>>(_documentApprovalBusiness.GetApprovalHistory(Guid.Parse(DocumentID), DocumentTypeCode));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = approvalHistoryVMList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]

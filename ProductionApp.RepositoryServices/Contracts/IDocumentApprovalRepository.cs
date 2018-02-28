@@ -9,6 +9,8 @@ namespace ProductionApp.RepositoryServices.Contracts
 {
     public interface IDocumentApprovalRepository
     {
+        List<ApprovalHistory> GetApprovalHistory(Guid DocumentID, string DocumentTypeCode);
+
         List<DocumentApproval> GetAllDocumentsPendingForApprovals(DocumentApprovalAdvanceSearch documentApprovalAdvanceSearch);
     }
 }
