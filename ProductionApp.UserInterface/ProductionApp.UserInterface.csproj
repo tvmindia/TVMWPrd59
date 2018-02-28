@@ -657,6 +657,10 @@
     <Content Include="Scripts\UserJS\Approver.js" />
     <Content Include="Scripts\UserJS\AppSubobject.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
+    <Content Include="Scripts\UserJS\DocumentApproval\ApprovalHistory.js" />
+    <Content Include="Scripts\UserJS\DocumentApproval\ApproveDocument.js" />
+    <Content Include="Scripts\UserJS\DocumentApproval\DocumentSummary.js" />
+    <Content Include="Scripts\UserJS\DocumentApproval\ViewPendingDocuments.js" />
     <Content Include="Scripts\UserJS\IssueToProduction\AddIssueToProduction.js" />
     <Content Include="Scripts\UserJS\IssueToProduction\ListIssueToProduction.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
@@ -827,10 +831,11 @@
     <Content Include="Views\MaterialType\_AddMaterialTypePartial.cshtml" />
     <Content Include="Views\MaterialType\Index.cshtml" />
     <Content Include="Views\User\_UserDropdown.cshtml" />
-    <Content Include="Views\DocumentApproval\Index.cshtml" />
     <Content Include="Views\DocumentApproval\ViewPendingDocuments.cshtml" />
     <Content Include="Views\IssueToProduction\ListIssueToProduction.cshtml" />
     <Content Include="Views\DocumentApproval\ApproveDocument.cshtml" />
+    <Content Include="Views\DocumentApproval\_ApprovalHistory.cshtml" />
+    <Content Include="Views\DocumentApproval\_DocumentSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

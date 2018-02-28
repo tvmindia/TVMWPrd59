@@ -1,8 +1,39 @@
-﻿
+﻿@model ProductionApp.UserInterface.Models.ApprovalLogViewModel
+
 @{
     ViewBag.Title = "ApproveDocument";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
-<h2>ApproveDocument</h2>
+
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href="/DocumentApproval/ViewPendingDocuments?Code=APR&Name=MyApprovals"><i class="fa fa-cogs"></i> My Approvals</a></li>
+        <li><a href="/DocumentApproval/ViewPendingDocuments?Code=APR&Name=MyApprovals"><i class="fa fa-cogs"></i> Pending Documents</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+<section class="content">
+    <div class="row tableContainer">
+        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Approve Document </div>
+        <div class="col-md-12">
+            <div class="col-md-7">
+                <div class="col-md-12">
+                    @*Remarks*@
+                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control HeaderBox multiline4", @id = "Notes", @rows = 4 } })
+                </div>
+                <div class="col-md-12">
+                    @*Document Summary*@
+                    @Html.Action("DocumentSummary", "DocumentApproval")
+                </div>
+            </div>
+            <div class="col-md-5" style="border-left:2px solid #c6e6e8; min-height:400px">
+                @* Approval History *@
+                @Html.Action("ApprovalHistory", "DocumentApproval")
+            </div> 
+        </div>
+    </div>
+</section>
+
 

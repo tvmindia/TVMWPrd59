@@ -26,4 +26,12 @@ namespace ProductionApp.DataAccessObject.DTO
             public int LatestDocumentStatus { get; set; }
             public Boolean IsNextApprover { get; set; }
     }
+    public class ApprovalHistory
+    {
+
+    }
+    public class DocumentSummary
+    {
+        object DataTable { get; set; }
+    }
 }

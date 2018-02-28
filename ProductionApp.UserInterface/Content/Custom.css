@@ -433,6 +433,7 @@ background-image: -o-linear-gradient(top, #ffffff, #eeeeee);*/
 .control-label {
     font-weight:400!important;
     font-size:13px;
+        padding-top: 10px;
 }
 .form-horizontal .control-label {
     margin-bottom: 3px;
@@ -1052,4 +1053,9 @@ td.totalRow {
     right: 16%!important;
     top: 0!important;
     z-index: 1030!important;
+}
+
+
+.advanceFilterLink {
+    color:#01abe3;
 }

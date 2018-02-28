@@ -36,5 +36,52 @@ namespace ProductionApp.UserInterface.Controllers
             ViewBag.SysModuleCode = code;
             return View();
         }
+
+        public ActionResult ApprovalHistory()
+        {
+            ApprovalHistoryViewModel approvalHistoryVM = new ApprovalHistoryViewModel();
+            return PartialView("_ApprovalHistory", approvalHistoryVM);
+        }
+        public ActionResult DocumentSummary()
+        {
+            DocumentSummaryViewModel documentSummaryVM = new DocumentSummaryViewModel();
+            return PartialView("_DocumentSummary", documentSummaryVM);
+        }
+
+
+        #region ButtonStyling
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public ActionResult ChangeButtonStyle(string actionType)
+        {
+            ToolboxViewModel toolboxVM = new ToolboxViewModel();
+            switch (actionType)
+            {
+                case "List":
+                   
+                    //----added for reset button---------------
+                    toolboxVM.resetbtn.Visible = true;
+                    toolboxVM.resetbtn.Text = "Reset";
+                    toolboxVM.resetbtn.Title = "Reset All";
+                    toolboxVM.resetbtn.Event = "ResetPendingDocList();";
+                    //----added for export button--------------
+                    toolboxVM.PrintBtn.Visible = true;
+                    toolboxVM.PrintBtn.Text = "Export";
+                    toolboxVM.PrintBtn.Title = "Export";
+                    toolboxVM.PrintBtn.Event = "ExportPendingDocs();";
+                    //---------------------------------------
+
+                    break;
+              
+              
+
+                     
+                default:
+                    return Content("Nochange");
+            }
+            return PartialView("ToolboxView", toolboxVM);
+        }
+
+        #endregion
     }
 }
