@@ -3,9 +3,9 @@
 @model ProductionApp.UserInterface.Models.DocumentSummaryViewModel
 
 <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Document Summary </div>
-<div class="col-md-12">
+ 
    
-    <div class="col-md-12">
+     
 
         @{
 
@@ -20,7 +20,7 @@
                     </div>
                     
                     <div class="col-md-7 SummaryValue">
-                        @Html.Raw(Dt.Rows[0][Dt.Columns[i].ColumnName].ToString() )
+                     :&nbsp;   @Html.Raw(Dt.Rows[0][Dt.Columns[i].ColumnName].ToString() )
                     </div>
 
                 </div>
@@ -30,9 +30,9 @@
 
         }
 
-    </div>
+ 
     
-</div>
+ 
 
 
 

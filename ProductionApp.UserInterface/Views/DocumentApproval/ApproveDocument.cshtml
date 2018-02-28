@@ -20,18 +20,15 @@
 </div>
 <section class="content">
     <div class="row tableContainer">
-        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Approve Document </div>
+        @*<div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Approve Document </div>*@
+        <div class="col-md-12">&nbsp;</div>
         <div class="col-md-12">
             <div class="col-md-6">
                 @Html.HiddenFor(model => model.DocumentID, htmlAttributes: new { @class = "", Value = @ViewBag.DocumentID })
                 @Html.HiddenFor(model => model.DocumentType, htmlAttributes: new { @class = "", Value = @ViewBag.DocumentType })
                 @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = @ViewBag.ApprovalLogID })
 
-                <div class="col-md-12">
-                    @*Remarks*@
-                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control HeaderBox multiline4", @rows = 4 } })
-                </div>
+               
                 <div class="col-md-12">
                     @*Document Summary*@
                     @{
@@ -54,17 +51,31 @@
                 </div>
             </div>
             <div class="col-md-6" style="border-left:2px solid #c6e6e8; min-height:400px">
+                <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Approve Document </div>
+
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            @*Remarks*@
+                            @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control HeaderBox multiline4", @rows = 4 } })
+                        </div>
+                         
+                        </div>
+                <div class="col-md-12">&nbsp;</div>
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <a class="btn btn-success" onclick="ApproveDocument()" id="btnApproveDocument" style="color:white;font-weight:bold;width:90%"><i class="glyphicon glyphicon-ok"></i> Approve</a>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn btn-danger" onclick="RejectDocument()" id="btnRejectDocument" style="color:white;font-weight:bold;width:90%"><i class="glyphicon glyphicon-remove"></i> Reject</a>
+                        </div>
+                    </div>
+                <div class="col-md-12">&nbsp;</div>
                 @* Approval History *@
-                @Html.Action("ApprovalHistory", "DocumentApproval")
                 <div class="col-md-12">
-                    <div class="col-md-6">
-                        <a class="btn btn-success" onclick="ApproveDocument()" id="btnApproveDocument" style="color:white;font-weight:bold;width:90%"><i class="glyphicon glyphicon-ok"></i> Approve</a>
-                    </div>
-                    <div class="col-md-6">
-                        <a class="btn btn-danger" onclick="RejectDocument()" id="btnRejectDocument" style="color:white;font-weight:bold;width:90%"><i class="glyphicon glyphicon-remove"></i> Reject</a>
-                    </div>
+                    @Html.Action("ApprovalHistory", "DocumentApproval")
                 </div>
-            </div> 
+                </div> 
         </div>
     </div>
 </section>
