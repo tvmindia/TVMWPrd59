@@ -36,10 +36,12 @@ namespace ProductionApp.UserInterface.Controllers
             return View();
         }
         #region AddIssueToProduction
-        public ActionResult AddIssueToProduction(string code)
+        public ActionResult AddIssueToProduction(string code,Guid? id)
         {
             ViewBag.SysModuleCode = code;
             MaterialIssueViewModel materialIssueVM = new MaterialIssueViewModel();
+            materialIssueVM.ID = id == null ? Guid.Empty : (Guid)id;
+            materialIssueVM.IsUpdate = id == null ? false : true;          
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             materialIssueVM.Employee = new EmployeeViewModel();
             materialIssueVM.Employee.SelectList = new List<SelectListItem>();

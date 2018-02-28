@@ -30,23 +30,93 @@ namespace ProductionApp.UserInterface.Controllers
             ViewBag.SysModuleCode = code;
             return View();
         }
-
-        public ActionResult ApproveDocument(string code)
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public ActionResult ApproveDocument(string code,string ID,string DocType,string DocID)
         {
             ViewBag.SysModuleCode = code;
+            ViewBag.DocumentID = DocID;
+            ViewBag.ApprovalLogID = ID;
+            ViewBag.DocumentType = DocType;
             return View();
         }
 
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
         public ActionResult ApprovalHistory()
         {
             ApprovalHistoryViewModel approvalHistoryVM = new ApprovalHistoryViewModel();
             return PartialView("_ApprovalHistory", approvalHistoryVM);
         }
+
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
         public ActionResult DocumentSummary()
         {
             DocumentSummaryViewModel documentSummaryVM = new DocumentSummaryViewModel();
             return PartialView("_DocumentSummary", documentSummaryVM);
         }
+
+
+        #region GetAllDocumentApproval
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public JsonResult GetAllDocumentApproval(DataTableAjaxPostModel model, DocumentApprovalAdvanceSearchViewModel documentApprovalAdvanceSearchVM)
+        {
+            AppUA appUA = Session["AppUA"] as AppUA;
+            documentApprovalAdvanceSearchVM.LoginName = appUA.UserName;
+            documentApprovalAdvanceSearchVM.DataTablePaging.Start = model.start;
+            documentApprovalAdvanceSearchVM.DataTablePaging.Length = (documentApprovalAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : documentApprovalAdvanceSearchVM.DataTablePaging.Length);
+            List<DocumentApprovalViewModel> documentApprovalList = Mapper.Map<List<DocumentApproval>, List<DocumentApprovalViewModel>>(_documentApprovalBusiness.GetAllDocumentsPendingForApprovals(Mapper.Map<DocumentApprovalAdvanceSearchViewModel, DocumentApprovalAdvanceSearch>(documentApprovalAdvanceSearchVM)));
+            var settings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.None
+            };
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = documentApprovalList.Count != 0 ? documentApprovalList[0].TotalCount : 0,
+                recordsFiltered = documentApprovalList.Count != 0 ? documentApprovalList[0].FilteredCount : 0,
+                data = documentApprovalList
+
+            });
+        }
+        #endregion GetAllDocumentApproval
+
+        #region GetApprovalHistory
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public string GetApprovalHistory(string DocumentID, string DocumentTypeCode)
+            {
+            try
+            {
+                List<ApprovalHistoryViewModel> approvalHistoryVMList = new List<ApprovalHistoryViewModel>();
+                approvalHistoryVMList = Mapper.Map<List<ApprovalHistory>,List< ApprovalHistoryViewModel>>(_documentApprovalBusiness.GetApprovalHistory(Guid.Parse(DocumentID), DocumentTypeCode));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = approvalHistoryVMList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+        #endregion GetApprovalHistory
+
+        #region ApproveDocumentInsert
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public string ApproveDocumentInsert(string ApprovalLogID, string DocumentID, string DocumentTypeCode)
+        {
+            try
+            {
+                var result = _documentApprovalBusiness.ApproveDocumentInsert(Guid.Parse(ApprovalLogID),Guid.Parse(DocumentID),DocumentTypeCode);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion ApproveDocumentInsert 
+
+        #region RejectDocumentInsert
+
+        #endregion RejectDocumentInsert
 
 
         #region ButtonStyling
