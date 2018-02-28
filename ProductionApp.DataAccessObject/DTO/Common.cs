@@ -54,6 +54,15 @@ namespace ProductionApp.DataAccessObject.DTO
         {
             get { return "Login or Email Exist! "; }
         }
+
+        public string ApprovalSuccess
+        {
+            get { return "Approval Successfully Inserted! "; }
+        }
+        public string ApprovalFailure
+        {
+            get { return "Approval Not Successfull! "; }
+        }
         public string InsertFailure
         {
             get { return "Insertion Not Successfull! "; }

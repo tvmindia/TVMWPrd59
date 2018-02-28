@@ -55,18 +55,20 @@ namespace ProductionApp.UserInterface.Controllers
             {
                 object result = null;
                 AppUA appUA = Session["AppUA"] as AppUA;
-                purchaseOrderVM.Common = new CommonViewModel
+                purchaseOrderVM.Common = new CommonViewModel();
+
+                if (purchaseOrderVM.ID == Guid.Empty)
                 {
-                    CreatedBy = appUA.UserName,
-                    CreatedDate = _common.GetCurrentDateTime(),
-                    UpdatedBy = appUA.UserName,
-                    UpdatedDate = _common.GetCurrentDateTime(),
-                };
-                
-                if (purchaseOrderVM.ID==Guid.Empty)
+                    purchaseOrderVM.Common.CreatedBy = appUA.UserName;
+                    purchaseOrderVM.Common.CreatedDate = _common.GetCurrentDateTime();
                     result = _purchaseOrderBusiness.InsertPurchaseOrder(Mapper.Map<PurchaseOrderViewModel, PurchaseOrder>(purchaseOrderVM));
+                }
                 else
+                {
+                    purchaseOrderVM.Common.UpdatedBy = appUA.UserName;
+                    purchaseOrderVM.Common.UpdatedDate = _common.GetCurrentDateTime();
                     result = _purchaseOrderBusiness.UpdatePurchaseOrder(Mapper.Map<PurchaseOrderViewModel, PurchaseOrder>(purchaseOrderVM));
+                }
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
             catch (Exception ex)
@@ -86,8 +88,6 @@ namespace ProductionApp.UserInterface.Controllers
                 AppUA appUA = Session["AppUA"] as AppUA;
                 purchaseOrderVM.Common = new CommonViewModel
                 {
-                    CreatedBy = appUA.UserName,
-                    CreatedDate = _common.GetCurrentDateTime(),
                     UpdatedBy = appUA.UserName,
                     UpdatedDate = _common.GetCurrentDateTime(),
                 };
@@ -332,7 +332,6 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset";
                     toolboxVM.resetbtn.Event = "Reset();";
-
 
                     break;
                 case "Add":

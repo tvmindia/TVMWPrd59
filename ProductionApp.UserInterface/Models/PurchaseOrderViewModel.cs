@@ -14,11 +14,14 @@ namespace ProductionApp.UserInterface.Models
             [Display(Name = "PO Number")]
             public string PurchaseOrderNo { get; set; }
             [Display(Name = "PO Date")]
+            [Required(ErrorMessage = "PO Date required")]
             public DateTime PurchaseOrderDate { get; set; }
             [Display(Name = "PO Issued Date")]
+            [Required(ErrorMessage = "PO Issued Date required")]
             public DateTime PurchaseOrderIssuedDate { get; set; }
             public Guid SupplierID { get; set; }
             [Display(Name = "PO Title")]
+            [Required(ErrorMessage = "PO Title required")]
             public string PurchaseOrderTitle { get; set; }
             [Display(Name = "Mailing Address")]
             [DataType(DataType.MultilineText)]
@@ -41,6 +44,7 @@ namespace ProductionApp.UserInterface.Models
             //additional properties
             public int TotalCount { get; set; }
             public int FilteredCount { get; set; }
+            [Required(ErrorMessage = "Supplier required")]
             public string Supplier { get; set; }
             public CommonViewModel Common { get; set; }
             public string PurchaseOrderDateFormatted { get; set; }

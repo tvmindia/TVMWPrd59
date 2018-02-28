@@ -13,5 +13,6 @@ namespace ProductionApp.BusinessService.Contracts
         List<ApprovalHistory> GetApprovalHistory(Guid DocumentID, string DocumentTypeCode);
         List<DocumentApproval> GetAllDocumentsPendingForApprovals(DocumentApprovalAdvanceSearch documentApprovalAdvanceSearch);
         DataTable GetDocumentSummary(Guid DocumentID, string DocumentTypeCode);
+        object ApproveDocumentInsert(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode);
     }
 }

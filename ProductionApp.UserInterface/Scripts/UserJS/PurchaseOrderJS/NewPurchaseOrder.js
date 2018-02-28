@@ -87,10 +87,10 @@ $(document).ready(function () {
             ],
             columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 3 }
                 , { className: "text-left", "targets": [5, 6] }
-                , { className: "text-right", "targets": [7, 8, 9, 10] }
+                , { className: "text-right", "targets": [7, 8, 9, 10, 12] }
                 , { className: "text-center", "targets": [1, 4] }
                 , { "targets": [0,1,2,13], "visible": false, "searchable": false }
-                , { "targets": [2, 3, 4, 5, 6, 7, 8, 9, 10], "bSortable": false }],
+               ],
 
             select: { style: 'multi', selector: 'td:first-child' }
         });
@@ -113,17 +113,46 @@ $(document).ready(function () {
                   { "data": "MaterialDesc", "defaultContent": "<i>-</i>" },
                   { "data": "UnitCode", "defaultContent": "<i>-</i>" },
                   { "data": "Qty", "defaultContent": "<i>-</i>" },
-                  { "data": "Rate", "defaultContent": "<i>-</i>" },
-                  { "data": "Discount", "defaultContent": "<i>-</i>" },
+                  {
+                      "data": "Rate", "defaultContent": "<i>-</i>",
+                      'render': function (data, type, row) {
+                          return roundoff(data, 1);
+                      }
+                  },
+                  {
+                      "data": "Discount", "defaultContent": "<i>-</i>",
+                      'render': function (data, type, row) {
+                          if (data == 0)
+                              {
+                              data = 0.0;
+                              return data;
+                          }
+                          else
+                              {
+                              data = row.Discount;
+                              return roundoff(data, 1);
+                          }
+                      }
+                  },
                   {
                       "data": "TaxableAmount", "defaultContent": "<i>-</i>",
                       'render': function (data, type, row) {
                           Desc = parseFloat(row.Qty) * parseFloat(row.Rate) - parseFloat(row.Discount);
-                          return Desc ;
+                          return roundoff(Desc, 1);
                       }
                   },
-                  { "data": "CGSTAmt", "defaultContent": "<i>-</i>" },
-                  { "data": "SGSTAmt", "defaultContent": "<i>-</i>" },
+                  {
+                      "data": "CGSTAmt", "defaultContent": "<i>-</i>",
+                      'render': function (data, type, row) {
+                          return roundoff(data, 1);
+                      }
+                  },
+                  {
+                      "data": "SGSTAmt", "defaultContent": "<i>-</i>",
+                      'render': function (data, type, row) {
+                          return roundoff(data, 1);
+                      }
+                  },
                   {
                       "data": "Total", "defaultContent": "<i>-</i>",
                       'render': function (data, type, row) {
@@ -131,10 +160,10 @@ $(document).ready(function () {
                           return roundoff(Desc,1);
                       }
                   },
-                { "data": null, "orderable": false, "width": "5%", "defaultContent": '<a href="#" class="ItemEditlink" onclick="EditPurchaseOrderDetailTable(this)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><span> | </span><a href="#" class="ItemEditlink" onclick="Delete(this)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>' }
+                { "data": null, "orderable": false, "width": "5%", "defaultContent": '<a href="#" class="ItemEditlink" onclick="EditPurchaseOrderDetailTable(this)"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                     { className: "text-right", "targets": [5, 6, 7] },
+                     { className: "text-right", "targets": [5, 6, 7,8,9,10] },
                       { className: "text-left", "targets": [2, 3, 4] },
                 { className: "text-center", "targets": [8] }
 
@@ -169,7 +198,6 @@ $(document).ready(function () {
                        {
                        "data": "MaterialDesc", "defaultContent": "<i>-</i>",
                        'render': function (data, type, row) {
-                           debugger;
                            if (row.MaterialDesc)
                                Desc = data;
                            else
@@ -179,7 +207,6 @@ $(document).ready(function () {
                    },
                            {
                           "data": "Rate", "defaultContent": "<i>-</i>", "width": "10%", 'render': function (data, type, row) {
-                              debugger;
                               return '<input class="form-control text-right " name="Markup" value="' + data + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="EdittextBoxValue(this,2);">';
                        }
                               },
@@ -202,22 +229,21 @@ $(document).ready(function () {
                        {
                        "data": "Discount", "defaultContent": "<i>-</i>",
                        'render': function (data, type, row) {
-                           return '<input class="form-control description" name="Markup" value="' + data + '" type="text" onchange="EdittextBoxValue(this,3);">';
+                           return '<input class="form-control description" name="Markup" value="' + roundoff(data,1) + '" type="text" onchange="EdittextBoxValue(this,3);">';
                        }
                    }
                        ],
                   columnDefs: [
                   { className: "text-left", "targets": [5, 6]
                   }
-                  , { className: "text-right", "targets": [7, 8, 9, 10]
+                  , { className: "text-right", "targets": [7, 8, 9, 10, 12]
       }
                   , {
           className: "text-center", "targets": [1, 4]}
           , {
           "targets": [0, 1, 2,3], "visible": false, "searchable": false
           }
-          , {
-          "targets": [2, 3, 4, 5, 6, 7, 8, 9, 10], "bSortable": false }]
+         ]
 
 
           });
@@ -268,9 +294,15 @@ $(document).ready(function () {
 });
 function AddPurchaseOrderDetail() {
     debugger;
-    $('#RequisitionDetailsModal').modal('show');
-    ViewRequisitionList(1);
-    BindOrReloadRequisitionListTable();
+    var $form = $('#PurchaseOrderForm');
+   if ($form.valid()) {
+        $('#RequisitionDetailsModal').modal('show');
+        ViewRequisitionList(1);
+        BindOrReloadRequisitionListTable();
+    }
+    else {
+        notyAlert('warning', "Please Fill Required Fields,To Add Items ");
+    }
 }
 function ViewRequisitionList(value) {
     $('#tabDetail').attr('data-toggle', 'tab');
@@ -547,11 +579,10 @@ function CalculateGrossAmount() {
     $('#CGSTTotal').val(roundoff(CGSTTotal));
     $('#SGSTTotal').val(roundoff(SGSTTotal));
     $('#TaxTotal').val(roundoff(TotalTax));
-    //AmountSummary();
 }
 function OrderStatusChange() {
     if ($("#PurchaseOrderStatus").val() != "")
-        $("#lblStatus").text($("#PurchaseOrderStatus option:selected").text());
+        $("#lblPOStatus").text($("#PurchaseOrderStatus option:selected").text());
     else
         $("#lblStatus").text('N/A');
 }
@@ -579,7 +610,7 @@ function Save() {
     debugger;
     //validation main form 
     var $form = $('#PurchaseOrderForm');
-    //if ($form.valid()) {
+    if ($form.valid()) {
         PurchaseOrderViewModel.ID = $('#ID').val();
         //PurchaseOrderViewModel.hdnFileID = $('#hdnFileID').val();
         PurchaseOrderViewModel.PurchaseOrderNo = $('#PurchaseOrderNo').val();
@@ -623,7 +654,7 @@ function Save() {
                     break;
             }
         })
-    //}
+    }
 }
 //Bind PurchaseOrder
 function BindPurchaseOrder(ID) {
@@ -822,9 +853,8 @@ function EditRequsitionDetailLink(data) {
 }
 function UpdateDetailLinkSave() {
     debugger;
-    //validation main form 
-   // var $form = $('#SupplierPOForm');
-   // if ($form.valid()) {
+    var $form = $('#PurchaseOrderForm');
+    if ($form.valid()) {
         PurchaseOrderViewModel.ID = $('#ID').val();
         PurchaseOrderViewModel.PODDetail = PODDetail;
         PurchaseOrderViewModel.PODDetailLink = PODDetailLink;
@@ -853,7 +883,7 @@ function UpdateDetailLinkSave() {
                     break;
             }
         })
-    //}
+    }
 }
 //Edit TextBox value changed in Editdatatable
 function EdittextBoxValue(thisObj, textBoxCode) {

@@ -6,11 +6,21 @@ $(document).ready(function () {
         $("#SupplierID").select2({
         });
         BindOrReloadPurchaseOrderTable('Init');
+        $('#tblPurchaseOrder tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
     }
     catch (e) {
         console.log(e.message);
     }
 });
+//edit on table click
+function Edit(curObj) {
+    debugger;
+    var rowData = DataTables.PurchaseOrderList.row($(curObj).parents('tr')).data();
+    window.location.replace("NewPurchaseOrder?code=PURCH&ID=" + rowData.ID);
+
+}
 //bind purchae order list
 function BindOrReloadPurchaseOrderTable(action) {
     try{

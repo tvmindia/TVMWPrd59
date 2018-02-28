@@ -39,5 +39,10 @@ namespace ProductionApp.BusinessService.Services
 
             return _documentApprovalRepository.GetDocumentSummary(DocumentID, DocumentTypeCode);
         }
+
+        public object ApproveDocumentInsert(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode)
+        {
+            return _documentApprovalRepository.ApproveDocumentInsert(ApprovalLogID, DocumentID, DocumentTypeCode);
+        }
     }
 }
