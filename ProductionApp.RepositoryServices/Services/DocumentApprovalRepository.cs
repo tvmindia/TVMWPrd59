@@ -85,9 +85,8 @@ namespace ProductionApp.RepositoryServices.Services
                                         documentApproval.Approver = (sdr["Approver"].ToString() != "" ? sdr["Approver"].ToString() : documentApproval.Approver);
                                         documentApproval.ApproverLevel = (sdr["ApproverLevel"].ToString() != "" ? int.Parse(sdr["ApproverLevel"].ToString()) : documentApproval.ApproverLevel);
                                         documentApproval.DocumentCreatedBy = (sdr["DocumentCreatedBy"].ToString() != "" ? sdr["DocumentCreatedBy"].ToString() : documentApproval.DocumentCreatedBy);
-                                        documentApproval.LatestDocumentStatus = (sdr["LatestDocumentStatus"].ToString() != "" ? int.Parse(sdr["LatestDocumentStatus"].ToString()) : documentApproval.LatestDocumentStatus);
-                                        documentApproval.IsNextApprover = (sdr["isNextApprover"].ToString() != "" ? Boolean.Parse(sdr["isNextApprover"].ToString()) : documentApproval.IsNextApprover);
-
+                                        documentApproval.LatestDocumentStatus = (sdr["LatestDocumentStatus"].ToString() != "" ? (sdr["LatestDocumentStatus"].ToString()) : documentApproval.LatestDocumentStatus);                                        
+                                       // documentApproval.IsNextApprover = (sdr["isNextApprover"].ToString() != "" ? bool.Parse(sdr["isNextApprover"].ToString()) : documentApproval.IsNextApprover);
                                         documentApproval.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : documentApproval.TotalCount);
                                         documentApproval.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : documentApproval.FilteredCount);
 

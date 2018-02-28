@@ -23,7 +23,7 @@ namespace ProductionApp.UserInterface.Models
         public Guid UserID { get; set; }
         public Guid ApproverID { get; set; }
         public Guid LastApprovedUserID { get; set; }
-        public int LatestDocumentStatus { get; set; }
+        public string LatestDocumentStatus { get; set; }
         public Boolean IsNextApprover { get; set; }
 
         public int TotalCount { get; set; }
