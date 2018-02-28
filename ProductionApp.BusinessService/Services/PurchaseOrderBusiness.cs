@@ -74,7 +74,7 @@ namespace ProductionApp.BusinessService.Services
         {
             return _purchaseOrderRepository.GetPurchaseOrderDetailByID(ID);
         }
-        public PurchaseOrderDetail GetPurchaseOrderDetailByIDForEdit(Guid ID)
+        public List<PurchaseOrderDetail> GetPurchaseOrderDetailByIDForEdit(Guid ID)
         {
             return _purchaseOrderRepository.GetPurchaseOrderDetailByIDForEdit(ID);
         }

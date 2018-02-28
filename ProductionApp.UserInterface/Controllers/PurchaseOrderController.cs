@@ -108,8 +108,8 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                PurchaseOrderDetailViewModel purchaseOrderVM = Mapper.Map<PurchaseOrderDetail, PurchaseOrderDetailViewModel>(_purchaseOrderBusiness.GetPurchaseOrderDetailByIDForEdit(Guid.Parse(ID)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderVM });
+                List<PurchaseOrderDetailViewModel> purchaseOrderList = Mapper.Map<List<PurchaseOrderDetail>, List<PurchaseOrderDetailViewModel>>(_purchaseOrderBusiness.GetPurchaseOrderDetailByIDForEdit(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderList });
             }
             catch (Exception ex)
             {

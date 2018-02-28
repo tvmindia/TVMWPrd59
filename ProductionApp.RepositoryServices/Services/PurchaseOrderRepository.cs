@@ -470,9 +470,10 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion GetPurchaseOrderDetailsBYID
 
         #region PurchaseOrderDetailForEdit
-        public PurchaseOrderDetail GetPurchaseOrderDetailByIDForEdit(Guid ID)
+        public List<PurchaseOrderDetail> GetPurchaseOrderDetailByIDForEdit(Guid ID)
         {
-            PurchaseOrderDetail purchaseOrderDetail = new PurchaseOrderDetail();
+            List<PurchaseOrderDetail> PODList = null;
+           
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -491,23 +492,28 @@ namespace ProductionApp.RepositoryServices.Services
                         {
                             if ((sdr != null) && (sdr.HasRows))
                             {
+                                PODList = new List<PurchaseOrderDetail>();
                                 while (sdr.Read())
                                 {
-                                    purchaseOrderDetail.PurchaseOrderID = (sdr["PurchaseOrderID"].ToString() != "" ? Guid.Parse(sdr["PurchaseOrderID"].ToString()) : purchaseOrderDetail.PurchaseOrderID);
-                                    purchaseOrderDetail.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : purchaseOrderDetail.MaterialCode);
-                                    purchaseOrderDetail.Qty= (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : purchaseOrderDetail.Qty);
-                                    purchaseOrderDetail.Discount = (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseOrderDetail.Discount);
-                                    purchaseOrderDetail.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : purchaseOrderDetail.Rate);
-                                    purchaseOrderDetail.TaxTypeCode= (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : purchaseOrderDetail.TaxTypeCode);
-                                    purchaseOrderDetail.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : purchaseOrderDetail.UnitCode);
-                                    purchaseOrderDetail.MaterialID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : purchaseOrderDetail.MaterialID);
-                                    purchaseOrderDetail.MaterialDesc = (sdr["MaterialDesc"].ToString() != "" ? sdr["MaterialDesc"].ToString() : purchaseOrderDetail.MaterialDesc);
-                                    purchaseOrderDetail.RequisitionDetail = new RequisitionDetail();
-                                    purchaseOrderDetail.RequisitionDetail.ReqID= (sdr["ReqID"].ToString() != "" ? Guid.Parse(sdr["ReqID"].ToString()) : purchaseOrderDetail.RequisitionDetail.ReqID);
-                                    purchaseOrderDetail.RequisitionDetail.ReqNo= (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : purchaseOrderDetail.RequisitionDetail.ReqNo);
-                                    purchaseOrderDetail.RequisitionDetail.RequestedQty= (sdr["RequestedQty"].ToString() != "" ? sdr["RequestedQty"].ToString() : purchaseOrderDetail.RequisitionDetail.RequestedQty);
-                                    purchaseOrderDetail.RequisitionDetail.OrderedQty = (sdr["OrderedQty"].ToString() != "" ? sdr["OrderedQty"].ToString() : purchaseOrderDetail.RequisitionDetail.OrderedQty);
-
+                                    PurchaseOrderDetail purchaseOrderDetail = new PurchaseOrderDetail();
+                                    {
+                                        purchaseOrderDetail.PurchaseOrderID = (sdr["PurchaseOrderID"].ToString() != "" ? Guid.Parse(sdr["PurchaseOrderID"].ToString()) : purchaseOrderDetail.PurchaseOrderID);
+                                        purchaseOrderDetail.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : purchaseOrderDetail.MaterialCode);
+                                        purchaseOrderDetail.Qty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : purchaseOrderDetail.Qty);
+                                        purchaseOrderDetail.Discount = (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseOrderDetail.Discount);
+                                        purchaseOrderDetail.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : purchaseOrderDetail.Rate);
+                                        purchaseOrderDetail.TaxTypeCode = (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : purchaseOrderDetail.TaxTypeCode);
+                                        purchaseOrderDetail.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : purchaseOrderDetail.UnitCode);
+                                        purchaseOrderDetail.MaterialID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : purchaseOrderDetail.MaterialID);
+                                        purchaseOrderDetail.MaterialDesc = (sdr["MaterialDesc"].ToString() != "" ? sdr["MaterialDesc"].ToString() : purchaseOrderDetail.MaterialDesc);
+                                        purchaseOrderDetail.RequisitionDetail = new RequisitionDetail();
+                                        purchaseOrderDetail.RequisitionDetail.ID= (sdr["LinkID"].ToString() != "" ? Guid.Parse(sdr["LinkID"].ToString()) : purchaseOrderDetail.RequisitionDetail.ID);
+                                        purchaseOrderDetail.RequisitionDetail.ReqID = (sdr["ReqID"].ToString() != "" ? Guid.Parse(sdr["ReqID"].ToString()) : purchaseOrderDetail.RequisitionDetail.ReqID);
+                                        purchaseOrderDetail.RequisitionDetail.ReqNo = (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : purchaseOrderDetail.RequisitionDetail.ReqNo);
+                                        purchaseOrderDetail.RequisitionDetail.RequestedQty = (sdr["RequestedQty"].ToString() != "" ? sdr["RequestedQty"].ToString() : purchaseOrderDetail.RequisitionDetail.RequestedQty);
+                                        purchaseOrderDetail.RequisitionDetail.OrderedQty = (sdr["OrderedQty"].ToString() != "" ? sdr["OrderedQty"].ToString() : purchaseOrderDetail.RequisitionDetail.OrderedQty);
+                                    }
+                                    PODList.Add(purchaseOrderDetail);
                                 }
                             }
                         }
@@ -519,7 +525,7 @@ namespace ProductionApp.RepositoryServices.Services
                 throw ex;
             }
 
-            return purchaseOrderDetail;
+            return PODList;
         }
         #endregion PurchaseOrderDetailForEdit
 
