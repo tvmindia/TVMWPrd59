@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -42,7 +43,9 @@ namespace ProductionApp.UserInterface.Models
     }
     public class DocumentSummaryViewModel
     {
-        object DataTable { get; set; }
+        public DataTable DataTable { get; set; }
+        public Guid DocumentID { get; set; }
+        public string DocumentTypeCode { get; set; }
     }
 
     public class DocumentApprovalAdvanceSearchViewModel

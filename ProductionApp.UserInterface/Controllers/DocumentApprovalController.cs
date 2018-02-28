@@ -48,9 +48,9 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
-        public ActionResult DocumentSummary()
+        public ActionResult DocumentSummary(DocumentSummaryViewModel documentSummaryVM)
         {
-            DocumentSummaryViewModel documentSummaryVM = new DocumentSummaryViewModel();
+            documentSummaryVM.DataTable = _documentApprovalBusiness.GetDocumentSummary(documentSummaryVM.DocumentID, documentSummaryVM.DocumentTypeCode);
             return PartialView("_DocumentSummary", documentSummaryVM);
         }
 

@@ -1059,3 +1059,18 @@ td.totalRow {
 .advanceFilterLink {
     color:#01abe3;
 }
+
+.SummaryCaption {
+    font-size:14px;
+
+}
+
+.SummaryValue {
+      font-size:14px;
+      font-weight:600;
+}
+
+.SummaryRow {
+    margin-top:15px;
+    
+}

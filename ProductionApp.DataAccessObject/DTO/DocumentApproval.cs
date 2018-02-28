@@ -40,7 +40,9 @@ namespace ProductionApp.DataAccessObject.DTO
     }
     public class DocumentSummary
     {
-        object DataTable { get; set; }
+        public object DataTable { get; set; }
+        public Guid DocumentID { get; set; }
+        public string DocumentTypeCode { get; set; }
     }
 
     public class DocumentApprovalAdvanceSearch

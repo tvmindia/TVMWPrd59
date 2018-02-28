@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProductionApp.DataAccessObject.DTO;
+using System.Data;
 
 namespace ProductionApp.BusinessService.Services
 {
@@ -28,6 +29,15 @@ namespace ProductionApp.BusinessService.Services
             return _documentApprovalRepository.GetAllDocumentsPendingForApprovals(documentApprovalAdvanceSearch);
 
 
+
+        }
+
+
+
+
+        public DataTable GetDocumentSummary(Guid DocumentID, string DocumentTypeCode) {
+
+            return _documentApprovalRepository.GetDocumentSummary(DocumentID, DocumentTypeCode);
         }
     }
 }

@@ -157,5 +157,44 @@ namespace ProductionApp.RepositoryServices.Services
 
 
         }
+
+
+        public DataTable GetDocumentSummary(Guid DocumentID, string DocumentTypeCode) {
+            try
+            {
+                DataTable result = new DataTable();
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetDocumentSummary]";
+                        cmd.Parameters.Add("@DocumentID", SqlDbType.UniqueIdentifier).Value = DocumentID;
+                        cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.NVarChar, 5).Value = DocumentTypeCode;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            { 
+                                    result.Load( sdr);
+                                 
+                            }
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
     }
 }
