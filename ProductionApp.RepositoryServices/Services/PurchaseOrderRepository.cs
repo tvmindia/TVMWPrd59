@@ -148,7 +148,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[InsertPurchaseOrder]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@PONo", SqlDbType.VarChar, 20).Value = purchaseOrder.PurchaseOrderNo;
+                        //cmd.Parameters.Add("@PONo", SqlDbType.VarChar, 20).Value = purchaseOrder.PurchaseOrderNo;
                         cmd.Parameters.Add("@PODate", SqlDbType.DateTime).Value = purchaseOrder.PurchaseOrderDate;
                         cmd.Parameters.Add("@POIssuedDate", SqlDbType.DateTime).Value = purchaseOrder.PurchaseOrderIssuedDate;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = purchaseOrder.SupplierID;

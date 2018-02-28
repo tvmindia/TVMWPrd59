@@ -835,7 +835,7 @@ color: #e32;
 }
 .lblStatusDisplay{
     font-weight:bold;
-    font-size:22px;
+    font-size:20px;
 }
 
 .rightAmt {
@@ -1058,4 +1058,7 @@ td.totalRow {
 
 .advanceFilterLink {
     color:#01abe3;
+}
+.select2-results__option{
+    margin-left:5%!important;
 }
