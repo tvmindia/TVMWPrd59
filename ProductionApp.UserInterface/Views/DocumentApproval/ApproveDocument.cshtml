@@ -1,4 +1,5 @@
-﻿@model ProductionApp.UserInterface.Models.ApprovalLogViewModel
+﻿@using ProductionApp.UserInterface.App_Start
+@model ProductionApp.UserInterface.Models.ApprovalLogViewModel
 
 @{
     ViewBag.Title = "ApproveDocument";
@@ -17,7 +18,7 @@
     <div class="row tableContainer">
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Approve Document </div>
         <div class="col-md-12">
-            <div class="col-md-7">
+            <div class="col-md-6">
                 <div class="col-md-12">
                     @*Remarks*@
                     @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
@@ -28,12 +29,25 @@
                     @Html.Action("DocumentSummary", "DocumentApproval")
                 </div>
             </div>
-            <div class="col-md-5" style="border-left:2px solid #c6e6e8; min-height:400px">
+            <div class="col-md-6" style="border-left:2px solid #c6e6e8; min-height:400px">
                 @* Approval History *@
                 @Html.Action("ApprovalHistory", "DocumentApproval")
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <a class="btn btn-success" onclick="ApproveDocument()" id="btnApproveDocument" style="color:white;font-weight:bold;width:90%"><i class="glyphicon glyphicon-ok"></i> Approve</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-danger" onclick="RejectDocument()" id="btnRejectDocument" style="color:white;font-weight:bold;width:90%"><i class="glyphicon glyphicon-remove"></i> Reject</a>
+                    </div>
+                </div>
             </div> 
         </div>
     </div>
 </section>
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/DocumentApproval/ApprovalHistory")
+}
 
 
