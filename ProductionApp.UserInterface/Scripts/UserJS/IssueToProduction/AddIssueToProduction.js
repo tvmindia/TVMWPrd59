@@ -30,10 +30,11 @@ $(document).ready(function () {
          { "data": "MaterialDesc", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "UnitCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "Qty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },        
-         { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a> | <a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
+         { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a> | <a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>' },
          ],
          columnDefs: [{ "targets": [0,1], "visible": false, searchable: false },                              
              { className: "text-left", "targets": [2, 3, 4, 5] },
+             {"targets":[2],"width":"10%"},
              { "targets": [6], "width": "5%" },
              { "targets": [5], "width": "10%" }
          ]
@@ -62,25 +63,12 @@ $(document).ready(function () {
 function ShowIssueToProductionDetailsModal()
 {
     debugger;
-    PopupClearFields();
-    $('#MaterialID').val();
-    $('#MaterialIssueDetail_Material_MaterialCode').val();
-    $('#MaterialIssueDetail_MaterialDesc').val();
-    $('#MaterialIssueDetail_UnitCode').val();
-    $('#MaterialIssueDetail_Qty').val();
-    $('#AddIssueToProductionItemModal').modal('show');
-}
-
-function PopupClearFields()
-{
-    //_MaterialIssueDetail = [];
-   // $("#materialSearch").select2({ dropdownParent: $("#AddIssueToProductionItemModal") });
-   // $('#materialSearch').val('').trigger('change');
-    $('#MaterialID').val('');
+    $('#MaterialID').val('').select2();
     $('#MaterialIssueDetail_Material_MaterialCode').val('');
     $('#MaterialIssueDetail_MaterialDesc').val('');
     $('#MaterialIssueDetail_UnitCode').val('');
     $('#MaterialIssueDetail_Qty').val('');
+    $('#AddIssueToProductionItemModal').modal('show');
 }
 
 function BindRawMaterialDetails(ID)
@@ -176,7 +164,7 @@ function MaterialEdit(curObj)
     //BindRawMaterialDetails(rowData.ID);
     if ((rowData != null) && (rowData.MaterialID != null))
     {
-        $("#MaterialID").val(rowData.MaterialID);
+        $("#MaterialID").val(rowData.MaterialID).select2();
        $('#MaterialIssueDetail_Material_MaterialCode').val(rowData.Material.MaterialCode);
         $('#MaterialIssueDetail_MaterialDesc').val(rowData.MaterialDesc);
        $('#MaterialIssueDetail_UnitCode').val(rowData.UnitCode);
@@ -253,7 +241,8 @@ function DeleteIssueToProduction()
                 ds = JSON.parse(ds);
             }
             if (ds.Result == "OK") {
-                notyAlert('success', ds.Record.Message);                               
+                notyAlert('success', ds.Record.Message);
+                window.location.replace("AddIssueToProduction?code=STR");
             }
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);
@@ -339,8 +328,8 @@ function  BindIssueToProductionByID()
     $('#ID').val(result.ID);
     $('#IssueNo').val(result.IssueNo);
     $('#IssueDateFormatted').val(result.IssueDateFormatted);
-    $('#IssuedBy').val(result.IssuedBy);
-    $('#IssueTo').val(result.IssueTo);
+    $('#IssuedBy').val(result.IssuedBy).select2();
+    $('#IssueTo').val(result.IssueTo).select2();
     $('#GeneralNotes').val(result.GeneralNotes);
     $('#lblIssueNo').text('Issue To Production#:' + result.IssueNo);
     BindMaterialIssueDetailTable(ID);

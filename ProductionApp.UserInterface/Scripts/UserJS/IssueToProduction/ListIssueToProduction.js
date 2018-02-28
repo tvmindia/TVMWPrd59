@@ -8,11 +8,20 @@ $(document).ready(function () {
         $("#IssuedBy").select2({
         });
         BindOrReloadIssueToProductionTable('Init');
+        $('#tblIssueToProduction tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
     }
     catch (e) {
         console.log(e.message);
     }
 });
+
+function Edit(curObj)
+{   
+    var rowData = DataTables.IssueToProductionList.row($(curObj).parents('tr')).data();
+    window.location.replace("AddIssueToProduction?code=STR&ID=" + rowData.ID);
+}
 
 function BindOrReloadIssueToProductionTable(action)
 {
@@ -60,6 +69,7 @@ function BindOrReloadIssueToProductionTable(action)
                                          }
                         }],
                         order: false,
+                        ordering: false,
                         searching: false,
                         paging: true,
                         lengthChange: false,
@@ -84,7 +94,8 @@ function BindOrReloadIssueToProductionTable(action)
                              }
                         ],
                         columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1,2,3,4]}],                    
+                    { className: "text-left", "targets": [1, 3, 4] },
+                        {className:"text-center","targets": [ 2 ]}],
                         destroy: true,
                         //for performing the import operation after the data loaded
                         initComplete: function (settings, json) {
