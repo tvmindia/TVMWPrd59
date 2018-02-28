@@ -14,5 +14,6 @@ namespace ProductionApp.RepositoryServices.Contracts
 
         List<DocumentApproval> GetAllDocumentsPendingForApprovals(DocumentApprovalAdvanceSearch documentApprovalAdvanceSearch);
         DataTable GetDocumentSummary(Guid DocumentID, string DocumentTypeCode);
+        object ApproveDocumentInsert(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode);
     }
 }
