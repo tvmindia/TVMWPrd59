@@ -36,12 +36,14 @@ $(document).ready(function () {
 function ApproveDocument() {
     try {
         debugger;
-        var DocumentID = $("#DocumentID").val(); //"CCAF70C5-3D71-429A-B817-474461F2C29A";
-        var DocumentTypeCode = $("#DocumentType").val();// "PO";
+        var DocumentID = $("#DocumentID").val();
+        var ApprovalLogID = $("#ID").val();
+        var DocumentTypeCode = $("#DocumentType").val();
 
-        var data = { "DocumentID": DocumentID, "DocumentTypeCode": DocumentTypeCode };
+        var data = { "ApprovalLogID": ApprovalLogID, "DocumentID": DocumentID, "DocumentTypeCode": DocumentTypeCode
+    };
         var ds = {};
-        ds = GetDataFromServer("DocumentApproval/ApproveDocument/", data);
+        ds = GetDataFromServer("DocumentApproval/ApproveDocumentInsert/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }

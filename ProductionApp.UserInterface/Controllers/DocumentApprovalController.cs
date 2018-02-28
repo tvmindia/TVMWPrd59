@@ -82,7 +82,6 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region GetApprovalHistory
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
-
         public string GetApprovalHistory(string DocumentID, string DocumentTypeCode)
             {
             try
@@ -97,6 +96,27 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion GetApprovalHistory
+
+        #region ApproveDocumentInsert
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public string ApproveDocumentInsert(string ApprovalLogID, string DocumentID, string DocumentTypeCode)
+        {
+            try
+            {
+                var result = _documentApprovalBusiness.ApproveDocumentInsert(Guid.Parse(ApprovalLogID),Guid.Parse(DocumentID),DocumentTypeCode);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion ApproveDocumentInsert 
+
+        #region RejectDocumentInsert
+
+        #endregion RejectDocumentInsert
 
 
         #region ButtonStyling
