@@ -25,6 +25,9 @@ namespace ProductionApp.UserInterface.Models
         public Guid LastApprovedUserID { get; set; }
         public int LatestDocumentStatus { get; set; }
         public Boolean IsNextApprover { get; set; }
+
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
     }
 
     public class ApprovalHistoryViewModel
@@ -53,7 +56,8 @@ namespace ProductionApp.UserInterface.Models
         public string ToDate { get; set; }
         [Display(Name = "Document Type")]
         public DocumentTypeViewModel DocumentType { get; set; }
-      
+        public Boolean ShowAll { get; set; }
+        public String LoginName { get; set; }
 
     }
 

@@ -31,7 +31,7 @@
      
 
     <div class="row tableContainer" style="vertical-align:bottom">
-        <div class="form-group col-md-10">
+        <div class="form-group col-md-8">
             <div class="col-md-12">
                 @Html.LabelFor(model => model.SearchTerm, htmlAttributes: new { @class = "control-label" })
             </div>
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group col-md-2" style="padding-top:50px;" >
+        <div class="form-group col-md-4" style="padding-top:50px;" >
            
             <div class="col-md-12">
                
@@ -80,10 +80,24 @@
                         @Html.Action("DocumentTypeDropdown", "DocumentType")
                     </div>
                 </div>
-                <div class="col-md-5">&nbsp;</div>
+                <div class="col-md-5">
+                    @Html.LabelFor(model => model.ShowAll, htmlAttributes: new { @class = "control-label" })
+                    <div class="col-md-12">
+                        @{
+                            List<SelectListItem> selectListItem = new List<SelectListItem>();
+                         
+                            selectListItem.Add(new SelectListItem
+                            { Text = "No", Value = "false", Selected = true });
+                            selectListItem.Add(new SelectListItem
+                            { Text = "Yes", Value = "true", Selected = false });
+                        }
+                        @Html.DropDownListFor(model => model.ShowAll, selectListItem, new { @class = "form-control BlockEnter" })
+                    </div>
+
+                </div>
 
                 <div class="col-md-2">
-                    <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadPurchaseOrderTable('Apply')">Apply</a>
+                    <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadDocumetApprovals('Apply')">Apply</a>
                 </div>
             <div  class="form-group col-md-12"></div>
         </div>
@@ -101,7 +115,7 @@
                             <th>Document Date</th>
                             <th>Approval Level</th>
                             <th>Created By</th>
-                            <th>Created Date</th>
+                            @*<th>Created Date</th>*@
                             <th>...</th>
                     </thead>
                 </table>

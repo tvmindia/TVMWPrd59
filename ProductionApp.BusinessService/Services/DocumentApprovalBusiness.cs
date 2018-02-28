@@ -1,4 +1,5 @@
 ﻿using ProductionApp.BusinessService.Contracts;
+using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.RepositoryServices.Contracts;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,13 @@ namespace ProductionApp.BusinessService.Services
         public List<ApprovalHistory> GetApprovalHistory(Guid DocumentID, string DocumentTypeCode)
         {
           return  _documentApprovalRepository.GetApprovalHistory(DocumentID, DocumentTypeCode);
+        }
+
+        public List<DocumentApproval> GetAllDocumentsPendingForApprovals(DocumentApprovalAdvanceSearch documentApprovalAdvanceSearch) {
+
+            return _documentApprovalRepository.GetAllDocumentsPendingForApprovals(documentApprovalAdvanceSearch);
+
+
         }
     }
 }
