@@ -63,6 +63,8 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<MaterialReceiptViewModel, MaterialReceipt>().ReverseMap();
                 config.CreateMap<MaterialReceiptAdvanceSearchViewModel, MaterialReceiptAdvanceSearch>().ReverseMap();
                 config.CreateMap<MaterialIssueAdvanceSearchViewModel, MaterialIssueAdvanceSearch>().ReverseMap();
+                config.CreateMap<DocumentApprovalViewModel, DocumentApproval>().ReverseMap();
+                config.CreateMap<DocumentApprovalAdvanceSearchViewModel, DocumentApprovalAdvanceSearch>().ReverseMap();
             });
         }
     }

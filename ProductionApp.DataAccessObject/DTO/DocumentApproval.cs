@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.DataAccessObject.DTO
 {
-    class DocumentApproval
+    public class DocumentApproval
     {
             public string DocumentTypeCode { get; set; }
             public string DocumentType { get; set; }
@@ -25,6 +25,9 @@ namespace ProductionApp.DataAccessObject.DTO
             public Guid LastApprovedUserID { get; set; }
             public int LatestDocumentStatus { get; set; }
             public Boolean IsNextApprover { get; set; }
+
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
     }
     public class ApprovalHistory
     {
@@ -34,4 +37,18 @@ namespace ProductionApp.DataAccessObject.DTO
     {
         object DataTable { get; set; }
     }
+
+    public class DocumentApprovalAdvanceSearch
+    {
+       
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }     
+        public string FromDate { get; set; }      
+        public string ToDate { get; set; }       
+        public DocumentType DocumentType { get; set; }
+        public Boolean ShowAll { get; set; } 
+        public String LoginName { get; set; }
+
+    }
+
 }

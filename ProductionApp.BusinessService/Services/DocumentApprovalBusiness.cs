@@ -1,4 +1,5 @@
 ﻿using ProductionApp.BusinessService.Contracts;
+using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.RepositoryServices.Contracts;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,13 @@ namespace ProductionApp.BusinessService.Services
         public DocumentApprovalBusiness(IDocumentApprovalRepository documentApprovalRepository)
         {
             _documentApprovalRepository = documentApprovalRepository;
+        }
+
+        public List<DocumentApproval> GetAllDocumentsPendingForApprovals(DocumentApprovalAdvanceSearch documentApprovalAdvanceSearch) {
+
+            return _documentApprovalRepository.GetAllDocumentsPendingForApprovals(documentApprovalAdvanceSearch);
+
+
         }
     }
 }
