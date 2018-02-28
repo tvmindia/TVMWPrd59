@@ -11,8 +11,10 @@ namespace ProductionApp.UserInterface.Models
     {
         public Guid ID { get; set; }
         [Display(Name = "Issue To")]
+        [Required(ErrorMessage = "Issue To Employee Required")]
         public Guid IssueTo { get; set; }
         [Display(Name = "Issued By")]
+        [Required(ErrorMessage = "Issued By Employee Required")]
         public Guid IssuedBy { get; set; }
         [Display(Name = "Issue No")]
         public string IssueNo { get; set; }
