@@ -30,18 +30,24 @@ namespace ProductionApp.UserInterface.Controllers
             ViewBag.SysModuleCode = code;
             return View();
         }
-
-        public ActionResult ApproveDocument(string code)
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public ActionResult ApproveDocument(string code,string ID,string DocType,string DocID)
         {
             ViewBag.SysModuleCode = code;
+            ViewBag.DocumentID = DocID;
+            ViewBag.ApprovalLogID = ID;
+            ViewBag.DocumentType = DocType;
             return View();
         }
 
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
         public ActionResult ApprovalHistory()
         {
             ApprovalHistoryViewModel approvalHistoryVM = new ApprovalHistoryViewModel();
             return PartialView("_ApprovalHistory", approvalHistoryVM);
         }
+
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
         public ActionResult DocumentSummary()
         {
             DocumentSummaryViewModel documentSummaryVM = new DocumentSummaryViewModel();
@@ -74,6 +80,8 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetAllDocumentApproval
 
+        #region GetApprovalHistory
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
 
         public string GetApprovalHistory(string DocumentID, string DocumentTypeCode)
             {
@@ -88,6 +96,7 @@ namespace ProductionApp.UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
             }
         }
+        #endregion GetApprovalHistory
 
 
         #region ButtonStyling

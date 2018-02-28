@@ -87,7 +87,7 @@ function BindOrReloadDocumetApprovals(action) {
                     {
                         "data": "ApprovalLogID", "orderable": false, render: function (data, type, row) {
                             debugger;
-                            return '<a href="/DocumentApproval/ApproveDocument?code=APR&ID=' + data + '&DocType=' + row.DocumentTypeCode + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                            return '<a href="/DocumentApproval/ApproveDocument?code=APR&ID=' + data + '&DocType=' + row.DocumentTypeCode + '&DocID=' + row.DocumentID +  '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
                         }, "defaultContent": "<i>-</i>"
                     }
                 ],

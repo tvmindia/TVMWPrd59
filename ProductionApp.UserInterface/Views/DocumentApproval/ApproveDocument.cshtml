@@ -21,6 +21,10 @@
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Approve Document </div>
         <div class="col-md-12">
             <div class="col-md-6">
+                @Html.HiddenFor(model => model.DocumentID, htmlAttributes: new { @class = "", Value = @ViewBag.DocumentID })
+                @Html.HiddenFor(model => model.DocumentType, htmlAttributes: new { @class = "", Value = @ViewBag.DocumentType })
+                @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", Value = @ViewBag.ApprovalLogID })
+
                 <div class="col-md-12">
                     @*Remarks*@
                     @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
