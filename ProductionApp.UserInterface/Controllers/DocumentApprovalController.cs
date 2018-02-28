@@ -49,6 +49,47 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
 
+        #region GetAllDocumentApproval
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public JsonResult GetAllDocumentApproval(DataTableAjaxPostModel model, DocumentApprovalAdvanceSearchViewModel documentApprovalAdvanceSearchVM)
+        {
+            AppUA appUA = Session["AppUA"] as AppUA;
+            documentApprovalAdvanceSearchVM.LoginName = appUA.UserName;
+            documentApprovalAdvanceSearchVM.DataTablePaging.Start = model.start;
+            documentApprovalAdvanceSearchVM.DataTablePaging.Length = (documentApprovalAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : documentApprovalAdvanceSearchVM.DataTablePaging.Length);
+            List<DocumentApprovalViewModel> documentApprovalList = Mapper.Map<List<DocumentApproval>, List<DocumentApprovalViewModel>>(_documentApprovalBusiness.GetAllDocumentsPendingForApprovals(Mapper.Map<DocumentApprovalAdvanceSearchViewModel, DocumentApprovalAdvanceSearch>(documentApprovalAdvanceSearchVM)));
+            var settings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.None
+            };
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = documentApprovalList.Count != 0 ? documentApprovalList[0].TotalCount : 0,
+                recordsFiltered = documentApprovalList.Count != 0 ? documentApprovalList[0].FilteredCount : 0,
+                data = documentApprovalList
+
+            });
+        }
+        #endregion GetAllDocumentApproval
+
+
+        public string GetApprovalHistory(string DocumentID, string DocumentTypeCode)
+            {
+            try
+            {
+                List<ApprovalHistoryViewModel> approvalHistoryVMList = new List<ApprovalHistoryViewModel>();
+                approvalHistoryVMList = Mapper.Map<List<ApprovalHistory>,List< ApprovalHistoryViewModel>>(_documentApprovalBusiness.GetApprovalHistory(Guid.Parse(DocumentID), DocumentTypeCode));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = approvalHistoryVMList });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]

@@ -23,12 +23,21 @@ namespace ProductionApp.UserInterface.Models
         public Guid UserID { get; set; }
         public Guid ApproverID { get; set; }
         public Guid LastApprovedUserID { get; set; }
-        public int LatestDocumentStatus { get; set; }
+        public string LatestDocumentStatus { get; set; }
         public Boolean IsNextApprover { get; set; }
+
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
     }
 
     public class ApprovalHistoryViewModel
     {
+        public Guid ApproverID { get; set; }
+        public string ApproverName { get; set; }
+        public string ApproverLevel { get; set; }
+        public string ApprovalDate { get; set; }
+        public string ApprovalStatus { get; set; }
+        public string Remarks { get; set; }
 
     }
     public class DocumentSummaryViewModel
@@ -47,7 +56,8 @@ namespace ProductionApp.UserInterface.Models
         public string ToDate { get; set; }
         [Display(Name = "Document Type")]
         public DocumentTypeViewModel DocumentType { get; set; }
-      
+        public Boolean ShowAll { get; set; }
+        public String LoginName { get; set; }
 
     }
 

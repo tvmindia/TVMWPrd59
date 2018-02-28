@@ -435,7 +435,9 @@ background-image: -o-linear-gradient(top, #ffffff, #eeeeee);*/
     font-size:13px;
         padding-top: 10px;
 }
-
+.form-horizontal .control-label {
+    margin-bottom: 3px;
+}
 
 .mandatory:after {
 content:"★"; 

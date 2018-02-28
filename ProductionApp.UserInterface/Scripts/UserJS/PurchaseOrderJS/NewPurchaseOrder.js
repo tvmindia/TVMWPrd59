@@ -5,6 +5,7 @@ var PODetailViewModel = new Object();
 var PODDetailLink = [];
 var RequisitionDetailLink = new Object();
 var PurchaseOrderViewModel = new Object();
+var EditPOdetailID;
 $(document).ready(function () {
     debugger;
     try {
@@ -141,71 +142,86 @@ $(document).ready(function () {
             });
         
         //EditPurchaseOrderDetail
+            
           DataTables.EditPurchaseDetailsTable = $('#tblPurchaseOrderDetailsEdit').DataTable({
-              
-              dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
-              ordering: false,
-              searching: true,
-              paging: true,
-              pageLength: 7,
-              data: null,
-              columns: [
-                   { "data": "PurchaseOrderID", "defaultContent": "<i>-</i>" },
-                   { "data": "RequisitionDetail.ReqID", "defaultContent": "<i>-</i>" },
-                   { "data": "MaterialID", "defaultContent": "<i>-</i>" },
-                   //{ "data": null, "defaultContent": "", "width": "5%" },
-                   { "data": "RequisitionDetail.ReqNo", "defaultContent": "<i>-</i>", "width": "10%" },
-                   { "data": "MaterialCode", "defaultContent": "<i>-</i>" },
-                   {
+
+                  dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
+                  ordering: false,
+                  searching: true,
+                  paging: false,
+                  pageLength: 7,
+                  data: null,
+                      columns: [
+                  { "data": "PurchaseOrderID", "defaultContent": "<i>-</i>"
+                  },
+                      { "data": "RequisitionDetail.ReqID", "defaultContent": "<i>-</i>"
+                      },
+                      {
+                          "data": "RequisitionDetail.ID", "defaultContent": "<i>-</i>"
+                      },
+                   { "data": "MaterialID", "defaultContent": "<i>-</i>"
+                   },
+                      //{ "data": null, "defaultContent": "", "width": "5%" },
+                       { "data": "RequisitionDetail.ReqNo", "defaultContent": "<i>-</i>", "width": "10%" },
+                           {
+                      "data": "MaterialCode", "defaultContent": "<i>-</i>"
+                   },
+                       {
                        "data": "MaterialDesc", "defaultContent": "<i>-</i>",
                        'render': function (data, type, row) {
                            debugger;
-                           if (row.Description)
+                           if (row.MaterialDesc)
                                Desc = data;
                            else
-                               Desc = row.Description;
-                           return '<input class="form-control description" name="Markup" value="' + Desc + '" type="text" onchange="textBoxValueChanged(this,1);">';
+                               Desc = row.MaterialDesc;
+                           return '<input class="form-control description" name="Markup" value="' + Desc + '" type="text" onchange="EdittextBoxValue(this,1);">';
                        }
                    },
-                   {
-                       "data": "Rate", "defaultContent": "<i>-</i>", "width": "10%", 'render': function (data, type, row) {
-                           debugger;
-                           return '<input class="form-control text-right " name="Markup" value="' + data + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="textBoxValueChanged(this,2);">';
+                           {
+                          "data": "Rate", "defaultContent": "<i>-</i>", "width": "10%", 'render': function (data, type, row) {
+                              debugger;
+                              return '<input class="form-control text-right " name="Markup" value="' + data + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="EdittextBoxValue(this,2);">';
                        }
-                   },
-                  { "data": "RequisitionDetail.RequestedQty", "defaultContent": "<i>-</i>", "width": "10%" },
-                   { "data": "RequisitionDetail.OrderedQty", "defaultContent": "<i>-</i>", "width": "10%" },
-                   {
-                       "data": "Qty", "defaultContent": "<i>-</i>", "width": "10px",
-                       'render': function (data, type, row) {
-                           return '<input class="form-control text-right " name="Markup" type="text"  value="' + data + '"  onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="textBoxValueChanged(this,4);">';
-                       }
-                   },
-                   {
+                              },
+                      { "data": "RequisitionDetail.RequestedQty", "defaultContent": "<i>-</i>", "width": "10%"
+                     },
+                    {
+                    "data": "RequisitionDetail.OrderedQty", "defaultContent" : "<i>-</i>", "width": "10%" },
+                     {
+                        "data": "Qty", "defaultContent": "<i>-</i>", "width": "10px",
+                         'render': function (data, type, row) {
+                             return '<input class="form-control text-right " name="Markup" type="text"  value="' + data + '"  onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="EdittextBoxValue(this,6);">';
+                           }
+                           },
+                               {
                        "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "10%",
                        'render': function (data, type, row) {
-                           return '<select id="dddl' + row.PurchaseOrderID + '" onchange="textBoxValueChanged(this,5);" ><option value="GST18">GST18%</option><option value="GST28">GST28%</option><option value="GST12">GST12%</option></select>';
-                       }
+                           return '<select id="dddl' + row.PurchaseOrderID + '" onchange="EdittextBoxValue(this,5);" ><option value="GST18">GST18%</option><option value="GST28">GST28%</option><option value="GST12">GST12%</option></select>';
+                           }
                    },
-                   {
+                       {
                        "data": "Discount", "defaultContent": "<i>-</i>",
                        'render': function (data, type, row) {
-                           return '<input class="form-control description" name="Markup" value="' + data + '" type="text" onchange="textBoxValueChanged(this,3);">';
+                           return '<input class="form-control description" name="Markup" value="' + data + '" type="text" onchange="EdittextBoxValue(this,3);">';
                        }
-                   },
+                   }
+                       ],
+                  columnDefs: [
+                  { className: "text-left", "targets": [5, 6]
+                  }
+                  , { className: "text-right", "targets": [7, 8, 9, 10]
+      }
+                  , {
+          className: "text-center", "targets": [1, 4]}
+          , {
+          "targets": [0, 1, 2,3], "visible": false, "searchable": false
+          }
+          , {
+          "targets": [2, 3, 4, 5, 6, 7, 8, 9, 10], "bSortable": false }]
 
-                   { "data": "UnitCode", "defaultContent": "<i>-</i>" }
 
-              ],
-              columnDefs: [
-                     { className: "text-left", "targets": [5, 6] }
-                  , { className: "text-right", "targets": [7, 8, 9, 10] }
-                  , { className: "text-center", "targets": [1, 4] }
-                  , { "targets": [0, 1, 2, 12], "visible": false, "searchable": false }
-                  , { "targets": [2, 3, 4, 5, 6, 7, 8, 9, 10], "bSortable": false }],
-
-              select: { style: 'multi', selector: 'td:first-child' }
           });
+
         //RequisitionListTable
           DataTables.RequisitionListTable = $('#tblRequisitionList').DataTable({
               dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
@@ -363,6 +379,7 @@ function GetRequisitionDetailsByIDs(IDs) {
         console.log(e.message);
     }
 }
+
 //TextBox value change in datatable
 function textBoxValueChanged(thisObj, textBoxCode) {
     debugger;
@@ -381,7 +398,7 @@ function textBoxValueChanged(thisObj, textBoxCode) {
             if (textBoxCode == 4)
                 allData[i].POQty = parseFloat(thisObj.value);
             if (textBoxCode == 5)
-                allData[i].Taxtype = $("dddl'"+thisObj.ID+"'").text();
+                allData[i].Taxtype = $("dddl'" + thisObj.ID + "'").text();
         }
     }
     DataTables.RequisitionDetailsTable.clear().rows.add(allData).draw(false);
@@ -703,10 +720,10 @@ function Reset() {
 //Edit PurchaseOrderDetail
 function EditPurchaseOrderDetailTable(curObj) {
     debugger;
-    var rowData = DataTables.PurchaseOrderDetailTable.row($(curObj).parents('tr')).data();
     $('#EditRequisitionDetailsModal').modal('show');
+    var rowData = DataTables.PurchaseOrderDetailTable.row($(curObj).parents('tr')).data();
     EditPurchaseOrderDetailByID(rowData.ID)
-    EditSPOdetailID = rowData.ID// to set PODetailID
+    EditPOdetailID = rowData.ID// to set PODetailID
     
 }
 
@@ -763,17 +780,27 @@ function EditPODetails() {
         for (var r = 0; r < mergedRows.length; r++) {
             PODetailViewModel = new Object();
             PODetailViewModel.MaterialID = mergedRows[r].MaterialID;
-            PODetailViewModel.ID = EditSPOdetailID;
+            PODetailViewModel.ID = EditPOdetailID;
             PODetailViewModel.ReqDetailId = mergedRows[r].ID;
-            PODetailViewModel.ReqID = mergedRows[r].ReqID;
-            PODetailViewModel.MaterialCode = mergedRows[r].Material.MaterialCode;
-            PODetailViewModel.MaterialDesc = mergedRows[r].Material.MaterialDesc;
-            PODetailViewModel.Qty = mergedRows[r].POQty;
-            PODetailViewModel.Rate = mergedRows[r].AppxRate;
-            PODetailViewModel.UnitCode = mergedRows[r].UnitCode;
+            PODetailViewModel.ReqID = mergedRows[r].RequisitionDetail.ReqID;
+            PODetailViewModel.MaterialCode = mergedRows[r].MaterialCode;
+            PODetailViewModel.MaterialDesc = mergedRows[r].MaterialDesc;
+            PODetailViewModel.Qty = mergedRows[r].Qty;
+            PODetailViewModel.Rate = mergedRows[r].Rate;
+            //PODetailViewModel.UnitCode = mergedRows[r].UnitCode;
             PODetailViewModel.Particulars = mergedRows[r].Particulars;
-            PODetailViewModel.Amount = parseFloat(mergedRows[r].AppxRate) * parseFloat(mergedRows[r].POQty);
+            PODetailViewModel.Discount = mergedRows[r].Discount;
+            PODetailViewModel.TaxTypeCode = $("#dddl" + mergedRows[r].PurchaseOrderID).val();
+            PODetailViewModel.Amount = parseFloat(mergedRows[r].Rate) * parseFloat(mergedRows[r].Qty);
+            if (PODetailViewModel.Discount != null)
+                PODetailViewModel.Tax = parseFloat(PODetailViewModel.Amount) - parseFloat(PODetailViewModel.Discount);
+            else
+                PODetailViewModel.Tax = parseFloat(PODetailViewModel.Amount);
             //Particulars after adding same material(item)
+            var result = GetTaxTypeByCode(PODetailViewModel.TaxTypeCode);
+            PODetailViewModel.CGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(result.CGSTPercentage) / 100);
+            PODetailViewModel.SGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(result.SGSTPercentage) / 100);
+            PODetailViewModel.Total = parseFloat(PODetailViewModel.Tax) + parseFloat(PODetailViewModel.CGSTAmt) + parseFloat(PODetailViewModel.SGSTAmt);
             PODDetail.push(PODetailViewModel);
         }
         debugger;
@@ -786,40 +813,36 @@ function EditRequsitionDetailLink(data) {
     for (var r = 0; r < data.length; r++) {
         PurchaseOrderDetailLink = new Object();
         PurchaseOrderDetailLink.MaterialID = data[r].MaterialID;
-        PurchaseOrderDetailLink.ID = data[r].LinkID;//LinkId
+        PurchaseOrderDetailLink.ID = data[r].RequisitionDetail.ID;//LinkId
         PurchaseOrderDetailLink.ReqDetailID = data[r].ReqDetailID;//[ReqDetailID]
-        PurchaseOrderDetailLink.ReqID = data[r].ReqID;
-        PurchaseOrderDetailLink.Qty = data[r].POQty;
+        PurchaseOrderDetailLink.ReqID = data[r].RequisitionDetail.ReqID;
+        PurchaseOrderDetailLink.PurchaseOrderQty = data[r].Qty;
         PODDetailLink.push(PurchaseOrderDetailLink);
     }
 }
 function UpdateDetailLinkSave() {
     debugger;
     //validation main form 
-    var $form = $('#SupplierPOForm');
-    if ($form.valid()) {
+   // var $form = $('#SupplierPOForm');
+   // if ($form.valid()) {
         PurchaseOrderViewModel.ID = $('#ID').val();
         PurchaseOrderViewModel.PODDetail = PODDetail;
         PurchaseOrderViewModel.PODDetailLink = PODDetailLink;
-        var data = "{'POViewModel':" + JSON.stringify(PurchaseOrderViewModel) + "}";
+        var data = "{'purchaseOrderVM':" + JSON.stringify(PurchaseOrderViewModel) + "}";
 
         PostDataToServer("PurchaseOrder/UpdatePurchaseOrderDetailLink/", data, function (JsonResult) {
 
             debugger;
             switch (JsonResult.Result) {
                 case "OK":
-                    if (JsonResult.Record.Status == "2") {
-                        notyAlert('warning', JsonResult.Record.Message);
-                        Reset();
-                    }
-                    else {
-                        notyAlert('success', JsonResult.Record.Message);
+                   
+                        notyAlert('success', JsonResult.Records.Message);
                         ChangeButtonPatchView('PurchaseOrder', 'divbuttonPatchAddPurchaseOrder', 'Edit');
                         BindPurchaseOrder($("#ID").val());
                         PODDetail = [];
                         PODDetailLink = [];
-                    }
-                    break;
+                  
+                         break;
                 case "Error":
                     notyAlert('error', JsonResult.Message);
                     break;
@@ -830,7 +853,30 @@ function UpdateDetailLinkSave() {
                     break;
             }
         })
+    //}
+}
+//Edit TextBox value changed in Editdatatable
+function EdittextBoxValue(thisObj, textBoxCode) {
+    debugger;
+    var IDs = selectedRowIDs();//identify the selected rows 
+    var allData = DataTables.EditPurchaseDetailsTable.rows().data();
+    var table = DataTables.EditPurchaseDetailsTable;
+    var rowtable = table.row($(thisObj).parents('tr')).data();
+    for (var i = 0; i < allData.length; i++) {
+        if (allData[i].ID == rowtable.ID) {
+            if (textBoxCode == 1)//textBoxCode is the code to know, which textbox changed is triggered
+                allData[i].MaterialDesc = thisObj.value;
+            if (textBoxCode == 2)
+                allData[i].Rate = parseFloat(thisObj.value);
+            if (textBoxCode == 3)
+                allData[i].Discount = parseFloat(thisObj.value);
+            if (textBoxCode == 5)
+                allData[i].Taxtype = $("dddl'" + thisObj.ID + "'").text();
+            if (textBoxCode == 6)
+                allData[i].Qty = parseFloat(thisObj.value);
+        }
     }
+    DataTables.EditPurchaseDetailsTable.clear().rows.add(allData).draw(false);
 }
 //Delete PurchaseOrder
 function DeleteClick() {
