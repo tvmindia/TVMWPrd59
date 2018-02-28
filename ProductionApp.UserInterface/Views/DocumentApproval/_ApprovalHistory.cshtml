@@ -1,7 +1,5 @@
 ﻿@using ProductionApp.UserInterface.App_Start
-@section styles {
-    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
-}
+
 
 <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Approval History </div>
 <section class="content">
@@ -22,6 +20,5 @@
 </section>
 
 @section Scripts {
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/DocumentApproval/ApprovalHistory")
 }
