@@ -836,6 +836,7 @@
     <Content Include="Views\DocumentApproval\ApproveDocument.cshtml" />
     <Content Include="Views\DocumentApproval\_ApprovalHistory.cshtml" />
     <Content Include="Views\DocumentApproval\_DocumentSummary.cshtml" />
+    <Content Include="Views\Account\NotAuthorized.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
