@@ -17,7 +17,8 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     try {
         debugger;
-        BindOrReloadApproverTable('Init');        
+        BindOrReloadApproverTable('Init');
+        
     }
     catch (e) {
         console.log(e.message);
@@ -28,19 +29,24 @@ $(document).ready(function () {
 //--function bind the Approver list checking search and filter--//
 function BindOrReloadApproverTable(action) {
     try {
+        debugger;
         //creating advancesearch object
         ApproverAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
+        DocumentTypeViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
         //switch case to check the operation
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
+                $('#DocumentTypeCode').val('');
                 break;
             case 'Init':
                 break;
             case 'Search':
                 break;
+            case 'Apply':
+                    break;
             case 'Export':
                 if ($('#SearchTerm').val() == "")
                     DataTablePagingViewModel.Length = -1;
@@ -49,6 +55,8 @@ function BindOrReloadApproverTable(action) {
                 break;
         }
         ApproverAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
+        DocumentTypeViewModel.Code = $('#DocumentTypeCode').val();
+        ApproverAdvanceSearchViewModel.DocumentType = DocumentTypeViewModel;
         ApproverAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
 
         //apply datatable plugin on Approver table
@@ -133,26 +141,17 @@ function AddApproverMaster(flag) {
 
 //--edit Approver--//
 function EditApproverMaster(this_obj) {
+    debugger;
     rowData = DataTables.approverList.row($(this_obj).parents('tr')).data();
     GetMasterPartial("Approver", rowData.ID);
     $('#h3ModelMasterContextLabel').text('Edit Approver')
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val('MSTR');
+    if ($('#IsDefault').is(":checked")) {
+        $('#IsDefault').prop("disabled",true);
+    }
+    else {
+        $('#IsDefault').prop("disabled", false);
+    }
 }
 
-//--Function To get emailid on user dropdown change--//
-function GetEmailId(UserID) {
-    debugger;
-    var data = { "Id": UserID };
-    var ds = {};
-    ds = GetDataFromServer("User/GetUserDetailsByID/", data);
-    if (ds != '') {
-        ds = JSON.parse(ds);
-        $('label[for="email"]').text(ds.Records.Email);
-        $('label[for="email"]').show();
-    }
-    if (ds.Result == "OK") {
-        return ds.Records;
-    }
-    
-}
