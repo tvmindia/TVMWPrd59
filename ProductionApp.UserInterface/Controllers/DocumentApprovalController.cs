@@ -131,6 +131,26 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion RejectDocument
 
+        #region ValidateDocumentsApprovalPermission
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public string ValidateDocumentsApprovalPermission( string DocumentID, string DocumentTypeCode)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                string LoginName = appUA.UserName;
+                var result = _documentApprovalBusiness.ValidateDocumentsApprovalPermission(LoginName, Guid.Parse(DocumentID), DocumentTypeCode);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+        #endregion ValidateDocumentsApprovalPermission
+
 
         #region ButtonStyling
         [HttpGet]
@@ -153,6 +173,13 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.PrintBtn.Title = "Export";
                     toolboxVM.PrintBtn.Event = "ExportPendingDocs();";
                     //---------------------------------------
+                    break;
+                case "Back":
+                    toolboxVM.backbtn.Visible = true;
+                    toolboxVM.backbtn.Text = "Back";
+                    toolboxVM.backbtn.Title = "Back";
+                    toolboxVM.ListBtn.Event = "";
+                    toolboxVM.backbtn.Href = Url.Action("ViewPendingDocuments", "DocumentApproval", new { Code = "APR"});
 
                     break;
               

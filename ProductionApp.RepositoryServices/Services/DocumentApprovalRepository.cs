@@ -20,10 +20,12 @@ namespace ProductionApp.RepositoryServices.Services
         /// Constructor Injection:-Getting IDatabaseFactory implementing object
         /// </summary>
         /// <param name="databaseFactory"></param>
+
         public DocumentApprovalRepository(IDatabaseFactory databaseFactory)
         {
             _databaseFactory = databaseFactory;
         }
+
         public List<DocumentApproval> GetAllDocumentsPendingForApprovals(DocumentApprovalAdvanceSearch documentApprovalAdvanceSearch)
         {
             List<DocumentApproval> documentApprovalList = null;
@@ -104,6 +106,7 @@ namespace ProductionApp.RepositoryServices.Services
 
             return documentApprovalList;
         }
+
         public List<ApprovalHistory> GetApprovalHistory(Guid DocumentID, string DocumentTypeCode)
         {
             List<ApprovalHistory> approvalHistoryList = null;
@@ -202,7 +205,6 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
 
-
         public DataTable GetDocumentSummary(Guid DocumentID, string DocumentTypeCode) {
             try
             {
@@ -290,5 +292,46 @@ namespace ProductionApp.RepositoryServices.Services
                 Message = _appConst.RejectSuccess
             };
         }
+
+        public object ValidateDocumentsApprovalPermission(string LoginName, Guid DocumentID, string DocumentTypeCode)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[ValidateDocumentsApprovalPermission]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@LoginName", SqlDbType.VarChar, 250).Value = LoginName;
+                        cmd.Parameters.Add("@DocumentID", SqlDbType.UniqueIdentifier).Value = DocumentID;
+                        cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.VarChar, 5).Value = DocumentTypeCode;
+
+                        outputStatus = cmd.Parameters.Add("@isValid", SqlDbType.Bit);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+             
+            };
+
+        }
+
+
+
     }
 }

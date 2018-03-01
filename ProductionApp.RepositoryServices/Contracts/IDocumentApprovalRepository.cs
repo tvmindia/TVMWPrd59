@@ -16,6 +16,7 @@ namespace ProductionApp.RepositoryServices.Contracts
         DataTable GetDocumentSummary(Guid DocumentID, string DocumentTypeCode);
         object ApproveDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode);
         object RejectDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode, string Remarks);
+        object ValidateDocumentsApprovalPermission(string LoginName, Guid DocumentID, string DocumentTypeCode);
 
     }
 }

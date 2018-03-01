@@ -42,6 +42,11 @@ namespace ProductionApp.BusinessService.Services
         public object RejectDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode, string Remarks)
         {
             return _documentApprovalRepository.RejectDocument(ApprovalLogID, DocumentID, DocumentTypeCode, Remarks);
+        }
+
+        public object ValidateDocumentsApprovalPermission(string LoginName, Guid DocumentID, string DocumentTypeCode)
+        {
+            return _documentApprovalRepository.ValidateDocumentsApprovalPermission(LoginName, DocumentID, DocumentTypeCode);
 
         }
     }
