@@ -29,10 +29,6 @@ namespace ProductionApp.BusinessService.Services
         {
             return _approverRepository.InsertUpdateApprover(approver);
         }
-        public bool CheckDefaultApproverExist(string documentTypeCode, int level)
-        {
-            return _approverRepository.CheckDefaultApproverExist(documentTypeCode, level);
-        }
 
     }
 }

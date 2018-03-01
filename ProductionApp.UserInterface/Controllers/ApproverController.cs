@@ -46,9 +46,6 @@ namespace ProductionApp.UserInterface.Controllers
                 approverAdvanceSearchVM.DataTablePaging.Start = model.start;
                 approverAdvanceSearchVM.DataTablePaging.Length = (approverAdvanceSearchVM.DataTablePaging.Length == 0) ? model.length : approverAdvanceSearchVM.DataTablePaging.Length;
 
-                //bankAdvanceSearchVM.OrderColumn = model.order[0].column;
-                //bankAdvanceSearchVM.OrderDir = model.order[0].dir;
-
                 // action inside a standard controller
                 List<ApproverViewModel> approverVMList = Mapper.Map<List<Approver>, List<ApproverViewModel>>(_approverBusiness.GetAllApprover(Mapper.Map<ApproverAdvanceSearchViewModel, ApproverAdvanceSearch>(approverAdvanceSearchVM)));
                 if (approverAdvanceSearchVM.DataTablePaging.Length == -1)
@@ -90,7 +87,10 @@ namespace ProductionApp.UserInterface.Controllers
             {
                 approverVM.IsActive = true;
                 approverVM.IsDefault = true;
+                
             }
+            //--For Manging disabled checkbox IsDefault--//
+            approverVM.IsDefaultString = approverVM.IsDefault?"true":"false";
             return PartialView("_AddApproverPartial", approverVM);
         }
         #endregion MasterPartial
@@ -105,6 +105,11 @@ namespace ProductionApp.UserInterface.Controllers
             {
                 try
                 {
+                    //--For Manging disabled checkbox IsDefault--//
+                    if (!approverVM.IsDefault)
+                    {
+                        approverVM.IsDefault = bool.Parse(approverVM.IsDefaultString);
+                    }
                     AppUA appUA = Session["AppUA"] as AppUA;
                     approverVM.Common = new CommonViewModel
                     {
@@ -113,6 +118,7 @@ namespace ProductionApp.UserInterface.Controllers
                         UpdatedBy = appUA.UserName,
                         UpdatedDate = _common.GetCurrentDateTime(),
                     };
+
                     var result = _approverBusiness.InsertUpdateApprover(Mapper.Map<ApproverViewModel, Approver>(approverVM));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
                 }
@@ -136,28 +142,6 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion InsertUpdateApprover
-
-        #region CheckDefaultApproverExist
-        [AcceptVerbs("Get", "Post")]
-        public ActionResult CheckDefaultApproverExist(ApproverViewModel approverVM)
-        {
-            try
-            {
-                bool exists = approverVM.IsUpdate ? false : _approverBusiness.CheckDefaultApproverExist(approverVM.DocumentTypeCode,approverVM.Level);
-                if ((!exists )&& (approverVM.IsDefault))
-                {
-                    return Json("<p><span style='vertical-align: 2px'>Default approver Existing for Current document with current level  </span> <i class='fa fa-close' style='font-size:19px; color: red'></i></p>", JsonRequestBehavior.AllowGet);
-                }
-                //var result = new { success = true, message = "Success" };
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                AppConstMessage cm = _appConst.GetMessage(ex.Message);
-                return Json(new { Result = "ERROR", Message = cm.Message });
-            }
-        }
-        #endregion CheckDefaultApproverExist
 
         #region ButtonStyling
         [HttpGet]

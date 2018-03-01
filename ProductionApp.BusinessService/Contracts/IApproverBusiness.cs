@@ -11,8 +11,7 @@ namespace ProductionApp.BusinessService.Contracts
     {
         List<Approver> GetAllApprover(ApproverAdvanceSearch approverAdvanceSearch);
         Approver GetApprover(Guid id);
-        object InsertUpdateApprover(Approver Approver);
-        bool CheckDefaultApproverExist(string documentTypeCode, int level);
+        object InsertUpdateApprover(Approver approver);
 
     }
 }
