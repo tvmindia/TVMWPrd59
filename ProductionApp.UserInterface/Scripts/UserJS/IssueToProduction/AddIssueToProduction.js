@@ -105,7 +105,7 @@ function GetMaterial(ID) {
 function AddIssueToProductItem()
 {
     debugger;
-    if ($('#MaterialID').val() != "")
+    if ($('#MaterialID').val() != "" && $('#MaterialIssueDetail_Qty').val()!="")
     {
         _MaterialIssueDetail = [];
         AddMaterialIssue = new Object();
@@ -150,8 +150,12 @@ function AddIssueToProductItem()
                 DataTables.MaterialIssueDetailTable.rows.add(_MaterialIssueDetail).draw(false);
             }
         }
+        $('#AddIssueToProductionItemModal').modal('hide');
     }
-    $('#AddIssueToProductionItemModal').modal('hide');
+    else
+    {
+        notyAlert('warning', "Material and Quantity fields are required ");
+    }
 
 }
 

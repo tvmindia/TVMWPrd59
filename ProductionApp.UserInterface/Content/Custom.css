@@ -146,7 +146,7 @@ body    {
     color:red!important;
 }
 .SCHeader {
-   font-size: 25px!important;
+   font-size: 23px!important;
     color:  #545454;    
     margin-top:0%;
     text-align:left;
@@ -1074,7 +1074,19 @@ td.totalRow {
     margin-top:15px;
     
 }
-}
+
 .select2-results__option{
     margin-left:5%!important;
+}
+
+
+.modelIcon {
+    float: left;
+margin-left: -20px;
+margin-top: 0px;
+background-image:url(images/browser-window.png);
+background-repeat: no-repeat;
+padding-left:35px;
+vertical-align:middle;
+background-position: 0% 50%; 
 }

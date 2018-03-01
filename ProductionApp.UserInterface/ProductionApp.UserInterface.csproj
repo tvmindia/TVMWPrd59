@@ -427,6 +427,7 @@
     <Content Include="Content\images\bg.png" />
     <Content Include="Content\images\bg123.png" />
     <Content Include="Content\images\bgTest1.JPG" />
+    <Content Include="Content\images\browser-window.png" />
     <Content Include="Content\images\calendar.png" />
     <Content Include="Content\images\circle.png" />
     <Content Include="Content\images\close.png" />
