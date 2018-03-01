@@ -40,16 +40,14 @@ function ApproveDocument() {
         var ApprovalLogID = $("#ID").val();
         var DocumentTypeCode = $("#DocumentType").val();
 
-        var data = { "ApprovalLogID": ApprovalLogID, "DocumentID": DocumentID, "DocumentTypeCode": DocumentTypeCode
-    };
+        var data = { "ApprovalLogID": ApprovalLogID, "DocumentID": DocumentID, "DocumentTypeCode": DocumentTypeCode};
         var ds = {};
         ds = GetDataFromServer("DocumentApproval/ApproveDocumentInsert/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }
         if (ds.Result == "OK") {
-            return ds.Records;
-
+            notyAlert('success', ds.Records.Message);
         }
         if (ds.Result == "ERROR") {
             alert(ds.Message);
@@ -59,8 +57,35 @@ function ApproveDocument() {
         notyAlert('error', e.message);
     }
 }
-function RejectDocument() {
-    debugger;
-    alert('2')
+function RejectDocument()
+{
+    try
+    {
+        debugger;
+        var DocumentID = $("#DocumentID").val();
+        var ApprovalLogID = $("#ID").val();
+        var DocumentTypeCode = $("#DocumentType").val();
+        var Remarks = $('#Remarks').val();
 
+        if (Remarks == "")
+            notyAlert('warning', 'Remarks Field is Empty');
+        else
+        {
+            var data = { "ApprovalLogID": ApprovalLogID, "DocumentID": DocumentID, "DocumentTypeCode": DocumentTypeCode, "Remarks": Remarks };
+            var ds = {};
+            ds = GetDataFromServer("DocumentApproval/RejectDocument/", data);
+            if (ds != '') {
+                ds = JSON.parse(ds);
+            }
+            if (ds.Result == "OK") {
+                notyAlert('success', ds.Records.Message);
+            }
+            if (ds.Result == "ERROR") {
+                alert(ds.Message);
+            }
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }

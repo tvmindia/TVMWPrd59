@@ -24,25 +24,25 @@ namespace ProductionApp.BusinessService.Services
           return  _documentApprovalRepository.GetApprovalHistory(DocumentID, DocumentTypeCode);
         }
 
-        public List<DocumentApproval> GetAllDocumentsPendingForApprovals(DocumentApprovalAdvanceSearch documentApprovalAdvanceSearch) {
-
+        public List<DocumentApproval> GetAllDocumentsPendingForApprovals(DocumentApprovalAdvanceSearch documentApprovalAdvanceSearch)
+        {
             return _documentApprovalRepository.GetAllDocumentsPendingForApprovals(documentApprovalAdvanceSearch);
-
-
-
         }
 
-
-
-
-        public DataTable GetDocumentSummary(Guid DocumentID, string DocumentTypeCode) {
-
+        public DataTable GetDocumentSummary(Guid DocumentID, string DocumentTypeCode)
+        {
             return _documentApprovalRepository.GetDocumentSummary(DocumentID, DocumentTypeCode);
         }
 
-        public object ApproveDocumentInsert(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode)
+        public object ApproveDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode)
         {
-            return _documentApprovalRepository.ApproveDocumentInsert(ApprovalLogID, DocumentID, DocumentTypeCode);
+            return _documentApprovalRepository.ApproveDocument(ApprovalLogID, DocumentID, DocumentTypeCode);
+        }
+
+        public object RejectDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode, string Remarks)
+        {
+            return _documentApprovalRepository.RejectDocument(ApprovalLogID, DocumentID, DocumentTypeCode, Remarks);
+
         }
     }
 }

@@ -153,7 +153,7 @@ namespace ProductionApp.RepositoryServices.Services
 
         }
 
-        public object ApproveDocumentInsert(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode)
+        public object ApproveDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode)
         {
             SqlParameter outputStatus= null;
             try
@@ -239,6 +239,56 @@ namespace ProductionApp.RepositoryServices.Services
                 throw ex;
             }
 
+        }
+
+        public object RejectDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode, string Remarks)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[RejectDocument]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ApprovalLogID", SqlDbType.UniqueIdentifier).Value = ApprovalLogID;
+                        cmd.Parameters.Add("@DocumentID", SqlDbType.UniqueIdentifier).Value = DocumentID;
+                        cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.VarChar, 250).Value = DocumentTypeCode;
+                        cmd.Parameters.Add("@Remarks", SqlDbType.VarChar,-1).Value = Remarks;
+
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(_appConst.RejectFailure);
+                    case "1":
+                        return new
+                        {
+                            Status = outputStatus.Value.ToString(),
+                            Message = _appConst.RejectSuccess
+                        };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = _appConst.RejectSuccess
+            };
         }
     }
 }
