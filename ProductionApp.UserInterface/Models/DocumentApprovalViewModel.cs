@@ -59,6 +59,8 @@ namespace ProductionApp.UserInterface.Models
         public string ToDate { get; set; }
         [Display(Name = "Document Type")]
         public DocumentTypeViewModel DocumentType { get; set; }
+        
+        [Display(Name = "Show All Level Documents")]
         public Boolean ShowAll { get; set; }
         public String LoginName { get; set; }
 
