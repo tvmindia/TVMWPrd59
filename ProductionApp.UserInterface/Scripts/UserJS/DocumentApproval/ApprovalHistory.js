@@ -2,8 +2,8 @@
 function GetApprovalHistory() {
     try {
         debugger;
-        var DocumentID = $("#DocumentID").val(); //"CCAF70C5-3D71-429A-B817-474461F2C29A";
-        var DocumentTypeCode = $("#DocumentType").val();// "PO";
+        var DocumentID = $("#DocumentID").val();
+        var DocumentTypeCode = $("#DocumentType").val();
         var data = { "DocumentID": DocumentID, "DocumentTypeCode": DocumentTypeCode };
         var ds = {};
         ds = GetDataFromServer("DocumentApproval/GetApprovalHistory/", data);

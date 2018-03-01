@@ -57,11 +57,20 @@ namespace ProductionApp.DataAccessObject.DTO
 
         public string ApprovalSuccess
         {
-            get { return "Approval Successfully Inserted! "; }
+            get { return "Document Approved! "; }
         }
         public string ApprovalFailure
         {
-            get { return "Approval Not Successfull! "; }
+            get { return "Approval Failed! "; }
+        }
+
+        public string RejectSuccess
+        {
+            get { return "Document Rejected! "; }
+        }
+        public string RejectFailure
+        {
+            get { return "Rejection Failed! "; }
         }
         public string InsertFailure
         {

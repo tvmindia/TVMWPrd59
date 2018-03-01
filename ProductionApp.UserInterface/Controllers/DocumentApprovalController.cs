@@ -103,7 +103,7 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                var result = _documentApprovalBusiness.ApproveDocumentInsert(Guid.Parse(ApprovalLogID),Guid.Parse(DocumentID),DocumentTypeCode);
+                var result = _documentApprovalBusiness.ApproveDocument(Guid.Parse(ApprovalLogID),Guid.Parse(DocumentID),DocumentTypeCode);
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
             catch (Exception ex)
@@ -114,9 +114,22 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion ApproveDocumentInsert 
 
-        #region RejectDocumentInsert
-
-        #endregion RejectDocumentInsert
+        #region RejectDocument
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public string RejectDocument(string ApprovalLogID, string DocumentID, string DocumentTypeCode,string Remarks)
+        {
+            try
+            {
+                var result = _documentApprovalBusiness.RejectDocument(Guid.Parse(ApprovalLogID), Guid.Parse(DocumentID), DocumentTypeCode,Remarks);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion RejectDocument
 
 
         #region ButtonStyling
