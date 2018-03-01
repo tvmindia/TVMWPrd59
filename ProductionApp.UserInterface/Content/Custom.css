@@ -1090,3 +1090,24 @@ padding-left:35px;
 vertical-align:middle;
 background-position: 0% 50%; 
 }
+
+.dashboardmodule {
+    font-size:22px;
+}
+
+.dashboardmoduleTile {
+    height:120px;
+}
+
+.small-box .icon {
+    font-size:70px;
+}
+
+.small-box .icon:hover {
+    font-size:80px;
+}
+
+.small-box .inner {
+    padding-top:25px;
+     padding-left:10px;
+}
