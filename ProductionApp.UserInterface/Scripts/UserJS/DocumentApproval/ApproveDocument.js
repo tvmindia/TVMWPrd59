@@ -48,6 +48,7 @@ function ApproveDocument() {
         }
         if (ds.Result == "OK") {
             notyAlert('success', ds.Records.Message);
+            window.location.replace("ViewPendingDocuments?Code=APR&Name=MyApprovals");
         }
         if (ds.Result == "ERROR") {
             alert(ds.Message);
@@ -79,6 +80,8 @@ function RejectDocument()
             }
             if (ds.Result == "OK") {
                 notyAlert('success', ds.Records.Message);
+                window.location.replace("ViewPendingDocuments?Code=APR&Name=MyApprovals");
+
             }
             if (ds.Result == "ERROR") {
                 alert(ds.Message);
