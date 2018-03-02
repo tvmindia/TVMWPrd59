@@ -18,9 +18,10 @@ $(document).ready(function () {
 });
 
 function Edit(curObj)
-{   
-    var rowData = DataTables.IssueToProductionList.row($(curObj).parents('tr')).data();
-    window.location.replace("AddIssueToProduction?code=STR&ID=" + rowData.ID);
+{
+    debugger;
+    var MaterialIssueViewModel= DataTables.IssueToProductionList.row($(curObj).parents('tr')).data();
+    window.location.replace("AddIssueToProduction?code=STR&ID=" + MaterialIssueViewModel.ID);
 }
 
 function BindOrReloadIssueToProductionTable(action)
@@ -50,8 +51,7 @@ function BindOrReloadIssueToProductionTable(action)
                 MaterialIssueAdvanceSearchViewModel.IssueTo=$('#IssueTo').val();
                 MaterialIssueAdvanceSearchViewModel.IssuedBy=$('#IssuedBy').val();
                 break;
-            case 'Export':
-                if ($('#SearchTerm').val()=="")                               
+            case 'Export':                                         
                 DataTablePagingViewModel.Length = -1;
                 break;
             default:    
@@ -63,7 +63,7 @@ function BindOrReloadIssueToProductionTable(action)
                 MaterialIssueAdvanceSearchViewModel.ToDate = $('#ToDate').val();
                 MaterialIssueAdvanceSearchViewModel.IssueTo = $('#IssueTo').val();
                 MaterialIssueAdvanceSearchViewModel.IssuedBy = $('#IssuedBy').val();
-                DataTables.tblIssueToProduction = $('#tblIssueToProduction').DataTable(
+                DataTables.IssueToProductionList = $('#tblIssueToProduction').DataTable(
                     {
                         dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
                         buttons: [{
@@ -105,8 +105,13 @@ function BindOrReloadIssueToProductionTable(action)
                         //for performing the import operation after the data loaded
                         initComplete: function (settings, json) {
                             if (action === 'Export') {
+                                if (json.data[0].length > 0) {
+                                    if (json.data[0].TotalCount > 10000) {
+                                        MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
+                                    }
+                                }
                                 $(".buttons-excel").trigger('click');
-                                ResetIssueToProductionList();
+                                BindOrReloadIssueToProductionTable('Search');
                             }
                         }
                     });

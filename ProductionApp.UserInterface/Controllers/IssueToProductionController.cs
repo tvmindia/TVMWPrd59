@@ -99,7 +99,12 @@ namespace ProductionApp.UserInterface.Controllers
             materialIssueAdvanceSearchVM.DataTablePaging.Start = model.start;
             materialIssueAdvanceSearchVM.DataTablePaging.Length = (materialIssueAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : materialIssueAdvanceSearchVM.DataTablePaging.Length);
             List<MaterialIssueViewModel> materialIssueOrderList = Mapper.Map<List<MaterialIssue>, List<MaterialIssueViewModel>>(_issueToProductionBusiness.GetAllIssueToProduction(Mapper.Map<MaterialIssueAdvanceSearchViewModel, MaterialIssueAdvanceSearch>(materialIssueAdvanceSearchVM)));
-
+            if(materialIssueAdvanceSearchVM.DataTablePaging.Length==-1)
+            {
+                int totalResult = materialIssueOrderList.Count != 0 ? materialIssueOrderList[0].TotalCount : 0;
+                int filteredResult = materialIssueOrderList.Count != 0 ? materialIssueOrderList[0].FilteredCount : 0;
+                materialIssueOrderList = materialIssueOrderList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
 
             return Json(new
             {
