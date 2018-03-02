@@ -15,10 +15,11 @@ $(document).ready(function () {
     data: GetApprovalHistory(),//ApprovalHistory.js
     autoWidth: false,
     columns: [
-    { "data": "ApproverName", "defaultContent": "<i>-</i>" },
-    { "data": "ApproverLevel", "defaultContent": "<i>-</i>" },
-    { "data": "ApprovalDate", "defaultContent": "<i>-</i>" },
-    { "data": "ApprovalStatus", "defaultContent": "<i>-</i>" },
+    { "data": "ApproverName", "defaultContent": "<i>-</i>","width":"20%" },
+    { "data": "ApproverLevel", "defaultContent": "<i>-</i>", "width": "5%" },
+    { "data": "ApprovalDate", "defaultContent": "<i>-</i>", "width": "20%" },
+    { "data": "Remarks", "defaultContent": "<i>-</i>", "width": "35%" },
+    { "data": "ApprovalStatus", "defaultContent": "<i>-</i>", "width": "20%" },
     ],
     columnDefs: [
         { className: "text-center", "targets": [2] },
@@ -50,7 +51,9 @@ function ApproveDocument() {
         if (ds.Result == "OK") {
             notyAlert('success', ds.Records.Message);
             DataTables.ApprovalHistoryTable.clear().rows.add(GetApprovalHistory()).draw(false);
-            DisableButtons()
+            DisableButtons();
+            ReloadSummary(DocumentID, DocumentTypeCode);
+
         }
         if (ds.Result == "ERROR") {
             alert(ds.Message);
@@ -84,6 +87,7 @@ function RejectDocument()
                 notyAlert('success', ds.Records.Message);
                 DataTables.ApprovalHistoryTable.clear().rows.add(GetApprovalHistory()).draw(false);
                 DisableButtons();
+                ReloadSummary(DocumentID, DocumentTypeCode);
             }
             if (ds.Result == "ERROR") {
                 alert(ds.Message);
@@ -93,6 +97,11 @@ function RejectDocument()
     catch (e) {
         notyAlert('error', e.message);
     }
+}
+
+function ReloadSummary(DocumentID, DocumentTypeCode)
+{
+    $("#DocumentSummarydiv").load("./DocumentSummary?DocumentID=" + DocumentID +"&DocumentTypeCode=" + DocumentTypeCode);
 }
 
 function ValidateDocumentsApprovalPermission()

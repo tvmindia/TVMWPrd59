@@ -6,13 +6,20 @@ $(document).ready(function () {
     try {
        
         BindOrReloadDocumetApprovals('Init');
+        $('#tblPendingDocuments tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
     }
     catch (e) {
         console.log(e.message);
     }
 });
 
-
+function Edit(curObj) {
+    debugger;
+    var rowData = DataTables.PurchaseOrderList.row($(curObj).parents('tr')).data();
+    window.location.replace("ApproveDocument?code=APR&ID=" + rowData.ID+ '&DocType=' + rowData.DocumentTypeCode + '&DocID=' + rowData.DocumentID );
+}
 
 //bind Pending list
 function BindOrReloadDocumetApprovals(action) {
@@ -64,6 +71,7 @@ function BindOrReloadDocumetApprovals(action) {
                                  }
                 }],
                 order: false,
+                ordering: false,
                 searching: false,
                 paging: true,
                 lengthChange: false,

@@ -346,7 +346,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         requisition.RequestedQty = (sdr["RequestedQty"].ToString() != "" ? sdr["RequestedQty"].ToString() : requisition.RequestedQty);
                                         requisition.Material = new Material();
                                         requisition.Material.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : requisition.Material.MaterialCode);
-                                        requisition.Material.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? sdr["CurrentStock"].ToString() : requisition.Material.CurrentStock);
+                                        requisition.Material.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : requisition.Material.CurrentStock);
                                     }
                                     requisitionList.Add(requisition);
                                 }
