@@ -71,6 +71,7 @@ function BindOrReloadDocumetApprovals(action) {
                                  }
                 }],
                 order: false,
+                ordering: false,
                 searching: false,
                 paging: true,
                 lengthChange: false,
