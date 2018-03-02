@@ -41,7 +41,8 @@ namespace ProductionApp.UserInterface.Models
             public Guid LatestApprovalID { get; set; }
             public int LatestApprovalStatus { get; set; }
             public bool IsFinalApproved { get; set; }
-            //additional properties
+        //additional properties
+            public Guid hdnFileID { get; set; }
             public int TotalCount { get; set; }
             public int FilteredCount { get; set; }
             [Required(ErrorMessage = "Supplier required")]

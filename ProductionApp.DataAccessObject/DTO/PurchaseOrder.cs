@@ -25,8 +25,9 @@ namespace ProductionApp.DataAccessObject.DTO
        public Guid LatestApprovalID { get; set; }
        public int LatestApprovalStatus { get; set; }
        public bool IsFinalApproved { get; set; }
-       //additional properties
-       public int TotalCount { get; set; }
+        //additional properties
+        public Guid hdnFileID { get; set; }
+        public int TotalCount { get; set; }
        public int FilteredCount { get; set; }
        public string Supplier { get; set; }
        public Common Common { get; set; }

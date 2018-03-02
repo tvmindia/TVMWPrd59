@@ -106,11 +106,19 @@ namespace ProductionApp.UserInterface.Controllers
         }
         private ActionResult RedirectToAdminDashboard()
         {
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Admin", "Home");
         }
 
         [HttpGet]
         public ActionResult NotAuthorized()
+        {
+            return View();
+        }
+
+        //PageNotFound
+
+        [HttpGet]
+        public ActionResult PageNotFound()
         {
             return View();
         }

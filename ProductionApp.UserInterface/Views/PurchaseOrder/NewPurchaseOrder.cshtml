@@ -41,6 +41,7 @@
                     <div class="form-group col-md-12"></div>
                     <div class="form-group col-md-6">
                         @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
+                        @Html.HiddenFor(model => model.hdnFileID, htmlAttributes: new { @class = "", @id = "hdnFileDupID", @value = Guid.Empty })
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.PurchaseOrderNo, htmlAttributes: new { @class = "control-label" })
                             </div>

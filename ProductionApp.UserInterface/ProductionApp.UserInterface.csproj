@@ -840,7 +840,17 @@
     <Content Include="Views\DocumentApproval\_ApprovalHistory.cshtml" />
     <Content Include="Views\DocumentApproval\_DocumentSummary.cshtml" />
     <Content Include="Views\Account\NotAuthorized.cshtml" />
+    <Content Include="Views\Home\Admin.cshtml" />
+    <Content Include="Views\Home\_SalesSummary.cshtml" />
+    <Content Include="Views\Home\_PurchaseSummary.cshtml" />
+    <Content Include="Views\Home\_IncomeExpenseSummary.cshtml" />
+    <Content Include="Views\Home\_SalesInvoiceSummary.cshtml" />
+    <Content Include="Views\Home\_PurchaseInvoiceSummary.cshtml" />
+    <Content Include="Views\Home\_InventorySummary.cshtml" />
+    <Content Include="Views\Home\_ProductionSummary.cshtml" />
+    <Content Include="Views\Home\_DispatchSummary.cshtml" />
     <Content Include="Views\MaterialReceipt\NewMaterialReceipt.cshtml" />
+    <Content Include="Views\Account\PageNotFound.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
