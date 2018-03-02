@@ -41,70 +41,71 @@
             @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
             @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
 
-            <div class="form-group col-md-12">
+            <div class="form-geroup col-md-12">
+                <div class="form-group col-md-8">
+                    <div class="form-group col-md-12"></div>
 
-                <div class="form-group col-md-6">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.IssueNo, htmlAttributes: new { @class = "control-label" })
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.IssueNo, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.IssueNo, new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled", @placeholder = "Auto Generated" } })
+                        </div>
                     </div>
-                    <div class="col-md-7">
-                        @Html.EditorFor(model => model.IssueNo,new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled",@placeholder="Auto Generated" } })
+
+
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.IssueDateFormatted, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.IssueDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker" } })
+                            @Html.ValidationMessageFor(model => model.IssueDateFormatted, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-12"> </div>
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.IssueTo, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.IssueTo, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter" })
+                            @Html.ValidationMessageFor(model => model.IssueTo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.IssuedBy, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.IssuedBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter" })
+                            @Html.ValidationMessageFor(model => model.IssuedBy, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="form-group col-md-4">
+                    <div class="form-group" hidden="hidden">
+                        <div class="col-md-offset-2 col-md-10">
+                            @Html.HiddenFor(model => model.DetailJSON, htmlAttributes: new { @class = "" })
+                            <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
+                        </div>
                     </div>
                 </div>
-
-                <div class="form-group col-md-6">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.IssueDateFormatted, htmlAttributes: new { @class = "control-label lblrequired" })
-                    </div>
-                    <div class="col-md-7">
-                        @Html.EditorFor(model => model.IssueDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker" } })
-                        @Html.ValidationMessageFor(model => model.IssueDateFormatted, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-
-
             </div>
-
-            <div class="form-group col-md-12">
-                <div class="form-group col-md-6">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.IssueTo, htmlAttributes: new { @class = "control-label lblrequired" })
-                    </div>
-                    <div class="col-md-7">
-                        @Html.DropDownListFor(model => model.IssueTo, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter" })
-                        @Html.ValidationMessageFor(model => model.IssueTo, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.IssuedBy, htmlAttributes: new { @class = "control-label lblrequired" })
-                    </div>
-                    <div class="col-md-7">
-                        @Html.DropDownListFor(model => model.IssuedBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter" })
-                        @Html.ValidationMessageFor(model => model.IssuedBy, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-            </div>
-
-
-                <div class="form-group" hidden="hidden">
-                    <div class="col-md-offset-2 col-md-10">
-                        @Html.HiddenFor(model => model.DetailJSON, htmlAttributes: new { @class = "" })
-                        <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
-                    </div>
-                </div>
-
 
                 <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
                 <div class="container-fluid">
                     <div class="col-md-12">
-                        <div class="col-md-11">
+                        <div class="form-group col-md-11">
                         </div>
-                        <div class="col-md-1">
-                            <a class="btn btn-openid" onclick="ShowIssueToProductionDetailsModal()" id="btnAddIssueToProductionItems" style="color:white;font-weight:bold;"><i class="glyphicon glyphicon-plus"></i> Add </a>
+                        <div class="form-group col-md-1">
+                            <a class="btn btn-openid" style="float:left;margin-left:15px" onclick="ShowIssueToProductionDetailsModal()" id="btnAddIssueToProductionItems" style="color:white;font-weight:bold;"><i class="glyphicon glyphicon-plus"></i> Add Items</a>
                         </div>
                     </div>
 
@@ -128,15 +129,19 @@
                 <div class="col-md-12  ">&nbsp;</div>
                 <div class="col-md-12  ">&nbsp;</div>
                 <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General Notes</div>
+                <div class="col-md-12">
                 <div class="form-group col-md-6">
-                    @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label " })
                     <div class="col-md-12">
+                        @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-10">
                         @Html.EditorFor(model => model.GeneralNotes, new { htmlAttributes = new { @class = "form-control HeaderBox", rows = "8" } })
                         @Html.ValidationMessageFor(model => model.GeneralNotes, "", new { @class = "text-danger" })
                         <div class="col-md-1"></div>
                         <div class="col-md-1"></div>
                     </div>
                 </div>
+                    </div>
         }
         <div class="col-md-12  ">&nbsp;</div>
         <div class="col-md-12  ">&nbsp;</div>
@@ -145,6 +150,8 @@
 
 </section>
 
+
+
 <!-- Modal Edit Add issue to production Details Modal -->
 <div class="modal fade bs-example-modal-lg" id="AddIssueToProductionItemModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document" style="min-width:900px !important;">
@@ -152,7 +159,7 @@
             <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
                 <div class="container-fluid" style="padding-right: 0px;">
                     <div class="col-md-9">
-                        <div class="col-md-12 modelIcon">                           
+                        <div class="col-md-12 modelIcon">
                             <h3 class="modal-title SCHeader" id="modelContextLabel">Add Materials</h3>
                         </div>
                     </div>
@@ -168,15 +175,13 @@
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.MaterialIssueDetail.MaterialID, htmlAttributes: new { @class = "control-label" })
                             </div>
-                            <div class="col-md-12">
-                                <div class="col-md-10">
-                                    <div id="divRawMaterialDropdown">
-                                        @{Html.RenderAction("MaterialDropdown", "Material", Model.MaterialIssueDetail.Material); }
-                                    </div>
+                            <div class="col-md-10">
+                                <div id="divRawMaterialDropdown">
+                                    @{Html.RenderAction("MaterialDropdown", "Material", Model.MaterialIssueDetail.Material); }
                                 </div>
-                                <div class="col-md-1"></div>
-                                <div class="col-md-1"></div>
                             </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
                         </div>
                     </div>
                     <div class="col-md-12 headSeperator" style="width:100% !important;margin-left:0% !important"></div>
@@ -186,26 +191,26 @@
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.MaterialIssueDetail.Material.MaterialCode, htmlAttributes: new { @class = "control-label " })
                             </div>
-                            <div class="col-md-12">
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MaterialIssueDetail.Material.MaterialCode, new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled" } })
-                                </div>
-                                <div class="col-md-1"></div>
-                                <div class="col-md-1"></div>
+
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaterialIssueDetail.Material.MaterialCode, new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled" } })
                             </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+
                         </div>
 
                         <div class="col-md-6">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.MaterialIssueDetail.MaterialDesc, htmlAttributes: new { @class = "control-label " })
                             </div>
-                            <div class="col-md-12">
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MaterialIssueDetail.MaterialDesc, new {htmlAttributes = new { @class = "form-control HeaderBox" } })                               
-                                </div>
-                                <div class="col-md-1"></div>
-                                <div class="col-md-1"></div>
+
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaterialIssueDetail.MaterialDesc, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
                             </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+
                         </div>
                     </div>
 
@@ -214,26 +219,26 @@
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.MaterialIssueDetail.UnitCode, htmlAttributes: new { @class = "control-label " })
                             </div>
-                            <div class="col-md-12">
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MaterialIssueDetail.UnitCode, new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled" } })
-                                </div>
-                                <div class="col-md-1"></div>
-                                <div class="col-md-1"></div>
+
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaterialIssueDetail.UnitCode, new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled" } })
                             </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+
                         </div>
 
                         <div class="col-md-6">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.MaterialIssueDetail.Qty, htmlAttributes: new { @class = "control-label lblrequired" })
                             </div>
-                            <div class="col-md-12">
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MaterialIssueDetail.Qty, new { htmlAttributes = new { @class = "form-control HeaderBox", onkeypress = "return isNumber(event)" } })
-                                </div>
-                                <div class="col-md-1"></div>
-                                <div class="col-md-1"></div>
+
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaterialIssueDetail.Qty, new { htmlAttributes = new { @class = "form-control HeaderBox", onkeypress = "return isNumber(event)" } })
                             </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+
                         </div>
                     </div>
 
