@@ -15,10 +15,7 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
-        $("#SupplierID").select2({
-        });
-        $("#PurchaseOrderID").select2({
-        });
+        $("#SupplierID,#PurchaseOrderID").select2({});
         BindOrReloadMaterialReceiptTable('Init');
     }
     catch (e) {
@@ -63,7 +60,7 @@ function BindOrReloadMaterialReceiptTable(action) {
         PurchaseOrderViewModel.ID = $('#PurchaseOrderID').val();
         MaterialReceiptAdvanceSearchViewModel.PurchaseOrder = PurchaseOrderViewModel;
 
-        DataTables.BankList = $('#tblMaterialReceipt').DataTable(
+        DataTables.MaterialReceiptList = $('#tblMaterialReceipt').DataTable(
         {
             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
             buttons: [{
@@ -95,12 +92,16 @@ function BindOrReloadMaterialReceiptTable(action) {
                 { "data": "PurchaseOrderNo", "defaultContent": "<i>-</i>" },
                 { "data": "Supplier.CompanyName", "defaultContent": "<i>-</i>" },
                 { "data": "GeneralNotes", "defaultContent": "<i>-</i>" },
-                { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditMaterialReceipt(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+                {
+                    "data": "ID", "orderable": false, render: function (data, type, row) {
+                        return '<a href="/MaterialReceipt/NewMaterialReceipt?code=STR&id=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                    }, "defaultContent": "<i>-</i>"
+                }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [] },
                 { className: "text-left", "targets": [1, 3, 3, 4] },
-                { className: "text-center", "targets": [2] }],
+                { className: "text-center", "targets": [2, 6] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {

@@ -138,6 +138,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         approvalHistory.ApprovalDate = (sdr["ApprovalDate"].ToString() != "" ? DateTime.Parse(sdr["ApprovalDate"].ToString()).ToString(settings.DateFormat) : approvalHistory.ApprovalDate);
                                         approvalHistory.ApproverLevel = (sdr["ApproverLevel"].ToString() != "" ? sdr["ApproverLevel"].ToString() : approvalHistory.ApproverLevel);
                                         approvalHistory.ApproverName = (sdr["ApproverName"].ToString() != "" ? sdr["ApproverName"].ToString() : approvalHistory.ApproverName);
+                                        approvalHistory.Remarks = (sdr["Remarks"].ToString() != "" ? sdr["Remarks"].ToString() : approvalHistory.Remarks);
                                         approvalHistory.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? sdr["ApprovalStatus"].ToString() : approvalHistory.ApprovalStatus);
                                     }
                                     approvalHistoryList.Add(approvalHistory);

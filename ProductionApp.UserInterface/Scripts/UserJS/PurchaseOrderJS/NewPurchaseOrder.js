@@ -6,6 +6,7 @@ var PODDetailLink = [];
 var RequisitionDetailLink = new Object();
 var PurchaseOrderViewModel = new Object();
 var EditPOdetailID;
+var ECGST, ESGST, ETotal;
 $(document).ready(function () {
     debugger;
     try {
@@ -57,6 +58,22 @@ $(document).ready(function () {
                          return '<input class="form-control text-right " name="Markup" value="' + row.ApproximateRate + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="textBoxValueChanged(this,2);">';
                      }
                  },
+                 {
+                     "data": "Taxtype", "defaultContent": "<i>-</i>", "width": "10%",
+                     'render': function (data, type, row) {
+                         return '<select id="dddl' + row.ID + '" onchange="textBoxValueChanged(this,5);" ><option value="GST18">GST18%</option><option value="GST28">GST28%</option><option value="GST12">GST12%</option></select>';
+                     }
+                 },
+                  {
+                      "data": "Discount", "defaultContent": "<i>-</i>",
+                      'render': function (data, type, row) {
+                          if (data == undefined)
+                              data = 0.0;
+                          else
+                              data = row.Discount;
+                          return '<input class="form-control description" name="Markup" value="' + data + '" type="text" onchange="textBoxValueChanged(this,3);">';
+                      }
+                  },
                 { "data": "RequestedQty", "defaultContent": "<i>-</i>", "width": "10%" },
                  { "data": "OrderedQty", "defaultContent": "<i>-</i>", "width": "10%" },
                  {
@@ -65,30 +82,13 @@ $(document).ready(function () {
                          return '<input class="form-control text-right " name="Markup" type="text"  value="' + data + '"  onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="textBoxValueChanged(this,4);">';
                      }
                  },
-                 {
-                     "data": "Taxtype", "defaultContent": "<i>-</i>", "width": "10%",
-                     'render': function (data, type, row) {
-                         return '<select id="dddl' + row.ID + '" onchange="textBoxValueChanged(this,5);" ><option value="GST18">GST18%</option><option value="GST28">GST28%</option><option value="GST12">GST12%</option></select>';
-                     }
-                 },
-                 {
-                     "data": "Discount", "defaultContent": "<i>-</i>",
-                     'render': function (data, type, row) {
-                         if (data == undefined)
-                             data = 0.0;
-                         else
-                             data = row.Discount;
-                         return '<input class="form-control description" name="Markup" value="' + data + '" type="text" onchange="textBoxValueChanged(this,3);">';
-                     }
-                 },
-                 
                  { "data": "RawMaterial.UnitCode", "defaultContent": "<i>-</i>" }
 
             ],
             columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 3 }
                 , { className: "text-left", "targets": [5, 6] }
                 , { className: "text-right", "targets": [7, 8, 9, 10, 12] }
-                , { className: "text-center", "targets": [1, 4] }
+                , { className: "text-center", "targets": [1, 4,11] }
                 , { "targets": [0,1,2,13], "visible": false, "searchable": false }
                ],
 
@@ -109,15 +109,15 @@ $(document).ready(function () {
                 },
                 columns: [
                   { "data": "ID" },
-                  { "data": "MaterialCode", "defaultContent": "<i>-</i>" },
+                  { "data": "MaterialCode", "defaultContent": "<i>-</i>", "width": "5%" },
                   { "data": "MaterialDesc", "defaultContent": "<i>-</i>" },
-                  { "data": "UnitCode", "defaultContent": "<i>-</i>" },
-                  { "data": "Qty", "defaultContent": "<i>-</i>" },
+                  { "data": "UnitCode", "defaultContent": "<i>-</i>", "width": "3%" },
+                  { "data": "Qty", "defaultContent": "<i>-</i>", "width": "4%" },
                   {
                       "data": "Rate", "defaultContent": "<i>-</i>",
                       'render': function (data, type, row) {
                           return roundoff(data, 1);
-                      }
+                      }, "width": "8%"
                   },
                   {
                       "data": "Discount", "defaultContent": "<i>-</i>",
@@ -132,35 +132,35 @@ $(document).ready(function () {
                               data = row.Discount;
                               return roundoff(data, 1);
                           }
-                      }
+                      }, "width": "6%"
                   },
                   {
                       "data": "TaxableAmount", "defaultContent": "<i>-</i>",
                       'render': function (data, type, row) {
                           Desc = parseFloat(row.Qty) * parseFloat(row.Rate) - parseFloat(row.Discount);
                           return roundoff(Desc, 1);
-                      }
+                      }, "width": "10%"
                   },
                   {
                       "data": "CGSTAmt", "defaultContent": "<i>-</i>",
                       'render': function (data, type, row) {
                           return roundoff(data, 1);
-                      }
+                      }, "width": "6%"
                   },
                   {
                       "data": "SGSTAmt", "defaultContent": "<i>-</i>",
                       'render': function (data, type, row) {
                           return roundoff(data, 1);
-                      }
+                      }, "width": "6%"
                   },
                   {
                       "data": "Total", "defaultContent": "<i>-</i>",
                       'render': function (data, type, row) {
                           Desc = (parseFloat(row.Qty) * parseFloat(row.Rate) - parseFloat(row.Discount)) + parseFloat(row.CGSTAmt) + parseFloat(row.SGSTAmt);
                           return roundoff(Desc,1);
-                      }
+                      }, "width": "10%"
                   },
-                { "data": null, "orderable": false, "width": "5%", "defaultContent": '<a href="#" class="ItemEditlink" onclick="EditPurchaseOrderDetailTable(this)"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' }
+                { "data": null, "orderable": false, "width": "6%", "defaultContent": '<a href="#" class="ItemEditlink" onclick="EditPurchaseOrderDetailTable(this)"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                      { className: "text-right", "targets": [5, 6, 7,8,9,10] },
@@ -181,23 +181,16 @@ $(document).ready(function () {
                   pageLength: 7,
                   data: null,
                       columns: [
-                  { "data": "PurchaseOrderID", "defaultContent": "<i>-</i>"
-                  },
-                      { "data": "RequisitionDetail.ReqID", "defaultContent": "<i>-</i>"
-                      },
-                      {
-                          "data": "RequisitionDetail.ID", "defaultContent": "<i>-</i>"
-                      },
-                   { "data": "MaterialID", "defaultContent": "<i>-</i>"
-                   },
-                      //{ "data": null, "defaultContent": "", "width": "5%" },
+                  { "data": "PurchaseOrderID", "defaultContent": "<i>-</i>"},
+                      { "data": "RequisitionDetail.ReqID", "defaultContent": "<i>-</i>"},
+                      {"data": "RequisitionDetail.ID", "defaultContent": "<i>-</i>"},
+                   { "data": "MaterialID", "defaultContent": "<i>-</i>"},
                        { "data": "RequisitionDetail.ReqNo", "defaultContent": "<i>-</i>", "width": "10%" },
-                           {
-                      "data": "MaterialCode", "defaultContent": "<i>-</i>"
-                   },
+                           {"data": "MaterialCode", "defaultContent": "<i>-</i>"},
                        {
                        "data": "MaterialDesc", "defaultContent": "<i>-</i>",
                        'render': function (data, type, row) {
+                           var Desc = "";
                            if (row.MaterialDesc)
                                Desc = data;
                            else
@@ -207,45 +200,44 @@ $(document).ready(function () {
                    },
                            {
                           "data": "Rate", "defaultContent": "<i>-</i>", "width": "10%", 'render': function (data, type, row) {
-                              return '<input class="form-control text-right " name="Markup" value="' + data + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="EdittextBoxValue(this,2);">';
+                              return '<input class="form-control text-right " name="Markup" value="' + roundoff(data,1) + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="EdittextBoxValue(this,2);">';
                        }
-                              },
-                      { "data": "RequisitionDetail.RequestedQty", "defaultContent": "<i>-</i>", "width": "10%"
-                     },
-                    {
-                    "data": "RequisitionDetail.OrderedQty", "defaultContent" : "<i>-</i>", "width": "10%" },
+                           },
+                           {
+                               "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "10%",
+                               'render': function (data, type, row) {
+                                   return '<select id="dddl' + row.RequisitionDetail.ID + '" onchange="EdittextBoxValue(this,5);" ><option value="GST18">GST18%</option><option value="GST28">GST28%</option><option value="GST12">GST12%</option></select>';
+                               }
+                           },
+                       {
+                           "data": "Discount", "defaultContent": "<i>-</i>",
+                           'render': function (data, type, row) {
+                               return '<input class="form-control description" name="Markup" value="' + roundoff(data,1) + '" type="text" onchange="EdittextBoxValue(this,3);">';
+                           }
+                       },
+                      { "data": "RequisitionDetail.RequestedQty", "defaultContent": "<i>-</i>", "width": "10%"},
+                    {"data": "RequisitionDetail.OrderedQty", "defaultContent" : "<i>-</i>", "width": "10%" },
                      {
                         "data": "Qty", "defaultContent": "<i>-</i>", "width": "10px",
                          'render': function (data, type, row) {
                              return '<input class="form-control text-right " name="Markup" type="text"  value="' + data + '"  onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="EdittextBoxValue(this,6);">';
                            }
-                           },
-                               {
-                       "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "10%",
-                       'render': function (data, type, row) {
-                           return '<select id="dddl' + row.PurchaseOrderID + '" onchange="EdittextBoxValue(this,5);" ><option value="GST18">GST18%</option><option value="GST28">GST28%</option><option value="GST12">GST12%</option></select>';
                            }
-                   },
-                       {
-                       "data": "Discount", "defaultContent": "<i>-</i>",
-                       'render': function (data, type, row) {
-                           return '<input class="form-control description" name="Markup" value="' + roundoff(data,1) + '" type="text" onchange="EdittextBoxValue(this,3);">';
-                       }
-                   }
+                               
                        ],
                   columnDefs: [
-                  { className: "text-left", "targets": [5, 6]
-                  }
-                  , { className: "text-right", "targets": [7, 8, 9, 10, 12]
-      }
-                  , {
-          className: "text-center", "targets": [1, 4]}
-          , {
-          "targets": [0, 1, 2,3], "visible": false, "searchable": false
-          }
-         ]
-
-
+                    { className: "text-left", "targets": [5, 6]}
+                  , { className: "text-right", "targets": [7, 8, 9, 11]}
+                  , {className: "text-center", "targets": [1, 4]}
+                  , {"targets": [0, 1, 2,3], "visible": false, "searchable": false}],     
+                  rowCallback: function (row, data, index) {
+                      setTimeout(function () {
+                          //your code to be executed after 1 second
+                          $('#dddl' + data.RequisitionDetail.ID).val(data.TaxTypeCode);
+                      }, 1000);
+                      
+                  },
+                 
           });
 
         //RequisitionListTable
@@ -298,7 +290,7 @@ function AddPurchaseOrderDetail() {
    if ($form.valid()) {
         $('#RequisitionDetailsModal').modal('show');
         ViewRequisitionList(1);
-        BindOrReloadRequisitionListTable();
+        BindRequisitionListTable();
     }
     else {
         notyAlert('warning', "Please Fill Required Fields,To Add Items ");
@@ -313,11 +305,11 @@ function ViewRequisitionList(value) {
         $('#tabList').trigger('click');
 }
 //bind requistition List
-function BindOrReloadRequisitionListTable() {
-    var result = GetBindOrReloadRequisitionListTable();
+function BindRequisitionListTable() {
+    var result = GetBindRequisitionListTable();
     DataTables.RequisitionListTable.clear().rows.add(result).draw(false);
 }
-function GetBindOrReloadRequisitionListTable() {
+function GetBindRequisitionListTable() {
     try {
         debugger;
         var data = {};
@@ -350,7 +342,7 @@ function ViewRequisitionDetails(value) {
         //selecting Checked IDs for  bind the detail Table
         var IDs = GetSelectedRowIDs();
         if (IDs) {
-            BindGetRequisitionDetailsTable(IDs);
+            BindRequisitionDetailsTable(IDs);
             DataTables.RequisitionDetailsTable.rows().select();
             $('#btnForward').hide();
             $('#btnBackward').show();
@@ -376,7 +368,7 @@ function GetSelectedRowIDs() {
         return arrIDs;
     }
 }
-function BindGetRequisitionDetailsTable(IDs) {
+function BindRequisitionDetailsTable(IDs) {
     try {
         debugger;
         var test = GetRequisitionDetailsByIDs(IDs);
@@ -481,6 +473,7 @@ function AddPODetails()
             {
                 Particulars = Particulars + "," + allData[j].ReqNo;
                 allData[r].POQty = parseFloat(allData[r].POQty) + parseFloat(allData[j].POQty);
+                allData[r].Discount = parseFloat(allData[r].Discount) + parseFloat(allData[j].Discount);
                 allData.splice(j, 1);//removing duplicate after adding value 
                 j = j - 1;// for avoiding skipping row while checking
             }
@@ -500,6 +493,9 @@ function AddPODetails()
     }
 }
 function AddRequsitionDetailLink(data) {
+    ECGST = 0;
+    ESGST = 0;
+    ETotal = 0;
     for (var r = 0; r < data.length; r++) {
         PurchaseOrderDetailLink = new Object();
         PurchaseOrderDetailLink.MaterialID = data[r].MaterialID;
@@ -507,6 +503,22 @@ function AddRequsitionDetailLink(data) {
         PurchaseOrderDetailLink.ReqDetailID = data[r].ID;//[ReqDetailID]
         PurchaseOrderDetailLink.ReqID = data[r].ReqID;
         PurchaseOrderDetailLink.PurchaseOrderQty = data[r].POQty;
+        //------------------------------------------------------//
+        PurchaseOrderDetailLink.Discount = data[r].Discount;
+        PurchaseOrderDetailLink.TaxTypeCode = $("#dddl" + data[r].ID).val();
+        PurchaseOrderDetailLink.Amount = parseFloat(data[r].ApproximateRate) * parseFloat(data[r].POQty);
+        if (PurchaseOrderDetailLink.Discount != null)
+            PurchaseOrderDetailLink.Tax = parseFloat(PurchaseOrderDetailLink.Amount) - parseFloat(PurchaseOrderDetailLink.Discount);
+        else
+            PurchaseOrderDetailLink.Tax = parseFloat(PurchaseOrderDetailLink.Amount);
+        //Particulars after adding same material(item)
+        var result = GetTaxTypeByCode(PurchaseOrderDetailLink.TaxTypeCode);
+        PurchaseOrderDetailLink.CGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(result.CGSTPercentage) / 100);
+        PurchaseOrderDetailLink.SGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(result.SGSTPercentage) / 100);
+        PurchaseOrderDetailLink.Total = parseFloat(PurchaseOrderDetailLink.Tax) + parseFloat(PurchaseOrderDetailLink.CGSTAmt) + parseFloat(PurchaseOrderDetailLink.SGSTAmt);
+        ECGST = ECGST + parseFloat(PurchaseOrderDetailLink.CGSTAmt);
+        ESGST = ESGST + parseFloat(PurchaseOrderDetailLink.SGSTAmt);
+        ETotal = ETotal + parseFloat(PurchaseOrderDetailLink.Total);
         PODDetailLink.push(PurchaseOrderDetailLink);
     }
 }
@@ -527,16 +539,9 @@ function AddRequsitionDetail(mergedRows) {
             PODetailViewModel.Discount = mergedRows[r].Discount;
             PODetailViewModel.Particulars = mergedRows[r].Particulars;
             PODetailViewModel.TaxTypeCode = $("#dddl" + mergedRows[r].ID).val();
-            PODetailViewModel.Amount = parseFloat(mergedRows[r].ApproximateRate) * parseFloat(mergedRows[r].POQty);
-            if (PODetailViewModel.Discount != null)
-                PODetailViewModel.Tax = parseFloat(PODetailViewModel.Amount) - parseFloat(PODetailViewModel.Discount);
-            else
-                PODetailViewModel.Tax = parseFloat(PODetailViewModel.Amount);
-            //Particulars after adding same material(item)
-            var result = GetTaxTypeByCode(PODetailViewModel.TaxTypeCode);
-            PODetailViewModel.CGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(result.CGSTPercentage) / 100);
-            PODetailViewModel.SGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(result.SGSTPercentage) / 100);
-            PODetailViewModel.Total = parseFloat(PODetailViewModel.Tax) + parseFloat(PODetailViewModel.CGSTAmt) + parseFloat(PODetailViewModel.SGSTAmt);
+            PODetailViewModel.CGSTAmt = ECGST;
+            PODetailViewModel.SGSTAmt = ESGST;
+            PODetailViewModel.Total = ETotal;
             PODDetail.push(PODetailViewModel);
         }
         return true;
@@ -612,7 +617,6 @@ function Save() {
     var $form = $('#PurchaseOrderForm');
     if ($form.valid()) {
         PurchaseOrderViewModel.ID = $('#ID').val();
-        //PurchaseOrderViewModel.hdnFileID = $('#hdnFileID').val();
         PurchaseOrderViewModel.PurchaseOrderNo = $('#PurchaseOrderNo').val();
         PurchaseOrderViewModel.PurchaseOrderDate = $('#PurchaseOrderDateFormatted').val();
         PurchaseOrderViewModel.PurchaseOrderIssuedDate = $('#PurchaseOrderIssuedDateFormatted').val();
@@ -637,7 +641,6 @@ function Save() {
                         if (JsonResult.Records.ID) {
                             $("#ID").val(JsonResult.Records.ID);
                             BindPurchaseOrder($("#ID").val());
-                            //CalculateGrossAmount();
                         } else {
                             Reset();
                     }
@@ -731,7 +734,6 @@ function GetPurchaseOrderDetailTable() {
             ds = JSON.parse(ds);
         }
         if (ds.Result == "OK") {
-            //$('#GrossTotal').val(roundoff(ds.GrossAmount));
             return ds.Records;
 
         }
@@ -800,7 +802,8 @@ function EditPODetails() {
 
     for (var r = 0; r < allData.length; r++) {
         for (var j = r + 1; j < allData.length; j++) {
-            allData[r].POQty = parseFloat(allData[r].POQty) + parseFloat(allData[j].POQty);
+            allData[r].Qty = parseFloat(allData[r].Qty) + parseFloat(allData[j].Qty);
+            allData[r].Discount = parseFloat(allData[r].Discount) + parseFloat(allData[j].Discount);
             allData.splice(j, 1);//removing duplicate after adding value 
             j = j - 1;// for avoiding skipping row while checking
         }
@@ -818,20 +821,12 @@ function EditPODetails() {
             PODetailViewModel.MaterialDesc = mergedRows[r].MaterialDesc;
             PODetailViewModel.Qty = mergedRows[r].Qty;
             PODetailViewModel.Rate = mergedRows[r].Rate;
-            //PODetailViewModel.UnitCode = mergedRows[r].UnitCode;
             PODetailViewModel.Particulars = mergedRows[r].Particulars;
             PODetailViewModel.Discount = mergedRows[r].Discount;
-            PODetailViewModel.TaxTypeCode = $("#dddl" + mergedRows[r].PurchaseOrderID).val();
-            PODetailViewModel.Amount = parseFloat(mergedRows[r].Rate) * parseFloat(mergedRows[r].Qty);
-            if (PODetailViewModel.Discount != null)
-                PODetailViewModel.Tax = parseFloat(PODetailViewModel.Amount) - parseFloat(PODetailViewModel.Discount);
-            else
-                PODetailViewModel.Tax = parseFloat(PODetailViewModel.Amount);
-            //Particulars after adding same material(item)
-            var result = GetTaxTypeByCode(PODetailViewModel.TaxTypeCode);
-            PODetailViewModel.CGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(result.CGSTPercentage) / 100);
-            PODetailViewModel.SGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(result.SGSTPercentage) / 100);
-            PODetailViewModel.Total = parseFloat(PODetailViewModel.Tax) + parseFloat(PODetailViewModel.CGSTAmt) + parseFloat(PODetailViewModel.SGSTAmt);
+            PODetailViewModel.TaxTypeCode = $("#dddl" + mergedRows[r].RequisitionDetail.ID).val();
+            PODetailViewModel.CGSTAmt = ECGST;
+            PODetailViewModel.SGSTAmt = ESGST;
+            PODetailViewModel.Total = ETotal;
             PODDetail.push(PODetailViewModel);
         }
         debugger;
@@ -841,6 +836,9 @@ function EditPODetails() {
 }
 function EditRequsitionDetailLink(data) {
     debugger;
+    ECGST = 0;
+    ESGST = 0;
+    ETotal = 0;
     for (var r = 0; r < data.length; r++) {
         PurchaseOrderDetailLink = new Object();
         PurchaseOrderDetailLink.MaterialID = data[r].MaterialID;
@@ -848,6 +846,22 @@ function EditRequsitionDetailLink(data) {
         PurchaseOrderDetailLink.ReqDetailID = data[r].ReqDetailID;//[ReqDetailID]
         PurchaseOrderDetailLink.ReqID = data[r].RequisitionDetail.ReqID;
         PurchaseOrderDetailLink.PurchaseOrderQty = data[r].Qty;
+        PurchaseOrderDetailLink.Discount = data[r].Discount;
+        PurchaseOrderDetailLink.TaxTypeCode = $("#dddl" + data[r].RequisitionDetail.ID).val();
+        //---------------------
+        PurchaseOrderDetailLink.Amount = parseFloat(data[r].Rate) * parseFloat(data[r].Qty);
+        if (PurchaseOrderDetailLink.Discount != null)
+            PurchaseOrderDetailLink.Tax = parseFloat(PurchaseOrderDetailLink.Amount) - parseFloat(PurchaseOrderDetailLink.Discount);
+        else
+            PurchaseOrderDetailLink.Tax = parseFloat(PurchaseOrderDetailLink.Amount);
+        //Particulars after adding same material(item)
+        var result = GetTaxTypeByCode(PurchaseOrderDetailLink.TaxTypeCode);
+        PurchaseOrderDetailLink.CGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(result.CGSTPercentage) / 100);
+        PurchaseOrderDetailLink.SGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(result.SGSTPercentage) / 100);
+        PurchaseOrderDetailLink.Total = parseFloat(PurchaseOrderDetailLink.Tax) + parseFloat(PurchaseOrderDetailLink.CGSTAmt) + parseFloat(PurchaseOrderDetailLink.SGSTAmt);
+        ECGST = ECGST +parseFloat( PurchaseOrderDetailLink.CGSTAmt);
+        ESGST = ESGST +parseFloat( PurchaseOrderDetailLink.SGSTAmt);
+        ETotal = ETotal +parseFloat( PurchaseOrderDetailLink.Total);
         PODDetailLink.push(PurchaseOrderDetailLink);
     }
 }
@@ -893,7 +907,7 @@ function EdittextBoxValue(thisObj, textBoxCode) {
     var table = DataTables.EditPurchaseDetailsTable;
     var rowtable = table.row($(thisObj).parents('tr')).data();
     for (var i = 0; i < allData.length; i++) {
-        if (allData[i].ID == rowtable.ID) {
+        if (allData[i].RequisitionDetail.ID == rowtable.RequisitionDetail.ID) {
             if (textBoxCode == 1)//textBoxCode is the code to know, which textbox changed is triggered
                 allData[i].MaterialDesc = thisObj.value;
             if (textBoxCode == 2)
@@ -927,7 +941,6 @@ function DeletePurchaseOrder() {
             if (ds.Result == "OK") {
                 notyAlert('success', ds.Record.Message);
                 window.location.replace("NewPurchaseOrder?code=PURCH");
-                // $('#').load(controllername/actionname)
             }
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);
@@ -958,9 +971,6 @@ function Delete(curobj) {
 
 function DeleteTempItem(Rowindex) {
     debugger;
-    //var Itemtabledata = DataTables.RequisitionDetailList.rows().data();
-    //Itemtabledata.splice(Rowindex, 1);
-    //DataTables.RequisitionDetailList.clear().rows.add(Itemtabledata).draw(false);
     DataTables.PurchaseOrderDetailTable.row(Rowindex).remove().draw(false);
     notyAlert('success', 'Deleted Successfully');
 }

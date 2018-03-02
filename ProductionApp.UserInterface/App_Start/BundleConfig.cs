@@ -69,6 +69,7 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJS/IssueToProduction/AddIssueToProduction").Include("~/Scripts/UserJS/IssueToProduction/AddIssueToProduction.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJS/IssueToProduction/ListIssueToProduction").Include("~/Scripts/UserJS/IssueToProduction/ListIssueToProduction.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/MaterialReceiptJS/ViewMaterialReceipt").Include("~/Scripts/UserJS/MaterialReceiptJS/ViewMaterialReceipt.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/MaterialReceiptJS/NewMaterialReceipt").Include("~/Scripts/UserJS/MaterialReceiptJS/NewMaterialReceipt.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/DocumentApproval/ApprovalHistory").Include("~/Scripts/UserJS/DocumentApproval/ApprovalHistory.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/DocumentApproval/ApproveDocument").Include("~/Scripts/UserJS/DocumentApproval/ApproveDocument.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/DocumentApproval/DocumentSummary").Include("~/Scripts/UserJS/DocumentApproval/DocumentSummary.js"));

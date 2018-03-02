@@ -34,9 +34,10 @@ $(document).ready(function () {
          ],
          columnDefs: [{ "targets": [0,1], "visible": false, searchable: false },                              
              { className: "text-left", "targets": [2, 3, 4, 5] },
-             {"targets":[2],"width":"10%"},
-             { "targets": [6], "width": "5%" },
-             { "targets": [5], "width": "10%" }
+             { "targets": [2], "width": "5%" },
+             { "targets": [3], "width": "20%" },
+             { "targets": [6], "width": "3%" },
+             { "targets": [5,4], "width": "5%" }
          ]
      });
 
@@ -276,7 +277,7 @@ function Save()
     }
     else
     {
-        notyAlert('warning', 'Please Add Requistion Details!');
+        notyAlert('warning', 'Please Add Material Details!');
     }
 }
 function AddMaterialIssueDetailList()
