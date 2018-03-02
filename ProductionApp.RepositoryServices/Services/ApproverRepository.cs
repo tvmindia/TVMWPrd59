@@ -55,7 +55,7 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.Add("@Length", SqlDbType.Int).Value = approverAdvanceSearch.DataTablePaging.Length;
                         //cmd.Parameters.Add("@OrderDir", SqlDbType.NVarChar, 5).Value = model.order[0].dir;
                         //cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar, -1).Value = model.order[0].column;
-                        //
+                        cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.NVarChar,5).Value = approverAdvanceSearch.DocumentType.Code;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -102,7 +102,7 @@ namespace ProductionApp.RepositoryServices.Services
         /// <returns>object</returns>
         public object InsertUpdateApprover(Approver approver)
         {
-            SqlParameter outputStatus, OutputID;
+            SqlParameter outputStatus, outputID, isDefaultOut;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -119,18 +119,20 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = approver.IsUpdate;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = approver.ID;
                         cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.VarChar,5).Value = approver.DocumentTypeCode;
-                        cmd.Parameters.Add("@Level", SqlDbType.Decimal).Value = approver.Level;
+                        cmd.Parameters.Add("@Level", SqlDbType.Int).Value = approver.Level;
                         cmd.Parameters.Add("@UserID", SqlDbType.UniqueIdentifier).Value = approver.UserID;
-                        cmd.Parameters.Add("@IsDefault", SqlDbType.VarChar).Value = approver.IsDefault;
-                        cmd.Parameters.Add("@IsActive", SqlDbType.VarChar).Value = approver.IsActive;
-                        cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar).Value = approver.Common.CreatedBy;
+                        cmd.Parameters.Add("@IsDefault", SqlDbType.Bit).Value = approver.IsDefault;
+                        cmd.Parameters.Add("@IsActive", SqlDbType.Bit).Value = approver.IsActive;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar,50).Value = approver.Common.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = approver.Common.CreatedDate;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.VarChar).Value = approver.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.VarChar,50).Value = approver.Common.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = approver.Common.UpdatedDate;
-                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.Int);
                         outputStatus.Direction = ParameterDirection.Output;
-                        OutputID = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier);
-                        OutputID.Direction = ParameterDirection.Output;
+                        outputID = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier);
+                        outputID.Direction = ParameterDirection.Output;
+                        isDefaultOut = cmd.Parameters.Add("@IsDefaultOut", SqlDbType.Bit);
+                        isDefaultOut.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -139,10 +141,12 @@ namespace ProductionApp.RepositoryServices.Services
                     case "0":
                         throw new Exception(approver.IsUpdate ? _appConst.UpdateFailure : _appConst.InsertFailure);
                     case "1":
-                        approver.ID = Guid.Parse(OutputID.Value.ToString());
+                        approver.ID = Guid.Parse(outputID.Value.ToString());
+                        approver.IsDefault = bool.Parse(isDefaultOut.Value.ToString());
                         return new
                         {
-                            ID = Guid.Parse(OutputID.Value.ToString()),
+                            ID = Guid.Parse(outputID.Value.ToString()),
+                            IsDefault= bool.Parse(isDefaultOut.Value.ToString()),
                             Status = outputStatus.Value.ToString(),
                             Message = approver.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
                         };
@@ -154,48 +158,13 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return new
             {
-                ID = Guid.Parse(OutputID.Value.ToString()),
+                ID = Guid.Parse(outputID.Value.ToString()),
                 Status = outputStatus.Value.ToString(),
+                IsDefault = bool.Parse(isDefaultOut.Value.ToString()),
                 Message = approver.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
             };
         }
         #endregion InsertUpdateApprover
-
-        #region CheckDefaultApproverExist
-        /// <summary>
-        /// To Check whether DefaultApprover Existing or not
-        /// </summary>
-        /// <param name="documentTypeCode"></param>
-        /// <param name="level"></param>
-        /// <returns>bool</returns>
-        public bool CheckDefaultApproverExist(string documentTypeCode,int level)
-        {
-            try
-            {
-                using (SqlConnection con = _databaseFactory.GetDBConnection())
-                {
-                    using (SqlCommand cmd = new SqlCommand())
-                    {
-                        if (con.State == ConnectionState.Closed)
-                        {
-                            con.Open();
-                        }
-                        cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[CheckDefaultApproverExist]";
-                        cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.VarChar).Value = documentTypeCode;
-                        cmd.Parameters.Add("@Level", SqlDbType.Int).Value = level;
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        Object res = cmd.ExecuteScalar();
-                        return (res.ToString() == "Exists" ? true : false);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        #endregion CheckDefaultApproverExist
 
         #region GetApprover
         /// <summary>

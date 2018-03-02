@@ -97,7 +97,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     materialReceipt.ReceiptDateFormatted = (sdr["MRNDate"].ToString() != "" ? DateTime.Parse(sdr["MRNDate"].ToString()).ToString(settings.DateFormat) : materialReceipt.ReceiptDateFormatted);
                                     materialReceipt.ReceiptNo = (sdr["MRNNo"].ToString() != "" ? sdr["MRNNo"].ToString() : materialReceipt.ReceiptNo);
                                     materialReceipt.Supplier.CompanyName= (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : materialReceipt.Supplier.CompanyName);
-                                    materialReceipt.PurchaseOrderNo= (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : materialReceipt.PurchaseOrder.PurchaseOrderTitle);
+                                    materialReceipt.PurchaseOrderNo= (sdr["PurchaseOrderNo"].ToString() != "" ? sdr["PurchaseOrderNo"].ToString() : materialReceipt.PurchaseOrderNo);
                                     materialReceiptList.Add(materialReceipt);
                                 }
                             }

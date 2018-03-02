@@ -80,7 +80,7 @@
                         @Html.Action("DocumentTypeDropdown", "DocumentType")
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5" title="By default only current level approval pending documents are displayed">
                     @Html.LabelFor(model => model.ShowAll, htmlAttributes: new { @class = "control-label" })
                     <div class="col-md-12">
                         @{

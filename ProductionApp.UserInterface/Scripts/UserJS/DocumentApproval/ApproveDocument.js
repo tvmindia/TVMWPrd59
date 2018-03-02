@@ -3,6 +3,7 @@ var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
+    ValidateDocumentsApprovalPermission();
     try {
         DataTables.ApprovalHistoryTable = $('#tblApprovalHistory').DataTable(
 {
@@ -14,10 +15,11 @@ $(document).ready(function () {
     data: GetApprovalHistory(),//ApprovalHistory.js
     autoWidth: false,
     columns: [
-    { "data": "ApproverName", "defaultContent": "<i>-</i>" },
-    { "data": "ApproverLevel", "defaultContent": "<i>-</i>" },
-    { "data": "ApprovalDate", "defaultContent": "<i>-</i>" },
-    { "data": "ApprovalStatus", "defaultContent": "<i>-</i>" },
+    { "data": "ApproverName", "defaultContent": "<i>-</i>","width":"20%" },
+    { "data": "ApproverLevel", "defaultContent": "<i>-</i>", "width": "5%" },
+    { "data": "ApprovalDate", "defaultContent": "<i>-</i>", "width": "20%" },
+    { "data": "Remarks", "defaultContent": "<i>-</i>", "width": "35%" },
+    { "data": "ApprovalStatus", "defaultContent": "<i>-</i>", "width": "20%" },
     ],
     columnDefs: [
         { className: "text-center", "targets": [2] },
@@ -48,7 +50,10 @@ function ApproveDocument() {
         }
         if (ds.Result == "OK") {
             notyAlert('success', ds.Records.Message);
-            window.location.replace("ViewPendingDocuments?Code=APR&Name=MyApprovals");
+            DataTables.ApprovalHistoryTable.clear().rows.add(GetApprovalHistory()).draw(false);
+            DisableButtons();
+            ReloadSummary(DocumentID, DocumentTypeCode);
+
         }
         if (ds.Result == "ERROR") {
             alert(ds.Message);
@@ -80,8 +85,9 @@ function RejectDocument()
             }
             if (ds.Result == "OK") {
                 notyAlert('success', ds.Records.Message);
-                window.location.replace("ViewPendingDocuments?Code=APR&Name=MyApprovals");
-
+                DataTables.ApprovalHistoryTable.clear().rows.add(GetApprovalHistory()).draw(false);
+                DisableButtons();
+                ReloadSummary(DocumentID, DocumentTypeCode);
             }
             if (ds.Result == "ERROR") {
                 alert(ds.Message);
@@ -91,4 +97,37 @@ function RejectDocument()
     catch (e) {
         notyAlert('error', e.message);
     }
+}
+
+function ReloadSummary(DocumentID, DocumentTypeCode)
+{
+    $("#DocumentSummarydiv").load("./DocumentSummary?DocumentID=" + DocumentID +"&DocumentTypeCode=" + DocumentTypeCode);
+}
+
+function ValidateDocumentsApprovalPermission()
+{
+    debugger;
+    var DocumentID = $("#DocumentID").val();
+    var DocumentTypeCode = $("#DocumentType").val();
+
+    var data = { "DocumentID": DocumentID, "DocumentTypeCode": DocumentTypeCode };
+    var ds = {};
+    ds = GetDataFromServer("DocumentApproval/ValidateDocumentsApprovalPermission/", data);
+    if (ds != '') {
+        ds = JSON.parse(ds);
+    }
+    debugger;
+
+    if (ds.Records.Status == "False") {
+        DisableButtons();
+    } 
+}
+
+function DisableButtons()
+{
+    $("#Remarks").attr("disabled", "disabled");
+    $("#btnApproveDocument").attr("disabled", "disabled");
+    $("#btnApproveDocument").prop("onclick", null);
+    $("#btnRejectDocument").attr("disabled", "disabled");
+    $("#btnRejectDocument").prop("onclick", null);
 }

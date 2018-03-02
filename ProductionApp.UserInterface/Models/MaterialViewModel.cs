@@ -31,7 +31,10 @@ namespace ProductionApp.UserInterface.Models
         //additional fields 
         public Guid MaterialID { get; set; }
         [Display(Name = "Current Stock")]
-        public string CurrentStock { get; set; }
+        public decimal CurrentStock { get; set; }
+        public decimal OpeningStock { get; set; }
+        public decimal WeightInKG { get; set; }
+        public decimal CostPrice { get; set; }
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }

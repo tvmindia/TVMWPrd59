@@ -654,7 +654,7 @@ color: #e32;
         width:52%;
  }
 .skin-green-light .main-sidebar {
-    background-color:#faf9f9;
+    background-color:#00c0ef05;
 }
 
 
@@ -1089,4 +1089,41 @@ background-repeat: no-repeat;
 padding-left:35px;
 vertical-align:middle;
 background-position: 0% 50%; 
+}
+
+.dashboardmodule {
+    font-size:22px;
+}
+
+.dashboardmoduleTile {
+    height:120px;
+}
+
+.small-box .icon {
+    font-size:70px;
+    padding:5px;
+}
+
+.small-box .icon:hover {
+    font-size:80px;
+}
+
+.small-box .inner {
+    padding-top:25px;
+     padding-left:10px;
+}
+
+
+.bg-blue-gradient {
+    background: #0073b7 !important;
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #0052b7b8), color-stop(1, #00a8dbad)) !important;
+    background: -ms-linear-gradient(bottom, #0073b7, #0089db) !important;
+    background: -moz-linear-gradient(center bottom, #0073b7 0, #0089db 100%) !important;
+    background: -o-linear-gradient(#0089db, #0073b7) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0089db', endColorstr='#0073b7', GradientType=0) !important;
+    color: #fff;
+}
+
+.TileCaption {
+    font-size:20px;
 }
