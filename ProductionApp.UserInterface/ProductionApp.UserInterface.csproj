@@ -249,6 +249,7 @@
     <Content Include="Content\AdminLTE\css\skins\skin-yellow.min.css" />
     <Content Include="Content\AdminLTE\css\skins\_all-skins.css" />
     <Content Include="Content\AdminLTE\css\skins\_all-skins.min.css" />
+    <Content Include="Content\bootstrap-datepicker3.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -427,6 +428,7 @@
     <Content Include="Content\images\bg.png" />
     <Content Include="Content\images\bg123.png" />
     <Content Include="Content\images\bgTest1.JPG" />
+    <Content Include="Content\images\browser-window.png" />
     <Content Include="Content\images\calendar.png" />
     <Content Include="Content\images\circle.png" />
     <Content Include="Content\images\close.png" />
@@ -666,6 +668,7 @@
     <Content Include="Scripts\UserJS\ManageAccess.js" />
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
     <Content Include="Scripts\UserJS\Master.js" />
+    <Content Include="Scripts\UserJS\MaterialReceiptJS\NewMaterialReceipt.js" />
     <Content Include="Scripts\UserJS\MaterialReceiptJS\ViewMaterialReceipt.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
@@ -836,6 +839,8 @@
     <Content Include="Views\DocumentApproval\ApproveDocument.cshtml" />
     <Content Include="Views\DocumentApproval\_ApprovalHistory.cshtml" />
     <Content Include="Views\DocumentApproval\_DocumentSummary.cshtml" />
+    <Content Include="Views\Account\NotAuthorized.cshtml" />
+    <Content Include="Views\MaterialReceipt\NewMaterialReceipt.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

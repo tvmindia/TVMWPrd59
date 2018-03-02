@@ -286,6 +286,13 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Title = "Reset";
                     toolboxVM.resetbtn.Event = "Reset();";
 
+                    toolboxVM.ListBtn.Visible = true;
+                    toolboxVM.ListBtn.Text = "List";
+                    toolboxVM.ListBtn.Title = "List";
+                    toolboxVM.ListBtn.Event = "";
+                    toolboxVM.ListBtn.Href = Url.Action("ListIssueToProduction", "IssueToProduction", new { Code = "STR" });
+
+
                     //toolboxVM.CloseBtn.Visible = true;
                     //toolboxVM.CloseBtn.Text = "Close";
                     //toolboxVM.CloseBtn.Title = "Close";

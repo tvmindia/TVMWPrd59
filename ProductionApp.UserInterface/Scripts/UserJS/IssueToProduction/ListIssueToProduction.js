@@ -51,14 +51,19 @@ function BindOrReloadIssueToProductionTable(action)
                 MaterialIssueAdvanceSearchViewModel.IssuedBy=$('#IssuedBy').val();
                 break;
             case 'Export':
+                if ($('#SearchTerm').val()=="")                               
                 DataTablePagingViewModel.Length = -1;
                 break;
             default:    
                 break;
         }
                 MaterialIssueAdvanceSearchViewModel.DataTablePaging=DataTablePagingViewModel;
-                MaterialIssueAdvanceSearchViewModel.SearchTerm=$('#SearchTerm').val();
-                DataTables.IssueToProductionList=$('#tblIssueToProduction').DataTable(
+                MaterialIssueAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+                MaterialIssueAdvanceSearchViewModel.FromDate = $('#FromDate').val();
+                MaterialIssueAdvanceSearchViewModel.ToDate = $('#ToDate').val();
+                MaterialIssueAdvanceSearchViewModel.IssueTo = $('#IssueTo').val();
+                MaterialIssueAdvanceSearchViewModel.IssuedBy = $('#IssuedBy').val();
+                DataTables.tblIssueToProduction = $('#tblIssueToProduction').DataTable(
                     {
                         dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
                         buttons: [{

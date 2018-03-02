@@ -31,6 +31,7 @@
         <div class="clearfix visible-sm-block"></div>
 
     </div>
+   
     <div class="row">
         &nbsp;
     </div>
@@ -46,6 +47,29 @@
                 </div>
                 <div class="col-md-2">
                     <input type="button" value="Search" onclick="BindOrReloadApproverTable('Search')" />
+                </div>
+            </div>
+        </div>
+        @*Advance Filter *@
+        <div class="col-md-12">
+            <div class="row">
+                &nbsp;
+                <p id="filter" style="float:right;font-size:small"><i class="fa fa-filter" aria-hidden="true" style="color:purple"></i><a href="#" class="accordion" data-toggle="collapse" data-target="#demo">Advanced Filter</a></p>
+
+                <div id="demo" class="collapse" style="border-top:1px solid #d9d9d9">
+                    <div class="col-md-12">
+                        <div class="col-md-5">
+                            @Html.LabelFor(model => model.DocumentType, htmlAttributes: new { @class = "control-label" })
+                            <div class="col-md-12">
+                                @Html.Action("DocumentTypeDropdown", "DocumentType")
+                            </div>
+                        </div>
+
+                      
+                        <div class="col-md-2">
+                            <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadApproverTable('Apply')">Apply</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

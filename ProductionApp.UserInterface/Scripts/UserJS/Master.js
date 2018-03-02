@@ -130,9 +130,15 @@ function SaveSuccessApprover(data, status) {
         case "OK":
             if ($('#hdnMasterCall').val() == "MSTR") {
                 $('#IsUpdate').val('True');
+                if (JsonResult.Records.IsDefault == true) {
+                    $("#IsDefault").prop("checked", true);
+                    $('#IsDefault').prop("disabled", true);
+                }
+                else {
+                    $("#IsDefault").prop("checked", false);
+                    $('#IsDefault').prop("disabled", false);
+                }
                 BindOrReloadApproverTable('Reset');
-                //$('#ID').val(JsonResult.Records.ID);
-                //BindOrReloadApproverTable('Reset');
             }
             else if ($('#hdnMasterCall').val() == "OTR") {
                 $('#divApproverDropdown').load('/Approver/ApproverDropdown');

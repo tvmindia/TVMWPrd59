@@ -58,7 +58,7 @@ function BindOrReloadMaterialTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [ 1,2,3,4,5,6]
+                                 columns: [ 1,2,3,4,5,6,7,8,9,10]
                              }
             }],
             order: false,
@@ -85,10 +85,14 @@ function BindOrReloadMaterialTable(action) {
             { "data": "Description", "defaultContent": "<i>-<i>" },
             { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
             { "data": "ReorderQty", "defaultContent": "<i>-<i>" },
+            { "data": "OpeningStock", "defaultContent": "<i>-<i>" },
+            { "data": "CurrentStock", "defaultContent": "<i>-<i>" },
+            { "data": "WeightInKG", "defaultContent": "<i>-<i>" },
+            { "data": "CostPrice", "defaultContent": "<i>-<i>" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [2,6] },
+                { className: "text-right", "targets": [2,6,7,8,9,10] },
                 { className: "text-left", "targets": [1, 3,4,5,6] },
                 { className: "text-center", "targets": [] }],
             destroy: true,
@@ -125,8 +129,8 @@ function ImportMaterialData()
 }
 //--edit Raw material--//
 function EditMaterialMaster(this_obj) {
-    rowData = DataTables.materialList.row($(this_obj).parents('tr')).data();
-    GetMasterPartial("Material", rowData.ID);
+    MaterialViewModel = DataTables.materialList.row($(this_obj).parents('tr')).data();
+    GetMasterPartial("Material", MaterialViewModel.ID);
     $('#h3ModelMasterContextLabel').text('Edit Material')
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val('MSTR');

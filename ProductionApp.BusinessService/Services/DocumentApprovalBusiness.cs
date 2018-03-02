@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProductionApp.DataAccessObject.DTO;
+using System.Data;
 
 namespace ProductionApp.BusinessService.Services
 {
@@ -23,16 +24,30 @@ namespace ProductionApp.BusinessService.Services
           return  _documentApprovalRepository.GetApprovalHistory(DocumentID, DocumentTypeCode);
         }
 
-        public List<DocumentApproval> GetAllDocumentsPendingForApprovals(DocumentApprovalAdvanceSearch documentApprovalAdvanceSearch) {
-
+        public List<DocumentApproval> GetAllDocumentsPendingForApprovals(DocumentApprovalAdvanceSearch documentApprovalAdvanceSearch)
+        {
             return _documentApprovalRepository.GetAllDocumentsPendingForApprovals(documentApprovalAdvanceSearch);
-
-
         }
 
-        public object ApproveDocumentInsert(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode)
+        public DataTable GetDocumentSummary(Guid DocumentID, string DocumentTypeCode)
         {
-            return _documentApprovalRepository.ApproveDocumentInsert(ApprovalLogID, DocumentID, DocumentTypeCode);
+            return _documentApprovalRepository.GetDocumentSummary(DocumentID, DocumentTypeCode);
+        }
+
+        public object ApproveDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode)
+        {
+            return _documentApprovalRepository.ApproveDocument(ApprovalLogID, DocumentID, DocumentTypeCode);
+        }
+
+        public object RejectDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode, string Remarks)
+        {
+            return _documentApprovalRepository.RejectDocument(ApprovalLogID, DocumentID, DocumentTypeCode, Remarks);
+        }
+
+        public object ValidateDocumentsApprovalPermission(string LoginName, Guid DocumentID, string DocumentTypeCode)
+        {
+            return _documentApprovalRepository.ValidateDocumentsApprovalPermission(LoginName, DocumentID, DocumentTypeCode);
+
         }
     }
 }

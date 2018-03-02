@@ -22,11 +22,13 @@ namespace ProductionApp.DataAccessObject.DTO
         public int FilteredCount { get; set; }
         public string ReceiptDateFormatted { get; set; }
         public MaterialReceiptDetail MaterialReceiptDetail { get; set; }
-        public Material RawMaterial { get; set; }
         public Supplier Supplier { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }
+        public bool IsUpdate { get; set; }
+        public string DetailXML { get; set; }
 
         public List<MaterialReceipt> MaterialReceiptList { get; set; }
+        public List<MaterialReceiptDetail> MaterialReceiptDetailList { get; set; }
     }
 
     public class MaterialReceiptDetail
@@ -38,6 +40,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public string UnitCode { get; set; }
         public decimal Qty { get; set; }
         public Common Common { get; set; }
+
+        //Additional Fields
+        public Material Material { get; set; }
     }
 
     public class MaterialReceiptAdvanceSearch

@@ -34,9 +34,10 @@ $(document).ready(function () {
          ],
          columnDefs: [{ "targets": [0,1], "visible": false, searchable: false },                              
              { className: "text-left", "targets": [2, 3, 4, 5] },
-             {"targets":[2],"width":"10%"},
-             { "targets": [6], "width": "5%" },
-             { "targets": [5], "width": "10%" }
+             { "targets": [2], "width": "5%" },
+             { "targets": [3], "width": "20%" },
+             { "targets": [6], "width": "3%" },
+             { "targets": [5,4], "width": "5%" }
          ]
      });
 
@@ -105,7 +106,7 @@ function GetMaterial(ID) {
 function AddIssueToProductItem()
 {
     debugger;
-    if ($('#MaterialID').val() != "")
+    if ($('#MaterialID').val() != "" && $('#MaterialIssueDetail_Qty').val()!="")
     {
         _MaterialIssueDetail = [];
         AddMaterialIssue = new Object();
@@ -150,8 +151,12 @@ function AddIssueToProductItem()
                 DataTables.MaterialIssueDetailTable.rows.add(_MaterialIssueDetail).draw(false);
             }
         }
+        $('#AddIssueToProductionItemModal').modal('hide');
     }
-    $('#AddIssueToProductionItemModal').modal('hide');
+    else
+    {
+        notyAlert('warning', "Material and Quantity fields are required ");
+    }
 
 }
 
@@ -272,7 +277,7 @@ function Save()
     }
     else
     {
-        notyAlert('warning', 'Please Add Requistion Details!');
+        notyAlert('warning', 'Please Add Material Details!');
     }
 }
 function AddMaterialIssueDetailList()

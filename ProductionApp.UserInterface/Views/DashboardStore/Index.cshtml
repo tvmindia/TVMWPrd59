@@ -6,7 +6,7 @@
 
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href=@Url.Action("Index", "Home")><i class="fa fa-home"></i> Home</a></li>
         <li>Store</li>
         <li class="active">@ViewBag.Title</li>
     </ol>
@@ -25,14 +25,14 @@
             }
         </div>
     </div>
-    @*<div class="col-md-4" style="height:600px;">
+    <div class="col-md-4" style="height:600px;">
         @{ 
             @Html.Action("ReceiptSummary", "DashboardStore");
         }
-    </div>*@
+    </div>
     <div class="col-md-4" style="height:600px;">
         @{ 
-            @*@Html.Action("ReOrderAlert", "DashboardStore");*@
+            @Html.Action("ReOrderAlert", "DashboardStore");
         }
     </div>
 </div>

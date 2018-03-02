@@ -6,7 +6,7 @@
     ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_LayoutPageGod.cshtml";
 }
-<div class="row" style="margin-top:2%;">
+<div class="row" style="margin-top:5%;margin-left:5%;margin-right:5%">
     @{
         if (Model != null)
         {
@@ -17,7 +17,7 @@
                     <div class="small-box bg-blue-gradient">
                         <div class="inner">
                             <h3>⚝</h3>
-                            <p>@sysModuleLst.Name</p>
+                            <span class="TileCaption">@sysModuleLst.Name</span>
                         </div>
                         <div class="icon">
                             <i class="@sysModuleLst.IconClass"></i>

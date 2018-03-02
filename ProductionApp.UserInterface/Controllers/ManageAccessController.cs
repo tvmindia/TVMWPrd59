@@ -204,7 +204,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         [HttpPost]
         [AuthSecurityFilter(ProjectObject = "ManageAccess", Mode = "W")]
-        public string AddSubObjectAccessChanges(ManageSubObjectAccessViewModel manageSubObjectAccessViewModelObj)
+        public string AddSubObjectAccessChanges(ManageSubObjectAccessViewModel manageSubObjectAccessVM)
         {
             
             try
@@ -213,15 +213,15 @@ namespace ProductionApp.UserInterface.Controllers
                 DataAccessObject.DTO.Common commonObj = new DataAccessObject.DTO.Common();
                 //if (ModelState.IsValid)
                 // {
-                manageSubObjectAccessViewModelObj.commonObj = new CommonViewModel();
-                manageSubObjectAccessViewModelObj.commonObj.CreatedBy = appUA.UserName;
-                manageSubObjectAccessViewModelObj.commonObj.CreatedDate = commonObj.GetCurrentDateTime();
-                foreach (ManageSubObjectAccessViewModel ManageSubObjectAccessObj in manageSubObjectAccessViewModelObj.ManageSubObjectAccessList)
+                manageSubObjectAccessVM.commonObj = new CommonViewModel();
+                manageSubObjectAccessVM.commonObj.CreatedBy = appUA.UserName;
+                manageSubObjectAccessVM.commonObj.CreatedDate = commonObj.GetCurrentDateTime();
+                foreach (ManageSubObjectAccessViewModel ManageSubObjectAccessObj in manageSubObjectAccessVM.ManageSubObjectAccessList)
                 {
                     ManageSubObjectAccessObj.commonObj = new CommonViewModel();
-                    ManageSubObjectAccessObj.commonObj = manageSubObjectAccessViewModelObj.commonObj;
+                    ManageSubObjectAccessObj.commonObj = manageSubObjectAccessVM.commonObj;
                 }
-                ManageSubObjectAccessViewModel r = Mapper.Map<ManageSubObjectAccess, ManageSubObjectAccessViewModel>(_manageAccessBusiness.AddSubObjectAccessChanges(Mapper.Map<List<ManageSubObjectAccessViewModel>, List<ManageSubObjectAccess>>(manageSubObjectAccessViewModelObj.ManageSubObjectAccessList)));
+                ManageSubObjectAccessViewModel r = Mapper.Map<ManageSubObjectAccess, ManageSubObjectAccessViewModel>(_manageAccessBusiness.AddSubObjectAccessChanges(Mapper.Map<List<ManageSubObjectAccessViewModel>, List<ManageSubObjectAccess>>(manageSubObjectAccessVM.ManageSubObjectAccessList)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = c.InsertSuccess, Records = r });
                 //}
 

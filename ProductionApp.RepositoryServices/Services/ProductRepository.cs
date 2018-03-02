@@ -26,6 +26,10 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion Constructor Injection 
 
+        /// <summary>
+        /// To Get Product List For DropDown
+        /// </summary>
+        /// <returns>List</returns>
         public List<Product> GetProductForSelectList()
         {
             List<Product> productList = null;

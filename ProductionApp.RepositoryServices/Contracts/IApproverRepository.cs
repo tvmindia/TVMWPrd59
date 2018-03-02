@@ -12,7 +12,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<Approver> GetAllApprover(ApproverAdvanceSearch approverAdvanceSearch);
         object InsertUpdateApprover(Approver approver);
         Approver GetApprover(Guid id);
-        bool CheckDefaultApproverExist(string documentTypeCode, int level);
 
     }
 }

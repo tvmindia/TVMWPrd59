@@ -98,7 +98,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion Logout
         private ActionResult RedirectToLocal()
         {
-            return RedirectToAction("Index", "DashBoard");
+            return RedirectToAction("Index", "Home");
         }
         private ActionResult RedirectToLogin()
         {
