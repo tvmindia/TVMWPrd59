@@ -127,7 +127,7 @@ function SaveChanges() {
     }
     var ManageSubObjectAccessViewModel = new Object();
     ManageSubObjectAccessViewModel.ManageSubObjectAccessList = ManageSubObjectAccessList;
-    var data = "{'manageSubObjectAccessViewModelObj':" + JSON.stringify(ManageSubObjectAccessViewModel) + "}";
+    var data = "{'manageSubObjectAccessVM':" + JSON.stringify(ManageSubObjectAccessViewModel) + "}";
     PostDataToServer('ManageAccess/AddSubObjectAccessChanges/', data, function (JsonResult) {
 
         var i = JsonResult
