@@ -15,6 +15,7 @@ namespace ProductionApp.RepositoryServices.Services
         #region Constructor Injection
         private IDatabaseFactory _databaseFactory;
         Settings settings = new Settings();
+        AppConst _appConst = new AppConst();
         public MaterialReceiptRepository(IDatabaseFactory databaseFactory)
         {
             _databaseFactory = databaseFactory;
@@ -57,7 +58,15 @@ namespace ProductionApp.RepositoryServices.Services
                         {
                             cmd.Parameters.Add("@PurchaseOrderID", SqlDbType.UniqueIdentifier).Value = materialReceiptAdvanceSearch.PurchaseOrder.ID;
                         }
-                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(materialReceiptAdvanceSearch.SearchTerm) ? "" : materialReceiptAdvanceSearch.SearchTerm;
+                        if (string.IsNullOrEmpty(materialReceiptAdvanceSearch.SearchTerm))
+                        {
+                            cmd.Parameters.AddWithValue("@SearchValue", DBNull.Value);
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = materialReceiptAdvanceSearch.SearchTerm;
+
+                        }
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
@@ -71,7 +80,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     materialReceipt.PurchaseOrderID = (sdr["PurchaseOrderID"].ToString() != "" ? Guid.Parse(sdr["PurchaseOrderID"].ToString()) : materialReceipt.PurchaseOrderID);
                                     materialReceipt.PurchaseOrderNo = (sdr["PurchaseOrderNo"].ToString() != "" ? sdr["PurchaseOrderNo"].ToString() : materialReceipt.PurchaseOrderNo);
                                     materialReceipt.Supplier.ID = materialReceipt.SupplierID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : materialReceipt.SupplierID);
-                                    materialReceipt.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : materialReceipt.SupplierID);
+                                    materialReceipt.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : materialReceipt.ID);
                                     materialReceipt.ReceiptNo = (sdr["ReceiptNo"].ToString() != "" ? sdr["ReceiptNo"].ToString() : materialReceipt.ReceiptNo);
                                     materialReceipt.ReceiptDate = (sdr["ReceiptDate"].ToString() != "" ? DateTime.Parse(sdr["ReceiptDate"].ToString()) : materialReceipt.ReceiptDate);
                                     materialReceipt.ReceiptDateFormatted = (sdr["ReceiptDate"].ToString() != "" ? DateTime.Parse(sdr["ReceiptDate"].ToString()).ToString(settings.DateFormat) : materialReceipt.ReceiptDateFormatted);
@@ -99,11 +108,10 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetAllMaterialReceipt    
 
-        #region MaterialReceipt DropDown
-        public List<MaterialReceipt> MaterialReceiptForSelectList()
+        #region InsertUpdateMaterialReceipt
+        public object InsertUpdateMaterialReceipt(MaterialReceipt materialReceipt)
         {
-            List<MaterialReceipt> materialReceiptList = null;
-            MaterialReceipt materialReceipt = null;
+            SqlParameter outputStatus, IDOut = null;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -115,31 +123,232 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetAllMaterialReceipt]";
+                        cmd.CommandText = "[AMC].[InsertUpdateMaterialReceipt]";
                         cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = materialReceipt.IsUpdate;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = materialReceipt.ID;
+                        cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = materialReceipt.SupplierID;
+                        cmd.Parameters.Add("@PurchaseOrderID", SqlDbType.UniqueIdentifier).Value = materialReceipt.PurchaseOrderID;
+                        cmd.Parameters.Add("@PurchaseOrderNo", SqlDbType.NVarChar, 20).Value = materialReceipt.PurchaseOrderNo;
+                        cmd.Parameters.Add("@ReceiptNo", SqlDbType.NVarChar, 50).Value = materialReceipt.ReceiptNo;
+                        cmd.Parameters.Add("@ReceiptDate", SqlDbType.DateTime).Value = materialReceipt.ReceiptDateFormatted;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.VarChar, -1).Value = materialReceipt.GeneralNotes;
+
+                        cmd.Parameters.Add("@DetailXML", SqlDbType.VarChar, -1).Value = materialReceipt.DetailXML;
+
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar, 50).Value = materialReceipt.Common.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.SmallDateTime).Value = materialReceipt.Common.CreatedDate;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.VarChar, 50).Value = materialReceipt.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.SmallDateTime).Value = materialReceipt.Common.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        IDOut = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier);
+                        IDOut.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(materialReceipt.IsUpdate ? _appConst.UpdateFailure : _appConst.InsertFailure);
+                    case "1":
+                        return new
+                        {
+                            ID = IDOut.Value.ToString(),
+                            Status = outputStatus.Value.ToString(),
+                            Message = materialReceipt.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+                        };
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Code = IDOut.Value.ToString(),
+                Status = outputStatus.Value.ToString(),
+                Message = materialReceipt.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+            };
+        }
+        #endregion InsertUpdateMaterialReceipt
+
+        #region DeleteMaterialReceipt
+        public object DeleteMaterialReceipt(Guid id)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeleteMaterialReceipt]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+            };
+        }
+        #endregion DeleteMaterialReceipt
+
+        #region DeleteMaterialReceiptDetail
+        public object DeleteMaterialReceiptDetail(Guid id)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeleteMaterialReceiptDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+            };
+        }
+        #endregion DeleteMaterialReceiptDetail
+
+        #region GetMaterialReceiptByID
+        public MaterialReceipt GetMaterialReceiptByID(Guid id)
+        {
+            MaterialReceipt materialReceipt = new MaterialReceipt();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetMaterialReceiptByID]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
                             {
-                                materialReceiptList = new List<MaterialReceipt>();
                                 while (sdr.Read())
                                 {
-                                    materialReceipt = new MaterialReceipt();
-                                    materialReceipt.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : materialReceipt.SupplierID);
+                                    materialReceipt.Supplier = new Supplier();
+                                    materialReceipt.Common = new Common();
+                                    materialReceipt.PurchaseOrderID = (sdr["PurchaseOrderID"].ToString() != "" ? Guid.Parse(sdr["PurchaseOrderID"].ToString()) : materialReceipt.PurchaseOrderID);
+                                    materialReceipt.PurchaseOrderNo = (sdr["PurchaseOrderNo"].ToString() != "" ? sdr["PurchaseOrderNo"].ToString() : materialReceipt.PurchaseOrderNo);
+                                    materialReceipt.Supplier.ID = materialReceipt.SupplierID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : materialReceipt.SupplierID);
+                                    materialReceipt.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : materialReceipt.ID);
                                     materialReceipt.ReceiptNo = (sdr["ReceiptNo"].ToString() != "" ? sdr["ReceiptNo"].ToString() : materialReceipt.ReceiptNo);
-                                    materialReceiptList.Add(materialReceipt);
+                                    materialReceipt.ReceiptDate = (sdr["ReceiptDate"].ToString() != "" ? DateTime.Parse(sdr["ReceiptDate"].ToString()) : materialReceipt.ReceiptDate);
+                                    materialReceipt.ReceiptDateFormatted = (sdr["ReceiptDate"].ToString() != "" ? DateTime.Parse(sdr["ReceiptDate"].ToString()).ToString(settings.DateFormat) : materialReceipt.ReceiptDateFormatted);
+                                    materialReceipt.Supplier.CompanyName = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : materialReceipt.Supplier.CompanyName);
+                                    materialReceipt.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : materialReceipt.GeneralNotes);
+                                    materialReceipt.Common.CreatedBy = (sdr["CreatedBy"].ToString() != "" ? sdr["CreatedBy"].ToString() : materialReceipt.Common.CreatedBy);
+                                    materialReceipt.Common.UpdatedBy = (sdr["UpdatedBy"].ToString() != "" ? sdr["UpdatedBy"].ToString() : materialReceipt.Common.UpdatedBy);
+                                    materialReceipt.Common.CreatedDateString = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(settings.DateFormat) : materialReceipt.Common.CreatedDateString);
+                                    materialReceipt.Common.UpdatedDateString = (sdr["UpdatedDate"].ToString() != "" ? DateTime.Parse(sdr["UpdatedDate"].ToString()).ToString(settings.DateFormat) : materialReceipt.Common.UpdatedDateString);
                                 }
                             }
                         }
                     }
                 }
             }
-            catch(Exception Ex)
+            catch (Exception ex)
             {
-                throw Ex;
+                throw ex;
             }
-            return materialReceiptList;
+            return materialReceipt;
         }
-        #endregion MaterialReceipt DropDown
+        #endregion GetMaterialReceiptByID
+
+        #region GetAllMaterialReceiptDetailByHeaderID
+        public List<MaterialReceiptDetail> GetAllMaterialReceiptDetailByHeaderID(Guid id)
+        {
+            List<MaterialReceiptDetail> materialReceiptDetailList = new List<MaterialReceiptDetail>();
+            MaterialReceiptDetail materialReceiptDetail = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetAllMaterialReceiptDetailByHeaderID]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    materialReceiptDetail = new MaterialReceiptDetail();
+                                    materialReceiptDetail.Material = new Material();
+
+                                    materialReceiptDetail.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : materialReceiptDetail.ID);
+                                    materialReceiptDetail.HeaderID = (sdr["HeaderID"].ToString() != "" ? Guid.Parse(sdr["HeaderID"].ToString()) : materialReceiptDetail.HeaderID);
+                                    materialReceiptDetail.MaterialID = materialReceiptDetail.Material.ID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : materialReceiptDetail.MaterialID);
+                                    materialReceiptDetail.Material.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : materialReceiptDetail.UnitCode);
+                                    materialReceiptDetail.MaterialDesc= (sdr["MaterialDesc"].ToString() != "" ? sdr["MaterialDesc"].ToString() : materialReceiptDetail.MaterialDesc);
+                                    materialReceiptDetail.Qty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : materialReceiptDetail.Qty);
+                                    materialReceiptDetail.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : materialReceiptDetail.UnitCode);
+
+                                    materialReceiptDetailList.Add(materialReceiptDetail);
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return materialReceiptDetailList;
+        }
+        #endregion GetAllMaterialReceiptDetailByHeaderID
     }
 }
