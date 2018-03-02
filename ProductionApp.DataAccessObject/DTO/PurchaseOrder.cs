@@ -86,5 +86,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid ReqDetailID { get; set; }
         public decimal PurchaseOrderQty { get; set; }
         public Guid MaterialID { get; set; }
+        public string TaxTypeCode { get; set; }
+        public decimal CGSTAmt { get; set; }
+        public decimal SGSTAmt { get; set; }
+        public decimal IGSTAmt { get; set; }
+        public decimal Discount { get; set; }
     }
 }

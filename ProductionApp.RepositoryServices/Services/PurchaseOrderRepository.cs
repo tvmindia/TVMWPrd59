@@ -499,7 +499,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     {
                                         purchaseOrderDetail.PurchaseOrderID = (sdr["PurchaseOrderID"].ToString() != "" ? Guid.Parse(sdr["PurchaseOrderID"].ToString()) : purchaseOrderDetail.PurchaseOrderID);
                                         purchaseOrderDetail.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : purchaseOrderDetail.MaterialCode);
-                                        purchaseOrderDetail.Qty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : purchaseOrderDetail.Qty);
+                                        purchaseOrderDetail.Qty = (sdr["PurchaseOrderQty"].ToString() != "" ? decimal.Parse(sdr["PurchaseOrderQty"].ToString()) : purchaseOrderDetail.Qty);
                                         purchaseOrderDetail.Discount = (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseOrderDetail.Discount);
                                         purchaseOrderDetail.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : purchaseOrderDetail.Rate);
                                         purchaseOrderDetail.TaxTypeCode = (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : purchaseOrderDetail.TaxTypeCode);
