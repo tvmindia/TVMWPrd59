@@ -1127,3 +1127,13 @@ background-position: 0% 50%;
 .TileCaption {
     font-size:20px;
 }
+
+.salesSummary {
+
+    height:150px;
+    border:2px dotted;
+}
+
+.DashboardContainer {
+    padding:20px;
+}
