@@ -821,6 +821,18 @@ color: #e32;
     font-size:12px;
     height:28px;
 }
+.dataTables_wrapper
+{
+padding-left:15px !important;
+}
+.remove-padding-left
+{
+    padding-left:0px !important;
+}
+.remove-padding-right
+{
+    padding-right:0px !important;
+}
 
 .multiline4 {
      
