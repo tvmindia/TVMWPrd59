@@ -40,7 +40,6 @@ function BindOrReloadBankTable(action) {
             case 'Search':
                 break;
             case 'Export':
-                if ($('#SearchTerm').val()=="")
                 DataTablePagingViewModel.Length = -1;
                 break;
             default:
@@ -129,7 +128,7 @@ function BindOrReloadBankTable(action) {
 //function reset the list to initial
 function ResetBankList()
 {
-    BindOrReloadBankTable('Reset');
+    BindOrReloadBankTable('Search');
 }
 //function export data to excel
 function ExportBankData()
@@ -139,8 +138,8 @@ function ExportBankData()
 //edit bank 
 function EditBankMaster(this_obj) {
     debugger;
-    rowData = DataTables.BankList.row($(this_obj).parents('tr')).data();
-    GetMasterPartial("Bank", rowData.Code);
+    BankViewModel = DataTables.BankList.row($(this_obj).parents('tr')).data();
+    GetMasterPartial("Bank", BankViewModel.Code);
     $('#h3ModelMasterContextLabel').text('Edit Bank')
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val('MSTR');
