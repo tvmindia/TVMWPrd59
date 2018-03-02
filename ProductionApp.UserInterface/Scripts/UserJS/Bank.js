@@ -114,7 +114,7 @@ function BindOrReloadBankTable(action) {
                         }
                     }                    
                     $(".buttons-excel").trigger('click');
-                    ResetBankList();
+                    BindOrReloadBankTable('Search');
                 }
             }
         });
@@ -128,7 +128,7 @@ function BindOrReloadBankTable(action) {
 //function reset the list to initial
 function ResetBankList()
 {
-    BindOrReloadBankTable('Search');
+    BindOrReloadBankTable('Reset');
 }
 //function export data to excel
 function ExportBankData()
