@@ -333,6 +333,12 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Title = "Reset";
                     toolboxVM.resetbtn.Event = "Reset();";
 
+                    toolboxVM.ListBtn.Visible = true;
+                    toolboxVM.ListBtn.Text = "List";
+                    toolboxVM.ListBtn.Title = "List";
+                    toolboxVM.ListBtn.Event = "";
+                    toolboxVM.ListBtn.Href = Url.Action("ViewPurchaseOrder", "PurchaseOrder", new { Code = "PURCH" });
+
                     break;
                 case "Add":
 
