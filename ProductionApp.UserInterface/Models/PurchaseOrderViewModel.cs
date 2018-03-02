@@ -13,12 +13,15 @@ namespace ProductionApp.UserInterface.Models
             public Guid ID { get; set; }
             [Display(Name = "PO Number")]
             public string PurchaseOrderNo { get; set; }
-            [Display(Name = "PO Dtae")]
+            [Display(Name = "PO Date")]
+            [Required(ErrorMessage = "PO Date required")]
             public DateTime PurchaseOrderDate { get; set; }
-            [Display(Name = "PO Issued Dtae")]
+            [Display(Name = "PO Issued Date")]
+            [Required(ErrorMessage = "PO Issued Date required")]
             public DateTime PurchaseOrderIssuedDate { get; set; }
             public Guid SupplierID { get; set; }
-            [Display(Name = "Title")]
+            [Display(Name = "PO Title")]
+            [Required(ErrorMessage = "PO Title required")]
             public string PurchaseOrderTitle { get; set; }
             [Display(Name = "Mailing Address")]
             [DataType(DataType.MultilineText)]
@@ -26,6 +29,7 @@ namespace ProductionApp.UserInterface.Models
             [Display(Name = "Shipping Address")]
             [DataType(DataType.MultilineText)]
             public string ShippingAddress { get; set; }
+            [Display(Name = "Cash Discount")]
             public decimal Discount { get; set; }
             [DataType(DataType.MultilineText)]
             public string GeneralNotes { get; set; }
@@ -40,6 +44,7 @@ namespace ProductionApp.UserInterface.Models
             //additional properties
             public int TotalCount { get; set; }
             public int FilteredCount { get; set; }
+            [Required(ErrorMessage = "Supplier required")]
             public string Supplier { get; set; }
             public CommonViewModel Common { get; set; }
             public string PurchaseOrderDateFormatted { get; set; }
@@ -47,7 +52,19 @@ namespace ProductionApp.UserInterface.Models
             public PurchaseOrderDetailViewModel PurchaseOrderDetail { get; set; }
             [Display(Name = "Gross Amount")]
             public decimal GrossAmount { get; set; }
+            [Display(Name = "Item Total")]
+            public decimal ItemTotal { get; set; }
+            [Display(Name = "CGST")]
+            public decimal CGSTTotal { get; set; }
+            [Display(Name = "SGST")]
+            public decimal SGSTTotal { get; set; }
+            [Display(Name = "Total Tax")]
+            public decimal TaxTotal { get; set; }
             public List<SelectListItem> SelectList { get; set; }
+            public List<PurchaseOrderDetailViewModel> PODDetail { get; set; }
+            public List<PurchaseOrderDetailRequisitionLinkViewModel> PODDetailLink { get; set; }
+            public string PODDetailXML { get; set; }
+            public string PODDetailLinkXML { get; set; }
     }
         public class PurchaseOrderDetailViewModel
         {
@@ -58,11 +75,16 @@ namespace ProductionApp.UserInterface.Models
             public string UnitCode { get; set; }
             public decimal Qty { get; set; }
             public decimal Rate { get; set; }
-            public string TaxType { get; set; }
+            public string TaxTypeCode { get; set; }
             public decimal CGSTAmt { get; set; }
             public decimal SGSTAmt { get; set; }
             public decimal IGSTAmt { get; set; }
-        }
+            public decimal Discount { get; set; }
+            //additional prop
+            public string MaterialCode { get; set; }
+            public decimal Amount { get; set; }
+            public RequisitionDetailViewModel RequisitionDetail { get; set; }
+    }
         public class PurchaseOrderOtherChargesViewModel
         {
             public Guid ID { get; set; }
@@ -89,5 +111,12 @@ namespace ProductionApp.UserInterface.Models
             public string Status { get; set; }
             
     }
-    
+        public class PurchaseOrderDetailRequisitionLinkViewModel
+         {
+        public Guid ID { get; set; }
+        public Guid PurchaseOrderDetailID { get; set; }
+        public Guid ReqDetailID { get; set; }
+        public decimal PurchaseOrderQty { get; set; }
+        public Guid MaterialID { get; set; }
+    }
 }

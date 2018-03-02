@@ -18,16 +18,19 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid EmployeeID { get; set; }
         public Guid LatestApprovalID { get; set; }
         public int LatestApprovalStatus { get; set; }
+        public string ApprovalStatus { get; set; }
+
         public bool IsFinalApproved { get; set; }
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public DateTime ApprovalDate { get; set; }
         public string ApprovalDateFormatted { get; set; }
+        public Guid hdnFileID { get; set; }
+        public string DetailXML { get; set; }
         public Common Common { get; set; }
         public RequisitionDetail RequisitionDetail { get; set; }
         public List<RequisitionDetail> RequisitionDetailList { get; set; }
-        public string DetailXML { get; set; }
 
     }
 
@@ -53,5 +56,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public string SearchTerm { get; set; }
         public DataTablePaging DataTablePaging { get; set; }
 
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string ReqStatus { get; set; }
+        public string RequisitionBy { get; set; }
+        public Guid EmployeeID { get; set; }
     }
 }

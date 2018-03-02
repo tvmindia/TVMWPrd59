@@ -5,14 +5,22 @@ $(document).ready(function () {
     try {
         $("#SupplierID").select2({
         });
-        $("#Status").select2({
-        });
         BindOrReloadPurchaseOrderTable('Init');
+        $('#tblPurchaseOrder tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
     }
     catch (e) {
         console.log(e.message);
     }
 });
+//edit on table click
+function Edit(curObj) {
+    debugger;
+    var rowData = DataTables.PurchaseOrderList.row($(curObj).parents('tr')).data();
+    window.location.replace("NewPurchaseOrder?code=PURCH&ID=" + rowData.ID);
+
+}
 //bind purchae order list
 function BindOrReloadPurchaseOrderTable(action) {
     try{
@@ -28,8 +36,8 @@ function BindOrReloadPurchaseOrderTable(action) {
             $('#SearchTerm').val('');
             $('#FromDate').val('');
             $('#ToDate').val('');
-            $('#SupplierID').val('');
-            $('#Status').val('');
+            $('#SupplierID').val('').select2();
+            $('#Status').val('').select2();
             break;
         case 'Init':
             break;
@@ -77,7 +85,12 @@ function BindOrReloadPurchaseOrderTable(action) {
                 { "data": "PurchaseOrderIssuedDateFormatted", "defaultContent": "<i>-</i>" },
                 { "data": "Supplier", "defaultContent": "<i>-</i>" },
                 { "data": "PurchaseOrderStatus", "defaultContent": "<i>-</i>" },
-                { "data": "PurchaseOrderTitle", "defaultContent": "<i>-</i>" }
+                { "data": "PurchaseOrderTitle", "defaultContent": "<i>-</i>" },
+                {
+                    "data": "ID", "orderable": false, render: function (data, type, row) {
+                        return '<a href="/PurchaseOrder/NewPurchaseOrder?code=PURCH&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                    }, "defaultContent": "<i>-</i>"
+                }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { className: "text-left", "targets": [1,4,5,6] },

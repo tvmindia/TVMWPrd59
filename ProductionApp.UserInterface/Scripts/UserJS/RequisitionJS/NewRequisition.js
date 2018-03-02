@@ -6,6 +6,26 @@ var _RequistionDetailList = [];
 $(document).ready(function () {
     debugger;
     try {
+        $("#MaterialID").select2({
+            dropdownParent: $("#RequisitionDetailsModal")
+        });
+        $("#EmployeeID").select2({
+        });
+
+        $('#btnUpload').click(function () {
+            debugger;
+            //Pass the controller name
+            var FileObject = new Object;
+            if ($('#hdnFileDupID').val() != EmptyGuid) {
+                FileObject.ParentID = (($('#ID').val()) != EmptyGuid ? ($('#ID').val()) : $('#hdnFileDupID').val());
+            }
+            else {
+                FileObject.ParentID = ($('#ID').val() == EmptyGuid) ? "" : $('#ID').val();
+            }
+            FileObject.ParentType = "Requisition";
+            FileObject.Controller = "FileUpload";
+            UploadFile(FileObject);
+        });
 
         DataTables.RequisitionDetailTable = $('#tblRequisitionDetail').DataTable(
       {
@@ -18,12 +38,12 @@ $(document).ready(function () {
           columns: [
           { "data": "ID", "defaultContent": "<i></i>" },
           { "data": "MaterialID", "defaultContent": "<i></i>" },
-          { "data": "Material.MaterialCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
-          { "data": "Description", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
+          { "data": "Material.MaterialCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "10%" },
+          { "data": "Description", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "43%" },
           { "data": "Material.CurrentStock", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
           { "data": "RequestedQty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
           { "data": "ApproximateRate", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>" },
-          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a> | <a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>' },
+          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
           ],
           columnDefs: [{ "targets": [0,1], "visible": false, searchable: false },
               { className: "text-center", "targets": [7],"width": "7%" },
@@ -55,14 +75,14 @@ $(document).ready(function () {
 function ShowRequisitionDetailsModal()
 {
     debugger;
-    $("#MaterialID").val('')
+    $("#MaterialID").val('').select2();
     $('#RequisitionDetail_Material_MaterialCode').val('');
     $('#RequisitionDetail_Material_CurrentStock').val('');
     $('#RequisitionDetail_Description').val('');
     $('#RequisitionDetail_ApproximateRate').val('');
     $('#RequisitionDetail_RequestedQty').val('');
-    $('#RequisitionDetailsModal').modal('show');
 
+    $('#RequisitionDetailsModal').modal('show');
 }
 
 function MaterialEdit(curObj)
@@ -72,7 +92,7 @@ function MaterialEdit(curObj)
 
     var rowData = DataTables.RequisitionDetailTable.row($(curObj).parents('tr')).data();
     BindMaterialDetails(rowData.MaterialID);
-    $("#MaterialID").val(rowData.MaterialID);
+    $("#MaterialID").val(rowData.MaterialID).trigger('change');
     $('#RequisitionDetail_RequestedQty').val(rowData.RequestedQty);
     $('#RequisitionDetail_Description').val(rowData.Description);
 
@@ -112,7 +132,7 @@ function GetMaterial(ID) {
 function AddRequisitionDetails()
 {
     debugger;
-    if ($("#MaterialID").val() != "")
+    if ($("#MaterialID").val() != "" && $('#RequisitionDetail_RequestedQty').val()!="")
     {
         _RequistionDetail = [];
         RequisitionMaterial = new Object();
@@ -156,7 +176,7 @@ function AddRequisitionDetails()
     }
     else
     {
-        notyAlert('warning', "Material is Empty");
+        notyAlert('warning', "Material and Quantity fields are required ");
     }
 }
 
@@ -210,6 +230,10 @@ function SaveSuccessRequisition(data, status)
             break;
     }
 }
+function Reset()
+{
+    BindRequisitionByID();
+}
 function BindRequisitionByID()
 {
     var ID = $('#ID').val();
@@ -219,12 +243,15 @@ function BindRequisitionByID()
     $('#Title').val(result.Title);
     $('#ReqNo').val(result.ReqNo);
     $('#ReqDateFormatted').val(result.ReqDateFormatted);
-    $('#EmployeeID').val(result.EmployeeID);
+    $('#EmployeeID').val(result.EmployeeID).select2();
     $('#ReqStatus').val(result.ReqStatus);
     $('#lblReqNo').text('Requisition# : ' + result.ReqNo);
+    $('#lblReqStatus').text(result.ReqStatus);
+    $('#lblApprovalStatus').text(result.ApprovalStatus);
     
     //detail Table values binding with header id
     BindRequisitionDetailTable(ID);
+    PaintImages(ID);//bind attachments
 }
 
 function GetRequisitionByID(ID)
@@ -348,7 +375,7 @@ function DeleteRequisition() {
             }
             if (ds.Result == "OK") {
                 notyAlert('success', ds.Record.Message);
-               // $('#').load(controllername/actionname)
+                window.location.replace("NewRequisition?code=PURCH");
             }
             if (ds.Result == "ERROR") {
                 notyAlert('error', ds.Message);
@@ -361,4 +388,7 @@ function DeleteRequisition() {
         notyAlert('error', e.message);
         return 0;
     }
+}
+
+function PageRefresh() {
 }

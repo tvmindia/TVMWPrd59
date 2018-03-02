@@ -47,16 +47,22 @@
                     </div>
             </div>
         </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                @Html.Label("email", htmlAttributes: new { @class = "control-label", hidden ="hidden" ,style = "color:green;"})
+            </div>
+        </div>
 
         <div class="form-group col-md-12">
             <div class="form-group col-md-6">
                 <div class="col-md-12">
+                    @Html.HiddenFor(model => model.IsDefaultString, htmlAttributes: new { @class = "",@id="hdnIsDefault" })
                     @Html.LabelFor(model => model.IsDefault, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.IsDefault, new { htmlAttributes = new { @class = "",@onchange="SetDefaultValue()"} })
+                    @Html.ValidationMessageFor(model => model.IsDefault, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.IsDefault, new { htmlAttributes = new { @class = "" } })
-                        @Html.ValidationMessageFor(model => model.IsDefault, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -64,11 +70,12 @@
             <div class="form-group col-md-6">
                 <div class="col-md-12">
                     @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label " })
+                    @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "" } })
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "" } })
-                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                        
                     </div>
                 </div>
             </div>
@@ -86,5 +93,36 @@
         <script>
             $(document).ready(function () {
                 $.validator.unobtrusive.parse("#FormApprover");
+                $('#UserID').change(function () {
+                    debugger;
+                    GetEmailId(this.value)
+                });
             });
+            //--Function To get emailid on user dropdown change--//
+            function GetEmailId(UserID) {
+                debugger;
+                var data = { "Id": UserID };
+                var ds = {};
+                ds = GetDataFromServer("User/GetUserDetailsByID/", data);
+                if (ds != '') {
+                    ds = JSON.parse(ds);
+                    $('label[for="email"]').text(ds.Records.Email);
+                    $('label[for="email"]').show();
+                }
+                if (ds.Result == "OK") {
+                    return ds.Records;
+                }
+
+            }
+
+            //--Function To disable and enable checkbox corresponding to IsDefalut check box--//
+            function SetDefaultValue() {
+                debugger;
+                if ($('#IsDefault').is(":checked")) {
+                    $('#hdnIsDefault').val("true");
+                }
+                else {
+                    $('#hdnIsDefault').val("false");
+                }
+            }
         </script>

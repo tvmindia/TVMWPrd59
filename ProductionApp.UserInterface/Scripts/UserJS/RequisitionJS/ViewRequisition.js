@@ -3,12 +3,26 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
+        $("#EmployeeID").select2({
+        });
         BindOrReloadRequisitionTable('Init');
+
+        $('#tblRequisition tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
     }
     catch (e) {
         console.log(e.message);
     }
 });
+
+function Edit (curObj)
+{
+    debugger;
+    var rowData = DataTables.RequisitionList.row($(curObj).parents('tr')).data();
+    window.location.replace("NewRequisition?code=PURCH&ID=" + rowData.ID);
+
+}
 //bind purchae order list
 function BindOrReloadRequisitionTable(action) {
     try {
@@ -21,10 +35,20 @@ function BindOrReloadRequisitionTable(action) {
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
+                $('#FromDate').val('');
+                $('#ToDate').val('');
+                $('#ReqStatus').val('');
+                $("#EmployeeID").val('').select2();
                 break;
             case 'Init':
                 break;
             case 'Search':
+                break;
+            case 'Apply':
+                RequisitionAdvanceSearchViewModel.FromDate = $('#FromDate').val();
+                RequisitionAdvanceSearchViewModel.ToDate = $('#ToDate').val();
+                RequisitionAdvanceSearchViewModel.ReqStatus = $('#ReqStatus').val();
+                RequisitionAdvanceSearchViewModel.EmployeeID = $('#EmployeeID').val();
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
@@ -45,6 +69,7 @@ function BindOrReloadRequisitionTable(action) {
                                  }
                 }],
                 order: false,
+                ordering: false,
                 searching: false,
                 paging: true,
                 lengthChange: false,

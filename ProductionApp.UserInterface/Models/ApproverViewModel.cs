@@ -18,9 +18,9 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Please Enter User ")]
         [Display(Name = "User")]
         public Guid UserID { get; set; }
-        [Remote(action: "CheckDefaultApproverExist", controller: "Approver", AdditionalFields = "DocumentTypeCode,Level")]
         [Display(Name = "Is Default Approver")]
         public bool IsDefault { get; set; }
+        public string IsDefaultString { get; set; }
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
         //additional fields 
@@ -37,5 +37,6 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
+        public DocumentTypeViewModel DocumentType { get; set; }
     }
 }

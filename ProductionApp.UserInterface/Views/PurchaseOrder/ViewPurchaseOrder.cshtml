@@ -43,7 +43,8 @@
                     @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
                 </div>
                 <div class="col-md-2">
-                    <input type="button" value="Search" onclick="BindOrReloadPurchaseOrderTable('Search')" />
+                    
+                    <a class="btn btn-primary" style="right:-750px;" value="Search" onclick="BindOrReloadPurchaseOrderTable('Search')">Search</a>
                 </div>
             </div>
         </div>
@@ -56,44 +57,46 @@
 
             <div id="demo" class="collapse" style="border-top:1px solid #d9d9d9">
                 <div class="col-md-12">
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
                         <div class="col-md-12">
                             @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3" } })
                         </div>
                     </div>
 
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
                         <div class="col-md-12">
                             @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3" } })
                         </div>
                     </div>
+
+                    <div class="col-md-4"></div>
                 </div>
                 <div class="col-md-12">
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         @Html.LabelFor(model => model.Supplier, htmlAttributes: new { @class = "control-label" })
                         <div class="col-md-12">
                             @Html.Action("SupplierDropdown", "Supplier")
                         </div>
                     </div>
 
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
                         <div class="col-md-12">
                             @{
                                 List<SelectListItem> selectListItem = new List<SelectListItem>();
                                 selectListItem.Add(new SelectListItem
+                                { Text = "-------Select Status-------", Value = "", Selected = true });
+                                selectListItem.Add(new SelectListItem
                                 { Text = "Open", Value = "Open", Selected = false });
                                 selectListItem.Add(new SelectListItem
                                 { Text = "Closed", Value = "Closed", Selected = false });
-                                selectListItem.Add(new SelectListItem
-                                { Text = "-------Select Status-------",Value="", Selected = true });
                             }
-                            @Html.DropDownListFor(model => model.Status, selectListItem, new { @class = "form-control BlockEnter", value = 0, style = "padding:4px 12px; width:480px" })
+                            @Html.DropDownListFor(model => model.Status, selectListItem, new { @class = "form-control BlockEnter", value = 0, style = "padding:4px 12px; width:100%" })
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadPurchaseOrderTable('Apply')">Apply</a>
                     </div>
                 </div>
@@ -112,6 +115,7 @@
                     <th>Supplier</th>
                     <th>Purchase Order Status</th>
                     <th>Purchase Order Title</th>
+                    <th>...</th>
             </thead>
         </table>
     </div>

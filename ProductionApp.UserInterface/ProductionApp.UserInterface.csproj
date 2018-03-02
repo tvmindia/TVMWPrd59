@@ -427,6 +427,7 @@
     <Content Include="Content\images\bg.png" />
     <Content Include="Content\images\bg123.png" />
     <Content Include="Content\images\bgTest1.JPG" />
+    <Content Include="Content\images\browser-window.png" />
     <Content Include="Content\images\calendar.png" />
     <Content Include="Content\images\circle.png" />
     <Content Include="Content\images\close.png" />
@@ -657,7 +658,12 @@
     <Content Include="Scripts\UserJS\Approver.js" />
     <Content Include="Scripts\UserJS\AppSubobject.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
+    <Content Include="Scripts\UserJS\DocumentApproval\ApprovalHistory.js" />
+    <Content Include="Scripts\UserJS\DocumentApproval\ApproveDocument.js" />
+    <Content Include="Scripts\UserJS\DocumentApproval\DocumentSummary.js" />
+    <Content Include="Scripts\UserJS\DocumentApproval\ViewPendingDocuments.js" />
     <Content Include="Scripts\UserJS\IssueToProduction\AddIssueToProduction.js" />
+    <Content Include="Scripts\UserJS\IssueToProduction\ListIssueToProduction.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
     <Content Include="Scripts\UserJS\ManageSubObjectAccess.js" />
     <Content Include="Scripts\UserJS\Master.js" />
@@ -692,6 +698,7 @@
     <Compile Include="Controllers\DashboardMasterController.cs" />
     <Compile Include="Controllers\DashboardSaleController.cs" />
     <Compile Include="Controllers\DashboardSettingsController.cs" />
+    <Compile Include="Controllers\DocumentApprovalController.cs" />
     <Compile Include="Controllers\DocumentTypeController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
@@ -728,6 +735,7 @@
     <Compile Include="Models\CommonViewModel.cs" />
     <Compile Include="Models\DataTableAjaxPostModel.cs" />
     <Compile Include="Models\DataTablePagingViewModel.cs" />
+    <Compile Include="Models\DocumentApprovalViewModel.cs" />
     <Compile Include="Models\DocumentTypeViewModel.cs" />
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
@@ -746,6 +754,7 @@
     <Compile Include="Models\MaterialViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
+    <Compile Include="Models\TaxTypeViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
     <Compile Include="Models\UnitViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
@@ -823,6 +832,12 @@
     <Content Include="Views\MaterialType\_AddMaterialTypePartial.cshtml" />
     <Content Include="Views\MaterialType\Index.cshtml" />
     <Content Include="Views\User\_UserDropdown.cshtml" />
+    <Content Include="Views\DocumentApproval\ViewPendingDocuments.cshtml" />
+    <Content Include="Views\IssueToProduction\ListIssueToProduction.cshtml" />
+    <Content Include="Views\DocumentApproval\ApproveDocument.cshtml" />
+    <Content Include="Views\DocumentApproval\_ApprovalHistory.cshtml" />
+    <Content Include="Views\DocumentApproval\_DocumentSummary.cshtml" />
+    <Content Include="Views\Account\NotAuthorized.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

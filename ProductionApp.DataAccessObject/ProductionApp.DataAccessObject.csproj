@@ -76,6 +76,7 @@
     <Compile Include="DTO\AMCSysModule.cs" />
     <Compile Include="DTO\AMCSysMenu.cs" />
     <Compile Include="DTO\DataTablePaging.cs" />
+    <Compile Include="DTO\DocumentApproval.cs" />
     <Compile Include="DTO\DocumentType.cs" />
     <Compile Include="DTO\Employee.cs" />
     <Compile Include="DTO\MaterialIssue.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="DTO\PurchaseOrder.cs" />
     <Compile Include="DTO\Material.cs" />
     <Compile Include="DTO\Supplier.cs" />
+    <Compile Include="DTO\TaxType.cs" />
     <Compile Include="DTO\Unit.cs" />
     <Compile Include="DTO\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

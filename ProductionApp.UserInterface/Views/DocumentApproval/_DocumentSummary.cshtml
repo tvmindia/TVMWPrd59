@@ -1,0 +1,41 @@
+﻿@using ProductionApp.UserInterface.App_Start
+@using System.Data
+@model ProductionApp.UserInterface.Models.DocumentSummaryViewModel
+
+<div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Document Summary </div>
+ 
+   
+     
+
+        @{
+
+            DataTable Dt = Model.DataTable;
+            int i;
+            for (i = 0; i < Dt.Columns.Count; i++)
+            {
+                <div  class="col-md-12 row SummaryRow">
+
+                    <div class="col-md-5 SummaryCaption">
+                        @Dt.Columns[i].ColumnName
+                    </div>
+                    
+                    <div class="col-md-7 SummaryValue">
+                     :&nbsp;   @Html.Raw(Dt.Rows[0][Dt.Columns[i].ColumnName].ToString() )
+                    </div>
+
+                </div>
+               
+
+            }
+
+        }
+
+ 
+    
+ 
+
+
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/DocumentApproval/ApprovalHistory")
+}

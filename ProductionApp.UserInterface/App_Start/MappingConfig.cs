@@ -41,6 +41,7 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<UserViewModel, ProductionApp.DataAccessObject.DTO.User>().ReverseMap();
                 config.CreateMap<BankAdvanceSearchViewModel, BankAdvanceSearch>().ReverseMap();
                 config.CreateMap<MaterialIssueViewModel, MaterialIssue>().ReverseMap();
+                config.CreateMap<MaterialIssueDetailViewModel, MaterialIssueDetail>().ReverseMap();
                 config.CreateMap<MaterialViewModel, Material>().ReverseMap();
                 config.CreateMap<MaterialAdvanceSearchViewModel, MaterialAdvanceSearch>().ReverseMap();
                 config.CreateMap<UnitViewModel, Unit>().ReverseMap();
@@ -61,6 +62,9 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<MaterialStockAdjViewModel, MaterialStockAdj>().ReverseMap();
                 config.CreateMap<MaterialReceiptViewModel, MaterialReceipt>().ReverseMap();
                 config.CreateMap<MaterialReceiptAdvanceSearchViewModel, MaterialReceiptAdvanceSearch>().ReverseMap();
+                config.CreateMap<MaterialIssueAdvanceSearchViewModel, MaterialIssueAdvanceSearch>().ReverseMap();
+                config.CreateMap<DocumentApprovalViewModel, DocumentApproval>().ReverseMap();
+                config.CreateMap<DocumentApprovalAdvanceSearchViewModel, DocumentApprovalAdvanceSearch>().ReverseMap();
             });
         }
     }

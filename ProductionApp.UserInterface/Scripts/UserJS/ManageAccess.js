@@ -172,7 +172,7 @@ function ChangeAccess(this_Obj)
 }
 function SaveChanges()
 {
-  
+    debugger;
     var ManageAccessList = [];
     var tabledata = DataTables.ObjectTable.rows().data();
     for (var i = 0; i < tabledata.length; i++)

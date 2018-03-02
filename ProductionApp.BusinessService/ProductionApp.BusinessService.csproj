@@ -45,6 +45,7 @@
     <Compile Include="Contracts\IBankBusiness.cs" />
     <Compile Include="Contracts\ICommonBusiness.cs" />
     <Compile Include="Contracts\IDashboardStoreBusiness.cs" />
+    <Compile Include="Contracts\IDocumentApprovalBusiness.cs" />
     <Compile Include="Contracts\IDocumentTypeBusiness.cs" />
     <Compile Include="Contracts\IDynamicUIBusiness.cs" />
     <Compile Include="Contracts\IEmployeeBusiness.cs" />
@@ -57,12 +58,14 @@
     <Compile Include="Contracts\IPurchaseOrderBusiness.cs" />
     <Compile Include="Contracts\IMaterialBusiness.cs" />
     <Compile Include="Contracts\ISupplierBusiness.cs" />
+    <Compile Include="Contracts\ITaxTypeBusiness.cs" />
     <Compile Include="Contracts\IUnitBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ApproverBusiness.cs" />
     <Compile Include="Services\BankBusiness.cs" />
     <Compile Include="Services\CommonBusiness.cs" />
     <Compile Include="Services\DashboardStoreBusiness.cs" />
+    <Compile Include="Services\DocumentApprovalBusiness.cs" />
     <Compile Include="Services\DocumentTypeBusiness.cs" />
     <Compile Include="Services\DynamicUIBusiness.cs" />
     <Compile Include="Services\EmployeeBusiness.cs" />
@@ -75,6 +78,7 @@
     <Compile Include="Services\RequisitionBusiness.cs" />
     <Compile Include="Services\MaterialBusiness.cs" />
     <Compile Include="Services\SupplierBusiness.cs" />
+    <Compile Include="Services\TaxTypeBusiness.cs" />
     <Compile Include="Services\UnitBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
