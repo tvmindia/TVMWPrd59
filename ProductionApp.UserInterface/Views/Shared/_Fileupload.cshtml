@@ -3,7 +3,7 @@
 
     <div class="col-md-10">
      
-            <div class="col-md-12">
+           
                 <div class="col-md-12">
                     <div class="col-md-6" style="min-height:250px;max-height:250px;border:1px solid #ccc;border-right:none;color:dimgrey;background-color:#f9f9f9;margin-top:1%">
                         New attachments
@@ -18,19 +18,15 @@
                         </div>
 
                     </div>
-                </div>
             </div>
-            <div class="col-md-12">
                 <div class="col-md-8" style="max-height:50px;margin-top:1%;">
                     <input type="hidden" id="hdnFileSizebytes" value=0 />
                     <input type="file" multiple id="FileUpload1" style="display:none;" onchange="BindFiles()" />
-                    <input type="button" id="btnUpload" value="Upload Files" class="btn uploadbtn" />
-                    <input type="button" id="btnCancel" value="Cancel All" onclick="cancelAll()" class="btn" style="color:#000000;font-weight:500;" />
-                    <a class="attachbutton" onclick="$('#FileUpload1').click();"><img src="~/Content/images/paperclip.png" style="padding:1px;border-radius:5px;" /></a>
+                    <input type="button" value="SELECT FILES" onclick="$('#FileUpload1').click();" class="btn attachbutton" style="color:#246076;font-weight:500;" />
+                    <input type="button" id="btnUpload" value="UPLOAD FILES" class="btn uploadbtn" />
+                    <input type="button" id="btnCancel" value="CANCEL" onclick="cancelAll()" class="btn" style="color:#000000;font-weight:500;" />
+                    @*<a class="attachbutton" onclick="$('#FileUpload1').click();"><img src="~/Content/images/paperclip.png" style="padding:1px;border-radius:5px;" /></a>*@
                 </div>
-            </div>
-
-
         </div>
     
 
