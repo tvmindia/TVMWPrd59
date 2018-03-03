@@ -31,7 +31,7 @@ function SaveSuccessBank(data, status) {
 //-- add  material--//
 function AddMaterialMaster(flag) {
     GetMasterPartial("Material", "");
-    $('#h3ModelMasterContextLabel').text('Add Raw Material')
+    $('#h3ModelMasterContextLabel').text('Add Material')
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val(flag);
 }
