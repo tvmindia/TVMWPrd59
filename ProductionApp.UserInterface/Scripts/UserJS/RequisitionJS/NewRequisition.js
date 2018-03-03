@@ -390,5 +390,15 @@ function DeleteRequisition() {
     }
 }
 
-function PageRefresh() {
+function ShowSendForApproval() {
+    debugger;
+
+    $('#SendApprovalModal').modal('show');
 }
+
+function SendForApproval() {
+    debugger;
+
+    $('#SendApprovalModal').modal('hide');
+}
+
