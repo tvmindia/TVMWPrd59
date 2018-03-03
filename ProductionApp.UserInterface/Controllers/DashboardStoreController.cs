@@ -13,10 +13,10 @@ namespace ProductionApp.UserInterface.Controllers
     public class DashboardStoreController : Controller
     {
         #region Constructor Injection
-        IDashboardStoreBusiness _dashboardStoreBusiness;
-        public DashboardStoreController(IDashboardStoreBusiness dashboardStoreBusiness)
+        IMaterialReceiptBusiness _materialReceiptBusiness;
+        public DashboardStoreController(IMaterialReceiptBusiness materialReceiptBusiness)
         {
-            _dashboardStoreBusiness = dashboardStoreBusiness;
+            _materialReceiptBusiness = materialReceiptBusiness;
         }
         #endregion Constructor Injection
 
@@ -37,14 +37,14 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult IssueSummary()
         {
             MaterialIssueViewModel MaterialIssue = new MaterialIssueViewModel();
-            MaterialIssue.MaterialIssueList = Mapper.Map<List<MaterialIssue>,List<MaterialIssueViewModel>>(_dashboardStoreBusiness.GetRecentIssueSummary());
+            MaterialIssue.MaterialIssueList = new List<MaterialIssueViewModel>();//Mapper.Map<List<MaterialIssue>,List<MaterialIssueViewModel>>(_dashboardStoreBusiness.GetRecentIssueSummary());
             return PartialView("_IssueSummary",MaterialIssue);
         }
 
         public ActionResult ReceiptSummary()
         {
             MaterialReceiptViewModel MaterialReceipt = new MaterialReceiptViewModel();
-            MaterialReceipt.MaterialReceiptList = Mapper.Map<List<MaterialReceipt>, List<MaterialReceiptViewModel>>(_dashboardStoreBusiness.GetRecentMaterialReceiptSummary());
+            MaterialReceipt.MaterialReceiptList = Mapper.Map<List<MaterialReceipt>, List<MaterialReceiptViewModel>>(_materialReceiptBusiness.GetRecentMaterialReceiptSummary());
             return PartialView("_ReceiptSummary",MaterialReceipt);
         }
         

@@ -61,9 +61,7 @@ namespace ProductionApp.UserInterface.Controllers
         {
             materialReceiptAdvanceSearchVM.DataTablePaging.Start = model.start;
             materialReceiptAdvanceSearchVM.DataTablePaging.Length = (materialReceiptAdvanceSearchVM.DataTablePaging.Length == 0) ? model.length : materialReceiptAdvanceSearchVM.DataTablePaging.Length;
-            List<MaterialReceiptViewModel> materialReceiptList = Mapper.Map<List<MaterialReceipt>, List<MaterialReceiptViewModel>>(
-                _materialReceiptBusiness.GetAllMaterialReceipt(
-                    Mapper.Map<MaterialReceiptAdvanceSearchViewModel, MaterialReceiptAdvanceSearch>(materialReceiptAdvanceSearchVM)));
+            List<MaterialReceiptViewModel> materialReceiptList = Mapper.Map<List<MaterialReceipt>, List<MaterialReceiptViewModel>>(_materialReceiptBusiness.GetAllMaterialReceipt(Mapper.Map<MaterialReceiptAdvanceSearchViewModel, MaterialReceiptAdvanceSearch>(materialReceiptAdvanceSearchVM)));
             if (materialReceiptAdvanceSearchVM.DataTablePaging.Length == -1)
             {
                 int totalResult = materialReceiptList.Count != 0 ? materialReceiptList[0].TotalCount : 0;
@@ -147,13 +145,13 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetAllPurchaseOrderItem
 
-        #region GetMaterialReceiptByID
+        #region GetMaterialReceipt
         [AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "R")]
-        public string GetMaterialReceiptByID(string id)
+        public string GetMaterialReceipt(string id)
         {
             try
             {
-                MaterialReceiptViewModel materialReceiptVM = Mapper.Map<MaterialReceipt, MaterialReceiptViewModel>(_materialReceiptBusiness.GetMaterialReceiptByID(Guid.Parse(id)));
+                MaterialReceiptViewModel materialReceiptVM = Mapper.Map<MaterialReceipt, MaterialReceiptViewModel>(_materialReceiptBusiness.GetMaterialReceipt(Guid.Parse(id)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = materialReceiptVM, Message = "Success" });
             }
             catch (Exception ex)
@@ -162,11 +160,11 @@ namespace ProductionApp.UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
             }
         }
-        #endregion GetMaterialReceiptByID
+        #endregion GetMaterialReceipt
 
-        #region GetAllMaterialReceiptDetailByID
+        #region GetAllMaterialReceiptDetail
         [AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "R")]
-        public string GetAllMaterialReceiptDetailByID(string id)
+        public string GetAllMaterialReceiptDetail(string id)
         {
             try
             {
@@ -179,7 +177,7 @@ namespace ProductionApp.UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
             }
         }
-        #endregion GetAllMaterialReceiptDetailByID
+        #endregion GetAllMaterialReceiptDetail
 
         #region DeleteMaterialReceipt
         [AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "R")]
@@ -196,7 +194,7 @@ namespace ProductionApp.UserInterface.Controllers
             }
             catch (Exception ex)
             {
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex });
             }
         }
         #endregion DeleteMaterialReceipt
@@ -216,7 +214,7 @@ namespace ProductionApp.UserInterface.Controllers
             }
             catch (Exception ex)
             {
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex });
             }
         }
         #endregion DeleteMaterialReceiptDetail

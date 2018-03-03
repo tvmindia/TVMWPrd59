@@ -13,7 +13,8 @@ namespace ProductionApp.RepositoryServices.Contracts
         object InsertUpdateMaterialReceipt(MaterialReceipt materialReceipt);
         object DeleteMaterialReceipt(Guid id);
         object DeleteMaterialReceiptDetail(Guid id);
-        MaterialReceipt GetMaterialReceiptByID(Guid id);
+        MaterialReceipt GetMaterialReceipt(Guid id);
         List<MaterialReceiptDetail> GetAllMaterialReceiptDetailByHeaderID(Guid id);
+        List<MaterialReceipt> GetRecentMaterialReceiptSummary();
     }
 }
