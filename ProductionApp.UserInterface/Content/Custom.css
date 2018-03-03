@@ -1141,7 +1141,7 @@ background-position: 0% 50%;
 
 .Summary {
 
-    height:110px;
+    min-height:110px;
     text-align:center;
     font-size:medium;
     vertical-align:middle;

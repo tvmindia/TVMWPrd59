@@ -11,9 +11,12 @@ namespace ProductionApp.UserInterface.Controllers
     public class HomeController : Controller
     {
         IDynamicUIBusiness _dynamicUIBusiness;
-        public HomeController(IDynamicUIBusiness dynamicUIBusiness)
+        ISalesInvoieBusiness _salesInvoiceBusiness;
+
+        public HomeController(IDynamicUIBusiness dynamicUIBusiness, ISalesInvoieBusiness salesInvoiceBusiness)
         {
             _dynamicUIBusiness = dynamicUIBusiness;
+             _salesInvoiceBusiness= salesInvoiceBusiness;
         }
         // GET: Home
         [AuthSecurityFilter(ProjectObject = "Home", Mode = "")]
@@ -44,9 +47,9 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ViewBag.ActionName = "Admin";
             AppUA appUA = Session["AppUA"] as AppUA;
-            SalesSummaryViewModel data = new SalesSummaryViewModel();
-
-            return PartialView("_SalesSummary", data);
+            SalesSummaryList salesList = new SalesSummaryList();          
+            salesList.SalesSmryList = Mapper.Map < List<SalesSummary>, List <SalesSummaryViewModel>>( _salesInvoiceBusiness.GetSalesSummary());
+            return PartialView("_SalesSummary", salesList);
         }
 
 

@@ -1,6 +1,23 @@
-﻿@model ProductionApp.UserInterface.Models.SalesSummaryViewModel
+﻿@model ProductionApp.UserInterface.Models.SalesSummaryList
+    @using ProductionApp.UserInterface.Models
+@using ProductionApp.UserInterface.App_Start
 
+   @{ 
+
+       List<SalesSummaryViewModel> salesList = Model.SalesSmryList;
+   }
 <div  class="col-md-12 panel-title"> Sales Summary </div>
-<div class="col-md-12 Summary box">
-  
+<div class="col-md-12 Summary box" style="padding-top:15px">
+    <canvas id="myChart" width="400" height="200"></canvas>
 </div>
+
+<script>
+    var lbls=@Html.Raw(Json.Encode( salesList.Select(s => s.Month).ToList()));
+    var dta=@Html.Raw(Json.Encode( salesList.Select(s => s.Sales).ToList()));
+    
+
+</script>
+ @section scripts {
+   
+     
+     }

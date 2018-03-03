@@ -664,6 +664,7 @@
     <Content Include="Scripts\UserJS\DocumentApproval\ApproveDocument.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\DocumentSummary.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ViewPendingDocuments.js" />
+    <Content Include="Scripts\UserJS\Home\SalesSummary.js" />
     <Content Include="Scripts\UserJS\IssueToProduction\AddIssueToProduction.js" />
     <Content Include="Scripts\UserJS\IssueToProduction\ListIssueToProduction.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
@@ -756,6 +757,7 @@
     <Compile Include="Models\PurchaseOrderViewModel.cs" />
     <Compile Include="Models\MaterialViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
+    <Compile Include="Models\SalesInvoiceViewModel.cs" />
     <Compile Include="Models\SendForApprovalViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
     <Compile Include="Models\TaxTypeViewModel.cs" />

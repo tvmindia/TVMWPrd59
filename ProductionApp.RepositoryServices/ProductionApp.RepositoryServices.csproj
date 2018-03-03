@@ -60,7 +60,7 @@
     <Compile Include="Contracts\ISupplierRepository.cs" />
     <Compile Include="Contracts\ITaxTypeRepository.cs" />
     <Compile Include="Contracts\IUnitRepository.cs" />
-    <Compile Include="Contracts\SalesInvoiceRepository.cs" />
+    <Compile Include="Contracts\ISalesInvoiceRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ApproverRepository.cs" />
     <Compile Include="Services\BankRepository.cs" />
