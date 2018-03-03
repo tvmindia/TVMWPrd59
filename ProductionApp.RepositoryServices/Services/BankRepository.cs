@@ -188,6 +188,7 @@ namespace ProductionApp.RepositoryServices.Services
                 throw ex;
             }
         }
+       
         #region InsertUpdateBank
         public object InsertUpdateBank(Bank bank)
         {
@@ -266,9 +267,9 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[Accounts].[DeleteBank]";
+                        cmd.CommandText = "[AMC].[DeleteBank]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@Code", SqlDbType.VarChar, 5).Value = code;
+                        cmd.Parameters.Add("@Code", SqlDbType.VarChar, 15).Value = code;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

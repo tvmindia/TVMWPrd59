@@ -852,6 +852,7 @@
     <Content Include="Views\Home\_DispatchSummary.cshtml" />
     <Content Include="Views\MaterialReceipt\NewMaterialReceipt.cshtml" />
     <Content Include="Views\Account\PageNotFound.cshtml" />
+    <Content Include="Views\Account\DbDown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

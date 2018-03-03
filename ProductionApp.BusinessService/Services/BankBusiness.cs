@@ -36,5 +36,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _bankRepository.CheckCodeExist(code);
         }
+        public object DeleteBank(string code)
+        {
+            return _bankRepository.DeleteBank(code);
+        }
     }
 }
