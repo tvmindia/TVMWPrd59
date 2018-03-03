@@ -20,7 +20,7 @@ $(document).ready(function () {
 function Edit(curObj)
 {
     debugger;
-    var MaterialIssueViewModel= DataTables.IssueToProductionList.row($(curObj).parents('tr')).data();
+    var MaterialIssueViewModel = DataTables.IssueToProductionList.row($(curObj).parents('tr')).data();
     window.location.replace("AddIssueToProduction?code=STR&ID=" + MaterialIssueViewModel.ID);
 }
 

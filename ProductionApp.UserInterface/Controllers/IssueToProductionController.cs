@@ -141,7 +141,7 @@ namespace ProductionApp.UserInterface.Controllers
                 string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
                 materialIssueVM.MaterialIssueDetailList = JsonConvert.DeserializeObject<List<MaterialIssueDetailViewModel>>(ReadableFormat);
                 var result = _issueToProductionBusiness.InsertUpdateIssueToProduction(Mapper.Map<MaterialIssueViewModel, MaterialIssue>(materialIssueVM));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result ,Message="Success"});
 
 
                 //selectListItem = new List<SelectListItem>();
@@ -150,24 +150,24 @@ namespace ProductionApp.UserInterface.Controllers
             catch (Exception ex)
             {
                 AppConstMessage cm = _appConst.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records="",Message = cm.Message });
             }
            
         }
         #endregion
 
         #region GetMaterial
-        public string GetMaterial(string ID)
+        public string GetMaterial(string id)
         {
             try
             {
                 MaterialViewModel rawMaterialVM = new MaterialViewModel();
-                rawMaterialVM = Mapper.Map<Material, MaterialViewModel>(_rawMaterialBusiness.GetMaterial(Guid.Parse(ID)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = rawMaterialVM });
+                rawMaterialVM = Mapper.Map<Material, MaterialViewModel>(_rawMaterialBusiness.GetMaterial(Guid.Parse(id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = rawMaterialVM ,Message="Sucess"});
             }
             catch (Exception ex)
             {
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records="",Message = ex });
             }
         }
         #endregion
@@ -180,11 +180,11 @@ namespace ProductionApp.UserInterface.Controllers
             {
                 MaterialIssueViewModel materialIssueVM = new MaterialIssueViewModel();
                 materialIssueVM = Mapper.Map<MaterialIssue, MaterialIssueViewModel>(_issueToProductionBusiness.GetIssueToProduction(Guid.Parse(id)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = materialIssueVM });
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = materialIssueVM,Message="Success" });
             }
             catch (Exception ex)
             {
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record="",Message = ex });
             }
         }
         #endregion
@@ -197,11 +197,11 @@ namespace ProductionApp.UserInterface.Controllers
             {
                 List<MaterialIssueDetailViewModel> materialIssueDetailVM = new List<MaterialIssueDetailViewModel>();
                 materialIssueDetailVM = Mapper.Map<List<MaterialIssueDetail>, List<MaterialIssueDetailViewModel>>(_issueToProductionBusiness.GetIssueToProductionDetail(Guid.Parse(id)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = materialIssueDetailVM });
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = materialIssueDetailVM,Message="Success" });
             }
             catch(Exception ex)
             {
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records="",Message = ex });
             }
         }
         #endregion
@@ -218,12 +218,12 @@ namespace ProductionApp.UserInterface.Controllers
                     throw new Exception("ID Missing");
                 }
                 result = _issueToProductionBusiness.DeleteIssueToProductionDetail(Guid.Parse(id));
-                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = _appConst.DeleteSuccess });
             }
             catch(Exception ex)
             {
                 AppConstMessage cm = _appConst.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records="",Message = cm.Message });
             }
         }
         #endregion
@@ -245,7 +245,7 @@ namespace ProductionApp.UserInterface.Controllers
             catch (Exception ex)
             {
                 AppConstMessage cm = _appConst.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record="",Message = cm.Message });
             }
         }
         #endregion

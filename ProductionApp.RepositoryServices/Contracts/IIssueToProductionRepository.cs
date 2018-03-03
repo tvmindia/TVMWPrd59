@@ -15,5 +15,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<MaterialIssueDetail> GetIssueToProductionDetail(Guid id);
         object DeleteIssueToProductionDetail(Guid id);
         object DeleteIssueToProduction(Guid id);
+        List<MaterialIssue> GetRecentMaterialIssueSummary();
     }
 }

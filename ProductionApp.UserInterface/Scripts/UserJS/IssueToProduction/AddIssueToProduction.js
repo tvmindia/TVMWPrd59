@@ -1,6 +1,7 @@
 ﻿var DataTables = {};
 var _MaterialIssueDetail = [];
 var _MaterialIssueDetailList = [];
+var _SlNo=1;
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
 
@@ -26,7 +27,12 @@ $(document).ready(function () {
          columns: [
          { "data": "ID", "defaultContent": "<i></i>" },
          { "data": "MaterialID", "defaultContent": "<i></i>" },
-         { "data": "", render: function (data, type, row) { debugger;return row }, "defaultContent": "<i></i>"},
+         {
+             "data": "", render: function (data, type, row) {
+debugger;
+                 return _SlNo++                 
+             }, "defaultContent": "<i></i>"
+         },
          { "data": "Material.MaterialCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "MaterialDesc", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "UnitCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
@@ -35,21 +41,21 @@ $(document).ready(function () {
          ], 
          columnDefs: [{ "targets": [0,1], "visible": false, searchable: false },                              
              { className: "text-left", "targets": [2, 3, 4, 5, 6] },
-             {"targets":[2],"width":"2%"},
+             {"targets":[2],"width":"2%",},
              { "targets": [3], "width": "5%" },
              { "targets": [4], "width": "15%" },
              { "targets": [7], "width": "3%" },
              {"targets":[6],"width":"4%"},
              { "targets": [4,5], "width": "5%" }
-         ]
+         ],
+        
      });
 
-        $("#MaterialID").change(function () {
-            debugger;
+            $("#MaterialID").change(function () {
+                debugger;
             BindRawMaterialDetails(this.value)
-        });
-        if ($('#IsUpdate').val() == 'True')
-        {
+            });
+        if ($('#IsUpdate').val() == 'True') {
             debugger;
             BindIssueToProductionByID()
             ChangeButtonPatchView('IssueToProduction', 'divbuttonPatchAddIssueToProduction', 'Edit');
@@ -88,17 +94,23 @@ function BindRawMaterialDetails(ID)
 function GetMaterial(ID) {
     try {
         debugger;
-        var data = { "ID": ID };
-        var ds = {};
-        ds = GetDataFromServer("IssueToProduction/GetMaterial/", data);
-        if (ds != '') {
-            ds = JSON.parse(ds);
+        var data = { "id": ID };
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var materialViewModel = new Object();
+        jsonData = GetDataFromServer("IssueToProduction/GetMaterial/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            materialViewModel = jsonData.Records;
+            message = jsonData.Message;
         }
-        if (ds.Result == "OK") {
-            return ds.Records;
+        if (result == "OK") {
+            return materialViewModel;
         }
-        if (ds.Result == "ERROR") {
-            alert(ds.Message);
+        if (result == "ERROR") {
+            alert(message);
         }
     }
     catch (e) {
@@ -123,17 +135,17 @@ function AddIssueToProductItem()
 
         if(_MaterialIssueDetail!=null)
         {
-            var allData = DataTables.MaterialIssueDetailTable.rows().data();
-            if(allData.length>0)
+            var materialIssueDetailList = DataTables.MaterialIssueDetailTable.rows().data();
+            if (materialIssueDetailList.length > 0)
             {
                 var checkPoint = 0;
-                for(var i=0; i< allData.length;i++)
+                for (var i = 0; i < materialIssueDetailList.length; i++)
                 {
-                    if (allData[i].MaterialID == $('#MaterialID').val())
+                    if (materialIssueDetailList[i].MaterialID == $('#MaterialID').val())
                     {                       
-                        allData[i].MaterialDesc = $('#MaterialIssueDetail_MaterialDesc').val();
-                        allData[i].UnitCode = $('#MaterialIssueDetail_UnitCode').val();
-                        allData[i].Qty = $('#MaterialIssueDetail_Qty').val();
+                        materialIssueDetailList[i].MaterialDesc = $('#MaterialIssueDetail_MaterialDesc').val();
+                        materialIssueDetailList[i].UnitCode = $('#MaterialIssueDetail_UnitCode').val();
+                        materialIssueDetailList[i].Qty = $('#MaterialIssueDetail_Qty').val();
                         checkPoint = 1;
                         break;
                     }
@@ -145,7 +157,7 @@ function AddIssueToProductItem()
                 }
                 else
                 {
-                    DataTables.MaterialIssueDetailTable.clear().rows.add(allData).draw(false);
+                    DataTables.MaterialIssueDetailTable.clear().rows.add(materialIssueDetailList).draw(false);
                 }
             }
             else
@@ -168,36 +180,43 @@ function MaterialEdit(curObj)
     debugger;
     $('#AddIssueToProductionItemModal').modal('show');
     
-    var rowData = DataTables.MaterialIssueDetailTable.row($(curObj).parents('tr')).data();
-    //BindRawMaterialDetails(rowData.ID);
-    if ((rowData != null) && (rowData.MaterialID != null))
+    var materialIssueDetailVM = DataTables.MaterialIssueDetailTable.row($(curObj).parents('tr')).data();
+    _SlNo = 1;
+    //DataTables.MaterialIssueDetailTable.clear().rows.add(Itemtabledata).draw(false);
+    if ((materialIssueDetailVM != null) && (materialIssueDetailVM.MaterialID != null))
     {
-        $("#MaterialID").val(rowData.MaterialID).select2();
-       $('#MaterialIssueDetail_Material_MaterialCode').val(rowData.Material.MaterialCode);
-        $('#MaterialIssueDetail_MaterialDesc').val(rowData.MaterialDesc);
-       $('#MaterialIssueDetail_UnitCode').val(rowData.UnitCode);
-        $('#MaterialIssueDetail_Qty').val(rowData.Qty);
+        $("#MaterialID").val(materialIssueDetailVM.MaterialID).select2();
+        $('#MaterialIssueDetail_Material_MaterialCode').val(materialIssueDetailVM.Material.MaterialCode);
+        $('#MaterialIssueDetail_MaterialDesc').val(materialIssueDetailVM.MaterialDesc);
+        $('#MaterialIssueDetail_UnitCode').val(materialIssueDetailVM.UnitCode);
+        $('#MaterialIssueDetail_Qty').val(materialIssueDetailVM.Qty);
     }
 }
 
 function Delete(curObj)
 {
     debugger;
-    var rowData = DataTables.MaterialIssueDetailTable.row($(curObj).parents('tr')).data();
-    var rowIndex = DataTables.MaterialIssueDetailTable.row($(curObj).parents('tr')).index();
-    if ((rowData != null) && (rowData.ID != null))
+    var materialIssueDetailVM = DataTables.MaterialIssueDetailTable.row($(curObj).parents('tr')).data();
+    var materialIssueDetailVMIndex = DataTables.MaterialIssueDetailTable.row($(curObj).parents('tr')).index();
+
+    if ((materialIssueDetailVM != null) && (materialIssueDetailVM.ID != null))
     {
-        notyConfirm('Are you sure to delete?', 'DeleteItem("' + rowData.ID + '")');
+        notyConfirm('Are you sure to delete?', 'DeleteItem("' + materialIssueDetailVM.ID + '")');
+        
     }
     else
     {
-        var res = notyConfirm('Are you sure to delete?', 'DeleteTempItem("' + rowIndex + '")');
+        var res = notyConfirm('Are you sure to delete?', 'DeleteTempItem("' + materialIssueDetailVMIndex + '")');
     }
 }
 
-function DeleteTempItem(rowIndex)
+function DeleteTempItem(materialIssueDetailVMIndex)
 {
-    DataTables.MaterialIssueDetailTable.row(rowIndex).remove().draw(false);
+    debugger;
+    var Itemtabledata = DataTables.MaterialIssueDetailTable.rows().data();
+    Itemtabledata.splice(materialIssueDetailVMIndex, 1);
+    _SlNo = 1;
+    DataTables.MaterialIssueDetailTable.clear().rows.add(Itemtabledata).draw(false);    
     notyAlert('success', 'Deleted Successfully');
 }
 
@@ -207,23 +226,30 @@ function DeleteItem(ID)
     try {
         debugger;
         var data = { "id": ID };
-        var ds = {};
-        ds = GetDataFromServer("IssueToProduction/DeleteIssueToProductionDetail/", data);
-        if (ds != '') {
-            ds = JSON.parse(ds);
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var materialIssueDetailVM = new Object();
+        jsonData = GetDataFromServer("IssueToProduction/DeleteIssueToProductionDetail/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            materialIssueDetailVM = jsonData.Records;
+            message = jsonData.Message;
         }
-        switch (ds.Result) {
+        switch (result) {
             case "OK":
-                notyAlert('success', ds.Message);
+                notyAlert('success', message);
                 BindIssueToProductionByID();
+               
                 break;
             case "ERROR":
-                notyAlert('error', ds.Message);
+                notyAlert('error', message);
                 break;
             default:
                 break;
         }
-        return ds.Record;
+        return jsonData.Records;
     }
     catch (e) {
 
@@ -243,17 +269,23 @@ function DeleteIssueToProduction()
         var id = $('#ID').val();
         if (id != '' && id != null) {
             var data = { "id": id };
-            var ds = {};
-            ds = GetDataFromServer("IssueToProduction/DeleteIssueToProduction/", data);
-            if (ds != '') {
-                ds = JSON.parse(ds);
+            var jsonData = {};
+            var result = "";
+            var message = "";
+            var materialIssueVM = new Object();
+            jsonData = GetDataFromServer("IssueToProduction/DeleteIssueToProduction/", data);
+            if (jsonData != '') {
+                jsonData = JSON.parse(jsonData);
+                result = jsonData.Result;
+                materialIssueVM = jsonData.Record;
+                message = jsonData.Message;
             }
-            if (ds.Result == "OK") {
-                notyAlert('success', ds.Record.Message);
+            if (result == "OK") {
+                notyAlert('success', materialIssueVM.message);
                 window.location.replace("AddIssueToProduction?code=STR");
             }
-            if (ds.Result == "ERROR") {
-                notyAlert('error', ds.Message);
+            if (result == "ERROR") {
+                notyAlert('error', message);
                 return 0;
             }
             return 1;
@@ -277,6 +309,7 @@ function Save()
         var result = JSON.stringify(_MaterialIssueDetailList);
         $("#DetailJSON").val(result);
         $('#btnSave').trigger('click');
+        _SlNo = 1;
     }
     else
     {
@@ -309,6 +342,7 @@ function SaveSuccessIssueToProduction(data,status)
             $('#IsUpdate').val('True');
             $('#ID').val(JsonResult.Records.ID)
             BindIssueToProductionByID();
+            _SlNo = 1;
             notyAlert("success", JsonResult.Records.Message)
             ChangeButtonPatchView('IssueToProduction', 'divbuttonPatchAddIssueToProduction', 'Edit');
             break;
@@ -322,7 +356,7 @@ function SaveSuccessIssueToProduction(data,status)
 }
 
 function Reset()
-{
+{    
     BindIssueToProductionByID();
 }
 
@@ -330,7 +364,7 @@ function  BindIssueToProductionByID()
 {
     debugger;
     ChangeButtonPatchView('IssueToProduction', 'divbuttonPatchAddIssueToProduction', 'New');
-
+    _SlNo = 1;
     var ID = $('#ID').val();
     var result = GetIssueToProductionByID(ID);
     $('#ID').val(result.ID);
@@ -349,16 +383,22 @@ function GetIssueToProductionByID(ID)
     {
         debugger;
         var data = { "id": ID };
-        var ds = {};
-        ds = GetDataFromServer("IssueToProduction/GetIssueToProduction/", data);
-        if (ds != '') {
-            ds = JSON.parse(ds);
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var materialIssueVM = new Object();
+        jsonData = GetDataFromServer("IssueToProduction/GetIssueToProduction/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            materialIssueVM = jsonData.Record;
+            message = jsonData.Message;
         }
-        if (ds.Result == "OK") {
-            return ds.Records;
+        if (result == "OK") {
+            return materialIssueVM;
         }
-        if (ds.Result == "ERROR") {
-            alert(ds.Message);
+        if (result == "ERROR") {
+            alert(message);
         }
     }
     catch (e)
@@ -370,7 +410,7 @@ function GetIssueToProductionByID(ID)
 function BindMaterialIssueDetailTable(ID)
 {
     debugger;
-    DataTables.MaterialIssueDetailTable.clear().rows.add(GetIssueToProductionDetail(ID)).draw(false);
+    DataTables.MaterialIssueDetailTable.clear().rows.add(GetIssueToProductionDetail(ID)).draw(true);
 }
 
 function GetIssueToProductionDetail(ID)
@@ -379,16 +419,22 @@ function GetIssueToProductionDetail(ID)
     {
         debugger;
         var data={"id":ID};
-        var ds={};
-        ds=GetDataFromServer("IssueToProduction/GetIssueToProductionDetail/",data);
-        if (ds != '') {
-            ds = JSON.parse(ds);
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var materialIssueDetailVM = new Object();
+        jsonData = GetDataFromServer("IssueToProduction/GetIssueToProductionDetail/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            materialIssueDetailVM = jsonData.Records;
         }
-        if (ds.Result == "OK") {
-            return ds.Records;
+        if (result == "OK") {
+            return materialIssueDetailVM;
         }
-        if (ds.Result == "ERROR") {
-            alert(ds.Message);
+        if (result == "ERROR") {
+            alert(message);
         }
     }
     catch (e)
