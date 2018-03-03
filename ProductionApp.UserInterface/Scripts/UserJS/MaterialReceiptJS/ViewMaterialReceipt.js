@@ -90,11 +90,11 @@ function BindOrReloadMaterialReceiptTable(action) {
             pageLength: 10,
             columns: [
                 { "data": "ID", "defaultContent": "<i>-</i>" },
-                { "data": "ReceiptNo", "defaultContent": "<i>-</i>" },
-                { "data": "ReceiptDateFormatted", "defaultContent": "<i>-</i>" },
-                { "data": "PurchaseOrderNo", "defaultContent": "<i>-</i>" },
-                { "data": "Supplier.CompanyName", "defaultContent": "<i>-</i>" },
-                { "data": "GeneralNotes", "defaultContent": "<i>-</i>" },
+                { "data": "ReceiptNo", "defaultContent": "<i>-</i>", "width": "15%" },
+                { "data": "ReceiptDateFormatted", "defaultContent": "<i>-</i>", "width": "18%" },
+                { "data": "PurchaseOrderNo", "defaultContent": "<i>-</i>", "width": "12%" },
+                { "data": "Supplier.CompanyName", "defaultContent": "<i>-</i>", "width": "26%" },
+                { "data": "GeneralNotes", "defaultContent": "<i>-</i>", "width": "26%" },
                 {
                     "data": "ID", "orderable": false, render: function (data, type, row) {
                         return '<a href="/MaterialReceipt/NewMaterialReceipt?code=STR&id=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
