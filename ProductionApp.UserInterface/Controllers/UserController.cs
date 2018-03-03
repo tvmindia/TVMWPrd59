@@ -63,7 +63,8 @@ namespace ProductionApp.UserInterface.Controllers
         public string InsertUpdateUser(UserViewModel UserObj)
         {
             object result = null;
-            if (ModelState.IsValid)
+            //UserObj.UserID = UserObj.ID;
+            //if (ModelState.IsValid)
             {
                 AppUA appUA = Session["AppUA"] as AppUA;
                 DataAccessObject.DTO.Common commonObj = new DataAccessObject.DTO.Common();
