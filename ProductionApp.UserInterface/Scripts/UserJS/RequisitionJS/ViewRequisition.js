@@ -96,8 +96,8 @@ function BindOrReloadRequisitionTable(action) {
                      }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1, 4, 5,6] },
-                    { className: "text-center", "targets": [2, 3,7] }],
+                    { className: "text-left", "targets": [1,2,4,5,6] },
+                    { className: "text-center", "targets": [3,7] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {

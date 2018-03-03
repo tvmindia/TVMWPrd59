@@ -39,7 +39,6 @@
         @Html.HiddenFor(model => model.hdnFileID, htmlAttributes: new { @class = "", @id = "hdnFileDupID", @value = Guid.Empty })
     <div class="col-md-12">
         <div class="form-group col-md-8">
-            
             <div class="form-group col-md-6">
                 <div class="col-md-12">
                     @Html.LabelFor(model => model.ReqNo, htmlAttributes: new { @class = "control-label " })
@@ -49,7 +48,6 @@
                     @Html.ValidationMessageFor(model => model.ReqNo, "", new { @class = "text-danger" })
                 </div>
             </div>
-     
             <div class="form-group col-md-6">
                 <div class="col-md-12">
                     @Html.LabelFor(model => model.ReqDateFormatted, htmlAttributes: new { @class = "control-label lblrequired" })
@@ -92,7 +90,6 @@
                     @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                 </div>
             </div>
-
         </div>
         <div class="form-group col-md-4">
            <div class="form-group col-md-12 box-header figuresummary rounded">
@@ -117,7 +114,7 @@
             <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
         </div>
     </div>
-                        }
+    }
 
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
         <div class="col-md-12">
@@ -146,8 +143,9 @@
         <div>
             @Html.Partial("_Fileupload")
         </div>
+        <div class="col-md-12  ">&nbsp;</div>
+        <div class="col-md-12  ">&nbsp;</div>
     </div>
-
 </section>
 
 <!-- Modal Edit Requisition Details Modal -->
@@ -157,9 +155,7 @@
             <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
                 <div class="container-fluid" style="padding-right: 0px;">
                     <div class="col-md-9">
-                        <div class="col-md-1">
-                        <span style="font-size:30px" class="glyphicon glyphicon-modal-window"></span></div>
-                        <div class="col-md-11">
+                        <div class="col-md-12 modelIcon">
                             <h3 class="modal-title" id="modelContextLabel">Add Requisition Details</h3>
                         </div>
                     </div>
