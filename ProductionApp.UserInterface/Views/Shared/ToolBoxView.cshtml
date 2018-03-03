@@ -384,6 +384,28 @@
         }
 
     }
+
+    @if (Model.EmailBtn.Visible && Model.EmailBtn.HasAccess)
+    {
+        if (Model.EmailBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.EmailBtn.Title-@Model.EmailBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/Email.PNG")">
+                <span class="btnText">@Model.EmailBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a href="@Model.EmailBtn.Href" title="@Model.EmailBtn.Title" class="thr_btn" onclick=@Model.EmailBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/Email.PNG")">
+                <span class="btnText">@Model.EmailBtn.Text</span>
+            </a>
+        }
+
+    }
+
     @if (Model.ListBtn.Visible && Model.ListBtn.HasAccess)
     {
         if (Model.ListBtn.Disable)
@@ -404,6 +426,8 @@
         }
 
     }
+
+   
 
 
     @if (Model.SendForApprovalBtn.Visible && Model.SendForApprovalBtn.HasAccess)

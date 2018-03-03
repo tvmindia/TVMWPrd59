@@ -1002,3 +1002,90 @@ function DeleteItem(ID) {
         notyAlert('error', e.message);
     }
 }
+//Email Sending
+function EmailPreview() {
+    try {
+        debugger;
+
+        var QHID = $("#ID").val();
+        if (QHID) {
+            //Bind mail html into model
+            GetMailPreview(QHID);
+
+            $("#MailPreviewModel").modal('show');
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.Message);
+    }
+
+}
+
+function GetMailPreview(ID) {
+    debugger;
+    var data = { "ID": ID };
+    var ds = {};
+    ds = GetDataFromServer("PurchaseOrder/GetMailPreview/", data);
+    if (ds == "Nochange") {
+        return; 0
+    }
+    debugger;
+    $("#mailmodelcontent").empty();
+    $("#mailmodelcontent").html(ds);
+    $("#mailBodyText").val(ds);
+
+}
+
+function SendMailClick() {
+    debugger;
+    $('#btnFormSendMail').trigger('click');
+}
+
+function ValidateEmail() {
+    debugger;
+    var ste = $('#SentToEmails').val();
+    if (ste) {
+        var atpos = ste.indexOf("@");
+        var dotpos = ste.lastIndexOf(".");
+        if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= ste.length) {
+            notyAlert('error', 'Invalid Email');
+            return false;
+        }
+            //not valid
+
+        else {
+            $("#MailPreviewModel").modal('hide');
+            showLoader();
+            return true;
+        }
+
+    }
+
+    else
+        notyAlert('error', 'Enter email address');
+    return false;
+}
+
+function MailSuccess(data, status) {
+    debugger;
+    hideLoader();
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            notyAlert('success', JsonResult.Message);
+            if (JsonResult.Record.Status == "1") {
+                $("#lblEmailSent").text('Yes');
+            }
+            else {
+                $("#lblEmailSent").text('No');
+            }
+            Reset();
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message);
+            break;
+        default:
+            notyAlert('error', JsonResult.Message);
+            break;
+    }
+}

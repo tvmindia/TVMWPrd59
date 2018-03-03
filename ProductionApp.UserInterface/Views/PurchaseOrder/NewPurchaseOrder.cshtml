@@ -369,6 +369,39 @@
         </div>
     </div>
 </div>
+<!--Email Preview model-->
+<div class="modal fade" id="MailPreviewModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="min-width:900px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+            <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-4">
+                        <h3 class="modal-title SCHeader" id="modelContextLabel"></h3>
+                        <div class="col-md-12">
+                            <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Add Mail</span>
+                        </div>
+                    </div>
+                    <div class="col-md-8" style="padding-right: 4px;">
+
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-body" style="max-height:510px !important;overflow-y:scroll">
+                <div class="col-md-12">
+                </div>
+                <div class="col-md-12" id="mailmodelcontent">
+                </div>
+            </div>
+            <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
+                <a class="btn btn-primary" onclick="SendMailClick()" id="btnMail"><i class="glyphicon glyphicon-floppy-disk"></i> Next</a>
+
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")
