@@ -11,8 +11,8 @@ namespace ProductionApp.RepositoryServices.Contracts
     {
         List<MaterialReceipt> GetAllMaterialReceipt(MaterialReceiptAdvanceSearch materialReceiptAdvanceSearch);
         object InsertUpdateMaterialReceipt(MaterialReceipt materialReceipt);
-        object DeleteMaterialReceipt(Guid id);
-        object DeleteMaterialReceiptDetail(Guid id);
+        object DeleteMaterialReceipt(MaterialReceipt materialReceipt);
+        object DeleteMaterialReceiptDetail(MaterialReceipt materialReceipt);
         MaterialReceipt GetMaterialReceipt(Guid id);
         List<MaterialReceiptDetail> GetAllMaterialReceiptDetailByHeaderID(Guid id);
         List<MaterialReceipt> GetRecentMaterialReceiptSummary();

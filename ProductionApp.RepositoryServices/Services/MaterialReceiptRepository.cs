@@ -175,7 +175,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion InsertUpdateMaterialReceipt
 
         #region DeleteMaterialReceipt
-        public object DeleteMaterialReceipt(Guid id)
+        public object DeleteMaterialReceipt(MaterialReceipt materialReceipt)
         {
             SqlParameter outputStatus = null;
             try
@@ -191,7 +191,9 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[DeleteMaterialReceipt]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = materialReceipt.ID;
+                        cmd.Parameters.Add("@DeletedDate", SqlDbType.SmallDateTime).Value = materialReceipt.Common.CreatedDate;
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.VarChar, 50).Value = materialReceipt.Common.CreatedBy;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -211,7 +213,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion DeleteMaterialReceipt
 
         #region DeleteMaterialReceiptDetail
-        public object DeleteMaterialReceiptDetail(Guid id)
+        public object DeleteMaterialReceiptDetail(MaterialReceipt materialReceipt)
         {
             SqlParameter outputStatus = null;
             try
@@ -227,7 +229,9 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[DeleteMaterialReceiptDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = materialReceipt.ID;
+                        cmd.Parameters.Add("@DeletedDate", SqlDbType.SmallDateTime).Value = materialReceipt.Common.CreatedDate;
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.VarChar, 50).Value = materialReceipt.Common.CreatedBy;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
