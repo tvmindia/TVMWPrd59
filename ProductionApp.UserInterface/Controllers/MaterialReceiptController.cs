@@ -30,6 +30,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         // GET: MaterialReceipt
         #region View MaterialReceipt Index
+        [AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "W")]
         public ActionResult Index(string code)
         {
             ViewBag.SysModuleCode = code;
@@ -38,6 +39,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion View MaterialReceipt Index
 
         #region NewMaterialReceipt
+        [AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "W")]
         public ActionResult NewMaterialReceipt(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
