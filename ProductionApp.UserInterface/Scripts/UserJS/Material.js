@@ -41,7 +41,6 @@ function BindOrReloadMaterialTable(action) {
             case 'Search':
                 break;
             case 'Export':
-                if ($('#SearchTerm').val() == "")
                 DataTablePagingViewModel.Length = -1;
                 break;
             default:
@@ -61,7 +60,7 @@ function BindOrReloadMaterialTable(action) {
                                  columns: [ 1,2,3,4,5,6,7,8,9,10]
                              }
             }],
-            order: false,
+            ordering: false,
             searching: false,
             paging: true,
             lengthChange: false,
@@ -105,7 +104,7 @@ function BindOrReloadMaterialTable(action) {
                         }
                     }
                     $(".buttons-excel").trigger('click');
-                    ResetMaterialList();
+                    BindOrReloadMaterialTable('Search');
                 }
             }
         });

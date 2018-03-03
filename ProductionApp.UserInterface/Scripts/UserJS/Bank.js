@@ -59,7 +59,7 @@ function BindOrReloadBankTable(action) {
                                  columns: [0, 1]
                              }
             }],
-            order:false,
+            ordering:false,
             searching: false,
             paging: true,
             lengthChange: false,

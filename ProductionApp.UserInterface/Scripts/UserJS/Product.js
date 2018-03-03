@@ -42,7 +42,6 @@ function BindOrReloadProductTable(action) {
             case 'Search':
                 break;
             case 'Export':
-                if ($('#SearchTerm').val() == "")
                     DataTablePagingViewModel.Length = -1;
                 break;
             default:
@@ -62,7 +61,7 @@ function BindOrReloadProductTable(action) {
                                  columns: [1, 2, 3, 4, 5, 6,7]
                              }
             }],
-            order: false,
+            ordering: false,
             searching: false,
             paging: true,
             lengthChange: false,
@@ -103,7 +102,7 @@ function BindOrReloadProductTable(action) {
                         }
                     }
                     $(".buttons-excel").trigger('click');
-                    ResetProductList();
+                    BindOrReloadProductTable('Search');
                 }
             }
         });
@@ -125,8 +124,8 @@ function ImportProductData() {
 }
 //--edit Product--//
 function EditProductMaster(this_obj) {
-    rowData = DataTables.productList.row($(this_obj).parents('tr')).data();
-    GetMasterPartial("Product", rowData.ID);
+    ProductViewModel = DataTables.productList.row($(this_obj).parents('tr')).data();
+    GetMasterPartial("Product", ProductViewModel.ID);
     $('#h3ModelMasterContextLabel').text('Edit Product')
     $('#divModelMasterPopUp').modal('show');
 }
