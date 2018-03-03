@@ -31,11 +31,13 @@ function BindOrReloadProductTable(action) {
         //creating advancesearch object
         ProductAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
+        UnitViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
         //switch case to check the operation
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
+                $('#UnitCode').val('');
                 break;
             case 'Init':
                 break;
@@ -48,6 +50,8 @@ function BindOrReloadProductTable(action) {
                 break;
         }
         ProductAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
+        UnitViewModel.Code = $('#UnitCode').val();
+        ProductAdvanceSearchViewModel.Unit = UnitViewModel;
         ProductAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
 
         //apply datatable plugin on Raw Material table

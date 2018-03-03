@@ -47,7 +47,7 @@ namespace ProductionApp.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetAllApprover]";
-                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(approverAdvanceSearch.SearchTerm) ? "" : approverAdvanceSearch.SearchTerm;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(approverAdvanceSearch.SearchTerm) ? "" : approverAdvanceSearch.SearchTerm.Trim();
                         cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = approverAdvanceSearch.DataTablePaging.Start;
                         if (approverAdvanceSearch.DataTablePaging.Length == -1)
                             cmd.Parameters.AddWithValue("@Length", DBNull.Value);
@@ -55,7 +55,7 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.Add("@Length", SqlDbType.Int).Value = approverAdvanceSearch.DataTablePaging.Length;
                         //cmd.Parameters.Add("@OrderDir", SqlDbType.NVarChar, 5).Value = model.order[0].dir;
                         //cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar, -1).Value = model.order[0].column;
-                        cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.NVarChar,5).Value = approverAdvanceSearch.DocumentType.Code;
+                        cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.VarChar,5).Value = approverAdvanceSearch.DocumentType.Code;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {

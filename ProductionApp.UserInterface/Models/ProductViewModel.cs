@@ -43,5 +43,6 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
+        public UnitViewModel Unit { get; set; }
     }
 }

@@ -100,7 +100,7 @@ namespace ProductionApp.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetAllMaterial]";
-                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(materialAdvanceSearch.SearchTerm) ? "": materialAdvanceSearch.SearchTerm;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(materialAdvanceSearch.SearchTerm) ? "": materialAdvanceSearch.SearchTerm.Trim();
                         cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = materialAdvanceSearch.DataTablePaging.Start;
                         if (materialAdvanceSearch.DataTablePaging.Length == -1)
                             cmd.Parameters.AddWithValue("@Length", DBNull.Value);
@@ -108,7 +108,8 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.Add("@Length", SqlDbType.Int).Value = materialAdvanceSearch.DataTablePaging.Length;
                         //cmd.Parameters.Add("@OrderDir", SqlDbType.NVarChar, 5).Value = model.order[0].dir;
                         //cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar, -1).Value = model.order[0].column;
-                        //
+                        cmd.Parameters.Add("@MaterialTypeCode", SqlDbType.VarChar,10).Value = materialAdvanceSearch.MaterialType.Code;
+                        cmd.Parameters.Add("@UnitCode", SqlDbType.VarChar,15).Value = materialAdvanceSearch.Unit.Code;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using(SqlDataReader sdr = cmd.ExecuteReader())
                         {

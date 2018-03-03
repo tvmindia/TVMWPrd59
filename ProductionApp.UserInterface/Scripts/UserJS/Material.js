@@ -27,14 +27,19 @@ $(document).ready(function () {
 //--function bind the Raw Material list checking search and filter--//
 function BindOrReloadMaterialTable(action) {
     try {
+        debugger;
         //creating advancesearch object
         MaterialAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
+        MaterialTypeViewModel = new Object();
+        UnitViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
         //switch case to check the operation
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
+                $('#MaterialTypeCode').val('');
+                $('#UnitCode').val('');
                 break;
             case 'Init':
                 break;
@@ -47,6 +52,10 @@ function BindOrReloadMaterialTable(action) {
                 break;
         }
         MaterialAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
+        MaterialTypeViewModel.Code = $('#MaterialTypeCode').val();
+        MaterialAdvanceSearchViewModel.MaterialType = MaterialTypeViewModel;
+        UnitViewModel.Code = $('#UnitCode').val();
+        MaterialAdvanceSearchViewModel.Unit = UnitViewModel;
         MaterialAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
 
         //apply datatable plugin on Raw Material table
