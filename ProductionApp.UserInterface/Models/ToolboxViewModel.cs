@@ -30,6 +30,7 @@ namespace ProductionApp.UserInterface.Models
         public ToolBoxStructure HistoryBtn;
         public ToolBoxStructure ListBtn;
         public ToolBoxStructure SendForApprovalBtn;
+        public ToolBoxStructure EmailBtn;
 
         public ToolboxViewModel()
         {
@@ -55,6 +56,7 @@ namespace ProductionApp.UserInterface.Models
             ListBtn.SecurityObject = "ButtonList";
             ClearOutBtn.SecurityObject = "ButtonClear";
             SendForApprovalBtn.SecurityObject = "ButtonSendForApproval";
+            EmailBtn.SecurityObject = "ButtonEmail";
 
             backbtn.HasAccess = true;
             addbtn.HasAccess = true;
@@ -79,6 +81,7 @@ namespace ProductionApp.UserInterface.Models
             HistoryBtn.HasAccess = true;
             ListBtn.HasAccess = true;
             SendForApprovalBtn.HasAccess = true;
+            EmailBtn.HasAccess = true;
         }
 
     }

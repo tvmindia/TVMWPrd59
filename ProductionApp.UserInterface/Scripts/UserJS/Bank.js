@@ -95,7 +95,7 @@ function BindOrReloadBankTable(action) {
                         return roundoff(data, 1);
                 }, "defaultContent": "<i>-</i>"
             },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditBankMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteBankMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>||<a href="#" onclick="EditBankMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [3, 4] },
@@ -138,9 +138,48 @@ function ExportBankData()
 //edit bank 
 function EditBankMaster(this_obj) {
     debugger;
-    BankViewModel = DataTables.BankList.row($(this_obj).parents('tr')).data();
-    GetMasterPartial("Bank", BankViewModel.Code);
+    bankVM = DataTables.BankList.row($(this_obj).parents('tr')).data();
+    GetMasterPartial("Bank", bankVM.Code);
     $('#h3ModelMasterContextLabel').text('Edit Bank')
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val('MSTR');
+}
+function DeleteBankMaster(this_obj)
+{
+    bankVM = DataTables.BankList.row($(this_obj).parents('tr')).data();
+    notyConfirm('Are you sure to delete?', 'DeleteBank("' + bankVM.Code + '")');
+}
+function DeleteBank(code)
+{
+    try {
+        if (code) {
+            var data = { "code": code };
+            var jsonData = {};
+            var message = "";
+            var status = "";
+            var result = "";
+            jsonData = GetDataFromServer("Bank/DeleteBank/", data);
+            if (jsonData != '') {
+                jsonData = JSON.parse(jsonData);
+                message = jsonData.Message;
+                status = jsonData.Status;
+                result = jsonData.Record;
+            }
+            switch (status ) {
+                case "OK":
+                    notyAlert('success', result.Message);
+                    BindOrReloadBankTable('Reset');
+                    break;
+                case "ERROR":
+                    notyAlert('error', message);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
+    }
 }
