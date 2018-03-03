@@ -9,8 +9,8 @@
         <div class="with-border bg-purple " style="height:2px!important"></div>
         <div class="box-body">
             <div class="table-responsive">
-                <table class="table no-margin">
-                    <thead style="display:table;width:100%;table-layout:fixed;">
+                <table class="table no-margin" style="display:table;width:100%;">
+                    <thead style="display: table;width:100%;">@*display:table;width:100%;table-layout:fixed;position:fixed;*@
                         <tr>
                             <th>Receipt No</th>
                             <th>Title</th>
@@ -18,7 +18,7 @@
                             <th>Receipt Date</th>
                         </tr>
                     </thead>
-                    <tbody style="display:table;overflow-y:scroll;table-layout:auto;height:475px">
+                    <tbody style="overflow-y:scroll;height:475px;display: block;width:100%;">@* display:table;table-layout:auto; *@
                         @if (Model.MaterialReceiptList != null)
                         {
                             for (int i = 0; i < Model.MaterialReceiptList.Count; i++)
