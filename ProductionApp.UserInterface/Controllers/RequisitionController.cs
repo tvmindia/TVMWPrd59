@@ -259,10 +259,10 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Title = "Reset";
                     toolboxVM.resetbtn.Event = "Reset();";
 
-                    //toolboxVM.CloseBtn.Visible = true;
-                    //toolboxVM.CloseBtn.Text = "Close";
-                    //toolboxVM.CloseBtn.Title = "Close";
-                    //toolboxVM.CloseBtn.Event = "closeNav();";
+                    toolboxVM.ListBtn.Visible = true;
+                    toolboxVM.ListBtn.Text = "List";
+                    toolboxVM.ListBtn.Title = "List";
+                    toolboxVM.ListBtn.Href = Url.Action("ViewRequisition", "Requisition", new { Code = "PURCH" });
 
                     break;
                 case "Add":
@@ -275,7 +275,6 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Event = "";
                     toolboxVM.ListBtn.Href = Url.Action("ViewRequisition", "Requisition", new { Code = "PURCH" });
                     break;
                 default:

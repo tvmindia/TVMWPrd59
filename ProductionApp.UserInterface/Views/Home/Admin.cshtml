@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "Admin Dashboard";
+    Layout = "~/Views/Shared/_LayoutPageGod.cshtml";
+}
+<div class="col-md-12"></div>
+<div class="col-md-12"></div>
+
+    <div class="col-md-12 DashboardContainer">
+        <div class="col-md-3">
+            @{
+
+                @Html.Action("SalesSummary", "Home");
+
+            }
+
+        </div>
+        <div class="col-md-3">
+
+            @{
+
+                @Html.Action("PurchaseSummary", "Home");
+
+            }
+        </div>
+        <div class="col-md-6">
+
+            @{
+
+                @Html.Action("IncomeExpenseSummary", "Home");
+
+            }
+
+        </div>
+
+
+    </div>
+
+
+    <div class="col-md-12 DashboardContainer" >
+        <div class="col-md-4">
+            @{
+
+                @Html.Action("SalesInvoiceSummary", "Home");
+
+            }
+
+        </div>
+        <div class="col-md-4">
+
+            @{
+
+                @Html.Action("PurchaseInvoiceSummary", "Home");
+
+            }
+        </div>
+        <div class="col-md-4">
+            @{
+
+                @Html.Action("InventorySummary", "Home");
+
+            }
+
+        </div>
+         
+
+    </div>
+
+ 
+
+    <div class="col-md-12 DashboardContainer">
+        <div class="col-md-4">
+
+            @{
+
+                @Html.Action("ProductionSummary", "Home");
+
+            }
+        </div>
+        <div class="col-md-8">
+            @{
+
+                @Html.Action("DispatchSummary", "Home");
+
+            }
+
+        </div>
+
+
+    </div>

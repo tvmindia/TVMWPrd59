@@ -11,7 +11,7 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i> Raw Materials & Others</a></li>
+        <li><a href="@Url.Action("AddIssueToProduction", "IssueToProduction", new { Code = "STR" })"><i class="fa fa-cogs"></i> Raw Materials & Others</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -41,7 +41,7 @@
             @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
             @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
 
-            <div class="form-geroup col-md-12">
+            <div class="form-group col-md-12">
                 <div class="form-group col-md-8">
                     <div class="form-group col-md-12"></div>
 
@@ -66,13 +66,13 @@
                     </div>
 
 
-                    <div class="form-group col-md-12"> </div>
+                   
                     <div class="form-group col-md-6">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.IssueTo, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
                         <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.IssueTo, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter" })
+                            @Html.DropDownListFor(model => model.IssueTo, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter",@Style="width:100%"})
                             @Html.ValidationMessageFor(model => model.IssueTo, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                             @Html.LabelFor(model => model.IssuedBy, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
                         <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.IssuedBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter" })
+                            @Html.DropDownListFor(model => model.IssuedBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter",@style="width:100%" })
                             @Html.ValidationMessageFor(model => model.IssuedBy, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -105,11 +105,11 @@
                         <div class="form-group col-md-11">
                         </div>
                         <div class="form-group col-md-1">
-                            <a class="btn btn-openid" style="float:left;margin-left:15px" onclick="ShowIssueToProductionDetailsModal()" id="btnAddIssueToProductionItems" style="color:white;font-weight:bold;"><i class="glyphicon glyphicon-plus"></i> Add Items</a>
+                            <a class="btn btn-openid"  onclick="ShowIssueToProductionDetailsModal()" id="btnAddIssueToProductionItems" style="color:white;font-weight:bold;float:left;margin-left:auto"><i class="glyphicon glyphicon-plus"></i> Add Items</a>
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="form-group col-md-12">
                         <table id="tblIssueToProductionDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
                             <thead>
                                 <tr class="text-center TableHead">
@@ -129,7 +129,7 @@
                 <div class="col-md-12  ">&nbsp;</div>
                 <div class="col-md-12  ">&nbsp;</div>
                 <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General Notes</div>
-                <div class="col-md-12">
+               
                 <div class="form-group col-md-6">
                     <div class="col-md-12">
                         @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label" })
@@ -141,7 +141,7 @@
                         <div class="col-md-1"></div>
                     </div>
                 </div>
-                    </div>
+                   
         }
         <div class="col-md-12  ">&nbsp;</div>
         <div class="col-md-12  ">&nbsp;</div>
