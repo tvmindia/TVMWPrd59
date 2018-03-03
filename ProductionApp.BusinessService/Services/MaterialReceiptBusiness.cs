@@ -55,14 +55,20 @@ namespace ProductionApp.BusinessService.Services
             return _materialReceiptRepository.DeleteMaterialReceiptDetail(id);
         }
 
-        public MaterialReceipt GetMaterialReceiptByID(Guid id)
+        public MaterialReceipt GetMaterialReceipt(Guid id)
         {
-            return _materialReceiptRepository.GetMaterialReceiptByID(id);
+            return _materialReceiptRepository.GetMaterialReceipt(id);
         }
 
         public List<MaterialReceiptDetail> GetAllMaterialReceiptDetailByHeaderID(Guid id)
         {
             return _materialReceiptRepository.GetAllMaterialReceiptDetailByHeaderID(id);
         }
+
+        public List<MaterialReceipt> GetRecentMaterialReceiptSummary()
+        {
+            return _materialReceiptRepository.GetRecentMaterialReceiptSummary();
+        }
+
     }
 }

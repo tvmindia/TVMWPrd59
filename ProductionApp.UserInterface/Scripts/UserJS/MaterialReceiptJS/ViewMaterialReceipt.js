@@ -44,8 +44,7 @@ function BindOrReloadMaterialReceiptTable(action) {
             case 'Apply':
                 break;
             case 'Export':
-                if ($('#SearchTerm').val() == "" && $('#SupplierID').val() == "" && $('#PurchaseOrderID').val() == "" && $('#ToDate').val() == "" && $('#FromDate').val() == "")
-                    DataTablePagingViewModel.Length = -1;
+                DataTablePagingViewModel.Length = - 1;
                 break;
             default:
                 break;
@@ -59,7 +58,11 @@ function BindOrReloadMaterialReceiptTable(action) {
         MaterialReceiptAdvanceSearchViewModel.Supplier = SupplierViewModel;
         PurchaseOrderViewModel.ID = $('#PurchaseOrderID').val();
         MaterialReceiptAdvanceSearchViewModel.PurchaseOrder = PurchaseOrderViewModel;
+        try {
 
+        } catch (e) {
+            console.log(e.message)
+        }
         DataTables.MaterialReceiptList = $('#tblMaterialReceipt').DataTable(
         {
             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
@@ -113,11 +116,15 @@ function BindOrReloadMaterialReceiptTable(action) {
                         }
                     }
                     $(".buttons-excel").trigger('click');
-                    ResetMaterialReceipt();
+                    BindOrReloadMaterialReceiptTable('Apply');
                 }
             }
         });
         $(".buttons-excel").hide();
+
+        $('#tblMaterialReceipt tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
     }
     catch (e) {
         console.log(e.message);
@@ -130,4 +137,10 @@ function ResetMaterialReceipt(){
 //Import table values into excel
 function ImportMaterialReceipt() {
     BindOrReloadMaterialReceiptTable('Export');
+}
+
+function Edit(curobj) {
+    debugger;
+    var MaterialReceiptViewModel = DataTables.MaterialReceiptList.row($(curobj).parents('tr')).data();
+    window.location.replace("/MaterialReceipt/NewMaterialReceipt?code=STR&id=" + MaterialReceiptViewModel.ID);
 }
