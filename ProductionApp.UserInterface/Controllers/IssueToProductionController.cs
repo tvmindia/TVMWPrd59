@@ -36,6 +36,7 @@ namespace ProductionApp.UserInterface.Controllers
             return View();
         }
         #region AddIssueToProduction
+        [AuthSecurityFilter(ProjectObject = "IssueToProduction", Mode = "W")]
         public ActionResult AddIssueToProduction(string code,Guid? id)
         {
             ViewBag.SysModuleCode = code;
@@ -67,6 +68,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region ListIssueToProduction
+        [AuthSecurityFilter(ProjectObject = "IssueToProduction", Mode = "R")]
         public ActionResult ListIssueToProduction(string code)
         {
             ViewBag.SysModuleCode = code;
@@ -94,6 +96,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region GetAllIssueToProduction
+        [AuthSecurityFilter(ProjectObject = "IssueToProduction", Mode = "R")]
         public JsonResult GetAllIssueToProduction(DataTableAjaxPostModel model, MaterialIssueAdvanceSearchViewModel materialIssueAdvanceSearchVM)
         {
             materialIssueAdvanceSearchVM.DataTablePaging.Start = model.start;
@@ -119,7 +122,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateIssueToProduction
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject ="IssueToProduction",Mode ="R")]
+        [AuthSecurityFilter(ProjectObject ="IssueToProduction",Mode ="W")]
         public string InsertUpdateIssueToProduction(MaterialIssueViewModel materialIssueVM)
         {
 
@@ -170,12 +173,13 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region GetIssueToProduction
-        public string GetIssueToProduction(string ID)
+        [AuthSecurityFilter(ProjectObject = "IssueToProduction", Mode = "R")]
+        public string GetIssueToProduction(string id)
         {
             try
             {
                 MaterialIssueViewModel materialIssueVM = new MaterialIssueViewModel();
-                materialIssueVM = Mapper.Map<MaterialIssue, MaterialIssueViewModel>(_issueToProductionBusiness.GetIssueToProduction(Guid.Parse(ID)));
+                materialIssueVM = Mapper.Map<MaterialIssue, MaterialIssueViewModel>(_issueToProductionBusiness.GetIssueToProduction(Guid.Parse(id)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = materialIssueVM });
             }
             catch (Exception ex)
@@ -186,12 +190,13 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region GetIssueToProductionDetail
-        public string GetIssueToProductionDetail(string ID)
+        [AuthSecurityFilter(ProjectObject = "IssueToProduction", Mode = "R")]
+        public string GetIssueToProductionDetail(string id)
         {
             try
             {
                 List<MaterialIssueDetailViewModel> materialIssueDetailVM = new List<MaterialIssueDetailViewModel>();
-                materialIssueDetailVM = Mapper.Map<List<MaterialIssueDetail>, List<MaterialIssueDetailViewModel>>(_issueToProductionBusiness.GetIssueToProductionDetail(Guid.Parse(ID)));
+                materialIssueDetailVM = Mapper.Map<List<MaterialIssueDetail>, List<MaterialIssueDetailViewModel>>(_issueToProductionBusiness.GetIssueToProductionDetail(Guid.Parse(id)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = materialIssueDetailVM });
             }
             catch(Exception ex)
@@ -202,16 +207,17 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region DeleteIssueToProductionDetail
-        public string DeleteIssueToProductionDetail(string ID)
+        [AuthSecurityFilter(ProjectObject = "IssueToProduction", Mode = "D")]
+        public string DeleteIssueToProductionDetail(string id)
         {
             object result = null;
             try
             {
-                if(string.IsNullOrEmpty(ID))
+                if(string.IsNullOrEmpty(id))
                 {
                     throw new Exception("ID Missing");
                 }
-                result = _issueToProductionBusiness.DeleteIssueToProductionDetail(Guid.Parse(ID));
+                result = _issueToProductionBusiness.DeleteIssueToProductionDetail(Guid.Parse(id));
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch(Exception ex)
@@ -223,16 +229,17 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region DeleteIssueToProduction
-        public string DeleteIssueToProduction(string ID)
+        [AuthSecurityFilter(ProjectObject = "IssueToProduction", Mode = "D")]
+        public string DeleteIssueToProduction(string id)
         {
             object result = null;
             try
             {
-                if (string.IsNullOrEmpty(ID))
+                if (string.IsNullOrEmpty(id))
                 {
                     throw new Exception("ID Missing");
                 }
-                result = _issueToProductionBusiness.DeleteIssueToProduction(Guid.Parse(ID));
+                result = _issueToProductionBusiness.DeleteIssueToProduction(Guid.Parse(id));
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)

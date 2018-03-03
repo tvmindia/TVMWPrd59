@@ -44,24 +44,24 @@ namespace ProductionApp.BusinessService.Services
             materialIssue.DetailXML = result;
         }
 
-        public MaterialIssue GetIssueToProduction(Guid ID)
+        public MaterialIssue GetIssueToProduction(Guid id)
         {
-            return _issueToProductionRepository.GetIssueToProduction(ID);
+            return _issueToProductionRepository.GetIssueToProduction(id);
         }
 
-        public List<MaterialIssueDetail> GetIssueToProductionDetail(Guid ID)
+        public List<MaterialIssueDetail> GetIssueToProductionDetail(Guid id)
         {
-            return _issueToProductionRepository.GetIssueToProductionDetail(ID);
+            return _issueToProductionRepository.GetIssueToProductionDetail(id);
         }
 
-        public object DeleteIssueToProductionDetail(Guid ID)
+        public object DeleteIssueToProductionDetail(Guid id)
         {
-            return _issueToProductionRepository.DeleteIssueToProductionDetail(ID);
+            return _issueToProductionRepository.DeleteIssueToProductionDetail(id);
         }
 
-        public object DeleteIssueToProduction(Guid ID)
+        public object DeleteIssueToProduction(Guid id)
         {
-            return _issueToProductionRepository.DeleteIssueToProduction(ID);
+            return _issueToProductionRepository.DeleteIssueToProduction(id);
         }
     }
 }

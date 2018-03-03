@@ -26,18 +26,21 @@ $(document).ready(function () {
          columns: [
          { "data": "ID", "defaultContent": "<i></i>" },
          { "data": "MaterialID", "defaultContent": "<i></i>" },
+         { "data": "", render: function (data, type, row) { debugger;return row }, "defaultContent": "<i></i>"},
          { "data": "Material.MaterialCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "MaterialDesc", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "UnitCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "Qty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },        
          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a> | <a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>' },
-         ],
+         ], 
          columnDefs: [{ "targets": [0,1], "visible": false, searchable: false },                              
-             { className: "text-left", "targets": [2, 3, 4, 5] },
-             { "targets": [2], "width": "5%" },
-             { "targets": [3], "width": "20%" },
-             { "targets": [6], "width": "3%" },
-             { "targets": [5,4], "width": "5%" }
+             { className: "text-left", "targets": [2, 3, 4, 5, 6] },
+             {"targets":[2],"width":"2%"},
+             { "targets": [3], "width": "5%" },
+             { "targets": [4], "width": "15%" },
+             { "targets": [7], "width": "3%" },
+             {"targets":[6],"width":"4%"},
+             { "targets": [4,5], "width": "5%" }
          ]
      });
 
@@ -203,7 +206,7 @@ function DeleteItem(ID)
 {
     try {
         debugger;
-        var data = { "ID": ID };
+        var data = { "id": ID };
         var ds = {};
         ds = GetDataFromServer("IssueToProduction/DeleteIssueToProductionDetail/", data);
         if (ds != '') {
@@ -239,7 +242,7 @@ function DeleteIssueToProduction()
         debugger;
         var id = $('#ID').val();
         if (id != '' && id != null) {
-            var data = { "ID": id };
+            var data = { "id": id };
             var ds = {};
             ds = GetDataFromServer("IssueToProduction/DeleteIssueToProduction/", data);
             if (ds != '') {
@@ -345,7 +348,7 @@ function GetIssueToProductionByID(ID)
     try
     {
         debugger;
-        var data = { "ID": ID };
+        var data = { "id": ID };
         var ds = {};
         ds = GetDataFromServer("IssueToProduction/GetIssueToProduction/", data);
         if (ds != '') {
@@ -375,7 +378,7 @@ function GetIssueToProductionDetail(ID)
     try
     {
         debugger;
-        var data={"ID":ID};
+        var data={"id":ID};
         var ds={};
         ds=GetDataFromServer("IssueToProduction/GetIssueToProductionDetail/",data);
         if (ds != '') {
