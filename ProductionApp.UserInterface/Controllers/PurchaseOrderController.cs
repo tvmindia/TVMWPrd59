@@ -261,7 +261,30 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion TaxTypeByDesc
 
-        #region PurchaseOrder Dropdown
+        #region GetMailPreview
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "")]
+        public ActionResult GetMailPreview(string ID)
+        {
+            SupplierPOMailPreviewViewModel supplierPOMailPreviewVM = null;
+            try
+            {
+                if (string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID is missing");
+                }
+                supplierPOMailPreviewVM = new SupplierPOMailPreviewViewModel();
+                supplierPOMailPreviewVM.PurchaseOrder = Mapper.Map<PurchaseOrder, PurchaseOrderViewModel>(_purchaseOrderBusiness.GetMailPreview(Guid.Parse(ID)));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return PartialView("_SupplierOrderMailPreview", supplierPOMailPreviewVM);
+        }
+        #endregion GetMailPreview
+
+                #region PurchaseOrder Dropdown
         public ActionResult PurchaseOrderDropdown()
         {
             PurchaseOrderViewModel purchaseOrderVM = new PurchaseOrderViewModel();
@@ -332,6 +355,11 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset";
                     toolboxVM.resetbtn.Event = "Reset();";
+
+                    toolboxVM.EmailBtn.Visible = true;
+                    toolboxVM.EmailBtn.Text = "Email";
+                    toolboxVM.EmailBtn.Title = "Email";
+                    toolboxVM.EmailBtn.Event = "EmailPreview();";
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";

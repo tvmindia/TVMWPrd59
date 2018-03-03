@@ -436,6 +436,7 @@
     <Content Include="Content\images\deposit.png" />
     <Content Include="Content\images\download.jpg" />
     <Content Include="Content\images\Download.png" />
+    <Content Include="Content\images\Email.png" />
     <Content Include="Content\images\helmet.png" />
     <Content Include="Content\images\history.png" />
     <Content Include="Content\images\hourglass.png" />
