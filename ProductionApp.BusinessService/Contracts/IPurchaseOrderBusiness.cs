@@ -15,6 +15,7 @@ namespace ProductionApp.BusinessService.Contracts
         object UpdatePurchaseOrder(PurchaseOrder purchaseOrder);
         object UpdatePurchaseOrderDetailLink(PurchaseOrder purchaseOrder);
         PurchaseOrder GetPurchaseOrderByID(Guid ID);
+        PurchaseOrder GetMailPreview(Guid ID);
         List<PurchaseOrderDetail> GetPurchaseOrderDetailByID(Guid ID);
         List<PurchaseOrderDetail> GetPurchaseOrderDetailByIDForEdit(Guid ID);
         object DeletePurchaseOrder(Guid ID);

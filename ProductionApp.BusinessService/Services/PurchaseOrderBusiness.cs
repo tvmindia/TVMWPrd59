@@ -86,5 +86,25 @@ namespace ProductionApp.BusinessService.Services
         {
             return _purchaseOrderRepository.DeletePurchaseOrderDetail(ID);
         }
+        public PurchaseOrder GetMailPreview(Guid ID)
+        {
+            PurchaseOrder purchaseOrder = null;
+            try
+            {
+                purchaseOrder = GetPurchaseOrderByID(ID);
+                if (purchaseOrder != null)
+                {
+                    if ((purchaseOrder.ID != Guid.Empty) && (purchaseOrder.ID != null))
+                    {
+                        purchaseOrder.PODDetail = GetPurchaseOrderDetailByID(ID);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return purchaseOrder;
+        }
     }
 }

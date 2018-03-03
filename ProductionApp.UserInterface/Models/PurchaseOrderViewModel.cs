@@ -64,6 +64,7 @@ namespace ProductionApp.UserInterface.Models
             public List<SelectListItem> SelectList { get; set; }
             public List<PurchaseOrderDetailViewModel> PODDetail { get; set; }
             public List<PurchaseOrderDetailRequisitionLinkViewModel> PODDetailLink { get; set; }
+            public SupplierPOMailPreviewViewModel supplierPOMailPreview { get; set; }
             public string PODDetailXML { get; set; }
             public string PODDetailLinkXML { get; set; }
     }
@@ -125,4 +126,11 @@ namespace ProductionApp.UserInterface.Models
         public decimal IGSTAmt { get; set; }
         public decimal Discount { get; set; }
     }
+        public class SupplierPOMailPreviewViewModel
+        {
+           [Display(Name = "Send To")]
+           public string SentToEmails { get; set; }
+           public string MailBody { get; set; }
+           public PurchaseOrderViewModel PurchaseOrder { get; set; }
+         }
 }
