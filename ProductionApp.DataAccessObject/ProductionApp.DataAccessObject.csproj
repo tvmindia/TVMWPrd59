@@ -87,6 +87,7 @@
     <Compile Include="DTO\Requisition.cs" />
     <Compile Include="DTO\PurchaseOrder.cs" />
     <Compile Include="DTO\Material.cs" />
+    <Compile Include="DTO\SendForApproval.cs" />
     <Compile Include="DTO\Supplier.cs" />
     <Compile Include="DTO\TaxType.cs" />
     <Compile Include="DTO\Unit.cs" />
