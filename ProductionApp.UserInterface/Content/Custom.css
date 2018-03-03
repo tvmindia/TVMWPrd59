@@ -812,10 +812,10 @@ color: #e32;
     margin-bottom:6px!important;
     
 }
-.control-label {
+/*.control-label {
     padding-left:15px;
     font-size:13px;
-}
+}*/
 
 .form-control {
     font-size:12px;
@@ -862,10 +862,9 @@ padding-left:15px !important;
   color:#9ec2c4;
   border-bottom:1px solid #c2dee0;
   text-align:left;
-  /*margin-left:5%;*/
-  margin-top:15px;
-  margin-bottom:25px;
-  /*width:80%;*/
+
+  margin-top:5px;
+  margin-bottom:15px;
 }
 
 .OverlayHeader {
