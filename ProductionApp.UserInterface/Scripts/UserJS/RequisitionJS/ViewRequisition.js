@@ -92,12 +92,12 @@ function BindOrReloadRequisitionTable(action) {
                      {
                          "data": "ID", "orderable": false, render: function (data, type, row) {
                              return '<a href="/Requisition/NewRequisition?code=PURCH&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
-                         }, "defaultContent": "<i>-</i>"
+                         }, "defaultContent": "<i>-</i>","width":"3%"
                      }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1, 4, 5,6] },
-                    { className: "text-center", "targets": [2, 3,7] }],
+                    { className: "text-left", "targets": [1,2,4,5,6] },
+                    { className: "text-center", "targets": [3,7] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {

@@ -246,8 +246,8 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion DeleteMaterialReceiptDetail
 
-        #region GetMaterialReceiptByID
-        public MaterialReceipt GetMaterialReceiptByID(Guid id)
+        #region GetMaterialReceipt
+        public MaterialReceipt GetMaterialReceipt(Guid id)
         {
             MaterialReceipt materialReceipt = new MaterialReceipt();
             try
@@ -297,7 +297,7 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return materialReceipt;
         }
-        #endregion GetMaterialReceiptByID
+        #endregion GetMaterialReceipt
 
         #region GetAllMaterialReceiptDetailByHeaderID
         public List<MaterialReceiptDetail> GetAllMaterialReceiptDetailByHeaderID(Guid id)
@@ -350,5 +350,51 @@ namespace ProductionApp.RepositoryServices.Services
             return materialReceiptDetailList;
         }
         #endregion GetAllMaterialReceiptDetailByHeaderID
+
+        #region GetRecentMaterialReceiptSummary
+        public List<MaterialReceipt> GetRecentMaterialReceiptSummary()
+        {
+            List<MaterialReceipt> materialReceiptList = new List<MaterialReceipt>();
+            MaterialReceipt materialReceipt = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRecentMaterialReceiptSummary]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    materialReceipt = new MaterialReceipt();
+                                    materialReceipt.Supplier = new Supplier();
+                                    materialReceipt.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    materialReceipt.ReceiptDateFormatted = (sdr["MRNDate"].ToString() != "" ? DateTime.Parse(sdr["MRNDate"].ToString()).ToString(settings.DateFormat) : materialReceipt.ReceiptDateFormatted);
+                                    materialReceipt.ReceiptNo = (sdr["MRNNo"].ToString() != "" ? sdr["MRNNo"].ToString() : materialReceipt.ReceiptNo);
+                                    materialReceipt.Supplier.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : materialReceipt.Supplier.CompanyName);
+                                    materialReceipt.PurchaseOrderNo = (sdr["PurchaseOrderNo"].ToString() != "" ? sdr["PurchaseOrderNo"].ToString() : materialReceipt.PurchaseOrderNo);
+                                    materialReceiptList.Add(materialReceipt);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return materialReceiptList;
+        }
+        #endregion GetRecentMaterialReceiptSummary
     }
 }

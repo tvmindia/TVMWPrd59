@@ -151,7 +151,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion
 
         #region GetIssueToProduction
-        public MaterialIssue GetIssueToProduction(Guid ID)
+        public MaterialIssue GetIssueToProduction(Guid id)
         {
             MaterialIssue material = new MaterialIssue();
             try
@@ -166,7 +166,7 @@ namespace ProductionApp.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetIssueToProduction]";
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -196,7 +196,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion
 
         #region GetIssueToPrductionDetail
-        public List<MaterialIssueDetail> GetIssueToProductionDetail(Guid ID)
+        public List<MaterialIssueDetail> GetIssueToProductionDetail(Guid id)
         {
             List<MaterialIssueDetail> materialIssueDetailList = null;
             try
@@ -211,7 +211,7 @@ namespace ProductionApp.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetIssueToProductionDetail]";
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -247,7 +247,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion
 
         #region DeleteIssueToProductionDetail
-        public object DeleteIssueToProductionDetail(Guid ID)
+        public object DeleteIssueToProductionDetail(Guid id)
         {
             SqlParameter outputStatus = null;
             try
@@ -263,7 +263,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[DeleteIssueToProductionDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value=ID;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value= id;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -282,7 +282,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion
 
         #region DeleteIssueToProduction
-        public object DeleteIssueToProduction(Guid ID)
+        public object DeleteIssueToProduction(Guid id)
         {
             SqlParameter outputStatus = null;
             try
@@ -298,7 +298,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[DeleteIssueToProduction]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

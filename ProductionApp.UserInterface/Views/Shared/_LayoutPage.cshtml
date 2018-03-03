@@ -147,6 +147,32 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="RedirectToLoginModel" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div style="padding-top:15px;">
+
+                    @*<div class="sa-icon sa-custom" style="display: block; background-image: url(&quot;Content/images/hourglass.jpg&quot;);width:80px; height:80px"></div>*@
+                    <div class="thumbnail" style="border:none; -webkit-box-shadow:none;box-shadow:none;">
+
+                        @*<img src="Content/images/hourglass.png" alt="...">*@
+
+                        <img src=@Url.Content("~/Content/images/hourglass.png") alt="">
+                        <div class="caption" style="text-align:center;padding:0px;">
+                            <h1 style="color:#b50808;">Session Expired!</h1>
+                            <p style="font-size:14px;">Please Sign in again</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div style="border-top: none;text-align: center;padding-bottom: 15px;">
+                    <a href="@Url.Action("Logout","Account")" class="button">Sign in</a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <!-- Master add/edit Model end -->
     <!-- PRELOADER -->
     <div class="spn_hol" id="divLoader">

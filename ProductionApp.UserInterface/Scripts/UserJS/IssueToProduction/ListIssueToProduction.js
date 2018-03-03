@@ -95,7 +95,7 @@ function BindOrReloadIssueToProductionTable(action)
                              {
                                  "data": "ID", "orderable": false, render: function (data, type, row) {
                                      return '<a href="/IssueToProduction/AddIssueToProduction?code=STR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
-                                 }, "defaultContent": "<i>-</i>"
+                                 }, "defaultContent": "<i>-</i>","width":"3%"
                              }
                         ],
                         columnDefs: [{ "targets": [0], "visible": false, "searchable": false },

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using ProductionApp.UserInterface.Models;
+using Newtonsoft.Json;
 
 namespace ProductionApp.UserInterface.Controllers
 {
@@ -127,6 +128,31 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult Down()
         {
             return View();
+        }
+
+        [HttpGet]
+        public string AreyouAlive()
+         {
+            string result = "";
+            try
+            {
+                UA uaObj = null;
+                if ((System.Web.HttpContext.Current.Session != null) && (System.Web.HttpContext.Current.Session["TvmValid"] != null))
+                {
+                    uaObj = (UA)System.Web.HttpContext.Current.Session["TvmValid"];
+                    result = "alive";
+                }
+                else
+                {
+                    result = "dead";
+                }
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
+            }
+
+            return JsonConvert.SerializeObject(new { Result = "OK", Record = result });
         }
     }
 }

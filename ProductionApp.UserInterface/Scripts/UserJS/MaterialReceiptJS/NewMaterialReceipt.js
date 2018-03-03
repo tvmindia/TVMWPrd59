@@ -16,8 +16,9 @@ var _MaterialReceiptDetailList = [];
 $(document).ready(function () {
     debugger;
     try {
-        
-        DataTables.MaterialReceiptDetailTable = $('#tblMaterialReceiptDetail').DataTable(
+
+        try {
+            DataTables.MaterialReceiptDetailTable = $('#tblMaterialReceiptDetail').DataTable(
             {
                 dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
                 ordering: false,
@@ -41,8 +42,12 @@ $(document).ready(function () {
                 ]
             }
         );
-
-        DataTables.PurchaseOrderDetailTable = $('#tblPurchaseOrderDetail').DataTable(
+        }
+        catch (e) {
+            console.log(e.message)
+        }
+        try {
+            DataTables.PurchaseOrderDetailTable = $('#tblPurchaseOrderDetail').DataTable(
             {
                 dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
                 order: [],
@@ -73,7 +78,11 @@ $(document).ready(function () {
                 select: { style: 'multi', selector: 'td:first-child' },
                 destroy: true
             });
-
+        }
+        catch (e) {
+            console.log(e.message)
+        }
+        
         $('#MaterialID').select2({
             dropdownParent: $("#MaterialReceiptDetailModal")
         });
@@ -100,7 +109,9 @@ $(document).ready(function () {
         $("#SupplierID").change(function () {
             $('#SupID').val($("#SupplierID").val());
         });
-    } catch (ex) {
+
+    }
+    catch (ex) {
         console.log(ex.message);
     }
 });
@@ -313,51 +324,55 @@ function GetPurchaseOrderItem(id) {
 }
 
 function AddPOItems() {
-    debugger;
-    //Merging  the rows with same MaterialID
-    var PurchaseOrderItemList = DataTables.PurchaseOrderDetailTable.rows(".selected").data();
-    var mergedRows = []; //to store rows after merging
-    var currentMaterial, QuantitySum;
-
-    if (PurchaseOrderItemList.length > 0) {
+    try {
         debugger;
-        for (var r = 0; r < PurchaseOrderItemList.length; r++) {
-            currentMaterial = PurchaseOrderItemList[r].MaterialID
-            for (var j = r + 1; j < PurchaseOrderItemList.length; j++) {
-                if (PurchaseOrderItemList[j].MaterialID == currentMaterial) {
-                    PurchaseOrderItemList[r].Qty = parseFloat(PurchaseOrderItemList[r].Qty) + parseFloat(PurchaseOrderItemList[j].Qty);
-                    PurchaseOrderItemList.splice(j, 1);//removing duplicate after adding value 
-                    j = j - 1;// for avoiding skipping row while checking
+        //Merging  the rows with same MaterialID
+        var PurchaseOrderItemList = DataTables.PurchaseOrderDetailTable.rows(".selected").data();
+        var mergedRows = []; //to store rows after merging
+        var currentMaterial;
+
+        if (PurchaseOrderItemList.length > 0) {
+            debugger;
+            for (var r = 0; r < PurchaseOrderItemList.length; r++) {
+                currentMaterial = PurchaseOrderItemList[r].MaterialID
+                for (var j = r + 1; j < PurchaseOrderItemList.length; j++) {
+                    if (PurchaseOrderItemList[j].MaterialID == currentMaterial) {
+                        PurchaseOrderItemList[r].Qty = parseFloat(PurchaseOrderItemList[r].Qty) + parseFloat(PurchaseOrderItemList[j].Qty);
+                        PurchaseOrderItemList.splice(j, 1);//removing duplicate after adding value 
+                        j = j - 1;// for avoiding skipping row while checking
+                    }
                 }
+                mergedRows.push(PurchaseOrderItemList[r])// adding rows to merge array
             }
-            mergedRows.push(PurchaseOrderItemList[r])// adding rows to merge array
+
+            LoadPOItems(mergedRows);
+            $('#PurchaseOrderDetailsModal').modal('hide');
+
+        } else {
+            notyAlert('warning', 'No Items are selcted!');
         }
-
-        LoadPOItems(mergedRows);
-        $('#PurchaseOrderDetailsModal').modal('hide');
-
-    } else {
-        notyAlert('warning', 'No Items are selcted!');
+    } catch (ex) {
+        console.log(ex.message)
     }
-
 }
 
-function LoadPOItems(mergedRows) {
+function LoadPOItems(purchaseOrderDetailList) {
     try {
         debugger;
         _MaterialReceiptDetail = [];
 
-        for (var i = 0; i < mergedRows.length; i++) {
-            MaterialReceiptData = new Object();
-            MaterialReceiptData.MaterialID = mergedRows[i].MaterialID;
-            MaterialReceiptData.Material = new Object();
-            MaterialReceiptData.Material.MaterialCode = mergedRows[i].MaterialCode;
-            MaterialReceiptData.MaterialDesc = mergedRows[i].MaterialDesc;
-            MaterialReceiptData.ID = EmptyGuid;
-            MaterialReceiptData.Qty = parseFloat(mergedRows[i].Qty);
-            MaterialReceiptData.UnitCode = mergedRows[i].UnitCode;
+        for (var i = 0; i < purchaseOrderDetailList.length; i++) {
+            MaterialReceiptDetailViewModel = new Object();
+            MaterialReceiptDetailViewModel.MaterialID = purchaseOrderDetailList[i].MaterialID;
+            MaterialReceiptDetailViewModel.Material = new Object();
+            MaterialReceiptDetailViewModel.Material.MaterialCode = purchaseOrderDetailList[i].MaterialCode;
+            MaterialReceiptDetailViewModel.MaterialDesc = purchaseOrderDetailList[i].MaterialDesc;
+            MaterialReceiptDetailViewModel.ID = EmptyGuid;
+            MaterialReceiptDetailViewModel.Qty = parseFloat(purchaseOrderDetailList[i].Qty);
+            MaterialReceiptDetailViewModel.UnitCode = purchaseOrderDetailList[i].UnitCode;
+
+            _MaterialReceiptDetail.push(MaterialReceiptDetailViewModel);
         }
-        _MaterialReceiptDetail.push(MaterialReceiptData);
 
         RebindMaterialReceiptDetailTable(_MaterialReceiptDetail);
 
@@ -403,13 +418,13 @@ function DetailEdit(curObj) {
     try {
         debugger;
         AddMaterialReceiptDetail();
-        var rowData = DataTables.MaterialReceiptDetailTable.row($(curObj).parents('tr')).data();
-        $("#MaterialID").val(rowData.MaterialID).trigger("change");
-        $('#MaterialReceiptDetail_Material_MaterialCode').val(rowData.Material.MaterialCode);
-        $('#MaterialReceiptDetail_MaterialDesc').val(rowData.MaterialDesc);
-        $('#MaterialReceiptDetail_ID').val(rowData.ID);
-        $('#MaterialReceiptDetail_Qty').val(rowData.Qty);
-        $('#MaterialReceiptDetail_UnitCode').val(rowData.UnitCode);
+        var MaterialReceiptDetailViewModel = DataTables.MaterialReceiptDetailTable.row($(curObj).parents('tr')).data();
+        $("#MaterialID").val(MaterialReceiptDetailViewModel.MaterialID).trigger("change");
+        $('#MaterialReceiptDetail_Material_MaterialCode').val(MaterialReceiptDetailViewModel.Material.MaterialCode);
+        $('#MaterialReceiptDetail_MaterialDesc').val(MaterialReceiptDetailViewModel.MaterialDesc);
+        $('#MaterialReceiptDetail_ID').val(MaterialReceiptDetailViewModel.ID);
+        $('#MaterialReceiptDetail_Qty').val(MaterialReceiptDetailViewModel.Qty);
+        $('#MaterialReceiptDetail_UnitCode').val(MaterialReceiptDetailViewModel.UnitCode);
     }
     catch(e)
     {
@@ -419,20 +434,20 @@ function DetailEdit(curObj) {
 
 function Delete(curobj) {
     debugger;
-    var rowData = DataTables.MaterialReceiptDetailTable.row($(curobj).parents('tr')).data();
-    var Rowindex = DataTables.MaterialReceiptDetailTable.row($(curobj).parents('tr')).index();
+    var MaterialReceiptDetailViewModel = DataTables.MaterialReceiptDetailTable.row($(curobj).parents('tr')).data();
+    var rowindex = DataTables.MaterialReceiptDetailTable.row($(curobj).parents('tr')).index();
 
-    if ((rowData != null) && (rowData.ID != EmptyGuid)) {
-        notyConfirm('Are you sure to delete?', 'DeleteItem("' + rowData.ID + '")');
+    if ((MaterialReceiptDetailViewModel != null) && (MaterialReceiptDetailViewModel.ID != EmptyGuid)) {
+        notyConfirm('Are you sure to delete?', 'DeleteItem("' + MaterialReceiptDetailViewModel.ID + '")');
     }
     else {
-        var res = notyConfirm('Are you sure to delete?', 'DeleteTempItem("' + Rowindex + '")');
+        var res = notyConfirm('Are you sure to delete?', 'DeleteTempItem("' + rowindex + '")');
     }
 }
 
-function DeleteTempItem(Rowindex) {
+function DeleteTempItem(rowindex) {
     debugger;
-    DataTables.MaterialReceiptDetailTable.row(Rowindex).remove().draw(true);
+    DataTables.MaterialReceiptDetailTable.row(rowindex).remove().draw(true);
     notyAlert('success', 'Deleted Successfully');
 }
 
@@ -441,23 +456,28 @@ function DeleteItem(id) {
     try {
         debugger;
         var data = { "id": id };
-        var result = {};
-        result = GetDataFromServer("MaterialReceipt/DeleteMaterialReceiptDetail/", data);
-        if (result != '') {
-            result = JSON.parse(result);
+        var result = "";
+        var message = "";
+        var status = new Object();
+        var jsonData = GetDataFromServer("MaterialReceipt/DeleteMaterialReceiptDetail/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            status = jsonData.Record;
         }
-        switch (result.Result) {
+        switch (result) {
             case "OK":
-                notyAlert('success', result.Message);
+                notyAlert('success', message);
                 Reset();
                 break;
             case "ERROR":
-                notyAlert('error', result.Message);
+                notyAlert('error', message);
                 break;
             default:
                 break;
         }
-        return result.Record;
+        return status;
     }
     catch (e) {
 
@@ -484,23 +504,28 @@ function DeleteMaterialReceipt(id) {
     try {
         debugger;
         var data = { "id": id };
-        var result = {};
-        result = GetDataFromServer("MaterialReceipt/DeleteMaterialReceipt/", data);
-        if (result != '') {
-            result = JSON.parse(result);
+        var result = "";
+        var message = "";
+        var status = new Object();
+        var jsonData = GetDataFromServer("MaterialReceipt/DeleteMaterialReceipt/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            status = jsonData.Record;
         }
-        switch (result.Result) {
+        switch (result) {
             case "OK":
-                notyAlert('success', result.Message);
+                notyAlert('success', message);
                 window.location.replace("NewMaterialReceipt?code=STR");
                 break;
             case "ERROR":
-                notyAlert('error', result.Message);
+                notyAlert('error', message);
                 break;
             default:
                 break;
         }
-        return result.Record;
+        return status;
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -511,7 +536,7 @@ function BindMaterialReceipt() {
     var id = $('#ID').val();
     var MaterialReceiptViewModel = {};
     debugger;
-    MaterialReceiptViewModel = GetMaterialReceiptByID(id);
+    MaterialReceiptViewModel = GetMaterialReceipt(id);
     $('#ReceiptNo').val(MaterialReceiptViewModel.ReceiptNo);
     $('#ReceiptDateFormatted').val(MaterialReceiptViewModel.ReceiptDateFormatted);
     $('#PurchaseOrderNo').val(MaterialReceiptViewModel.PurchaseOrderNo);
@@ -521,14 +546,14 @@ function BindMaterialReceipt() {
     BindMaterialReceiptDetailTable(id);//Get All MaterialReceiptDetails By HeaderID
 }
 
-function GetMaterialReceiptByID(id) {
+function GetMaterialReceipt(id) {
     try {
         debugger;
         var data = { "id": id };
         var result = "";
         var message = "";
         var MaterialReceiptViewModel = new Object();
-        var jsonData = GetDataFromServer("MaterialReceipt/GetMaterialReceiptByID/", data);
+        var jsonData = GetDataFromServer("MaterialReceipt/GetMaterialReceipt/", data);
         if (jsonData != '') {
             jsonData = JSON.parse(jsonData);
             result = jsonData.Result;
@@ -562,7 +587,7 @@ function GetMaterialReceiptDetail(id) {
         var MaterialReceiptDetailList = [];
         var result = "";
         var message = "";
-        var jsonData = GetDataFromServer("MaterialReceipt/GetAllMaterialReceiptDetailByID/", data);
+        var jsonData = GetDataFromServer("MaterialReceipt/GetAllMaterialReceiptDetail/", data);
         if (jsonData != '') {
             jsonData = JSON.parse(jsonData);
             result = jsonData.Result;
@@ -594,3 +619,11 @@ function Reset() {
     }
 }
 
+function ReceiptNoOnChange(curObj) {
+    if ($('#ReceiptNo').val() !== "") {
+        $('#lblReceiptNo').text('MRN#: ' + $('#ReceiptNo').val());
+    }
+    else {
+        $('#lblReceiptNo').text('MRN#: New');
+    }
+}
