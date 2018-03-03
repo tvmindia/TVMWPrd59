@@ -315,6 +315,53 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
         #endregion
+
+        #region GetRecentMaterialIssueSummary
+        public List<MaterialIssue> GetRecentMaterialIssueSummary()
+        {
+            List<MaterialIssue> materialIssueList = new List<MaterialIssue>();
+            MaterialIssue materialIssue = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRecentIssueSummary]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    materialIssue = new MaterialIssue();
+                                    materialIssue.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    materialIssue.IssueNo = (sdr["IssueNo"].ToString() != "" ? sdr["IssueNo"].ToString() : materialIssue.IssueNo);
+                                    materialIssue.IssueTo = (sdr["IssueTo"].ToString() != "" ? Guid.Parse(sdr["IssueTo"].ToString()) : materialIssue.IssueTo);
+                                    materialIssue.IssuedBy = (sdr["IssuedBy"].ToString() != "" ? Guid.Parse(sdr["IssuedBy"].ToString()) : materialIssue.IssuedBy);
+                                    materialIssue.IssueDateFormatted = (sdr["IssueDate"].ToString() != "" ? DateTime.Parse(sdr["IssueDate"].ToString()).ToString(settings.DateFormat) : materialIssue.IssueDateFormatted);
+                                    materialIssue.IssuedByEmployeeName = (sdr["IssuedByName"].ToString() != "" ? sdr["IssuedByName"].ToString() : materialIssue.IssuedByEmployeeName);
+                                    materialIssue.IssueToEmployeeName = (sdr["IssueToName"].ToString() != "" ? sdr["IssueToName"].ToString() : materialIssue.IssueToEmployeeName);
+                                    materialIssueList.Add(materialIssue);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return materialIssueList;
+        }
+        #endregion GetRecentMaterialIssueSummary
     }
 
 }

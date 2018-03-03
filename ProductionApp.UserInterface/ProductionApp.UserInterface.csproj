@@ -756,6 +756,7 @@
     <Compile Include="Models\PurchaseOrderViewModel.cs" />
     <Compile Include="Models\MaterialViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
+    <Compile Include="Models\SendForApprovalViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
     <Compile Include="Models\TaxTypeViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
@@ -852,6 +853,8 @@
     <Content Include="Views\Home\_DispatchSummary.cshtml" />
     <Content Include="Views\MaterialReceipt\NewMaterialReceipt.cshtml" />
     <Content Include="Views\Account\PageNotFound.cshtml" />
+    <Content Include="Views\Shared\_SendForApproval.cshtml" />
+    <Content Include="Views\Account\DbDown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

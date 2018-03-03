@@ -109,6 +109,24 @@ namespace ProductionApp.UserInterface.Controllers
            
         }
         #endregion InsertUpdateBank
+        #region DeleteBank
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
+        public string DeleteBank(string code)
+        {
+            try
+            {
+                var result = _bankBusiness.DeleteBank(code);
+                return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message="Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Status = "ERROR", Record="", Message = cm.Message });
+            }
+
+        }
+        #endregion DeleteBank
         #region BankDropdown
         public ActionResult BankDropdown(BankViewModel bankVM)
         {

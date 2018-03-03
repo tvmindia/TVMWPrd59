@@ -26,6 +26,7 @@ namespace ProductionApp.UserInterface.Controllers
             _requisitionBusiness = requisitionBusiness;
             _materialBusiness = materialBusiness;
         }
+        [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]
         public ActionResult ViewRequisition(string code)
         {
             ViewBag.SysModuleCode = code;
@@ -33,6 +34,7 @@ namespace ProductionApp.UserInterface.Controllers
             return View();
         }
 
+        [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]
         public ActionResult NewRequisition(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
@@ -51,6 +53,7 @@ namespace ProductionApp.UserInterface.Controllers
            
         }
 
+        [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]
         public ActionResult RequisitionApproval(string code)
         {
             ViewBag.SysModuleCode = code;
@@ -258,6 +261,11 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset";
                     toolboxVM.resetbtn.Event = "Reset();";
+
+                    toolboxVM.SendForApprovalBtn.Visible = true;
+                    toolboxVM.SendForApprovalBtn.Text = "Send";
+                    toolboxVM.SendForApprovalBtn.Title = "Send For Approval";
+                    toolboxVM.SendForApprovalBtn.Event = "ShowSendForApproval();";
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";

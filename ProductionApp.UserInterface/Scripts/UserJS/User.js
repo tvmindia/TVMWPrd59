@@ -144,6 +144,7 @@ function ChangeRolesData(this_Obj)
             var ds = {};
             ds = GetDataFromServer("User/GetRolesView/", data);
             $('#divRoleList').html(ds);
+            if ($("#ID").val()!=EmptyGuid)
             fillUser($("#ID").val());
         }
     }
