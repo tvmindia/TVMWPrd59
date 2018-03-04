@@ -1,6 +1,70 @@
-﻿@model ProductionApp.UserInterface.Models.IncomeExpenseSummaryViewModel
+﻿@model ProductionApp.UserInterface.Models.IncomeExpenseSummaryListViewModel
+@using ProductionApp.UserInterface.Models
+@{
 
+    List<IncomeExpenseSummaryViewModel> incomeExpList = Model.IncomeExpenseList;
+}
 <div class="col-md-12 GraphCaption"> Income Expense Summary </div>
-<div class="col-md-12 Summary box">
-     
+<div class="col-md-12 Summary box" style="padding-top:15px;text-align:left">
+    <div class="col-md-12 ">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-center">
+                    
+                    <i class="fa fa-circle" style="color:rgba(81, 97, 225, 0.5);padding-left:30px"> Income</i> &nbsp;&nbsp;&nbsp;<i class="fa fa-circle" style="color:rgba(260,141,188,0.5)"> Expense</i>
+                    <span style="color:rgba(128, 128, 128,.4);padding-left:100px;font-size:11px">figures are in Lakhs</span>
+                </p>
+
+                <div class="chart">
+                    <!-- Sales Chart Canvas -->
+                    <canvas id="IEChart" style="height: 180px; width: 703px;" width="703" height="180"></canvas>
+                </div>
+                <!-- /.chart-responsive -->
+            </div>
+            <!-- /.col -->
+            <!-- /.col -->
+        </div>
+    </div>
+    <div class="box-footer">
+        <div class="row">
+            <div class="col-sm-4 col-xs-6">
+                <div class="description-block border-right">
+                    @*<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>*@
+                    <i class="fa fa-circle" style="color:rgba(81, 97, 225, 0.50);"></i>
+                    <h5 class="description-header">25000</h5>
+                    <span class="description-text">TOTAL INCOME</span>
+                </div>
+                <!-- /.description-block -->
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 col-xs-6">
+                <div class="description-block border-right">
+                    @*<span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>*@
+                    <i class="fa fa-circle" style="color:rgba(260,141,188,0.5)"></i>
+                    <h5 class="description-header">15000 </h5>
+                    <span class="description-text">TOTAL EXPENSE</span>
+                </div>
+                <!-- /.description-block -->
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 col-xs-6">
+                <div class="description-block">
+                    <i class="fa fa-circle" style="color:white"> </i>
+                    @*<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>*@
+                    <h5 class="description-header">10000</h5>
+                    <span class="description-text">TOTAL PROFIT</span>
+                </div>
+                <!-- /.description-block -->
+            </div>
+
+        </div>
+        <!-- /.row -->
+    </div>
 </div>
+
+<script>
+    var IncomeExpense=@Html.Raw(Json.Encode(incomeExpList));
+
+
+
+</script>

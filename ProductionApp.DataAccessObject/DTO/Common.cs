@@ -189,4 +189,16 @@ namespace ProductionApp.DataAccessObject.DTO
         public Common CommonObj { get; set; }
     }
 
+
+
+    //--need to move this to dynamic UI ----
+    public class IncomeExpenseSummary
+    {
+        public string Month { get; set; }
+        public int MonthCode { get; set; }
+        public int Year { get; set; }
+        public decimal InAmount { get; set; }
+        public decimal ExAmount { get; set; }
+    }
+
 }

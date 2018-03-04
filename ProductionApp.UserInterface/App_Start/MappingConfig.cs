@@ -67,6 +67,7 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<DocumentApprovalAdvanceSearchViewModel, DocumentApprovalAdvanceSearch>().ReverseMap();
                 config.CreateMap<SalesSummaryViewModel, SalesSummary>().ReverseMap();
                 config.CreateMap<PurchaseSummaryViewModel, PurchaseSummary>().ReverseMap();
+                config.CreateMap<IncomeExpenseSummaryViewModel, IncomeExpenseSummary>().ReverseMap();
             });
         }
     }

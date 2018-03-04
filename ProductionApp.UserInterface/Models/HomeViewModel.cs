@@ -20,12 +20,21 @@ namespace ProductionApp.UserInterface.Models
         public List<PurchaseSummaryViewModel> PurchaseSmryList { get; set; }
     }
 
-    public class IncomeExpenseSummaryViewModel
+    public class IncomeExpenseSummaryListViewModel
     {
-
+        public List<IncomeExpenseSummaryViewModel> IncomeExpenseList { get; set; }
     }
 
-   
+    public class IncomeExpenseSummaryViewModel
+    {
+        public string Month { get; set; }
+        public int MonthCode { get; set; }
+        public int Year { get; set; }
+        public decimal InAmount { get; set; }
+        public decimal ExAmount { get; set; }
+    }
+
+
     public class PurchaseInvoiceSummaryViewModel
     {
 

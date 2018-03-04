@@ -11,5 +11,6 @@ namespace ProductionApp.RepositoryServices.Contracts
     {
         List<AMCSysModule> GetAllModule();
         List<AMCSysMenu> GetAllMenu(string code);
+        List<IncomeExpenseSummary> GetIncomeExpenseSummary();
     }
 }

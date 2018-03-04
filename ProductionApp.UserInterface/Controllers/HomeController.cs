@@ -68,11 +68,10 @@ namespace ProductionApp.UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "AdminDashBoard", Mode = "R")]
         public ActionResult IncomeExpenseSummary()
         {
-            ViewBag.ActionName = "Admin";
-            AppUA appUA = Session["AppUA"] as AppUA;
-            IncomeExpenseSummaryViewModel data = new IncomeExpenseSummaryViewModel();
 
-            return PartialView("_IncomeExpenseSummary", data);
+            IncomeExpenseSummaryListViewModel list = new IncomeExpenseSummaryListViewModel();
+            list.IncomeExpenseList = Mapper.Map<List<IncomeExpenseSummary>, List<IncomeExpenseSummaryViewModel>>(_dynamicUIBusiness.GetIncomeExpenseSummary());
+            return PartialView("_IncomeExpenseSummary", list);
         }
 
 

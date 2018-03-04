@@ -123,5 +123,60 @@ namespace ProductionApp.RepositoryServices.Services
 
             return sysMenuList;
         }
+
+
+        public List<IncomeExpenseSummary> GetIncomeExpenseSummary()
+        {
+            List<IncomeExpenseSummary> result = new List<IncomeExpenseSummary>();
+           
+           
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetIncomeExpenseSummary]";
+                       
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    IncomeExpenseSummary incomeExpense = new IncomeExpenseSummary();
+
+                                    incomeExpense.Month = (sdr["Month"].ToString() != "" ? sdr["Month"].ToString() : incomeExpense.Month);
+                                    incomeExpense.MonthCode = (sdr["MonthCode"].ToString() != "" ? int.Parse(sdr["MonthCode"].ToString()) : incomeExpense.MonthCode);
+                                    incomeExpense.Year = (sdr["Year"].ToString() != "" ? int.Parse(sdr["Year"].ToString()) : incomeExpense.Year);
+                                    incomeExpense.InAmount = (sdr["InAmount"].ToString() != "" ? decimal.Parse(sdr["InAmount"].ToString()) : incomeExpense.InAmount);
+                                    incomeExpense.ExAmount = (sdr["ExAmount"].ToString() != "" ? decimal.Parse(sdr["ExAmount"].ToString()) : incomeExpense.ExAmount);
+
+                                    result.Add(incomeExpense);
+
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        }
     }
 }
