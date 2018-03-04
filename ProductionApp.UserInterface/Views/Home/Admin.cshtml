@@ -1,4 +1,4 @@
-﻿
+﻿@using ProductionApp.UserInterface.App_Start
 @{
     ViewBag.Title = "Admin Dashboard";
     Layout = "~/Views/Shared/_LayoutPageGod.cshtml";
@@ -89,3 +89,7 @@
 
 
     </div>
+@section scripts{
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJS/Home/SalesSummary")
+
+}
