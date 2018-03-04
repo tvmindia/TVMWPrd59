@@ -84,6 +84,7 @@
     <Compile Include="DTO\MaterialStockAdj.cs" />
     <Compile Include="DTO\MaterialType.cs" />
     <Compile Include="DTO\Product.cs" />
+    <Compile Include="DTO\PurchaseInvoice.cs" />
     <Compile Include="DTO\Requisition.cs" />
     <Compile Include="DTO\PurchaseOrder.cs" />
     <Compile Include="DTO\Material.cs" />

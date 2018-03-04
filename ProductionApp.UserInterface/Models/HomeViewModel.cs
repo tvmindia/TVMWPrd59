@@ -15,9 +15,9 @@ namespace ProductionApp.UserInterface.Models
         public List<SalesSummaryViewModel> SalesSmryList  { get;set;}
     }
 
-    public class PurchaseSummaryViewModel
+    public class PurchaseSummaryList
     {
-
+        public List<PurchaseSummaryViewModel> PurchaseSmryList { get; set; }
     }
 
     public class IncomeExpenseSummaryViewModel

@@ -1,17 +1,17 @@
-﻿function CreateSalesSummary() {
-    var chrt = document.getElementById("saleschart").getContext("2d");
+﻿function CreatePurchaseSummary() {
+    var chrt = document.getElementById("purchasechart").getContext("2d");
     var myarr = [65, 59, 80, 81, 56, 55, 40];
     var data = {
-        labels: lbls, //x-axis
+        labels: purchaseSummarylbls, //x-axis
         datasets: [
         {
             legendText: "Sales Months",
             label: "Sales months", //optional
-            fillColor: "rgba(211, 218, 7,0.8)",
-            strokeColor: "rgba(211, 218, 7,0.8)",
-            highlightFill: "rgba(211, 218, 7,0.75)",
-            highlightStroke: "rgba(211, 218, 7,1)",
-            data: dta // y-axis
+            fillColor: "rgba(105,240,174,0.8)",
+            strokeColor: "rgba(105,240,174,0.8)",
+            highlightFill: "rgba(105,240,174,0.75)",
+            highlightStroke: "rgba(105,240,174,1)",
+            data: purchaseSummarydta // y-axis
         }
         ]
 
@@ -85,7 +85,7 @@
         animationSteps: 60,
 
         //String - Animation easing effect
-        animationEasing: "easeOutCirc",
+        animationEasing: "easeInCirc",
 
         //Function - Fires when the animation is complete
         onAnimationComplete: null,
@@ -95,10 +95,10 @@
     }
 
 
-    var saleschart = new Chart(chrt).Bar(data, options);
-    
+    var purchaseChart = new Chart(chrt).Bar(data, options);
+
 }
 
-$(function() {
-    CreateSalesSummary();
+$(function () {
+    CreatePurchaseSummary();
 });
