@@ -30,7 +30,8 @@ namespace ProductionApp.UserInterface.Controllers
 
         // GET: MaterialReceipt
         #region View MaterialReceipt Index
-        public ActionResult Index(string code)
+        [AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "W")]
+        public ActionResult ViewMaterialReceipt(string code)
         {
             ViewBag.SysModuleCode = code;
             return View();
@@ -38,6 +39,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion View MaterialReceipt Index
 
         #region NewMaterialReceipt
+        [AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "W")]
         public ActionResult NewMaterialReceipt(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
@@ -123,7 +125,7 @@ namespace ProductionApp.UserInterface.Controllers
             catch (Exception ex)
             {
                 AppConstMessage cm = _appConst.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
             }
         }
         #endregion InsertUpdateMaterialReceipt
@@ -189,7 +191,13 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     throw new Exception("ID Missing");
                 }
-                object result = _materialReceiptBusiness.DeleteMaterialReceipt(Guid.Parse(id));
+                AppUA appUA = Session["AppUA"] as AppUA;
+                MaterialReceipt materialReceipt = new MaterialReceipt();
+                materialReceipt.Common = new Common();
+                materialReceipt.ID = Guid.Parse(id);
+                materialReceipt.Common.CreatedBy = appUA.UserName;
+                materialReceipt.Common.CreatedDate = _common.GetCurrentDateTime();
+                object result = _materialReceiptBusiness.DeleteMaterialReceipt(materialReceipt);
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)
@@ -209,7 +217,13 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     throw new Exception("ID Missing");
                 }
-                object result = _materialReceiptBusiness.DeleteMaterialReceiptDetail(Guid.Parse(id));
+                AppUA appUA = Session["AppUA"] as AppUA;
+                MaterialReceipt materialReceipt = new MaterialReceipt();
+                materialReceipt.Common = new Common();
+                materialReceipt.ID = Guid.Parse(id);
+                materialReceipt.Common.CreatedBy = appUA.UserName;
+                materialReceipt.Common.CreatedDate = _common.GetCurrentDateTime();
+                object result = _materialReceiptBusiness.DeleteMaterialReceiptDetail(materialReceipt);
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)
@@ -260,7 +274,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("Index", "MaterialReceipt", new { code = "STR" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewMaterialReceipt", "MaterialReceipt", new { code = "STR" });
                     toolboxVM.ListBtn.Event = "";
 
                     toolboxVM.savebtn.Visible = true;
@@ -277,7 +291,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("Index", "MaterialReceipt", new { code = "STR" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewMaterialReceipt", "MaterialReceipt", new { code = "STR" });
                     toolboxVM.ListBtn.Event = "";
 
                     toolboxVM.savebtn.Visible = true;

@@ -9,4 +9,7 @@ namespace ProductionApp.UserInterface.Models
     {
         public List<AMCSysMenuViewModel> AMCSysMenuViewModelList { get; set; }
     }
+
+  
+
 }

@@ -42,11 +42,33 @@
                 @Html.LabelFor(model => model.SearchTerm, htmlAttributes: new { @class = "control-label" })
             </div>
             <div class="col-md-12">
-                <div class="col-md-10">
+                <div class="input-group">
                     @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadProductTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <input type="button" value="Search" onclick="BindOrReloadProductTable('Search')" />
+                </div>
+            </div>
+
+        @*Advance Filter *@
+        <div class="col-md-12">
+            <div class="row">
+                &nbsp;
+                <p id="filter" style="float:right;font-size:small"><i class="fa fa-filter" aria-hidden="true" style="color:purple"></i><a href="#" class="accordion" data-toggle="collapse" data-target="#demo">Advanced Filter</a></p>
+
+                <div id="demo" class="collapse" style="border-top:1px solid #d9d9d9">
+                    <div class="col-md-12">
+                        <div class="col-md-5">
+                            @Html.LabelFor(model => model.Unit, htmlAttributes: new { @class = "control-label" })
+                            <div class="col-md-12">
+                                @Html.Action("UnitDropdown", "Unit")
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadProductTable('Search')">Apply</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

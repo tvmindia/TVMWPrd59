@@ -63,5 +63,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _issueToProductionRepository.DeleteIssueToProduction(id);
         }
+
+        public List<MaterialIssue> GetRecentMaterialIssueSummary()
+        {
+            return _issueToProductionRepository.GetRecentMaterialIssueSummary();
+        }
     }
 }

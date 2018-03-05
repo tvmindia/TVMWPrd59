@@ -1,6 +1,25 @@
-﻿@model ProductionApp.UserInterface.Models.SalesSummaryViewModel
+﻿@model ProductionApp.UserInterface.Models.SalesSummaryList
+    @using ProductionApp.UserInterface.Models
 
-<div  class="col-md-12 panel-title"> Sales Summary </div>
-<div class="col-md-12 Summary box">
-  
-</div>
+
+   @{ 
+
+       List<SalesSummaryViewModel> salesList = Model.SalesSmryList;
+   }
+<div  class="col-md-12 GraphCaption"> Sales Summary </div>
+<div class="col-md-12 Summary box" style="padding-top:15px;text-align:left">
+   <div class="col-md-11">
+       <canvas id="saleschart" style="width:95%" ></canvas>
+    </div> 
+    <div class="col-md-1">
+        <span class="chartLegend"> Figures are in Lakhs</span>
+    </div>
+       
+    </div>
+
+<script>
+    var lbls=@Html.Raw(Json.Encode( salesList.Select(s => (s.Month + s.Year)).ToList()));
+    var dta=@Html.Raw(Json.Encode( salesList.Select(s => s.Sales).ToList()));
+    
+
+</script>

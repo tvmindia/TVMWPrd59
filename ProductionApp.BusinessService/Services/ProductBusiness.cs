@@ -37,6 +37,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _productRepository.GetProduct(id);
         }
-
+        public object DeleteProduct(Guid id)
+        {
+            return _productRepository.DeleteProduct(id);
+        }
     }
 }

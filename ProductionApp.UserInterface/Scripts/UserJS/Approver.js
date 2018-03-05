@@ -3,7 +3,7 @@
 //*****************************************************************************
 //Author: Jais
 //CreatedDate: 20-Feb-2018 
-//LastModified: 20-Feb-2018 
+//LastModified: 5-Mar-2018 
 //FileName: Approver.js
 //Description: Client side coding for Approver
 //******************************************************************************
@@ -94,10 +94,10 @@ function BindOrReloadApproverTable(action) {
             { "data": "User.LoginName", "defaultContent": "<i>-<i>" },
             { "data": "IsDefault", "defaultContent": "<i>-<i>" },
             { "data": "IsActive", "defaultContent": "<i>-<i>" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditApproverMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteApproverMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditApproverMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>',"width":"4%" }
             ],
             columnDefs: [{ "targets": [0,3], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [ 6] },
+                { className: "text-right", "targets": [ 7] },
                 { className: "text-left", "targets": [1, 2, 4, 5, 6] },
                 { className: "text-center", "targets": [] }],
             destroy: true,
@@ -155,3 +155,49 @@ function EditApproverMaster(this_obj) {
     }
 }
 
+//--Function To Confirm Approver Deletion 
+function DeleteApproverMaster(this_obj) {
+    debugger;
+    approverVM = DataTables.approverList.row($(this_obj).parents('tr')).data();
+    if (approverVM.IsDefault==true) {
+        notyAlert('error', 'Cannot Delete Default Approver');
+    } else {
+        notyConfirm('Are you sure to delete?', 'DeleteApprover("' + approverVM.ID + '")');
+    }
+}
+
+//--Function To Delete Approver
+function DeleteApprover(id) {
+    debugger;
+    try {
+        if (id) {
+            var data = { "id": id};
+            var jsonData = {};
+            var message = "";
+            var status = "";
+            var result = "";
+            jsonData = GetDataFromServer("Approver/DeleteApprover/", data);
+            if (jsonData != '') {
+                jsonData = JSON.parse(jsonData);
+                message = jsonData.Message;
+                status = jsonData.Status;
+                result = jsonData.Record;
+            }
+            switch (status) {
+                case "OK":
+                    notyAlert('success', result.Message);
+                    BindOrReloadApproverTable('Reset');
+                    break;
+                case "ERROR":
+                    notyAlert('error', message);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
+    }
+}

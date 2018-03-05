@@ -82,12 +82,16 @@
     <Compile Include="DTO\Mail.cs" />
     <Compile Include="DTO\MaterialIssue.cs" />
     <Compile Include="DTO\MaterialReceipt.cs" />
+    <Compile Include="DTO\MaterialReturnFromProduction.cs" />
     <Compile Include="DTO\MaterialStockAdj.cs" />
     <Compile Include="DTO\MaterialType.cs" />
     <Compile Include="DTO\Product.cs" />
+    <Compile Include="DTO\PurchaseInvoice.cs" />
     <Compile Include="DTO\Requisition.cs" />
     <Compile Include="DTO\PurchaseOrder.cs" />
     <Compile Include="DTO\Material.cs" />
+    <Compile Include="DTO\SalesInvoice.cs" />
+    <Compile Include="DTO\SendForApproval.cs" />
     <Compile Include="DTO\Supplier.cs" />
     <Compile Include="DTO\TaxType.cs" />
     <Compile Include="DTO\Unit.cs" />

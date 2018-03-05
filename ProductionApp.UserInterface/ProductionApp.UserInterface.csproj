@@ -453,6 +453,7 @@
     <Content Include="Content\images\printer.png" />
     <Content Include="Content\images\reset.png" />
     <Content Include="Content\images\revathiplastics.png" />
+    <Content Include="Content\images\rupee.png" />
     <Content Include="Content\images\rupee1.png" />
     <Content Include="Content\images\santhipacking.png" />
     <Content Include="Content\images\santhipetlogo.png" />
@@ -664,6 +665,9 @@
     <Content Include="Scripts\UserJS\DocumentApproval\ApproveDocument.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\DocumentSummary.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ViewPendingDocuments.js" />
+    <Content Include="Scripts\UserJS\Home\IncomeExpenseSummary.js" />
+    <Content Include="Scripts\UserJS\Home\PurchaseSummary.js" />
+    <Content Include="Scripts\UserJS\Home\SalesSummary.js" />
     <Content Include="Scripts\UserJS\IssueToProduction\AddIssueToProduction.js" />
     <Content Include="Scripts\UserJS\IssueToProduction\ListIssueToProduction.js" />
     <Content Include="Scripts\UserJS\ManageAccess.js" />
@@ -712,6 +716,8 @@
     <Compile Include="Controllers\IssueToProductionController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\MaterialReceiptController.cs" />
+    <Compile Include="Controllers\MaterialReturnFromProductionController.cs" />
+    <Compile Include="Controllers\MaterialStockAdjController.cs" />
     <Compile Include="Controllers\MaterialTypeController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\DashboardProductionController.cs" />
@@ -748,14 +754,18 @@
     <Compile Include="Models\AMCSysMenuViewModel.cs" />
     <Compile Include="Models\MaterialIssueViewModel.cs" />
     <Compile Include="Models\MaterialReceiptViewModel.cs" />
+    <Compile Include="Models\MaterialReturnFromProductionViewModel.cs" />
     <Compile Include="Models\MaterialStockAdjViewModel.cs" />
     <Compile Include="Models\MaterialTypeViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
+    <Compile Include="Models\PurchaseInvoiceViewModel.cs" />
     <Compile Include="Models\RequisitionViewModel.cs" />
     <Compile Include="Models\PurchaseOrderViewModel.cs" />
     <Compile Include="Models\MaterialViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
+    <Compile Include="Models\SalesInvoiceViewModel.cs" />
+    <Compile Include="Models\SendForApprovalViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
     <Compile Include="Models\TaxTypeViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
@@ -819,7 +829,7 @@
     <Content Include="Views\Employee\_EmployeeDropdown.cshtml" />
     <Content Include="Views\DashboardStore\_MyApprovals.cshtml" />
     <Content Include="Views\DashboardStore\_ReOrderAlert.cshtml" />
-    <Content Include="Views\MaterialReceipt\Index.cshtml" />
+    <Content Include="Views\MaterialReceipt\ViewMaterialReceipt.cshtml" />
     <Content Include="Views\Shared\_Fileupload.cshtml" />
     <Content Include="Views\Unit\_UnitDropdown.cshtml" />
     <Content Include="Views\MaterialType\_MaterialTypeDropdown.cshtml" />
@@ -852,6 +862,12 @@
     <Content Include="Views\Home\_DispatchSummary.cshtml" />
     <Content Include="Views\MaterialReceipt\NewMaterialReceipt.cshtml" />
     <Content Include="Views\Account\PageNotFound.cshtml" />
+    <Content Include="Views\Shared\_SendForApproval.cshtml" />
+    <Content Include="Views\Account\DbDown.cshtml" />
+    <Content Include="Views\MaterialReturnFromProduction\ListReceiveFromProduction.cshtml" />
+    <Content Include="Views\MaterialReturnFromProduction\AddReceiveFromProduction.cshtml" />
+    <Content Include="Views\MaterialStockAdj\AddStockAdjustment.cshtml" />
+    <Content Include="Views\MaterialStockAdj\ListStockAdjustment.cshtml" />
     <Content Include="Views\PurchaseOrder\_PurchaseOrderMailPreview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

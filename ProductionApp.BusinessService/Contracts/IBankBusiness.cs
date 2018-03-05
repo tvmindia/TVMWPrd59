@@ -14,5 +14,6 @@ namespace ProductionApp.BusinessService.Contracts
         Bank GetBank(string code);
         bool CheckCodeExist(string code);
         object InsertUpdateBank(Bank bank);
+        object DeleteBank(string code);
     }
 }

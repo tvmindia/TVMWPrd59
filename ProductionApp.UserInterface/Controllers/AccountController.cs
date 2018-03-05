@@ -115,6 +115,11 @@ namespace ProductionApp.UserInterface.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public ActionResult DbDown()
+        {
+            return View();
+        }
 
         //PageNotFound
 

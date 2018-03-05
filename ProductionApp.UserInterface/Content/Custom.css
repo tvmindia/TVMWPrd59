@@ -656,11 +656,12 @@ color: #e32;
 .skin-green-light .main-sidebar {
     background-color:#00c0ef05;
 }
-
-
-
-
-
+input.ApplyCurrency {
+    background-image: url('../Content/images/rupee.png');
+    background-Position: 1% center;
+    background-Repeat: no-repeat;
+    background-size: 12px;
+}
 
 /*----------------overlay-----------------*/
 .overlay {
@@ -1136,18 +1137,35 @@ background-position: 0% 50%;
 }
 
 .TileCaption {
-    font-size:20px;
+    font-size:24px;
+     text-shadow: 0 1px 0 #545454;
 }
-
+.GraphCaption {
+    color: #49bade;
+      font-size:22px;
+     text-shadow: 0 1px 0 rgba(148, 78, 132, 0.16);
+}
 .Summary {
 
-    height:110px;
+    min-height:220px;
     text-align:center;
     font-size:medium;
     vertical-align:middle;
-    
+    background-color: white;
 }
 
 .DashboardContainer {
-    padding-top:20px;
+    padding-top:30px;
+}
+
+
+
+.skin-green-light .wrapper, .skin-green-light .main-sidebar, .skin-green-light .left-side {
+    background-color: rgb(248, 248, 248);
+}
+
+.chartLegend {
+    color: rgba(128, 128, 128,.6);    
+    font-size: 11px;
+    margin:-100px;
 }

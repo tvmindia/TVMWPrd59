@@ -1,4 +1,4 @@
-﻿
+﻿@using ProductionApp.UserInterface.App_Start
 @{
     ViewBag.Title = "Admin Dashboard";
     Layout = "~/Views/Shared/_LayoutPageGod.cshtml";
@@ -7,7 +7,7 @@
 <div class="col-md-12"></div>
 
     <div class="col-md-12 DashboardContainer">
-        <div class="col-md-3">
+        <div class="col-md-6">
             @{
 
                 @Html.Action("SalesSummary", "Home");
@@ -15,26 +15,27 @@
             }
 
         </div>
-        <div class="col-md-3">
+        <div class="col-md-6">
 
             @{
 
                 @Html.Action("PurchaseSummary", "Home");
 
             }
-        </div>
-        <div class="col-md-6">
+        </div></div>
+<div class="col-md-12 DashboardContainer">
+    <div class="col-md-12">
 
-            @{
+        @{
 
-                @Html.Action("IncomeExpenseSummary", "Home");
+            @Html.Action("IncomeExpenseSummary", "Home");
 
-            }
-
-        </div>
-
+        }
 
     </div>
+
+
+</div>
 
 
     <div class="col-md-12 DashboardContainer" >
@@ -88,3 +89,7 @@
 
 
     </div>
+@section scripts{
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJS/Home")
+
+}

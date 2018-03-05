@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ProductionApp.RepositoryServices.Services
 {
@@ -23,9 +24,8 @@ namespace ProductionApp.RepositoryServices.Services
             }
             catch (Exception ex)
             {
-
-                throw ex;
-
+                DisconectDB();
+                //HttpContext.Current.Response.Redirect("~/Account/DbDown", true);
             }
             return _SQLCon;
         }

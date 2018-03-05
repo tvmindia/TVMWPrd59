@@ -11,9 +11,14 @@ namespace ProductionApp.UserInterface.Controllers
     public class HomeController : Controller
     {
         IDynamicUIBusiness _dynamicUIBusiness;
-        public HomeController(IDynamicUIBusiness dynamicUIBusiness)
+        ISalesInvoieBusiness _salesInvoiceBusiness;
+        IPurchaseInvoiceBusiness _purchaseInvoiceBusiness;
+
+        public HomeController(IDynamicUIBusiness dynamicUIBusiness, ISalesInvoieBusiness salesInvoiceBusiness, IPurchaseInvoiceBusiness purchaseInvoiceBusiness)
         {
             _dynamicUIBusiness = dynamicUIBusiness;
+             _salesInvoiceBusiness= salesInvoiceBusiness;
+            _purchaseInvoiceBusiness = purchaseInvoiceBusiness;
         }
         // GET: Home
         [AuthSecurityFilter(ProjectObject = "Home", Mode = "")]
@@ -42,33 +47,31 @@ namespace ProductionApp.UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "AdminDashBoard", Mode = "R")]
         public ActionResult SalesSummary()
         {
-            ViewBag.ActionName = "Admin";
-            AppUA appUA = Session["AppUA"] as AppUA;
-            SalesSummaryViewModel data = new SalesSummaryViewModel();
-
-            return PartialView("_SalesSummary", data);
+            
+            SalesSummaryList salesList = new SalesSummaryList();          
+            salesList.SalesSmryList = Mapper.Map < List<SalesSummary>, List <SalesSummaryViewModel>>( _salesInvoiceBusiness.GetSalesSummary());
+            return PartialView("_SalesSummary", salesList);
         }
 
 
         [AuthSecurityFilter(ProjectObject = "AdminDashBoard", Mode = "R")]
         public ActionResult PurchaseSummary()
         {
-            ViewBag.ActionName = "Admin";
-            AppUA appUA = Session["AppUA"] as AppUA;
-            PurchaseSummaryViewModel data = new PurchaseSummaryViewModel();
 
-            return PartialView("_PurchaseSummary", data);
+            PurchaseSummaryList purchaseList = new PurchaseSummaryList();
+            purchaseList.PurchaseSmryList = Mapper.Map<List<PurchaseSummary>, List<PurchaseSummaryViewModel>>(_purchaseInvoiceBusiness.GetPurchaseSummary());
+
+            return PartialView("_PurchaseSummary", purchaseList);
         }
 
 
         [AuthSecurityFilter(ProjectObject = "AdminDashBoard", Mode = "R")]
         public ActionResult IncomeExpenseSummary()
         {
-            ViewBag.ActionName = "Admin";
-            AppUA appUA = Session["AppUA"] as AppUA;
-            IncomeExpenseSummaryViewModel data = new IncomeExpenseSummaryViewModel();
 
-            return PartialView("_IncomeExpenseSummary", data);
+            IncomeExpenseSummaryListViewModel list = new IncomeExpenseSummaryListViewModel();
+            list.IncomeExpenseList = Mapper.Map<List<IncomeExpenseSummary>, List<IncomeExpenseSummaryViewModel>>(_dynamicUIBusiness.GetIncomeExpenseSummary());
+            return PartialView("_IncomeExpenseSummary", list);
         }
 
 

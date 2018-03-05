@@ -37,6 +37,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _materialRepository.GetMaterial(id);
         }
+        public object DeleteMaterial(Guid id)
+        {
+            return _materialRepository.DeleteMaterial(id);
+        }
 
     }
 }

@@ -14,9 +14,11 @@ namespace ProductionApp.UserInterface.Controllers
     {
         #region Constructor Injection
         IMaterialReceiptBusiness _materialReceiptBusiness;
-        public DashboardStoreController(IMaterialReceiptBusiness materialReceiptBusiness)
+        IIssueToProductionBusiness _issueToProductionBusiness;
+        public DashboardStoreController(IMaterialReceiptBusiness materialReceiptBusiness, IIssueToProductionBusiness issueToProductionBusiness)
         {
             _materialReceiptBusiness = materialReceiptBusiness;
+            _issueToProductionBusiness = issueToProductionBusiness;
         }
         #endregion Constructor Injection
 
@@ -37,7 +39,7 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult IssueSummary()
         {
             MaterialIssueViewModel MaterialIssue = new MaterialIssueViewModel();
-            MaterialIssue.MaterialIssueList = new List<MaterialIssueViewModel>();//Mapper.Map<List<MaterialIssue>,List<MaterialIssueViewModel>>(_dashboardStoreBusiness.GetRecentIssueSummary());
+            MaterialIssue.MaterialIssueList = Mapper.Map<List<MaterialIssue>,List<MaterialIssueViewModel>>(_issueToProductionBusiness.GetRecentMaterialIssueSummary());
             return PartialView("_IssueSummary",MaterialIssue);
         }
 

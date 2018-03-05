@@ -99,15 +99,16 @@ $(document).ready(function () {
 
         }
 
-        $('#divPONo').hide();
+        $('#divPONo,#msgSupplier,#msgPurchase').hide();
         $("#PurchaseOrderID").change(function () {
             $("#PurchaseOrderNo").val($('#PurchaseOrderID').find('option:selected').text());
+            $('#msgPurchase').hide();
         });
         $("#MaterialID").change(function () {
             BindMaterialDetails(this.value)
         });
         $("#SupplierID").change(function () {
-            $('#SupID').val($("#SupplierID").val());
+            $('#msgSupplier').hide();
         });
 
     }
@@ -141,12 +142,12 @@ function AddMaterialReceiptDetail() {
 
 function BindMaterialDetails(id) {
     debugger;
-    var MaterialViewModel = GetMaterial(id);
-    $('#MaterialReceiptDetail_Material_MaterialCode').val(MaterialViewModel.MaterialCode);
-    $('#MaterialReceiptDetail_Material_CurrentStock').val(MaterialViewModel.CurrentStock);
+    var materialVM = GetMaterial(id);
+    $('#MaterialReceiptDetail_Material_MaterialCode').val(materialVM.MaterialCode);
+    $('#MaterialReceiptDetail_Material_CurrentStock').val(materialVM.CurrentStock);
     //$('#MaterialReceiptDetail_Qty').val(MaterialViewModel.CurrentStock);
-    $('#MaterialReceiptDetail_MaterialDesc').val(MaterialViewModel.Description);
-    $('#MaterialReceiptDetail_UnitCode').val(MaterialViewModel.UnitCode);
+    $('#MaterialReceiptDetail_MaterialDesc').val(materialVM.Description);
+    $('#MaterialReceiptDetail_UnitCode').val(materialVM.UnitCode);
 }
 
 function GetMaterial(id) {
@@ -155,16 +156,16 @@ function GetMaterial(id) {
         var data = { "id": id };
         var result = "";
         var message = "";
-        var MaterialViewModel = new Object();
+        var materialVM = new Object();
         var jsonData = GetDataFromServer("MaterialReceipt/GetMaterial/", data);
         if (jsonData != '') {
             jsonData = JSON.parse(jsonData);
             result = jsonData.Result;
-            MaterialViewModel = jsonData.Record;
+            materialVM = jsonData.Record;
             message = jsonData.Message;
         }
         if (result == "OK") {
-            return MaterialViewModel;
+            return materialVM;
         }
         if (result == "ERROR") {
             alert(message);
@@ -181,27 +182,27 @@ function AddMaterialReceiptDetailToTable() {
         if ($("#MaterialID").val() != "")
         {
             _MaterialReceiptDetail = [];
-            MaterialReceiptData = new Object();
-            MaterialReceiptData.MaterialID = $("#MaterialID").val();
-            MaterialReceiptData.Material = new Object();
-            MaterialReceiptData.Material.MaterialCode = $('#MaterialReceiptDetail_Material_MaterialCode').val();
-            MaterialReceiptData.Material.CurrentStock = $('#MaterialReceiptDetail_Material_CurrentStock').val();
-            MaterialReceiptData.MaterialDesc = $('#MaterialReceiptDetail_MaterialDesc').val();
-            MaterialReceiptData.ID = $('#MaterialReceiptDetail_ID').val();
-            MaterialReceiptData.Qty = $('#MaterialReceiptDetail_Qty').val();
-            MaterialReceiptData.UnitCode = $('#MaterialReceiptDetail_UnitCode').val();
-            _MaterialReceiptDetail.push(MaterialReceiptData);
+            MaterialReceiptDetailVM = new Object();
+            MaterialReceiptDetailVM.MaterialID = $("#MaterialID").val();
+            MaterialReceiptDetailVM.Material = new Object();
+            MaterialReceiptDetailVM.Material.MaterialCode = $('#MaterialReceiptDetail_Material_MaterialCode').val();
+            MaterialReceiptDetailVM.Material.CurrentStock = $('#MaterialReceiptDetail_Material_CurrentStock').val();
+            MaterialReceiptDetailVM.MaterialDesc = $('#MaterialReceiptDetail_MaterialDesc').val();
+            MaterialReceiptDetailVM.ID = $('#MaterialReceiptDetail_ID').val();
+            MaterialReceiptDetailVM.Qty = $('#MaterialReceiptDetail_Qty').val();
+            MaterialReceiptDetailVM.UnitCode = $('#MaterialReceiptDetail_UnitCode').val();
+            _MaterialReceiptDetail.push(MaterialReceiptDetailVM);
 
             debugger;
             if (_MaterialReceiptDetail != null) {
-                var MaterialReceiptDetailList = DataTables.MaterialReceiptDetailTable.rows().data();
-                if (MaterialReceiptDetailList.length > 0) {
+                var materialReceiptDetailList = DataTables.MaterialReceiptDetailTable.rows().data();
+                if (materialReceiptDetailList.length > 0) {
                     var checkPoint = 0;
-                    for (var i = 0; i < MaterialReceiptDetailList.length; i++) {
-                        if (MaterialReceiptDetailList[i].MaterialID == $("#MaterialID").val()) {
-                            MaterialReceiptDetailList[i].MaterialDesc = $('#MaterialReceiptDetail_MaterialDesc').val();
-                            MaterialReceiptDetailList[i].Qty = parseFloat($('#MaterialReceiptDetail_Qty').val());
-                            MaterialReceiptDetailList[i].UnitCode = $('#MaterialReceiptDetail_UnitCode').val();
+                    for (var i = 0; i < materialReceiptDetailList.length; i++) {
+                        if (materialReceiptDetailList[i].MaterialID == $("#MaterialID").val()) {
+                            materialReceiptDetailList[i].MaterialDesc = $('#MaterialReceiptDetail_MaterialDesc').val();
+                            materialReceiptDetailList[i].Qty = parseFloat($('#MaterialReceiptDetail_Qty').val());
+                            materialReceiptDetailList[i].UnitCode = $('#MaterialReceiptDetail_UnitCode').val();
                             checkPoint = 1;
                             break;
                         }
@@ -210,7 +211,7 @@ function AddMaterialReceiptDetailToTable() {
                         DataTables.MaterialReceiptDetailTable.rows.add(_MaterialReceiptDetail).draw(false);
                     }
                     else {
-                        DataTables.MaterialReceiptDetailTable.clear().rows.add(MaterialReceiptDetailList).draw(false);
+                        DataTables.MaterialReceiptDetailTable.clear().rows.add(materialReceiptDetailList).draw(false);
                     }
                 }
                 else {
@@ -231,13 +232,24 @@ function AddMaterialReceiptDetailToTable() {
 function Save() {
     try{
         debugger;
+        var check = 0;
+        if ($('#SupplierID').val() === "") {
+            $('#msgSupplier').show();
+            check = 1;
+        }
+        if ($('#PurchaseOrderID').val() === "") {
+            $('#msgPurchase').show();
+            check = 1;
+        }
         $("#DetailJSON").val('');
         _MaterialReceiptDetailList = [];
         AddMaterialReceiptDetailList();
         if (_MaterialReceiptDetailList.length > 0) {
             var result = JSON.stringify(_MaterialReceiptDetailList);
             $("#DetailJSON").val(result);
-            $('#btnSave').trigger('click');
+            if (check !== 1) {
+                $('#btnSave').trigger('click');
+            }
         }
         else {
             notyAlert('warning', 'Please Add MaterialReceipt Details!');
@@ -251,32 +263,38 @@ function Save() {
 function SaveSuccess(data, status) {
     debugger;
     var JsonResult = JSON.parse(data)
-    switch (JsonResult.Result) {
+    var result = JsonResult.Result;
+    var message = JsonResult.Message;
+    var materialReceiptVM = new Object();
+    materialReceiptVM = JsonResult.Records;
+    switch (result) {
         case "OK":
             $('#IsUpdate').val('True');
             $('#ID').val(JsonResult.Records.ID)
-            notyAlert("success", JsonResult.Records.Message)
+            message = JsonResult.Records.Message;
+            notyAlert("success", message)
             ChangeButtonPatchView('MaterialReceipt', 'divButtonPatch', 'Edit');//divbuttonPatchAddMaterialReceipt
+            BindMaterialReceiptDetailTable($('#ID').val());
             break;
         case "ERROR":
-            notyAlert("danger", JsonResult.Message)
+            notyAlert("danger", message)
             break;
         default:
-            notyAlert("danger", JsonResult.Message)
+            notyAlert("danger", message)
             break;
     }
 }
 
 function AddMaterialReceiptDetailList() {
     debugger;
-    var data = DataTables.MaterialReceiptDetailTable.rows().data();
-    for (var r = 0; r < data.length; r++) {
+    var materialReceiptDetailVM = DataTables.MaterialReceiptDetailTable.rows().data();
+    for (var r = 0; r < materialReceiptDetailVM.length; r++) {
         MaterialReceiptDetail = new Object();
-        MaterialReceiptDetail.ID = data[r].ID;
-        MaterialReceiptDetail.MaterialID = data[r].MaterialID;
-        MaterialReceiptDetail.MaterialDesc = data[r].MaterialDesc;
-        MaterialReceiptDetail.Qty = data[r].Qty;
-        MaterialReceiptDetail.UnitCode = data[r].UnitCode;
+        MaterialReceiptDetail.ID = materialReceiptDetailVM[r].ID;
+        MaterialReceiptDetail.MaterialID = materialReceiptDetailVM[r].MaterialID;
+        MaterialReceiptDetail.MaterialDesc = materialReceiptDetailVM[r].MaterialDesc;
+        MaterialReceiptDetail.Qty = materialReceiptDetailVM[r].Qty;
+        MaterialReceiptDetail.UnitCode = materialReceiptDetailVM[r].UnitCode;
         _MaterialReceiptDetailList.push(MaterialReceiptDetail);
     }
 }
@@ -301,7 +319,7 @@ function GetPurchaseOrderItem(id) {
     try {
         debugger;
         var data = { "id": id };
-        var PurchaseOrderItemList = [];
+        var purchaseOrderDetailList = [];
         var result = "";
         var message = "";
         var jsonData = GetDataFromServer("MaterialReceipt/GetAllPurchaseOrderItem/", data);
@@ -309,10 +327,10 @@ function GetPurchaseOrderItem(id) {
             jsonData = JSON.parse(jsonData);
             result = jsonData.Result;
             message = jsonData.Message;
-            PurchaseOrderItemList = jsonData.Records;
+            purchaseOrderDetailList = jsonData.Records;
         }
         if (result == "OK") {
-            return PurchaseOrderItemList;
+            return purchaseOrderDetailList;
         }
         if (result == "ERROR") {
             notyAlert('error', message);
@@ -327,22 +345,22 @@ function AddPOItems() {
     try {
         debugger;
         //Merging  the rows with same MaterialID
-        var PurchaseOrderItemList = DataTables.PurchaseOrderDetailTable.rows(".selected").data();
+        var purchaseOrderItemList = DataTables.PurchaseOrderDetailTable.rows(".selected").data();
         var mergedRows = []; //to store rows after merging
         var currentMaterial;
 
-        if (PurchaseOrderItemList.length > 0) {
+        if (purchaseOrderItemList.length > 0) {
             debugger;
-            for (var r = 0; r < PurchaseOrderItemList.length; r++) {
-                currentMaterial = PurchaseOrderItemList[r].MaterialID
-                for (var j = r + 1; j < PurchaseOrderItemList.length; j++) {
-                    if (PurchaseOrderItemList[j].MaterialID == currentMaterial) {
-                        PurchaseOrderItemList[r].Qty = parseFloat(PurchaseOrderItemList[r].Qty) + parseFloat(PurchaseOrderItemList[j].Qty);
-                        PurchaseOrderItemList.splice(j, 1);//removing duplicate after adding value 
+            for (var r = 0; r < purchaseOrderItemList.length; r++) {
+                currentMaterial = purchaseOrderItemList[r].MaterialID
+                for (var j = r + 1; j < purchaseOrderItemList.length; j++) {
+                    if (purchaseOrderItemList[j].MaterialID == currentMaterial) {
+                        purchaseOrderItemList[r].Qty = parseFloat(purchaseOrderItemList[r].Qty) + parseFloat(purchaseOrderItemList[j].Qty);
+                        purchaseOrderItemList.splice(j, 1);//removing duplicate after adding value 
                         j = j - 1;// for avoiding skipping row while checking
                     }
                 }
-                mergedRows.push(PurchaseOrderItemList[r])// adding rows to merge array
+                mergedRows.push(purchaseOrderItemList[r])// adding rows to merge array
             }
 
             LoadPOItems(mergedRows);
@@ -362,16 +380,16 @@ function LoadPOItems(purchaseOrderDetailList) {
         _MaterialReceiptDetail = [];
 
         for (var i = 0; i < purchaseOrderDetailList.length; i++) {
-            MaterialReceiptDetailViewModel = new Object();
-            MaterialReceiptDetailViewModel.MaterialID = purchaseOrderDetailList[i].MaterialID;
-            MaterialReceiptDetailViewModel.Material = new Object();
-            MaterialReceiptDetailViewModel.Material.MaterialCode = purchaseOrderDetailList[i].MaterialCode;
-            MaterialReceiptDetailViewModel.MaterialDesc = purchaseOrderDetailList[i].MaterialDesc;
-            MaterialReceiptDetailViewModel.ID = EmptyGuid;
-            MaterialReceiptDetailViewModel.Qty = parseFloat(purchaseOrderDetailList[i].Qty);
-            MaterialReceiptDetailViewModel.UnitCode = purchaseOrderDetailList[i].UnitCode;
+            materialReceiptDetailVM = new Object();
+            materialReceiptDetailVM.MaterialID = purchaseOrderDetailList[i].MaterialID;
+            materialReceiptDetailVM.Material = new Object();
+            materialReceiptDetailVM.Material.MaterialCode = purchaseOrderDetailList[i].MaterialCode;
+            materialReceiptDetailVM.MaterialDesc = purchaseOrderDetailList[i].MaterialDesc;
+            materialReceiptDetailVM.ID = EmptyGuid;
+            materialReceiptDetailVM.Qty = parseFloat(purchaseOrderDetailList[i].Qty);
+            materialReceiptDetailVM.UnitCode = purchaseOrderDetailList[i].UnitCode;
 
-            _MaterialReceiptDetail.push(MaterialReceiptDetailViewModel);
+            _MaterialReceiptDetail.push(materialReceiptDetailVM);
         }
 
         RebindMaterialReceiptDetailTable(_MaterialReceiptDetail);
@@ -388,21 +406,21 @@ function RebindMaterialReceiptDetailTable(_MaterialReceiptDetail) {
         var checkPoint = 0;
         if (_MaterialReceiptDetail != null) {
             for (var r = 0; r < _MaterialReceiptDetail.length; r++) {
-                var MaterialReceiptDetailList = DataTables.MaterialReceiptDetailTable.rows().data();
-                if (MaterialReceiptDetailList.length > 0) {
+                var materialReceiptDetailList = DataTables.MaterialReceiptDetailTable.rows().data();
+                if (materialReceiptDetailList.length > 0) {
                     
-                    for (var i = 0; i < MaterialReceiptDetailList.length; i++) {
-                        if (MaterialReceiptDetailList[i].MaterialID === _MaterialReceiptDetail[r].MaterialID) {
-                            MaterialReceiptDetailList[i].MaterialDesc = _MaterialReceiptDetail[r].MaterialDesc;
-                            MaterialReceiptDetailList[i].Qty = _MaterialReceiptDetail[r].Qty;
-                            MaterialReceiptDetailList[i].UnitCode = _MaterialReceiptDetail[r].UnitCode;
+                    for (var i = 0; i < materialReceiptDetailList.length; i++) {
+                        if (materialReceiptDetailList[i].MaterialID === _MaterialReceiptDetail[r].MaterialID) {
+                            materialReceiptDetailList[i].MaterialDesc = _MaterialReceiptDetail[r].MaterialDesc;
+                            materialReceiptDetailList[i].Qty = _MaterialReceiptDetail[r].Qty;
+                            materialReceiptDetailList[i].UnitCode = _MaterialReceiptDetail[r].UnitCode;
                             checkPoint = 1;
                             _MaterialReceiptDetail.splice(r, 1);
                             break;
                         }
                     }
                     if (checkPoint) {
-                        DataTables.MaterialReceiptDetailTable.clear().rows.add(MaterialReceiptDetailList).draw(false);
+                        DataTables.MaterialReceiptDetailTable.clear().rows.add(materialReceiptDetailList).draw(false);
                     }
                 }
             }
@@ -418,13 +436,14 @@ function DetailEdit(curObj) {
     try {
         debugger;
         AddMaterialReceiptDetail();
-        var MaterialReceiptDetailViewModel = DataTables.MaterialReceiptDetailTable.row($(curObj).parents('tr')).data();
-        $("#MaterialID").val(MaterialReceiptDetailViewModel.MaterialID).trigger("change");
-        $('#MaterialReceiptDetail_Material_MaterialCode').val(MaterialReceiptDetailViewModel.Material.MaterialCode);
-        $('#MaterialReceiptDetail_MaterialDesc').val(MaterialReceiptDetailViewModel.MaterialDesc);
-        $('#MaterialReceiptDetail_ID').val(MaterialReceiptDetailViewModel.ID);
-        $('#MaterialReceiptDetail_Qty').val(MaterialReceiptDetailViewModel.Qty);
-        $('#MaterialReceiptDetail_UnitCode').val(MaterialReceiptDetailViewModel.UnitCode);
+        var materialReceiptDetailViewModel = DataTables.MaterialReceiptDetailTable.row($(curObj).parents('tr')).data();
+        $("#MaterialID").val(materialReceiptDetailViewModel.MaterialID).trigger("change");
+        debugger;
+        $('#MaterialReceiptDetail_Material_MaterialCode').val(materialReceiptDetailViewModel.Material.MaterialCode);
+        $('#MaterialReceiptDetail_MaterialDesc').val(materialReceiptDetailViewModel.MaterialDesc);
+        $('#MaterialReceiptDetail_ID').val(materialReceiptDetailViewModel.ID);
+        $('#MaterialReceiptDetail_Qty').val(materialReceiptDetailViewModel.Qty);
+        $('#MaterialReceiptDetail_UnitCode').val(materialReceiptDetailViewModel.UnitCode);
     }
     catch(e)
     {
@@ -434,11 +453,11 @@ function DetailEdit(curObj) {
 
 function Delete(curobj) {
     debugger;
-    var MaterialReceiptDetailViewModel = DataTables.MaterialReceiptDetailTable.row($(curobj).parents('tr')).data();
+    var MaterialReceiptDetailVM = DataTables.MaterialReceiptDetailTable.row($(curobj).parents('tr')).data();
     var rowindex = DataTables.MaterialReceiptDetailTable.row($(curobj).parents('tr')).index();
 
-    if ((MaterialReceiptDetailViewModel != null) && (MaterialReceiptDetailViewModel.ID != EmptyGuid)) {
-        notyConfirm('Are you sure to delete?', 'DeleteItem("' + MaterialReceiptDetailViewModel.ID + '")');
+    if ((MaterialReceiptDetailVM != null) && (MaterialReceiptDetailVM.ID != EmptyGuid)) {
+        notyConfirm('Are you sure to delete?', 'DeleteItem("' + MaterialReceiptDetailVM.ID + '")');
     }
     else {
         var res = notyConfirm('Are you sure to delete?', 'DeleteTempItem("' + rowindex + '")');
@@ -458,13 +477,13 @@ function DeleteItem(id) {
         var data = { "id": id };
         var result = "";
         var message = "";
-        var status = new Object();
+        var materialReceiptDetailVM = new Object();
         var jsonData = GetDataFromServer("MaterialReceipt/DeleteMaterialReceiptDetail/", data);
         if (jsonData != '') {
             jsonData = JSON.parse(jsonData);
             result = jsonData.Result;
             message = jsonData.Message;
-            status = jsonData.Record;
+            materialReceiptDetailVM = jsonData.Record;
         }
         switch (result) {
             case "OK":
@@ -477,7 +496,7 @@ function DeleteItem(id) {
             default:
                 break;
         }
-        return status;
+        return materialReceiptDetailVM;
     }
     catch (e) {
 
@@ -506,13 +525,13 @@ function DeleteMaterialReceipt(id) {
         var data = { "id": id };
         var result = "";
         var message = "";
-        var status = new Object();
+        var materialReceiptVM = new Object();
         var jsonData = GetDataFromServer("MaterialReceipt/DeleteMaterialReceipt/", data);
         if (jsonData != '') {
             jsonData = JSON.parse(jsonData);
             result = jsonData.Result;
             message = jsonData.Message;
-            status = jsonData.Record;
+            materialReceiptVM = jsonData.Record;
         }
         switch (result) {
             case "OK":
@@ -525,7 +544,7 @@ function DeleteMaterialReceipt(id) {
             default:
                 break;
         }
-        return status;
+        return materialReceiptVM;
     }
     catch (e) {
         notyAlert('error', e.message);
@@ -552,13 +571,13 @@ function GetMaterialReceipt(id) {
         var data = { "id": id };
         var result = "";
         var message = "";
-        var MaterialReceiptViewModel = new Object();
+        var materialReceiptVM = new Object();
         var jsonData = GetDataFromServer("MaterialReceipt/GetMaterialReceipt/", data);
         if (jsonData != '') {
             jsonData = JSON.parse(jsonData);
             result = jsonData.Result;
             message = jsonData.Message;
-            MaterialReceiptViewModel = jsonData.Records;
+            materialReceiptVM = jsonData.Records;
         }
         switch (result) {
             case "OK":
@@ -569,7 +588,7 @@ function GetMaterialReceipt(id) {
             default:
                 break;
         }
-        return MaterialReceiptViewModel;
+        return materialReceiptVM;
     }
     catch (e) {
         console.log(e.message);
@@ -584,7 +603,7 @@ function GetMaterialReceiptDetail(id) {
     try {
         debugger;
         var data = { "id": id };
-        var MaterialReceiptDetailList = [];
+        var materialReceiptDetailList = [];
         var result = "";
         var message = "";
         var jsonData = GetDataFromServer("MaterialReceipt/GetAllMaterialReceiptDetail/", data);
@@ -592,10 +611,10 @@ function GetMaterialReceiptDetail(id) {
             jsonData = JSON.parse(jsonData);
             result = jsonData.Result;
             message = jsonData.Message;
-            MaterialReceiptDetailList = jsonData.Records;
+            materialReceiptDetailList = jsonData.Records;
         }
         if (result == "OK") {
-            return MaterialReceiptDetailList;
+            return materialReceiptDetailList;
         }
         if (result == "ERROR") {
             alert(message);

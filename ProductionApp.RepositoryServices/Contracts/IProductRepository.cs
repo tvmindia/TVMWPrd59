@@ -14,5 +14,7 @@ namespace ProductionApp.RepositoryServices.Contracts
         bool CheckProductCodeExist(string productCode);
         object InsertUpdateProduct(Product product);
         Product GetProduct(Guid id);
+        object DeleteProduct(Guid id);
+
     }
 }

@@ -49,6 +49,10 @@ $(window).bind("load", function () {
 });
 $(document).ready(function () {
     debugger;
+    $("input.Amount").on('click',function () {
+        debugger;
+        $(this).select();
+    });
     $('#ahrefHome').on('click',function () {
         $('.wrap,a').toggleClass('active');
         return false;
@@ -191,7 +195,12 @@ function notyAlert(type, msgtxt,title) {
     //});
    
 }
-
+function formattToCurrency(n, currency) {
+    n = parseFloat(n);
+    return currency + " " + n.toFixed(2).replace(/./g, function (c, i, a) {
+        return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+    });
+}
 function SelectAllValue(e) {
     $(e).select();
 }

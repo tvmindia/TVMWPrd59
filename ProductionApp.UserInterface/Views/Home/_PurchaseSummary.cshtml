@@ -1,6 +1,25 @@
-﻿@model ProductionApp.UserInterface.Models.PurchaseSummaryViewModel
+﻿@model ProductionApp.UserInterface.Models.PurchaseSummaryList
+@using ProductionApp.UserInterface.Models
 
-<div class="col-md-12 panel-title"> Purchase Summary </div>
-<div class="col-md-12 Summary box">
-     
+
+@{
+
+    List<PurchaseSummaryViewModel> purchaseList = Model.PurchaseSmryList;
+}
+<div class="col-md-12 GraphCaption"> Purchase Summary </div>
+<div class="col-md-12 Summary box" style="padding-top:15px;text-align:left">
+    <div class="col-md-11">
+        <canvas id="purchasechart" style="width:95%"></canvas>
+    </div>
+    <div class="col-md-1">
+        <span class="chartLegend"> Figures are in Lakhs</span>
+    </div>
+
 </div>
+
+<script>
+    var purchaseSummarylbls=@Html.Raw(Json.Encode(purchaseList.Select(s => (s.Month + s.Year)).ToList()));
+    var purchaseSummarydta=@Html.Raw(Json.Encode(purchaseList.Select(s => s.Purchase).ToList()));
+
+
+</script>

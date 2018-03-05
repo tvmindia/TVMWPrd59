@@ -34,5 +34,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _dynamicUIRepository.GetAllModule();
         }
+
+        public List<IncomeExpenseSummary> GetIncomeExpenseSummary()
+        {
+            return _dynamicUIRepository.GetIncomeExpenseSummary();
+        }
     }
 }
