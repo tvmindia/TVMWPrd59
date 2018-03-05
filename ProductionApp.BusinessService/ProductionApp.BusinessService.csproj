@@ -52,6 +52,7 @@
     <Compile Include="Contracts\IIssueToProductionBusiness.cs" />
     <Compile Include="Contracts\IMaterialReceiptBusiness.cs" />
     <Compile Include="Contracts\IMaterialReturnFromProductionBusiness.cs" />
+    <Compile Include="Contracts\IMaterialStockAdjBusiness.cs" />
     <Compile Include="Contracts\IMaterialTypeBusiness.cs" />
     <Compile Include="Contracts\IProductBusiness.cs" />
     <Compile Include="Contracts\IPurchaseInvoiceBusiness.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Services\IssueToProductionBusiness.cs" />
     <Compile Include="Services\MaterialReceiptBusiness.cs" />
     <Compile Include="Services\MaterialReturnFromProductionBusiness.cs" />
+    <Compile Include="Services\MaterialStockAdjBusiness.cs" />
     <Compile Include="Services\MaterialTypeBusiness.cs" />
     <Compile Include="Services\ProductBusiness.cs" />
     <Compile Include="Services\PurchaseInvoiceBusiness.cs" />
