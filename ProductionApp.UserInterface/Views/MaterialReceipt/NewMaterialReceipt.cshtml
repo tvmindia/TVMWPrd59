@@ -72,7 +72,7 @@
                 </div>
                 <div class="col-md-12">
                     @Html.Action("SupplierDropdown", "Supplier")
-                    @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
+                    <span class="text-danger" id="msgSupplier">* Supplier not Selected</span>
                 </div>
             </div>
             <div class="form-group col-md-12">&nbsp;</div>
@@ -92,7 +92,7 @@
                 <div class="col-md-12" id="divPONo">
                     @Html.EditorFor(model => model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
                 </div>
-                @Html.ValidationMessageFor(model => model.PurchaseOrderNo, "", new { @class = "text-danger" })
+                <span class="text-danger" id="msgPurchase">* Purchase Order not Selected / Entered</span>
             </div>
         </div>
 
