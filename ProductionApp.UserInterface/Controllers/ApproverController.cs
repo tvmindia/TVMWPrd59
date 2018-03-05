@@ -143,6 +143,25 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion InsertUpdateApprover
 
+        #region DeleteApprover
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]
+        public string DeleteApprover(Guid id)
+        {
+            try
+            {
+                var result = _approverBusiness.DeleteApprover(id);
+                return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Status = "ERROR", Record = "", Message = cm.Message });
+            }
+
+        }
+        #endregion DeleteApprover
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]

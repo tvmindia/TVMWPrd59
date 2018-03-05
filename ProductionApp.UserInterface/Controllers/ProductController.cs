@@ -161,6 +161,25 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion ProductDropdown
 
+        #region DeleteProduct
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Product", Mode = "R")]
+        public string DeleteProduct(Guid id)
+        {
+            try
+            {
+                var result = _productBusiness.DeleteProduct(id);
+                return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Status = "ERROR", Record = "", Message = cm.Message });
+            }
+
+        }
+        #endregion DeleteProduct
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Product", Mode = "R")]

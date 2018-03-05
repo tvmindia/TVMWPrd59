@@ -3,7 +3,7 @@
 //*****************************************************************************
 //Author: Jais
 //CreatedDate: 13-Feb-2018 
-//LastModified: 16-Feb-2018 
+//LastModified: 5-Mar-2018 
 //FileName: Material.js
 //Description: Client side coding for Material
 //******************************************************************************
@@ -97,10 +97,10 @@ function BindOrReloadMaterialTable(action) {
             { "data": "CurrentStock", "defaultContent": "<i>-<i>" },
             { "data": "WeightInKG", "defaultContent": "<i>-<i>" },
             { "data": "CostPrice", "defaultContent": "<i>-<i>" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteMaterialMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [2,6,7,8,9,10] },
+                { className: "text-right", "targets": [2,6,7,8,9,10,11] },
                 { className: "text-left", "targets": [1, 3,4,5,6] },
                 { className: "text-center", "targets": [] }],
             destroy: true,
@@ -142,4 +142,47 @@ function EditMaterialMaster(this_obj) {
     $('#h3ModelMasterContextLabel').text('Edit Material')
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val('MSTR');
+}
+
+//--Function To Confirm Material Deletion 
+function DeleteMaterialMaster(this_obj) {
+    debugger;
+    materialVM = DataTables.materialList.row($(this_obj).parents('tr')).data();
+    notyConfirm('Are you sure to delete?', 'DeleteMaterial("' + materialVM.ID + '")');
+}
+
+//--Function To Delete Material
+function DeleteMaterial(id) {
+    debugger;
+    try {
+        if (id) {
+            var data = { "id": id };
+            var jsonData = {};
+            var message = "";
+            var status = "";
+            var result = "";
+            jsonData = GetDataFromServer("Material/DeleteMaterial/", data);
+            if (jsonData != '') {
+                jsonData = JSON.parse(jsonData);
+                message = jsonData.Message;
+                status = jsonData.Status;
+                result = jsonData.Record;
+            }
+            switch (status) {
+                case "OK":
+                    notyAlert('success', result.Message);
+                    BindOrReloadMaterialTable('Reset');
+                    break;
+                case "ERROR":
+                    notyAlert('error', message);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
+    }
 }

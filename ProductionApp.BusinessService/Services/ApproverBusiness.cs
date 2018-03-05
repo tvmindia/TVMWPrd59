@@ -21,13 +21,17 @@ namespace ProductionApp.BusinessService.Services
         {
             return _approverRepository.GetAllApprover(approverAdvanceSearch);
         }
+        public object InsertUpdateApprover(Approver approver)
+        {
+            return _approverRepository.InsertUpdateApprover(approver);
+        }
         public Approver GetApprover(Guid id)
         {
             return _approverRepository.GetApprover(id);
         }
-        public object InsertUpdateApprover(Approver approver)
+        public object DeleteApprover(Guid id)
         {
-            return _approverRepository.InsertUpdateApprover(approver);
+            return _approverRepository.DeleteApprover(id);
         }
 
     }

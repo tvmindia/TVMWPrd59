@@ -10,8 +10,8 @@ namespace ProductionApp.BusinessService.Contracts
     public interface IApproverBusiness
     {
         List<Approver> GetAllApprover(ApproverAdvanceSearch approverAdvanceSearch);
-        Approver GetApprover(Guid id);
         object InsertUpdateApprover(Approver approver);
-
+        Approver GetApprover(Guid id);
+        object DeleteApprover(Guid id);
     }
 }

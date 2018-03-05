@@ -3,7 +3,7 @@
 //*****************************************************************************
 //Author: Jais
 //CreatedDate: 17-Feb-2018 
-//LastModified: 19-Feb-2018 
+//LastModified: 5-Mar-2018 
 //FileName: Product.js
 //Description: Client side coding for Product
 //******************************************************************************
@@ -90,10 +90,10 @@ function BindOrReloadProductTable(action) {
             { "data": "Category", "defaultContent": "<i>-<i>" },
             { "data": "Rate", "defaultContent": "<i>-<i>" },
             { "data": "CurrentStock", "defaultContent": "<i>-<i>" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteProductMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [6,7] },
+                { className: "text-right", "targets": [6,7,8] },
                 { className: "text-left", "targets": [1,2, 3, 4, 5] },
                 { className: "text-center", "targets": [] }],
             destroy: true,
@@ -132,5 +132,49 @@ function EditProductMaster(this_obj) {
     GetMasterPartial("Product", ProductViewModel.ID);
     $('#h3ModelMasterContextLabel').text('Edit Product')
     $('#divModelMasterPopUp').modal('show');
+}
+
+
+//--Function To Confirm Product Deletion 
+function DeleteProductMaster(this_obj) {
+    debugger;
+    productVM = DataTables.productList.row($(this_obj).parents('tr')).data();
+    notyConfirm('Are you sure to delete?', 'DeleteProduct("' + productVM.ID + '")');
+}
+
+//--Function To Delete Product
+function DeleteProduct(id) {
+    debugger;
+    try {
+        if (id) {
+            var data = { "id": id };
+            var jsonData = {};
+            var message = "";
+            var status = "";
+            var result = "";
+            jsonData = GetDataFromServer("Product/DeleteProduct/", data);
+            if (jsonData != '') {
+                jsonData = JSON.parse(jsonData);
+                message = jsonData.Message;
+                status = jsonData.Status;
+                result = jsonData.Record;
+            }
+            switch (status) {
+                case "OK":
+                    notyAlert('success', result.Message);
+                    BindOrReloadProductTable('Reset');
+                    break;
+                case "ERROR":
+                    notyAlert('error', message);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
+    }
 }
 
