@@ -97,7 +97,7 @@ function BindOrReloadMaterialTable(action) {
             { "data": "CurrentStock", "defaultContent": "<i>-<i>" },
             { "data": "WeightInKG", "defaultContent": "<i>-<i>" },
             { "data": "CostPrice", "defaultContent": "<i>-<i>" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditMaterialMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [2,6,7,8,9,10] },

@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.Opening, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Opening, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency" } })
                         @Html.ValidationMessageFor(model => model.Opening, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.ActualODLimit, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.ActualODLimit, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency" } })
                         @Html.ValidationMessageFor(model => model.ActualODLimit, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.DisplayODLimit, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.DisplayODLimit, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency" } })
                         @Html.ValidationMessageFor(model => model.DisplayODLimit, "", new { @class = "text-danger" })
                     </div>
                 </div>

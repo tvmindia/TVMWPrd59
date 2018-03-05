@@ -42,14 +42,14 @@
                 @Html.LabelFor(model => model.SearchTerm, htmlAttributes: new { @class = "control-label" })
             </div>
             <div class="col-md-12">
-                <div class="col-md-10">
+                <div class="input-group">
                     @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" style="height:28px" onclick="BindOrReloadProductTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <input type="button" value="Search" onclick="BindOrReloadProductTable('Search')" />
                 </div>
             </div>
-        </div>
 
         @*Advance Filter *@
         <div class="col-md-12">

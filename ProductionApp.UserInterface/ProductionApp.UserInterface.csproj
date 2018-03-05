@@ -453,6 +453,7 @@
     <Content Include="Content\images\printer.png" />
     <Content Include="Content\images\reset.png" />
     <Content Include="Content\images\revathiplastics.png" />
+    <Content Include="Content\images\rupee.png" />
     <Content Include="Content\images\rupee1.png" />
     <Content Include="Content\images\santhipacking.png" />
     <Content Include="Content\images\santhipetlogo.png" />

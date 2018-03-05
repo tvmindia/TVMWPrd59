@@ -90,7 +90,7 @@ function BindOrReloadProductTable(action) {
             { "data": "Category", "defaultContent": "<i>-<i>" },
             { "data": "Rate", "defaultContent": "<i>-<i>" },
             { "data": "CurrentStock", "defaultContent": "<i>-<i>" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [6,7] },

@@ -656,11 +656,12 @@ color: #e32;
 .skin-green-light .main-sidebar {
     background-color:#00c0ef05;
 }
-
-
-
-
-
+input.ApplyCurrency {
+    background-image: url('../Content/images/rupee.png');
+    background-Position: 1% center;
+    background-Repeat: no-repeat;
+    background-size: 12px;
+}
 
 /*----------------overlay-----------------*/
 .overlay {

@@ -83,7 +83,7 @@ function BindOrReloadBankTable(action) {
                     if (data == 0)
                         return '-'
                     else
-                        return roundoff(data, 1);
+                        return formattToCurrency(roundoff(data, 1),"₹");
                 },
                 "defaultContent": "<i>-</i>"
             },
@@ -92,15 +92,15 @@ function BindOrReloadBankTable(action) {
                     if (data == 0)
                         return '-'
                     else
-                        return roundoff(data, 1);
+                        return formattToCurrency(roundoff(data, 1),"₹");
                 }, "defaultContent": "<i>-</i>"
             },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteBankMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>||<a href="#" onclick="EditBankMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteBankMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditBankMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>' }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [3, 4] },
-                { className: "text-left", "targets": [1, 2, 3] },
-                { className: "text-center", "targets": [0] }],           
+                { className: "text-right", "targets": [2, 3] },
+                { className: "text-left", "targets": [1] },
+                { className: "text-center", "targets": [0,4] }],           
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {
@@ -183,3 +183,4 @@ function DeleteBank(code)
         console.log(e.message);
     }
 }
+
