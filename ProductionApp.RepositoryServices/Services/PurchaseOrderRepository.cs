@@ -292,6 +292,66 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion UpdatePurchaseOrder
 
+        #region UpdatePOMailDetails
+        public object UpdatePOMailDetails(PurchaseOrder purchaseOrder)
+        {
+            SqlParameter outputStatus = null, outputID;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[UpdatePurchaseOrderMail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = purchaseOrder.ID;
+                        cmd.Parameters.Add("@MailBodyHeader", SqlDbType.VarChar, 500).Value = purchaseOrder.MailBodyHeader;
+                        cmd.Parameters.Add("@MailBodyFooter", SqlDbType.NVarChar, -1).Value = purchaseOrder.MailBodyFooter;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = purchaseOrder.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = purchaseOrder.Common.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        outputID = cmd.Parameters.Add("@ID1", SqlDbType.UniqueIdentifier);
+                        outputID.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(_appConst.UpdateFailure);
+
+                    case "1":
+                        return new
+                        {
+                            ID = outputID.Value.ToString(),
+                            Status = outputStatus.Value.ToString(),
+                            Message = _appConst.UpdateSuccess
+                        };
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                ID = outputID.Value.ToString(),
+                Status = outputStatus.Value.ToString(),
+                Message = _appConst.InsertSuccess
+            };
+        }
+        #endregion UpdatePOMailDetails
+
         #region UpdatePurchaseOrderDetailLink
         public object UpdatePurchaseOrderDetailLink(PurchaseOrder purchaseOrder)
         {
@@ -357,6 +417,65 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion UpdatePurchaseOrderDetailLink
 
+        #region UpdatePurchaseOrderMailStatus
+        public object UpdatePurchaseOrderMailStatus(PurchaseOrder purchaseOrder)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[UpdatePurchaseOrderMailStatus]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = purchaseOrder.ID;
+                        //cmd.Parameters.Add("@SentToEmails", SqlDbType.NVarChar, -1).Value = SPO.SentToEmails;
+                        cmd.Parameters.Add("@EmailSentYN", SqlDbType.Bit).Value = purchaseOrder.EmailSentYN;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = purchaseOrder.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = purchaseOrder.Common.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                AppConst Cobj = new AppConst();
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+
+                        throw new Exception(Cobj.UpdateFailure);
+
+                    case "1":
+
+                        return new
+                        {
+                            Status = outputStatus.Value.ToString(),
+                            Message = Cobj.UpdateSuccess
+                        };
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+            };
+        }
+        #endregion UpdatePurchaseOrderMailStatus
+
         #region GetPurchaseOrderByID
         public PurchaseOrder GetPurchaseOrderByID(Guid ID)
         {
@@ -394,6 +513,8 @@ namespace ProductionApp.RepositoryServices.Services
                                     purchaseOrder.MailingAddress = (sdr["MailingAddress"].ToString() != "" ? sdr["MailingAddress"].ToString() : purchaseOrder.MailingAddress);
                                     purchaseOrder.ShippingAddress = (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : purchaseOrder.ShippingAddress);
                                     purchaseOrder.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : purchaseOrder.GeneralNotes);
+                                    purchaseOrder.MailBodyHeader = (sdr["MailBodyHeader"].ToString() != "" ? sdr["MailBodyHeader"].ToString() : purchaseOrder.MailBodyHeader);
+                                    purchaseOrder.MailBodyFooter = (sdr["MailBodyFooter"].ToString() != "" ? sdr["MailBodyFooter"].ToString() : purchaseOrder.MailBodyFooter);
                                     purchaseOrder.Discount = (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseOrder.Discount);
                                     
                                 }

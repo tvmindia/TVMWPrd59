@@ -19,5 +19,7 @@ namespace ProductionApp.RepositoryServices.Contracts
         object DeletePurchaseOrder(Guid ID);
         object DeletePurchaseOrderDetail(Guid ID);
         object UpdatePurchaseOrderDetailLink(PurchaseOrder purchaseOrder);
+        object UpdatePOMailDetails(PurchaseOrder purchaseOrder);
+        object UpdatePurchaseOrderMailStatus(PurchaseOrder purchaseOrder);
     }
 }

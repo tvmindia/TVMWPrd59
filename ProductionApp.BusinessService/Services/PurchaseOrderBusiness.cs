@@ -13,10 +13,12 @@ namespace ProductionApp.BusinessService.Services
     {
         private IPurchaseOrderRepository _purchaseOrderRepository;
         private ICommonBusiness _commonBusiness;
-        public PurchaseOrderBusiness(IPurchaseOrderRepository purchaseOrderRepository, ICommonBusiness commonBusiness)
+        private IMailBusiness _mailBusiness;
+        public PurchaseOrderBusiness(IPurchaseOrderRepository purchaseOrderRepository, ICommonBusiness commonBusiness, IMailBusiness mailBusiness)
         {
             _purchaseOrderRepository =  purchaseOrderRepository;
             _commonBusiness = commonBusiness;
+            _mailBusiness = mailBusiness;
         }
         public List<PurchaseOrder> GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch)
         {
@@ -66,6 +68,10 @@ namespace ProductionApp.BusinessService.Services
             DetailsXMl(purchaseOrder);
             return _purchaseOrderRepository.UpdatePurchaseOrderDetailLink(purchaseOrder);
         }
+        public object UpdatePOMailDetails(PurchaseOrder purchaseOrder)
+        {
+            return _purchaseOrderRepository.UpdatePOMailDetails(purchaseOrder);
+        }
         public PurchaseOrder GetPurchaseOrderByID(Guid ID)
         {
             return _purchaseOrderRepository.GetPurchaseOrderByID(ID);
@@ -106,5 +112,50 @@ namespace ProductionApp.BusinessService.Services
             }
             return purchaseOrder;
         }
+
+        public async Task<bool> QuoteEmailPush(PurchaseOrder purchaseOrder)
+        {
+
+            bool sendsuccess = false;
+           
+            try
+            {
+                if (!string.IsNullOrEmpty(purchaseOrder.purchaseOrderMailPreview.SentToEmails))
+                {
+                    string[] EmailList = purchaseOrder.purchaseOrderMailPreview.SentToEmails.Split(',');
+                    foreach (string email in EmailList)
+                    {
+                        Mail _mail = new Mail();
+                        _mail.Body = purchaseOrder.purchaseOrderMailPreview.MailBody;
+                        _mail.Subject = "Supplier Purchase Order";
+                        _mail.To = email;
+                        sendsuccess = await _mailBusiness.MailSendAsync(_mail);
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return sendsuccess;
+        }
+
+        public object UpdatePurchaseOrderMailStatus(PurchaseOrder purchaseOrder)
+        {
+            Object result = null;
+            try
+            {
+
+                result = _purchaseOrderRepository.UpdatePurchaseOrderMailStatus(purchaseOrder);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
     }
 }
