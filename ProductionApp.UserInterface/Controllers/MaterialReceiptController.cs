@@ -31,7 +31,7 @@ namespace ProductionApp.UserInterface.Controllers
         // GET: MaterialReceipt
         #region View MaterialReceipt Index
         [AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "W")]
-        public ActionResult Index(string code)
+        public ActionResult ViewMaterialReceipt(string code)
         {
             ViewBag.SysModuleCode = code;
             return View();
@@ -274,7 +274,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("Index", "MaterialReceipt", new { code = "STR" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewMaterialReceipt", "MaterialReceipt", new { code = "STR" });
                     toolboxVM.ListBtn.Event = "";
 
                     toolboxVM.savebtn.Visible = true;
@@ -291,7 +291,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("Index", "MaterialReceipt", new { code = "STR" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewMaterialReceipt", "MaterialReceipt", new { code = "STR" });
                     toolboxVM.ListBtn.Event = "";
 
                     toolboxVM.savebtn.Visible = true;

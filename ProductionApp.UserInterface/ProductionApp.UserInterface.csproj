@@ -829,7 +829,7 @@
     <Content Include="Views\Employee\_EmployeeDropdown.cshtml" />
     <Content Include="Views\DashboardStore\_MyApprovals.cshtml" />
     <Content Include="Views\DashboardStore\_ReOrderAlert.cshtml" />
-    <Content Include="Views\MaterialReceipt\Index.cshtml" />
+    <Content Include="Views\MaterialReceipt\ViewMaterialReceipt.cshtml" />
     <Content Include="Views\Shared\_Fileupload.cshtml" />
     <Content Include="Views\Unit\_UnitDropdown.cshtml" />
     <Content Include="Views\MaterialType\_MaterialTypeDropdown.cshtml" />
