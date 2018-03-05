@@ -1,1 +1,53 @@
-﻿
+﻿@using ProductionApp.UserInterface.App_Start
+@model ProductionApp.UserInterface.Models.DocumentApproverViewModel
+
+
+@if (Model.ApproversCount != 0)
+{
+    @Html.Hidden("ApproversCount", Model.ApproversCount);
+    for (int i = 0; i < Model.ApproversCount; i++)
+    {
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                @Html.Label("Level " + (i + 1))
+            </div>
+            <div class="col-md-12">
+                @{
+                    List<SelectListItem> approverList = new List<SelectListItem>();
+                    if (Model.SendForApprovalList != null)
+                    {
+                        for (int j = 0; j < Model.SendForApprovalList.Count; j++)
+                        {
+                            if (Model.SendForApprovalList[j].ApproverLevel == i+1)
+                            {
+                                if (Model.SendForApprovalList[j].IsDefault)
+                                {
+                                    approverList.Add(new SelectListItem
+                                    {
+                                        Text = Model.SendForApprovalList[j].UserName,
+                                        Value = Model.SendForApprovalList[j].ApproverID.ToString(),
+                                        Selected = true
+                                    });
+                                }
+
+                                else
+                                {
+                                    approverList.Add(new SelectListItem
+                                    {
+                                        Text = Model.SendForApprovalList[j].UserName,
+                                        Value = Model.SendForApprovalList[j].ApproverID.ToString(),
+                                        Selected = false
+                                    });
+                                }
+
+                            }
+                        }
+                    }
+                }
+                @Html.DropDownList("ApproverLevel"+i, approverList, new { @class = "form-control", style = "padding:4px 12px;" })
+            </div>
+        </div>
+       
+    }
+}
+

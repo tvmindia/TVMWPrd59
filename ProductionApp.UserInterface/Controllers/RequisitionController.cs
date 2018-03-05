@@ -18,13 +18,17 @@ namespace ProductionApp.UserInterface.Controllers
         // GET: Requisitions
         private IRequisitionBusiness _requisitionBusiness;
         private IMaterialBusiness _materialBusiness;
+        private IDocumentApprovalBusiness _documentApprovalBusiness;
+
         Common _common = new Common();
         AppConst _appConst = new AppConst();
 
-        public RequisitionController(IRequisitionBusiness requisitionBusiness,IMaterialBusiness materialBusiness)
+        public RequisitionController(IRequisitionBusiness requisitionBusiness,IMaterialBusiness materialBusiness,IDocumentApprovalBusiness documentApprovalBusiness)
         {
             _requisitionBusiness = requisitionBusiness;
             _materialBusiness = materialBusiness;
+            _documentApprovalBusiness = documentApprovalBusiness;
+
         }
         [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]
         public ActionResult ViewRequisition(string code)
@@ -58,6 +62,16 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ViewBag.SysModuleCode = code;
             return View();
+        }
+
+
+        public ActionResult GetApprovers()
+        {
+            DocumentApproverViewModel SendForApprovalVM = new DocumentApproverViewModel();
+            SendForApprovalVM.SendForApprovalList = Mapper.Map<List<DocumentApprover>, List<DocumentApproverViewModel>>(_documentApprovalBusiness.GetApproversByDocType("REQ"));
+            SendForApprovalVM.ApproversCount =  SendForApprovalVM.SendForApprovalList.Select(m=>m.ApproverLevel).Distinct().Count();
+            return PartialView("_SendForApproval", SendForApprovalVM);
+
         }
 
         #region InsertUpdateRequisition

@@ -49,5 +49,10 @@ namespace ProductionApp.BusinessService.Services
             return _documentApprovalRepository.ValidateDocumentsApprovalPermission(LoginName, DocumentID, DocumentTypeCode);
 
         }
+
+        public List<DocumentApprover> GetApproversByDocType(string docType)
+        {
+            return _documentApprovalRepository.GetApproversByDocType(docType);
+        }
     }
 }

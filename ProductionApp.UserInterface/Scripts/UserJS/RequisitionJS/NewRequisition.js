@@ -398,7 +398,17 @@ function ShowSendForApproval() {
 
 function SendForApproval() {
     debugger;
+    var documentID = $('#ID').val();
+    var approversCSV;
+    var count = $('#ApproversCount').val();
 
+    for (i = 0; i < count; i++) {
+        if (i == 0)
+            approversCSV = $('#ApproverLevel' + (i + 1)).val();
+        else
+            approversCSV = approversCSV + ',' + $('#ApproverLevel' + (i + 1)).val();
+    }
+  //  SendDocForApproval(documentID, 'REQ', approversCSV);
     $('#SendApprovalModal').modal('hide');
 }
 

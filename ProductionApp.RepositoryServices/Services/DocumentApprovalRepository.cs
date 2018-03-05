@@ -332,6 +332,52 @@ namespace ProductionApp.RepositoryServices.Services
 
         }
 
+        public List<DocumentApprover> GetApproversByDocType(string docType)
+        {
+            List<DocumentApprover> sendForApprovalList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetApproversByDocType]";
+                        cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.NVarChar, 10).Value = docType;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                sendForApprovalList = new List<DocumentApprover>();
+                                while (sdr.Read())
+                                {
+                                    DocumentApprover sendForApproval = new DocumentApprover();
+                                    {
+                                        sendForApproval.ApproverID = (sdr["ApproverID"].ToString() != "" ? Guid.Parse(sdr["ApproverID"].ToString()) : sendForApproval.ApproverID);
+                                        sendForApproval.UserID = (sdr["UserID"].ToString() != "" ? Guid.Parse(sdr["UserID"].ToString()) : sendForApproval.UserID);
+                                        sendForApproval.UserName = (sdr["UserName"].ToString() != "" ? sdr["UserName"].ToString() : sendForApproval.UserName);
+                                        sendForApproval.EmailID = (sdr["EmailID"].ToString() != "" ? sdr["EmailID"].ToString() : sendForApproval.EmailID);
+                                        sendForApproval.ApproverLevel = (sdr["ApproverLevel"].ToString() != "" ? Int32.Parse(sdr["ApproverLevel"].ToString()) : sendForApproval.ApproverLevel);
+                                    }
+                                    sendForApprovalList.Add(sendForApproval);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return sendForApprovalList;
+        }
 
 
     }
