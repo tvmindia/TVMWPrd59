@@ -83,7 +83,7 @@ function BindOrReloadMaterialReceiptTable(action) {
             },
             serverSide: true,
             ajax: {
-                url: "MaterialReceipt/GetAllMaterialReceipt/",
+                url: "GetAllMaterialReceipt/",
                 data: { "MaterialReceiptAdvanceSearchVM": MaterialReceiptAdvanceSearchViewModel },
                 type: 'POST'
             },

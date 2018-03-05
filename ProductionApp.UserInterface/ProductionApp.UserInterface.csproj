@@ -828,7 +828,7 @@
     <Content Include="Views\Employee\_EmployeeDropdown.cshtml" />
     <Content Include="Views\DashboardStore\_MyApprovals.cshtml" />
     <Content Include="Views\DashboardStore\_ReOrderAlert.cshtml" />
-    <Content Include="Views\MaterialReceipt\Index.cshtml" />
+    <Content Include="Views\MaterialReceipt\ViewMaterialReceipt.cshtml" />
     <Content Include="Views\Shared\_Fileupload.cshtml" />
     <Content Include="Views\Unit\_UnitDropdown.cshtml" />
     <Content Include="Views\MaterialType\_MaterialTypeDropdown.cshtml" />
@@ -867,6 +867,7 @@
     <Content Include="Views\MaterialReturnFromProduction\AddReceiveFromProduction.cshtml" />
     <Content Include="Views\MaterialStockAdj\AddStockAdjustment.cshtml" />
     <Content Include="Views\MaterialStockAdj\ListStockAdjustment.cshtml" />
+    <Content Include="Views\PurchaseOrder\_PurchaseOrderMailPreview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

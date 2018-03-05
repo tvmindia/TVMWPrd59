@@ -18,7 +18,10 @@ namespace ProductionApp.BusinessService.Contracts
         PurchaseOrder GetMailPreview(Guid ID);
         List<PurchaseOrderDetail> GetPurchaseOrderDetailByID(Guid ID);
         List<PurchaseOrderDetail> GetPurchaseOrderDetailByIDForEdit(Guid ID);
+        object UpdatePOMailDetails(PurchaseOrder purchaseOrder);
         object DeletePurchaseOrder(Guid ID);
         object DeletePurchaseOrderDetail(Guid ID);
+        object UpdatePurchaseOrderMailStatus(PurchaseOrder purchaseOrder);
+        Task<bool> QuoteEmailPush(PurchaseOrder purchaseOrder);
     }
 }

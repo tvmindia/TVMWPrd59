@@ -7,6 +7,7 @@ using ProductionApp.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -69,12 +70,12 @@ namespace ProductionApp.UserInterface.Controllers
                     purchaseOrderVM.Common.UpdatedDate = _common.GetCurrentDateTime();
                     result = _purchaseOrderBusiness.UpdatePurchaseOrder(Mapper.Map<PurchaseOrderViewModel, PurchaseOrder>(purchaseOrderVM));
                 }
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = "Success" });
             }
             catch (Exception ex)
             {
                 AppConstMessage cm = _appConst.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
             }
         }
         #endregion InsertPurchaseOrder
@@ -109,11 +110,11 @@ namespace ProductionApp.UserInterface.Controllers
             try
             {
                 List<PurchaseOrderDetailViewModel> purchaseOrderList = Mapper.Map<List<PurchaseOrderDetail>, List<PurchaseOrderDetailViewModel>>(_purchaseOrderBusiness.GetPurchaseOrderDetailByIDForEdit(Guid.Parse(ID)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderList });
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderList, Message = "Success" });
             }
             catch (Exception ex)
             {
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records="", Message = ex });
             }
         }
         #endregion EditPurchaseOrderDetail
@@ -125,11 +126,11 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try { 
             PurchaseOrderViewModel purchaseOrderVM = Mapper.Map<PurchaseOrder, PurchaseOrderViewModel>(_purchaseOrderBusiness.GetPurchaseOrderByID(Guid.Parse( ID)));
-            return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderVM });
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderVM, Message = "Success" });
             }
             catch (Exception ex)
             {
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
             }
         }
         #endregion GetPurchaseOrderByID
@@ -140,11 +141,11 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try { 
             List<PurchaseOrderDetailViewModel> purchaseOrderList = Mapper.Map<List<PurchaseOrderDetail>, List<PurchaseOrderDetailViewModel>>(_purchaseOrderBusiness.GetPurchaseOrderDetailByID(Guid.Parse(ID)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderList });
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderList, Message = "Success" });
             }
             catch (Exception ex)
             {
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records="", Message = ex });
             }
         }
         #endregion GetPurchaseOrderDetailTableByID
@@ -176,12 +177,12 @@ namespace ProductionApp.UserInterface.Controllers
         public string GetAllRequisitionForPurchaseOrder()
         {
             try { 
-            List<RequisitionViewModel> requisitionOrderList = Mapper.Map<List<Requisition>, List<RequisitionViewModel>>(_requisitionBusiness.GetAllRequisitionForPurchaseOrder());
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = requisitionOrderList });
+            List<RequisitionViewModel> requisitionVMList = Mapper.Map<List<Requisition>, List<RequisitionViewModel>>(_requisitionBusiness.GetAllRequisitionForPurchaseOrder());
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = requisitionVMList, Message = "Success" });
             }
             catch (Exception ex)
             {
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records="", Message = ex });
             }
         }
         #endregion GetAllRequisitionForPurchaseOrder
@@ -192,12 +193,12 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                List<RequisitionDetailViewModel> purchaseOrderRequisitionList = Mapper.Map<List<RequisitionDetail>, List<RequisitionDetailViewModel>>(_requisitionBusiness.GetRequisitionDetailsByIDs(IDs, POID));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderRequisitionList });
+                List<RequisitionDetailViewModel> requisitionDetailVMList = Mapper.Map<List<RequisitionDetail>, List<RequisitionDetailViewModel>>(_requisitionBusiness.GetRequisitionDetailsByIDs(IDs, POID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = requisitionDetailVMList, Message = "Success" });
             }
             catch (Exception ex)
             {
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
             }
         }
         #endregion GetRequisitionDetailsByIDs
@@ -218,7 +219,7 @@ namespace ProductionApp.UserInterface.Controllers
             catch (Exception ex)
             {
                 AppConstMessage cm = _appConst.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record="", Message = cm.Message });
             }
         }
         #endregion DeletePurchaseOrder
@@ -252,11 +253,11 @@ namespace ProductionApp.UserInterface.Controllers
             {
                 TaxTypeViewModel taxTypeVM = new TaxTypeViewModel();
                 taxTypeVM = Mapper.Map<TaxType,TaxTypeViewModel>(_taxTypeBusiness.GetTaxTypeDetailsByCode(Code));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = taxTypeVM });
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = taxTypeVM, Message = "Success" });
             }
             catch (Exception ex)
             {
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
             }
         }
         #endregion TaxTypeByDesc
@@ -264,27 +265,98 @@ namespace ProductionApp.UserInterface.Controllers
         #region GetMailPreview
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "")]
-        public ActionResult GetMailPreview(string ID)
+        public ActionResult GetMailPreview(string ID,int flag)
         {
-            SupplierPOMailPreviewViewModel supplierPOMailPreviewVM = null;
+            PurchaseOrderMailPreviewViewModel purchaseOrderMailPreviewVM = null;
             try
             {
                 if (string.IsNullOrEmpty(ID))
                 {
                     throw new Exception("ID is missing");
                 }
-                supplierPOMailPreviewVM = new SupplierPOMailPreviewViewModel();
-                supplierPOMailPreviewVM.PurchaseOrder = Mapper.Map<PurchaseOrder, PurchaseOrderViewModel>(_purchaseOrderBusiness.GetMailPreview(Guid.Parse(ID)));
+                purchaseOrderMailPreviewVM = new PurchaseOrderMailPreviewViewModel();
+                if (flag == 1)
+                    purchaseOrderMailPreviewVM.Flag = true;
+                else
+                    purchaseOrderMailPreviewVM.Flag = false;
+                purchaseOrderMailPreviewVM.PurchaseOrder = Mapper.Map<PurchaseOrder, PurchaseOrderViewModel>(_purchaseOrderBusiness.GetMailPreview(Guid.Parse(ID)));
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return PartialView("_SupplierOrderMailPreview", supplierPOMailPreviewVM);
+           
+
+            return PartialView("_PurchaseOrderMailPreview", purchaseOrderMailPreviewVM);
         }
         #endregion GetMailPreview
 
-                #region PurchaseOrder Dropdown
+        #region EmailSent
+        [HttpPost, ValidateInput(false)]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "")]
+        public async Task <string> SendQuoteMail(PurchaseOrderViewModel purchaseOrderVM)
+        {
+            try
+            {
+                object result = null;
+                if (!string.IsNullOrEmpty(purchaseOrderVM.ID.ToString()))
+                {
+                    AppUA appUA = Session["AppUA"] as AppUA;
+                    purchaseOrderVM.Common = new CommonViewModel
+                    {
+                        UpdatedBy = appUA.UserName,
+                        UpdatedDate = _common.GetCurrentDateTime(),
+                    };
+
+                    bool sendsuccess = await _purchaseOrderBusiness.QuoteEmailPush(Mapper.Map<PurchaseOrderViewModel, PurchaseOrder>(purchaseOrderVM));
+                    if (sendsuccess)
+                    {
+                        //1 is meant for mail sent successfully
+                        purchaseOrderVM.EmailSentYN = sendsuccess;
+                        result = _purchaseOrderBusiness.UpdatePurchaseOrderMailStatus(Mapper.Map<PurchaseOrderViewModel, PurchaseOrder>(purchaseOrderVM));
+                    }
+                    return JsonConvert.SerializeObject(new { Result = "OK", Record = result, MailResult = sendsuccess, Message = _appConst.MailSuccess });
+                }
+                else
+                {
+
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "ID is Missing" });
+                }
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion EmailSent
+
+        #region UpdatePOMailDetails
+        [HttpPost]
+        public string UpdatePOMailDetails(PurchaseOrderViewModel purchaseOrderVM)
+        {
+            try
+            {
+                object result = null;
+                AppUA appUA = Session["AppUA"] as AppUA;
+                purchaseOrderVM.Common = new CommonViewModel
+                {
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                result = _purchaseOrderBusiness.UpdatePOMailDetails(Mapper.Map<PurchaseOrderViewModel, PurchaseOrder>(purchaseOrderVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records="", Message = cm.Message });
+            }
+        }
+        #endregion UpdatePOMailDetails
+
+        #region PurchaseOrder Dropdown
         public ActionResult PurchaseOrderDropdown()
         {
             PurchaseOrderViewModel purchaseOrderVM = new PurchaseOrderViewModel();
@@ -359,7 +431,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.EmailBtn.Visible = true;
                     toolboxVM.EmailBtn.Text = "Email";
                     toolboxVM.EmailBtn.Title = "Email";
-                    toolboxVM.EmailBtn.Event = "EmailPreview();";
+                    toolboxVM.EmailBtn.Event = "EmailPreview(1);";
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";

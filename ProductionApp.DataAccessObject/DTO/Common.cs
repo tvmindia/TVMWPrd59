@@ -124,6 +124,16 @@ namespace ProductionApp.DataAccessObject.DTO
         {
             get { return "Password is wrong"; }
         }
+        public string MailFailure
+        {
+            get { return "Mail Sending Failed! "; }
+        }
+
+        public string MailSuccess
+        {
+            get { return "Mail Send Successfully ! "; }
+        }
+
         public AppConstMessage GetMessage(string messageCode)
         {
             AppConstMessage result = new AppConstMessage(messageCode, "", "ERROR");

@@ -37,7 +37,7 @@ namespace ProductionApp.DataAccessObject.DTO
        public decimal GrossAmount { get; set; }
        public List<PurchaseOrderDetail> PODDetail { get; set; }
        public List<PurchaseOrderDetailRequisitionLink> PODDetailLink { get; set; }
-        public SupplierPOMailPreview supplierPOMailPreview { get; set; }
+        public PurchaseOrderMailPreview purchaseOrderMailPreview { get; set; }
         public string PODDetailXML { get; set; }
        public string PODDetailLinkXML { get; set; }
 
@@ -94,7 +94,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal IGSTAmt { get; set; }
         public decimal Discount { get; set; }
     }
-    public class SupplierPOMailPreview
+    public class PurchaseOrderMailPreview
     {
         public string SentToEmails { get; set; }
         public string MailBody { get; set; }

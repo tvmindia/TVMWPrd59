@@ -1,4 +1,15 @@
-﻿var emptyGuid = "00000000-0000-0000-0000-000000000000";
+﻿//*****************************************************************************
+//*****************************************************************************
+//Author: Angel
+//CreatedDate: 12-Feb-2018 
+//LastModified: 5-Mar-2018 
+//FileName: PurchaseOrder.js
+//Description: Client side coding for PurchaseOrder
+//******************************************************************************
+//******************************************************************************
+
+//--Global Declaration--//
+var emptyGuid = "00000000-0000-0000-0000-000000000000";
 var DataTables = {};
 var PODDetail = [];
 var PODetailViewModel = new Object();
@@ -6,7 +17,7 @@ var PODDetailLink = [];
 var RequisitionDetailLink = new Object();
 var PurchaseOrderViewModel = new Object();
 var EditPOdetailID;
-var ECGST, ESGST, ETotal;
+var ECGST, ESGST, ETotal, flag=1;
 $(document).ready(function () {
     debugger;
     try {
@@ -181,57 +192,57 @@ $(document).ready(function () {
                   pageLength: 7,
                   data: null,
                       columns: [
-                  { "data": "PurchaseOrderID", "defaultContent": "<i>-</i>"},
-                      { "data": "RequisitionDetail.ReqID", "defaultContent": "<i>-</i>"},
-                      {"data": "RequisitionDetail.ID", "defaultContent": "<i>-</i>"},
-                   { "data": "MaterialID", "defaultContent": "<i>-</i>"},
-                       { "data": "RequisitionDetail.ReqNo", "defaultContent": "<i>-</i>", "width": "10%" },
-                           {"data": "MaterialCode", "defaultContent": "<i>-</i>"},
-                       {
-                       "data": "MaterialDesc", "defaultContent": "<i>-</i>",
-                       'render': function (data, type, row) {
+                        { "data": "PurchaseOrderID", "defaultContent": "<i>-</i>"},
+                        { "data": "RequisitionDetail.ReqID", "defaultContent": "<i>-</i>"},
+                        {"data": "RequisitionDetail.ID", "defaultContent": "<i>-</i>"},
+                        { "data": "MaterialID", "defaultContent": "<i>-</i>"},
+                        { "data": "RequisitionDetail.ReqNo", "defaultContent": "<i>-</i>", "width": "10%" },
+                        {"data": "MaterialCode", "defaultContent": "<i>-</i>"},
+                        {
+                         "data": "MaterialDesc", "defaultContent": "<i>-</i>",
+                         'render': function (data, type, row) {
                            var Desc = "";
                            if (row.MaterialDesc)
                                Desc = data;
                            else
                                Desc = row.MaterialDesc;
                            return '<input class="form-control description" name="Markup" value="' + Desc + '" type="text" onchange="EdittextBoxValue(this,1);">';
-                       }
-                   },
-                           {
+                        }
+                        },
+                        {
                           "data": "Rate", "defaultContent": "<i>-</i>", "width": "10%", 'render': function (data, type, row) {
-                              return '<input class="form-control text-right " name="Markup" value="' + roundoff(data,1) + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="EdittextBoxValue(this,2);">';
-                       }
-                           },
-                           {
-                               "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "10%",
-                               'render': function (data, type, row) {
-                                   return '<select id="dddl' + row.RequisitionDetail.ID + '" onchange="EdittextBoxValue(this,5);" ><option value="GST18">GST18%</option><option value="GST28">GST28%</option><option value="GST12">GST12%</option></select>';
+                           return '<input class="form-control text-right " name="Markup" value="' + roundoff(data,1) + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="EdittextBoxValue(this,2);">';
+                        }
+                        },
+                        {
+                          "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "10%",
+                           'render': function (data, type, row) {
+                           return '<select id="dddl' + row.RequisitionDetail.ID + '" onchange="EdittextBoxValue(this,5);" ><option value="GST18">GST18%</option><option value="GST28">GST28%</option><option value="GST12">GST12%</option></select>';
                                }
                            },
-                       {
+                         {
                            "data": "Discount", "defaultContent": "<i>-</i>",
                            'render': function (data, type, row) {
                                return '<input class="form-control description" name="Markup" value="' + roundoff(data,1) + '" type="text" onchange="EdittextBoxValue(this,3);">';
-                           }
-                       },
-                      { "data": "RequisitionDetail.RequestedQty", "defaultContent": "<i>-</i>", "width": "10%"},
-                    {"data": "RequisitionDetail.OrderedQty", "defaultContent" : "<i>-</i>", "width": "10%" },
-                     {
-                        "data": "Qty", "defaultContent": "<i>-</i>", "width": "10px",
-                         'render': function (data, type, row) {
+                          }
+                          },
+                          { "data": "RequisitionDetail.RequestedQty", "defaultContent": "<i>-</i>", "width": "10%"},
+                          {"data": "RequisitionDetail.OrderedQty", "defaultContent" : "<i>-</i>", "width": "10%" },
+                          {
+                            "data": "Qty", "defaultContent": "<i>-</i>", "width": "10px",
+                            'render': function (data, type, row) {
                              return '<input class="form-control text-right " name="Markup" type="text"  value="' + data + '"  onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="EdittextBoxValue(this,6);">';
                            }
                            }
                                
                        ],
-                  columnDefs: [
-                    { className: "text-left", "targets": [5, 6]}
-                  , { className: "text-right", "targets": [7, 8, 9, 11]}
-                  , {className: "text-center", "targets": [1, 4]}
-                  , {"targets": [0, 1, 2,3], "visible": false, "searchable": false}],     
-                  rowCallback: function (row, data, index) {
-                      setTimeout(function () {
+                     columnDefs: [
+                        { className: "text-left", "targets": [5, 6]}
+                       , { className: "text-right", "targets": [7, 8, 9, 11]}
+                       , {className: "text-center", "targets": [1, 4]}
+                       , {"targets": [0, 1, 2,3], "visible": false, "searchable": false}],     
+                         rowCallback: function (row, data, index) {
+                         setTimeout(function () {
                           //your code to be executed after 1 second
                           $('#dddl' + data.RequisitionDetail.ID).val(data.TaxTypeCode);
                       }, 1000);
@@ -306,32 +317,37 @@ function ViewRequisitionList(value) {
 }
 //bind requistition List
 function BindRequisitionListTable() {
-    var result = GetBindRequisitionListTable();
-    DataTables.RequisitionListTable.clear().rows.add(result).draw(false);
+    var requisitionList = GetRequisitionList();
+    DataTables.RequisitionListTable.clear().rows.add(requisitionList).draw(false);
 }
-function GetBindRequisitionListTable() {
+function GetRequisitionList() {
     try {
         debugger;
         var data = {};
-        var ds = {};
-        ds = GetDataFromServer("PurchaseOrder/GetAllRequisitionForPurchaseOrder/", data);
-        if (ds != '') {
-            ds = JSON.parse(ds);
-        }
-        if (ds.Result == "OK") {
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var requisitionListVM = new Object();
 
-            return ds.Records;
+        jsonData = GetDataFromServer("PurchaseOrder/GetAllRequisitionForPurchaseOrder/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            requisitionListVM = jsonData.Records;
         }
-        if (ds.Result == "ERROR") {
-            notyAlert('error', ds.Message);
+        if (result == "OK") {
 
+            return requisitionListVM;
+        }
+        if (result == "ERROR") {
+            alert(message);
         }
     }
     catch (e) {
         //this will show the error msg in the browser console(F12) 
         console.log(e.message);
     }
-
 }
 function ViewRequisitionDetails(value) {
     debugger;
@@ -340,9 +356,9 @@ function ViewRequisitionDetails(value) {
         $('#tabDetail').trigger('click');
     else {
         //selecting Checked IDs for  bind the detail Table
-        var IDs = GetSelectedRowIDs();
-        if (IDs) {
-            BindRequisitionDetailsTable(IDs);
+        var ids = GetSelectedRowIDs();
+        if (ids) {
+            BindRequisitionDetailsTable(ids);
             DataTables.RequisitionDetailsTable.rows().select();
             $('#btnForward').hide();
             $('#btnBackward').show();
@@ -368,11 +384,11 @@ function GetSelectedRowIDs() {
         return arrIDs;
     }
 }
-function BindRequisitionDetailsTable(IDs) {
+function BindRequisitionDetailsTable(ids) {
     try {
         debugger;
-        var test = GetRequisitionDetailsByIDs(IDs);
-        DataTables.RequisitionDetailsTable.clear().rows.add(test).draw(false);
+        var requisitionDetailsVM = GetRequisitionDetailsByIDs(ids);
+        DataTables.RequisitionDetailsTable.clear().rows.add(requisitionDetailsVM).draw(false);
     }
     catch (e) {
         //this will show the error msg in the browser console(F12) 
@@ -380,22 +396,27 @@ function BindRequisitionDetailsTable(IDs) {
     }
 }
 //RequisitionBinding
-function GetRequisitionDetailsByIDs(IDs) {
+function GetRequisitionDetailsByIDs(ids) {
     try {
         debugger;
         var POID = $('#ID').val();
-        var data = { "IDs": IDs, "POID": POID };
-
-        var ds = {};
-        ds = GetDataFromServer("PurchaseOrder/GetRequisitionDetailsByIDs/", data);
-        if (ds != '') {
-            ds = JSON.parse(ds);
+        var data = { "IDs": ids, "POID": POID };
+        var result = "";
+        var message = "";
+        var jsonData = {};
+        var requisitionDetailsVM = new Object();
+        jsonData = GetDataFromServer("PurchaseOrder/GetRequisitionDetailsByIDs/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            requisitionDetailsVM = jsonData.Records;
         }
-        if (ds.Result == "OK") {
-            return ds.Records;
+        if (result == "OK") {
+            return requisitionDetailsVM;
         }
-        if (ds.Result == "ERROR") {
-            notyAlert('error', ds.message);
+        if (result == "ERROR") {
+            alert(message);
         }
     }
     catch (e) {
@@ -408,24 +429,24 @@ function GetRequisitionDetailsByIDs(IDs) {
 function textBoxValueChanged(thisObj, textBoxCode) {
     debugger;
     var IDs = selectedRowIDs();//identify the selected rows 
-    var allData = DataTables.RequisitionDetailsTable.rows().data();
-    var table = DataTables.RequisitionDetailsTable;
-    var rowtable = table.row($(thisObj).parents('tr')).data();
-    for (var i = 0; i < allData.length; i++) {
-        if (allData[i].ID == rowtable.ID) {
+    var requestionDetailsVM = DataTables.RequisitionDetailsTable.rows().data();
+    var requestionDetailstable = DataTables.RequisitionDetailsTable;
+    var rowtable = requestionDetailstable.row($(thisObj).parents('tr')).data();
+    for (var i = 0; i < requestionDetailsVM.length; i++) {
+        if (requestionDetailsVM[i].ID == rowtable.ID) {
             if (textBoxCode == 1)//textBoxCode is the code to know, which textbox changed is triggered
-                allData[i].Description = thisObj.value;
+                requestionDetailsVM[i].Description = thisObj.value;
             if (textBoxCode == 2)
-                allData[i].ApproximateRate = parseFloat(thisObj.value);
+                requestionDetailsVM[i].ApproximateRate = parseFloat(thisObj.value);
             if (textBoxCode == 3)
-                allData[i].Discount = parseFloat(thisObj.value);
+                requestionDetailsVM[i].Discount = parseFloat(thisObj.value);
             if (textBoxCode == 4)
-                allData[i].POQty = parseFloat(thisObj.value);
+                requestionDetailsVM[i].POQty = parseFloat(thisObj.value);
             if (textBoxCode == 5)
-                allData[i].Taxtype = $("dddl'" + thisObj.ID + "'").text();
+                requestionDetailsVM[i].Taxtype = $("dddl'" + thisObj.ID + "'").text();
         }
     }
-    DataTables.RequisitionDetailsTable.clear().rows.add(allData).draw(false);
+    DataTables.RequisitionDetailsTable.clear().rows.add(requestionDetailsVM).draw(false);
     selectCheckbox(IDs); //Selecting the checked rows with their ids taken 
 }
 //Selected rows
@@ -445,9 +466,9 @@ function GetSelectedRowIDs() {
 }
 //selected Checkbox
 function selectCheckbox(IDs) {
-    var allData = DataTables.RequisitionDetailsTable.rows().data()
-    for (var i = 0; i < allData.length; i++) {
-        if (IDs.includes(allData[i].ID)) {
+    var requistionDetailsVM = DataTables.RequisitionDetailsTable.rows().data()
+    for (var i = 0; i < requistionDetailsVM.length; i++) {
+        if (IDs.includes(requistionDetailsVM[i].ID)) {
             DataTables.RequisitionDetailsTable.rows(i).select();
         }
         else {
@@ -459,27 +480,27 @@ function selectCheckbox(IDs) {
 function AddPODetails()
 {
     //Merging  the rows with same MaterialID
-    var allData = DataTables.RequisitionDetailsTable.rows(".selected").data();
+    var requistionDetailsVM = DataTables.RequisitionDetailsTable.rows(".selected").data();
     var mergedRows = []; //to store rows after merging
     var currentMaterial, QuantitySum;
-    AddRequsitionDetailLink(allData)// adding values to reqDetailLink array function call
+    AddRequsitionDetailLink(requistionDetailsVM)// adding values to reqDetailLink array function call
 
-    for (var r = 0; r < allData.length; r++) {
+    for (var r = 0; r < requistionDetailsVM.length; r++) {
         var Particulars="";
-        Particulars = allData[r].ReqNo;
-        currentMaterial = allData[r].MaterialID
-        for (var j = r + 1; j < allData.length; j++) {
-            if(allData[j].MaterialID==currentMaterial)
+        Particulars = requistionDetailsVM[r].ReqNo;
+        currentMaterial = requistionDetailsVM[r].MaterialID
+        for (var j = r + 1; j < requistionDetailsVM.length; j++) {
+            if (requistionDetailsVM[j].MaterialID == currentMaterial)
             {
-                Particulars = Particulars + "," + allData[j].ReqNo;
-                allData[r].POQty = parseFloat(allData[r].POQty) + parseFloat(allData[j].POQty);
-                allData[r].Discount = parseFloat(allData[r].Discount) + parseFloat(allData[j].Discount);
-                allData.splice(j, 1);//removing duplicate after adding value 
+                Particulars = Particulars + "," + requistionDetailsVM[j].ReqNo;
+                requistionDetailsVM[r].POQty = parseFloat(requistionDetailsVM[r].POQty) + parseFloat(requistionDetailsVM[j].POQty);
+                requistionDetailsVM[r].Discount = parseFloat(requistionDetailsVM[r].Discount) + parseFloat(requistionDetailsVM[j].Discount);
+                requistionDetailsVM.splice(j, 1);//removing duplicate after adding value 
                 j = j - 1;// for avoiding skipping row while checking
             }
         }
-        allData[r].Particulars =  Particulars
-        mergedRows.push(allData[r])// adding rows to merge array
+        requistionDetailsVM[r].Particulars = Particulars
+        mergedRows.push(requistionDetailsVM[r])// adding rows to merge array
     }
 
     var res=AddRequsitionDetail(mergedRows)// adding to reqDetail array function call
@@ -512,9 +533,9 @@ function AddRequsitionDetailLink(data) {
         else
             PurchaseOrderDetailLink.Tax = parseFloat(PurchaseOrderDetailLink.Amount);
         //Particulars after adding same material(item)
-        var result = GetTaxTypeByCode(PurchaseOrderDetailLink.TaxTypeCode);
-        PurchaseOrderDetailLink.CGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(result.CGSTPercentage) / 100);
-        PurchaseOrderDetailLink.SGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(result.SGSTPercentage) / 100);
+        var taxTypeVM = GetTaxTypeByCode(PurchaseOrderDetailLink.TaxTypeCode);
+        PurchaseOrderDetailLink.CGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(taxTypeVM.CGSTPercentage) / 100);
+        PurchaseOrderDetailLink.SGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(taxTypeVM.SGSTPercentage) / 100);
         PurchaseOrderDetailLink.Total = parseFloat(PurchaseOrderDetailLink.Tax) + parseFloat(PurchaseOrderDetailLink.CGSTAmt) + parseFloat(PurchaseOrderDetailLink.SGSTAmt);
         ECGST = ECGST + parseFloat(PurchaseOrderDetailLink.CGSTAmt);
         ESGST = ESGST + parseFloat(PurchaseOrderDetailLink.SGSTAmt);
@@ -566,17 +587,17 @@ function selectedRowIDs() {
 
 function CalculateGrossAmount() {
     debugger;
-    var allData = DataTables.PurchaseOrderDetailTable.rows().data();
+    var purchaseOrderVM = DataTables.PurchaseOrderDetailTable.rows().data();
     var GrossAmount = 0;
     var ItemTotal = 0;
     var CGSTTotal = 0;
     var SGSTTotal = 0;
     var TotalTax = 0;
-    for (var i = 0; i < allData.length; i++) {
-        ItemTotal = ItemTotal + (parseFloat(allData[i].Qty)*parseFloat(allData[i].Rate)-parseFloat(allData[i].Discount))
-        CGSTTotal = CGSTTotal + parseFloat(allData[i].CGSTAmt)
-        SGSTTotal = SGSTTotal + parseFloat(allData[i].SGSTAmt)
-        GrossAmount = GrossAmount + ((parseFloat(allData[i].Qty) * parseFloat(allData[i].Rate) - parseFloat(allData[i].Discount))+parseFloat(allData[i].CGSTAmt)+parseFloat(allData[i].SGSTAmt))
+    for (var i = 0; i < purchaseOrderVM.length; i++) {
+        ItemTotal = ItemTotal + (parseFloat(purchaseOrderVM[i].Qty) * parseFloat(purchaseOrderVM[i].Rate) - parseFloat(purchaseOrderVM[i].Discount))
+        CGSTTotal = CGSTTotal + parseFloat(purchaseOrderVM[i].CGSTAmt)
+        SGSTTotal = SGSTTotal + parseFloat(purchaseOrderVM[i].SGSTAmt)
+        GrossAmount = GrossAmount + ((parseFloat(purchaseOrderVM[i].Qty) * parseFloat(purchaseOrderVM[i].Rate) - parseFloat(purchaseOrderVM[i].Discount)) + parseFloat(purchaseOrderVM[i].CGSTAmt) + parseFloat(purchaseOrderVM[i].SGSTAmt))
     }
     TotalTax = CGSTTotal + SGSTTotal
     $('#GrossAmount').val(roundoff(GrossAmount));
@@ -595,16 +616,22 @@ function GetTaxTypeByCode(Code) {
     try {
         debugger;
         var data = { "Code": Code };
-        var ds = {};
-        ds = GetDataFromServer("PurchaseOrder/GetTaxtype/", data);
-        if (ds != '') {
-            ds = JSON.parse(ds);
+        var result = "";
+        var message = "";
+        var jsonData = {};
+        var taxTypeVM = new Object();
+        jsonData = GetDataFromServer("PurchaseOrder/GetTaxtype/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            taxTypeVM = jsonData.Records;
         }
-        if (ds.Result == "OK") {
-            return ds.Records;
+        if (result == "OK") {
+            return taxTypeVM;
         }
-        if (ds.Result == "ERROR") {
-            alert(ds.Message);
+        if (result == "ERROR") {
+            alert(Message);
         }
     }
     catch (e) {
@@ -694,17 +721,23 @@ function GetPurchaseOrderDetailsByID(ID) {
     try {
         debugger;
         var data = { "ID": ID };
-        var ds = {};
-        ds = GetDataFromServer("PurchaseOrder/GetPurchaseOrderByID/", data);
-        if (ds != '') {
-            ds = JSON.parse(ds);
+        var result = "";
+        var message = "";
+        var jsonData = {};
+        var purchaseOrderVM = new Object();
+        jsonData = GetDataFromServer("PurchaseOrder/GetPurchaseOrderByID/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            purchaseOrderVM = jsonData.Records;
+            result = jsonData.Result;
+            message = jsonData.Message;
         }
-        if (ds.Result == "OK") {
+        if (result == "OK") {
 
-            return ds.Records;
+            return purchaseOrderVM;
         }
-        if (ds.Result == "ERROR") {
-            notyAlert('error', ds.Message);
+        if (result == "ERROR") {
+            alert(Message);
 
         }
     }
@@ -728,17 +761,23 @@ function GetPurchaseOrderDetailTable() {
         debugger;
         var id = $('#ID').val();
         var data = { "ID": id };
-        var ds = {};
-        ds = GetDataFromServer("PurchaseOrder/GetPurchaseOrderDetailByID/", data);
-        if (ds != '') {
-            ds = JSON.parse(ds);
+        var result = "";
+        var message = "";
+        var jsonData = {};
+        var purchaseOrderDetailVM = new Object();
+        jsonData = GetDataFromServer("PurchaseOrder/GetPurchaseOrderDetailByID/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            purchaseOrderDetailVM = jsonData.Records;
+            message = jsonData.Message;
         }
-        if (ds.Result == "OK") {
-            return ds.Records;
+        if (result == "OK") {
+            return purchaseOrderDetailVM;
 
         }
-        if (ds.Result == "ERROR") {
-            notyAlert('error', ds.Message);
+        if (result == "ERROR") {
+            alert(Message);
         }
     }
     catch (e) {
@@ -775,16 +814,22 @@ function EditPurchaseOrderDetail(ID) {
     try {
         debugger;
         var data = { ID };
-        var ds = {};
-        ds = GetDataFromServer("PurchaseOrder/EditPurchaseOrderDetail/", data);
-        if (ds != '') {
-            ds = JSON.parse(ds);
+        var result = "";
+        var message = "";
+        var jsonData = {};
+        var purchaseOrderDetailVM = new Object();
+        jsonData = GetDataFromServer("PurchaseOrder/EditPurchaseOrderDetail/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            purchaseOrderDetailVM = jsonData.Records;
+            result = jsonData.Result;
+            message = jsonData.Message;
         }
-        if (ds.Result == "OK") {
-            return ds.Records;
+        if (result == "OK") {
+            return purchaseOrderDetailVM;
         }
-        if (ds.Result == "ERROR") {
-            notyAlert('error', ds.message);
+        if (result == "ERROR") {
+            alert(Message);
         }
     }
     catch (e) {
@@ -794,20 +839,20 @@ function EditPurchaseOrderDetail(ID) {
 }
 function EditPODetails() {
     debugger;
-    var allData = DataTables.EditPurchaseDetailsTable.rows().data();
+    var purchaseOrderVM = DataTables.EditPurchaseDetailsTable.rows().data();
 
     var mergedRows = []; //to store rows after merging
 
-    EditRequsitionDetailLink(allData)// adding to object function call
+    EditRequsitionDetailLink(purchaseOrderVM)// adding to object function call
 
-    for (var r = 0; r < allData.length; r++) {
-        for (var j = r + 1; j < allData.length; j++) {
-            allData[r].Qty = parseFloat(allData[r].Qty) + parseFloat(allData[j].Qty);
-            allData[r].Discount = parseFloat(allData[r].Discount) + parseFloat(allData[j].Discount);
-            allData.splice(j, 1);//removing duplicate after adding value 
+    for (var r = 0; r < purchaseOrderVM.length; r++) {
+        for (var j = r + 1; j < purchaseOrderVM.length; j++) {
+            purchaseOrderVM[r].Qty = parseFloat(purchaseOrderVM[r].Qty) + parseFloat(purchaseOrderVM[j].Qty);
+            purchaseOrderVM[r].Discount = parseFloat(purchaseOrderVM[r].Discount) + parseFloat(purchaseOrderVM[j].Discount);
+            purchaseOrderVM.splice(j, 1);//removing duplicate after adding value 
             j = j - 1;// for avoiding skipping row while checking
         }
-        mergedRows.push(allData[r])// adding rows to merge array
+        mergedRows.push(purchaseOrderVM[r])// adding rows to merge array
     }
     debugger;
     if ((mergedRows) && (mergedRows.length > 0)) {
@@ -855,9 +900,9 @@ function EditRequsitionDetailLink(data) {
         else
             PurchaseOrderDetailLink.Tax = parseFloat(PurchaseOrderDetailLink.Amount);
         //Particulars after adding same material(item)
-        var result = GetTaxTypeByCode(PurchaseOrderDetailLink.TaxTypeCode);
-        PurchaseOrderDetailLink.CGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(result.CGSTPercentage) / 100);
-        PurchaseOrderDetailLink.SGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(result.SGSTPercentage) / 100);
+        var taxTypeVM = GetTaxTypeByCode(PurchaseOrderDetailLink.TaxTypeCode);
+        PurchaseOrderDetailLink.CGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(taxTypeVM.CGSTPercentage) / 100);
+        PurchaseOrderDetailLink.SGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(taxTypeVM.SGSTPercentage) / 100);
         PurchaseOrderDetailLink.Total = parseFloat(PurchaseOrderDetailLink.Tax) + parseFloat(PurchaseOrderDetailLink.CGSTAmt) + parseFloat(PurchaseOrderDetailLink.SGSTAmt);
         ECGST = ECGST +parseFloat( PurchaseOrderDetailLink.CGSTAmt);
         ESGST = ESGST +parseFloat( PurchaseOrderDetailLink.SGSTAmt);
@@ -903,24 +948,24 @@ function UpdateDetailLinkSave() {
 function EdittextBoxValue(thisObj, textBoxCode) {
     debugger;
     var IDs = selectedRowIDs();//identify the selected rows 
-    var allData = DataTables.EditPurchaseDetailsTable.rows().data();
-    var table = DataTables.EditPurchaseDetailsTable;
-    var rowtable = table.row($(thisObj).parents('tr')).data();
-    for (var i = 0; i < allData.length; i++) {
-        if (allData[i].RequisitionDetail.ID == rowtable.RequisitionDetail.ID) {
+    var purchaseOrderVM = DataTables.EditPurchaseDetailsTable.rows().data();
+    var purchaseOrdertable = DataTables.EditPurchaseDetailsTable;
+    var rowtable = purchaseOrdertable.row($(thisObj).parents('tr')).data();
+    for (var i = 0; i < purchaseOrderVM.length; i++) {
+        if (purchaseOrderVM[i].RequisitionDetail.ID == rowtable.RequisitionDetail.ID) {
             if (textBoxCode == 1)//textBoxCode is the code to know, which textbox changed is triggered
-                allData[i].MaterialDesc = thisObj.value;
+                purchaseOrderVM[i].MaterialDesc = thisObj.value;
             if (textBoxCode == 2)
-                allData[i].Rate = parseFloat(thisObj.value);
+                purchaseOrderVM[i].Rate = parseFloat(thisObj.value);
             if (textBoxCode == 3)
-                allData[i].Discount = parseFloat(thisObj.value);
+                purchaseOrderVM[i].Discount = parseFloat(thisObj.value);
             if (textBoxCode == 5)
-                allData[i].Taxtype = $("dddl'" + thisObj.ID + "'").text();
+                purchaseOrderVM[i].Taxtype = $("dddl'" + thisObj.ID + "'").text();
             if (textBoxCode == 6)
-                allData[i].Qty = parseFloat(thisObj.value);
+                purchaseOrderVM[i].Qty = parseFloat(thisObj.value);
         }
     }
-    DataTables.EditPurchaseDetailsTable.clear().rows.add(allData).draw(false);
+    DataTables.EditPurchaseDetailsTable.clear().rows.add(purchaseOrderVM).draw(false);
 }
 //Delete PurchaseOrder
 function DeleteClick() {
@@ -933,17 +978,21 @@ function DeletePurchaseOrder() {
         var id = $('#ID').val();
         if (id != '' && id != null) {
             var data = { "ID": id };
-            var ds = {};
-            ds = GetDataFromServer("PurchaseOrder/DeletePurchaseOrder/", data);
-            if (ds != '') {
-                ds = JSON.parse(ds);
+            var result = "";
+            var message = "";
+            var jsonData = {};
+            jsonData = GetDataFromServer("PurchaseOrder/DeletePurchaseOrder/", data);
+            if (jsonData != '') {
+                jsonData = JSON.parse(jsonData);
+                result = jsonData.Result;
+                message = jsonData.Message;
             }
-            if (ds.Result == "OK") {
-                notyAlert('success', ds.Record.Message);
+            if (result == "OK") {
+                notyAlert('success', message);
                 window.location.replace("NewPurchaseOrder?code=PURCH");
             }
-            if (ds.Result == "ERROR") {
-                notyAlert('error', ds.Message);
+            if (result == "ERROR") {
+                alert(message);
                 return 0;
             }
             return 1;
@@ -1003,16 +1052,17 @@ function DeleteItem(ID) {
     }
 }
 //Email Sending
-function EmailPreview() {
+function EmailPreview(flag) {
     try {
         debugger;
-
         var QHID = $("#ID").val();
         if (QHID) {
             //Bind mail html into model
-            GetMailPreview(QHID);
+            GetMailPreview(QHID, flag);
 
             $("#MailPreviewModel").modal('show');
+            $('#btnMail').show();
+            $('#btnMailSend').hide();
         }
     }
     catch (e) {
@@ -1021,24 +1071,61 @@ function EmailPreview() {
 
 }
 
-function GetMailPreview(ID) {
+function GetMailPreview(ID,flag) {
     debugger;
-    var data = { "ID": ID };
-    var ds = {};
-    ds = GetDataFromServer("PurchaseOrder/GetMailPreview/", data);
-    if (ds == "Nochange") {
+    var data = { "ID": ID, "flag": flag };
+    var jsonData = {};
+    jsonData = GetDataFromServer("PurchaseOrder/GetMailPreview/", data);
+    if (jsonData == "Nochange") {
         return; 0
     }
     debugger;
     $("#mailmodelcontent").empty();
-    $("#mailmodelcontent").html(ds);
-    $("#mailBodyText").val(ds);
+    $("#mailmodelcontent").html(jsonData);
+    $("#mailBodyText").val(jsonData);
 
+}
+
+function SendMailPreview() {
+    debugger;
+    PurchaseOrderViewModel.ID = $('#ID').val();
+    PurchaseOrderViewModel.MailBodyHeader = $('#PurchaseOrder_MailBodyHeader').val();
+    PurchaseOrderViewModel.MailBodyFooter = $('#PurchaseOrder_MailBodyFooter').val();
+    if(PurchaseOrderViewModel.MailBodyHeader || PurchaseOrderViewModel.MailBodyFooter )
+        SaveHeaderDetail()
+    EmailPreview(0);
+    $('#btnMailSend').show();
+    $('#btnMail').hide();
+}
+
+function SaveHeaderDetail()
+{
+var data = "{'purchaseOrderVM':" + JSON.stringify(PurchaseOrderViewModel) + "}";
+
+PostDataToServer("PurchaseOrder/UpdatePOMailDetails/", data, function (JsonResult) {
+    debugger;
+    switch (JsonResult.Result) {
+        case "OK":
+            if (JsonResult.Records.ID) {
+                $("#ID").val(JsonResult.Records.ID);
+            }
+            break;
+        case "Error":
+            notyAlert('error', JsonResult.Message);
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message);
+            break;
+        default:
+            break;
+    }
+})
 }
 
 function SendMailClick() {
     debugger;
     $('#btnFormSendMail').trigger('click');
+    $('#btnMail').hide();
 }
 
 function ValidateEmail() {
@@ -1055,7 +1142,7 @@ function ValidateEmail() {
 
         else {
             $("#MailPreviewModel").modal('hide');
-            showLoader();
+            OnServerCallBegin();
             return true;
         }
 
@@ -1073,12 +1160,14 @@ function MailSuccess(data, status) {
     switch (JsonResult.Result) {
         case "OK":
             notyAlert('success', JsonResult.Message);
+            OnServerCallComplete();
             if (JsonResult.Record.Status == "1") {
                 $("#lblEmailSent").text('Yes');
             }
             else {
                 $("#lblEmailSent").text('No');
             }
+           
             Reset();
             break;
         case "ERROR":
