@@ -99,15 +99,16 @@ $(document).ready(function () {
 
         }
 
-        $('#divPONo').hide();
+        $('#divPONo,#msgSupplier,#msgPurchase').hide();
         $("#PurchaseOrderID").change(function () {
             $("#PurchaseOrderNo").val($('#PurchaseOrderID').find('option:selected').text());
+            $('#msgPurchase').hide();
         });
         $("#MaterialID").change(function () {
             BindMaterialDetails(this.value)
         });
         $("#SupplierID").change(function () {
-            $('#SupID').val($("#SupplierID").val());
+            $('#msgSupplier').hide();
         });
 
     }
@@ -231,13 +232,24 @@ function AddMaterialReceiptDetailToTable() {
 function Save() {
     try{
         debugger;
+        var check = 0;
+        if ($('#SupplierID').val() === "") {
+            $('#msgSupplier').show();
+            check = 1;
+        }
+        if ($('#PurchaseOrderID').val() === "") {
+            $('#msgPurchase').show();
+            check = 1;
+        }
         $("#DetailJSON").val('');
         _MaterialReceiptDetailList = [];
         AddMaterialReceiptDetailList();
         if (_MaterialReceiptDetailList.length > 0) {
             var result = JSON.stringify(_MaterialReceiptDetailList);
             $("#DetailJSON").val(result);
-            $('#btnSave').trigger('click');
+            if (check !== 1) {
+                $('#btnSave').trigger('click');
+            }
         }
         else {
             notyAlert('warning', 'Please Add MaterialReceipt Details!');
@@ -251,18 +263,24 @@ function Save() {
 function SaveSuccess(data, status) {
     debugger;
     var JsonResult = JSON.parse(data)
-    switch (JsonResult.Result) {
+    var result = JsonResult.Result;
+    var message = JsonResult.Message;
+    var materialReceiptVM = new Object();
+    materialReceiptVM = JsonResult.Records;
+    switch (result) {
         case "OK":
             $('#IsUpdate').val('True');
             $('#ID').val(JsonResult.Records.ID)
-            notyAlert("success", JsonResult.Records.Message)
+            message = JsonResult.Records.Message;
+            notyAlert("success", message)
             ChangeButtonPatchView('MaterialReceipt', 'divButtonPatch', 'Edit');//divbuttonPatchAddMaterialReceipt
+            BindMaterialReceiptDetailTable($('#ID').val());
             break;
         case "ERROR":
-            notyAlert("danger", JsonResult.Message)
+            notyAlert("danger", message)
             break;
         default:
-            notyAlert("danger", JsonResult.Message)
+            notyAlert("danger", message)
             break;
     }
 }
@@ -420,6 +438,7 @@ function DetailEdit(curObj) {
         AddMaterialReceiptDetail();
         var materialReceiptDetailViewModel = DataTables.MaterialReceiptDetailTable.row($(curObj).parents('tr')).data();
         $("#MaterialID").val(materialReceiptDetailViewModel.MaterialID).trigger("change");
+        debugger;
         $('#MaterialReceiptDetail_Material_MaterialCode').val(materialReceiptDetailViewModel.Material.MaterialCode);
         $('#MaterialReceiptDetail_MaterialDesc').val(materialReceiptDetailViewModel.MaterialDesc);
         $('#MaterialReceiptDetail_ID').val(materialReceiptDetailViewModel.ID);
