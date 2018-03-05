@@ -178,6 +178,25 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion MasterPartial
 
+        #region DeleteMaterial
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Material", Mode = "R")]
+        public string DeleteMaterial(Guid id)
+        {
+            try
+            {
+                var result = _materialBusiness.DeleteMaterial(id);
+                return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Status = "ERROR", Record = "", Message = cm.Message });
+            }
+
+        }
+        #endregion DeleteMaterial
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Material", Mode = "R")]

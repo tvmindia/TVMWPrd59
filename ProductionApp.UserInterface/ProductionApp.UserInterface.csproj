@@ -717,6 +717,7 @@
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\MaterialReceiptController.cs" />
     <Compile Include="Controllers\MaterialReturnFromProductionController.cs" />
+    <Compile Include="Controllers\MaterialStockAdjController.cs" />
     <Compile Include="Controllers\MaterialTypeController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\DashboardProductionController.cs" />
@@ -863,6 +864,10 @@
     <Content Include="Views\Account\PageNotFound.cshtml" />
     <Content Include="Views\Shared\_SendForApproval.cshtml" />
     <Content Include="Views\Account\DbDown.cshtml" />
+    <Content Include="Views\MaterialReturnFromProduction\ListReceiveFromProduction.cshtml" />
+    <Content Include="Views\MaterialReturnFromProduction\AddReceiveFromProduction.cshtml" />
+    <Content Include="Views\MaterialStockAdj\AddStockAdjustment.cshtml" />
+    <Content Include="Views\MaterialStockAdj\ListStockAdjustment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -874,7 +879,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\" />
     <Folder Include="Views\FileUpload\" />
-    <Folder Include="Views\MaterialReturnFromProduction\" />
     <Folder Include="Views\RecieveFromProduction\" />
   </ItemGroup>
   <ItemGroup>
