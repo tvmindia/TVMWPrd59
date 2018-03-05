@@ -862,6 +862,8 @@
     <Content Include="Views\Account\PageNotFound.cshtml" />
     <Content Include="Views\Shared\_SendForApproval.cshtml" />
     <Content Include="Views\Account\DbDown.cshtml" />
+    <Content Include="Views\MaterialReturnFromProduction\ListReceiveFromProduction.cshtml" />
+    <Content Include="Views\MaterialReturnFromProduction\AddReceiveFromProduction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -873,7 +875,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\" />
     <Folder Include="Views\FileUpload\" />
-    <Folder Include="Views\MaterialReturnFromProduction\" />
     <Folder Include="Views\RecieveFromProduction\" />
   </ItemGroup>
   <ItemGroup>
