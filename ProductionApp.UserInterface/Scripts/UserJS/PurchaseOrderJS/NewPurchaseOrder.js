@@ -704,6 +704,8 @@ function BindPurchaseOrder(ID) {
             $('#PurchaseOrderTitle').val(result.PurchaseOrderTitle);
             $('#Discount').val(result.Discount);
             $('#lblReqNo').text("PO# :" + result.PurchaseOrderNo);
+            $("#lblEmailStatus").text(result.EmailSentYN == "True" ? 'YES' : 'NO');
+            $("#PurchaseOrderMailPreview_SentToEmails").val(result.SubscriberEmail);
             PurchaseOrderDetailBindTable() //------binding Details table
             CalculateGrossAmount();
             }
@@ -1130,7 +1132,7 @@ function SendMailClick() {
 
 function ValidateEmail() {
     debugger;
-    var ste = $('#SentToEmails').val();
+    var ste = $('#PurchaseOrderMailPreview_SentToEmails').val();
     if (ste) {
         var atpos = ste.indexOf("@");
         var dotpos = ste.lastIndexOf(".");
@@ -1161,17 +1163,18 @@ function MailSuccess(data, status) {
         case "OK":
             notyAlert('success', JsonResult.Message);
             OnServerCallComplete();
-            if (JsonResult.Record.Status == "1") {
-                $("#lblEmailSent").text('Yes');
-            }
-            else {
-                $("#lblEmailSent").text('No');
-            }
+            //if (JsonResult.Record.Status == "1") {
+                $("#lblEmailStatus").text('Yes');
+            //}
+            //else {
+               
+            //}
            
             Reset();
             break;
         case "ERROR":
             notyAlert('error', JsonResult.Message);
+            $("#lblEmailStatus").text('No');
             break;
         default:
             notyAlert('error', JsonResult.Message);

@@ -1,4 +1,15 @@
-﻿var DataTables = {};
+﻿//*****************************************************************************
+//*****************************************************************************
+//Author: Gibin Jacob
+//CreatedDate: 12-Feb-2018 
+//LastModified: 05-Mar-2018 
+//FileName: NewRequisition.js
+//Description: Client side coding for New/Edit Requisition
+//******************************************************************************
+//******************************************************************************
+
+//--Global Declaration--//
+var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 var _RequistionDetail = [];
 var _RequistionDetailList = [];
@@ -59,7 +70,6 @@ $(document).ready(function () {
         if( $('#IsUpdate').val()=='True')
         {
             BindRequisitionByID()
-            ChangeButtonPatchView('Requisition', 'divbuttonPatchAddRequisition', 'Edit');
         }
         else
         {
@@ -75,14 +85,17 @@ $(document).ready(function () {
 function ShowRequisitionDetailsModal()
 {
     debugger;
-    $("#MaterialID").val('').select2();
-    $('#RequisitionDetail_Material_MaterialCode').val('');
-    $('#RequisitionDetail_Material_CurrentStock').val('');
-    $('#RequisitionDetail_Description').val('');
-    $('#RequisitionDetail_ApproximateRate').val('');
-    $('#RequisitionDetail_RequestedQty').val('');
+    if ($("#LatestApprovalStatus").val() == 3 || $("#LatestApprovalStatus").val() == 0)
+    {   
+        $("#MaterialID").val('').select2();
+        $('#RequisitionDetail_Material_MaterialCode').val('');
+        $('#RequisitionDetail_Material_CurrentStock').val('');
+        $('#RequisitionDetail_Description').val('');
+        $('#RequisitionDetail_ApproximateRate').val('');
+        $('#RequisitionDetail_RequestedQty').val('');
 
-    $('#RequisitionDetailsModal').modal('show');
+        $('#RequisitionDetailsModal').modal('show');
+    }
 }
 
 function MaterialEdit(curObj)
@@ -248,10 +261,36 @@ function BindRequisitionByID()
     $('#lblReqNo').text('Requisition# : ' + result.ReqNo);
     $('#lblReqStatus').text(result.ReqStatus);
     $('#lblApprovalStatus').text(result.ApprovalStatus);
-    
+    $('#LatestApprovalStatus').val(result.LatestApprovalStatus);
+    $('#LatestApprovalID').val(result.LatestApprovalID);
+    debugger;
+    if (result.LatestApprovalStatus == 3 || result.LatestApprovalStatus==0)
+    {
+        ChangeButtonPatchView('Requisition', 'divbuttonPatchAddRequisition', 'Edit');
+        EnableDisableFields(false)
+        $("#fileUploadControlDiv").show();
+
+    }
+    else
+    {
+        ChangeButtonPatchView('Requisition', 'divbuttonPatchAddRequisition', 'Disable');
+        EnableDisableFields(true)
+        $("#fileUploadControlDiv").hide();
+
+    }
     //detail Table values binding with header id
     BindRequisitionDetailTable(ID);
     PaintImages(ID);//bind attachments
+}
+
+function EnableDisableFields(value)
+{
+    $("#btnAddRequisitionItems").attr("disabled", value);
+    $('#Title').attr("disabled", value);
+    $('#ReqDateFormatted').attr("disabled", value);
+    $('#EmployeeID').attr("disabled", value);
+    $('#ReqStatus').attr("disabled", value);
+    DataTables.RequisitionDetailTable.column(7).visible(!value);
 }
 
 function GetRequisitionByID(ID)
@@ -390,13 +429,21 @@ function DeleteRequisition() {
     }
 }
 
-function ShowSendForApproval() {
+function ShowSendForApproval(documentTypeCode) {
     debugger;
-
-    $('#SendApprovalModal').modal('show');
+    if ($('#LatestApprovalStatus').val() == 3)
+    {
+        var documentID = $('#ID').val();
+        var latestApprovalID = $('#LatestApprovalID').val();
+        ReSendDocForApproval(documentID, documentTypeCode, latestApprovalID);
+    }
+    else
+    {
+        $('#SendApprovalModal').modal('show');
+    }
 }
 
-function SendForApproval() {
+function SendForApproval(documentTypeCode) {
     debugger;
     var documentID = $('#ID').val();
     var approversCSV;
@@ -404,11 +451,12 @@ function SendForApproval() {
 
     for (i = 0; i < count; i++) {
         if (i == 0)
-            approversCSV = $('#ApproverLevel' + (i + 1)).val();
+            approversCSV = $('#ApproverLevel' +i).val();
         else
-            approversCSV = approversCSV + ',' + $('#ApproverLevel' + (i + 1)).val();
+            approversCSV = approversCSV + ',' + $('#ApproverLevel'+i).val();
     }
-  //  SendDocForApproval(documentID, 'REQ', approversCSV);
+    SendDocForApproval(documentID,documentTypeCode, approversCSV);
     $('#SendApprovalModal').modal('hide');
+    BindRequisitionByID();
 }
 

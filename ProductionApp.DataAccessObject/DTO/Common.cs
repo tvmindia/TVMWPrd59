@@ -63,6 +63,14 @@ namespace ProductionApp.DataAccessObject.DTO
         {
             get { return "Approval Failed! "; }
         }
+        public string SendForApproval
+        {
+            get { return "Document Sent For Approval! "; }
+        }
+        public string SendForApprovalFailure
+        {
+            get { return "Sending For Approval Failed! "; }
+        }
 
         public string RejectSuccess
         {
@@ -209,6 +217,18 @@ namespace ProductionApp.DataAccessObject.DTO
         public int Year { get; set; }
         public decimal InAmount { get; set; }
         public decimal ExAmount { get; set; }
+    }
+
+
+    public class ProductionSummary
+    {
+        public string Month { get; set; }
+        public int MonthCode { get; set; }
+        public int Year { get; set; }
+        public decimal Material { get; set; }
+        public decimal Product { get; set; }
+        public decimal Wastage { get; set; }
+        public decimal Damage { get; set; }
     }
 
 }

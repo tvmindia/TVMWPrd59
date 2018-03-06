@@ -45,4 +45,14 @@ namespace ProductionApp.UserInterface.Models
         public DataTablePagingViewModel DataTablePaging { get; set; }
         public UnitViewModel Unit { get; set; }
     }
+
+
+    public class FinishedGoodSummaryViewModel
+    {
+        public string Category { get; set; }
+        public Decimal Value { get; set; }
+        public string Color { get; set; }
+        public string ValueFormatted { get; set; }
+
+    }
 }

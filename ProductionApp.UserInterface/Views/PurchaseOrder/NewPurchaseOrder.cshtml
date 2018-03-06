@@ -137,7 +137,7 @@
                             <div class="rightAmtCaption">Email Sent(Y/N)</div>
                         </div>
                         <div class="form-group col-md-12">
-                            <div class="lblStatusDisplay" id="lblApprovalStatus">No</div>
+                            <div class="lblStatusDisplay" id="lblEmailStatus">No</div>
                         </div>
                     </div>
                 </div>
@@ -400,17 +400,17 @@
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                         <div class="form-group col-md-12" hidden="hidden">
-                            @Html.HiddenFor(model => model.purchaseOrderMailPreview.MailBody, htmlAttributes: new { @class = "", Value = "", @id = "mailBodyText" })
+                            @Html.HiddenFor(model => model.PurchaseOrderMailPreview.MailBody, htmlAttributes: new { @class = "", Value = "", @id = "mailBodyText" })
                         </div>
                             <div class="col-md-10">
                                 <div class="form-group col-md-12">
                                     <div class="col-md-12">
-                                        @Html.LabelFor(model => model.purchaseOrderMailPreview.SentToEmails, htmlAttributes: new { @class = "control-label" })
+                                        @Html.LabelFor(model => model.PurchaseOrderMailPreview.SentToEmails, htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="col-md-12">
                                         <div class="col-md-12">
-                                            @Html.EditorFor(model => model.purchaseOrderMailPreview.SentToEmails, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "SentToEmails" } })
-                                            @Html.ValidationMessageFor(model => model.purchaseOrderMailPreview.SentToEmails, "", new { @class = "text-danger" })
+                                            @Html.EditorFor(model => model.PurchaseOrderMailPreview.SentToEmails, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                                            @Html.ValidationMessageFor(model => model.PurchaseOrderMailPreview.SentToEmails, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-md-1"></div>
                                         <div class="col-md-1"></div>

@@ -178,5 +178,62 @@ namespace ProductionApp.RepositoryServices.Services
 
             return result;
         }
+
+
+        public List<ProductionSummary> GetProductionSummary()
+        {
+            List<ProductionSummary> result = new List<ProductionSummary>();
+
+
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetProductionSummary]";
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    ProductionSummary Production = new ProductionSummary();
+
+                                    Production.Month = (sdr["Month"].ToString() != "" ? sdr["Month"].ToString() : Production.Month);
+                                    Production.MonthCode = (sdr["MonthCode"].ToString() != "" ? int.Parse(sdr["MonthCode"].ToString()) : Production.MonthCode);
+                                    Production.Year = (sdr["Year"].ToString() != "" ? int.Parse(sdr["Year"].ToString()) : Production.Year);
+                                    Production.Material = (sdr["Material"].ToString() != "" ? decimal.Parse(sdr["Material"].ToString()) : Production.Material);
+                                    Production.Product = (sdr["Product"].ToString() != "" ? decimal.Parse(sdr["Product"].ToString()) : Production.Product);
+                                    Production.Wastage = (sdr["Wastage"].ToString() != "" ? decimal.Parse(sdr["Wastage"].ToString()) : Production.Wastage);
+                                    Production.Damage = (sdr["Damage"].ToString() != "" ? decimal.Parse(sdr["Damage"].ToString()) : Production.Damage);
+
+                                    result.Add(Production);
+
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        }
     }
 }

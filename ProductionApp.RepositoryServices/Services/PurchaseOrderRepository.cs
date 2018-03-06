@@ -436,7 +436,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[UpdatePurchaseOrderMailStatus]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = purchaseOrder.ID;
-                        //cmd.Parameters.Add("@SentToEmails", SqlDbType.NVarChar, -1).Value = SPO.SentToEmails;
+                        cmd.Parameters.Add("@SentToEmails", SqlDbType.NVarChar, -1).Value = purchaseOrder.PurchaseOrderMailPreview.SentToEmails;
                         cmd.Parameters.Add("@EmailSentYN", SqlDbType.Bit).Value = purchaseOrder.EmailSentYN;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = purchaseOrder.Common.UpdatedBy;
                         cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = purchaseOrder.Common.UpdatedDate;
@@ -516,7 +516,10 @@ namespace ProductionApp.RepositoryServices.Services
                                     purchaseOrder.MailBodyHeader = (sdr["MailBodyHeader"].ToString() != "" ? sdr["MailBodyHeader"].ToString() : purchaseOrder.MailBodyHeader);
                                     purchaseOrder.MailBodyFooter = (sdr["MailBodyFooter"].ToString() != "" ? sdr["MailBodyFooter"].ToString() : purchaseOrder.MailBodyFooter);
                                     purchaseOrder.Discount = (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseOrder.Discount);
-                                    
+                                    purchaseOrder.EmailSentYN= (sdr["EmailSentYN"].ToString() != "" ? sdr["EmailSentYN"].ToString() : purchaseOrder.EmailSentYN);
+                                    purchaseOrder.SubscriberEmail= (sdr["SubscriberEmail"].ToString() != "" ? sdr["SubscriberEmail"].ToString() : purchaseOrder.SubscriberEmail);
+                                    purchaseOrder.PurchaseOrderMailPreview = new PurchaseOrderMailPreview();
+                                    purchaseOrder.PurchaseOrderMailPreview.SentToEmails= (sdr["SubscriberEmail"].ToString() != "" ? sdr["SubscriberEmail"].ToString() : purchaseOrder.SubscriberEmail);
                                 }
                             }
                         }

@@ -70,6 +70,10 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<PurchaseSummaryViewModel, PurchaseSummary>().ReverseMap();
                 config.CreateMap<IncomeExpenseSummaryViewModel, IncomeExpenseSummary>().ReverseMap();
                 config.CreateMap<DocumentApproverViewModel, DocumentApprover>().ReverseMap();
+                config.CreateMap<FinishedGoodSummaryViewModel,FinishedGoodSummary>().ReverseMap();
+                config.CreateMap<MaterialSummaryViewModel, MaterialSummary>().ReverseMap();
+                config.CreateMap<ProductionSummaryViewModel, ProductionSummary>().ReverseMap();
+
             });
         }
     }

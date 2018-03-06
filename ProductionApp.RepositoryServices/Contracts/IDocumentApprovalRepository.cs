@@ -18,5 +18,9 @@ namespace ProductionApp.RepositoryServices.Contracts
         object RejectDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode, string Remarks);
         object ValidateDocumentsApprovalPermission(string LoginName, Guid DocumentID, string DocumentTypeCode);
         List<DocumentApprover> GetApproversByDocType(string docType);
+
+        object SendDocForApproval(Guid documentID, string documentTypeCode, string approvers, string createdBy, DateTime createdDate);
+        object ReSendDocForApproval(Guid documentID, string documentTypeCode, Guid latestApprovalID, string createdBy, DateTime createdDate);
+
     }
 }

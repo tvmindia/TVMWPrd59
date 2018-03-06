@@ -24,7 +24,7 @@
             }
         </div></div>
 <div class="col-md-12 DashboardContainer">
-    <div class="col-md-12">
+    <div class="col-md-8">
 
         @{
 
@@ -33,29 +33,29 @@
         }
 
     </div>
+    <div class="col-md-4">
+        @{
 
+            @Html.Action("SalesInvoiceSummary", "Home");
+
+        }
+
+    </div>
 
 </div>
 
 
     <div class="col-md-12 DashboardContainer" >
-        <div class="col-md-4">
-            @{
-
-                @Html.Action("SalesInvoiceSummary", "Home");
-
-            }
-
-        </div>
-        <div class="col-md-4">
+      
+        <div class="col-md-6">
 
             @{
 
-                @Html.Action("PurchaseInvoiceSummary", "Home");
+                @Html.Action("FGInventorySummary", "Home");
 
             }
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             @{
 
                 @Html.Action("InventorySummary", "Home");

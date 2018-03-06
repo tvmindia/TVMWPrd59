@@ -151,6 +151,51 @@ namespace ProductionApp.UserInterface.Controllers
 
         #endregion ValidateDocumentsApprovalPermission
 
+        #region SendDocForApproval
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public string SendDocForApproval(string documentID, string documentTypeCode,string approvers)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                string createdBy = appUA.UserName;
+                DateTime createdDate = _common.GetCurrentDateTime();
+
+                var result = _documentApprovalBusiness.SendDocForApproval(Guid.Parse(documentID), documentTypeCode, approvers, createdBy, createdDate);
+                
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+        #endregion SendDocForApproval
+
+        #region ReSendDocForApproval
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public string ReSendDocForApproval(string documentID, string documentTypeCode, string latestApprovalID)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                string createdBy = appUA.UserName;
+                DateTime createdDate = _common.GetCurrentDateTime();
+
+                var result = _documentApprovalBusiness.ReSendDocForApproval(Guid.Parse(documentID), documentTypeCode,Guid.Parse(latestApprovalID), createdBy, createdDate);
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+        #endregion ReSendDocForApproval
 
         #region ButtonStyling
         [HttpGet]

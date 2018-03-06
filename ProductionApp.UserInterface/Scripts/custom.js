@@ -896,3 +896,66 @@ function clearCookie(cname) {
 
     }
 }
+
+//------------------------------------Send/ReSend Document For Approval-----------------------------------------//
+
+function SendDocForApproval(documentID,documentTypeCode,approvers)
+{
+    debugger;
+
+    try {
+        var data = { "documentID": documentID, "documentTypeCode": documentTypeCode, "approvers": approvers };
+        var result = "";
+        var message = "";
+        var jsonData = {};
+        jsonData = GetDataFromServer("DocumentApproval/SendDocForApproval/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+        }
+        if (result == "OK") {
+            message = jsonData.Message.Message;
+            notyAlert('success',message);
+        }
+        if (result == "ERROR") {
+            notyAlert('error', message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+
+}
+function ReSendDocForApproval(documentID, documentTypeCode, latestApprovalID) {
+    debugger;
+    try {
+        var data = { "documentID": documentID, "documentTypeCode": documentTypeCode, "latestApprovalID": latestApprovalID };
+        var result = "";
+        var message = "";
+        var jsonData = {};
+        jsonData = GetDataFromServer("DocumentApproval/ReSendDocForApproval/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+        }
+        if (result == "OK") {
+            message = jsonData.Message.Message;
+            notyAlert('success', message);
+        }
+        if (result == "ERROR") {
+            notyAlert('error', message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------//
