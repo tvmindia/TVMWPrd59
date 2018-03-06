@@ -18,23 +18,11 @@
             {
 
                 if (menuList.Count(p => p.ParentID == mp.ID) == 0)
-                {
-                    if (mp.ID == 100)
-                    {
-                        <li class="">
-                            <a href="@Url.Action(mp.Action, mp.Controller,new { code=mp.AMCSysModuleObj.Code })"><i class="@mp.IconClass"></i> <span>@mp.MenuText</span></a>
-
-                        </li>
-                    }
-                    else
-                    {
+                {                   
                         <li>
                             <a href="@Url.Action(mp.Action, mp.Controller,new { code=mp.AMCSysModuleObj.Code })">   <i class="@mp.IconClass"></i> <span>@mp.MenuText</span>   </a>
 
-                        </li>
-
-                    }
-
+                        </li> 
                 }
                 else
                 {
@@ -60,14 +48,32 @@
 
                 @helper RenderMenuItem(List<ProductionApp.UserInterface.Models.AMCSysMenuViewModel> menuList, ProductionApp.UserInterface.Models.AMCSysMenuViewModel mi)
                 {
-                    foreach (var cp in menuList.Where(p => p.ParentID == mi.ID))
+                foreach (var cp in menuList.Where(p => p.ParentID == mi.ID))
+                {
+
+                    if (menuList.Count(p => p.ParentID == cp.ID) == 0)
+                    {
+                        <li><a href="@Url.Action(cp.Action, cp.Controller,new { code = cp.AMCSysModuleObj.Code })"><i class="@cp.IconClass"></i>@cp.MenuText</a></li>
+                    }
+                    else
                     {
 
-                        
-                            <li><a href="@Url.Action(cp.Action, cp.Controller,new { code = cp.AMCSysModuleObj.Code })"><i class="@cp.IconClass"></i>@cp.MenuText</a></li>
- 
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="@cp.IconClass"></i> <span>@cp.MenuText</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                @RenderMenuItem(menuList, cp)
+                            </ul>
+                        </li>
+
+
 
                     }
+                }
                 }
              
         </ul>
