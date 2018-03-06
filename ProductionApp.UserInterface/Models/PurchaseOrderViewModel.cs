@@ -41,11 +41,12 @@ namespace ProductionApp.UserInterface.Models
             [Display(Name = "Body Footer")]
             [DataType(DataType.MultilineText)]
             public string MailBodyFooter { get; set; }
-            public bool EmailSentYN { get; set; }
+            public string EmailSentYN { get; set; }
             public Guid LatestApprovalID { get; set; }
             public int LatestApprovalStatus { get; set; }
             public bool IsFinalApproved { get; set; }
-        //additional properties
+            public string SubscriberEmail { get; set; }
+            //additional properties
             public Guid hdnFileID { get; set; }
             public int TotalCount { get; set; }
             public int FilteredCount { get; set; }
@@ -68,7 +69,7 @@ namespace ProductionApp.UserInterface.Models
             public List<SelectListItem> SelectList { get; set; }
             public List<PurchaseOrderDetailViewModel> PODDetail { get; set; }
             public List<PurchaseOrderDetailRequisitionLinkViewModel> PODDetailLink { get; set; }
-            public PurchaseOrderMailPreviewViewModel purchaseOrderMailPreview { get; set; }
+            public PurchaseOrderMailPreviewViewModel PurchaseOrderMailPreview { get; set; }
             public string PODDetailXML { get; set; }
             public string PODDetailLinkXML { get; set; }
     }

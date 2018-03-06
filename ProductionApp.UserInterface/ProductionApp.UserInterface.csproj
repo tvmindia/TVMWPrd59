@@ -445,6 +445,7 @@
     <Content Include="Content\images\listdlt.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\MasterLoading.gif" />
     <Content Include="Content\images\MaxLimit.png" />
     <Content Include="Content\images\Notification.png" />
