@@ -51,7 +51,7 @@
                 foreach (var cp in menuList.Where(p => p.ParentID == mi.ID))
                 {
 
-                    if (menuList.Count(p => p.ParentID == mi.ID) == 0)
+                    if (menuList.Count(p => p.ParentID == cp.ID) == 0)
                     {
                         <li><a href="@Url.Action(cp.Action, cp.Controller,new { code = cp.AMCSysModuleObj.Code })"><i class="@cp.IconClass"></i>@cp.MenuText</a></li>
                     }
