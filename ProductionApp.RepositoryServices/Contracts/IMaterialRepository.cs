@@ -15,6 +15,7 @@ namespace ProductionApp.RepositoryServices.Contracts
         object InsertUpdateMaterial(Material material);
         Material GetMaterial(Guid id);
         object DeleteMaterial(Guid id);
+        List<MaterialSummary> GetMaterialSummary();
 
     }
 }

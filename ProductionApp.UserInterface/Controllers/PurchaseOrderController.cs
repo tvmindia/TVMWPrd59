@@ -275,11 +275,23 @@ namespace ProductionApp.UserInterface.Controllers
                     throw new Exception("ID is missing");
                 }
                 purchaseOrderMailPreviewVM = new PurchaseOrderMailPreviewViewModel();
-                if (flag == 1)
-                    purchaseOrderMailPreviewVM.Flag = true;
-                else
-                    purchaseOrderMailPreviewVM.Flag = false;
                 purchaseOrderMailPreviewVM.PurchaseOrder = Mapper.Map<PurchaseOrder, PurchaseOrderViewModel>(_purchaseOrderBusiness.GetMailPreview(Guid.Parse(ID)));
+                if (flag == 0)
+                {
+                    purchaseOrderMailPreviewVM.Flag = false;
+                    if (purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyHeader != null)
+                        purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyHeader = purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyHeader.Replace("\n", "<br/>");
+                    if (purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyFooter != null)
+                        purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyFooter = purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyFooter.Replace("\n", "<br/>");
+                }
+                if (flag==1)
+                {
+                    purchaseOrderMailPreviewVM.Flag = true;
+                    if (purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyHeader != null)
+                         purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyHeader = purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyHeader.Replace("<br/>",Environment.NewLine);
+                    if (purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyFooter != null)
+                        purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyFooter = purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyFooter.Replace("<br/>",Environment.NewLine);
+                }
             }
             catch (Exception ex)
             {
@@ -313,7 +325,7 @@ namespace ProductionApp.UserInterface.Controllers
                     if (sendsuccess)
                     {
                         //1 is meant for mail sent successfully
-                        purchaseOrderVM.EmailSentYN = sendsuccess;
+                        purchaseOrderVM.EmailSentYN = sendsuccess.ToString();
                         result = _purchaseOrderBusiness.UpdatePurchaseOrderMailStatus(Mapper.Map<PurchaseOrderViewModel, PurchaseOrder>(purchaseOrderVM));
                     }
                     return JsonConvert.SerializeObject(new { Result = "OK", Record = result, MailResult = sendsuccess, Message = _appConst.MailSuccess });

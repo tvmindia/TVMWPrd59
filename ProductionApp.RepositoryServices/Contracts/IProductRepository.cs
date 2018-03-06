@@ -15,6 +15,7 @@ namespace ProductionApp.RepositoryServices.Contracts
         object InsertUpdateProduct(Product product);
         Product GetProduct(Guid id);
         object DeleteProduct(Guid id);
+        List<FinishedGoodSummary> GetFinishGoodsSummary();
 
     }
 }

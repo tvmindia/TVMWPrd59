@@ -74,7 +74,7 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJs/DocumentApproval/ApproveDocument").Include("~/Scripts/UserJS/DocumentApproval/ApproveDocument.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/DocumentApproval/DocumentSummary").Include("~/Scripts/UserJS/DocumentApproval/DocumentSummary.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/DocumentApproval/ViewPendingDocuments").Include("~/Scripts/UserJS/DocumentApproval/ViewPendingDocuments.js"));
-            bundles.Add(new ScriptBundle("~/bundles/UserJs/Home").Include("~/Scripts/UserJS/Home/SalesSummary.js", "~/Scripts/UserJS/Home/PurchaseSummary.js", "~/Scripts/UserJS/Home/IncomeExpenseSummary.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Home").Include("~/Scripts/UserJS/Home/SalesSummary.js", "~/Scripts/UserJS/Home/PurchaseSummary.js", "~/Scripts/UserJS/Home/IncomeExpenseSummary.js", "~/Scripts/UserJS/Home/FinishedGoodSummary.js", "~/Scripts/UserJS/Home/MaterialSummary.js", "~/Scripts/UserJS/Home/ProductionSummary.js"));//
 
 
 
