@@ -54,5 +54,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _documentApprovalRepository.GetApproversByDocType(docType);
         }
+
+        public object SendDocForApproval(Guid DocumentID, string DocumentTypeCode, string approvers, string CreatedBy, DateTime CreatedDate)
+        {
+            return _documentApprovalRepository.SendDocForApproval(DocumentID, DocumentTypeCode,approvers,CreatedBy,CreatedDate);
+        }
     }
 }
