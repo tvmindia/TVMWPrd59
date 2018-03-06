@@ -680,6 +680,8 @@
     <Content Include="Scripts\UserJS\Master.js" />
     <Content Include="Scripts\UserJS\MaterialReceiptJS\NewMaterialReceipt.js" />
     <Content Include="Scripts\UserJS\MaterialReceiptJS\ViewMaterialReceipt.js" />
+    <Content Include="Scripts\UserJS\MaterialStockAdjustment\ListStockAdjustment.js" />
+    <Content Include="Scripts\UserJS\MaterialStockAdjustment\NewStockAdjustment.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\PurchaseOrderJS\NewPurchaseOrder.js" />
@@ -870,7 +872,7 @@
     <Content Include="Views\Account\DbDown.cshtml" />
     <Content Include="Views\MaterialReturnFromProduction\ListReceiveFromProduction.cshtml" />
     <Content Include="Views\MaterialReturnFromProduction\AddReceiveFromProduction.cshtml" />
-    <Content Include="Views\MaterialStockAdj\AddStockAdjustment.cshtml" />
+    <Content Include="Views\MaterialStockAdj\NewStockAdjustment.cshtml" />
     <Content Include="Views\MaterialStockAdj\ListStockAdjustment.cshtml" />
     <Content Include="Views\PurchaseOrder\_PurchaseOrderMailPreview.cshtml" />
     <Content Include="Views\Home\_FGInventorySummary.cshtml" />

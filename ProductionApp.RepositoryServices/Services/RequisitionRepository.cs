@@ -299,6 +299,8 @@ namespace ProductionApp.RepositoryServices.Services
                                     requisition.EmployeeID = (sdr["EmployeeID"].ToString() != "" ? Guid.Parse(sdr["EmployeeID"].ToString()) : requisition.EmployeeID);
                                     requisition.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : requisition.RequisitionBy);
                                     requisition.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? sdr["ApprovalStatus"].ToString() : requisition.ApprovalStatus);
+                                    requisition.LatestApprovalStatus = (sdr["LatestApprovalStatus"].ToString() != "" ? Int16.Parse(sdr["LatestApprovalStatus"].ToString()) : requisition.LatestApprovalStatus);
+                                    requisition.LatestApprovalID = (sdr["LatestApprovalID"].ToString() != "" ? Guid.Parse(sdr["LatestApprovalID"].ToString() ): requisition.LatestApprovalID);
                                 }
                             }
                         }
