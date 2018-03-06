@@ -356,7 +356,7 @@ namespace ProductionApp.RepositoryServices.Services
         /// <summary>
         /// To Get List of All Product
         /// </summary>
-        /// <param name="productAdvanceSearch"></param>
+     
         /// <returns>List</returns>
         public List<FinishedGoodSummary> GetFinishGoodsSummary()
         {

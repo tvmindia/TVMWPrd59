@@ -14,14 +14,16 @@ namespace ProductionApp.UserInterface.Controllers
         ISalesInvoieBusiness _salesInvoiceBusiness;
         IPurchaseInvoiceBusiness _purchaseInvoiceBusiness;
         IProductBusiness _productBusiness;
+        IMaterialBusiness _materialBusiness;
         ICommonBusiness _commonBusiness;
-        public HomeController(IDynamicUIBusiness dynamicUIBusiness, ISalesInvoieBusiness salesInvoiceBusiness, IPurchaseInvoiceBusiness purchaseInvoiceBusiness,IProductBusiness productBusiness,ICommonBusiness commonBusiness)
+        public HomeController(IDynamicUIBusiness dynamicUIBusiness, ISalesInvoieBusiness salesInvoiceBusiness, IPurchaseInvoiceBusiness purchaseInvoiceBusiness,IProductBusiness productBusiness,ICommonBusiness commonBusiness, IMaterialBusiness materialBusiness)
         {
             _dynamicUIBusiness = dynamicUIBusiness;
              _salesInvoiceBusiness= salesInvoiceBusiness;
             _purchaseInvoiceBusiness = purchaseInvoiceBusiness;
             _productBusiness = productBusiness;
             _commonBusiness = commonBusiness;
+            _materialBusiness = materialBusiness;
         }
         // GET: Home
         [AuthSecurityFilter(ProjectObject = "Home", Mode = "")]
@@ -104,9 +106,10 @@ namespace ProductionApp.UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "AdminDashBoard", Mode = "R")]
         public ActionResult InventorySummary()
         {
-            ViewBag.ActionName = "Admin";
-            AppUA appUA = Session["AppUA"] as AppUA;
             InventorySummaryViewModel data = new InventorySummaryViewModel();
+            data.MaterialSummaryList = Mapper.Map<List<MaterialSummary>, List<MaterialSummaryViewModel>>(_materialBusiness.GetMaterialSummary());
+            data.TotalValue = data.MaterialSummaryList.Sum(v => v.Value);
+            data.TotalValueFormatted = _commonBusiness.ConvertCurrency(data.TotalValue);     
 
             return PartialView("_InventorySummary", data);
         }

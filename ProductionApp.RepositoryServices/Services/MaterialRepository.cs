@@ -371,5 +371,57 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion DeleteMaterial
 
+
+        #region Get Material Summary
+        /// <summary>
+        /// To Get List of All Product
+        /// </summary>
+        
+        /// <returns>List</returns>
+        public List<MaterialSummary> GetMaterialSummary()
+        {
+            List<MaterialSummary> MaterialSummaryList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetMaterialSummary]";
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                MaterialSummaryList = new List<MaterialSummary>();
+                                while (sdr.Read())
+                                {
+                                    MaterialSummary MaterialSummary = new MaterialSummary();
+                                    {
+
+                                        MaterialSummary.MaterialType = (sdr["MaterialType"].ToString() != "" ? sdr["MaterialType"].ToString() : MaterialSummary.MaterialType);
+                                        MaterialSummary.Value = (sdr["Value"].ToString() != "" ? decimal.Parse(sdr["Value"].ToString()) : MaterialSummary.Value);
+
+                                    }
+                                    MaterialSummaryList.Add(MaterialSummary);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return MaterialSummaryList;
+        }
+        #endregion  Get Material Summary
     }
 }

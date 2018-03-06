@@ -1,6 +1,87 @@
 ﻿@model ProductionApp.UserInterface.Models.InventorySummaryViewModel
+@{
+    List<ProductionApp.UserInterface.Models.MaterialSummaryViewModel> MaterialSummaryList = Model.MaterialSummaryList;
+
+}
 
 <div class="col-md-12 GraphCaption"> Materials Summary </div>
-<div class="col-md-12 Summary box">
-   
+<div class="col-md-12">
+    <div class="box box-default">
+        <div class="box-header">
+
+
+
+        </div>
+        <!-- /.box-header -->
+        <div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="chart-responsive">
+                        <canvas id="MaterialChart" height="170" width="205" style="width: 205px; height: 170px;"></canvas>
+                    </div>
+                    <!-- ./chart-responsive -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-5" style="max-height:250px; overflow-y:scroll;margin-right:5px">
+
+                    <div class="col-md-12">
+
+                        <ul class="chart-legend clearfix">
+                            @for (int i = 0; i < MaterialSummaryList.Count; i++)
+                            {
+                                <li title="@MaterialSummaryList[i].MaterialType">
+                                    <i class="fa fa-circle" style="color:@MaterialSummaryList[i].Color"></i>@if (MaterialSummaryList[i].MaterialType.Length > 15)
+                                    {
+                                        @MaterialSummaryList[i].MaterialType.Substring(0, 14); <span>..</span>
+
+                                    }
+                                    else
+                                    {
+                                        @MaterialSummaryList[i].MaterialType;
+                                    }
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer no-padding">
+            <div class="row">
+                <div class="col-sm-4 col-xs-6">
+
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 col-xs-6">
+
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 col-xs-6">
+                    <div class="description-block">
+                        <span class="description-text">Total Value</span>
+                        <h5 class="description-header">@Model.TotalValueFormatted</h5>
+
+                    </div>
+                    <!-- /.description-block -->
+                </div>
+
+            </div>
+        </div>
+        <!-- /.footer -->
+    </div>
+
+
 </div>
+
+
+
+<script type="text/javascript">
+    var MaterialModel = @Html.Raw(Json.Encode(Model));
+
+
+</script>
+

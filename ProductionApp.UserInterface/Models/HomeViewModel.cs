@@ -42,7 +42,9 @@ namespace ProductionApp.UserInterface.Models
 
     public class InventorySummaryViewModel
     {
-
+        public List<MaterialSummaryViewModel> MaterialSummaryList { get; set; }
+        public decimal TotalValue { get; set; }
+        public String TotalValueFormatted { get; set; }
     }
 
 
