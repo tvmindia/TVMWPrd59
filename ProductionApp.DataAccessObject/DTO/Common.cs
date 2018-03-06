@@ -63,6 +63,14 @@ namespace ProductionApp.DataAccessObject.DTO
         {
             get { return "Approval Failed! "; }
         }
+        public string SendForApproval
+        {
+            get { return "Document Sent For Approval! "; }
+        }
+        public string SendForApprovalFailure
+        {
+            get { return "Sending For Approval Failed! "; }
+        }
 
         public string RejectSuccess
         {

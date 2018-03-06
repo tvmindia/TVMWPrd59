@@ -1,4 +1,15 @@
-﻿var DataTables = {};
+﻿//*****************************************************************************
+//*****************************************************************************
+//Author: Gibin Jacob
+//CreatedDate: 12-Feb-2018 
+//LastModified: 05-Mar-2018 
+//FileName: NewRequisition.js
+//Description: Client side coding for New/Edit Requisition
+//******************************************************************************
+//******************************************************************************
+
+//--Global Declaration--//
+var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 var _RequistionDetail = [];
 var _RequistionDetailList = [];
@@ -396,7 +407,7 @@ function ShowSendForApproval() {
     $('#SendApprovalModal').modal('show');
 }
 
-function SendForApproval() {
+function SendForApproval(documentTypeCode) {
     debugger;
     var documentID = $('#ID').val();
     var approversCSV;
@@ -406,9 +417,9 @@ function SendForApproval() {
         if (i == 0)
             approversCSV = $('#ApproverLevel' + (i + 1)).val();
         else
-            approversCSV = approversCSV + ',' + $('#ApproverLevel' + (i + 1)).val();
+            approversCSV = approversCSV + ',' + $('#ApproverLevel'+i).val();
     }
-  //  SendDocForApproval(documentID, 'REQ', approversCSV);
+    SendDocForApproval(documentID,documentTypeCode, approversCSV);
     $('#SendApprovalModal').modal('hide');
 }
 
