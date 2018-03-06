@@ -21,10 +21,11 @@ namespace ProductionApp.DataAccessObject.DTO
        public string PurchaseOrderStatus { get; set; }
        public string MailBodyHeader { get; set; }
        public string MailBodyFooter { get; set; }
-       public bool EmailSentYN { get; set; }
+       public string EmailSentYN { get; set; }
        public Guid LatestApprovalID { get; set; }
        public int LatestApprovalStatus { get; set; }
        public bool IsFinalApproved { get; set; }
+       public string SubscriberEmail { get; set; }
         //additional properties
         public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
@@ -37,7 +38,7 @@ namespace ProductionApp.DataAccessObject.DTO
        public decimal GrossAmount { get; set; }
        public List<PurchaseOrderDetail> PODDetail { get; set; }
        public List<PurchaseOrderDetailRequisitionLink> PODDetailLink { get; set; }
-        public PurchaseOrderMailPreview purchaseOrderMailPreview { get; set; }
+        public PurchaseOrderMailPreview PurchaseOrderMailPreview { get; set; }
         public string PODDetailXML { get; set; }
        public string PODDetailLinkXML { get; set; }
 
@@ -98,6 +99,7 @@ namespace ProductionApp.DataAccessObject.DTO
     {
         public string SentToEmails { get; set; }
         public string MailBody { get; set; }
+        public bool Flag { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }
     }
 }
