@@ -81,7 +81,7 @@ function BindOrReloadStockAdjustmentTable(action) {
                     { "data": "ApprovalStatus", "defaultContent": "<i>-</i>" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
-                            return '<a href="/MaterialStockAdj/AddMaterialStockAdjustment?code=STR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                            return '<a href="/MaterialStockAdj/NewMaterialStockAdjustment?code=STR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
                         }, "defaultContent": "<i>-</i>", "width": "3%"
                     }
                 ],

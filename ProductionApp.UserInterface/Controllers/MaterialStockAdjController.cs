@@ -41,8 +41,8 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion 
 
-        #region AddStockAdjustment
-        public ActionResult AddStockAdjustment(string code)
+        #region NewStockAdjustment
+        public ActionResult NewStockAdjustment(string code)
         {
             ViewBag.SysModule = code;
             return View();
@@ -84,7 +84,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("AddStockAdjustment", "MaterialStockAdj", new { code = "STR" });
+                    toolboxVM.addbtn.Href = Url.Action("NewStockAdjustment", "MaterialStockAdj", new { code = "STR" });
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
@@ -103,7 +103,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("AddStockAdjustment", "MaterialStockAdj", new { code = "STR" });
+                    toolboxVM.addbtn.Href = Url.Action("NewStockAdjustment", "MaterialStockAdj", new { code = "STR" });
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
