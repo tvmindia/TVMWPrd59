@@ -7,7 +7,7 @@
         {
             stack:"stanck1",
             legendText: "Materials Used",
-            label: "Materials Used", //optional
+            label: "Matrls Usd", //optional
             fillColor: "rgba(211, 218, 7,0.8)",
             strokeColor: "rgba(211, 218, 7,0.8)",
             highlightFill: "rgba(211, 218, 7,0.75)",
@@ -17,8 +17,8 @@
         },
          {
              stack: "stanck1",
-             legendText: "Products",
-             label: "Products", //optional
+             legendText: "FG Prodcd",
+             label: "FG Produced", //optional
              fillColor: "rgba(111, 218, 7,0.8)",
              strokeColor: "rgba(111, 218, 7,0.8)",
              highlightFill: "rgba(111, 218, 7,0.75)",
@@ -28,8 +28,8 @@
          },
           {
               stack: "stanck1",
-              legendText: "Wastage",
-              label: "Wastage", //optional
+              legendText: "In Progress",
+              label: "In Progr.", //optional
               fillColor: "rgba(211, 111, 7,0.8)",
               strokeColor: "rgba(211, 111, 7,0.8)",
               highlightFill: "rgba(211, 111, 7,0.75)",
@@ -39,8 +39,8 @@
           },
            {
                stack: "stanck1",
-               legendText: "Damage",
-               label: "Damage", //optional
+               legendText: "Damage&Wastage",
+               label: "Damg & Wstg", //optional
                fillColor: "rgba(211, 218, 111,0.8)",
                strokeColor: "rgba(211, 218, 111,0.8)",
                highlightFill: "rgba(211, 218, 111,0.75)",
