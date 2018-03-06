@@ -30,4 +30,13 @@ namespace ProductionApp.DataAccessObject.DTO
         public DataTablePaging DataTablePaging { get; set; }
         public Unit Unit { get; set; }
     }
+
+
+    public class FinishedGoodSummary
+    {
+        public string Category { get; set; }
+        public Decimal Value { get; set; }
+        public string Color { get; set; }
+        public string ValueFormatted { get; set; }
+    }
 }

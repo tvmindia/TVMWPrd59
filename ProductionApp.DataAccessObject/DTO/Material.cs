@@ -34,4 +34,13 @@ namespace ProductionApp.DataAccessObject.DTO
         public Unit Unit { get; set; }
         public MaterialType MaterialType { get; set; }
     }
+
+
+    public class MaterialSummary
+    {
+        public string MaterialType { get; set; }
+        public Decimal Value { get; set; }
+        public string Color { get; set; }
+        public string ValueFormatted { get; set; }
+    }
 }

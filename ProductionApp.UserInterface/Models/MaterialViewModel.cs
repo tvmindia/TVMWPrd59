@@ -52,4 +52,13 @@ namespace ProductionApp.UserInterface.Models
         public UnitViewModel Unit { get; set; }
         public MaterialTypeViewModel MaterialType { get; set; }
     }
+
+
+    public class MaterialSummaryViewModel
+    {
+        public string MaterialType { get; set; }
+        public Decimal Value { get; set; }
+        public string Color { get; set; }
+        public string ValueFormatted { get; set; }
+    }
 }

@@ -379,6 +379,44 @@ namespace ProductionApp.RepositoryServices.Services
             return sendForApprovalList;
         }
 
+        public object SendDocForApproval(Guid documentID, string documentTypeCode, string approvers, string CreatedBy, DateTime CreatedDate)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[SendDocForApproval]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@DocumentID", SqlDbType.UniqueIdentifier).Value = documentID;
+                        cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.VarChar, 5).Value = documentTypeCode;
+                        cmd.Parameters.Add("@Approvers", SqlDbType.VarChar, -1).Value = approvers;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar, 250).Value = CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = CreatedDate;
 
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.Bit);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = _appConst.SendForApproval
+            };
+
+        }
     }
 }

@@ -151,6 +151,30 @@ namespace ProductionApp.UserInterface.Controllers
 
         #endregion ValidateDocumentsApprovalPermission
 
+        #region SendDocForApproval
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public string SendDocForApproval(string documentID, string documentTypeCode,string approvers)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                string CreatedBy = appUA.UserName;
+                DateTime CreatedDate = _common.GetCurrentDateTime();
+
+                var result = _documentApprovalBusiness.SendDocForApproval(Guid.Parse(documentID), documentTypeCode, approvers, CreatedBy, CreatedDate);
+                
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+
+
+        #endregion SendDocForApproval
 
         #region ButtonStyling
         [HttpGet]

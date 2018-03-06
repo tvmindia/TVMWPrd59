@@ -5,7 +5,7 @@ using ProductionApp.UserInterface.Models;
 using ProductionApp.UserInterface.SecurityFilter;
 using System.Collections.Generic;
 using System.Web.Mvc;
-
+using System.Linq;
 namespace ProductionApp.UserInterface.Controllers
 {
     public class HomeController : Controller
@@ -13,12 +13,17 @@ namespace ProductionApp.UserInterface.Controllers
         IDynamicUIBusiness _dynamicUIBusiness;
         ISalesInvoieBusiness _salesInvoiceBusiness;
         IPurchaseInvoiceBusiness _purchaseInvoiceBusiness;
-
-        public HomeController(IDynamicUIBusiness dynamicUIBusiness, ISalesInvoieBusiness salesInvoiceBusiness, IPurchaseInvoiceBusiness purchaseInvoiceBusiness)
+        IProductBusiness _productBusiness;
+        IMaterialBusiness _materialBusiness;
+        ICommonBusiness _commonBusiness;
+        public HomeController(IDynamicUIBusiness dynamicUIBusiness, ISalesInvoieBusiness salesInvoiceBusiness, IPurchaseInvoiceBusiness purchaseInvoiceBusiness,IProductBusiness productBusiness,ICommonBusiness commonBusiness, IMaterialBusiness materialBusiness)
         {
             _dynamicUIBusiness = dynamicUIBusiness;
              _salesInvoiceBusiness= salesInvoiceBusiness;
             _purchaseInvoiceBusiness = purchaseInvoiceBusiness;
+            _productBusiness = productBusiness;
+            _commonBusiness = commonBusiness;
+            _materialBusiness = materialBusiness;
         }
         // GET: Home
         [AuthSecurityFilter(ProjectObject = "Home", Mode = "")]
@@ -101,12 +106,27 @@ namespace ProductionApp.UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "AdminDashBoard", Mode = "R")]
         public ActionResult InventorySummary()
         {
-            ViewBag.ActionName = "Admin";
-            AppUA appUA = Session["AppUA"] as AppUA;
             InventorySummaryViewModel data = new InventorySummaryViewModel();
+            data.MaterialSummaryList = Mapper.Map<List<MaterialSummary>, List<MaterialSummaryViewModel>>(_materialBusiness.GetMaterialSummary());
+            data.TotalValue = data.MaterialSummaryList.Sum(v => v.Value);
+            data.TotalValueFormatted = _commonBusiness.ConvertCurrency(data.TotalValue);     
 
             return PartialView("_InventorySummary", data);
         }
+
+
+        [AuthSecurityFilter(ProjectObject = "AdminDashBoard", Mode = "R")]
+        public ActionResult FGInventorySummary()
+        {
+             
+            FGInventorySummaryViewModel data = new FGInventorySummaryViewModel();
+            data.FinishedGoodsSummaryList = Mapper.Map<List<FinishedGoodSummary>, List<FinishedGoodSummaryViewModel>>(_productBusiness.GetFinishGoodsSummary());
+            data.TotalValue = data.FinishedGoodsSummaryList.Sum(v => v.Value);
+            data.TotalValueFormatted = _commonBusiness.ConvertCurrency(data.TotalValue);
+            return PartialView("_FGInventorySummary", data);
+        }
+
+
 
 
         [AuthSecurityFilter(ProjectObject = "AdminDashBoard", Mode = "R")]
