@@ -665,6 +665,7 @@
     <Content Include="Scripts\UserJS\DocumentApproval\ApproveDocument.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\DocumentSummary.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ViewPendingDocuments.js" />
+    <Content Include="Scripts\UserJS\Home\FinishedGoodSummary.js" />
     <Content Include="Scripts\UserJS\Home\IncomeExpenseSummary.js" />
     <Content Include="Scripts\UserJS\Home\PurchaseSummary.js" />
     <Content Include="Scripts\UserJS\Home\SalesSummary.js" />
@@ -868,6 +869,7 @@
     <Content Include="Views\MaterialStockAdj\AddStockAdjustment.cshtml" />
     <Content Include="Views\MaterialStockAdj\ListStockAdjustment.cshtml" />
     <Content Include="Views\PurchaseOrder\_PurchaseOrderMailPreview.cshtml" />
+    <Content Include="Views\Home\_FGInventorySummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

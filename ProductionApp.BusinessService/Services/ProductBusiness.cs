@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.BusinessService.Services
 {
-    public class ProductBusiness: IProductBusiness
+    public class ProductBusiness : IProductBusiness
     {
         private IProductRepository _productRepository;
+        private ICommonBusiness _commonBusiness;
 
-        public ProductBusiness(IProductRepository productRepository)
+        public ProductBusiness(IProductRepository productRepository, ICommonBusiness commonBusiness)
         {
             _productRepository = productRepository;
+            _commonBusiness = commonBusiness;
         }
         public List<Product> GetProductForSelectList()
         {
@@ -40,6 +42,45 @@ namespace ProductionApp.BusinessService.Services
         public object DeleteProduct(Guid id)
         {
             return _productRepository.DeleteProduct(id);
+        }
+
+        public List<FinishedGoodSummary> GetFinishGoodsSummary()
+        {
+            List<FinishedGoodSummary> result = _productRepository.GetFinishGoodsSummary();
+            if (result != null)
+            {
+                int r = 150;
+                int g = 120;
+                int b = 80;
+                string color = "rgba($r$,$g$,$b$,0.6)";
+                foreach (FinishedGoodSummary s in result)
+                {
+                    Random rnd = new Random();
+
+                    s.Color = color.Replace("$r$", r.ToString()).Replace("$g$", g.ToString()).Replace("$b$", b.ToString());
+                    b = b + 50;
+                    g = g + 30;
+                    r = r + g;
+                    if (b > 250)
+                    {
+                        b = 0;
+                    }
+                    if (g > 250)
+                    {
+                        g = 0;
+
+                    }
+                    if (r > 250)
+                    {
+                        r = 0;
+                    }
+
+
+                    s.ValueFormatted = _commonBusiness.ConvertCurrency(s.Value, 2);
+
+                }
+            }
+            return result;
         }
     }
 }

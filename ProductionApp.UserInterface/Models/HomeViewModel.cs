@@ -45,6 +45,14 @@ namespace ProductionApp.UserInterface.Models
 
     }
 
+
+    public class FGInventorySummaryViewModel
+    {
+        public List<FinishedGoodSummaryViewModel> FinishedGoodsSummaryList { get; set;  }
+        public decimal TotalValue { get; set; }
+        public String TotalValueFormatted { get; set; }
+    }
+
     public class ProductionSummaryViewModel
     {
 

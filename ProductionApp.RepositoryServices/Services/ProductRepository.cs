@@ -351,5 +351,58 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion DeleteProduct
 
+
+        #region Get FG Summary
+        /// <summary>
+        /// To Get List of All Product
+        /// </summary>
+        /// <param name="productAdvanceSearch"></param>
+        /// <returns>List</returns>
+        public List<FinishedGoodSummary> GetFinishGoodsSummary()
+        {
+            List<FinishedGoodSummary> FinishedGoodSummaryList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetFinishGoodsSummary]";
+                       
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                FinishedGoodSummaryList = new List<FinishedGoodSummary>();
+                                while (sdr.Read())
+                                {
+                                    FinishedGoodSummary FinishedGoodSummary = new FinishedGoodSummary();
+                                    {
+                                       
+                                        FinishedGoodSummary.Category = (sdr["Category"].ToString() != "" ? sdr["Category"].ToString() : FinishedGoodSummary.Category);                                       
+                                        FinishedGoodSummary.Value = (sdr["Value"].ToString() != "" ? decimal.Parse(sdr["Value"].ToString()) : FinishedGoodSummary.Value);
+                                        
+                                    }
+                                    FinishedGoodSummaryList.Add(FinishedGoodSummary);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return FinishedGoodSummaryList;
+        }
+        #endregion  Get FG Summary
+
     }
 }
