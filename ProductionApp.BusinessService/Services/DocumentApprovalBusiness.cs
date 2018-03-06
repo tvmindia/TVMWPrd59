@@ -59,5 +59,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _documentApprovalRepository.SendDocForApproval(DocumentID, DocumentTypeCode,approvers,CreatedBy,CreatedDate);
         }
+
+        public object ReSendDocForApproval(Guid documentID, string documentTypeCode, Guid latestApprovalID, string createdBy, DateTime createdDate)
+        {
+            return _documentApprovalRepository.ReSendDocForApproval(documentID, documentTypeCode, latestApprovalID, createdBy, createdDate);
+        }
     }
 }
