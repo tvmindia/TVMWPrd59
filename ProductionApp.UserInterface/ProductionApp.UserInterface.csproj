@@ -668,6 +668,7 @@
     <Content Include="Scripts\UserJS\Home\FinishedGoodSummary.js" />
     <Content Include="Scripts\UserJS\Home\IncomeExpenseSummary.js" />
     <Content Include="Scripts\UserJS\Home\MaterialSummary.js" />
+    <Content Include="Scripts\UserJS\Home\ProductionSummary.js" />
     <Content Include="Scripts\UserJS\Home\PurchaseSummary.js" />
     <Content Include="Scripts\UserJS\Home\SalesSummary.js" />
     <Content Include="Scripts\UserJS\IssueToProduction\AddIssueToProduction.js" />

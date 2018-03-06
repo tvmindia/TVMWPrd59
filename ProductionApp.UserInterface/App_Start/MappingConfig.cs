@@ -71,6 +71,7 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<DocumentApproverViewModel, DocumentApprover>().ReverseMap();
                 config.CreateMap<FinishedGoodSummaryViewModel,FinishedGoodSummary>().ReverseMap();
                 config.CreateMap<MaterialSummaryViewModel, MaterialSummary>().ReverseMap();
+                config.CreateMap<ProductionSummaryViewModel, ProductionSummary>().ReverseMap();
 
             });
         }

@@ -132,9 +132,8 @@ namespace ProductionApp.UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "AdminDashBoard", Mode = "R")]
         public ActionResult ProductionSummary()
         {
-            ViewBag.ActionName = "Admin";
-            AppUA appUA = Session["AppUA"] as AppUA;
-            ProductionSummaryViewModel data = new ProductionSummaryViewModel();
+            ProductionSummaryListViewModel data = new ProductionSummaryListViewModel();
+            data.ProductionSummaryList= Mapper.Map<List<ProductionSummary>, List<ProductionSummaryViewModel>>(_dynamicUIBusiness.GetProductionSummary());
 
             return PartialView("_ProductionSummary", data);
         }

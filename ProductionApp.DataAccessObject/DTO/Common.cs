@@ -219,4 +219,16 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal ExAmount { get; set; }
     }
 
+
+    public class ProductionSummary
+    {
+        public string Month { get; set; }
+        public int MonthCode { get; set; }
+        public int Year { get; set; }
+        public decimal Material { get; set; }
+        public decimal Product { get; set; }
+        public decimal Wastage { get; set; }
+        public decimal Damage { get; set; }
+    }
+
 }
