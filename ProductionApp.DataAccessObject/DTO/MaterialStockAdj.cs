@@ -15,15 +15,21 @@ namespace ProductionApp.DataAccessObject.DTO
         public string Remarks { get; set; }
         public int LatestApprovalstatus { get; set; }
         public bool IsFinalApproved { get; set; }
+        public string ApprovalStatus { get; set; }
+        public string ReferenceNo { get; set; }
         public Common Common { get; set; }
 
         //Additional Fields
         public string AdjustmentDateFormatted { get; set; }
         public Employee Employee { get; set; }
+        public string AdjustedByEmployeeName { get; set; }
         public Material RawMaterial { get; set; }
         public MaterialStockAdjDetail MaterialStockAdjDetail { get; set; }
 
         public List<MaterialStockAdj> MaterialStockAdjList { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid EmployeeID { get; set; }        
     }
 
     public class MaterialStockAdjDetail
@@ -34,5 +40,18 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal Qty { get; set; }
         public string Remarks { get; set; }
         public Common Common { get; set; }
+    }
+
+    public class MaterialStockAdjAdvanceSearch
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public Guid AdjustedBy { get; set; }
+        public Employee Employee { get; set; }
+        public string AdjustedByEmployeeName { get; set; }
+        public string ApprovalStatus { get; set; }
     }
 }

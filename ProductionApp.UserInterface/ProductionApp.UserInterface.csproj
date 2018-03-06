@@ -675,6 +675,7 @@
     <Content Include="Scripts\UserJS\Master.js" />
     <Content Include="Scripts\UserJS\MaterialReceiptJS\NewMaterialReceipt.js" />
     <Content Include="Scripts\UserJS\MaterialReceiptJS\ViewMaterialReceipt.js" />
+    <Content Include="Scripts\UserJS\MaterialStockAdjustment\ListStockAdjustment.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\PurchaseOrderJS\NewPurchaseOrder.js" />
