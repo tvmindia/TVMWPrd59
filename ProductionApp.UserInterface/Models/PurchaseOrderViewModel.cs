@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UserInterface.Models;
 
 namespace ProductionApp.UserInterface.Models
 {
@@ -72,6 +73,7 @@ namespace ProductionApp.UserInterface.Models
             public PurchaseOrderMailPreviewViewModel PurchaseOrderMailPreview { get; set; }
             public string PODDetailXML { get; set; }
             public string PODDetailLinkXML { get; set; }
+            public PDFTools PDFTools { get; set; }
     }
         public class PurchaseOrderDetailViewModel
         {

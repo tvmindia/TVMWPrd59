@@ -430,9 +430,20 @@
             </div>
             <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
                 <a class="btn btn-primary" onclick="SendMailPreview()" id="btnMail"><i class="glyphicon glyphicon-floppy-disk"></i> Next</a>
+                <a class="btn btn-primary" onclick="DownloadPDF()" id="btnSend"><i class="glyphicon glyphicon-download-alt"></i> Download</a>
                 <a class="btn btn-primary" onclick="SendMailClick()" id="btnMailSend"><i class="glyphicon glyphicon-floppy-disk"></i> Send Mail</a>
+                
+                @using (Html.BeginForm("Download", "PDFGenerator", new { HttpMethod = "POST", @class = "form-horizontal", role = "form", @id = "PDFForm" }))
+                {                  
+                        @Html.HiddenFor(model => model.PDFTools.Content, htmlAttributes: new { @class = "", Value = "", @id = "hdnContent" })
+                        @Html.HiddenFor(model => model.PDFTools.Headcontent, htmlAttributes: new { @class = "", Value = "", @id = "hdnHeadContent" })
+                        @Html.HiddenFor(model => model.PDFTools.HeaderText, htmlAttributes: new { @class = "", Value = "AURA" })
+                        @Html.HiddenFor(model => model.PDFTools.ContentFileName, htmlAttributes: new { @class = "", Value = "PurchaseOrder", @id = "hdnContentFileName" })
+                        @Html.HiddenFor(model => model.PDFTools.CustomerName, htmlAttributes: new { @class = "", @id = "hdnCustomerName" })
 
-            </div>
+                        <input type="submit" id="btnSendDownload" value="Download" />                      
+               }
+</div>
         </div>
     </div>
 </div>
@@ -442,6 +453,7 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+    <script src="~/Scripts/PDF.js"></script>
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/selectmin")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/PurchaseOrderJS/NewPurchaseOrder")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")

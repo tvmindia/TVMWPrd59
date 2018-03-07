@@ -288,6 +288,7 @@ $(document).ready(function () {
               debugger;
               ChangeButtonPatchView('PurchaseOrder', 'divbuttonPatchAddPurchaseOrder', 'Edit');
           }
+          $('#btnSendDownload').hide();
         }
         
     
@@ -1065,6 +1066,7 @@ function EmailPreview(flag) {
             $("#MailPreviewModel").modal('show');
             $('#btnMail').show();
             $('#btnMailSend').hide();
+            $('#btnSend').hide();
         }
     }
     catch (e) {
@@ -1097,6 +1099,7 @@ function SendMailPreview() {
         SaveHeaderDetail()
     EmailPreview(0);
     $('#btnMailSend').show();
+    $('#btnSend').show();
     $('#btnMail').hide();
 }
 
@@ -1180,4 +1183,25 @@ function MailSuccess(data, status) {
             notyAlert('error', JsonResult.Message);
             break;
     }
+}
+//To trigger PDF download button
+function DownloadPDF() {
+    debugger;
+    GetHtmlData();
+    setTimeout(function () {
+        $('#btnSendDownload').trigger('click');
+    }, 1000);
+    
+}
+
+//To download file in PDF
+function GetHtmlData() {
+    debugger;
+    var bodyContent = $('#mailmodelcontent').html();
+    var headerContent = $('#hdnHeadContent').html();
+    $('#hdnContent').val(bodyContent);
+    $('#hdnHeadContent').val(headerContent);
+    var customerName = $("#SupplierID option:selected").text();
+    $('#hdnCustomerName').val(customerName);
+
 }

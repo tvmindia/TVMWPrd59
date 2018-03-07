@@ -652,6 +652,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jszip.min.js" />
+    <Content Include="Scripts\PDF.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
@@ -722,6 +723,7 @@
     <Compile Include="Controllers\MaterialReturnFromProductionController.cs" />
     <Compile Include="Controllers\MaterialStockAdjController.cs" />
     <Compile Include="Controllers\MaterialTypeController.cs" />
+    <Compile Include="Controllers\PDFGeneratorController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\DashboardProductionController.cs" />
     <Compile Include="Controllers\DashboardPurchaseController.cs" />
@@ -760,6 +762,7 @@
     <Compile Include="Models\MaterialReturnFromProductionViewModel.cs" />
     <Compile Include="Models\MaterialStockAdjViewModel.cs" />
     <Compile Include="Models\MaterialTypeViewModel.cs" />
+    <Compile Include="Models\PDFGeneratorViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\PurchaseInvoiceViewModel.cs" />
