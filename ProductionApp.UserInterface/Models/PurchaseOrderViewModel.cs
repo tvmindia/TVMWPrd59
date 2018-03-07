@@ -47,7 +47,10 @@ namespace ProductionApp.UserInterface.Models
             public int LatestApprovalStatus { get; set; }
             public bool IsFinalApproved { get; set; }
             public string SubscriberEmail { get; set; }
-            //additional properties
+        //additional properties
+            public string CompanyAddress { get; set; }
+            public string CompanyName { get; set; }
+            public string LogoURL { get; set; }
             public Guid hdnFileID { get; set; }
             public int TotalCount { get; set; }
             public int FilteredCount { get; set; }

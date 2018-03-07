@@ -520,6 +520,9 @@ namespace ProductionApp.RepositoryServices.Services
                                     purchaseOrder.SubscriberEmail= (sdr["SubscriberEmail"].ToString() != "" ? sdr["SubscriberEmail"].ToString() : purchaseOrder.SubscriberEmail);
                                     purchaseOrder.PurchaseOrderMailPreview = new PurchaseOrderMailPreview();
                                     purchaseOrder.PurchaseOrderMailPreview.SentToEmails= (sdr["SubscriberEmail"].ToString() != "" ? sdr["SubscriberEmail"].ToString() : purchaseOrder.SubscriberEmail);
+                                    purchaseOrder.CompanyAddress = (sdr["EmailFrom"].ToString() != "" ? sdr["EmailFrom"].ToString() : purchaseOrder.CompanyAddress);
+                                    purchaseOrder.CompanyName = (sdr["Company"].ToString() != "" ? sdr["Company"].ToString() : purchaseOrder.CompanyName);
+                                    purchaseOrder.LogoURL = (sdr["Logo"].ToString() != "" ? sdr["Logo"].ToString() : purchaseOrder.LogoURL);
                                 }
                             }
                         }

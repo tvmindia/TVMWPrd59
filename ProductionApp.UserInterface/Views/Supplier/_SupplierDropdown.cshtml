@@ -1,2 +1,2 @@
 ﻿@model ProductionApp.UserInterface.Models.SupplierViewModel
-@Html.DropDownList("SupplierID", Model.SelectList,"---Select Supplier---", new { @class = "form-control",@style="width:100%" })
+@Html.DropDownList("SupplierID", Model.SelectList,"---Select Supplier---", new { @class = "form-control",@style="width:100%", onchange = "SupplierDetails();" })
