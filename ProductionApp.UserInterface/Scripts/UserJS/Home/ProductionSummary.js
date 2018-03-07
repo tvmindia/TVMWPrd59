@@ -1,19 +1,53 @@
-﻿function CreatePurchaseSummary() {
-    var chrt = document.getElementById("purchasechart").getContext("2d");
-    var myarr = [65, 59, 80, 81, 56, 55, 40];
+﻿function CreateProductionSummary() {
+    var chrt = document.getElementById("Productionchart").getContext("2d");
+    
     var data = {
-        labels: purchaseSummarylbls, //x-axis
+        labels: lblProduction, //x-axis
         datasets: [
         {
-            legendText: "Sales Months",
-            label: "Purchase", //optional
-            fillColor: "rgba(105,240,174,0.8)",
-            strokeColor: "rgba(105,240,174,0.8)",
-            highlightFill: "rgba(105,240,174,0.75)",
-            highlightStroke: "rgba(105,240,174,1)",
-            data: purchaseSummarydta, // y-axis
-            backgroundColor: "rgba(105,240,174,0.5)"
-        }
+            stack:"stanck1",
+            legendText: "Materials Used",
+            label: "Matrls Usd", //optional
+            fillColor: "rgba(211, 218, 7,0.8)",
+            strokeColor: "rgba(211, 218, 7,0.8)",
+            highlightFill: "rgba(211, 218, 7,0.75)",
+            highlightStroke: "rgba(211, 218, 7,1)",
+            data: dta1, // y-axis
+            backgroundColor: "rgba(211, 218, 7,0.8)"
+        },
+         {
+             stack: "stanck1",
+             legendText: "FG Prodcd",
+             label: "FG Produced", //optional
+             fillColor: "rgba(111, 218, 7,0.8)",
+             strokeColor: "rgba(111, 218, 7,0.8)",
+             highlightFill: "rgba(111, 218, 7,0.75)",
+             highlightStroke: "rgba(111, 218, 7,1)",
+             data: dta2,// y-axis
+             backgroundColor: "rgba(111, 218, 7,0.8)"
+         },
+          {
+              stack: "stanck1",
+              legendText: "In Progress",
+              label: "In Progr.", //optional
+              fillColor: "rgba(211, 111, 7,0.8)",
+              strokeColor: "rgba(211, 111, 7,0.8)",
+              highlightFill: "rgba(211, 111, 7,0.75)",
+              highlightStroke: "rgba(211, 111, 7,1)",
+              data: dta3,// y-axis
+              backgroundColor: "rgba(211, 111, 7,0.8)"
+          },
+           {
+               stack: "stanck1",
+               legendText: "Damage&Wastage",
+               label: "Damg & Wstg", //optional
+               fillColor: "rgba(211, 218, 111,0.8)",
+               strokeColor: "rgba(211, 218, 111,0.8)",
+               highlightFill: "rgba(211, 218, 111,0.75)",
+               highlightStroke: "rgba(211, 218, 111,1)",
+               data: dta4, // y-axis
+               backgroundColor: "rgba(211, 218, 111,1)"
+           }
         ]
 
     };
@@ -86,26 +120,28 @@
     //    animationSteps: 60,
 
     //    //String - Animation easing effect
-    //    animationEasing: "easeInCirc",
+    //    animationEasing: "easeOutCirc",
 
     //    //Function - Fires when the animation is complete
     //    onAnimationComplete: null,
 
-    //    tooltipTemplate: '<%=label%> : ₹ <%=value %> Lakhs'
+    //    tooltipTemplate: '<%=label%> : ₹ <%=value %> Kg',
+    //    scales: {
+    //        xAxes: [{
+    //            stacked: true,
+    //        }],
+    //        yAxes: [{
+    //            stacked: true
+    //        }]
+    //    }
 
     //}
 
 
-    //var purchaseChart = new Chart(chrt).Bar(data, options);
+    // var productionchart = new Chart(chrt).Bar(data, options);
 
     options = {
-        scales: {
-            xAxes: [{
-                gridLines: {
-                    offsetGridLines: true
-                }
-            }]
-        },
+
         tooltips: {
             callbacks: {
                 label: function (tooltipItem, data) {
@@ -114,11 +150,19 @@
                     if (label) {
                         label += ': ';
                     }
-                    label += tooltipItem.yLabel + 'Lakhs';
+                    label += tooltipItem.yLabel + 'Kgs';
                     return label;
                 }
             }
-        }
+        },
+        scales: {
+                    xAxes: [{
+                        stacked: true,
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
     }
 
     var myBarChart = new Chart(chrt, {
@@ -127,10 +171,8 @@
         options: options
     });
 
-
-
 }
 
 $(function () {
-    CreatePurchaseSummary();
+    CreateProductionSummary();
 });

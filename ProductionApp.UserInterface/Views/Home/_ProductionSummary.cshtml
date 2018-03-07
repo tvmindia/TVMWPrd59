@@ -1,6 +1,27 @@
-﻿@model ProductionApp.UserInterface.Models.ProductionSummaryViewModel
+﻿@model ProductionApp.UserInterface.Models.ProductionSummaryListViewModel
+@using ProductionApp.UserInterface.Models
+@{
 
+    List<ProductionSummaryViewModel> salesList = Model.ProductionSummaryList;
+}
 <div class="col-md-12 GraphCaption"> Production Summary </div>
-<div class="col-md-12 Summary box">
-  
+<div class="col-md-12">
+
+    <div class="col-md-12 Summary box" style="padding-top:15px;text-align:left">
+        <div class="col-md-12">
+            <span class="chart-legend"> Figures are in Kgs</span>
+            <canvas id="Productionchart" style="width:95%;"></canvas>
+        </div>
+       
+
+    </div>
 </div>
+<script>
+        var lblProduction=@Html.Raw(Json.Encode( salesList.Select(s => (s.Month + s.Year)).ToList()));
+    var dta1=@Html.Raw(Json.Encode( salesList.Select(s => s.Material).ToList()));
+    var dta2=@Html.Raw(Json.Encode( salesList.Select(s => s.Product).ToList()));
+    var dta3=@Html.Raw(Json.Encode( salesList.Select(s => s.Wastage).ToList()));
+    var dta4=@Html.Raw(Json.Encode( salesList.Select(s => s.Damage).ToList()));
+
+
+</script>

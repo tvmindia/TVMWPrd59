@@ -506,6 +506,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\Custom.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -670,6 +671,7 @@
     <Content Include="Scripts\UserJS\Home\FinishedGoodSummary.js" />
     <Content Include="Scripts\UserJS\Home\IncomeExpenseSummary.js" />
     <Content Include="Scripts\UserJS\Home\MaterialSummary.js" />
+    <Content Include="Scripts\UserJS\Home\ProductionSummary.js" />
     <Content Include="Scripts\UserJS\Home\PurchaseSummary.js" />
     <Content Include="Scripts\UserJS\Home\SalesSummary.js" />
     <Content Include="Scripts\UserJS\IssueToProduction\AddIssueToProduction.js" />
@@ -679,6 +681,8 @@
     <Content Include="Scripts\UserJS\Master.js" />
     <Content Include="Scripts\UserJS\MaterialReceiptJS\NewMaterialReceipt.js" />
     <Content Include="Scripts\UserJS\MaterialReceiptJS\ViewMaterialReceipt.js" />
+    <Content Include="Scripts\UserJS\MaterialStockAdjustment\ListStockAdjustment.js" />
+    <Content Include="Scripts\UserJS\MaterialStockAdjustment\NewStockAdjustment.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\PurchaseOrderJS\NewPurchaseOrder.js" />
@@ -871,7 +875,7 @@
     <Content Include="Views\Account\DbDown.cshtml" />
     <Content Include="Views\MaterialReturnFromProduction\ListReceiveFromProduction.cshtml" />
     <Content Include="Views\MaterialReturnFromProduction\AddReceiveFromProduction.cshtml" />
-    <Content Include="Views\MaterialStockAdj\AddStockAdjustment.cshtml" />
+    <Content Include="Views\MaterialStockAdj\NewStockAdjustment.cshtml" />
     <Content Include="Views\MaterialStockAdj\ListStockAdjustment.cshtml" />
     <Content Include="Views\PurchaseOrder\_PurchaseOrderMailPreview.cshtml" />
     <Content Include="Views\Home\_FGInventorySummary.cshtml" />

@@ -60,6 +60,7 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<RequisitionAdvanceSearchViewModel, RequisitionAdvanceSearch>().ReverseMap();
                 config.CreateMap<EmployeeViewModel, Employee>().ReverseMap();
                 config.CreateMap<MaterialStockAdjViewModel, MaterialStockAdj>().ReverseMap();
+                config.CreateMap<MaterialStockAdjAdvanceSearchViewModel, MaterialStockAdjAdvanceSearch>().ReverseMap();
                 config.CreateMap<MaterialReceiptViewModel, MaterialReceipt>().ReverseMap();
                 config.CreateMap<MaterialReceiptAdvanceSearchViewModel, MaterialReceiptAdvanceSearch>().ReverseMap();
                 config.CreateMap<MaterialIssueAdvanceSearchViewModel, MaterialIssueAdvanceSearch>().ReverseMap();
@@ -71,6 +72,7 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<DocumentApproverViewModel, DocumentApprover>().ReverseMap();
                 config.CreateMap<FinishedGoodSummaryViewModel,FinishedGoodSummary>().ReverseMap();
                 config.CreateMap<MaterialSummaryViewModel, MaterialSummary>().ReverseMap();
+                config.CreateMap<ProductionSummaryViewModel, ProductionSummary>().ReverseMap();
 
             });
         }

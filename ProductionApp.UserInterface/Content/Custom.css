@@ -1172,6 +1172,6 @@ background-position: 0% 50%;
 
 
 .box {
-    box-shadow: 0 8px 6px -6px black;
-    border:1px solid #bdbdbd;
+    box-shadow: 0 8px 6px -6px #868282;
+    border:1px solid #efefef;
 }

@@ -34,6 +34,17 @@ namespace ProductionApp.UserInterface.Models
         public decimal ExAmount { get; set; }
     }
 
+    public class ProductionSummaryViewModel
+    {
+        public string Month { get; set; }
+        public int MonthCode { get; set; }
+        public int Year { get; set; }
+        public decimal Material { get; set; }
+        public decimal Product { get; set; }
+        public decimal Wastage { get; set; }
+        public decimal Damage { get; set; }
+    }
+
 
     public class PurchaseInvoiceSummaryViewModel
     {
@@ -55,8 +66,9 @@ namespace ProductionApp.UserInterface.Models
         public String TotalValueFormatted { get; set; }
     }
 
-    public class ProductionSummaryViewModel
+    public class ProductionSummaryListViewModel
     {
+      public  List<ProductionSummaryViewModel> ProductionSummaryList { get; set; }
 
     }
 

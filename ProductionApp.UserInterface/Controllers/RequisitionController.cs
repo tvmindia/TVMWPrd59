@@ -279,7 +279,21 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.SendForApprovalBtn.Visible = true;
                     toolboxVM.SendForApprovalBtn.Text = "Send";
                     toolboxVM.SendForApprovalBtn.Title = "Send For Approval";
-                    toolboxVM.SendForApprovalBtn.Event = "ShowSendForApproval();";
+                    toolboxVM.SendForApprovalBtn.Event = "ShowSendForApproval('REQ');";
+
+                    toolboxVM.ListBtn.Visible = true;
+                    toolboxVM.ListBtn.Text = "List";
+                    toolboxVM.ListBtn.Title = "List";
+                    toolboxVM.ListBtn.Href = Url.Action("ViewRequisition", "Requisition", new { Code = "PURCH" });
+
+                    break;
+
+                case "Disable":
+
+                    toolboxVM.addbtn.Visible = true;
+                    toolboxVM.addbtn.Text = "New";
+                    toolboxVM.addbtn.Title = "Add New";
+                    toolboxVM.addbtn.Href = Url.Action("NewRequisition", "Requisition", new { Code = "PURCH" });
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
