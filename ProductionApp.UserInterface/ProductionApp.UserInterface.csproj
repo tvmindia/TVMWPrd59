@@ -693,6 +693,8 @@
     <Content Include="Scripts\UserJS\PurchaseOrderJS\ViewPurchaseOrder.js" />
     <Content Include="Scripts\UserJS\Material.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
+    <Content Include="Scripts\UserJS\SalesOrder\AddSalesOrder.js" />
+    <Content Include="Scripts\UserJS\SalesOrder\ListSalesOrder.js" />
     <Content Include="Scripts\UserJS\User.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -737,6 +739,7 @@
     <Compile Include="Controllers\PurchaseOrderController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\SalesOrderController.cs" />
     <Compile Include="Controllers\SAMPanelController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
@@ -879,6 +882,8 @@
     <Content Include="Views\MaterialStockAdj\ListStockAdjustment.cshtml" />
     <Content Include="Views\PurchaseOrder\_PurchaseOrderMailPreview.cshtml" />
     <Content Include="Views\Home\_FGInventorySummary.cshtml" />
+    <Content Include="Views\SalesOrder\AddSalesOrder.cshtml" />
+    <Content Include="Views\SalesOrder\ListSalesOrder.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

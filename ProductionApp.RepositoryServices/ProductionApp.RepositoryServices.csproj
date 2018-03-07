@@ -60,6 +60,7 @@
     <Compile Include="Contracts\IRequisitionRepository.cs" />
     <Compile Include="Contracts\IPurchaseOrderRepository.cs" />
     <Compile Include="Contracts\IMaterialRepository.cs" />
+    <Compile Include="Contracts\ISalesOrderRepository.cs" />
     <Compile Include="Contracts\ISupplierRepository.cs" />
     <Compile Include="Contracts\ITaxTypeRepository.cs" />
     <Compile Include="Contracts\IUnitRepository.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Services\PurchaseOrderRepository.cs" />
     <Compile Include="Services\MaterialRepository.cs" />
     <Compile Include="Services\SalesInvoiceRepository.cs" />
+    <Compile Include="Services\SalesOrderRepository.cs" />
     <Compile Include="Services\SupplierRepository.cs" />
     <Compile Include="Services\TaxTypeRepository.cs" />
     <Compile Include="Services\UnitRepository.cs" />
