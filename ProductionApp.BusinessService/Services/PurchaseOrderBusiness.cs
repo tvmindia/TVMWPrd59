@@ -127,7 +127,7 @@ namespace ProductionApp.BusinessService.Services
                     {
                         Mail _mail = new Mail();
                         _mail.Body = purchaseOrder.PurchaseOrderMailPreview.MailBody;
-                        _mail.Subject = "Supplier Purchase Order";
+                        _mail.Subject = "Purchase Order";
                         _mail.To = email;
                         sendsuccess = await _mailBusiness.MailSendAsync(_mail);
                     }

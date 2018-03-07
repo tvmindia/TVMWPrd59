@@ -292,6 +292,7 @@ namespace ProductionApp.UserInterface.Controllers
                     if (purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyFooter != null)
                         purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyFooter = purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyFooter.Replace("<br/>",Environment.NewLine);
                 }
+                ViewBag.path = "http://" + HttpContext.Request.Url.Authority + purchaseOrderMailPreviewVM.PurchaseOrder.LogoURL;
             }
             catch (Exception ex)
             {
@@ -389,6 +390,22 @@ namespace ProductionApp.UserInterface.Controllers
             return PartialView("_PurchaseOrderDropdown", purchaseOrderVM);
         }
         #endregion
+
+        #region GetSupplierDetails
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
+        public string GetSupplierDetails(string supplierid)
+        {
+            try
+            {
+                SupplierViewModel supplierVM = Mapper.Map<Supplier, SupplierViewModel>(_supplierBusiness.GetSupplier(Guid.Parse(supplierid)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetSupplierDetails
 
         #region ButtonStyling
         [HttpGet]

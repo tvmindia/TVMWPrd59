@@ -20,5 +20,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _supplierRepository.GetAllSupplier();
         }
+        public Supplier GetSupplier(Guid supplierid)
+        {
+            return _supplierRepository.GetSupplier(supplierid);
+        }
     }
 }

@@ -74,5 +74,44 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return supplierList;
         }
+        public Supplier GetSupplier(Guid supplierid)
+        {
+            Supplier supplier = new Supplier();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetSupplier]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = supplierid;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                
+                                while (sdr.Read())
+                                {
+                                        supplier.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : supplier.BillingAddress);
+                                        supplier.ShippingAddress = (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : supplier.ShippingAddress);
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return supplier;
+        }
     }
 }

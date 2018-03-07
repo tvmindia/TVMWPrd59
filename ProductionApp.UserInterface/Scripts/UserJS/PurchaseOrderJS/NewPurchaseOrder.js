@@ -316,6 +316,45 @@ function ViewRequisitionList(value) {
     if (value)
         $('#tabList').trigger('click');
 }
+//bind supplier address 
+function SupplierDetails()
+{
+    debugger;
+    var supplierid = $('#SupplierID').val();
+    supplierVM = GetSupplierDetails(supplierid);
+    $('#MailingAddress').val(supplierVM.BillingAddress);
+    $('#ShippingAddress').val(supplierVM.ShippingAddress);
+}
+function GetSupplierDetails(supplierid)
+{
+    try{
+        debugger;
+        var data = { "supplierid": supplierid };
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var supplierVM = new Object();
+
+        jsonData = GetDataFromServer("PurchaseOrder/GetSupplierDetails/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            supplierVM = jsonData.Records;
+        }
+        if (result == "OK") {
+
+            return supplierVM;
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
+    }
+}
 //bind requistition List
 function BindRequisitionListTable() {
     var requisitionList = GetRequisitionList();
@@ -1188,10 +1227,7 @@ function MailSuccess(data, status) {
 function DownloadPDF() {
     debugger;
     GetHtmlData();
-    setTimeout(function () {
-        $('#btnSendDownload').trigger('click');
-    }, 1000);
-    
+    $('#btnSendDownload').trigger('click');
 }
 
 //To download file in PDF
