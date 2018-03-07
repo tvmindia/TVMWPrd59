@@ -778,6 +778,7 @@
     <Compile Include="Models\MaterialViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\SalesInvoiceViewModel.cs" />
+    <Compile Include="Models\SalesOrderViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
     <Compile Include="Models\TaxTypeViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />

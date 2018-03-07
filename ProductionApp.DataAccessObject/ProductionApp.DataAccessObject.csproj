@@ -91,6 +91,7 @@
     <Compile Include="DTO\PurchaseOrder.cs" />
     <Compile Include="DTO\Material.cs" />
     <Compile Include="DTO\SalesInvoice.cs" />
+    <Compile Include="DTO\SalesOrder.cs" />
     <Compile Include="DTO\Supplier.cs" />
     <Compile Include="DTO\TaxType.cs" />
     <Compile Include="DTO\Unit.cs" />
