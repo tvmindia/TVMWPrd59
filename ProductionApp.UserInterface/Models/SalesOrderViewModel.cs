@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -40,6 +41,18 @@ namespace ProductionApp.UserInterface.Models
         //additional properties
         public string ExpectedDeliveryDateFormatted { get; set; }
         public CommonViewModel Common { get; set; }
+
+    }
+    public class SalesOrderAdvanceSearchViewModel
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        [Display(Name = "FromDate")]
+        public string FromDate { get; set; }
+        [Display(Name = "ToDate")]
+        public string ToDate { get; set; }
+
+        public DataTablePagingViewModel DataTablePaging { get; set; }
 
     }
 }
