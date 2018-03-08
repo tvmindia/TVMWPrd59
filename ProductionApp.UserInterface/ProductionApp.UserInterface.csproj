@@ -664,6 +664,7 @@
     <Content Include="Scripts\UserJS\Approver.js" />
     <Content Include="Scripts\UserJS\AppSubobject.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
+    <Content Include="Scripts\UserJS\BillOfMaterialJS\NewBillOfMaterial.js" />
     <Content Include="Scripts\UserJS\BillOfMaterialJS\ViewBillOfMaterial.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ApprovalHistory.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ApproveDocument.js" />
@@ -889,6 +890,7 @@
     <Content Include="Views\SalesOrder\AddSalesOrder.cshtml" />
     <Content Include="Views\SalesOrder\ListSalesOrder.cshtml" />
     <Content Include="Views\BillOfMaterial\ViewBillOfMaterial.cshtml" />
+    <Content Include="Views\BillOfMaterial\NewBillOfMaterial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
