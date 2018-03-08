@@ -664,6 +664,7 @@
     <Content Include="Scripts\UserJS\Approver.js" />
     <Content Include="Scripts\UserJS\AppSubobject.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
+    <Content Include="Scripts\UserJS\BillOfMaterialJS\ViewBillOfMaterial.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ApprovalHistory.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ApproveDocument.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\DocumentSummary.js" />
