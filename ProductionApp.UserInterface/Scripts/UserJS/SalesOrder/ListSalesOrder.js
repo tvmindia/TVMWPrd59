@@ -232,7 +232,6 @@ function ShowHideDataTables()
         $('#divSummaryTable').hide();
         $('#divtogglevalue').val(1);
         $('#btnShowHide').html('<i class="glyphicon glyphicon-eye-open"></i> Show Summary');
-        
     }
     else
     {
@@ -240,6 +239,5 @@ function ShowHideDataTables()
         $('#divDetailTable').hide();
         $('#divtogglevalue').val(0);
         $('#btnShowHide').html('<i class="glyphicon glyphicon-eye-open"></i> Show Detail');
-
     }
 }

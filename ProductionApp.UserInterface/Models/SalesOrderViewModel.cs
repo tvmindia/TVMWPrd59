@@ -19,6 +19,10 @@ namespace ProductionApp.UserInterface.Models
         public string Remarks { get; set; }
 
         //additional properties
+        public bool IsUpdate { get; set; }
+        public Guid hdnFileID { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
         public string OrderDateFormatted { get; set; }
         public string ExpectedDeliveryDateFormatted { get; set; }
         public CommonViewModel Common { get; set; }
