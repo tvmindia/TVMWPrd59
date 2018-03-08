@@ -688,6 +688,8 @@
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\PurchaseOrderJS\NewPurchaseOrder.js" />
     <Content Include="Scripts\UserJS\Product.js" />
+    <Content Include="Scripts\UserJS\MaterialReturnFromProduction\NewRecieveFromProduction.js" />
+    <Content Include="Scripts\UserJS\MaterialReturnFromProduction\ViewRecieveFromProduction.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\NewRequisition.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\RequisitionApproval.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\ViewRequisition.js" />
@@ -880,8 +882,6 @@
     <Content Include="Views\Account\PageNotFound.cshtml" />
     <Content Include="Views\Shared\_SendForApproval.cshtml" />
     <Content Include="Views\Account\DbDown.cshtml" />
-    <Content Include="Views\MaterialReturnFromProduction\ListReceiveFromProduction.cshtml" />
-    <Content Include="Views\MaterialReturnFromProduction\AddReceiveFromProduction.cshtml" />
     <Content Include="Views\MaterialStockAdj\NewStockAdjustment.cshtml" />
     <Content Include="Views\MaterialStockAdj\ListStockAdjustment.cshtml" />
     <Content Include="Views\PurchaseOrder\_PurchaseOrderMailPreview.cshtml" />
@@ -889,6 +889,8 @@
     <Content Include="Views\SalesOrder\AddSalesOrder.cshtml" />
     <Content Include="Views\SalesOrder\ListSalesOrder.cshtml" />
     <Content Include="Views\BillOfMaterial\ViewBillOfMaterial.cshtml" />
+    <Content Include="Views\MaterialReturnFromProduction\NewRecieveFromProduction.cshtml" />
+    <Content Include="Views\MaterialReturnFromProduction\ViewRecieveFromProduction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

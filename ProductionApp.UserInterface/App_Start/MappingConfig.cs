@@ -73,6 +73,9 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<FinishedGoodSummaryViewModel,FinishedGoodSummary>().ReverseMap();
                 config.CreateMap<MaterialSummaryViewModel, MaterialSummary>().ReverseMap();
                 config.CreateMap<ProductionSummaryViewModel, ProductionSummary>().ReverseMap();
+                config.CreateMap<MaterialReturnFromProductionViewModel, MaterialReturnFromProduction>().ReverseMap();
+                config.CreateMap<MaterialReturnFromProductionDetailViewModel, MaterialReturnFromProductionDetail>().ReverseMap();
+                
 
             });
         }
