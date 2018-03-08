@@ -54,7 +54,16 @@ namespace ProductionApp.UserInterface.Controllers
             return PartialView("_DocumentSummary", documentSummaryVM);
         }
 
+        #region Approvals
+        public ActionResult GetApprovers(DocumentApprovalViewModel documentApprovalVM)
+        {
+            DocumentApproverViewModel SendForApprovalVM = new DocumentApproverViewModel();
+            SendForApprovalVM.SendForApprovalList = Mapper.Map<List<DocumentApprover>, List<DocumentApproverViewModel>>(_documentApprovalBusiness.GetApproversByDocType(documentApprovalVM.DocumentType));
+            SendForApprovalVM.ApproversCount = SendForApprovalVM.SendForApprovalList.Select(m => m.ApproverLevel).Distinct().Count();
+            return PartialView("_SendForApproval", SendForApprovalVM);
 
+        }
+        #endregion Approvals
         #region GetAllDocumentApproval
         [HttpPost]
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]

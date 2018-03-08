@@ -285,8 +285,6 @@ $(document).ready(function () {
         //EditPurchaseOrder
           if ($('#ID').val() != emptyGuid) {
               BindPurchaseOrder($('#ID').val());
-              debugger;
-              ChangeButtonPatchView('PurchaseOrder', 'divbuttonPatchAddPurchaseOrder', 'Edit');
           }
           $('#btnSendDownload').hide();
         }
@@ -299,13 +297,15 @@ $(document).ready(function () {
 function AddPurchaseOrderDetail() {
     debugger;
     var $form = $('#PurchaseOrderForm');
-   if ($form.valid()) {
-        $('#RequisitionDetailsModal').modal('show');
-        ViewRequisitionList(1);
-        BindRequisitionListTable();
-    }
-    else {
-        notyAlert('warning', "Please Fill Required Fields,To Add Items ");
+    if ($("#LatestApprovalStatus").val() == 3 || $("#LatestApprovalStatus").val() == 0) {
+        if ($form.valid()) {
+            $('#RequisitionDetailsModal').modal('show');
+            ViewRequisitionList(1);
+            BindRequisitionListTable();
+        }
+        else {
+            notyAlert('warning', "Please Fill Required Fields,To Add Items ");
+        }
     }
 }
 function ViewRequisitionList(value) {
@@ -315,6 +315,45 @@ function ViewRequisitionList(value) {
     $('#btnAddPODetails').hide();
     if (value)
         $('#tabList').trigger('click');
+}
+//bind supplier address 
+function SupplierDetails()
+{
+    debugger;
+    var supplierid = $('#SupplierID').val();
+    supplierVM = GetSupplierDetails(supplierid);
+    $('#MailingAddress').val(supplierVM.BillingAddress);
+    $('#ShippingAddress').val(supplierVM.ShippingAddress);
+}
+function GetSupplierDetails(supplierid)
+{
+    try{
+        debugger;
+        var data = { "supplierid": supplierid };
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var supplierVM = new Object();
+
+        jsonData = GetDataFromServer("PurchaseOrder/GetSupplierDetails/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            supplierVM = jsonData.Records;
+        }
+        if (result == "OK") {
+
+            return supplierVM;
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
+    }
 }
 //bind requistition List
 function BindRequisitionListTable() {
@@ -707,8 +746,25 @@ function BindPurchaseOrder(ID) {
             $('#lblReqNo').text("PO# :" + result.PurchaseOrderNo);
             $("#lblEmailStatus").text(result.EmailSentYN == "True" ? 'YES' : 'NO');
             $("#PurchaseOrderMailPreview_SentToEmails").val(result.SubscriberEmail);
+            $('#lblApprovalStatus').text(result.ApprovalStatus);
+            $('#LatestApprovalStatus').val(result.LatestApprovalStatus);
+            $('#LatestApprovalID').val(result.LatestApprovalID);
+            $('#lblPOStatus').text(result.PurchaseOrderStatus);
+            debugger;
+            if (result.LatestApprovalStatus == 3 || result.LatestApprovalStatus == 0) {
+                ChangeButtonPatchView('PurchaseOrder', 'divbuttonPatchAddPurchaseOrder', 'Edit');
+                EnableDisableFields(false)
+                $("#fileUploadControlDiv").show();
+
+            }
+            else {
+                ChangeButtonPatchView('PurchaseOrder', 'divbuttonPatchAddPurchaseOrder', 'Disable');
+                EnableDisableFields(true)
+                $("#fileUploadControlDiv").hide();
+            }
             PurchaseOrderDetailBindTable() //------binding Details table
             CalculateGrossAmount();
+            PaintImages(ID);//bind attachments
             }
             $('#GrossAmount').prop('disabled', true);
             $('#ItemTotal').prop('disabled', true);
@@ -720,6 +776,21 @@ function BindPurchaseOrder(ID) {
         notyAlert('error', e.Message);
     }
 }
+
+function EnableDisableFields(value) {
+    $("#btnAddPOItems").attr("disabled", value);
+    $('#PurchaseOrderTitle').attr("disabled", value);
+    $('#PurchaseOrderDateFormatted').attr("disabled", value);
+    $('#PurchaseOrderIssuedDateFormatted').attr("disabled", value);
+    $('#MailingAddress').attr("disabled", value);
+    $('#ShippingAddress').attr("disabled", value);
+    $('#SupplierID').attr("disabled", value);
+    $('#PurchaseOrderStatus').attr("disabled", value);
+    DataTables.PurchaseOrderDetailTable.column(11).visible(!value);
+    $('#Discount').attr("disabled", value);
+    $('#GeneralNotes').attr("disabled", value);
+}
+
 function GetPurchaseOrderDetailsByID(ID) {
     try {
         debugger;
@@ -1188,10 +1259,7 @@ function MailSuccess(data, status) {
 function DownloadPDF() {
     debugger;
     GetHtmlData();
-    setTimeout(function () {
-        $('#btnSendDownload').trigger('click');
-    }, 1000);
-    
+    $('#btnSendDownload').trigger('click');
 }
 
 //To download file in PDF
@@ -1204,4 +1272,35 @@ function GetHtmlData() {
     var customerName = $("#SupplierID option:selected").text();
     $('#hdnCustomerName').val(customerName);
 
+}
+
+//For approval
+function ShowSendForApproval(documentTypeCode) {
+    debugger;
+    if ($('#LatestApprovalStatus').val() == 3) {
+        var documentID = $('#ID').val();
+        var latestApprovalID = $('#LatestApprovalID').val();
+        ReSendDocForApproval(documentID, documentTypeCode, latestApprovalID);
+        BindPurchaseOrder($('#ID').val());
+    }
+    else {
+        $('#SendApprovalModal').modal('show');
+    }
+}
+
+function SendForApproval(documentTypeCode) {
+    debugger;
+    var documentID = $('#ID').val();
+    var approversCSV;
+    var count = $('#ApproversCount').val();
+
+    for (i = 0; i < count; i++) {
+        if (i == 0)
+            approversCSV = $('#ApproverLevel' + i).val();
+        else
+            approversCSV = approversCSV + ',' + $('#ApproverLevel' + i).val();
+    }
+    SendDocForApproval(documentID, documentTypeCode, approversCSV);
+    $('#SendApprovalModal').modal('hide');
+    BindPurchaseOrder($('#ID').val());
 }

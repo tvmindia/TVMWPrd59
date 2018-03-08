@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.BusinessService.Contracts
 {
-    public interface ISupplierBusiness
+    public interface ISalesOrderBusiness
     {
-        List<Supplier> GetAllSupplier();
-        Supplier GetSupplier(Guid supplierid);
+        List<SalesOrder> GetAllSalesOrder(SalesOrderAdvanceSearch salesOrderAdvanceSearch);
+
     }
 }

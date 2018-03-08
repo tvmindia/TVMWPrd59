@@ -693,6 +693,8 @@
     <Content Include="Scripts\UserJS\PurchaseOrderJS\ViewPurchaseOrder.js" />
     <Content Include="Scripts\UserJS\Material.js" />
     <Content Include="Scripts\UserJS\Roles.js" />
+    <Content Include="Scripts\UserJS\SalesOrder\AddSalesOrder.js" />
+    <Content Include="Scripts\UserJS\SalesOrder\ListSalesOrder.js" />
     <Content Include="Scripts\UserJS\User.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -709,6 +711,7 @@
     <Compile Include="Controllers\AppObjectController.cs" />
     <Compile Include="Controllers\ApproverController.cs" />
     <Compile Include="Controllers\BankController.cs" />
+    <Compile Include="Controllers\BillOfMaterialController.cs" />
     <Compile Include="Controllers\DashboardAccountController.cs" />
     <Compile Include="Controllers\DashboardMasterController.cs" />
     <Compile Include="Controllers\DashboardSaleController.cs" />
@@ -737,6 +740,7 @@
     <Compile Include="Controllers\PurchaseOrderController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\SalesOrderController.cs" />
     <Compile Include="Controllers\SAMPanelController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
@@ -750,6 +754,7 @@
     <Compile Include="Models\ApprovalStatusViewModel.cs" />
     <Compile Include="Models\ApproverViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
+    <Compile Include="Models\BillOfMaterialViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
     <Compile Include="Models\DataTableAjaxPostModel.cs" />
     <Compile Include="Models\DataTablePagingViewModel.cs" />
@@ -775,6 +780,7 @@
     <Compile Include="Models\MaterialViewModel.cs" />
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\SalesInvoiceViewModel.cs" />
+    <Compile Include="Models\SalesOrderViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
     <Compile Include="Models\TaxTypeViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
@@ -879,6 +885,9 @@
     <Content Include="Views\MaterialStockAdj\ListStockAdjustment.cshtml" />
     <Content Include="Views\PurchaseOrder\_PurchaseOrderMailPreview.cshtml" />
     <Content Include="Views\Home\_FGInventorySummary.cshtml" />
+    <Content Include="Views\SalesOrder\AddSalesOrder.cshtml" />
+    <Content Include="Views\SalesOrder\ListSalesOrder.cshtml" />
+    <Content Include="Views\BillOfMaterial\ViewBillOfMaterial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
