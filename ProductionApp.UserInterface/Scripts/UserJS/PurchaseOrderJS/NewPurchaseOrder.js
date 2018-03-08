@@ -14,6 +14,7 @@ var DataTables = {};
 var PODDetail = [];
 var PODetailViewModel = new Object();
 var PODDetailLink = [];
+var PurchaseOrderDetailList = [];
 var RequisitionDetailLink = new Object();
 var PurchaseOrderViewModel = new Object();
 var EditPOdetailID;
@@ -681,8 +682,9 @@ function GetTaxTypeByCode(Code) {
 function Save() {
     debugger;
     //validation main form 
-    var $form = $('#PurchaseOrderForm');
-    if ($form.valid()) {
+    PurchaseOrderDetailList = [];
+    AddPurchaseOrderDetailList();
+    if (PurchaseOrderDetailList.length > 0) {
         PurchaseOrderViewModel.ID = $('#ID').val();
         PurchaseOrderViewModel.PurchaseOrderNo = $('#PurchaseOrderNo').val();
         PurchaseOrderViewModel.PurchaseOrderDate = $('#PurchaseOrderDateFormatted').val();
@@ -724,6 +726,20 @@ function Save() {
                     break;
             }
         })
+    }
+else {
+        notyAlert('warning', 'Please Add item Details!');
+    }
+}
+//POD data checking
+function AddPurchaseOrderDetailList() {
+    debugger;
+    var purchaseOrderDetail = DataTables.PurchaseOrderDetailTable.rows().data();
+    for (var r = 0; r < purchaseOrderDetail.length; r++) {
+        purchaseDetail = new Object();
+        purchaseDetail.ID = purchaseOrderDetail[r].ID;
+        purchaseDetail.MaterialCode = purchaseOrderDetail[r].MaterialCode;
+        PurchaseOrderDetailList.push(purchaseDetail);
     }
 }
 //Bind PurchaseOrder
