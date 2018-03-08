@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.DataAccessObject.DTO
 {
-    class SalesOrder
+    public class SalesOrder
     {
         public Guid ID { get; set; }
         public string OrderNo { get; set; }
@@ -41,6 +41,16 @@ namespace ProductionApp.DataAccessObject.DTO
         //additional properties
         public string ExpectedDeliveryDateFormatted { get; set; }
         public Common Common { get; set; }
+
+    }
+
+    public class SalesOrderAdvanceSearch
+    {
+        public string SearchTerm { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+
+        public DataTablePaging DataTablePaging { get; set; }
 
     }
 }
