@@ -51,7 +51,8 @@ namespace ProductionApp.UserInterface.Models
         public string FromDate { get; set; }
         [Display(Name = "ToDate")]
         public string ToDate { get; set; }
-
+        public Guid EmployeeID { get; set; }
+        public Guid CustomerID { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
 
     }

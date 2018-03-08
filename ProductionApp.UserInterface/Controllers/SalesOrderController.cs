@@ -36,7 +36,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         #region GetAllSalesOrder
-       // [AuthSecurityFilter(ProjectObject = "GetAllSalesOrder", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
         public JsonResult GetAllSalesOrder(DataTableAjaxPostModel model,SalesOrderAdvanceSearchViewModel SalesOrderAdvanceSearchVM)
         {
             SalesOrderAdvanceSearchVM.DataTablePaging.Start = model.start;
@@ -50,7 +50,25 @@ namespace ProductionApp.UserInterface.Controllers
                 data = salesOrderList
             });
         }
-        #endregion GetAllRequisition
+        #endregion GetAllSalesOrder
+
+
+        #region GetAllSalesOrderDetail
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
+        public JsonResult GetAllSalesOrderDetail(DataTableAjaxPostModel model, SalesOrderAdvanceSearchViewModel SalesOrderAdvanceSearchVM)
+        {
+            SalesOrderAdvanceSearchVM.DataTablePaging.Start = model.start;
+            SalesOrderAdvanceSearchVM.DataTablePaging.Length = (SalesOrderAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : SalesOrderAdvanceSearchVM.DataTablePaging.Length);
+            List<SalesOrderViewModel> salesOrderList = Mapper.Map<List<SalesOrder>, List<SalesOrderViewModel>>(_salesOrderBusiness.GetAllSalesOrder(Mapper.Map<SalesOrderAdvanceSearchViewModel, SalesOrderAdvanceSearch>(SalesOrderAdvanceSearchVM)));
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = 0,// salesOrderList.Count != 0 ? salesOrderList[0].TotalCount : 0,
+                recordsFiltered = 0,//salesOrderList.Count != 0 ? salesOrderList[0].FilteredCount : 0,
+                data = salesOrderList
+            });
+        }
+        #endregion GetAllSalesOrderDetail
 
         #region ButtonStyling
         [HttpGet]
