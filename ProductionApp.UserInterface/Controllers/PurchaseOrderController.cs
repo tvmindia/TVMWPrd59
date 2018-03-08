@@ -369,6 +369,8 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion UpdatePOMailDetails
 
+       
+
         #region PurchaseOrder Dropdown
         public ActionResult PurchaseOrderDropdown()
         {
@@ -461,6 +463,27 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.EmailBtn.Text = "Email";
                     toolboxVM.EmailBtn.Title = "Email";
                     toolboxVM.EmailBtn.Event = "EmailPreview(1);";
+
+                    toolboxVM.SendForApprovalBtn.Visible = true;
+                    toolboxVM.SendForApprovalBtn.Text = "Send";
+                    toolboxVM.SendForApprovalBtn.Title = "Send For Approval";
+                    toolboxVM.SendForApprovalBtn.Event = "ShowSendForApproval('PO');";
+
+                    toolboxVM.ListBtn.Visible = true;
+                    toolboxVM.ListBtn.Text = "List";
+                    toolboxVM.ListBtn.Title = "List";
+                    toolboxVM.ListBtn.Event = "";
+                    toolboxVM.ListBtn.Href = Url.Action("ViewPurchaseOrder", "PurchaseOrder", new { Code = "PURCH" });
+
+                    break;
+
+                case "Disable":
+
+                    toolboxVM.addbtn.Visible = true;
+                    toolboxVM.addbtn.Text = "New";
+                    toolboxVM.addbtn.Title = "Add New";
+                    toolboxVM.addbtn.Href = Url.Action("NewPurchaseOrder", "PurchaseOrder", new { code = "PURCH" });
+                    toolboxVM.addbtn.Event = "";
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";

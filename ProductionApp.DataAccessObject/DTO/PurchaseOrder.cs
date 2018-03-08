@@ -27,23 +27,24 @@ namespace ProductionApp.DataAccessObject.DTO
        public bool IsFinalApproved { get; set; }
        public string SubscriberEmail { get; set; }
         //additional properties
+        public string ApprovalStatus { get; set; }
         public string CompanyAddress { get; set; }
         public string CompanyName { get; set; }
         public string LogoURL { get; set; }
         public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
-       public int FilteredCount { get; set; }
-       public string Supplier { get; set; }
-       public Common Common { get; set; }
-       public string PurchaseOrderDateFormatted { get; set; }
-       public string PurchaseOrderIssuedDateFormatted { get; set; }
-       public PurchaseOrderDetail PurchaseOrderDetail { get; set; }
-       public decimal GrossAmount { get; set; }
-       public List<PurchaseOrderDetail> PODDetail { get; set; }
-       public List<PurchaseOrderDetailRequisitionLink> PODDetailLink { get; set; }
+        public int FilteredCount { get; set; }
+        public string Supplier { get; set; }
+        public Common Common { get; set; }
+        public string PurchaseOrderDateFormatted { get; set; }
+        public string PurchaseOrderIssuedDateFormatted { get; set; }
+        public PurchaseOrderDetail PurchaseOrderDetail { get; set; }
+        public decimal GrossAmount { get; set; }
+        public List<PurchaseOrderDetail> PODDetail { get; set; }
+        public List<PurchaseOrderDetailRequisitionLink> PODDetailLink { get; set; }
         public PurchaseOrderMailPreview PurchaseOrderMailPreview { get; set; }
         public string PODDetailXML { get; set; }
-       public string PODDetailLinkXML { get; set; }
+        public string PODDetailLinkXML { get; set; }
 
     }
     public class PurchaseOrderDetail

@@ -1,5 +1,6 @@
 ﻿@using ProductionApp.UserInterface.App_Start
 @model ProductionApp.UserInterface.Models.PurchaseOrderViewModel
+@using ProductionApp.UserInterface.Models
 @{
     ViewBag.Title = "NewPurchaseOrder";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
@@ -31,11 +32,13 @@
             }
         </div>
     </div>
-   
+
     <div class="row tableContainer">
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
         @using (Ajax.BeginForm("InsertUpdatePurchaseOrder", "PurchaseOrder", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessPurchaseOrder", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "OnServerCallBegin", OnComplete = "OnServerCallComplete" }, new { @class = "form-horizontal", role = "form", @id = "PurchaseOrderForm" }))
         {
+            @Html.HiddenFor(model => model.LatestApprovalStatus)
+            @Html.HiddenFor(model => model.LatestApprovalID)
             <div class="col-md-12">
                 <div class="form-group col-md-8">
                     <div class="form-group col-md-6">
@@ -73,7 +76,7 @@
                         </div>
                         <div class="col-md-12">
                             @Html.EditorFor(model => model.PurchaseOrderIssuedDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker" } })
-                             @Html.ValidationMessageFor(model => model.PurchaseOrderIssuedDateFormatted, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.PurchaseOrderIssuedDateFormatted, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group col-md-6">
@@ -84,9 +87,9 @@
                             @{
                                 List<SelectListItem> PurchaseOrderStatus = new List<SelectListItem>();
                                 PurchaseOrderStatus.Add(new SelectListItem
-                                {   Text = "Open",Value = "Open",Selected = true });
+                                { Text = "Open", Value = "Open", Selected = true });
                                 PurchaseOrderStatus.Add(new SelectListItem
-                                {   Text = "Closed",Value = "Closed" });
+                                { Text = "Closed", Value = "Closed" });
                             }
                             @Html.DropDownListFor(model => model.PurchaseOrderStatus, PurchaseOrderStatus, new { @class = "form-control", style = "padding:4px 12px;", onchange = "OrderStatusChange(this);" })
                             @Html.ValidationMessageFor(model => model.PurchaseOrderStatus, "", new { @class = "text-danger" })
@@ -131,7 +134,7 @@
                             <div class="rightAmtCaption">Approval Status</div>
                         </div>
                         <div class="form-group col-md-12">
-                            <div class="lblStatusDisplay" id="lblApprovalStatus">Pending</div>
+                            <div class="lblStatusDisplay" id="lblApprovalStatus">N/A</div>
                         </div>
                         <div class="form-group col-md-12">
                             <div class="rightAmtCaption">Email Sent(Y/N)</div>
@@ -142,32 +145,32 @@
                     </div>
                 </div>
             </div>
-        }
+                                }
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
         <div class="col-md-10">
         </div>
         <div class="col-md-2">
-            <a class="btn btn-openid" onclick="AddPurchaseOrderDetail()" style="color:white;font-weight:bold"><i class="glyphicon glyphicon-plus"></i> Add Item</a>
+            <a class="btn btn-openid" onclick="AddPurchaseOrderDetail()" id="btnAddPOItems" style="color:white;font-weight:bold"><i class="glyphicon glyphicon-plus"></i> Add Item</a>
         </div>
         <div class="col-md-12">
             <table id="tblPurchaseOrderDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
-                        <thead>
-                            <tr class="text-center TableHead">
-                                <th>Code</th>
-                                <th>Item</th>
-                                <th>Description</th>
-                                <th>Unit</th>
-                                <th>Quantity</th>
-                                <th>Rate</th>
-                                <th>Discount</th>
-                                <th>Taxable Amount</th>
-                                <th>CGST</th>
-                                <th>SGST</th>
+                <thead>
+                    <tr class="text-center TableHead">
+                        <th>Code</th>
+                        <th>Item</th>
+                        <th>Description</th>
+                        <th>Unit</th>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                        <th>Discount</th>
+                        <th>Taxable Amount</th>
+                        <th>CGST</th>
+                        <th>SGST</th>
 
-                                <th>Amount</th>
-                                <th>......</th>
-                        </thead>
-                    </table>
+                        <th>Amount</th>
+                        <th>......</th>
+                </thead>
+            </table>
         </div>
 
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Commercial</div>
@@ -176,7 +179,7 @@
                 @Html.LabelFor(model => model.CGSTTotal, htmlAttributes: new { @class = "control-label" })
             </div>
             <div class="col-md-12">
-                 @Html.EditorFor(model => model.CGSTTotal, new { htmlattributes = new { @class = "form-control HeaderBox Amount", @disabled = "true" } })
+                @Html.EditorFor(model => model.CGSTTotal, new { htmlattributes = new { @class = "form-control HeaderBox Amount", @disabled = "true" } })
                 @Html.ValidationMessageFor(model => model.CGSTTotal, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -227,7 +230,7 @@
                 @Html.ValidationMessageFor(model => model.TaxTotal, "", new { @class = "text-danger" })
             </div>
         </div>
-             
+
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General Notes</div>
         <div class="form-group col-md-8">
             <div class="col-md-12">
@@ -257,7 +260,7 @@
                         <div class="col-md-12 modelIcon">
                             <h3 class="modal-title SCHeader" id="modelContextLabel">Add PurchaseOrder Details</h3>
                         </div>
-                        </div>
+                    </div>
                     <div class="col-md-3" style="padding-right: 4px;">
                         <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
                     </div>
@@ -278,7 +281,7 @@
                             <table id="tblRequisitionList" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                                 <thead>
                                     <tr class="text-center">
-                                        
+
                                         <th>ID</th>
                                         <th></th>
                                         <th>Req No.</th>
@@ -394,35 +397,35 @@
                     @using (Ajax.BeginForm("SendQuoteMail", "PurchaseOrder", new AjaxOptions { HttpMethod = "POST", OnSuccess = "MailSuccess", OnFailure = "SaveFailure", OnBegin = "ValidateEmail", AllowCache = false, LoadingElementId = "", OnComplete = "OnServerCallComplete" }, new { @class = "form-horizontal", role = "form", id = "sendmailform" }))
 
                     {
-                        @Html.AntiForgeryToken()
+                    @Html.AntiForgeryToken()
 
-                        @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <div class="form-group col-md-12" hidden="hidden">
-                            @Html.HiddenFor(model => model.PurchaseOrderMailPreview.MailBody, htmlAttributes: new { @class = "", Value = "", @id = "mailBodyText" })
+                    <div class="form-group col-md-12" hidden="hidden">
+                        @Html.HiddenFor(model => model.PurchaseOrderMailPreview.MailBody, htmlAttributes: new { @class = "", Value = "", @id = "mailBodyText" })
+                    </div>
+                    <div class="col-md-10">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.PurchaseOrderMailPreview.SentToEmails, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.PurchaseOrderMailPreview.SentToEmails, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                                    @Html.ValidationMessageFor(model => model.PurchaseOrderMailPreview.SentToEmails, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1"></div>
+                            </div>
+
                         </div>
-                            <div class="col-md-10">
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        @Html.LabelFor(model => model.PurchaseOrderMailPreview.SentToEmails, htmlAttributes: new { @class = "control-label" })
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="col-md-12">
-                                            @Html.EditorFor(model => model.PurchaseOrderMailPreview.SentToEmails, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
-                                            @Html.ValidationMessageFor(model => model.PurchaseOrderMailPreview.SentToEmails, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-1"></div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="form-group" style="display:none;">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input id="btnFormSendMail" type="submit" value="Create" class="btn btn-default" />
-                                </div>
-                            </div>
+                    </div>
+                    <div class="form-group" style="display:none;">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input id="btnFormSendMail" type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>
                     }
                 </div>
                 <div class="col-md-12" id="mailmodelcontent">
@@ -432,18 +435,50 @@
                 <a class="btn btn-primary" onclick="SendMailPreview()" id="btnMail"><i class="glyphicon glyphicon-floppy-disk"></i> Next</a>
                 <a class="btn btn-primary" onclick="DownloadPDF()" id="btnSend"><i class="glyphicon glyphicon-download-alt"></i> Download</a>
                 <a class="btn btn-primary" onclick="SendMailClick()" id="btnMailSend"><i class="glyphicon glyphicon-floppy-disk"></i> Send Mail</a>
-                
-                @using (Html.BeginForm("Download", "PDFGenerator", new { HttpMethod = "POST", @class = "form-horizontal", role = "form", @id = "PDFForm" }))
-                {                  
-                        @Html.HiddenFor(model => model.PDFTools.Content, htmlAttributes: new { @class = "", Value = "", @id = "hdnContent" })
-                        @Html.HiddenFor(model => model.PDFTools.Headcontent, htmlAttributes: new { @class = "", Value = "", @id = "hdnHeadContent" })
-                        @Html.HiddenFor(model => model.PDFTools.HeaderText, htmlAttributes: new { @class = "", Value = "AURA" })
-                        @Html.HiddenFor(model => model.PDFTools.ContentFileName, htmlAttributes: new { @class = "", Value = "PurchaseOrder", @id = "hdnContentFileName" })
-                        @Html.HiddenFor(model => model.PDFTools.CustomerName, htmlAttributes: new { @class = "", @id = "hdnCustomerName" })
 
-                        <input type="submit" id="btnSendDownload" value="Download" />                      
+                @using (Html.BeginForm("Download", "PDFGenerator", new { HttpMethod = "POST", @class = "form-horizontal", role = "form", @id = "PDFForm" }))
+                {
+                @Html.HiddenFor(model => model.PDFTools.Content, htmlAttributes: new { @class = "", Value = "", @id = "hdnContent" })
+                @Html.HiddenFor(model => model.PDFTools.Headcontent, htmlAttributes: new { @class = "", Value = "", @id = "hdnHeadContent" })
+                @Html.HiddenFor(model => model.PDFTools.HeaderText, htmlAttributes: new { @class = "", Value = "AURA" })
+                @Html.HiddenFor(model => model.PDFTools.ContentFileName, htmlAttributes: new { @class = "", Value = "PurchaseOrder", @id = "hdnContentFileName" })
+                @Html.HiddenFor(model => model.PDFTools.CustomerName, htmlAttributes: new { @class = "", @id = "hdnCustomerName" })
+
+                <input type="submit" id="btnSendDownload" value="Download" />
                }
+            </div>
+        </div>
+    </div>
 </div>
+<!-- Modal Send Approval Modal -->
+<div class="modal fade bs-example-modal-lg" id="SendApprovalModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document" style="min-width:500px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-9">
+                        <div class="col-md-12 modelIcon">
+                            <h3 class="modal-title" id="modelContextLabel">Send Approval Details</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    @{
+                        DocumentApprovalViewModel documentApprovalVM = new DocumentApprovalViewModel();
+                        documentApprovalVM.DocumentType = "PO";
+                        @Html.Action("GetApprovers", "DocumentApproval", documentApprovalVM);
+                    }
+                    
+                </div>
+            </div>
+            <div class="modal-footer" style="height: 50px;padding: 7px;">
+                <a class="btn btn-primary" onclick="SendForApproval('PO')"><i class="glyphicon glyphicon-floppy-disk"></i> Send For Approval</a>
+            </div>
         </div>
     </div>
 </div>

@@ -67,6 +67,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         purchaseOrder.SupplierID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : purchaseOrder.SupplierID);
                                         purchaseOrder.PurchaseOrderStatus = (sdr["PurchaseOrderStatus"].ToString() != "" ? sdr["PurchaseOrderStatus"].ToString() : purchaseOrder.PurchaseOrderStatus);
                                         purchaseOrder.PurchaseOrderTitle = (sdr["PurchaseOrderTitle"].ToString() != "" ? sdr["PurchaseOrderTitle"].ToString() : purchaseOrder.PurchaseOrderTitle);
+                                        purchaseOrder.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? sdr["ApprovalStatus"].ToString() : purchaseOrder.ApprovalStatus);
                                         purchaseOrder.TotalCount= (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : purchaseOrder.TotalCount);
                                         purchaseOrder.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : purchaseOrder.FilteredCount);
                                     }
@@ -518,6 +519,9 @@ namespace ProductionApp.RepositoryServices.Services
                                     purchaseOrder.Discount = (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseOrder.Discount);
                                     purchaseOrder.EmailSentYN= (sdr["EmailSentYN"].ToString() != "" ? sdr["EmailSentYN"].ToString() : purchaseOrder.EmailSentYN);
                                     purchaseOrder.SubscriberEmail= (sdr["SubscriberEmail"].ToString() != "" ? sdr["SubscriberEmail"].ToString() : purchaseOrder.SubscriberEmail);
+                                    purchaseOrder.ApprovalStatus= (sdr["ApprovalStatus"].ToString() != "" ? sdr["ApprovalStatus"].ToString() : purchaseOrder.ApprovalStatus);
+                                    purchaseOrder.LatestApprovalStatus= (sdr["LatestApprovalStatus"].ToString() != "" ? Int16.Parse(sdr["LatestApprovalStatus"].ToString()) : purchaseOrder.LatestApprovalStatus);
+                                    purchaseOrder.LatestApprovalID = (sdr["LatestApprovalID"].ToString() != "" ? Guid.Parse(sdr["LatestApprovalID"].ToString()) : purchaseOrder.LatestApprovalID);
                                     purchaseOrder.PurchaseOrderMailPreview = new PurchaseOrderMailPreview();
                                     purchaseOrder.PurchaseOrderMailPreview.SentToEmails= (sdr["SubscriberEmail"].ToString() != "" ? sdr["SubscriberEmail"].ToString() : purchaseOrder.SubscriberEmail);
                                     purchaseOrder.CompanyAddress = (sdr["EmailFrom"].ToString() != "" ? sdr["EmailFrom"].ToString() : purchaseOrder.CompanyAddress);

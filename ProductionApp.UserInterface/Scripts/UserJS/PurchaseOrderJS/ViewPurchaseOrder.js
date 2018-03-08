@@ -86,6 +86,7 @@ function BindOrReloadPurchaseOrderTable(action) {
                 { "data": "Supplier", "defaultContent": "<i>-</i>" },
                 { "data": "PurchaseOrderStatus", "defaultContent": "<i>-</i>" },
                 { "data": "PurchaseOrderTitle", "defaultContent": "<i>-</i>" },
+                { "data": "ApprovalStatus", "defaultContent": "<i>-</i>" },
                 {
                     "data": "ID", "orderable": false, render: function (data, type, row) {
                         return '<a href="/PurchaseOrder/NewPurchaseOrder?code=PURCH&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'

@@ -1,5 +1,6 @@
 ﻿@using ProductionApp.UserInterface.App_Start
 @model ProductionApp.UserInterface.Models.RequisitionViewModel
+@using ProductionApp.UserInterface.Models
 @{
     ViewBag.Title = "New Requisition";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
@@ -250,7 +251,12 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    @Html.Action("GetApprovers", "Requisition")
+                    
+                    @{
+                        DocumentApprovalViewModel documentApprovalVM = new DocumentApprovalViewModel();
+                        documentApprovalVM.DocumentType = "REQ";
+                        @Html.Action("GetApprovers", "DocumentApproval", documentApprovalVM);
+                    }
                 </div>
             </div>
             <div class="modal-footer" style="height: 50px;padding: 7px;">

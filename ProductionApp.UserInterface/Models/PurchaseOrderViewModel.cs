@@ -48,6 +48,7 @@ namespace ProductionApp.UserInterface.Models
             public bool IsFinalApproved { get; set; }
             public string SubscriberEmail { get; set; }
         //additional properties
+            public string ApprovalStatus { get; set; }
             public string CompanyAddress { get; set; }
             public string CompanyName { get; set; }
             public string LogoURL { get; set; }
