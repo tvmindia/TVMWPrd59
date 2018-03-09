@@ -1,4 +1,5 @@
 ﻿using ProductionApp.BusinessService.Contracts;
+using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.RepositoryServices.Contracts;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,28 @@ namespace ProductionApp.BusinessService.Services
         {
             _materialReturnFromProductionRepository = materialReturnFromProductionRepository;
             _commonBusiness = commonBusiness;
+        }
+        public List<MaterialReturnFromProduction> GetAllReturnFromProduction(MaterialReturnFromProductionAdvanceSearch materialReturnAdvanceSearch)
+        {
+            return _materialReturnFromProductionRepository.GetAllReturnFromProduction(materialReturnAdvanceSearch);
+        }
+        public object InsertUpdateReturnFromProduction(MaterialReturnFromProduction materialReturnFromProduction)
+        {
+            DetailsXMl(materialReturnFromProduction);
+            return _materialReturnFromProductionRepository.InsertUpdateReturnFromProduction(materialReturnFromProduction);
+        }
+
+        public void DetailsXMl(MaterialReturnFromProduction materialReturnFromProduction)
+        {
+            string result = "<Details>";
+            int totalRows = 0;
+            foreach (object some_object in materialReturnFromProduction.MaterialReturnFromProductionDetailList)
+            {
+                _commonBusiness.XML(some_object, ref result, ref totalRows);
+            }
+            result = result + "</Details>";
+
+            materialReturnFromProduction.DetailXML = result;
         }
     }
 }

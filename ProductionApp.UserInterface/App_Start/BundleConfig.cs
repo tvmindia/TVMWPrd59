@@ -79,6 +79,8 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Home").Include("~/Scripts/UserJS/Home/SalesSummary.js", "~/Scripts/UserJS/Home/PurchaseSummary.js", "~/Scripts/UserJS/Home/IncomeExpenseSummary.js", "~/Scripts/UserJS/Home/FinishedGoodSummary.js", "~/Scripts/UserJS/Home/MaterialSummary.js", "~/Scripts/UserJS/Home/ProductionSummary.js"));//
             bundles.Add(new ScriptBundle("~/bundles/UserJs/SalesOrder/ListSalesOrder").Include("~/Scripts/UserJS/SalesOrder/ListSalesOrder.js"));//
             bundles.Add(new ScriptBundle("~/bundles/UserJs/BillOfMaterialJS/ViewBillOfMaterial").Include("~/Scripts/UserJs/BillOfMaterialJS/ViewBillOfMaterial.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/MaterialReturnFromProductionJS/ViewRecieveFromProduction").Include("~/Scripts/UserJS/MaterialReturnFromProductionJS/ViewRecieveFromProduction.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/MaterialReturnFromProductionJS/NewRecieveFromProduction").Include("~/Scripts/UserJS/MaterialReturnFromProductionJS/NewRecieveFromProduction.js"));
 
 
         }

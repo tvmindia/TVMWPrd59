@@ -689,8 +689,8 @@
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\PurchaseOrderJS\NewPurchaseOrder.js" />
     <Content Include="Scripts\UserJS\Product.js" />
-    <Content Include="Scripts\UserJS\MaterialReturnFromProduction\NewRecieveFromProduction.js" />
-    <Content Include="Scripts\UserJS\MaterialReturnFromProduction\ViewRecieveFromProduction.js" />
+    <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\NewRecieveFromProduction.js" />
+    <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\ViewRecieveFromProduction.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\NewRequisition.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\RequisitionApproval.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\ViewRequisition.js" />

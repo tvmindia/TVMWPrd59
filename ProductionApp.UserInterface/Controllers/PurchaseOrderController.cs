@@ -369,8 +369,6 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion UpdatePOMailDetails
 
-       
-
         #region PurchaseOrder Dropdown
         public ActionResult PurchaseOrderDropdown()
         {
@@ -484,6 +482,11 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Title = "Add New";
                     toolboxVM.addbtn.Href = Url.Action("NewPurchaseOrder", "PurchaseOrder", new { code = "PURCH" });
                     toolboxVM.addbtn.Event = "";
+
+                    toolboxVM.EmailBtn.Visible = true;
+                    toolboxVM.EmailBtn.Text = "Email";
+                    toolboxVM.EmailBtn.Title = "Email";
+                    toolboxVM.EmailBtn.Event = "EmailPreview(1);";
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";

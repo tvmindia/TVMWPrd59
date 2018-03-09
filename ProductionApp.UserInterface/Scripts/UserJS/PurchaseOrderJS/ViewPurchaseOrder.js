@@ -1,4 +1,15 @@
-﻿var DataTables = {};
+﻿//*****************************************************************************
+//*****************************************************************************
+//Author: Angel
+//CreatedDate: 12-Feb-2018 
+//LastModified: 5-Mar-2018 
+//FileName: ViewPurchaseOrder.js
+//Description: Client side coding for PurchaseOrder
+//******************************************************************************
+//******************************************************************************
+
+//--Global Declaration--//
+var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;

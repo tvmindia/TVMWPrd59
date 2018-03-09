@@ -1185,9 +1185,21 @@ function SendMailPreview() {
     if(PurchaseOrderViewModel.MailBodyHeader || PurchaseOrderViewModel.MailBodyFooter )
         SaveHeaderDetail()
     EmailPreview(0);
-    $('#btnMailSend').show();
-    $('#btnSend').show();
-    $('#btnMail').hide();
+    if ($('#LatestApprovalStatus').val() == 4) {
+        $('#btnMailSend').show();
+        $('#btnSend').show();
+        $('#btnMail').hide();
+    }
+    else {
+        $('#btnMailSend').show();
+        $('#btnSend').show();
+        $('#btnMail').hide();
+        $("#btnMailSend").attr("disabled", true);
+        $("#btnSend").attr("disabled", true);
+        $("#btnMailSend").title("Can not send mail, document not approved");
+        $("#btnSend").title("Can not download PDF, document not approved");
+        
+    }
 }
 
 function SaveHeaderDetail()
@@ -1216,8 +1228,10 @@ PostDataToServer("PurchaseOrder/UpdatePOMailDetails/", data, function (JsonResul
 
 function SendMailClick() {
     debugger;
-    $('#btnFormSendMail').trigger('click');
-    $('#btnMail').hide();
+    if ($('#LatestApprovalStatus').val() == 4) {
+        $('#btnFormSendMail').trigger('click');
+        $('#btnMail').hide();
+    }
 }
 
 function ValidateEmail() {
@@ -1274,8 +1288,10 @@ function MailSuccess(data, status) {
 //To trigger PDF download button
 function DownloadPDF() {
     debugger;
-    GetHtmlData();
-    $('#btnSendDownload').trigger('click');
+    if ($('#LatestApprovalStatus').val() == 4) {
+        GetHtmlData();
+        $('#btnSendDownload').trigger('click');
+    }
 }
 
 //To download file in PDF
