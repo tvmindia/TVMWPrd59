@@ -897,8 +897,8 @@
     <Content Include="Views\BillOfMaterial\NewBillOfMaterial.cshtml" />
     <Content Include="Views\MaterialReturnFromProduction\NewRecieveFromProduction.cshtml" />
     <Content Include="Views\MaterialReturnFromProduction\ViewRecieveFromProduction.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Stage\Index.cshtml" />
+    <Content Include="Views\Stage\_AddStagePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

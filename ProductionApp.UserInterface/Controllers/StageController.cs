@@ -76,5 +76,110 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetAllStage
 
+        #region InsertUpdateStage
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "Stage", Mode = "R")]
+        public string InsertUpdateStage(StageViewModel stageVM)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    AppUA appUA = Session["AppUA"] as AppUA;
+                    stageVM.Common = new CommonViewModel
+                    {
+                        CreatedBy = appUA.UserName,
+                        CreatedDate = _common.GetCurrentDateTime(),
+                        UpdatedBy = appUA.UserName,
+                        UpdatedDate = _common.GetCurrentDateTime(),
+                    };
+                    var result = _stageBusiness.InsertUpdateStage(Mapper.Map<StageViewModel, Stage>(stageVM));
+                    return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+                }
+                catch (Exception ex)
+                {
+                    AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+                }
+            }
+            else
+            {
+                List<string> modelErrors = new List<string>();
+                foreach (var modelState in ModelState.Values)
+                {
+                    foreach (var modelError in modelState.Errors)
+                    {
+                        modelErrors.Add(modelError.ErrorMessage);
+                    }
+                }
+                return JsonConvert.SerializeObject(new { Result = "VALIDATION", Message = string.Join(",", modelErrors) });
+            }
+        }
+        #endregion InsertUpdateRawMaterial
+
+        #region MasterPartial
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Stage", Mode = "R")]
+        public ActionResult MasterPartial(string masterCode)
+        {
+            StageViewModel stageVM = string.IsNullOrEmpty(masterCode) ? new StageViewModel() : Mapper.Map<Stage, StageViewModel>(_stageBusiness.GetStage(Guid.Parse(masterCode)));
+            stageVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
+            return PartialView("_AddStagePartial", stageVM);
+        }
+        #endregion MasterPartial
+
+        #region DeleteStage
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Stage", Mode = "R")]
+        public string DeleteStage(Guid id)
+        {
+            try
+            {
+                var result = _stageBusiness.DeleteStage(id);
+                return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Status = "ERROR", Record = "", Message = cm.Message });
+            }
+
+        }
+        #endregion DeleteStage
+
+        #region ButtonStyling
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Stage", Mode = "R")]
+        public ActionResult ChangeButtonStyle(string actionType)
+        {
+            ToolboxViewModel toolboxVM = new ToolboxViewModel();
+            switch (actionType)
+            {
+                case "List":
+                    toolboxVM.addbtn.Visible = true;
+                    toolboxVM.addbtn.Text = "Add";
+                    toolboxVM.addbtn.Title = "Add New";
+                    toolboxVM.addbtn.Event = "AddStageMaster('MSTR')";
+                    //----added for reset button---------------
+                    toolboxVM.resetbtn.Visible = true;
+                    toolboxVM.resetbtn.Text = "Reset";
+                    toolboxVM.resetbtn.Title = "Reset All";
+                    toolboxVM.resetbtn.Event = "ResetStageList();";
+                    //----added for export button--------------
+                    toolboxVM.PrintBtn.Visible = true;
+                    toolboxVM.PrintBtn.Text = "Export";
+                    toolboxVM.PrintBtn.Title = "Export";
+                    toolboxVM.PrintBtn.Event = "ImportStageData();";
+                    //---------------------------------------
+                    break;
+
+                default:
+                    return Content("Nochange");
+            }
+            return PartialView("ToolboxView", toolboxVM);
+        }
+        #endregion ButtonStyling
+
     }
 }

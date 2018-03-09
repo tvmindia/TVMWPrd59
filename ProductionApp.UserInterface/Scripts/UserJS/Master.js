@@ -155,3 +155,35 @@ function SaveSuccessApprover(data, status) {
             break;
     }
 }
+
+//-- add  Stage--//
+function AddStageMaster(flag) {
+    GetMasterPartial("Stage", "");
+    $('#h3ModelMasterContextLabel').text('Add Production Stage')
+    $('#divModelMasterPopUp').modal('show');
+    $('#hdnMasterCall').val(flag);
+}
+//-- Function After Save Stage--//
+function SaveSuccessStage(data, status) {
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            if ($('#hdnMasterCall').val() == "MSTR") {
+                $('#IsUpdate').val('True');
+                $('#ID').val(JsonResult.Records.ID);
+                BindOrReloadStageTable('Reset');
+            }
+            else if ($('#hdnMasterCall').val() == "OTR") {
+                $('#divMaterialDropdown').load('/Stage/StageDropdown');
+            }
+            MasterAlert("success", JsonResult.Records.Message)
+            break;
+        case "ERROR":
+            MasterAlert("danger", JsonResult.Message)
+            break;
+        default:
+            MasterAlert("danger", JsonResult.Message)
+            break;
+    }
+}

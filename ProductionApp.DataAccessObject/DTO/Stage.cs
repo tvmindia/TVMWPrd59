@@ -14,6 +14,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
+        public Common Common { get; set; }
     }
     public class StageAdvanceSearch
     {

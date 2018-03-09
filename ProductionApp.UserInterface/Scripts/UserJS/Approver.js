@@ -49,7 +49,6 @@ function BindOrReloadApproverTable(action) {
             case 'Apply':
                     break;
             case 'Export':
-                if ($('#SearchTerm').val() == "")
                     DataTablePagingViewModel.Length = -1;
                 break;
             default:
@@ -113,7 +112,7 @@ function BindOrReloadApproverTable(action) {
                         }
                     }
                     $(".buttons-excel").trigger('click');
-                    ResetApproverList();
+                    BindOrReloadApproverTable('Search');
                 }
             }
         });

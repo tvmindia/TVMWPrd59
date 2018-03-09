@@ -10,6 +10,9 @@ namespace ProductionApp.BusinessService.Contracts
     public interface IStageBusiness
     {
         List<Stage> GetAllStage(StageAdvanceSearch stageAdvanceSearch);
+        object InsertUpdateStage(Stage stage);
+        Stage GetStage(Guid id);
+        object DeleteStage(Guid id);
 
     }
 }

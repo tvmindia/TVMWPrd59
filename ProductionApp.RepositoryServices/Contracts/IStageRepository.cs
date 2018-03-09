@@ -10,6 +10,9 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface IStageRepository
     {
         List<Stage> GetAllStage(StageAdvanceSearch stageAdvanceSearch);
+        object InsertUpdateStage(Stage stage);
+        Stage GetStage(Guid id);
+        object DeleteStage(Guid id);
 
     }
 }

@@ -31,9 +31,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _materialRepository.CheckMaterialCodeExist(materialCode);
         }
-        public object InsertUpdateMaterial(Material rawMaterial)
+        public object InsertUpdateMaterial(Material material)
         {
-            return _materialRepository.InsertUpdateMaterial(rawMaterial);
+            return _materialRepository.InsertUpdateMaterial(material);
         }
         public Material GetMaterial(Guid id)
         {

@@ -82,5 +82,168 @@ namespace ProductionApp.RepositoryServices.Services
             return stageList;
         }
         #endregion GetAllStage
+
+        #region InsertUpdateStage
+        /// <summary>
+        /// To Insert and update Stage
+        /// </summary>
+        /// <param name="stage"></param>
+        /// <returns>object</returns>
+        public object InsertUpdateStage(Stage stage)
+        {
+            SqlParameter outputStatus, OutputID;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[InsertUpdateStage]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = stage.IsUpdate;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = stage.ID;
+                        cmd.Parameters.Add("@Description", SqlDbType.NVarChar,250).Value = stage.Description;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar).Value = stage.Common.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = stage.Common.CreatedDate;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.VarChar).Value = stage.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = stage.Common.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        OutputID = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier);
+                        OutputID.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(stage.IsUpdate ? _appConst.UpdateFailure : _appConst.InsertFailure);
+                    case "1":
+                        stage.ID = Guid.Parse(OutputID.Value.ToString());
+                        return new
+                        {
+                            ID = Guid.Parse(OutputID.Value.ToString()),
+                            Status = outputStatus.Value.ToString(),
+                            Message = stage.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+                        };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                ID = Guid.Parse(OutputID.Value.ToString()),
+                Status = outputStatus.Value.ToString(),
+                Message = stage.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+            };
+        }
+        #endregion InsertUpdateStage
+
+        #region GetStage
+        /// <summary>
+        /// To Get Stage Details corresponding to ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Stage</returns>
+        public Stage GetStage(Guid id)
+        {
+            Stage stage = null;
+
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetStage]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    stage = new Stage();
+                                    stage.ID = sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : stage.ID;
+                                    stage.Description = sdr["Description"].ToString() != "" ? (sdr["Description"].ToString()) : stage.Description;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return stage;
+        }
+        #endregion GetStage
+
+        #region DeleteStage
+        /// <summary>
+        /// To Delete Stage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public object DeleteStage(Guid id)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeleteStage]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.Int);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+
+                        throw new Exception(_appConst.DeleteFailure);
+
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = _appConst.DeleteSuccess
+            };
+        }
+        #endregion DeleteStage
+
     }
 }

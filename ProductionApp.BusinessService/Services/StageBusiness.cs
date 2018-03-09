@@ -1,4 +1,5 @@
-﻿using ProductionApp.DataAccessObject.DTO;
+﻿
+using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.RepositoryServices.Contracts;
 using System;
 using System.Collections.Generic;
@@ -20,5 +21,18 @@ namespace ProductionApp.BusinessService.Services
         {
             return _stageRepository.GetAllStage(stageAdvanceSearch);
         }
+        public object InsertUpdateStage(Stage stage)
+        {
+            return _stageRepository.InsertUpdateStage(stage);
+        }
+        public Stage GetStage(Guid id)
+        {
+            return _stageRepository.GetStage(id);
+        }
+        public object DeleteStage(Guid id)
+        {
+            return _stageRepository.DeleteStage(id);
+        }
+
     }
 }

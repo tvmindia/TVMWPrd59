@@ -14,6 +14,7 @@ namespace ProductionApp.UserInterface.Models
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
+        public CommonViewModel Common { get; set; }
     }
 
     public class StageAdvanceSearchViewModel
