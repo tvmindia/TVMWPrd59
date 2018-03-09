@@ -33,6 +33,7 @@ namespace ProductionApp.UserInterface.Models
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public Guid ProductID { get; set; }
+        public string HSNNo { get; set; }
         public CommonViewModel Common { get; set; }
         public UnitViewModel Unit { get; set; }
         public List<SelectListItem> SelectList { get; set; }

@@ -16,6 +16,13 @@ namespace ProductionApp.BusinessService.Services
         {
             _taxTypeRepository = taxTypeRepository;
         }
+
+        public List<TaxType> GetTaxTypeForSelectList()
+        {
+            return _taxTypeRepository.GetTaxTypeForSelectList();
+
+        }
+
         public TaxType GetTaxTypeDetailsByCode(string Code)
         {
             return _taxTypeRepository.GetTaxTypeDetailsByCode(Code);

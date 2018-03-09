@@ -10,5 +10,7 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface ITaxTypeRepository
     {
         TaxType GetTaxTypeDetailsByCode(string Code);
+        List<TaxType> GetTaxTypeForSelectList();
+
     }
 }

@@ -3,7 +3,7 @@
 //Author: Gibin Jacob
 //CreatedDate: 12-Feb-2018 
 //LastModified: 05-Mar-2018 
-//FileName: NewRequisition.js
+//FileName: AddSalesOrder.js
 //Description: Client side coding for Add/Edit Sales Order
 //******************************************************************************
 //******************************************************************************
@@ -22,6 +22,8 @@ $(document).ready(function () {
         //});
         $("#EmployeeID").select2({
         });
+        $("#CustomerID").select2({
+        });
 
         $('#btnUpload').click(function () {
             debugger;
@@ -38,7 +40,7 @@ $(document).ready(function () {
             UploadFile(FileObject);
         });
 
-        DataTables.RequisitionDetailTable = $('#tblSalesOrderDetail').DataTable(
+        DataTables.SalesOrderDetailTable = $('#tblSalesOrderDetail').DataTable(
       {
           dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
           ordering: false,
@@ -100,4 +102,9 @@ function Save() {
     //    notyAlert('warning', 'Please Add Requistion Details!');
     //}
 
+}
+
+function ShowSalesOrderDetailsModal()
+{
+    $('#SalesOrderDetailsModal').modal('show');
 }

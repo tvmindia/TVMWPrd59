@@ -10,5 +10,6 @@ namespace ProductionApp.BusinessService.Contracts
     public interface ITaxTypeBusiness
     {
         TaxType GetTaxTypeDetailsByCode(string Code);
+        List<TaxType> GetTaxTypeForSelectList();
     }
 }

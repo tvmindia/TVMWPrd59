@@ -40,6 +40,7 @@ namespace ProductionApp.UserInterface.Models
         public string ExpectedDeliveryDateFormatted { get; set; }
         public CommonViewModel Common { get; set; }
         public List<SalesOrderDetailViewModel> SalesOrderDetailList { get; set; }
+        public SalesOrderDetailViewModel SalesOrderDetail { get; set; }
 
 
     }
@@ -56,10 +57,15 @@ namespace ProductionApp.UserInterface.Models
         public DateTime ExpectedDeliveryDate { get; set; }
 
         //additional properties
+        public decimal NetAmount { get; set; }
+        public decimal GrossAmount { get; set; }
+        public decimal DiscountAmount { get; set; }
+
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public string ExpectedDeliveryDateFormatted { get; set; }
         public CommonViewModel Common { get; set; }
+        public ProductViewModel Product { get; set; }
 
     }
     public class SalesOrderAdvanceSearchViewModel

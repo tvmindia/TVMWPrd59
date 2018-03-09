@@ -751,6 +751,7 @@
     <Compile Include="Controllers\SAMPanelController.cs" />
     <Compile Include="Controllers\StageController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\TaxTypeController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -915,6 +916,7 @@
     <Folder Include="Content\Uploads\" />
     <Folder Include="Views\FileUpload\" />
     <Folder Include="Views\RecieveFromProduction\" />
+    <Folder Include="Views\TaxType\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProductionApp.BusinessService\ProductionApp.BusinessService.csproj">

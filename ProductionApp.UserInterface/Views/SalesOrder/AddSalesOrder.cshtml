@@ -120,7 +120,7 @@
             </div>
             <div class="form-group" hidden="hidden">
                 <div class="col-md-offset-2 col-md-10">
-                   @* @Html.HiddenFor(model => model.DetailJSON, htmlAttributes: new { @class = "" })*@
+                    @Html.HiddenFor(model => model.DetailJSON, htmlAttributes: new { @class = "" })
                     <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
                 </div>
             </div>
@@ -174,6 +174,100 @@
         <div class="col-md-12  ">&nbsp;</div>
     </div>
 </section>
+
+<!-- Modal Edit Sales Order Details Modal -->
+<div class="modal fade bs-example-modal-lg" id="SalesOrderDetailsModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="min-width:900px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-9">
+                        <div class="col-md-12 modelIcon">
+                            <h3 class="modal-title" id="modelContextLabel">Add Sales Order Details</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SalesOrderDetail.Product.ID, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-12">
+                            <div id="divRawMaterialDropdown">
+                                @Html.Action("ProductDropdown", "Product")
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 headSeperator"></div>
+
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SalesOrderDetail.Product.HSNNo, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SalesOrderDetail.Product.HSNNo, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SalesOrderDetail.UnitCode, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SalesOrderDetail.UnitCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SalesOrderDetail.TaxTypeCode, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                         @*   @Html.DropDownListFor(model => model.SalesOrderDetail.TaxTypeCode, TaxTypeCodeList, new { @class = "form-control", style = "padding:4px 12px;" })*@
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SalesOrderDetail.Rate, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SalesOrderDetail.Rate, new { htmlAttributes = new { @class = "form-control HeaderBox text-right", onkeypress = "return isNumber(event)" } })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SalesOrderDetail.DiscountAmount, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SalesOrderDetail.DiscountAmount, new { htmlAttributes = new { @class = "form-control text-right", onkeypress = "return isNumber(event)" } })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SalesOrderDetail.Quantity, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SalesOrderDetail.Quantity, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="height: 50px;padding: 7px;">
+                <a class="btn btn-primary" onclick="AddSalesOrderDetails()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
