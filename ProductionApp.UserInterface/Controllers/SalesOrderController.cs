@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
@@ -35,6 +36,12 @@ namespace ProductionApp.UserInterface.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Sales Order Summary view in Table
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="SalesOrderAdvanceSearchVM"></param>
+        /// <returns></returns>
         #region GetAllSalesOrder
         [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
         public JsonResult GetAllSalesOrder(DataTableAjaxPostModel model,SalesOrderAdvanceSearchViewModel SalesOrderAdvanceSearchVM)
@@ -45,30 +52,68 @@ namespace ProductionApp.UserInterface.Controllers
             return Json(new
             {
                 draw = model.draw,
-                recordsTotal =0,// salesOrderList.Count != 0 ? salesOrderList[0].TotalCount : 0,
-            recordsFiltered = 0,//salesOrderList.Count != 0 ? salesOrderList[0].FilteredCount : 0,
+                recordsTotal =salesOrderList.Count != 0 ? salesOrderList[0].TotalCount : 0,
+            recordsFiltered =salesOrderList.Count != 0 ? salesOrderList[0].FilteredCount : 0,
                 data = salesOrderList
             });
         }
         #endregion GetAllSalesOrder
 
-
+        /// <summary>
+        /// Sales order Summary Detail View in Table
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="SalesOrderAdvanceSearchVM"></param>
+        /// <returns></returns>
         #region GetAllSalesOrderDetail
         [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
         public JsonResult GetAllSalesOrderDetail(DataTableAjaxPostModel model, SalesOrderAdvanceSearchViewModel SalesOrderAdvanceSearchVM)
         {
             SalesOrderAdvanceSearchVM.DataTablePaging.Start = model.start;
             SalesOrderAdvanceSearchVM.DataTablePaging.Length = (SalesOrderAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : SalesOrderAdvanceSearchVM.DataTablePaging.Length);
-            List<SalesOrderViewModel> salesOrderList = Mapper.Map<List<SalesOrder>, List<SalesOrderViewModel>>(_salesOrderBusiness.GetAllSalesOrder(Mapper.Map<SalesOrderAdvanceSearchViewModel, SalesOrderAdvanceSearch>(SalesOrderAdvanceSearchVM)));
+            List<SalesOrderViewModel> salesOrderDetailList = Mapper.Map<List<SalesOrder>, List<SalesOrderViewModel>>(_salesOrderBusiness.GetAllSalesOrderDetail(Mapper.Map<SalesOrderAdvanceSearchViewModel, SalesOrderAdvanceSearch>(SalesOrderAdvanceSearchVM)));
             return Json(new
             {
                 draw = model.draw,
-                recordsTotal = 0,// salesOrderList.Count != 0 ? salesOrderList[0].TotalCount : 0,
-                recordsFiltered = 0,//salesOrderList.Count != 0 ? salesOrderList[0].FilteredCount : 0,
-                data = salesOrderList
+                recordsTotal =salesOrderDetailList.Count != 0 ? salesOrderDetailList[0].TotalCount : 0,
+                recordsFiltered =salesOrderDetailList.Count != 0 ? salesOrderDetailList[0].FilteredCount : 0,
+                data = salesOrderDetailList
             });
         }
         #endregion GetAllSalesOrderDetail
+
+        #region InsertUpdateRequisition
+        [HttpPost]
+      //  [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
+        public string InsertUpdateRequisition(SalesOrderViewModel salesOrderVM)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                salesOrderVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                //Deserialize items
+                object ResultFromJS = JsonConvert.DeserializeObject(salesOrderVM.DetailJSON);
+                string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                salesOrderVM.SalesOrderDetailList = JsonConvert.DeserializeObject<List<SalesOrderDetailViewModel>>(ReadableFormat);
+                var result = "";// _salesOrderBusiness.InsertUpdateRequisition(Mapper.Map<SalesOrderViewModel, SalesOrder>(salesOrderVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+        }
+        #endregion InsertUpdateRequisition
+
+
 
         #region ButtonStyling
         [HttpGet]
@@ -82,7 +127,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("AddSalesOrder", "SalesOrder", new { Code = "PURCH" });
+                    toolboxVM.addbtn.Href = Url.Action("AddSalesOrder", "SalesOrder", new { Code = "SALE" });
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
@@ -101,7 +146,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("AddSalesOrder", "SalesOrder", new { Code = "PURCH" });
+                    toolboxVM.addbtn.Href = Url.Action("AddSalesOrder", "SalesOrder", new { Code = "SALE" });
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
@@ -126,7 +171,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ListSalesOrder", "SalesOrder", new { Code = "PURCH" });
+                    toolboxVM.ListBtn.Href = Url.Action("ListSalesOrder", "SalesOrder", new { Code = "SALE" });
 
                     break;
 
@@ -135,12 +180,12 @@ namespace ProductionApp.UserInterface.Controllers
                 //    toolboxVM.addbtn.Visible = true;
                 //    toolboxVM.addbtn.Text = "New";
                 //    toolboxVM.addbtn.Title = "Add New";
-                //    toolboxVM.addbtn.Href = Url.Action("AddSalesOrder", "SalesOrder", new { Code = "PURCH" });
+                //    toolboxVM.addbtn.Href = Url.Action("AddSalesOrder", "SalesOrder", new { Code = "SALE" });
 
                 //    toolboxVM.ListBtn.Visible = true;
                 //    toolboxVM.ListBtn.Text = "List";
                 //    toolboxVM.ListBtn.Title = "List";
-                //    toolboxVM.ListBtn.Href = Url.Action("ListSalesOrder", "SalesOrder", new { Code = "PURCH" });
+                //    toolboxVM.ListBtn.Href = Url.Action("ListSalesOrder", "SalesOrder", new { Code = "SALE" });
 
                 //    break;
                 case "Add":
@@ -153,7 +198,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewRequisition", "Requisition", new { Code = "PURCH" });
+                    toolboxVM.ListBtn.Href = Url.Action("ListSalesOrder", "SalesOrder", new { Code = "SALE" });
                     break;
                 default:
                     return Content("Nochange");

@@ -718,6 +718,7 @@
     <Compile Include="Controllers\ApproverController.cs" />
     <Compile Include="Controllers\BankController.cs" />
     <Compile Include="Controllers\BillOfMaterialController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DashboardAccountController.cs" />
     <Compile Include="Controllers\DashboardMasterController.cs" />
     <Compile Include="Controllers\DashboardSaleController.cs" />
@@ -763,6 +764,7 @@
     <Compile Include="Models\BankViewModel.cs" />
     <Compile Include="Models\BillOfMaterialViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
+    <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\DataTableAjaxPostModel.cs" />
     <Compile Include="Models\DataTablePagingViewModel.cs" />
     <Compile Include="Models\DocumentApprovalViewModel.cs" />
@@ -899,6 +901,8 @@
     <Content Include="Views\MaterialReturnFromProduction\ViewRecieveFromProduction.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Stage\Index.cshtml" />
+    <Content Include="Views\Customer\Customer.cshtml" />
+    <Content Include="Views\Customer\_CustomerDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

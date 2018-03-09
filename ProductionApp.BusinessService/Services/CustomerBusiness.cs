@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.BusinessService.Services
 {
-    public class StageBusiness: IStageBusiness
+    public class CustomerBusiness: ICustomerBusiness
     {
-        private IStageRepository _stageRepository;
-
-        public StageBusiness(IStageRepository stageRepository)
+        private ICustomerRepository _customerRepository;
+        public CustomerBusiness(ICustomerRepository customerRepository)
         {
-            _stageRepository = stageRepository;
+            _customerRepository = customerRepository;
         }
-        public List<Stage> GetAllStage(StageAdvanceSearch stageAdvanceSearch)
+
+        public List<Customer> GetCustomerForSelectList()
         {
-            return _stageRepository.GetAllStage(stageAdvanceSearch);
+            return _customerRepository.GetCustomerForSelectList();
         }
     }
 }

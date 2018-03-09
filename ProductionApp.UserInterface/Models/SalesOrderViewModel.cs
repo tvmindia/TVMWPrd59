@@ -10,11 +10,18 @@ namespace ProductionApp.UserInterface.Models
     {
         public Guid ID { get; set; }
         public string OrderNo { get; set; }
+      
         public DateTime OrderDate { get; set; }
+        [Display(Name = "Customer")]
+        [Required(ErrorMessage = "Customer required")]
         public Guid CustomerID { get; set; }
+        [Display(Name = "Sales Person")]
+      //  [Required(ErrorMessage = "Sales Person required")]
         public Guid SalesPerson { get; set; }
         public DateTime ExpectedDeliveryDate { get; set; }
+        [Display(Name = "Billing Address")]
         public string BillingAddress { get; set; }
+        [Display(Name = "Shipping Address")]
         public string ShippingAddress { get; set; }
         public string Remarks { get; set; }
 
@@ -22,8 +29,14 @@ namespace ProductionApp.UserInterface.Models
         public bool IsUpdate { get; set; }
         public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
+        public string DetailJSON { get; set; }
+
         public int FilteredCount { get; set; }
+        [Display(Name = "Order Date")]
+        [Required(ErrorMessage = "Order Date required")]
         public string OrderDateFormatted { get; set; }
+        [Display(Name = "Expected Delivery Date")]
+        [Required(ErrorMessage = "Expected Delivery Date required")]
         public string ExpectedDeliveryDateFormatted { get; set; }
         public CommonViewModel Common { get; set; }
         public List<SalesOrderDetailViewModel> SalesOrderDetailList { get; set; }
@@ -41,8 +54,10 @@ namespace ProductionApp.UserInterface.Models
         public decimal Rate { get; set; }
         public decimal TradeDiscountAmount { get; set; }
         public DateTime ExpectedDeliveryDate { get; set; }
-        
+
         //additional properties
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
         public string ExpectedDeliveryDateFormatted { get; set; }
         public CommonViewModel Common { get; set; }
 
