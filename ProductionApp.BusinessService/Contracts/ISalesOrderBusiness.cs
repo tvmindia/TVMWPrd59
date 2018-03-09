@@ -10,6 +10,7 @@ namespace ProductionApp.BusinessService.Contracts
     public interface ISalesOrderBusiness
     {
         List<SalesOrder> GetAllSalesOrder(SalesOrderAdvanceSearch salesOrderAdvanceSearch);
+        List<SalesOrder> GetAllSalesOrderDetail(SalesOrderAdvanceSearch salesOrderAdvanceSearch);
 
     }
 }

@@ -22,5 +22,11 @@ namespace ProductionApp.BusinessService.Services
         {
             return _salesOrderRepository.GetAllSalesOrder(salesOrderAdvanceSearch);
         }
+
+        public List<SalesOrder> GetAllSalesOrderDetail(SalesOrderAdvanceSearch salesOrderAdvanceSearch)
+        {
+            return _salesOrderRepository.GetAllSalesOrderDetail(salesOrderAdvanceSearch);
+        }
+
     }
 }

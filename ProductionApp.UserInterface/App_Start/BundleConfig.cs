@@ -79,6 +79,7 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJS/MaterialStockAdjustment/ListStockAdjustment").Include("~/Scripts/UserJS/MaterialStockAdjustment/ListStockAdjustment.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Home").Include("~/Scripts/UserJS/Home/SalesSummary.js", "~/Scripts/UserJS/Home/PurchaseSummary.js", "~/Scripts/UserJS/Home/IncomeExpenseSummary.js", "~/Scripts/UserJS/Home/FinishedGoodSummary.js", "~/Scripts/UserJS/Home/MaterialSummary.js", "~/Scripts/UserJS/Home/ProductionSummary.js"));//
             bundles.Add(new ScriptBundle("~/bundles/UserJs/SalesOrder/ListSalesOrder").Include("~/Scripts/UserJS/SalesOrder/ListSalesOrder.js"));//
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/SalesOrder/AddSalesOrder").Include("~/Scripts/UserJS/SalesOrder/AddSalesOrder.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/BillOfMaterialJS/ViewBillOfMaterial").Include("~/Scripts/UserJs/BillOfMaterialJS/ViewBillOfMaterial.js"));
 
 

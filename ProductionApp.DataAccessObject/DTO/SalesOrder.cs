@@ -43,6 +43,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public DateTime ExpectedDeliveryDate { get; set; }
 
         //additional properties
+    
         public string ExpectedDeliveryDateFormatted { get; set; }
         public Common Common { get; set; }
 

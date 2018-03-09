@@ -20,7 +20,7 @@
 <section class="content">
     <div class="row" id="OverlayHeader">
         <div class="col-md-6">
-            <span id="lblReqNo" class="SCHeader"></span>
+            <span id="lblSalesOrderNo" class="SCHeader"></span>
         </div>
         <div class="col-md-6" id="divbuttonPatchAddSalesOrder" style="min-height:25px;">
             @{
@@ -64,7 +64,7 @@
                             @Html.LabelFor(model => model.CustomerID, htmlAttributes: new { @class = "control-label lblrequired " })
                         </div>
                         <div class="col-md-12">
-                            @Html.Action("EmployeeDropdown", "Employee")
+                            @Html.Action("CustomerDropdown", "Customer")
                         </div>
                     </div>
                     <div class="form-group col-md-6">
@@ -127,15 +127,15 @@
                                 }
 
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
-        <div class="col-md-12">
+        <div class="col-md-12" style="padding-bottom:3px">
             <div class="col-md-10">
             </div>
             <div class="col-md-2">
-                <a class="btn btn-openid" onclick="ShowSalesOrderDetailsModal()" id="btnAddSalesOrderItems" style="color:white;font-weight:bold"><i class="glyphicon glyphicon-plus"></i> Add Item </a>
+                <a class="btn btn-openid" onclick="ShowSalesOrderDetailsModal()" id="btnAddSalesOrderItems" style="color:white;font-weight:bold;float:right"><i class="glyphicon glyphicon-plus"></i> Add Item </a>
             </div>
         </div>
         <div class="col-md-12">
-            <table id="tblSalesOrderDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+            <table id="tblSalesOrderDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" style="width:100%">
                 <thead>
                     <tr class="text-center TableHead">
                         <th>ID</th>
@@ -174,4 +174,12 @@
         <div class="col-md-12  ">&nbsp;</div>
     </div>
 </section>
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/SalesOrder/AddSalesOrder")
+}
 
