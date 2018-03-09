@@ -51,6 +51,8 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<ProductAdvanceSearchViewModel, ProductAdvanceSearch>().ReverseMap();
                 config.CreateMap<ApproverViewModel, Approver>().ReverseMap();
                 config.CreateMap<ApproverAdvanceSearchViewModel, ApproverAdvanceSearch>().ReverseMap();
+                config.CreateMap<StageViewModel, Stage>().ReverseMap();
+                config.CreateMap<StageAdvanceSearchViewModel, StageAdvanceSearch>().ReverseMap();
                 config.CreateMap<PurchaseOrderViewModel, PurchaseOrder>().ReverseMap();
                 config.CreateMap<PurchaseOrderAdvanceSearchViewModel, PurchaseOrderAdvanceSearch>().ReverseMap();
                 config.CreateMap<SupplierViewModel, Supplier>().ReverseMap();

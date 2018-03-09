@@ -88,7 +88,14 @@ function BindOrReloadProductTable(action) {
             { "data": "Description", "defaultContent": "<i>-<i>" },
             { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
             { "data": "Category", "defaultContent": "<i>-<i>" },
-            { "data": "Rate", "defaultContent": "<i>-<i>" },
+            {
+                 "data": "Rate", render: function (data, type, row) {
+                     if (data == 0)
+                         return '-'
+                     else
+                         return roundoff(data, 1);
+                 }, "defaultContent": "<i>-</i>"
+            },
             { "data": "CurrentStock", "defaultContent": "<i>-<i>" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteProductMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
             ],

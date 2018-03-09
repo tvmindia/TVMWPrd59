@@ -74,7 +74,7 @@ namespace ProductionApp.UserInterface.Controllers
                 return Json(new { Result = "ERROR", Message = cm.Message });
             }
         }
-        #endregion GetAllRawMaterial
+        #endregion GetAllApprover
 
         #region MasterPartial
         [HttpGet]
