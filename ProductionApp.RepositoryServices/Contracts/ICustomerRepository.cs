@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.RepositoryServices.Contracts
 {
-    public interface ITaxTypeRepository
+    public interface ICustomerRepository
     {
-        TaxType GetTaxTypeDetailsByCode(string Code);
-        List<TaxType> GetTaxTypeForSelectList();
+        List<Customer> GetCustomerForSelectList();
 
     }
 }

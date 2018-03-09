@@ -45,6 +45,7 @@
     <Compile Include="Contracts\IApproverRepository.cs" />
     <Compile Include="Contracts\IBankRepository.cs" />
     <Compile Include="Contracts\IBillOfMaterialRepository.cs" />
+    <Compile Include="Contracts\ICustomerRepository.cs" />
     <Compile Include="Contracts\IDatabaseFactory.cs" />
     <Compile Include="Contracts\IDocumentApprovalRepository.cs" />
     <Compile Include="Contracts\IDocumentTypeRepository.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Contracts\IPurchaseOrderRepository.cs" />
     <Compile Include="Contracts\IMaterialRepository.cs" />
     <Compile Include="Contracts\ISalesOrderRepository.cs" />
+    <Compile Include="Contracts\IStageRepository.cs" />
     <Compile Include="Contracts\ISupplierRepository.cs" />
     <Compile Include="Contracts\ITaxTypeRepository.cs" />
     <Compile Include="Contracts\IUnitRepository.cs" />
@@ -70,6 +72,7 @@
     <Compile Include="Services\ApproverRepository.cs" />
     <Compile Include="Services\BankRepository.cs" />
     <Compile Include="Services\BillOfMaterialRepository.cs" />
+    <Compile Include="Services\CustomerRepository.cs" />
     <Compile Include="Services\DatabaseFactory.cs" />
     <Compile Include="Services\DocumentApprovalRepository.cs" />
     <Compile Include="Services\DocumentTypeRepository.cs" />
@@ -88,6 +91,7 @@
     <Compile Include="Services\MaterialRepository.cs" />
     <Compile Include="Services\SalesInvoiceRepository.cs" />
     <Compile Include="Services\SalesOrderRepository.cs" />
+    <Compile Include="Services\StageRepository.cs" />
     <Compile Include="Services\SupplierRepository.cs" />
     <Compile Include="Services\TaxTypeRepository.cs" />
     <Compile Include="Services\UnitRepository.cs" />

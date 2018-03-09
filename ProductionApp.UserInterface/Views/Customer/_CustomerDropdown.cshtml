@@ -1,0 +1,6 @@
+﻿@model ProductionApp.UserInterface.Models.CustomerViewModel
+<div class="input-group">
+    @Html.DropDownList("CustomerID", Model.SelectList, "--Select Customer--", new { @class = "form-control", @style = "width:100%" })
+    <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick=""><i class="fa fa-plus-square-o"></i></span>
+</div>
+@Html.ValidationMessage("CustomerID", "", new { @class = "text-danger" })

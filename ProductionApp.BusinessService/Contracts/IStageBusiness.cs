@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.BusinessService.Contracts
 {
-    public interface ITaxTypeBusiness
+    public interface IStageBusiness
     {
-        TaxType GetTaxTypeDetailsByCode(string Code);
-        List<TaxType> GetTaxTypeForSelectList();
+        List<Stage> GetAllStage(StageAdvanceSearch stageAdvanceSearch);
+        object InsertUpdateStage(Stage stage);
+        Stage GetStage(Guid id);
+        object DeleteStage(Guid id);
+
     }
 }

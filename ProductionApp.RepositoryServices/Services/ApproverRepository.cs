@@ -56,6 +56,7 @@ namespace ProductionApp.RepositoryServices.Services
                         //cmd.Parameters.Add("@OrderDir", SqlDbType.NVarChar, 5).Value = model.order[0].dir;
                         //cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar, -1).Value = model.order[0].column;
                         cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.VarChar,5).Value = approverAdvanceSearch.DocumentType.Code;
+                        //cmd.Parameters.Add("@Level", SqlDbType.Int).Value = approverAdvanceSearch.Approver.Level;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {

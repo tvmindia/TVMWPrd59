@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.BusinessService.Contracts
 {
-    public interface ITaxTypeBusiness
+    public interface ICustomerBusiness
     {
-        TaxType GetTaxTypeDetailsByCode(string Code);
-        List<TaxType> GetTaxTypeForSelectList();
+        List<Customer> GetCustomerForSelectList();
+
     }
 }

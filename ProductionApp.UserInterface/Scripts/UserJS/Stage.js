@@ -2,10 +2,10 @@
 //*****************************************************************************
 //*****************************************************************************
 //Author: Jais
-//CreatedDate: 17-Feb-2018 
-//LastModified: 5-Mar-2018 
-//FileName: Product.js
-//Description: Client side coding for Product
+//CreatedDate: 9-Mar-2018 
+//LastModified:  9-Mar-2018 
+//FileName: Stage.js
+//Description: Client side coding for Stage
 //******************************************************************************
 //******************************************************************************
 
@@ -17,27 +17,28 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     try {
         debugger;
-        BindOrReloadProductTable('Init');
+        BindOrReloadStageTable('Init');
+
     }
     catch (e) {
         console.log(e.message);
     }
 });
 
-//--function bind the Product list checking search and filter--//
-function BindOrReloadProductTable(action) {
+
+//--function bind the Stage list checking search and filter--//
+function BindOrReloadStageTable(action) {
     try {
         debugger;
         //creating advancesearch object
-        ProductAdvanceSearchViewModel = new Object();
+        StageAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
-        UnitViewModel = new Object();
+        StageViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
         //switch case to check the operation
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
-                $('#UnitCode').val('');
                 break;
             case 'Init':
                 break;
@@ -49,23 +50,21 @@ function BindOrReloadProductTable(action) {
             default:
                 break;
         }
-        ProductAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
-        UnitViewModel.Code = $('#UnitCode').val();
-        ProductAdvanceSearchViewModel.Unit = UnitViewModel;
-        ProductAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+        StageAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
+        StageAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
 
-        //apply datatable plugin on Raw Material table
-        DataTables.productList = $('#tblProduct').DataTable(
+        //apply datatable plugin on Stage table
+        DataTables.stageList = $('#tblStage').DataTable(
         {
             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
             buttons: [{
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [1, 2, 3, 4, 5, 6,7]
+                                 columns: [1]
                              }
             }],
-            ordering: false,
+            order: false,
             searching: false,
             paging: true,
             lengthChange: false,
@@ -76,32 +75,19 @@ function BindOrReloadProductTable(action) {
             },
             serverSide: true,
             ajax: {
-                url: "Product/GetAllProduct/",
-                data: { "productAdvanceSearchVM": ProductAdvanceSearchViewModel },
+                url: "Stage/GetAllStage/",
+                data: { "stageAdvanceSearchVM": StageAdvanceSearchViewModel },
                 type: 'POST'
             },
             pageLength: 10,
             columns: [
             { "data": "ID", "defaultContent": "<i>-</i>" },
-            { "data": "Code", "defaultContent": "<i>-</i>" },
-            { "data": "Name", "defaultContent": "<i>-</i>" },
-            { "data": "Description", "defaultContent": "<i>-<i>" },
-            { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
-            { "data": "Category", "defaultContent": "<i>-<i>" },
-            {
-                 "data": "Rate", render: function (data, type, row) {
-                     if (data == 0)
-                         return '-'
-                     else
-                         return roundoff(data, 1);
-                 }, "defaultContent": "<i>-</i>"
-            },
-            { "data": "CurrentStock", "defaultContent": "<i>-<i>" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteProductMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
+            { "data": "Description", "defaultContent": "<i>-</i>" },
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteStageMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditStageMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [6,7,8] },
-                { className: "text-left", "targets": [1,2, 3, 4, 5] },
+                { className: "text-right", "targets": [] },
+                { className: "text-left", "targets": [1] },
                 { className: "text-center", "targets": [] }],
             destroy: true,
             //for performing the import operation after the data loaded
@@ -113,7 +99,7 @@ function BindOrReloadProductTable(action) {
                         }
                     }
                     $(".buttons-excel").trigger('click');
-                    BindOrReloadProductTable('Search');
+                    BindOrReloadStageTable('Search');
                 }
             }
         });
@@ -125,32 +111,33 @@ function BindOrReloadProductTable(action) {
 }
 
 //--function reset the list to initial--//
-function ResetProductList() {
-    BindOrReloadProductTable('Reset');
+function ResetStageList() {
+    BindOrReloadStageTable('Reset');
 }
 
 //--function export data to excel--//
-function ImportProductData() {
-    BindOrReloadProductTable('Export');
+function ImportStageData() {
+    BindOrReloadStageTable('Export');
 }
-//--edit Product--//
-function EditProductMaster(this_obj) {
-    ProductViewModel = DataTables.productList.row($(this_obj).parents('tr')).data();
-    GetMasterPartial("Product", ProductViewModel.ID);
-    $('#h3ModelMasterContextLabel').text('Edit Product')
+
+//--edit Stage--//
+function EditStageMaster(this_obj) {
+    StageViewModel = DataTables.stageList.row($(this_obj).parents('tr')).data();
+    GetMasterPartial("Stage", StageViewModel.ID);
+    $('#h3ModelMasterContextLabel').text('Edit Stage')
     $('#divModelMasterPopUp').modal('show');
 }
 
 
-//--Function To Confirm Product Deletion 
-function DeleteProductMaster(this_obj) {
+//--Function To Confirm Stage Deletion 
+function DeleteStageMaster(this_obj) {
     debugger;
-    productVM = DataTables.productList.row($(this_obj).parents('tr')).data();
-    notyConfirm('Are you sure to delete?', 'DeleteProduct("' + productVM.ID + '")');
+    stageVM = DataTables.stageList.row($(this_obj).parents('tr')).data();
+    notyConfirm('Are you sure to delete?', 'DeleteStage("' + stageVM.ID + '")');
 }
 
 //--Function To Delete Product
-function DeleteProduct(id) {
+function DeleteStage(id) {
     debugger;
     try {
         if (id) {
@@ -159,7 +146,7 @@ function DeleteProduct(id) {
             var message = "";
             var status = "";
             var result = "";
-            jsonData = GetDataFromServer("Product/DeleteProduct/", data);
+            jsonData = GetDataFromServer("Stage/DeleteStage/", data);
             if (jsonData != '') {
                 jsonData = JSON.parse(jsonData);
                 message = jsonData.Message;
@@ -169,7 +156,7 @@ function DeleteProduct(id) {
             switch (status) {
                 case "OK":
                     notyAlert('success', result.Message);
-                    BindOrReloadProductTable('Reset');
+                    BindOrReloadStageTable('Reset');
                     break;
                 case "ERROR":
                     notyAlert('error', message);
@@ -184,4 +171,6 @@ function DeleteProduct(id) {
         console.log(e.message);
     }
 }
+
+
 

@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.RepositoryServices.Contracts
 {
-    public interface ITaxTypeRepository
+    public interface IStageRepository
     {
-        TaxType GetTaxTypeDetailsByCode(string Code);
-        List<TaxType> GetTaxTypeForSelectList();
+        List<Stage> GetAllStage(StageAdvanceSearch stageAdvanceSearch);
+        object InsertUpdateStage(Stage stage);
+        Stage GetStage(Guid id);
+        object DeleteStage(Guid id);
 
     }
 }

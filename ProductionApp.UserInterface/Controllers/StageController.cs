@@ -12,47 +12,47 @@ using System.Web.Mvc;
 
 namespace ProductionApp.UserInterface.Controllers
 {
-    public class ApproverController : Controller
+    public class StageController : Controller
     {
         AppConst _appConst = new AppConst();
         private Common _common = new Common();
-        private IApproverBusiness _approverBusiness;
+        private IStageBusiness _stageBusiness;
 
         #region Constructor Injection
-        public ApproverController(IApproverBusiness approverBusiness)
+        public StageController(IStageBusiness stageBusiness)
         {
-            _approverBusiness = approverBusiness;
+            _stageBusiness = stageBusiness;
         }
         #endregion Constructor Injection
 
         #region Index
-        [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]// GET: Approver
+        [AuthSecurityFilter(ProjectObject = "Stage", Mode = "R")]// GET: Stage
         public ActionResult Index(string code)
         {
             ViewBag.SysModuleCode = code;
-            ApproverAdvanceSearchViewModel approverAdvanceSearchVM = new ApproverAdvanceSearchViewModel();
+            StageAdvanceSearchViewModel approverAdvanceSearchVM = new StageAdvanceSearchViewModel();
             return View(approverAdvanceSearchVM);
         }
         #endregion Index
 
-        #region GetAllApprover
+        #region GetAllStage
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]
-        public JsonResult GetAllApprover(DataTableAjaxPostModel model, ApproverAdvanceSearchViewModel approverAdvanceSearchVM)
+        [AuthSecurityFilter(ProjectObject = "Stage", Mode = "R")]
+        public JsonResult GetAllStage(DataTableAjaxPostModel model, StageAdvanceSearchViewModel stageAdvanceSearchVM)
         {
             try
             {
                 //setting options to our model
-                approverAdvanceSearchVM.DataTablePaging.Start = model.start;
-                approverAdvanceSearchVM.DataTablePaging.Length = (approverAdvanceSearchVM.DataTablePaging.Length == 0) ? model.length : approverAdvanceSearchVM.DataTablePaging.Length;
+                stageAdvanceSearchVM.DataTablePaging.Start = model.start;
+                stageAdvanceSearchVM.DataTablePaging.Length = (stageAdvanceSearchVM.DataTablePaging.Length == 0) ? model.length : stageAdvanceSearchVM.DataTablePaging.Length;
 
                 // action inside a standard controller
-                List<ApproverViewModel> approverVMList = Mapper.Map<List<Approver>, List<ApproverViewModel>>(_approverBusiness.GetAllApprover(Mapper.Map<ApproverAdvanceSearchViewModel, ApproverAdvanceSearch>(approverAdvanceSearchVM)));
-                if (approverAdvanceSearchVM.DataTablePaging.Length == -1)
+                List<StageViewModel> stageVMList = Mapper.Map<List<Stage>, List<StageViewModel>>(_stageBusiness.GetAllStage(Mapper.Map<StageAdvanceSearchViewModel, StageAdvanceSearch>(stageAdvanceSearchVM)));
+                if (stageAdvanceSearchVM.DataTablePaging.Length == -1)
                 {
-                    int totalResult = approverVMList.Count != 0 ? approverVMList[0].TotalCount : 0;
-                    int filteredResult = approverVMList.Count != 0 ? approverVMList[0].FilteredCount : 0;
-                    approverVMList = approverVMList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+                    int totalResult = stageVMList.Count != 0 ? stageVMList[0].TotalCount : 0;
+                    int filteredResult = stageVMList.Count != 0 ? stageVMList[0].FilteredCount : 0;
+                    stageVMList = stageVMList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
                 }
                 var settings = new JsonSerializerSettings
                 {
@@ -63,9 +63,9 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     // this is what datatables wants sending back
                     draw = model.draw,
-                    recordsTotal = approverVMList.Count != 0 ? approverVMList[0].TotalCount : 0,
-                    recordsFiltered = approverVMList.Count != 0 ? approverVMList[0].FilteredCount : 0,
-                    data = approverVMList
+                    recordsTotal = stageVMList.Count != 0 ? stageVMList[0].TotalCount : 0,
+                    recordsFiltered = stageVMList.Count != 0 ? stageVMList[0].FilteredCount : 0,
+                    data = stageVMList
                 });
             }
             catch (Exception ex)
@@ -74,52 +74,27 @@ namespace ProductionApp.UserInterface.Controllers
                 return Json(new { Result = "ERROR", Message = cm.Message });
             }
         }
-        #endregion GetAllApprover
+        #endregion GetAllStage
 
-        #region MasterPartial
-        [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]
-        public ActionResult MasterPartial(string masterCode)
-        {
-            ApproverViewModel approverVM = string.IsNullOrEmpty(masterCode) ? new ApproverViewModel() : Mapper.Map<Approver, ApproverViewModel>(_approverBusiness.GetApprover(Guid.Parse(masterCode)));
-            approverVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
-            if (string.IsNullOrEmpty(masterCode))
-            {
-                approverVM.IsActive = true;
-                approverVM.IsDefault = true;
-                
-            }
-            //--For Manging disabled checkbox IsDefault--//
-            approverVM.IsDefaultString = approverVM.IsDefault?"true":"false";
-            return PartialView("_AddApproverPartial", approverVM);
-        }
-        #endregion MasterPartial
-
-        #region InsertUpdateApprover
+        #region InsertUpdateStage
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]
-        public string InsertUpdateApprover(ApproverViewModel approverVM)
+        [AuthSecurityFilter(ProjectObject = "Stage", Mode = "R")]
+        public string InsertUpdateStage(StageViewModel stageVM)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    //--For Manging disabled checkbox IsDefault--//
-                    if (!approverVM.IsDefault)
-                    {
-                        approverVM.IsDefault = bool.Parse(approverVM.IsDefaultString);
-                    }
                     AppUA appUA = Session["AppUA"] as AppUA;
-                    approverVM.Common = new CommonViewModel
+                    stageVM.Common = new CommonViewModel
                     {
                         CreatedBy = appUA.UserName,
                         CreatedDate = _common.GetCurrentDateTime(),
                         UpdatedBy = appUA.UserName,
                         UpdatedDate = _common.GetCurrentDateTime(),
                     };
-
-                    var result = _approverBusiness.InsertUpdateApprover(Mapper.Map<ApproverViewModel, Approver>(approverVM));
+                    var result = _stageBusiness.InsertUpdateStage(Mapper.Map<StageViewModel, Stage>(stageVM));
                     return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
                 }
                 catch (Exception ex)
@@ -141,16 +116,27 @@ namespace ProductionApp.UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "VALIDATION", Message = string.Join(",", modelErrors) });
             }
         }
-        #endregion InsertUpdateApprover
+        #endregion InsertUpdateRawMaterial
 
-        #region DeleteApprover
+        #region MasterPartial
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]
-        public string DeleteApprover(Guid id)
+        [AuthSecurityFilter(ProjectObject = "Stage", Mode = "R")]
+        public ActionResult MasterPartial(string masterCode)
+        {
+            StageViewModel stageVM = string.IsNullOrEmpty(masterCode) ? new StageViewModel() : Mapper.Map<Stage, StageViewModel>(_stageBusiness.GetStage(Guid.Parse(masterCode)));
+            stageVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
+            return PartialView("_AddStagePartial", stageVM);
+        }
+        #endregion MasterPartial
+
+        #region DeleteStage
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Stage", Mode = "R")]
+        public string DeleteStage(Guid id)
         {
             try
             {
-                var result = _approverBusiness.DeleteApprover(id);
+                var result = _stageBusiness.DeleteStage(id);
                 return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
             }
             catch (Exception ex)
@@ -160,11 +146,11 @@ namespace ProductionApp.UserInterface.Controllers
             }
 
         }
-        #endregion DeleteApprover
+        #endregion DeleteStage
 
         #region ButtonStyling
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Stage", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();
@@ -174,17 +160,17 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Event = "AddApproverMaster('MSTR')";
+                    toolboxVM.addbtn.Event = "AddStageMaster('MSTR')";
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset All";
-                    toolboxVM.resetbtn.Event = "ResetApproverList();";
+                    toolboxVM.resetbtn.Event = "ResetStageList();";
                     //----added for export button--------------
                     toolboxVM.PrintBtn.Visible = true;
                     toolboxVM.PrintBtn.Text = "Export";
                     toolboxVM.PrintBtn.Title = "Export";
-                    toolboxVM.PrintBtn.Event = "ImportApproverData();";
+                    toolboxVM.PrintBtn.Event = "ImportStageData();";
                     //---------------------------------------
                     break;
 

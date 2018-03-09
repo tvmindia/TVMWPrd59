@@ -17,8 +17,12 @@ namespace ProductionApp.DataAccessObject.DTO
         public string BillingAddress { get; set; }
         public string ShippingAddress { get; set; }
         public string Remarks { get; set; }
-        
+
         //additional properties
+        public bool IsUpdate { get; set; }
+        public Guid hdnFileID { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
         public string OrderDateFormatted { get; set; }
         public string ExpectedDeliveryDateFormatted { get; set; }
         public Common Common { get; set; }
@@ -39,6 +43,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public DateTime ExpectedDeliveryDate { get; set; }
 
         //additional properties
+    
         public string ExpectedDeliveryDateFormatted { get; set; }
         public Common Common { get; set; }
 
@@ -49,6 +54,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public string SearchTerm { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
+        public Guid CustomerID { get; set; }
+        public Guid EmployeeID { get; set; }
 
         public DataTablePaging DataTablePaging { get; set; }
 

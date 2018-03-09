@@ -244,8 +244,10 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion DeletePurchaseOrderDetail
-        
+
+
         #region TaxTypeByDesc
+        //Need to be removed//refer TaxType  controller
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public string GetTaxtype(string Code)
         {
