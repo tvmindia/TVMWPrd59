@@ -7,6 +7,7 @@ using ProductionApp.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -108,11 +109,13 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region ApproveDocumentInsert
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
-        public string ApproveDocumentInsert(string ApprovalLogID, string DocumentID, string DocumentTypeCode)
+        public async Task<string> ApproveDocumentInsert(string ApprovalLogID, string DocumentID, string DocumentTypeCode)
         {
             try
             {
                 var result = _documentApprovalBusiness.ApproveDocument(Guid.Parse(ApprovalLogID),Guid.Parse(DocumentID),DocumentTypeCode);
+                bool mailresult = await _documentApprovalBusiness.SendApprolMails(Guid.Parse(DocumentID), DocumentTypeCode);
+
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
             catch (Exception ex)
@@ -125,11 +128,12 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region RejectDocument
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
-        public string RejectDocument(string ApprovalLogID, string DocumentID, string DocumentTypeCode,string Remarks)
+        public async Task<string> RejectDocument(string ApprovalLogID, string DocumentID, string DocumentTypeCode,string Remarks)
         {
             try
             {
                 var result = _documentApprovalBusiness.RejectDocument(Guid.Parse(ApprovalLogID), Guid.Parse(DocumentID), DocumentTypeCode,Remarks);
+                bool mailresult = await _documentApprovalBusiness.SendApprolMails(Guid.Parse(DocumentID), DocumentTypeCode);
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
             catch (Exception ex)
@@ -162,7 +166,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region SendDocForApproval
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
-        public string SendDocForApproval(string documentID, string documentTypeCode,string approvers)
+        public async Task <string> SendDocForApproval(string documentID, string documentTypeCode,string approvers)
         {
             try
             {
@@ -171,7 +175,9 @@ namespace ProductionApp.UserInterface.Controllers
                 DateTime createdDate = _common.GetCurrentDateTime();
 
                 var result = _documentApprovalBusiness.SendDocForApproval(Guid.Parse(documentID), documentTypeCode, approvers, createdBy, createdDate);
-                
+
+                bool mailresult = await _documentApprovalBusiness.SendApprolMails(Guid.Parse(documentID), documentTypeCode);
+
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
             }
             catch (Exception ex)
@@ -185,7 +191,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region ReSendDocForApproval
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
-        public string ReSendDocForApproval(string documentID, string documentTypeCode, string latestApprovalID)
+        public async Task<string> ReSendDocForApproval(string documentID, string documentTypeCode, string latestApprovalID)
         {
             try
             {
@@ -194,7 +200,7 @@ namespace ProductionApp.UserInterface.Controllers
                 DateTime createdDate = _common.GetCurrentDateTime();
 
                 var result = _documentApprovalBusiness.ReSendDocForApproval(Guid.Parse(documentID), documentTypeCode,Guid.Parse(latestApprovalID), createdBy, createdDate);
-
+                bool mailresult = await _documentApprovalBusiness.SendApprolMails(Guid.Parse(documentID), documentTypeCode);
                 return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
             }
             catch (Exception ex)

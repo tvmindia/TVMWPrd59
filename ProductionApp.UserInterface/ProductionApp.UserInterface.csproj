@@ -465,6 +465,9 @@
     <Content Include="Content\images\Transfer.png" />
     <Content Include="Content\images\wheel.png" />
     <Content Include="Content\images\withdraw.png" />
+    <Content Include="Content\MailTemplate\DocumentApproved.html" />
+    <Content Include="Content\MailTemplate\DocumentRejected.html" />
+    <Content Include="Content\MailTemplate\SendForApproval.html" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\sweetalert.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.css" />

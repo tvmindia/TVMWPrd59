@@ -458,5 +458,68 @@ namespace ProductionApp.RepositoryServices.Services
             };
 
         }
+
+
+
+
+        public DocumentApprovalMailDetail GetApprovalMailDetails(Guid DocumentID, string DocumentTypeCode)
+        {
+            DocumentApprovalMailDetail documentMailDetail = new DocumentApprovalMailDetail();
+
+            try
+            {
+               
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetApprovalMailDetails]";
+                        cmd.Parameters.Add("@DocumentID", SqlDbType.UniqueIdentifier).Value = DocumentID;
+                        cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.NVarChar, 5).Value = DocumentTypeCode;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                               
+                                if (sdr.Read())
+                                {
+                                    
+                                    {
+                                        documentMailDetail.NextApprover = (sdr["NextApprover"].ToString() != "" ? (sdr["NextApprover"].ToString()) : documentMailDetail.NextApprover);
+                                        documentMailDetail.NextApproverEmail = (sdr["NextApproverEmail"].ToString() != "" ? (sdr["NextApproverEmail"].ToString()) : documentMailDetail.NextApproverEmail);
+                                        documentMailDetail.DocumentNo = (sdr["DocumentNo"].ToString() != "" ? (sdr["DocumentNo"].ToString()) : documentMailDetail.DocumentNo);
+                                        documentMailDetail.DocumentType = (sdr["DocumentType"].ToString() != "" ? (sdr["DocumentType"].ToString()) : documentMailDetail.DocumentType);
+                                        documentMailDetail.DocumentOwner = (sdr["DocumentOwner"].ToString() != "" ? (sdr["DocumentOwner"].ToString()) : documentMailDetail.DocumentOwner);
+                                        documentMailDetail.DocumnetOwnerMail = (sdr["DocumentOwnerEmail"].ToString() != "" ? (sdr["DocumentOwnerEmail"].ToString()) : documentMailDetail.DocumnetOwnerMail);
+                                        documentMailDetail.Status = (sdr["DocumentStatus"].ToString() != "" ? (sdr["DocumentStatus"].ToString()) : documentMailDetail.Status);
+                                        documentMailDetail.Remarks = (sdr["Remarks"].ToString() != "" ? (sdr["Remarks"].ToString()) : documentMailDetail.Remarks);
+                                        documentMailDetail.ApprovalID = (sdr["ApprovalID"].ToString() != "" ? Guid.Parse(sdr["ApprovalID"].ToString()) : documentMailDetail.ApprovalID);
+
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return documentMailDetail;
+
+
+        }
     }
+
+
+
+   
 }

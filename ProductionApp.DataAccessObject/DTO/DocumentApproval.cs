@@ -70,4 +70,18 @@ namespace ProductionApp.DataAccessObject.DTO
 
     }
 
+    public class DocumentApprovalMailDetail
+    {
+      
+        public string Status { get; set; }
+        public string NextApprover { get; set; }
+        public string NextApproverEmail { get; set; }
+        public string DocumentNo { get; set; }
+        public string DocumentType { get; set; }
+        public string DocumentOwner { get; set; }
+        public string DocumnetOwnerMail { get; set; }
+        public Guid ApprovalID { get; set; }
+        public string Remarks { get; set; }
+
+    }
 }
