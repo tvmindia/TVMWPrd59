@@ -911,6 +911,7 @@
     <Content Include="Views\Customer\_CustomerDropdown.cshtml" />
     <Content Include="Views\TaxType\_TaxTypeDropdown.cshtml" />
     <Content Include="Views\SubComponent\Index.cshtml" />
+    <Content Include="Views\SubComponent\_AddSubComponentPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -11,9 +11,13 @@ namespace ProductionApp.UserInterface.Models
         public Guid ID { get; set; }
         public string Code { get; set; }
         public string Description { get; set; }
+        [Display(Name = "Opening Quantity")]
         public decimal OpeningQty { get; set; }
+        [Display(Name = "Current Quantity")]
         public decimal CurrentQty { get; set; }
+        [Display(Name = "Unit")]
         public string UnitCode { get; set; }
+        [Display(Name = "Weight In KG")]
         public decimal WeightInKG { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }
