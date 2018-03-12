@@ -18,7 +18,8 @@ var PurchaseOrderDetailList = [];
 var RequisitionDetailLink = new Object();
 var PurchaseOrderViewModel = new Object();
 var EditPOdetailID;
-var ECGST, ESGST, ETotal, flag=1;
+var ECGST, ESGST, ETotal, flag = 1;
+var _SlNo = 1;
 $(document).ready(function () {
     debugger;
     try {
@@ -112,6 +113,7 @@ $(document).ready(function () {
                 dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
                 ordering: false,
                 searching: false,
+                "bInfo": false,
                 paging: false,
                 data: null,
                 pageLength: 15,
@@ -121,6 +123,12 @@ $(document).ready(function () {
                 },
                 columns: [
                   { "data": "ID" },
+                  {
+                      "data": "", render: function (data, type, row) {
+                          debugger;
+                          return _SlNo++
+                      }, "defaultContent": "<i></i>"
+                  },
                   { "data": "MaterialCode", "defaultContent": "<i>-</i>", "width": "5%" },
                   { "data": "MaterialDesc", "defaultContent": "<i>-</i>" },
                   { "data": "UnitCode", "defaultContent": "<i>-</i>", "width": "3%" },
@@ -172,12 +180,13 @@ $(document).ready(function () {
                           return roundoff(Desc,1);
                       }, "width": "10%"
                   },
-                { "data": null, "orderable": false, "width": "6%", "defaultContent": '<a href="#" class="ItemEditlink" onclick="EditPurchaseOrderDetailTable(this)"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' }
+                { "data": null, "orderable": false, "width": "6%", "defaultContent": '<a href="#" class="ItemEditlink" onclick="EditPurchaseOrderDetailTable(this)"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>',"width" :"7%" }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                     { className: "text-right", "targets": [5, 6, 7,8,9,10] },
-                      { className: "text-left", "targets": [2, 3, 4] },
-                { className: "text-center", "targets": [8] }
+                    { "targets": [1], "width": "2%", },
+                     { className: "text-right", "targets": [6, 7, 8,9,10,11] },
+                      { className: "text-left", "targets": [3, 4, 5] },
+                { className: "text-center", "targets": [9] }
 
                 ]
             });
@@ -520,6 +529,7 @@ function selectCheckbox(IDs) {
 //add details in btnAdd click
 function AddPODetails()
 {
+    _SlNo = 1;
     //Merging  the rows with same MaterialID
     var requistionDetailsVM = DataTables.RequisitionDetailsTable.rows(".selected").data();
     var mergedRows = []; //to store rows after merging
@@ -698,7 +708,7 @@ function Save() {
         PurchaseOrderViewModel.Discount = $('#Discount').val();
         PurchaseOrderViewModel.PODDetail = PODDetail;
         PurchaseOrderViewModel.PODDetailLink = PODDetailLink;
-
+        _SlNo = 1;
         var data = "{'purchaseOrderVM':" + JSON.stringify(PurchaseOrderViewModel) + "}";
 
         PostDataToServer("PurchaseOrder/InsertPurchaseOrder/", data, function (JsonResult) {
@@ -746,6 +756,7 @@ function AddPurchaseOrderDetailList() {
 function BindPurchaseOrder(ID) {
     try {
         debugger;
+        _SlNo = 1;
         var result = GetPurchaseOrderDetailsByID(ID)
         if (result) {
 
@@ -839,6 +850,7 @@ function GetPurchaseOrderDetailsByID(ID) {
 function PurchaseOrderDetailBindTable() {
     try {
         debugger;
+        _SlNo = 1;
         DataTables.PurchaseOrderDetailTable.clear().rows.add(GetPurchaseOrderDetailTable()).draw(false);
     }
     catch (e) {
@@ -884,6 +896,7 @@ function EditPurchaseOrderDetailTable(curObj) {
     debugger;
     $('#EditRequisitionDetailsModal').modal('show');
     var rowData = DataTables.PurchaseOrderDetailTable.row($(curObj).parents('tr')).data();
+    _SlNo = 1;
     EditPurchaseOrderDetailByID(rowData.ID)
     EditPOdetailID = rowData.ID// to set PODetailID
     
@@ -892,6 +905,7 @@ function EditPurchaseOrderDetailTable(curObj) {
 function EditPurchaseOrderDetailByID(ID) {
     try {
         debugger;
+        _SlNo = 1;
         DataTables.EditPurchaseDetailsTable.clear().rows.add(EditPurchaseOrderDetail(ID)).draw(false);
     }
     catch (e) {
@@ -1004,6 +1018,7 @@ function UpdateDetailLinkSave() {
     debugger;
     var $form = $('#PurchaseOrderForm');
     if ($form.valid()) {
+        _SlNo = 1;
         PurchaseOrderViewModel.ID = $('#ID').val();
         PurchaseOrderViewModel.PODDetail = PODDetail;
         PurchaseOrderViewModel.PODDetailLink = PODDetailLink;
@@ -1098,7 +1113,7 @@ function Delete(curobj) {
     debugger;
     var rowData = DataTables.PurchaseOrderDetailTable.row($(curobj).parents('tr')).data();
     var Rowindex = DataTables.PurchaseOrderDetailTable.row($(curobj).parents('tr')).index();
-
+    _SlNo = 1;
     if ((rowData != null) && (rowData.ID != null)) {
         notyConfirm('Are you sure to delete?', 'DeleteItem("' + rowData.ID + '")');
     }
@@ -1110,6 +1125,7 @@ function Delete(curobj) {
 
 function DeleteTempItem(Rowindex) {
     debugger;
+    _SlNo = 1;
     DataTables.PurchaseOrderDetailTable.row(Rowindex).remove().draw(false);
     notyAlert('success', 'Deleted Successfully');
 }

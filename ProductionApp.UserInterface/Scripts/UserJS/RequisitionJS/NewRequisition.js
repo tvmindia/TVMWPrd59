@@ -13,7 +13,7 @@ var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 var _RequistionDetail = [];
 var _RequistionDetailList = [];
-
+var _SlNo = 1;
 $(document).ready(function () {
     debugger;
     try {
@@ -46,9 +46,16 @@ $(document).ready(function () {
           paging: false,
           data: null,
           autoWidth: false,
+          "bInfo": false,
           columns: [
           { "data": "ID", "defaultContent": "<i></i>" },
           { "data": "MaterialID", "defaultContent": "<i></i>" },
+          {
+              "data": "", render: function (data, type, row) {
+                  debugger;
+                  return _SlNo++
+              }, "defaultContent": "<i></i>"
+          },
           { "data": "Material.MaterialCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "10%" },
           { "data": "Description", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "43%" },
           { "data": "Material.CurrentStock", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
@@ -57,9 +64,10 @@ $(document).ready(function () {
           { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
           ],
           columnDefs: [{ "targets": [0,1], "visible": false, searchable: false },
-              { className: "text-center", "targets": [7],"width": "7%" },
-              { className: "text-right", "targets": [4,5,6] },
-              { className: "text-left", "targets": [2,3] }
+              { className: "text-center", "targets": [8], "width": "7%" },
+              { "targets": [2], "width": "2%", },
+              { className: "text-right", "targets": [5,6,7] },
+              { className: "text-left", "targets": [3,4] }
           ]
       });
 
@@ -102,7 +110,7 @@ function MaterialEdit(curObj)
 {
     debugger;
     $('#RequisitionDetailsModal').modal('show');
-
+    _SlNo = 1;
     var rowData = DataTables.RequisitionDetailTable.row($(curObj).parents('tr')).data();
     BindMaterialDetails(rowData.MaterialID);
     $("#MaterialID").val(rowData.MaterialID).trigger('change');
@@ -203,6 +211,7 @@ function Save()
         var result = JSON.stringify(_RequistionDetailList);
         $("#DetailJSON").val(result);
         $('#btnSave').trigger('click');
+        _SlNo = 1;
     }
     else {
         notyAlert('warning', 'Please Add Requistion Details!');
@@ -250,6 +259,7 @@ function Reset()
 function BindRequisitionByID()
 {
     var ID = $('#ID').val();
+    _SlNo = 1;
     var result = GetRequisitionByID(ID);
     debugger;
     $('#ID').val(result.ID);
@@ -362,6 +372,7 @@ function DeleteTempItem(Rowindex)
     //var Itemtabledata = DataTables.RequisitionDetailList.rows().data();
     //Itemtabledata.splice(Rowindex, 1);
     //DataTables.RequisitionDetailList.clear().rows.add(Itemtabledata).draw(false);
+    _SlNo = 1;
     DataTables.RequisitionDetailTable.row(Rowindex).remove().draw(false);
     notyAlert('success', 'Deleted Successfully');
 }
