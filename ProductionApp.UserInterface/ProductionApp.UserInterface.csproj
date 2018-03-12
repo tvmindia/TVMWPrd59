@@ -744,7 +744,6 @@
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\DashboardProductionController.cs" />
     <Compile Include="Controllers\DashboardPurchaseController.cs" />
-    <Compile Include="Controllers\RecieveFromProductionController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\RequisitionController.cs" />
     <Compile Include="Controllers\PurchaseOrderController.cs" />
@@ -920,6 +919,7 @@
     <Folder Include="Content\Uploads\" />
     <Folder Include="Views\FileUpload\" />
     <Folder Include="Views\RecieveFromProduction\" />
+    <Folder Include="Views\TaxType\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProductionApp.BusinessService\ProductionApp.BusinessService.csproj">
