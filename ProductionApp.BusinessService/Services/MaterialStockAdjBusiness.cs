@@ -24,5 +24,44 @@ namespace ProductionApp.BusinessService.Services
         {
             return _materialStockAdjRepository.GetAllMaterialStockAdjustment(materialStockAdjAdvanceSearch);
         }
+
+        public object InsertUpdateStockAdjustment(MaterialStockAdj materialStockAdj)
+        {
+            DetailsXML(materialStockAdj);
+            return _materialStockAdjRepository.InsertUpdateStockAdjustment(materialStockAdj);
+        }
+
+        public void DetailsXML(MaterialStockAdj materialStockAdj)
+        {
+            string result = "<Details>";
+            int totalRows = 0;
+            foreach (object some_object in materialStockAdj.MaterialStockAdjDetailList)
+            {
+                _commonBusiness.XML(some_object, ref result, ref totalRows);
+            }
+            result = result + "</Details>";
+
+            materialStockAdj.DetailXML = result;
+        }
+
+        public MaterialStockAdj GetMaterialStockAdjustment(Guid id)
+        {
+            return _materialStockAdjRepository.GetMaterialStockAdjustment(id);
+        }
+
+        public List<MaterialStockAdjDetail> GetMaterialStockAdjustmentDetail(Guid id)
+        {
+            return _materialStockAdjRepository.GetMaterialStockAdjustmentDetail(id);
+        }
+
+        public object DeleteMaterialStockAdjustment(Guid id)
+        {
+            return _materialStockAdjRepository.DeleteMaterialStockAdjustment(id);
+        }
+
+        public object DeleteMaterialStockAdjustmentDetail(Guid id)
+        {
+            return _materialStockAdjRepository.DeleteMaterialStockAdjustmentDetail(id);
+        }
     }
 }

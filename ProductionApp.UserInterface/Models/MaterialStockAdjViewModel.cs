@@ -14,8 +14,9 @@ namespace ProductionApp.UserInterface.Models
         public Guid AdjustedBy { get; set; }
         public Guid? LatestApprovalID { get; set; }
         public DateTime AdjustmentDate { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
-        public int LatestApprovalstatus { get; set; }
+        public int LatestApprovalStatus { get; set; }
         public bool IsFinalApproved { get; set; }
         public string ApprovalStatus { get; set; }
         public string ReferenceNo { get; set; }
@@ -27,23 +28,30 @@ namespace ProductionApp.UserInterface.Models
         public string AdjustmentDateFormatted { get; set; }
         public EmployeeViewModel Employee { get; set; }
         public string AdjustedByEmployeeName { get; set; }
-        public MaterialViewModel RawMaterial { get; set; }
+        public MaterialViewModel Material { get; set; }
         public MaterialStockAdjDetailViewModel MaterialStockAdjDetail { get; set; }
-
         public List<MaterialStockAdjViewModel> MaterialStockAdjList { get; set; }
+        public List<MaterialStockAdjDetailViewModel> MaterialStockAdjDetailList { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public Guid EmployeeID { get; set; }
+        public bool IsUpdate { get; set; }
+        public string DetailJSON { get; set; }
     }
 
     public class MaterialStockAdjDetailViewModel
     {
         public Guid ID { get; set; }
+        public Guid AdjustmentID { get; set; }
         public Guid AdjustmentBy { get; set; }
+        [Display(Name ="Material")]
         public Guid MaterialID { get; set; }
+        [Display(Name ="Quantity")]
         public decimal Qty { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
         public CommonViewModel Common { get; set; }
+        public MaterialViewModel Material { get; set; }
     }
 
     public class MaterialStockAdjAdvanceSearchViewModel

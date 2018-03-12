@@ -11,9 +11,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid ID { get; set; }
         public Guid AdjustedBy { get; set; }
         public Guid? LatestApprovalID { get; set; }
-        public DateTime AdjustmentDate { get; set; }
+          public DateTime Date { get; set; }
         public string Remarks { get; set; }
-        public int LatestApprovalstatus { get; set; }
+        public int LatestApprovalStatus { get; set; }
         public bool IsFinalApproved { get; set; }
         public string ApprovalStatus { get; set; }
         public string ReferenceNo { get; set; }
@@ -23,23 +23,26 @@ namespace ProductionApp.DataAccessObject.DTO
         public string AdjustmentDateFormatted { get; set; }
         public Employee Employee { get; set; }
         public string AdjustedByEmployeeName { get; set; }
-        public Material RawMaterial { get; set; }
+        public Material Material { get; set; }
+        public List<MaterialStockAdjDetail> MaterialStockAdjDetailList { get; set; }
         public MaterialStockAdjDetail MaterialStockAdjDetail { get; set; }
-
-        public List<MaterialStockAdj> MaterialStockAdjList { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
-        public Guid EmployeeID { get; set; }        
+        public Guid EmployeeID { get; set; }
+        public bool IsUpdate { get; set; }
+        public string DetailXML { get; set; }
     }
 
     public class MaterialStockAdjDetail
     {
         public Guid ID { get; set; }
+        public Guid AdjustmentID { get; set; }
         public Guid AdjustmentBy { get; set; }
         public Guid MaterialID { get; set; }
         public decimal Qty { get; set; }
         public string Remarks { get; set; }
         public Common Common { get; set; }
+        public Material Material { get; set; }
     }
 
     public class MaterialStockAdjAdvanceSearch
