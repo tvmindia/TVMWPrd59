@@ -1,4 +1,15 @@
-﻿var DataTables = {};
+﻿//*****************************************************************************
+//*****************************************************************************
+//Author: Angel
+//CreatedDate: 12-Feb-2018 
+//LastModified: 5-Mar-2018 
+//FileName: ViewPurchaseOrder.js
+//Description: Client side coding for PurchaseOrder
+//******************************************************************************
+//******************************************************************************
+
+//--Global Declaration--//
+var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
@@ -86,6 +97,7 @@ function BindOrReloadPurchaseOrderTable(action) {
                 { "data": "Supplier", "defaultContent": "<i>-</i>" },
                 { "data": "PurchaseOrderStatus", "defaultContent": "<i>-</i>" },
                 { "data": "PurchaseOrderTitle", "defaultContent": "<i>-</i>" },
+                { "data": "ApprovalStatus", "defaultContent": "<i>-</i>" },
                 {
                     "data": "ID", "orderable": false, render: function (data, type, row) {
                         return '<a href="/PurchaseOrder/NewPurchaseOrder?code=PURCH&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'

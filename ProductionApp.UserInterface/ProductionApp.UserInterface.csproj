@@ -465,6 +465,10 @@
     <Content Include="Content\images\Transfer.png" />
     <Content Include="Content\images\wheel.png" />
     <Content Include="Content\images\withdraw.png" />
+    <Content Include="Content\MailTemplate\DocumentApproved.html" />
+    <Content Include="Content\MailTemplate\DocumentRejected.html" />
+    <Content Include="Content\MailTemplate\SendForApproval.html" />
+    <Content Include="Content\Site.css" />
     <Content Include="Content\sweetalert.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.min.css" />
@@ -664,6 +668,8 @@
     <Content Include="Scripts\UserJS\Approver.js" />
     <Content Include="Scripts\UserJS\AppSubobject.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
+    <Content Include="Scripts\UserJS\BillOfMaterialJS\NewBillOfMaterial.js" />
+    <Content Include="Scripts\UserJS\BillOfMaterialJS\ViewBillOfMaterial.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ApprovalHistory.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ApproveDocument.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\DocumentSummary.js" />
@@ -687,6 +693,8 @@
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\PurchaseOrderJS\NewPurchaseOrder.js" />
     <Content Include="Scripts\UserJS\Product.js" />
+    <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\NewRecieveFromProduction.js" />
+    <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\ViewRecieveFromProduction.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\NewRequisition.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\RequisitionApproval.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\ViewRequisition.js" />
@@ -695,6 +703,7 @@
     <Content Include="Scripts\UserJS\Roles.js" />
     <Content Include="Scripts\UserJS\SalesOrder\AddSalesOrder.js" />
     <Content Include="Scripts\UserJS\SalesOrder\ListSalesOrder.js" />
+    <Content Include="Scripts\UserJS\Stage.js" />
     <Content Include="Scripts\UserJS\User.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -711,6 +720,8 @@
     <Compile Include="Controllers\AppObjectController.cs" />
     <Compile Include="Controllers\ApproverController.cs" />
     <Compile Include="Controllers\BankController.cs" />
+    <Compile Include="Controllers\BillOfMaterialController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DashboardAccountController.cs" />
     <Compile Include="Controllers\DashboardMasterController.cs" />
     <Compile Include="Controllers\DashboardSaleController.cs" />
@@ -741,7 +752,9 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SalesOrderController.cs" />
     <Compile Include="Controllers\SAMPanelController.cs" />
+    <Compile Include="Controllers\StageController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\TaxTypeController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -753,7 +766,9 @@
     <Compile Include="Models\ApprovalStatusViewModel.cs" />
     <Compile Include="Models\ApproverViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
+    <Compile Include="Models\BillOfMaterialViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
+    <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\DataTableAjaxPostModel.cs" />
     <Compile Include="Models\DataTablePagingViewModel.cs" />
     <Compile Include="Models\DocumentApprovalViewModel.cs" />
@@ -779,6 +794,7 @@
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\SalesInvoiceViewModel.cs" />
     <Compile Include="Models\SalesOrderViewModel.cs" />
+    <Compile Include="Models\StageViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
     <Compile Include="Models\TaxTypeViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
@@ -877,14 +893,20 @@
     <Content Include="Views\Account\PageNotFound.cshtml" />
     <Content Include="Views\Shared\_SendForApproval.cshtml" />
     <Content Include="Views\Account\DbDown.cshtml" />
-    <Content Include="Views\MaterialReturnFromProduction\ListReceiveFromProduction.cshtml" />
-    <Content Include="Views\MaterialReturnFromProduction\AddReceiveFromProduction.cshtml" />
     <Content Include="Views\MaterialStockAdj\NewStockAdjustment.cshtml" />
     <Content Include="Views\MaterialStockAdj\ListStockAdjustment.cshtml" />
     <Content Include="Views\PurchaseOrder\_PurchaseOrderMailPreview.cshtml" />
     <Content Include="Views\Home\_FGInventorySummary.cshtml" />
     <Content Include="Views\SalesOrder\AddSalesOrder.cshtml" />
     <Content Include="Views\SalesOrder\ListSalesOrder.cshtml" />
+    <Content Include="Views\BillOfMaterial\ViewBillOfMaterial.cshtml" />
+    <Content Include="Views\BillOfMaterial\NewBillOfMaterial.cshtml" />
+    <Content Include="Views\MaterialReturnFromProduction\NewRecieveFromProduction.cshtml" />
+    <Content Include="Views\MaterialReturnFromProduction\ViewRecieveFromProduction.cshtml" />
+    <Content Include="Views\Stage\Index.cshtml" />
+    <Content Include="Views\Stage\_AddStagePartial.cshtml" />
+    <Content Include="Views\Customer\Customer.cshtml" />
+    <Content Include="Views\Customer\_CustomerDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -897,6 +919,7 @@
     <Folder Include="Content\Uploads\" />
     <Folder Include="Views\FileUpload\" />
     <Folder Include="Views\RecieveFromProduction\" />
+    <Folder Include="Views\TaxType\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProductionApp.BusinessService\ProductionApp.BusinessService.csproj">

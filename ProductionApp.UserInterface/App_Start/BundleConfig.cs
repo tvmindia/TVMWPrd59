@@ -61,6 +61,7 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Product").Include("~/Scripts/UserJS/Product.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Bank").Include("~/Scripts/UserJS/Bank.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Approver").Include("~/Scripts/UserJS/Approver.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Stage").Include("~/Scripts/UserJS/Stage.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/PurchaseOrderJS/ViewPurchaseOrder").Include("~/Scripts/UserJS/PurchaseOrderJS/ViewPurchaseOrder.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/PurchaseOrderJS/NewPurchaseOrder").Include("~/Scripts/UserJS/PurchaseOrderJS/NewPurchaseOrder.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/RequisitionJS/ViewRequisition").Include("~/Scripts/UserJS/RequisitionJS/ViewRequisition.js"));
@@ -78,6 +79,11 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJS/MaterialStockAdjustment/ListStockAdjustment").Include("~/Scripts/UserJS/MaterialStockAdjustment/ListStockAdjustment.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Home").Include("~/Scripts/UserJS/Home/SalesSummary.js", "~/Scripts/UserJS/Home/PurchaseSummary.js", "~/Scripts/UserJS/Home/IncomeExpenseSummary.js", "~/Scripts/UserJS/Home/FinishedGoodSummary.js", "~/Scripts/UserJS/Home/MaterialSummary.js", "~/Scripts/UserJS/Home/ProductionSummary.js"));//
             bundles.Add(new ScriptBundle("~/bundles/UserJS/MaterialStockAdjustment/NewStockAdjustment").Include("~/Scripts/UserJS/MaterialStockAdjustment/NewStockAdjustment.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/SalesOrder/ListSalesOrder").Include("~/Scripts/UserJS/SalesOrder/ListSalesOrder.js"));//
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/SalesOrder/AddSalesOrder").Include("~/Scripts/UserJS/SalesOrder/AddSalesOrder.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/BillOfMaterialJS/ViewBillOfMaterial").Include("~/Scripts/UserJs/BillOfMaterialJS/ViewBillOfMaterial.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/MaterialReturnFromProductionJS/ViewRecieveFromProduction").Include("~/Scripts/UserJS/MaterialReturnFromProductionJS/ViewRecieveFromProduction.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/MaterialReturnFromProductionJS/NewRecieveFromProduction").Include("~/Scripts/UserJS/MaterialReturnFromProductionJS/NewRecieveFromProduction.js"));
 
 
         }

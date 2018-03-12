@@ -34,6 +34,7 @@ function BindOrReloadApproverTable(action) {
         ApproverAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DocumentTypeViewModel = new Object();
+        ApproverViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
         //switch case to check the operation
         switch (action) {
@@ -48,7 +49,6 @@ function BindOrReloadApproverTable(action) {
             case 'Apply':
                     break;
             case 'Export':
-                if ($('#SearchTerm').val() == "")
                     DataTablePagingViewModel.Length = -1;
                 break;
             default:
@@ -57,6 +57,8 @@ function BindOrReloadApproverTable(action) {
         ApproverAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
         DocumentTypeViewModel.Code = $('#DocumentTypeCode').val();
         ApproverAdvanceSearchViewModel.DocumentType = DocumentTypeViewModel;
+       // ApproverViewModel.Level = $('#Approver_Level').val();
+       // ApproverAdvanceSearchViewModel.Approver = ApproverViewModel();
         ApproverAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
 
         //apply datatable plugin on Approver table
@@ -110,7 +112,7 @@ function BindOrReloadApproverTable(action) {
                         }
                     }
                     $(".buttons-excel").trigger('click');
-                    ResetApproverList();
+                    BindOrReloadApproverTable('Search');
                 }
             }
         });
@@ -186,7 +188,7 @@ function DeleteApprover(id) {
             switch (status) {
                 case "OK":
                     notyAlert('success', result.Message);
-                    BindOrReloadApproverTable('Reset');
+                    BindOrReloadApproverTable();
                     break;
                 case "ERROR":
                     notyAlert('error', message);

@@ -29,5 +29,6 @@ namespace ProductionApp.DataAccessObject.DTO
         public string SearchTerm { get; set; }
         public DataTablePaging DataTablePaging { get; set; }
         public DocumentType DocumentType { get; set; }
+        public Approver Approver { get; set; }
     }
 }

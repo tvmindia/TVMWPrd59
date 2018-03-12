@@ -10,5 +10,6 @@ namespace ProductionApp.BusinessService.Contracts
     public interface ISupplierBusiness
     {
         List<Supplier> GetAllSupplier();
+        Supplier GetSupplier(Guid supplierid);
     }
 }

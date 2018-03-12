@@ -10,5 +10,6 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface ISupplierRepository
     {
         List<Supplier> GetAllSupplier();
+        Supplier GetSupplier(Guid supplierid);
     }
 }

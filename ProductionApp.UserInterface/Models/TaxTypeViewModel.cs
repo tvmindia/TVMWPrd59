@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ProductionApp.UserInterface.Models
 {
@@ -12,5 +13,7 @@ namespace ProductionApp.UserInterface.Models
         public decimal CGSTPercentage { get; set; }
         public decimal SGSTPercentage { get; set; }
         public decimal IGSTPercentage { get; set; }
+        public List<SelectListItem> SelectList { get; set; }
+
     }
 }

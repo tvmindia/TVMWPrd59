@@ -244,8 +244,10 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion DeletePurchaseOrderDetail
-        
+
+
         #region TaxTypeByDesc
+        //Need to be removed//refer TaxType  controller
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public string GetTaxtype(string Code)
         {
@@ -292,6 +294,7 @@ namespace ProductionApp.UserInterface.Controllers
                     if (purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyFooter != null)
                         purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyFooter = purchaseOrderMailPreviewVM.PurchaseOrder.MailBodyFooter.Replace("<br/>",Environment.NewLine);
                 }
+                ViewBag.path = "http://" + HttpContext.Request.Url.Authority + purchaseOrderMailPreviewVM.PurchaseOrder.LogoURL;
             }
             catch (Exception ex)
             {
@@ -390,6 +393,22 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion
 
+        #region GetSupplierDetails
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
+        public string GetSupplierDetails(string supplierid)
+        {
+            try
+            {
+                SupplierViewModel supplierVM = Mapper.Map<Supplier, SupplierViewModel>(_supplierBusiness.GetSupplier(Guid.Parse(supplierid)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetSupplierDetails
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "")]
@@ -439,6 +458,32 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset";
                     toolboxVM.resetbtn.Event = "Reset();";
+
+                    toolboxVM.EmailBtn.Visible = true;
+                    toolboxVM.EmailBtn.Text = "Email";
+                    toolboxVM.EmailBtn.Title = "Email";
+                    toolboxVM.EmailBtn.Event = "EmailPreview(1);";
+
+                    toolboxVM.SendForApprovalBtn.Visible = true;
+                    toolboxVM.SendForApprovalBtn.Text = "Send";
+                    toolboxVM.SendForApprovalBtn.Title = "Send For Approval";
+                    toolboxVM.SendForApprovalBtn.Event = "ShowSendForApproval('PO');";
+
+                    toolboxVM.ListBtn.Visible = true;
+                    toolboxVM.ListBtn.Text = "List";
+                    toolboxVM.ListBtn.Title = "List";
+                    toolboxVM.ListBtn.Event = "";
+                    toolboxVM.ListBtn.Href = Url.Action("ViewPurchaseOrder", "PurchaseOrder", new { Code = "PURCH" });
+
+                    break;
+
+                case "Disable":
+
+                    toolboxVM.addbtn.Visible = true;
+                    toolboxVM.addbtn.Text = "New";
+                    toolboxVM.addbtn.Title = "Add New";
+                    toolboxVM.addbtn.Href = Url.Action("NewPurchaseOrder", "PurchaseOrder", new { code = "PURCH" });
+                    toolboxVM.addbtn.Event = "";
 
                     toolboxVM.EmailBtn.Visible = true;
                     toolboxVM.EmailBtn.Text = "Email";

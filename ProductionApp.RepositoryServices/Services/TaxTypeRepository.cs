@@ -17,6 +17,50 @@ namespace ProductionApp.RepositoryServices.Services
         {
             _databaseFactory = databaseFactory;
         }
+
+        public List<TaxType> GetTaxTypeForSelectList()
+        {
+            List<TaxType> taxTypeList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetTaxTypeForSelectList]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                taxTypeList = new List<TaxType>();
+                                while (sdr.Read())
+                                {
+                                    TaxType taxType = new TaxType();
+                                    {
+                                        taxType.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : taxType.Code);
+                                        taxType.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : taxType.Description);
+                                    }
+                                    taxTypeList.Add(taxType);
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return taxTypeList;
+        }
+
         public TaxType GetTaxTypeDetailsByCode(string Code)
         {
             TaxType taxType = new TaxType();

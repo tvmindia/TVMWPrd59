@@ -26,6 +26,7 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion Constructor Injection 
 
+        #region GetProductForSelectList
         /// <summary>
         /// To Get Product List For DropDown
         /// </summary>
@@ -71,8 +72,8 @@ namespace ProductionApp.RepositoryServices.Services
                 throw ex;
             }
             return productList;
-
         }
+        #endregion GetProductForSelectList
 
         #region GetAllProduct
         /// <summary>
