@@ -1196,8 +1196,8 @@ function SendMailPreview() {
         $('#btnMail').hide();
         $("#btnMailSend").attr("disabled", true);
         $("#btnSend").attr("disabled", true);
-        $("#btnMailSend").title("Can not send mail, document not approved");
-        $("#btnSend").title("Can not download PDF, document not approved");
+        $("#btnMailSend").attr('title', "Document not approved");
+        $("#btnSend").attr('title', "Document not approved");
         
     }
 }
