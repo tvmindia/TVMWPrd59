@@ -1,0 +1,110 @@
+﻿@model ProductionApp.UserInterface.Models.SubComponentViewModel
+
+@using (Ajax.BeginForm("InsertUpdateSubComponent", "SubComponent", null, new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessSubComponent", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "OnMasterBegin", OnComplete = "OnMasterComplete" }, new { @class = "form-horizontal", role = "form", id = "FormSubComponent" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
+        @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label lblrequired" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label lblrequired" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.OpeningQty, htmlAttributes: new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.OpeningQty, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.OpeningQty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.UnitCode, htmlAttributes: new { @class = "control-label lblrequired" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div id="divUnitDropdown">
+                        @{Html.RenderAction("UnitDropdown", "Unit", Model.Unit);}
+                    </div>
+                    @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.CurrentQty, htmlAttributes: new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.CurrentQty, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CurrentQty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.WeightInKG, htmlAttributes: new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.WeightInKG, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.WeightInKG, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group ">
+            <div class="col-md-12">
+                <input type="submit" value="Save Changes" id="btnSaveMaster" class="btn btn-info" style="margin-left:5%" />
+                <img src="~/Content/images/MasterLoading.gif" id="imgMasterLoading" style="display:none" />
+            </div>
+        </div>
+    </div>
+                            }
+<script>
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse("#FormSubComponent");
+    });
+</script>

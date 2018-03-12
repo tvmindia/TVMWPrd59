@@ -145,5 +145,171 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
         #endregion InsertUpdateReturnFromProduction
+
+        #region GetReturnFromProduction
+        public MaterialReturnFromProduction GetReturnFromProduction(Guid id)
+        {
+            MaterialReturnFromProduction materialReturn = new MaterialReturnFromProduction();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetReturnFromProduction]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    materialReturn.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : materialReturn.ID);
+                                    materialReturn.ReturnNo = (sdr["ReturnNo"].ToString() != "" ? sdr["ReturnNo"].ToString() : materialReturn.ReturnNo);
+                                    materialReturn.ReturnDate = (sdr["ReturnDate"].ToString() != "" ? DateTime.Parse(sdr["ReturnDate"].ToString()) : materialReturn.ReturnDate);
+                                    materialReturn.ReturnDateFormatted = (sdr["ReturnDate"].ToString() != "" ? DateTime.Parse(sdr["ReturnDate"].ToString()).ToString(settings.DateFormat) : materialReturn.ReturnDateFormatted);
+                                    materialReturn.ReturnBy = (sdr["ReturnBy"].ToString() != "" ? Guid.Parse(sdr["ReturnBy"].ToString()) : materialReturn.ReturnBy);
+                                    materialReturn.ReceivedBy = (sdr["ReceivedBy"].ToString() != "" ? Guid.Parse(sdr["ReceivedBy"].ToString()) : materialReturn.ReceivedBy);
+                                    materialReturn.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : materialReturn.GeneralNotes);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return materialReturn;
+        }
+        #endregion GetReturnFromProduction
+
+        #region GetReturnFromProductionDetail
+        public List<MaterialReturnFromProductionDetail> GetReturnFromProductionDetail(Guid id)
+        {
+            List<MaterialReturnFromProductionDetail> materialReturnDetailList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetReturnFromProductionDetail]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                materialReturnDetailList = new List<MaterialReturnFromProductionDetail>();
+                                while (sdr.Read())
+                                {
+                                    MaterialReturnFromProductionDetail materialReturn = new MaterialReturnFromProductionDetail();
+                                    {
+                                        materialReturn.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : materialReturn.ID);
+                                        materialReturn.HeaderID = (sdr["HeaderID"].ToString() != "" ? Guid.Parse(sdr["HeaderID"].ToString()) : materialReturn.HeaderID);
+                                        materialReturn.MaterialID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : materialReturn.MaterialID);
+                                        materialReturn.MaterialDesc = (sdr["MaterialDesc"].ToString() != "" ? sdr["MaterialDesc"].ToString() : materialReturn.MaterialDesc);
+                                        materialReturn.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : materialReturn.ToString());
+                                        materialReturn.Qty = (sdr["Qty"].ToString() != "" ? Decimal.Parse(sdr["Qty"].ToString()) : materialReturn.Qty);
+                                        materialReturn.Material = new Material();
+                                        materialReturn.Material.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : materialReturn.Material.MaterialCode);
+                                    }
+                                    materialReturnDetailList.Add(materialReturn);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return materialReturnDetailList;
+        }
+        #endregion ReturnFromProduction
+
+        #region DeleteReturnFromProduction
+        public object DeleteReturnFromProduction(Guid id)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeleteReturnFromProduction]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+            };
+        }
+        #endregion DeleteReturnFromProduction
+
+        #region DeleteReturnFromProductionDetail
+        public object DeleteReturnFromProductionDetail(Guid id)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeleteReturnFromProductionDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+            };
+        }
+        #endregion DeleteReturnFromProductionDetail
     }
 }

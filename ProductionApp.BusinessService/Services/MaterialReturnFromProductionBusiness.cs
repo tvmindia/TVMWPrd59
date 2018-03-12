@@ -40,5 +40,26 @@ namespace ProductionApp.BusinessService.Services
 
             materialReturnFromProduction.DetailXML = result;
         }
+
+        public MaterialReturnFromProduction GetReturnFromProduction(Guid id)
+        {
+            return _materialReturnFromProductionRepository.GetReturnFromProduction(id);
+        }
+
+       public List<MaterialReturnFromProductionDetail> GetReturnFromProductionDetail(Guid id)
+        {
+            return _materialReturnFromProductionRepository.GetReturnFromProductionDetail(id);
+        }
+
+        public object DeleteReturnFromProductionDetail(Guid id)
+        {
+            return _materialReturnFromProductionRepository.DeleteReturnFromProductionDetail(id);
+        }
+
+        public object DeleteReturnFromProduction(Guid id)
+        {
+            return _materialReturnFromProductionRepository.DeleteReturnFromProduction(id);
+        }
+
     }
 }

@@ -147,6 +147,83 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion InsertUpdateReturnFromProduction
 
+        #region GetReturnFromProduction
+        [AuthSecurityFilter(ProjectObject = "MaterialReturnFromProduction", Mode = "R")]
+        public string GetReturnFromProduction(string id)
+        {
+            try
+            {
+                MaterialReturnFromProductionViewModel materialReturnVM = new MaterialReturnFromProductionViewModel();
+                materialReturnVM = Mapper.Map<MaterialReturnFromProduction, MaterialReturnFromProductionViewModel>(_materialReturnFromProductionBusiness.GetReturnFromProduction(Guid.Parse(id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = materialReturnVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex });
+            }
+        }
+        #endregion GetReturnFromProduction
+        #region GetReturnFromProductionDetail
+        [AuthSecurityFilter(ProjectObject = "MaterialReturnFromProduction", Mode = "R")]
+        public string GetReturnFromProductionDetail(string id)
+        {
+            try
+            {
+                List<MaterialReturnFromProductionDetailViewModel> materialReturnDetailVM = new List<MaterialReturnFromProductionDetailViewModel>();
+                materialReturnDetailVM = Mapper.Map<List<MaterialReturnFromProductionDetail>, List<MaterialReturnFromProductionDetailViewModel>>(_materialReturnFromProductionBusiness.GetReturnFromProductionDetail(Guid.Parse(id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = materialReturnDetailVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetReturnFromProductionDetail
+
+        #region DeleteReturnFromProduction
+        [AuthSecurityFilter(ProjectObject = "MaterialReturnFromProduction", Mode = "R")]
+        public string DeleteReturnFromProduction(string id)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _materialReturnFromProductionBusiness.DeleteReturnFromProduction(Guid.Parse(id));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+        #endregion DeleteReturnFromProduction
+
+        #region DeleteReturnFromProductionDetail
+        [AuthSecurityFilter(ProjectObject = "MaterialReturnFromProduction", Mode = "R")]
+        public string DeleteReturnFromProductionDetail(string id)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _materialReturnFromProductionBusiness.DeleteReturnFromProductionDetail(Guid.Parse(id));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+        }
+        #endregion DeleteReturnFromProductionDetail
+
         #region GetMaterial
         public string GetMaterial(string id)
         {

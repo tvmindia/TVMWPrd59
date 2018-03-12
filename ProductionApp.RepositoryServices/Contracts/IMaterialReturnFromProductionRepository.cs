@@ -11,5 +11,9 @@ namespace ProductionApp.RepositoryServices.Contracts
     {
         List<MaterialReturnFromProduction> GetAllReturnFromProduction(MaterialReturnFromProductionAdvanceSearch materialReturnAdvanceSearch);
         object InsertUpdateReturnFromProduction(MaterialReturnFromProduction materialReturnFromProduction);
+        List<MaterialReturnFromProductionDetail> GetReturnFromProductionDetail(Guid id);
+        MaterialReturnFromProduction GetReturnFromProduction(Guid id);
+        object DeleteReturnFromProductionDetail(Guid id);
+        object DeleteReturnFromProduction(Guid id);
     }
 }

@@ -10,12 +10,15 @@ namespace ProductionApp.UserInterface.Models
     public class MaterialReturnFromProductionViewModel
     {
         public Guid ID{ get; set; }
+        [Display(Name = "Return No#")]
         public string ReturnNo{get; set;}
-
+        
         public DateTime ReturnDate { get; set; }
         [Display(Name = "Return To")]
+        [Required(ErrorMessage = "Return To is required")]
         public Guid ReceivedBy { get; set; }
         [Display(Name = "Return By")]
+        [Required(ErrorMessage = "Return By is required")]
         public Guid ReturnBy { get; set; }
 
         [DataType(DataType.MultilineText)]
@@ -25,6 +28,7 @@ namespace ProductionApp.UserInterface.Models
 
         //Additional Fields.
         [Display(Name = "Return Date")]
+        [Required(ErrorMessage = "Return Date is required")]
         public string ReturnDateFormatted { get; set; }
         public string ReturnToEmployeeName { get; set; }
         public string RecievedByEmployeeName { get; set; }
@@ -43,9 +47,13 @@ namespace ProductionApp.UserInterface.Models
     {
         public Guid ID { get; set; }
         public Guid HeaderID { get; set; }
+        [Display(Name = "Material")]
         public Guid MaterialID { get; set; }
+        [Display(Name = "Material Description")]
         public string MaterialDesc { get; set; }
+        [Display(Name = "Unit Code")]
         public string UnitCode { get; set; }
+        [Display(Name = "Quantity")]
         public decimal Qty { get; set; }
         public CommonViewModel Common { get; set; }
         public MaterialViewModel Material { get; set; }
