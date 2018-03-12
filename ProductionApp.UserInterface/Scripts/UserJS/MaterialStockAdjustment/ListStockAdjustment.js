@@ -6,14 +6,21 @@ $(document).ready(function () {
         $("#EmployeeID").select2({
         });
         BindOrReloadStockAdjustmentTable('Init');
-        //$('tblMaterialStockAdjustent tbody').on('dblclick', 'td', function () {
-        //    Edit(this);
-        //});
+        $('#tblMaterialStockAdjustment tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
     }
     catch (e) {
         console.log(e.message);
     }
 });
+
+function Edit(curObj)
+{
+    debugger;
+    var MaterialStockAjViewModel = DataTables.MaterialStockAdjustmentList.row($(curObj).parents('tr')).data();
+    window.location.replace('NewStockAdjustment?code=STR&ID=' + MaterialStockAjViewModel.ID);
+}
 
 function BindOrReloadStockAdjustmentTable(action) {
     try {
@@ -81,7 +88,7 @@ function BindOrReloadStockAdjustmentTable(action) {
                     { "data": "ApprovalStatus", "defaultContent": "<i>-</i>" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
-                            return '<a href="/MaterialStockAdj/NewMaterialStockAdjustment?code=STR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                            return '<a href="/MaterialStockAdj/NewStockAdjustment?code=STR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
                         }, "defaultContent": "<i>-</i>", "width": "3%"
                     }
                 ],

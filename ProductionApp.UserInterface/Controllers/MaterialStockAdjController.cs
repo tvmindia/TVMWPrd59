@@ -34,6 +34,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         #region ListStockAdjustment
+        [AuthSecurityFilter(ProjectObject ="MaterialStockAdjustment",Mode ="R")]
         public ActionResult ListStockAdjustment(string code)
         {
             ViewBag.SysModuleCode = code;            
@@ -43,6 +44,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion 
 
         #region NewStockAdjustment
+        [AuthSecurityFilter(ProjectObject = "MaterialStockAdjustment", Mode = "R")]
         public ActionResult NewStockAdjustment(string code,Guid?id)
         {
             ViewBag.SysModuleCode = code;
@@ -87,6 +89,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetMaterial
 
         #region GetAllMaterialStockAdjustment
+        [AuthSecurityFilter(ProjectObject = "MaterialStockAdjustment", Mode = "R")]
         public JsonResult GetAllMaterialStockAdjustment(DataTableAjaxPostModel model,MaterialStockAdjAdvanceSearchViewModel materialStockAdjAdvanceSearchVM)
         {
             materialStockAdjAdvanceSearchVM.DataTablePaging.Start = model.start;
@@ -110,6 +113,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region InsertUpdateStockAdjustment
+        [AuthSecurityFilter(ProjectObject = "MaterialStockAdjustment", Mode = "R")]
         public string InsertUpdateStockAdjustment(MaterialStockAdjViewModel materialstockAdjVM)
         {
             try
@@ -139,6 +143,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region GetMaterialStockAdjustment
+        [AuthSecurityFilter(ProjectObject = "MaterialStockAdjustment", Mode = "R")]
         public string GetMaterialStockAdjustment(string id)
         {
             try
@@ -156,6 +161,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region GetMaterialStockAdjustmentDetail
+        [AuthSecurityFilter(ProjectObject = "MaterialStockAdjustment", Mode = "R")]
         public string GetMaterialStockAdjustmentDetail(string id)
         {
             try
@@ -172,6 +178,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region DeleteMaterialStockAdjustment
+        [AuthSecurityFilter(ProjectObject = "MaterialStockAdjustment", Mode = "D")]
         public string DeleteMaterialStockAdjustment(string id)
         {
             object result = null;
@@ -193,6 +200,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region DeleteMaterialStockAdjustmentDetail
+        [AuthSecurityFilter(ProjectObject = "MaterialStockAdjustment", Mode = "D")]
         public string DeleteMaterialStockAdjustmentDetail(string id)
         {
             object result = null;
@@ -215,7 +223,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "IssueToProduction", Mode = "")]
+        [AuthSecurityFilter(ProjectObject = "MaterialStockAdjustment", Mode = "")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();
@@ -270,19 +278,19 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
                     toolboxVM.ListBtn.Event = "";
-                    toolboxVM.ListBtn.Href = Url.Action("ListStockAdjustment", "MaterialStockAdj", new { Code = "STR" });
+                    toolboxVM.ListBtn.Href = Url.Action("ListStockAdjustment", "MaterialStockAdj", new { code = "STR" });
                     break;
 
                 case "Disable":
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewStockAdjustment", "MaterialStockAdj", new { Code = "STR" });
+                    toolboxVM.addbtn.Href = Url.Action("NewStockAdjustment", "MaterialStockAdj", new { code = "STR" });
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ListStockAdjustment", "MaterialStockAdj", new { Code = "STR" });
+                    toolboxVM.ListBtn.Href = Url.Action("ListStockAdjustment", "MaterialStockAdj", new { code = "STR" });
 
                     break;
                    
@@ -297,7 +305,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
                     toolboxVM.ListBtn.Event = "";
-                    toolboxVM.ListBtn.Href = Url.Action("ListStockAdjustment", "MaterialStockAdj", new { Code = "STR" });
+                    toolboxVM.ListBtn.Href = Url.Action("ListStockAdjustment", "MaterialStockAdj", new { code = "STR" });
 
 
                     break;

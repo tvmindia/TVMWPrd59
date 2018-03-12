@@ -15,6 +15,7 @@ namespace ProductionApp.UserInterface.Models
         public Guid? LatestApprovalID { get; set; }
         public DateTime AdjustmentDate { get; set; }
         [DataType(DataType.MultilineText)]
+        [Display(Name ="General Notes")]
         public string Remarks { get; set; }
         public int LatestApprovalStatus { get; set; }
         public bool IsFinalApproved { get; set; }
