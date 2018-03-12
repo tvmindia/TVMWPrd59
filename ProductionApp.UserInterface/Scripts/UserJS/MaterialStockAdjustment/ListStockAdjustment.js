@@ -63,7 +63,7 @@ function BindOrReloadStockAdjustmentTable(action) {
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [1, 2, 3, 4]
+                                     columns: [1, 2, 3, 4, 5]
                                  }
                 }],
                 order: false,
@@ -92,7 +92,9 @@ function BindOrReloadStockAdjustmentTable(action) {
                         }, "defaultContent": "<i>-</i>", "width": "3%"
                     }
                 ],
-                columnDefs: [{ "targets": [0], "visible": false, "searchable": false }],
+                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
+                { className: "text-center", "targets": [2] },
+                {"targets":[4],"width":"30%"}],
                 destroy: true,
                 initComplete: function (settings, json) {
                     if (action === 'Export') {
@@ -102,7 +104,7 @@ function BindOrReloadStockAdjustmentTable(action) {
                             }
                         }
                         $(".buttons-excel").trigger('click');
-                        //BindOrReloadStockAdjustmentTable('Search');
+                        BindOrReloadStockAdjustmentTable('Search');
                     }
                 }
             });
