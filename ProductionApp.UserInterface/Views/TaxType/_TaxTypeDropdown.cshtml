@@ -1,1 +1,2 @@
-﻿
+﻿@model ProductionApp.UserInterface.Models.TaxTypeViewModel
+@Html.DropDownList("TaxTypeCode", Model.SelectList, "---Tax Type---", new { @class = "form-control", @style = "width:100%", onchange = "" })
