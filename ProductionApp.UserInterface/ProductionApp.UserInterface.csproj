@@ -907,6 +907,7 @@
     <Content Include="Views\Stage\_AddStagePartial.cshtml" />
     <Content Include="Views\Customer\Customer.cshtml" />
     <Content Include="Views\Customer\_CustomerDropdown.cshtml" />
+    <Content Include="Views\TaxType\_TaxTypeDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -919,7 +920,6 @@
     <Folder Include="Content\Uploads\" />
     <Folder Include="Views\FileUpload\" />
     <Folder Include="Views\RecieveFromProduction\" />
-    <Folder Include="Views\TaxType\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProductionApp.BusinessService\ProductionApp.BusinessService.csproj">

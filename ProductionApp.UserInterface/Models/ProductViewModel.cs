@@ -10,6 +10,7 @@ namespace ProductionApp.UserInterface.Models
 {
     public class ProductViewModel
     {
+        [Display(Name = "Product")]
         public Guid ID { get; set; }
         [Remote(action: "CheckProductCodeExist", controller: "Product", AdditionalFields = nameof(IsUpdate))]
         [Required(ErrorMessage = "Please Enter Product Code")]
