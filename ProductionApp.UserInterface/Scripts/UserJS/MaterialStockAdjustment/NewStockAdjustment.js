@@ -19,6 +19,7 @@ $(document).ready(function () {
          paging: false,
          data: null,
          autoWidth: false,
+         "bInfo": false,
          columns: [
              { "data": "ID", "defaultContent": "<i></i>" },
           { "data": "MaterialID", "defaultContent": "<i></i>" },
@@ -30,7 +31,14 @@ $(document).ready(function () {
           { "data": "Remarks", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
           { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
          ],
-         columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false }]
+         columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false },
+         { "targets": [7], "width": "30%" },
+         { "targets": [2], "width": "5%" },
+         { "targets": [3], "width": "10%" },
+         { "targets": [4], "width": "15%" },
+         { "targets": [5], "width": "10%" },
+         { "targets": [6], "width": "10%" },
+         { "targets": [8], "width": "7%" }]
      });
         $("#MaterialID").change(function () {
             debugger;
@@ -39,7 +47,7 @@ $(document).ready(function () {
         });
         if ($('#IsUpdate').val() == 'True') {
             BindStockAdjustmentByID()
-            ChangeButtonPatchView('MaterialStockAdj', 'divbuttonPatchAddStockAdj', 'Edit');
+            //ChangeButtonPatchView('MaterialStockAdj', 'divbuttonPatchAddStockAdj', 'Edit');
         }
         else {
             $('#lblStockAdjNo').text('Stock Adj.No# : New');
@@ -118,7 +126,7 @@ function GetMaterial(id) {
 function AddStockAdjustmentDetails()
 {
     debugger;
-    if ($('#MaterialID').val() != "" && $('#MaterialStockAdjDetail_Material_Qty').val() != "")
+    if ($('#MaterialID').val() != "" && $('#MaterialStockAdjDetail_Material_Qty').val() != "" && $('#MaterialStockAdjDetail_Remarks').val()!="")
     {
         _StockAdjustmentDetail = [];
         AddStockAdjustment = new Object();
@@ -168,7 +176,7 @@ function AddStockAdjustmentDetails()
     }
     else
     {
-        notyAlert('warning', "Material and Quantity fields are required ");
+        notyAlert('warning', "Material,Quantity and Remark fields are required ");
     }
 }
 
@@ -220,7 +228,7 @@ function SaveSuccessStockAdjustment(data,status)
             BindStockAdjustmentByID();
             _SlNo = 1;
             notyAlert("success", JsonResult.Records.Message)
-            ChangeButtonPatchView('MaterialStockAdj', 'divbuttonPatchAddStockAdj', 'Edit');
+           
             break;
         case "ERROR":
             notyAlert("danger", JsonResult.Message)
@@ -238,7 +246,6 @@ function Reset()
 
 function BindStockAdjustmentByID()
 {
-    ChangeButtonPatchView('MaterialStockAdj', 'divbuttonPatchAddStockAdj', 'New');
     _SlNo = 1;
     var id = $('#ID').val();
     var result = GetStockAdjustmentByID(id);
@@ -256,24 +263,24 @@ function BindStockAdjustmentByID()
     if (result.LatestApprovalStatus == 3 || result.LatestApprovalStatus == 0)
     {
         ChangeButtonPatchView('MaterialStockAdj', 'divbuttonPatchAddStockAdj', 'Edit');
-        //EnableDisableFields(false)       
+        EnableDisableFields(false)       
     }
     else
     {
-        ChangeButtonPatchView('MaterialStockAdj', 'divbuttonPatchAddStockAdj', 'Edit');
-        //EnableDisableFields(true)
+        ChangeButtonPatchView('MaterialStockAdj', 'divbuttonPatchAddStockAdj', 'Disable');
+        EnableDisableFields(true)
     }
     BindStockAdjustmentDetailTable(id);
 }
 
-//function EnableDisableFields(value)
-//{
-//    $('#btnAddStockAdjustmentItems').attr('disabled', value);
-//    $('#EmployeeID').attr('disabled', value);
-//    $('#AdjustmentDateFormatted').attr('disabled', value);
-//    $('#Remarks').attr('disabled', value);
-//    DataTables.StockAdjustmentDetailTable.column(7).visible(!value);
-//}
+function EnableDisableFields(value)
+{
+    $('#btnAddStockAdjustmentItems').attr('disabled', value);
+    $('#EmployeeID').attr('disabled', value);
+    $('#AdjustmentDateFormatted').attr('disabled', value);
+    $('#Remarks').attr('disabled', value);
+    DataTables.StockAdjustmentDetailTable.column(8).visible(!value);
+}
 
 function GetStockAdjustmentByID(id)
 {
@@ -400,7 +407,8 @@ function DeleteItem(id)
 
 function DeleteClick()
 {
-    notyConfirm('Are you sure to delete?', 'DeleteIssueToProduction()');
+    debugger;
+    notyConfirm('Are you sure to delete?', 'DeleteStockAdjustment()');
 }
 
 function DeleteStockAdjustment()
@@ -436,4 +444,33 @@ function DeleteStockAdjustment()
         notyAlert('error', e.message);
         return 0;
     }
+}
+
+function ShowSendForApproval(documentTypeCode) {
+    debugger;
+    if ($('#LatestApprovalStatus').val() == 3) {
+        var documentID = $('#ID').val();
+        var latestApprovalID = $('#LatestApprovalID').val();
+        ReSendDocForApproval(documentID, documentTypeCode, latestApprovalID);
+    }
+    else {
+        $('#SendApprovalModal').modal('show');
+    }
+}
+
+function SendForApproval(documentTypeCode) {
+    debugger;
+    var documentID = $('#ID').val();
+    var approversCSV;
+    var count = $('#ApproversCount').val();
+
+    for (i = 0; i < count; i++) {
+        if (i == 0)
+            approversCSV = $('#ApproverLevel' + i).val();
+        else
+            approversCSV = approversCSV + ',' + $('#ApproverLevel' + i).val();
+    }
+    SendDocForApproval(documentID, documentTypeCode, approversCSV);
+    $('#SendApprovalModal').modal('hide');
+    BindStockAdjustmentByID();
 }

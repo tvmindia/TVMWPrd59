@@ -352,6 +352,14 @@ function isNumber(e) {
     }
 }
 
+//only number validation with negative 
+function isNumberNegative(e) {
+    var unicode = e.charCode ? e.charCode : e.keyCode
+    if (unicode != 8 && unicode != 46 && unicode!=45) { //if the key isn't the backspace key (which we should allow)
+        if (unicode < 48 || unicode > 57 ) //if not a number
+            return false //disable key press
+    }
+}
 
 function notyConfirm(msg, functionIfSuccess,msg2,btnText,value) {
     var m = 'You will not be able to recover this action!'
