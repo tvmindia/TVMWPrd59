@@ -62,6 +62,14 @@ $(document).ready(function () {
             debugger;
             BindRawMaterialDetails(this.value)
         });
+        if ($('#IsUpdate').val() == 'True') {
+            debugger;
+            BindReturnFromProductionByID()
+            ChangeButtonPatchView('MaterialReturnFromProduction', 'divbuttonPatchReturnFromProduction', 'Edit');
+        }
+        else {
+            $('#lblReturnNo').text('Receive From Production#: New');
+        }
     }
     catch (e) {
         console.log(e.message);
@@ -190,7 +198,7 @@ function AddMaterialReturnDetailList() {
         _MaterialReturnDetailList.push(MaterialReturnDetail);
     }
 }
-function SaveSuccessIssueToProduction(data, status) {
+function SaveSuccessReturnFromProduction(data, status) {
     debugger;
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
@@ -210,4 +218,200 @@ function SaveSuccessIssueToProduction(data, status) {
             notyAlert("danger", JsonResult.Message)
             break;
     }
+}
+
+function Reset()
+{
+    BindReturnFromProductionByID();
+}
+
+function BindReturnFromProductionByID() {
+    debugger;
+    ChangeButtonPatchView('MaterialReturnFromProduction', 'divbuttonPatchReturnFromProduction', 'New');
+    _SlNo = 1;
+    var ID = $('#ID').val();
+    var result = GetReturnFromProductionByID(ID);
+    $('#ID').val(result.ID);
+    $('#ReturnNo').val(result.ReturnNo);
+    $('#ReturnDateFormatted').val(result.ReturnDateFormatted);
+    $('#ReceivedBy').val(result.ReceivedBy).select2();
+    $('#ReturnBy').val(result.ReturnBy).select2();
+    $('#GeneralNotes').val(result.GeneralNotes);
+    $('#lblReturnNo').text('Receive From Production#:' + result.ReturnNo);
+    BindMaterialReturnDetailTable(ID);
+}
+function GetReturnFromProductionByID(ID) {
+    try {
+        debugger;
+        var data = { "id": ID };
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var materialReturnVM = new Object();
+        jsonData = GetDataFromServer("MaterialReturnFromProduction/GetReturnFromProduction/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            materialReturnVM = jsonData.Record;
+            message = jsonData.Message;
+        }
+        if (result == "OK") {
+            return materialReturnVM;
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+function BindMaterialReturnDetailTable(ID) {
+    debugger;
+    DataTables.MaterialReturnFromProductionDetailTable.clear().rows.add(GetReturnFromProductionDetail(ID)).draw(true);
+}
+
+function GetReturnFromProductionDetail(ID) {
+    try {
+        debugger;
+        var data = { "id": ID };
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var materialReturnDetailVM = new Object();
+        jsonData = GetDataFromServer("MaterialReturnFromProduction/GetReturnFromProductionDetail/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            materialReturnDetailVM = jsonData.Records;
+        }
+        if (result == "OK") {
+            return materialReturnDetailVM;
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function MaterialEdit(curObj) {
+    debugger;
+    $('#AddReturnFromProductionItemModal').modal('show');
+
+    var materialReturnDetailVM = DataTables.MaterialReturnFromProductionDetailTable.row($(curObj).parents('tr')).data();
+    _SlNo = 1;
+    if ((materialReturnDetailVM != null) && (materialReturnDetailVM.MaterialID != null)) {
+        $("#MaterialID").val(materialReturnDetailVM.MaterialID).select2();
+        $('#MaterialReturnFromProductionDetail_Material_MaterialCode').val(materialReturnDetailVM.Material.MaterialCode);
+        $('#MaterialReturnFromProductionDetail_MaterialDesc').val(materialReturnDetailVM.MaterialDesc);
+        $('#MaterialReturnFromProductionDetail_UnitCode').val(materialReturnDetailVM.UnitCode);
+        $('#MaterialReturnFromProductionDetail_Qty').val(materialReturnDetailVM.Qty);
+    }
+}
+
+// Delete
+function Delete(curObj) {
+    debugger;
+    var materialReturnDetailVM = DataTables.MaterialReturnFromProductionDetailTable.row($(curObj).parents('tr')).data();
+    var materialReturnDetailVMIndex = DataTables.MaterialReturnFromProductionDetailTable.row($(curObj).parents('tr')).index();
+
+    if ((materialReturnDetailVM != null) && (materialReturnDetailVM.ID != null)) {
+        notyConfirm('Are you sure to delete?', 'DeleteItem("' + materialReturnDetailVM.ID + '")');
+
+    }
+    else {
+        var res = notyConfirm('Are you sure to delete?', 'DeleteTempItem("' + materialReturnDetailVMIndex + '")');
+    }
+}
+
+function DeleteTempItem(materialReturnDetailVMIndex) {
+    debugger;
+    var Itemtabledata = DataTables.MaterialReturnFromProductionDetailTable.rows().data();
+    Itemtabledata.splice(materialReturnDetailVMIndex, 1);
+    _SlNo = 1;
+    DataTables.MaterialReturnFromProductionDetailTable.clear().rows.add(Itemtabledata).draw(false);
+    notyAlert('success', 'Deleted Successfully');
+}
+
+//-------------for delete from details table which saved in db-------
+function DeleteItem(ID) {
+    try {
+        debugger;
+        var data = { "id": ID };
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var materialReturnDetailVM = new Object();
+        jsonData = GetDataFromServer("MaterialReturnFromProduction/DeleteReturnFromProductionDetail/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            materialReturnDetailVM = jsonData.Records;
+            message = jsonData.Message;
+        }
+        switch (result) {
+            case "OK":
+                notyAlert('success', message);
+                BindReturnFromProductionByID();
+
+                break;
+            case "ERROR":
+                notyAlert('error', message);
+                break;
+            default:
+                break;
+        }
+        return jsonData.Records;
+    }
+    catch (e) {
+
+        notyAlert('error', e.message);
+    }
+}
+
+function DeleteClick() {
+    notyConfirm('Are you sure to delete?', 'DeleteIssueToProduction()');
+}
+
+function DeleteIssueToProduction() {
+    try {
+        debugger;
+        var id = $('#ID').val();
+        if (id != '' && id != null) {
+            var data = { "id": id };
+            var jsonData = {};
+            var result = "";
+            var message = "";
+            var materialReturnVM = new Object();
+            jsonData = GetDataFromServer("MaterialReturnFromProduction/DeleteReturnFromProduction/", data);
+            if (jsonData != '') {
+                jsonData = JSON.parse(jsonData);
+                result = jsonData.Result;
+                materialReturnVM = jsonData.Record;
+                message = jsonData.Message;
+            }
+            if (result == "OK") {
+                notyAlert('success', materialReturnVM.message);
+                window.location.replace("NewRecieveFromProduction?code=STR");
+            }
+            if (result == "ERROR") {
+                notyAlert('error', message);
+                return 0;
+            }
+            return 1;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
+    }
+}
+
+function Reset()
+{
+    BindReturnFromProductionByID();
 }

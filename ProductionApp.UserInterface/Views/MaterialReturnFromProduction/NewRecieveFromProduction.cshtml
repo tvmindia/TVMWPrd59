@@ -20,7 +20,7 @@
 <section class="content">
     <div class="row" id="OverlayHeader">
         <div class="col-md-6" style="text-align:left">
-            <span id="lblIssueNo" class="SCHeader">Receive From Production# : New</span>
+            <span id="lblReturnNo" class="SCHeader">Receive From Production# : New</span>
         </div>
         <div class="col-md-6" id="divbuttonPatchReturnFromProduction" style="min-height:25px;">
             @{
@@ -32,9 +32,10 @@
 
     <div class="row tableContainer">
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
-        @using (Ajax.BeginForm("InsertUpdateReturnFromProduction", "MaterialReturnFromProduction", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessReturnFromProduction", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "OnServerCallBegin", OnComplete = "OnServerCallComplete" }, new { @class = "form-horizontal", role = "form", @id = "AddReturnFromProductionForm" }))
+        @using (Ajax.BeginForm("InsertUpdateReturnFromProduction", "MaterialReturnFromProduction", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessReturnFromProduction", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "AddReturnFromProductionForm" }))
         {
             @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
             @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
 
             <div class="form-group col-md-12">
@@ -83,11 +84,11 @@
 
             <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
 
-                <div class="col-md-12">
+                <div class="col-md-12" style="padding-bottom:3px">
                     <div class="form-group col-md-10">
                     </div>
                     <div class="form-group col-md-2">
-                        <a class="btn btn-openid" onclick="ShowReturnFromProductionDetailsModal()" id="btnAddIssueToProductionItems" style="color:white;font-weight:bold;float:left;margin-left:auto"><i class="glyphicon glyphicon-plus"></i> Add Items</a>
+                        <a class="btn btn-openid" onclick="ShowReturnFromProductionDetailsModal()" id="btnAddIssueToProductionItems" style="color:white;font-weight:bold;float:right"><i class="glyphicon glyphicon-plus"></i> Add Item </a>
                     </div>
                 </div>
 
@@ -237,5 +238,6 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/selectmin")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/MaterialReturnFromProductionJS/NewRecieveFromProduction")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
 }
 

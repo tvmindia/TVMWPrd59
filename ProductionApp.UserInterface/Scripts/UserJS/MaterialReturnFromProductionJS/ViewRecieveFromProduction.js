@@ -91,7 +91,12 @@ function BindOrReloadReturnFromProductionTable(action)
                         { "data": "ReturnNo", "defaultContent": "<i>-</i>" },
                         { "data": "ReturnDateFormatted", "defaultContent": "<i>-</i>" },
                         { "data": "ReturnToEmployeeName", "defaultContent": "<i>-</i>" },
-                        { "data": "RecievedByEmployeeName", "defaultContent": "<i>-</i>" }
+                        { "data": "RecievedByEmployeeName", "defaultContent": "<i>-</i>" },
+                        {
+                            "data": "ID", "orderable": false, render: function (data, type, row) {
+                                return '<a href="/MaterialReturnFromProduction/NewRecieveFromProduction?code=STR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                            }, "defaultContent": "<i>-</i>", "width": "3%"
+                        }
                     ],
                     columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { className: "text-left", "targets": [1, 3, 4] },
