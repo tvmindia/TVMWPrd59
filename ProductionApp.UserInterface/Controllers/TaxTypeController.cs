@@ -41,7 +41,7 @@ namespace ProductionApp.UserInterface.Controllers
                         Selected = false
                     });
                 }
-            return PartialView("_CustomerDropdown", taxTypeVM);
+            return PartialView("_TaxTypeDropdown", taxTypeVM);
 
         }
 

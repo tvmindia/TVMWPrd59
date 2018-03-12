@@ -83,7 +83,7 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<MaterialReturnFromProductionViewModel, MaterialReturnFromProduction>().ReverseMap();
                 config.CreateMap<MaterialReturnFromProductionDetailViewModel, MaterialReturnFromProductionDetail>().ReverseMap();
                 config.CreateMap<CustomerViewModel, Customer>().ReverseMap();
-
+                config.CreateMap<TaxType, TaxTypeViewModel>().ReverseMap();
                 config.CreateMap<MaterialReturnFromProductionAdvanceSearchViewModel, MaterialReturnFromProductionAdvanceSearch>().ReverseMap();
 
 

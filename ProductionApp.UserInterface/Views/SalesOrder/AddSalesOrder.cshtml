@@ -205,8 +205,15 @@
                         </div>
                     </div>
                     <div class="col-md-12 headSeperator"></div>
-
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SalesOrderDetail.Product.Name, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SalesOrderDetail.Product.Name, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.SalesOrderDetail.Product.HSNNo, htmlAttributes: new { @class = "control-label " })
                         </div>
@@ -214,7 +221,7 @@
                             @Html.EditorFor(model => model.SalesOrderDetail.Product.HSNNo, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.SalesOrderDetail.UnitCode, htmlAttributes: new { @class = "control-label " })
                         </div>
@@ -222,17 +229,32 @@
                             @Html.EditorFor(model => model.SalesOrderDetail.UnitCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.SalesOrderDetail.TaxTypeCode, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                         @*   @Html.DropDownListFor(model => model.SalesOrderDetail.TaxTypeCode, TaxTypeCodeList, new { @class = "form-control", style = "padding:4px 12px;" })*@
+                            @Html.Action("TaxTypeDropdown", "TaxType")
                         </div>
                     </div>
 
-
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SalesOrderDetail.TaxAmount, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SalesOrderDetail.TaxAmount, new { htmlAttributes = new { @class = "form-control HeaderBox text-right", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                          @*  @Html.LabelFor(model => model.SalesOrderDetail.TaxAmount, htmlAttributes: new { @class = "control-label " })*@
+                        </div>
+                        <div class="col-md-12">
+                          @*  @Html.EditorFor(model => model.SalesOrderDetail.TaxAmount, new { htmlAttributes = new { @class = "form-control HeaderBox text-right", @disabled = "disabled" } })*@
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.SalesOrderDetail.Rate, htmlAttributes: new { @class = "control-label " })
                         </div>
@@ -240,15 +262,7 @@
                             @Html.EditorFor(model => model.SalesOrderDetail.Rate, new { htmlAttributes = new { @class = "form-control HeaderBox text-right", onkeypress = "return isNumber(event)" } })
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.SalesOrderDetail.DiscountAmount, htmlAttributes: new { @class = "control-label " })
-                        </div>
-                        <div class="col-md-12">
-                            @Html.EditorFor(model => model.SalesOrderDetail.DiscountAmount, new { htmlAttributes = new { @class = "form-control text-right", onkeypress = "return isNumber(event)" } })
-                        </div>
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.SalesOrderDetail.Quantity, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
@@ -256,6 +270,39 @@
                             @Html.EditorFor(model => model.SalesOrderDetail.Quantity, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)" } })
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SalesOrderDetail.GrossAmount, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SalesOrderDetail.GrossAmount, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SalesOrderDetail.DiscountPercent, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SalesOrderDetail.DiscountPercent, new { htmlAttributes = new { @class = "form-control text-right", onkeypress = "return isNumber(event)" } })
+                         </div>
+                        </div>
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SalesOrderDetail.DiscountAmount, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SalesOrderDetail.DiscountAmount, new { htmlAttributes = new { @class = "form-control text-right", onkeypress = "return isNumber(event)" } })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ExpectedDeliveryDateFormatted, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.ExpectedDeliveryDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker" } })
+                        </div>
+                    </div>
+                
                 </div>
             </div>
             <div class="modal-footer" style="height: 50px;padding: 7px;">

@@ -57,12 +57,20 @@ namespace ProductionApp.UserInterface.Models
         public DateTime ExpectedDeliveryDate { get; set; }
 
         //additional properties
+        [Display(Name = "Tax Amount")]
+        public decimal TaxAmount { get; set; }
+        [Display(Name = "Net Amount")]
         public decimal NetAmount { get; set; }
+        [Display(Name = "Gross Amount")]
         public decimal GrossAmount { get; set; }
+        [Display(Name = "Discount %")]
+       
+        public decimal DiscountPercent { get; set; }
+        [Display(Name = "Discount Amount")]
         public decimal DiscountAmount { get; set; }
 
-        public int TotalCount { get; set; }
-        public int FilteredCount { get; set; }
+        //public int TotalCount { get; set; }
+        //public int FilteredCount { get; set; }
         public string ExpectedDeliveryDateFormatted { get; set; }
         public CommonViewModel Common { get; set; }
         public ProductViewModel Product { get; set; }

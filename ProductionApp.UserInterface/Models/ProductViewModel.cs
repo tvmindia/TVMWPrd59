@@ -15,7 +15,8 @@ namespace ProductionApp.UserInterface.Models
         [Remote(action: "CheckProductCodeExist", controller: "Product", AdditionalFields = nameof(IsUpdate))]
         [Required(ErrorMessage = "Please Enter Product Code")]
         public string Code { get; set; }
-        [Required(ErrorMessage = "Please Enter Name")]
+        [Required(ErrorMessage = "Please Enter Product Name")]
+        [Display(Name = "Product Name")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Please Enter Description")]
         public string Description { get; set; }
