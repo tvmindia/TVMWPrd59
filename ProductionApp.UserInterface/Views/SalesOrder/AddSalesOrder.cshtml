@@ -141,16 +141,13 @@
                         <th>ID</th>
                         <th>ProductID</th>
                         <th>Product</th>
-                        <th>HSN</th>
                         <th>GST %</th>
                         <th>Qty</th>
-                        <th>Unit</th>
                         <th>Rate</th>
                         <th>Gross Amt</th>
-                        <th>Disc %</th>
                         <th>Disc Amt</th>
+                        <th>Tax Amt</th>
                         <th>Net Amt</th>
-                        <th>Expected Delivery Date</th>
                         <th>...</th>
                     </tr>
                 </thead>
@@ -266,7 +263,7 @@
                             @Html.LabelFor(model => model.SalesOrderDetail.DiscountPercent, htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.SalesOrderDetail.DiscountPercent, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)" } })
+                            @Html.EditorFor(model => model.SalesOrderDetail.DiscountPercent, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)", onfocus = "SelectAllValue(this);" } })
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -274,7 +271,7 @@
                             @Html.LabelFor(model => model.SalesOrderDetail.DiscountAmount, htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.SalesOrderDetail.DiscountAmount, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)",onkeyup="ClearDiscountPercentage();" } })
+                            @Html.EditorFor(model => model.SalesOrderDetail.DiscountAmount, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)",onkeyup="ClearDiscountPercentage();", onfocus = "SelectAllValue(this);" } })
                         </div>
                     </div>
                     <div class="col-md-4">

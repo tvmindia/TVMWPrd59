@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ProductionApp.UserInterface.Models
 {
@@ -41,6 +42,7 @@ namespace ProductionApp.UserInterface.Models
         public CommonViewModel Common { get; set; }
         public List<SalesOrderDetailViewModel> SalesOrderDetailList { get; set; }
         public SalesOrderDetailViewModel SalesOrderDetail { get; set; }
+        public List<SelectListItem> SelectList { get; set; }
 
 
     }

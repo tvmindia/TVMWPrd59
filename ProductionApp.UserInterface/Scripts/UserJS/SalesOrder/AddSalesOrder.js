@@ -55,23 +55,31 @@ $(document).ready(function () {
           columns: [
           { "data": "ID", "defaultContent": "<i></i>" },
           { "data": "ProductID", "defaultContent": "<i></i>" },
-          { "data": "Product.Name", "defaultContent": "<i></i>" },
-          { "data": "Product.HSNNo", "defaultContent": "<i></i>" },
-          { "data": "TaxTypeCode", "defaultContent": "<i></i>" },
-          { "data": "Quantity", "defaultContent": "<i></i>" },
-          { "data": "UnitCode", "defaultContent": "<i></i>" },
+          {
+              "data": "Product.Name", render: function (data, type, row) {
+                  return data + '</br><b>HSNNo: </b>' + row.Product.HSNNo + '</br><b>Expected Delivery: </b>' + row.ExpectedDeliveryDateFormatted
+              }, "defaultContent": "<i></i>", "width": "25%"
+          },
+          { "data": "TaxTypeCode", "defaultContent": "<i></i>", "width": "8%" },
+          { "data": "Quantity", render: function (data, type, row) { return data + ' ' + row.UnitCode }, "defaultContent": "<i></i>", "width": "10%" },
           { "data": "Rate", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
           { "data": "GrossAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
-          { "data": "DiscountPercent", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "10%" },
-          { "data": "DiscountAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "10%" },
+          {
+              "data": "DiscountAmount", render: function (data, type, row) {
+                  if (row.DiscountPercent!='')
+                      return data + '(' + row.DiscountPercent + '%)'
+                  else
+                      return data
+              }, "defaultContent": "<i></i>", "width": "10%"
+          },
+          { "data": "TaxAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "10%" },
           { "data": "NetAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "10%" },
-          { "data": "ExpectedDeliveryDateFormatted", "defaultContent": "<i></i>" },
           { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
           ],
           columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false },
-              { className: "text-center", "targets": [13], "width": "5%" },
-              { className: "text-right", "targets": [4, 5, 6] },
-              { className: "text-left", "targets": [2, 3] }
+              { className: "text-center", "targets": [10], "width": "7%" },
+              { className: "text-right", "targets": [5,6,7,8] },
+              { className: "text-left", "targets": [2,3,4] }
           ]
       });
 
@@ -135,13 +143,13 @@ function ClearSalesOrderDetailsModalFields()
     $('#SalesOrderDetail_UnitCode').val('');
     $('#SalesOrderDetail_Rate').val('');
     $('#SalesOrderDetail_Quantity').val('');
-    $('#SalesOrderDetail_GrossAmount').val('');
-    $('#SalesOrderDetail_DiscountAmount').val('');
+    $('#SalesOrderDetail_GrossAmount').val(roundoff(0));
+    $('#SalesOrderDetail_DiscountAmount').val(roundoff(0));
     $('#SalesOrderDetail_DiscountPercent').val('');
-    $('#SalesOrderDetail_TaxableAmount').val('');
+    $('#SalesOrderDetail_TaxableAmount').val(roundoff(0));
     $('#TaxTypeCode').val('');
-    $('#SalesOrderDetail_TaxAmount').val('');
-    $('#SalesOrderDetail_NetAmount').val('');
+    $('#SalesOrderDetail_TaxAmount').val(roundoff(0));
+    $('#SalesOrderDetail_NetAmount').val(roundoff(0));
     $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val('');
 }
 
@@ -189,9 +197,14 @@ function ProductValueCalculation()
 
         //--------------------Discount Amount--------------------//
         discpercent = $('#SalesOrderDetail_DiscountPercent').val();
-        disc = GrossAmt*(discpercent / 100);
-        $('#SalesOrderDetail_DiscountAmount').val(roundoff(disc));
-
+        if (discpercent != "")
+        {
+            disc = GrossAmt * (discpercent / 100);
+            $('#SalesOrderDetail_DiscountAmount').val(roundoff(disc));
+        }
+        else {
+            disc = $('#SalesOrderDetail_DiscountAmount').val();
+        }
         //--------------------Taxable Amount---------------------//
         taxableAmt = roundoff(parseFloat(GrossAmt) - parseFloat(disc));
         $('#SalesOrderDetail_TaxableAmount').val(taxableAmt);
