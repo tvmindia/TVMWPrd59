@@ -674,6 +674,8 @@
     <Content Include="Scripts\UserJS\DocumentApproval\ApproveDocument.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\DocumentSummary.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ViewPendingDocuments.js" />
+    <Content Include="Scripts\UserJS\FinishedGoodStockAdj\NewFinishedGoodStockAdj.js" />
+    <Content Include="Scripts\UserJS\FinishedGoodStockAdj\ViewFinishedGoodStockAdj.js" />
     <Content Include="Scripts\UserJS\Home\FinishedGoodSummary.js" />
     <Content Include="Scripts\UserJS\Home\IncomeExpenseSummary.js" />
     <Content Include="Scripts\UserJS\Home\MaterialSummary.js" />
@@ -732,6 +734,7 @@
     <Compile Include="Controllers\DynamicUIController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
+    <Compile Include="Controllers\FinishedGoodStockAdjController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DashboardStoreController.cs" />
     <Compile Include="Controllers\DashboardReportController.cs" />
@@ -776,6 +779,7 @@
     <Compile Include="Models\DocumentTypeViewModel.cs" />
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
+    <Compile Include="Models\FinishedGoodStockAdjViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\AMCSysModuleViewModel.cs" />
     <Compile Include="Models\ManageAccessViewModel.cs" />
@@ -912,6 +916,8 @@
     <Content Include="Views\TaxType\_TaxTypeDropdown.cshtml" />
     <Content Include="Views\SubComponent\Index.cshtml" />
     <Content Include="Views\SubComponent\_AddSubComponentPartial.cshtml" />
+    <Content Include="Views\FinishedGoodStockAdj\ViewFinishedGoodStockAdj.cshtml" />
+    <Content Include="Views\FinishedGoodStockAdj\NewFinishedGoodStockAdj.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
