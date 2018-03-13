@@ -49,6 +49,8 @@ namespace ProductionApp.UserInterface.Models
         public Guid ID { get; set; }
         public Guid SalesOrderID { get; set; }
         public Guid ProductID { get; set; }
+        [Display(Name = "Tax %")]
+
         public string TaxTypeCode { get; set; }
         public decimal Quantity { get; set; }
         public string UnitCode { get; set; }
@@ -59,6 +61,8 @@ namespace ProductionApp.UserInterface.Models
         //additional properties
         [Display(Name = "Tax Amount")]
         public decimal TaxAmount { get; set; }
+        [Display(Name = "Taxable Amount")]
+        public decimal TaxableAmount { get; set; }
         [Display(Name = "Net Amount")]
         public decimal NetAmount { get; set; }
         [Display(Name = "Gross Amount")]
@@ -71,6 +75,8 @@ namespace ProductionApp.UserInterface.Models
 
         //public int TotalCount { get; set; }
         //public int FilteredCount { get; set; }
+        [Display(Name = "Expected Delivery Date")]
+
         public string ExpectedDeliveryDateFormatted { get; set; }
         public CommonViewModel Common { get; set; }
         public ProductViewModel Product { get; set; }

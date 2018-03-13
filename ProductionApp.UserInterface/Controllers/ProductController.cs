@@ -139,6 +139,24 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion MasterPartial
 
+        #region GetProduct
+        [AuthSecurityFilter(ProjectObject = "Product", Mode = "R")]
+        public string GetProduct(string ID)
+        {
+            try
+            {
+                ProductViewModel productVM = new ProductViewModel();
+                productVM = Mapper.Map<Product, ProductViewModel>(_productBusiness.GetProduct(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = productVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+
+        #endregion GetProduct
+
         #region ProductDropdown
         public ActionResult ProductDropdown(ProductViewModel productVM)
         {

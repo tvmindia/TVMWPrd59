@@ -286,6 +286,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     product.Unit.Code = sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : product.UnitCode;
                                     product.Category = sdr["Category"].ToString() != "" ? sdr["Category"].ToString() : product.Category;
                                     product.Rate = sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : product.Rate;
+                                    product.HSNNo = sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : product.HSNNo;
                                 }
                             }
                         }
