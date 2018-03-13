@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace ProductionApp.DataAccessObject.DTO
+namespace ProductionApp.UserInterface.Models
 {
-    public class PackingSlip
+    public class PackingSlipViewModel
     {
         public Guid ID { get; set; }
         public string SlipNo { get; set; }
@@ -25,13 +24,12 @@ namespace ProductionApp.DataAccessObject.DTO
         public string PackingRemarks { get; set; }
         public string DispatchRemarks { get; set; }
         //Additional properties
-        public Common Common { get; set; }
-        public Employee Employee { get; set; }
+        public CommonViewModel Common { get; set; }
+        public EmployeeViewModel Employee { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
     }
-
-    public class PackingSlipDetail
+    public class PackingSlipDetailViewModel
     {
         public Guid ID { get; set; }
         public Guid PackingSlipID { get; set; }

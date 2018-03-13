@@ -85,6 +85,8 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJs/BillOfMaterialJS/ViewBillOfMaterial").Include("~/Scripts/UserJs/BillOfMaterialJS/ViewBillOfMaterial.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/MaterialReturnFromProductionJS/ViewRecieveFromProduction").Include("~/Scripts/UserJS/MaterialReturnFromProductionJS/ViewRecieveFromProduction.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/MaterialReturnFromProductionJS/NewRecieveFromProduction").Include("~/Scripts/UserJS/MaterialReturnFromProductionJS/NewRecieveFromProduction.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/PackingSlip/AddPackingSlip").Include("~/Scripts/UserJS/PackingSlip/AddPackingSlip.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/PackingSlip/ListPackingSlips").Include("~/Scripts/UserJS/PackingSlip/ListPackingSlips.js"));
 
 
         }

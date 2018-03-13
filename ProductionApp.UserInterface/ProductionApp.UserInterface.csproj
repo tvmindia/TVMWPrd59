@@ -691,6 +691,8 @@
     <Content Include="Scripts\UserJS\MaterialReceiptJS\ViewMaterialReceipt.js" />
     <Content Include="Scripts\UserJS\MaterialStockAdjustment\ListStockAdjustment.js" />
     <Content Include="Scripts\UserJS\MaterialStockAdjustment\NewStockAdjustment.js" />
+    <Content Include="Scripts\UserJS\PackingSlip\AddPackingSlip.js" />
+    <Content Include="Scripts\UserJS\PackingSlip\ListPackingSlips.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
     <Content Include="Scripts\UserJS\PurchaseOrderJS\NewPurchaseOrder.js" />
@@ -744,6 +746,7 @@
     <Compile Include="Controllers\MaterialReturnFromProductionController.cs" />
     <Compile Include="Controllers\MaterialStockAdjController.cs" />
     <Compile Include="Controllers\MaterialTypeController.cs" />
+    <Compile Include="Controllers\PackingSlipController.cs" />
     <Compile Include="Controllers\PDFGeneratorController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\DashboardProductionController.cs" />
@@ -789,6 +792,7 @@
     <Compile Include="Models\MaterialReturnFromProductionViewModel.cs" />
     <Compile Include="Models\MaterialStockAdjViewModel.cs" />
     <Compile Include="Models\MaterialTypeViewModel.cs" />
+    <Compile Include="Models\PackingSlipViewModel.cs" />
     <Compile Include="Models\PDFGeneratorViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
@@ -918,6 +922,8 @@
     <Content Include="Views\SubComponent\_AddSubComponentPartial.cshtml" />
     <Content Include="Views\FinishedGoodStockAdj\ViewFinishedGoodStockAdj.cshtml" />
     <Content Include="Views\FinishedGoodStockAdj\NewFinishedGoodStockAdj.cshtml" />
+    <Content Include="Views\PackingSlip\AddPackingSlip.cshtml" />
+    <Content Include="Views\PackingSlip\ListPackingSlips.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
