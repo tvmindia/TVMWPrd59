@@ -279,10 +279,15 @@ function AddSalesOrderDetails()
                 var checkPoint = 0;
                 for (var i = 0; i < SalesOrderDetailList.length; i++) {
                     if (SalesOrderDetailList[i].ProductID == $("#ProductID").val()) {
-                        //SalesOrderDetailList[i].Description = $('#RequisitionDetail_Description').val();
-                        //SalesOrderDetailList[i].CurrentStock = $('#RequisitionDetail_Material_CurrentStock').val();
-                        //SalesOrderDetailList[i].RequestedQty = $('#RequisitionDetail_RequestedQty').val();
-                        //SalesOrderDetailList[i].ApproximateRate = $('#RequisitionDetail_ApproximateRate').val();
+                        SalesOrderDetailList[i].Quantity = $('#SalesOrderDetail_Quantity').val();
+                        SalesOrderDetailList[i].Rate = $('#SalesOrderDetail_Rate').val();
+                        SalesOrderDetailList[i].ExpectedDeliveryDateFormatted = $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val();
+                        SalesOrderDetailList[i].GrossAmount = $('#SalesOrderDetail_GrossAmount').val();
+                        SalesOrderDetailList[i].DiscountAmount = $('#SalesOrderDetail_DiscountAmount').val();
+                        SalesOrderDetailList[i].DiscountPercent = $('#SalesOrderDetail_DiscountPercent').val();
+                        SalesOrderDetailList[i].TaxAmount = $('#SalesOrderDetail_TaxAmount').val();
+                        SalesOrderDetailList[i].NetAmount = $('#SalesOrderDetail_NetAmount').val();
+                        SalesOrderDetailList[i].TaxTypeCode = $('#TaxTypeCode').val();
                         checkPoint = 1;
                         break;
                     }
