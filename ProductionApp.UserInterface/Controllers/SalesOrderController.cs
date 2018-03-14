@@ -97,6 +97,8 @@ namespace ProductionApp.UserInterface.Controllers
                     UpdatedBy = appUA.UserName,
                     UpdatedDate = _common.GetCurrentDateTime(),
                 };
+                //Fixing Employee ID To SalesPerson
+                salesOrderVM.SalesPerson = salesOrderVM.EmployeeID;
                 //Deserialize items
                 object ResultFromJS = JsonConvert.DeserializeObject(salesOrderVM.DetailJSON);
                 string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);

@@ -13,10 +13,11 @@ var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 var _SalesOrderDetail = [];
 var _SalesOrderDetailList = [];
+var _SlNo = 1;
 
-var result = "";
-var message = "";
-var jsonData = {};
+var _result = "";
+var _message = "";
+var _jsonData = {};
 
 $(document).ready(function () {
     debugger;
@@ -65,7 +66,7 @@ $(document).ready(function () {
           { "data": "Rate", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
           { "data": "GrossAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
           {
-              "data": "DiscountAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "10%"
+              "data": "TradeDiscountAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "10%"
           },
           { "data": "TaxAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
           { "data": "NetAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
@@ -125,7 +126,7 @@ function ClearSalesOrderDetailsModalFields()
     $('#SalesOrderDetail_Rate').val('');
     $('#SalesOrderDetail_Quantity').val('');
     $('#SalesOrderDetail_GrossAmount').val(roundoff(0));
-    $('#SalesOrderDetail_DiscountAmount').val(roundoff(0));
+    $('#SalesOrderDetail_TradeDiscountAmount').val(roundoff(0));
     $('#SalesOrderDetail_DiscountPercent').val('');
     $('#SalesOrderDetail_TaxableAmount').val(roundoff(0));
     $('#TaxTypeCode').val('');
@@ -147,15 +148,15 @@ function GetProduct(ID) {
     try {
         var data = { "ID": ID };
          
-        jsonData = GetDataFromServer("Product/GetProduct/", data);
-        if (jsonData != '') {
-            jsonData = JSON.parse(jsonData);
+        _jsonData = GetDataFromServer("Product/GetProduct/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
         }
-        if (jsonData.Result == "OK") {
-            return jsonData.Records;
+        if (_jsonData.Result == "OK") {
+            return _jsonData.Records;
         }
-        if (jsonData.Result == "ERROR") {
-            alert(jsonData.Message);
+        if (_jsonData.Result == "ERROR") {
+            alert(_jsonData.Message);
         }
     }
     catch (e) {
@@ -181,10 +182,10 @@ function ProductValueCalculation()
         if (discpercent != "")
         {
             disc = GrossAmt * (discpercent / 100);
-            $('#SalesOrderDetail_DiscountAmount').val(roundoff(disc));
+            $('#SalesOrderDetail_TradeDiscountAmount').val(roundoff(disc));
         }
         else {
-            disc = $('#SalesOrderDetail_DiscountAmount').val();
+            disc = $('#SalesOrderDetail_TradeDiscountAmount').val();
         }
         //--------------------Taxable Amount---------------------//
         taxableAmt = roundoff(parseFloat(GrossAmt) - parseFloat(disc));
@@ -217,12 +218,12 @@ function GetTaxTypeByCode(Code) {
         var data = { "Code": Code };
 
         var taxTypeVM = new Object();
-        jsonData = GetDataFromServer("TaxType/GetTaxtype/", data);
-        if (jsonData != '') {
-            jsonData = JSON.parse(jsonData);
-            result = jsonData.Result;
-            message = jsonData.Message;
-            taxTypeVM = jsonData.Records;
+        _jsonData = GetDataFromServer("TaxType/GetTaxtype/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+            result = _jsonData.Result;
+            message = _jsonData.Message;
+            taxTypeVM = _jsonData.Records;
         }
         if (result == "OK") {
             return taxTypeVM;
@@ -258,7 +259,7 @@ function AddSalesOrderDetails()
         SalesOrderDetailVM.Rate = $('#SalesOrderDetail_Rate').val();
         SalesOrderDetailVM.ExpectedDeliveryDateFormatted = $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val();
         SalesOrderDetailVM.GrossAmount = $('#SalesOrderDetail_GrossAmount').val();
-        SalesOrderDetailVM.DiscountAmount = $('#SalesOrderDetail_DiscountAmount').val();
+        SalesOrderDetailVM.TradeDiscountAmount = $('#SalesOrderDetail_TradeDiscountAmount').val();
         SalesOrderDetailVM.DiscountPercent = $('#SalesOrderDetail_DiscountPercent').val();
         SalesOrderDetailVM.TaxAmount = $('#SalesOrderDetail_TaxAmount').val();
         SalesOrderDetailVM.NetAmount = $('#SalesOrderDetail_NetAmount').val();
@@ -278,7 +279,7 @@ function AddSalesOrderDetails()
                         SalesOrderDetailList[i].Rate = $('#SalesOrderDetail_Rate').val();
                         SalesOrderDetailList[i].ExpectedDeliveryDateFormatted = $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val();
                         SalesOrderDetailList[i].GrossAmount = $('#SalesOrderDetail_GrossAmount').val();
-                        SalesOrderDetailList[i].DiscountAmount = $('#SalesOrderDetail_DiscountAmount').val();
+                        SalesOrderDetailList[i].TradeDiscountAmount = $('#SalesOrderDetail_TradeDiscountAmount').val();
                         SalesOrderDetailList[i].DiscountPercent = $('#SalesOrderDetail_DiscountPercent').val();
                         SalesOrderDetailList[i].TaxAmount = $('#SalesOrderDetail_TaxAmount').val();
                         SalesOrderDetailList[i].NetAmount = $('#SalesOrderDetail_NetAmount').val();
@@ -332,27 +333,58 @@ function AddSalesOrderDetailList() {
         SalesOrderDetailVM.Quantity = SalesOrderDetailList[r].Quantity
         SalesOrderDetailVM.Rate = SalesOrderDetailList[r].Rate
         SalesOrderDetailVM.ExpectedDeliveryDateFormatted = SalesOrderDetailList[r].ExpectedDeliveryDateFormatted
-        SalesOrderDetailVM.DiscountAmount = SalesOrderDetailList[r].DiscountAmount
+        SalesOrderDetailVM.TradeDiscountAmount = SalesOrderDetailList[r].TradeDiscountAmount
         SalesOrderDetailVM.DiscountPercent = SalesOrderDetailList[r].DiscountPercent
         SalesOrderDetailVM.TaxTypeCode = SalesOrderDetailList[r].TaxTypeCode
+        SalesOrderDetailVM.UnitCode = SalesOrderDetailList[r].UnitCode
+
         _SalesOrderDetailList.push(SalesOrderDetailVM);
     }
 }
 function SaveSuccessSalesOrder(data, status) {
     debugger;
-    jsonData = JSON.parse(data)
-    switch (jsonData.Result) {
+    _jsonData = JSON.parse(data)
+    switch (_jsonData.Result) {
         case "OK":
             $('#IsUpdate').val('True');
-            $('#ID').val(jsonData.Records.ID)
-            BindSalesOrderID();
-            notyAlert("success", jsonData.Records.Message)
+            $('#ID').val(_jsonData.Records.ID)
+            //BindSalesOrderID();
+            notyAlert("success", _jsonData.Records.Message)
             break;
         case "ERROR":
-            notyAlert("danger", jsonData.Message)
+            notyAlert("danger", _jsonData.Message)
             break;
         default:
-            notyAlert("danger", jsonData.Message)
+            notyAlert("danger", _jsonData.Message)
             break;
+    }
+}
+
+function BindSalesOrderID()
+{
+debugger;
+ var ID = $('#ID').val();
+    _SlNo = 1;
+   // var result = GetSalesOrderByID(ID);
+}
+
+function GetSalesOrderByID(ID)
+{
+    try {
+        debugger;
+        var data = { "ID": ID };
+        _jsonData = GetDataFromServer("SalesOrder/GetSalesOrder/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+        }
+        if (_jsonData.Result == "OK") {
+            return ds.Records;
+        }
+        if (_jsonData.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
     }
 }
