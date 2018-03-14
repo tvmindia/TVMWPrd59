@@ -82,7 +82,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetAllSalesOrderDetail
 
-        #region InsertUpdateRequisition
+        #region InsertUpdateSalesOrder
         [HttpPost]
       //  [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
         public string InsertUpdateSalesOrder(SalesOrderViewModel salesOrderVM)
@@ -113,9 +113,25 @@ namespace ProductionApp.UserInterface.Controllers
             }
 
         }
-        #endregion InsertUpdateRequisition
+        #endregion InsertUpdateSalesOrder
 
+        #region GetSalesOrder
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
+        public string GetSalesOrder(string ID)
+        {
+            try
+            {
+                SalesOrderViewModel requisitionVM = new SalesOrderViewModel();
+                requisitionVM = Mapper.Map<SalesOrder, SalesOrderViewModel>(_salesOrderBusiness.GetSalesOrder(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = requisitionVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
 
+        #endregion GetSalesOrder
 
         #region ButtonStyling
         [HttpGet]
