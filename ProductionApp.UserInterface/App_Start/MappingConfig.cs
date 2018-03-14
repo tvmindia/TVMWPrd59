@@ -88,7 +88,8 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<PackingSlipViewModel, PackingSlip>().ReverseMap();
                 config.CreateMap<PackingSlipDetailViewModel, PackingSlipDetail>().ReverseMap();
                 config.CreateMap<SalesOrderViewModel, SalesOrder>().ReverseMap();
-
+                config.CreateMap<SalesOrderDetailViewModel, SalesOrderDetail>().ReverseMap();
+                
             });
         }
     }

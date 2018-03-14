@@ -35,29 +35,22 @@ $(document).ready(function () {
                 searchPlaceholder: "Search"
             },
             columns: [
-                 { "data": "ID", "defaultContent": "<i>-</i>" },
+                 { "data": "ProductID", "defaultContent": "<i>-</i>" },
                  { "data": "Checkbox", "defaultContent": "", "width": "5%" },
-                 { "data": "Product", "defaultContent": "<i>-</i>" },
-                 { "data": "Stock", "defaultContent": "<i>-</i>" },
-                 { "data": "OrderQty", "defaultContent": "<i>-</i>" },
+                 { "data": "Product.Name", "defaultContent": "<i>-</i>" },
+                 { "data": "Product.CurrentStock", "defaultContent": "<i>-</i>" },
+                 { "data": "Quantity", "defaultContent": "<i>-</i>" },
                  {
-                     "data": "Qty", "defaultContent": "<i>-</i>",
+                     "data": null, "defaultContent": "<i>-</i>",
                      'render': function (data, type, row) {
-                         if (row.Qty)
-                             Desc = data;
-                         else
-                             Desc = row.Qty;
-                         return '<input class="form-control description" name="Markup" value="' + Desc + '" type="text" onchange="textBoxValueChanged(this,1);">';
+                        
+                         return '<input class="form-control description" name="Markup" value="" type="text" onchange="textBoxValueChanged(this,1);">';
                      }
                  },
                  {
-                     "data": "Weight", "defaultContent": "<i>-</i>",
+                     "data": null, "defaultContent": "<i>-</i>",
                      'render': function (data, type, row) {
-                         if (row.Weight)
-                             Desc = data;
-                         else
-                             Desc = row.Weight;
-                         return '<input class="form-control description" name="Markup" value="' + Desc + '" type="text" onchange="textBoxValueChanged(this,1);">';
+                         return '<input class="form-control description" name="Markup" value="" type="text" onchange="textBoxValueChanged(this,1);">';
                      }
                  }
             ],
@@ -89,7 +82,8 @@ function BindProductListTable() {
 function GetProductList() {
     try {
         debugger;
-        var data = {};
+        var id = $('#SalesOrderID').val();
+        var data = { "id": id };
         var jsonData = {};
         var result = "";
         var message = "";

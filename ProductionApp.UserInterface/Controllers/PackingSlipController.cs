@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
@@ -121,6 +122,22 @@ namespace ProductionApp.UserInterface.Controllers
             });
         }
         #endregion GetAllPaySlip
+
+        #region GetProductList
+        public string GetProductList(string id)
+        {
+            try
+            {
+
+                List<SalesOrderDetailViewModel> salesOrderDetailVM = Mapper.Map<List<SalesOrderDetail>, List<SalesOrderDetailViewModel>>(_salesOrderBusiness.GetSalesOrderProductList(Guid.Parse(id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = salesOrderDetailVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetProductList
 
         #region ButtonStyling
         [HttpGet]
