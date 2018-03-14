@@ -145,6 +145,73 @@ namespace ProductionApp.RepositoryServices.Services
 
             return salesOrderList;
         }
+        public object InsertUpdateSalesOrder(SalesOrder salesOrder)
+        {
+            SqlParameter outputStatus, IDOut = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[InsertUpdateSalesOrder]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = salesOrder.IsUpdate;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = salesOrder.ID;
+                        cmd.Parameters.Add("@FileDupID", SqlDbType.UniqueIdentifier).Value = salesOrder.hdnFileID;
+                        cmd.Parameters.Add("@OrderDate", SqlDbType.DateTime).Value = salesOrder.OrderDateFormatted;
+                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = salesOrder.CustomerID;
+                        cmd.Parameters.Add("@SalesPerson", SqlDbType.UniqueIdentifier).Value = salesOrder.SalesPerson;
+
+                        cmd.Parameters.Add("@BillingAddress", SqlDbType.VarChar, -1).Value = salesOrder.BillingAddress;
+                        cmd.Parameters.Add("@ShippingAddress", SqlDbType.VarChar, -1).Value = salesOrder.ShippingAddress;
+                        cmd.Parameters.Add("@Remarks", SqlDbType.VarChar,-1).Value = salesOrder.Remarks;
+                        cmd.Parameters.Add("@ExpectedDeliveryDate", SqlDbType.DateTime).Value = salesOrder.ExpectedDeliveryDateFormatted;
+                        cmd.Parameters.Add("@DetailXML", SqlDbType.VarChar, -1).Value = salesOrder.DetailXML;
+
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = salesOrder.Common.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = salesOrder.Common.CreatedDate;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = salesOrder.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = salesOrder.Common.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        IDOut = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier);
+                        IDOut.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(salesOrder.IsUpdate ? _appConst.UpdateFailure : _appConst.InsertFailure);
+                    case "1":
+                        //  requisition.ID = Guid.Parse(IDOut.Value.ToString());
+                        return new
+                        {
+                            ID = IDOut.Value.ToString(),
+                            Status = outputStatus.Value.ToString(),
+                            Message = salesOrder.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+                        };
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Code = IDOut.Value.ToString(),
+                Status = outputStatus.Value.ToString(),
+                Message = salesOrder.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+            };
+        }
 
         public List<SalesOrder> GetAllSalesOrderForSelectList()
         {

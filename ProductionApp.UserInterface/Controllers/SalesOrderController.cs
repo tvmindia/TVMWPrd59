@@ -101,7 +101,7 @@ namespace ProductionApp.UserInterface.Controllers
                 object ResultFromJS = JsonConvert.DeserializeObject(salesOrderVM.DetailJSON);
                 string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
                 salesOrderVM.SalesOrderDetailList = JsonConvert.DeserializeObject<List<SalesOrderDetailViewModel>>(ReadableFormat);
-                var result = "";// _salesOrderBusiness.InsertUpdateRequisition(Mapper.Map<SalesOrderViewModel, SalesOrder>(salesOrderVM));
+                var result =_salesOrderBusiness.InsertUpdateSalesOrder(Mapper.Map<SalesOrderViewModel, SalesOrder>(salesOrderVM));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
             catch (Exception ex)

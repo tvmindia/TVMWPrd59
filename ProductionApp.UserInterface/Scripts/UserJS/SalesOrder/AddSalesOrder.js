@@ -65,21 +65,16 @@ $(document).ready(function () {
           { "data": "Rate", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
           { "data": "GrossAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
           {
-              "data": "DiscountAmount", render: function (data, type, row) {
-                  if (row.DiscountPercent!='')
-                      return data + '(' + row.DiscountPercent + '%)'
-                  else
-                      return data
-              }, "defaultContent": "<i></i>", "width": "10%"
+              "data": "DiscountAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "10%"
           },
-          { "data": "TaxAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "10%" },
-          { "data": "NetAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "10%" },
+          { "data": "TaxAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
+          { "data": "NetAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
           { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
           ],
           columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false },
-              { className: "text-center", "targets": [10], "width": "7%" },
-              { className: "text-right", "targets": [5,6,7,8] },
-              { className: "text-left", "targets": [2,3,4] }
+              { className: "text-center", "targets": [10,3] },
+              { className: "text-right", "targets": [5,6,7,8,9] },
+              { className: "text-left", "targets": [2,4] }
           ]
       });
 
@@ -111,21 +106,7 @@ $(document).ready(function () {
     }
 });
 
-function Save() {
-    debugger;
-    $("#DetailJSON").val('');
-    //_RequistionDetailList = [];
-    //AddRequistionDetailList();
-    //if (_RequistionDetailList.length > 0) {
-    //    var result = JSON.stringify(_RequistionDetailList);
-    //    $("#DetailJSON").val(result);
-        $('#btnSave').trigger('click');
-    //}
-    //else {
-    //    notyAlert('warning', 'Please Add Requistion Details!');
-    //}
 
-}
 
 function ShowSalesOrderDetailsModal()
 {
@@ -267,7 +248,7 @@ function AddSalesOrderDetails()
     {
         _SalesOrderDetail = [];
         SalesOrderDetailVM = new Object();
-
+        SalesOrderDetailVM.ID = EmptyGuid;
         SalesOrderDetailVM.ProductID = $("#ProductID").val();
         SalesOrderDetailVM.Product = new Object();
         SalesOrderDetailVM.Product.Name = $('#SalesOrderDetail_Product_Name').val();
@@ -291,7 +272,8 @@ function AddSalesOrderDetails()
             if (SalesOrderDetailList.length > 0) {
                 var checkPoint = 0;
                 for (var i = 0; i < SalesOrderDetailList.length; i++) {
-                    if (SalesOrderDetailList[i].ProductID == $("#ProductID").val()) {
+                    if (SalesOrderDetailList[i].ProductID == $("#ProductID").val())
+                    {
                         SalesOrderDetailList[i].Quantity = $('#SalesOrderDetail_Quantity').val();
                         SalesOrderDetailList[i].Rate = $('#SalesOrderDetail_Rate').val();
                         SalesOrderDetailList[i].ExpectedDeliveryDateFormatted = $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val();
@@ -321,5 +303,56 @@ function AddSalesOrderDetails()
     else
     {
         notyAlert('warning', "Please check the Required Fields");
+    }
+}
+
+function Save() {
+    debugger;
+    $("#DetailJSON").val('');
+    _SalesOrderDetailList = [];
+    AddSalesOrderDetailList();
+    if (_SalesOrderDetailList.length > 0) {
+        var result = JSON.stringify(_SalesOrderDetailList);
+        $("#DetailJSON").val(result);
+        $('#btnSave').trigger('click');
+    }
+    else {
+        notyAlert('warning', 'Please Add Item Details!');
+    }
+
+}
+
+function AddSalesOrderDetailList() {
+    debugger;
+    var SalesOrderDetailList = DataTables.SalesOrderDetailTable.rows().data();
+    for (var r = 0; r < SalesOrderDetailList.length; r++) {
+        SalesOrderDetailVM = new Object();
+        SalesOrderDetailVM.ID = SalesOrderDetailList[r].ID;
+        SalesOrderDetailVM.ProductID = SalesOrderDetailList[r].ProductID
+        SalesOrderDetailVM.Quantity = SalesOrderDetailList[r].Quantity
+        SalesOrderDetailVM.Rate = SalesOrderDetailList[r].Rate
+        SalesOrderDetailVM.ExpectedDeliveryDateFormatted = SalesOrderDetailList[r].ExpectedDeliveryDateFormatted
+        SalesOrderDetailVM.DiscountAmount = SalesOrderDetailList[r].DiscountAmount
+        SalesOrderDetailVM.DiscountPercent = SalesOrderDetailList[r].DiscountPercent
+        SalesOrderDetailVM.TaxTypeCode = SalesOrderDetailList[r].TaxTypeCode
+        _SalesOrderDetailList.push(SalesOrderDetailVM);
+    }
+}
+function SaveSuccessSalesOrder(data, status) {
+    debugger;
+    jsonData = JSON.parse(data)
+    switch (jsonData.Result) {
+        case "OK":
+            $('#IsUpdate').val('True');
+            $('#ID').val(jsonData.Records.ID)
+            BindSalesOrderID();
+            notyAlert("success", jsonData.Records.Message)
+            break;
+        case "ERROR":
+            notyAlert("danger", jsonData.Message)
+            break;
+        default:
+            notyAlert("danger", jsonData.Message)
+            break;
     }
 }

@@ -11,6 +11,7 @@ namespace ProductionApp.BusinessService.Contracts
     {
         List<SalesOrder> GetAllSalesOrder(SalesOrderAdvanceSearch salesOrderAdvanceSearch);
         List<SalesOrder> GetAllSalesOrderDetail(SalesOrderAdvanceSearch salesOrderAdvanceSearch);
+        object InsertUpdateSalesOrder(SalesOrder salesOrder );
         List<SalesOrder> GetAllSalesOrderForSelectList();
 
     }
