@@ -28,5 +28,9 @@ namespace ProductionApp.BusinessService.Services
             return _salesOrderRepository.GetAllSalesOrderDetail(salesOrderAdvanceSearch);
         }
 
+        public List<SalesOrder> GetAllSalesOrderForSelectList()
+        {
+            return _salesOrderRepository.GetAllSalesOrderForSelectList();
+        }
     }
 }

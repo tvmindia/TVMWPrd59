@@ -145,5 +145,49 @@ namespace ProductionApp.RepositoryServices.Services
 
             return salesOrderList;
         }
+
+        public List<SalesOrder> GetAllSalesOrderForSelectList()
+        {
+            List<SalesOrder> salesOrderList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetAllSalesOrder]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                salesOrderList = new List<SalesOrder>();
+                                while (sdr.Read())
+                                {
+                                    SalesOrder salesOrder = new SalesOrder();
+                                    {
+                                        salesOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : salesOrder.ID);
+                                        salesOrder.OrderNo = (sdr["OrderNo"].ToString() != "" ? sdr["OrderNo"].ToString() : salesOrder.OrderNo);
+                                    }
+                                    salesOrderList.Add(salesOrder);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return salesOrderList;
+        }
+
     }
 }

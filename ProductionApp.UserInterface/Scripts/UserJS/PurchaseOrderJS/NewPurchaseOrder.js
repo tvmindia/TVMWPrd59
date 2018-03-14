@@ -47,6 +47,7 @@ $(document).ready(function () {
             ordering: false,
             searching: true,
             paging: true,
+            "bInfo": false,
             pageLength: 7,
             data: null,
             columns: [
@@ -198,6 +199,7 @@ $(document).ready(function () {
                   dom: '<"pull-left"f>rt<"bottom"ip><"clear">',
                   ordering: false,
                   searching: true,
+                  "bInfo": false,
                   paging: false,
                   pageLength: 7,
                   data: null,
@@ -266,6 +268,7 @@ $(document).ready(function () {
               dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
               ordering: false,
               searching: false,
+              "bInfo": false,
               paging: true,
               data: null,
               pageLength: 15,
