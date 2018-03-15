@@ -87,7 +87,8 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJs/MaterialReturnFromProductionJS/NewRecieveFromProduction").Include("~/Scripts/UserJS/MaterialReturnFromProductionJS/NewRecieveFromProduction.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/PackingSlip/AddPackingSlip").Include("~/Scripts/UserJS/PackingSlip/AddPackingSlip.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/PackingSlip/ListPackingSlips").Include("~/Scripts/UserJS/PackingSlip/ListPackingSlips.js"));
-
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/FinishedGoodStockAdj/ViewFinishedGoodStockAdj").Include("~/Scripts/UserJS/FinishedGoodStockAdj/ViewFinishedGoodStockAdj.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/FinishedGoodStockAdj/NewFinishedGoodStockAdj").Include("~/Scripts/UserJS/FinishedGoodStockAdj/NewFinishedGoodStockAdj.js"));
 
         }
     }

@@ -34,10 +34,8 @@ $(document).ready(function () {
          columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false },
          { "targets": [7], "width": "30%" },
          { "targets": [2], "width": "5%" },
-         { "targets": [3], "width": "10%" },
-         { "targets": [4], "width": "15%" },
-         { "targets": [5], "width": "10%" },
-         { "targets": [6], "width": "10%" },
+         { "targets": [3,5,6], "width": "10%" },
+         { "targets": [4], "width": "15%" },        
          { "targets": [8], "width": "7%" }]
      });
         $("#MaterialID").change(function () {
@@ -126,7 +124,7 @@ function GetMaterial(id) {
 function AddStockAdjustmentDetails()
 {
     debugger;
-    if ($('#MaterialID').val() != "" && $('#MaterialStockAdjDetail_Material_Qty').val() != "" && $('#MaterialStockAdjDetail_Remarks').val()!="")
+    if ($('#MaterialID').val() != "" && $('#MaterialStockAdjDetail_Qty').val() != "" && $('#MaterialStockAdjDetail_Remarks').val()!="")
     {
         _StockAdjustmentDetail = [];
         AddStockAdjustment = new Object();
