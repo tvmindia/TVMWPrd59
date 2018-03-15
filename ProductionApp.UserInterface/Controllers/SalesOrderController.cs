@@ -151,6 +151,55 @@ namespace ProductionApp.UserInterface.Controllers
 
         #endregion GetSalesOrderDetail
 
+        #region DeleteSalesOrderDetail
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "D")]
+        public string DeleteSalesOrderDetail(string ID)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _salesOrderBusiness.DeleteSalesOrderDetail(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+        }
+
+        #endregion DeleteSalesOrderDetail
+
+
+        #region DeleteSalesOrder
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "D")]
+        public string DeleteSalesOrder(string ID)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _salesOrderBusiness.DeleteSalesOrder(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+        }
+
+        #endregion DeleteSalesOrder
+
         #region ButtonStyling
         [HttpGet]
    //     [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "")]

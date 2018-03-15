@@ -68,5 +68,15 @@ namespace ProductionApp.BusinessService.Services
         {
             return _salesOrderRepository.GetSalesOrderDetail(salesOrderId);
         }
+
+        public object DeleteSalesOrderDetail(Guid id)
+        {
+            return _salesOrderRepository.DeleteSalesOrderDetail(id);
+        }
+
+        public object DeleteSalesOrder(Guid id)
+        {
+            return _salesOrderRepository.DeleteSalesOrder(id);
+        }
     }
 }

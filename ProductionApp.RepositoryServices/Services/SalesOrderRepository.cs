@@ -328,7 +328,7 @@ namespace ProductionApp.RepositoryServices.Services
                             {
                                 if (sdr.Read())
                                 {
-                                    salesOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : salesOrder.ID);
+                                    //salesOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : salesOrder.ID);
                                     salesOrder.OrderNo = (sdr["OrderNo"].ToString() != "" ? sdr["OrderNo"].ToString() : salesOrder.OrderNo);
                                     salesOrder.OrderDate = (sdr["OrderDate"].ToString() != "" ? DateTime.Parse(sdr["OrderDate"].ToString()) : salesOrder.OrderDate);
                                     salesOrder.OrderDateFormatted = (sdr["OrderDate"].ToString() != "" ? DateTime.Parse(sdr["OrderDate"].ToString()).ToString(settings.DateFormat) : salesOrder.OrderDateFormatted);
@@ -369,7 +369,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetSalesOrderDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@SaleOrderID", SqlDbType.UniqueIdentifier).Value = salesOrderId;
+                        cmd.Parameters.Add("@salesOrderId", SqlDbType.UniqueIdentifier).Value = salesOrderId;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
@@ -379,12 +379,18 @@ namespace ProductionApp.RepositoryServices.Services
                                 {
                                     SalesOrderDetail salesOrder = new SalesOrderDetail();
                                     {
-                                        salesOrder.SalesOrderID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : salesOrder.ID);
-                                        //salesOrder.Product = new Product();
-                                        //salesOrder.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : salesOrder.ProductID);
-                                        //salesOrder.Product.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : salesOrder.Product.Name);
-                                        //salesOrder.Product.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : salesOrder.Product.CurrentStock);
-                                        //salesOrder.Quantity = (sdr["OrderQty"].ToString() != "" ? decimal.Parse(sdr["OrderQty"].ToString()) : salesOrder.Quantity);
+                                        salesOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : salesOrder.ID);
+                                        salesOrder.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : salesOrder.ProductID);
+                                        salesOrder.TaxTypeCode = (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : salesOrder.TaxTypeCode);
+                                        salesOrder.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : salesOrder.UnitCode);
+                                        salesOrder.Product = new Product();
+                                        salesOrder.Product.Name = (sdr["ProductName"].ToString() != "" ? sdr["ProductName"].ToString() : salesOrder.Product.Name);
+                                        salesOrder.Quantity = (sdr["Quantity"].ToString() != "" ? decimal.Parse(sdr["Quantity"].ToString()) : salesOrder.Quantity);
+                                        salesOrder.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : salesOrder.Rate);
+                                        salesOrder.DiscountPercent = (sdr["DiscountPercent"].ToString() != "" ? decimal.Parse(sdr["DiscountPercent"].ToString()) : salesOrder.DiscountPercent);
+                                        salesOrder.TradeDiscountAmount = (sdr["TradeDiscountAmount"].ToString() != "" ? decimal.Parse(sdr["TradeDiscountAmount"].ToString()) : salesOrder.TradeDiscountAmount);
+                                        salesOrder.ExpectedDeliveryDateFormatted = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()).ToString(settings.DateFormat) : salesOrder.ExpectedDeliveryDateFormatted);
+
                                     }
                                     salesOrderList.Add(salesOrder);
                                 }
@@ -399,6 +405,73 @@ namespace ProductionApp.RepositoryServices.Services
             }
 
             return salesOrderList;
+        }
+
+        public object DeleteSalesOrderDetail(Guid id)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeleteSalesOrderDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+            };
+        }
+        public object DeleteSalesOrder(Guid id)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeleteSalesOrder]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+            };
         }
     }
 }

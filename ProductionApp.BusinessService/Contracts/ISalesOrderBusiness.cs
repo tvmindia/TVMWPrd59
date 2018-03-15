@@ -16,6 +16,7 @@ namespace ProductionApp.BusinessService.Contracts
         List<SalesOrderDetail> GetSalesOrderProductList(Guid salesOrderId);
         SalesOrder GetSalesOrder(Guid ID);
         List<SalesOrderDetail> GetSalesOrderDetail(Guid salesOrderId);
-
+        object DeleteSalesOrderDetail(Guid id);
+        object DeleteSalesOrder(Guid id);
     }
 }

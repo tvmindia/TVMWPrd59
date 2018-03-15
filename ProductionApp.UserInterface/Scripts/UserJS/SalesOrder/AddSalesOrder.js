@@ -100,7 +100,6 @@ $(document).ready(function () {
         else {
             $('#lblSalesOrderNo').text('Sales Order# : New');
         }
-
     }
     catch (e) {
         console.log(e.message);
@@ -127,7 +126,7 @@ function ClearSalesOrderDetailsModalFields()
     $('#SalesOrderDetail_Quantity').val('');
     $('#SalesOrderDetail_GrossAmount').val(roundoff(0));
     $('#SalesOrderDetail_TradeDiscountAmount').val(roundoff(0));
-    $('#SalesOrderDetail_DiscountPercent').val('');
+    $('#SalesOrderDetail_DiscountPercent').val(0);
     $('#SalesOrderDetail_TaxableAmount').val(roundoff(0));
     $('#TaxTypeCode').val('');
     $('#SalesOrderDetail_TaxAmount').val(roundoff(0));
@@ -210,7 +209,7 @@ function ProductValueCalculation()
 
 function ClearDiscountPercentage()
 {
-    $('#SalesOrderDetail_DiscountPercent').val('');
+    $('#SalesOrderDetail_DiscountPercent').val(0);
 }
 
 function GetTaxTypeByCode(Code) {
@@ -249,7 +248,7 @@ function AddSalesOrderDetails()
     {
         _SalesOrderDetail = [];
         SalesOrderDetailVM = new Object();
-        SalesOrderDetailVM.ID = EmptyGuid;
+       // SalesOrderDetailVM.ID = EmptyGuid;
         SalesOrderDetailVM.ProductID = $("#ProductID").val();
         SalesOrderDetailVM.Product = new Object();
         SalesOrderDetailVM.Product.Name = $('#SalesOrderDetail_Product_Name').val();
@@ -335,7 +334,7 @@ function AddSalesOrderDetailList() {
         SalesOrderDetailVM.ExpectedDeliveryDateFormatted = SalesOrderDetailList[r].ExpectedDeliveryDateFormatted
         SalesOrderDetailVM.TradeDiscountAmount = SalesOrderDetailList[r].TradeDiscountAmount
         SalesOrderDetailVM.DiscountPercent = SalesOrderDetailList[r].DiscountPercent
-        SalesOrderDetailVM.TaxTypeCode = SalesOrderDetailList[r].TaxTypeCode
+        SalesOrderDetailVM.TaxTypeCode = SalesOrderDetailList[r].TaxTypeCode == "" ? null : SalesOrderDetailList[r].TaxTypeCode;
         SalesOrderDetailVM.UnitCode = SalesOrderDetailList[r].UnitCode
 
         _SalesOrderDetailList.push(SalesOrderDetailVM);
@@ -348,7 +347,7 @@ function SaveSuccessSalesOrder(data, status) {
         case "OK":
             $('#IsUpdate').val('True');
             $('#ID').val(_jsonData.Records.ID)
-            //BindSalesOrderID();
+            BindSalesOrderByID();
             notyAlert("success", _jsonData.Records.Message)
             break;
         case "ERROR":
@@ -360,22 +359,21 @@ function SaveSuccessSalesOrder(data, status) {
     }
 }
 
-function BindSalesOrderID()
+function BindSalesOrderByID()
 {
-debugger;
- var ID = $('#ID').val();
+    debugger;
+    ChangeButtonPatchView('SalesOrder', 'divbuttonPatchAddSalesOrder', 'Edit');
+    var ID = $('#ID').val();
     _SlNo = 1;
     var salesOrderVM = GetSalesOrderByID(ID);
-    //$('#').val();
-    //$('#').val();
-    //$('#').val();
-    //$('#').val();
-    //$('#').val();
-    //$('#').val();
-    //$('#').val();
-    //$('#').val();
-    //$('#').val();
-    //$('#').val();
+    $('#OrderNo').val(salesOrderVM.OrderNo);
+    $('#OrderDateFormatted').val(salesOrderVM.OrderDateFormatted);
+    $('#ExpectedDeliveryDateFormatted').val(salesOrderVM.ExpectedDeliveryDateFormatted);
+    $('#SalesPerson').val(salesOrderVM.SalesPerson).select2();
+    $('#CustomerID').val(salesOrderVM.CustomerID).select2();
+    $('#Remarks').val(salesOrderVM.Remarks);
+    $('#BillingAddress').val(salesOrderVM.BillingAddress);
+    $('#ShippingAddress').val(salesOrderVM.ShippingAddress);
     //detail Table values binding with header id
     BindSalesOrderDetailTable(ID);
     PaintImages(ID);//bind attachments
@@ -391,10 +389,10 @@ function GetSalesOrderByID(ID)
             _jsonData = JSON.parse(_jsonData);
         }
         if (_jsonData.Result == "OK") {
-            return ds.Records;
+            return _jsonData.Records;
         }
         if (_jsonData.Result == "ERROR") {
-            alert(ds.Message);
+            alert(_jsonData.Message);
         }
     }
     catch (e) {
@@ -423,5 +421,88 @@ function GetSalesOrderDetail(ID) {
     }
     catch (e) {
         notyAlert('error', e.message);
+    }
+}
+
+
+function Delete(curobj) {
+    debugger;
+    var rowData = DataTables.SalesOrderDetailTable.row($(curobj).parents('tr')).data();
+    var Rowindex = DataTables.SalesOrderDetailTable.row($(curobj).parents('tr')).index();
+
+    if ((rowData != null) && (rowData.ID != null)) {
+        notyConfirm('Are you sure to delete?', 'DeleteItem("' + rowData.ID + '")');
+    }
+    else {
+        var res = notyConfirm('Are you sure to delete?', 'DeleteTempItem("' + Rowindex + '")');
+
+    }
+}
+
+function DeleteTempItem(Rowindex) {
+    debugger; 
+    _SlNo = 1;
+    DataTables.SalesOrderDetailTable.row(Rowindex).remove().draw(false);
+    notyAlert('success', 'Deleted Successfully');
+}
+
+function DeleteItem(ID) {
+
+    try {
+        debugger;
+        var data = { "ID": ID };
+        _jsonData = GetDataFromServer("SalesOrder/DeleteSalesOrderDetail/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+        }
+        switch (_jsonData.Result) {
+            case "OK":
+                notyAlert('success', _jsonData.Message);
+                BindSalesOrderByID();
+                break;
+            case "ERROR":
+                notyAlert('error', _jsonData.Message);
+                break;
+            default:
+                break;
+        }
+        return _jsonData.Record;
+    }
+    catch (e) {
+
+        notyAlert('error', e.message);
+    }
+}
+
+function DeleteClick() {
+    debugger;
+    notyConfirm('Are you sure to delete?', 'DeleteSalesOrder()');
+}
+
+function DeleteSalesOrder() {
+    try {
+        debugger;
+        var id = $('#ID').val();
+        if (id != '' && id != null) {
+            var data = { "ID": id };
+            var ds = {};
+            ds = GetDataFromServer("SalesOrder/DeleteSalesOrder/", data);
+            if (ds != '') {
+                ds = JSON.parse(ds);
+            }
+            if (ds.Result == "OK") {
+                notyAlert('success', ds.Record.Message);
+                window.location.replace("AddSalesOrder?code=SALE");
+            }
+            if (ds.Result == "ERROR") {
+                notyAlert('error', ds.Message);
+                return 0;
+            }
+            return 1;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
     }
 }

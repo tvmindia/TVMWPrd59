@@ -16,6 +16,7 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<SalesOrderDetail> GetSalesOrderProductList(Guid salesOrderId);
         SalesOrder GetSalesOrder(Guid id);
         List<SalesOrderDetail> GetSalesOrderDetail(Guid salesOrderId);
-
+        object DeleteSalesOrderDetail(Guid id);
+        object DeleteSalesOrder(Guid id);
     }
 }

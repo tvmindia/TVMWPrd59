@@ -62,7 +62,7 @@ namespace ProductionApp.UserInterface.Models
         public decimal TradeDiscountAmount { get; set; }
         public DateTime ExpectedDeliveryDate { get; set; }
         [Display(Name = "Discount %")]
-        public decimal DiscountPercent { get; set; }
+        public decimal? DiscountPercent { get; set; }
         
         //additional properties
         public decimal PkgQty { get; set; }
