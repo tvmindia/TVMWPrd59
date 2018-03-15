@@ -11,6 +11,11 @@ namespace ProductionApp.RepositoryServices.Contracts
     {
         List<SalesOrder> GetAllSalesOrder(SalesOrderAdvanceSearch salesOrderAdvanceSearch);
         List<SalesOrder> GetAllSalesOrderDetail(SalesOrderAdvanceSearch salesOrderAdvanceSearch);
+        object InsertUpdateSalesOrder(SalesOrder salesOrder);
+        List<SalesOrder> GetAllSalesOrderForSelectList();
+        List<SalesOrderDetail> GetSalesOrderProductList(Guid salesOrderId);
+        SalesOrder GetSalesOrder(Guid id);
+        List<SalesOrderDetail> GetSalesOrderDetail(Guid salesOrderId);
 
     }
 }

@@ -88,7 +88,7 @@
                             @Html.LabelFor(model => model.ShippingAddress, htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="col-md-12">
-                            @Html.TextAreaFor(model => model.BillingAddress, new { @class = "form-control HeaderBox", rows = "5" })
+                            @Html.TextAreaFor(model => model.ShippingAddress, new { @class = "form-control HeaderBox", rows = "5" })
                         </div>
                     </div>
                     <div class="form-group col-md-6">
@@ -124,7 +124,7 @@
                     <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
                 </div>
             </div>
-                                }
+                              
 
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
         <div class="col-md-12" style="padding-bottom:3px">
@@ -164,11 +164,14 @@
                 @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control HeaderBox", rows = "8"  })
             </div>
         </div>
+
+      
         <div>
             @Html.Partial("_Fileupload")
         </div>
         <div class="col-md-12  ">&nbsp;</div>
         <div class="col-md-12  ">&nbsp;</div>
+        }
     </div>
 </section>
 
@@ -268,10 +271,10 @@
                     </div>
                     <div class="col-md-4">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.SalesOrderDetail.DiscountAmount, htmlAttributes: new { @class = "control-label" })
+                            @Html.LabelFor(model => model.SalesOrderDetail.TradeDiscountAmount, htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.SalesOrderDetail.DiscountAmount, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)",onkeyup="ClearDiscountPercentage();", onfocus = "SelectAllValue(this);" } })
+                            @Html.EditorFor(model => model.SalesOrderDetail.TradeDiscountAmount, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)",onkeyup="ClearDiscountPercentage();", onfocus = "SelectAllValue(this);" } })
                         </div>
                     </div>
                     <div class="col-md-4">

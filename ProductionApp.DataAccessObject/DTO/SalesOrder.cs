@@ -25,6 +25,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public int FilteredCount { get; set; }
         public string OrderDateFormatted { get; set; }
         public string ExpectedDeliveryDateFormatted { get; set; }
+        public string DetailXML { get; set; }
         public Common Common { get; set; }
         public List<SalesOrderDetail> SalesOrderDetailList { get; set; }
 
@@ -41,9 +42,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal Rate { get; set; }
         public decimal TradeDiscountAmount { get; set; }
         public DateTime ExpectedDeliveryDate { get; set; }
+        public decimal DiscountPercent { get; set; }
 
         //additional properties
-    
+        public decimal PkgQty { get; set; }
         public string ExpectedDeliveryDateFormatted { get; set; }
         public Common Common { get; set; }
         public Product Product { get; set; }

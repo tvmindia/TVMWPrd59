@@ -91,6 +91,8 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<FinishedGoodStockAdjAdvanceSearchViewModel, FinishedGoodStockAdjAdvanceSearch>().ReverseMap();
                 config.CreateMap<FinishedGoodStockAdjViewModel, FinishedGoodStockAdj>().ReverseMap();
                 config.CreateMap<FinishedGoodStockAdjDetailViewModel, FinishedGoodStockAdjDetail>().ReverseMap();
+                config.CreateMap<SalesOrderDetailViewModel, SalesOrderDetail>().ReverseMap();
+                
             });
         }
     }
