@@ -925,6 +925,9 @@
     <Content Include="Views\FinishedGoodStockAdj\NewFinishedGoodStockAdj.cshtml" />
     <Content Include="Views\PackingSlip\AddPackingSlip.cshtml" />
     <Content Include="Views\PackingSlip\ListPackingSlips.cshtml" />
+    <Content Include="Views\BillOfMaterial\_AddCompnent.cshtml" />
+    <Content Include="Views\BillOfMaterial\_AddProductionLine.cshtml" />
+    <Content Include="Views\BillOfMaterial\_AddStageDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
