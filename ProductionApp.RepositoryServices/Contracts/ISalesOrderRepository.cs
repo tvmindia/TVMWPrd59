@@ -15,6 +15,7 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<SalesOrder> GetAllSalesOrderForSelectList();
         List<SalesOrderDetail> GetSalesOrderProductList(Guid salesOrderId);
         SalesOrder GetSalesOrder(Guid id);
+        List<SalesOrderDetail> GetSalesOrderDetail(Guid salesOrderId);
 
     }
 }

@@ -133,6 +133,24 @@ namespace ProductionApp.UserInterface.Controllers
 
         #endregion GetSalesOrder
 
+        #region GetSalesOrderDetail
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
+        public string GetSalesOrderDetail(string ID)
+        {
+            try
+            {
+                List<SalesOrderDetailViewModel> salesOrderDetailVM = new List<SalesOrderDetailViewModel>();
+                salesOrderDetailVM = Mapper.Map<List<SalesOrderDetail>, List<SalesOrderDetailViewModel>>(_salesOrderBusiness.GetSalesOrderDetail(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = salesOrderDetailVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+
+        #endregion GetSalesOrderDetail
+
         #region ButtonStyling
         [HttpGet]
    //     [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "")]

@@ -351,5 +351,53 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return salesOrder;
         }
+
+        public List<SalesOrderDetail> GetSalesOrderDetail(Guid salesOrderId)
+        {
+            List<SalesOrderDetail> salesOrderList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetSalesOrderDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@SaleOrderID", SqlDbType.UniqueIdentifier).Value = salesOrderId;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                salesOrderList = new List<SalesOrderDetail>();
+                                while (sdr.Read())
+                                {
+                                    SalesOrderDetail salesOrder = new SalesOrderDetail();
+                                    {
+                                        salesOrder.SalesOrderID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : salesOrder.ID);
+                                        //salesOrder.Product = new Product();
+                                        //salesOrder.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : salesOrder.ProductID);
+                                        //salesOrder.Product.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : salesOrder.Product.Name);
+                                        //salesOrder.Product.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : salesOrder.Product.CurrentStock);
+                                        //salesOrder.Quantity = (sdr["OrderQty"].ToString() != "" ? decimal.Parse(sdr["OrderQty"].ToString()) : salesOrder.Quantity);
+                                    }
+                                    salesOrderList.Add(salesOrder);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return salesOrderList;
+        }
     }
 }

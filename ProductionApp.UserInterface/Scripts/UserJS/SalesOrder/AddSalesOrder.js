@@ -365,7 +365,20 @@ function BindSalesOrderID()
 debugger;
  var ID = $('#ID').val();
     _SlNo = 1;
-   // var result = GetSalesOrderByID(ID);
+    var salesOrderVM = GetSalesOrderByID(ID);
+    //$('#').val();
+    //$('#').val();
+    //$('#').val();
+    //$('#').val();
+    //$('#').val();
+    //$('#').val();
+    //$('#').val();
+    //$('#').val();
+    //$('#').val();
+    //$('#').val();
+    //detail Table values binding with header id
+    BindSalesOrderDetailTable(ID);
+    PaintImages(ID);//bind attachments
 }
 
 function GetSalesOrderByID(ID)
@@ -382,6 +395,30 @@ function GetSalesOrderByID(ID)
         }
         if (_jsonData.Result == "ERROR") {
             alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function BindSalesOrderDetailTable(ID) {
+    DataTables.SalesOrderDetailTable.clear().rows.add(GetSalesOrderDetail(ID)).draw(false);
+}
+
+function GetSalesOrderDetail(ID) {
+    try {
+        debugger;
+        var data = { "ID": ID };
+        _jsonData = GetDataFromServer("SalesOrder/GetSalesOrderDetail/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+        }
+        if (_jsonData.Result == "OK") {
+            return _jsonData.Records;
+        }
+        if (_jsonData.Result == "ERROR") {
+            alert(_jsonData.Message);
         }
     }
     catch (e) {
