@@ -27,6 +27,7 @@ namespace ProductionApp.UserInterface.Models
         public string Remarks { get; set; }
 
         //additional properties
+        public Guid EmployeeID { get; set; }
         public bool IsUpdate { get; set; }
         public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
@@ -57,9 +58,12 @@ namespace ProductionApp.UserInterface.Models
         public decimal Quantity { get; set; }
         public string UnitCode { get; set; }
         public decimal Rate { get; set; }
+        [Display(Name = "Discount Amount")]
         public decimal TradeDiscountAmount { get; set; }
         public DateTime ExpectedDeliveryDate { get; set; }
-
+        [Display(Name = "Discount %")]
+        public decimal DiscountPercent { get; set; }
+        
         //additional properties
         public decimal PkgQty { get; set; }
         [Display(Name = "Tax Amount")]
@@ -69,17 +73,9 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Net Amount")]
         public decimal NetAmount { get; set; }
         [Display(Name = "Gross Amount")]
-        public decimal GrossAmount { get; set; }
-        [Display(Name = "Discount %")]
-       
-        public decimal DiscountPercent { get; set; }
-        [Display(Name = "Discount Amount")]
-        public decimal DiscountAmount { get; set; }
+        public decimal GrossAmount { get; set; }  
 
-        //public int TotalCount { get; set; }
-        //public int FilteredCount { get; set; }
         [Display(Name = "Expected Delivery Date")]
-
         public string ExpectedDeliveryDateFormatted { get; set; }
         public CommonViewModel Common { get; set; }
         public ProductViewModel Product { get; set; }

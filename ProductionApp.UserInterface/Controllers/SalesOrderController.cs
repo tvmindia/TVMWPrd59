@@ -82,7 +82,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetAllSalesOrderDetail
 
-        #region InsertUpdateRequisition
+        #region InsertUpdateSalesOrder
         [HttpPost]
       //  [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
         public string InsertUpdateSalesOrder(SalesOrderViewModel salesOrderVM)
@@ -97,6 +97,8 @@ namespace ProductionApp.UserInterface.Controllers
                     UpdatedBy = appUA.UserName,
                     UpdatedDate = _common.GetCurrentDateTime(),
                 };
+                //Fixing Employee ID To SalesPerson
+                salesOrderVM.SalesPerson = salesOrderVM.EmployeeID;
                 //Deserialize items
                 object ResultFromJS = JsonConvert.DeserializeObject(salesOrderVM.DetailJSON);
                 string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
@@ -111,9 +113,43 @@ namespace ProductionApp.UserInterface.Controllers
             }
 
         }
-        #endregion InsertUpdateRequisition
+        #endregion InsertUpdateSalesOrder
 
+        #region GetSalesOrder
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
+        public string GetSalesOrder(string ID)
+        {
+            try
+            {
+                SalesOrderViewModel requisitionVM = new SalesOrderViewModel();
+                requisitionVM = Mapper.Map<SalesOrder, SalesOrderViewModel>(_salesOrderBusiness.GetSalesOrder(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = requisitionVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
 
+        #endregion GetSalesOrder
+
+        #region GetSalesOrderDetail
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
+        public string GetSalesOrderDetail(string ID)
+        {
+            try
+            {
+                List<SalesOrderDetailViewModel> salesOrderDetailVM = new List<SalesOrderDetailViewModel>();
+                salesOrderDetailVM = Mapper.Map<List<SalesOrderDetail>, List<SalesOrderDetailViewModel>>(_salesOrderBusiness.GetSalesOrderDetail(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = salesOrderDetailVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+
+        #endregion GetSalesOrderDetail
 
         #region ButtonStyling
         [HttpGet]
