@@ -24,6 +24,7 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new StyleBundle("~/Content/UserCSS/Login").Include("~/Content/UserCSS/Login.css"));
             bundles.Add(new StyleBundle("~/Content/css/Select2").Include("~/Content/css/select2.css"));
             bundles.Add(new StyleBundle("~/Content/css/Selectmin").Include("~/Content/css/select2.min.css"));
+            bundles.Add(new ScriptBundle("~/Content/UserCSS/BillOfMaterial").Include("~/Content/UserCSS/BillOfMaterial.css"));
 
             //---------------------
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include("~/Scripts/jquery-3.1.1.min.js"));
@@ -82,14 +83,14 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJS/MaterialStockAdjustment/NewStockAdjustment").Include("~/Scripts/UserJS/MaterialStockAdjustment/NewStockAdjustment.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/SalesOrder/ListSalesOrder").Include("~/Scripts/UserJS/SalesOrder/ListSalesOrder.js"));//
             bundles.Add(new ScriptBundle("~/bundles/UserJs/SalesOrder/AddSalesOrder").Include("~/Scripts/UserJS/SalesOrder/AddSalesOrder.js"));
-            bundles.Add(new ScriptBundle("~/bundles/UserJs/BillOfMaterialJS/ViewBillOfMaterial").Include("~/Scripts/UserJs/BillOfMaterialJS/ViewBillOfMaterial.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/BillOfMaterial/ViewBillOfMaterial").Include("~/Scripts/UserJs/BillOfMaterialJS/ViewBillOfMaterial.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/BillOfMaterial/NewBillOfMaterial").Include("~/Scripts/UserJs/BillOfMaterialJS/NewBillOfMaterial.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/MaterialReturnFromProductionJS/ViewRecieveFromProduction").Include("~/Scripts/UserJS/MaterialReturnFromProductionJS/ViewRecieveFromProduction.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/MaterialReturnFromProductionJS/NewRecieveFromProduction").Include("~/Scripts/UserJS/MaterialReturnFromProductionJS/NewRecieveFromProduction.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/PackingSlip/AddPackingSlip").Include("~/Scripts/UserJS/PackingSlip/AddPackingSlip.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/PackingSlip/ListPackingSlips").Include("~/Scripts/UserJS/PackingSlip/ListPackingSlips.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/FinishedGoodStockAdj/ViewFinishedGoodStockAdj").Include("~/Scripts/UserJS/FinishedGoodStockAdj/ViewFinishedGoodStockAdj.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/FinishedGoodStockAdj/NewFinishedGoodStockAdj").Include("~/Scripts/UserJS/FinishedGoodStockAdj/NewFinishedGoodStockAdj.js"));
-
         }
     }
 }
