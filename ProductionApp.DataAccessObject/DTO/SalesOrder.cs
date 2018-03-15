@@ -44,7 +44,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public DateTime ExpectedDeliveryDate { get; set; }
 
         //additional properties
-    
+        public decimal PkgQty { get; set; }
         public string ExpectedDeliveryDateFormatted { get; set; }
         public Common Common { get; set; }
         public Product Product { get; set; }

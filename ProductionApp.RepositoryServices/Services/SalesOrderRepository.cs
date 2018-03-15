@@ -270,7 +270,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetProductList]";
+                        cmd.CommandText = "[AMC].[GetProductListForPackingSlip]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@SaleOrderID", SqlDbType.UniqueIdentifier).Value = salesOrderId;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -288,6 +288,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         salesOrder.Product.Name= (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : salesOrder.Product.Name);
                                         salesOrder.Product.CurrentStock= (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : salesOrder.Product.CurrentStock);
                                         salesOrder.Quantity = (sdr["OrderQty"].ToString() != "" ? decimal.Parse(sdr["OrderQty"].ToString()) : salesOrder.Quantity);
+                                        salesOrder.PkgQty = (sdr["PackingQty"].ToString() != "" ? decimal.Parse(sdr["PackingQty"].ToString()) : salesOrder.PkgQty);
                                     }
                                     salesOrderList.Add(salesOrder);
                                 }

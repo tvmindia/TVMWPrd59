@@ -61,6 +61,7 @@ namespace ProductionApp.UserInterface.Models
         public DateTime ExpectedDeliveryDate { get; set; }
 
         //additional properties
+        public decimal PkgQty { get; set; }
         [Display(Name = "Tax Amount")]
         public decimal TaxAmount { get; set; }
         [Display(Name = "Taxable Amount")]

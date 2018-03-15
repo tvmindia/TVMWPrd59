@@ -61,7 +61,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     PackingSlip paySlip = new PackingSlip();
                                     {
                                         paySlip.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : paySlip.ID);
-                                        paySlip.SlipNo = (sdr["ReturnNo"].ToString() != "" ? sdr["ReturnNo"].ToString() : paySlip.SlipNo);
+                                        paySlip.SlipNo = (sdr["SlipNo"].ToString() != "" ? sdr["SlipNo"].ToString() : paySlip.SlipNo);
                                         paySlip.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()) : paySlip.Date);
                                         paySlip.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.DateFormat) : paySlip.DateFormatted);
                                         paySlip.DispatchedDate = (sdr["DispatchedDate"].ToString() != "" ? DateTime.Parse(sdr["DispatchedDate"].ToString()) : paySlip.DispatchedDate);
