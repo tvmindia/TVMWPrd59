@@ -80,6 +80,9 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<BillOfMaterialViewModel,BillOfMaterial>().ReverseMap();
                 config.CreateMap<BillOfMaterialDetailViewModel,BillOfMaterialDetail>().ReverseMap();
                 config.CreateMap<BillOfMaterialAdvanceSearchViewModel,BillOfMaterialAdvanceSearch>().ReverseMap();
+                config.CreateMap<BOMComponentLineViewModel, BOMComponentLine>().ReverseMap();
+                config.CreateMap<BOMComponentLineDetailViewModel, BOMComponentLineDetail>().ReverseMap();
+                config.CreateMap<BOMComponentLineStageViewModel, BOMComponentLineStage>().ReverseMap();
                 config.CreateMap<MaterialReturnFromProductionViewModel, MaterialReturnFromProduction>().ReverseMap();
                 config.CreateMap<MaterialReturnFromProductionDetailViewModel, MaterialReturnFromProductionDetail>().ReverseMap();
                 config.CreateMap<CustomerViewModel, Customer>().ReverseMap();
