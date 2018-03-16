@@ -94,7 +94,7 @@ function SaveSuccessProduct(data, status) {
 //-- add MaterialType--//
 function AddMaterialTypeMaster(flag) {
     GetMasterPartial("MaterialType", "");
-    $('#h3ModelMasterContextLabel').text('Add MaterialType')
+    $('#h3ModelMasterContextLabel').text('Add Material Type')
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val(flag);
 }

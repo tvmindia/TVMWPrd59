@@ -127,6 +127,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         material.MaterialType = new MaterialType();
                                         material.MaterialType.Description= (sdr["MaterialDescription"].ToString() != "" ? sdr["MaterialDescription"].ToString() : material.MaterialType.Description);
                                         material.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : material.Description);
+                                        material.HSNNo = (sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : material.HSNNo);
                                         material.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : material.UnitCode);
                                         material.Unit = new Unit();
                                         material.Unit.Description= (sdr["UnitDescription"].ToString() != "" ? sdr["UnitDescription"].ToString() : material.UnitCode);
