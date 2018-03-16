@@ -87,13 +87,13 @@ function BindOrReloadSalesOrderTable(action) {
                 },
                 pageLength: 10,
                 columns: [
+                    { "data": "ID", "defaultContent": "<i>-</i>" },
+                    { "data": "CustomerName", "defaultContent": "<i>-</i>" },
+                    { "data": "OrderNo", "defaultContent": "<i>-</i>" },
+                    { "data": "OrderDateFormatted", "defaultContent": "<i>-</i>" },
                     { "data": "", "defaultContent": "<i>-</i>" },
                     { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
+                    { "data": "ExpectedDeliveryDateFormatted", "defaultContent": "<i>-</i>" },
                     //{ "data": "", "defaultContent": "<i>-</i>" },
                     {
                          "data": "ID", "orderable": false, render: function (data, type, row) {
@@ -177,9 +177,9 @@ function BindOrReloadSalesOrderDetailTable(action) {
                 },
                 pageLength: 10,
                 columns: [
-                    { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
+                    { "data": "ID", "defaultContent": "<i>-</i>" },
+                    { "data": "CustomerName", "defaultContent": "<i>-</i>" },
+                    { "data": "OrderNo", "defaultContent": "<i>-</i>" },
                     { "data": "", "defaultContent": "<i>-</i>" },
                     { "data": "", "defaultContent": "<i>-</i>" },
                     { "data": "", "defaultContent": "<i>-</i>" },

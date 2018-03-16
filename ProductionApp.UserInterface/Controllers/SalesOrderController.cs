@@ -26,8 +26,13 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult AddSalesOrder(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
-
-            return View();
+            SalesOrderViewModel salesOrderVM = new SalesOrderViewModel
+            {
+                ID = id == null ? Guid.Empty : (Guid)id,
+                IsUpdate = id == null ? false : true,
+                
+            };
+            return View(salesOrderVM);
         }
         public ActionResult ListSalesOrder(string code)
         {

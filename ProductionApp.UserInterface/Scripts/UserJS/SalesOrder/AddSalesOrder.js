@@ -56,26 +56,32 @@ $(document).ready(function () {
           columns: [
           { "data": "ID", "defaultContent": "<i></i>" },
           { "data": "ProductID", "defaultContent": "<i></i>" },
+           {
+               "data": "", render: function (data, type, row) {
+                   debugger;
+                   return _SlNo++
+               }, "width": "5%"
+           },
           {
               "data": "Product.Name", render: function (data, type, row) {
                   return data + '</br><b>HSNNo: </b>' + row.Product.HSNNo + '</br><b>Expected Delivery: </b>' + row.ExpectedDeliveryDateFormatted
               }, "defaultContent": "<i></i>", "width": "25%"
           },
-          { "data": "TaxTypeCode", "defaultContent": "<i></i>", "width": "8%" },
+          { "data": "TaxTypeCode", "defaultContent": "<i></i>", "width": "7%" },
           { "data": "Quantity", render: function (data, type, row) { return data + ' ' + row.UnitCode }, "defaultContent": "<i></i>", "width": "10%" },
           { "data": "Rate", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
           { "data": "GrossAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
           {
-              "data": "TradeDiscountAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "10%"
+              "data": "TradeDiscountAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "9%"
           },
-          { "data": "TaxAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
-          { "data": "NetAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
-          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
+          { "data": "TaxAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "9%" },
+          { "data": "NetAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "9%" },
+          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ItemDetailsEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
           ],
           columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false },
-              { className: "text-center", "targets": [10,3] },
-              { className: "text-right", "targets": [5,6,7,8,9] },
-              { className: "text-left", "targets": [2,4] }
+              { className: "text-center", "targets": [11,4] },
+              { className: "text-right", "targets": [6,7,8,9,10] },
+              { className: "text-left", "targets": [3,5] }
           ]
       });
 
@@ -106,7 +112,17 @@ $(document).ready(function () {
     }
 });
 
+function ItemDetailsEdit(curObj) {
+    debugger;
+    $('#SalesOrderDetailsModal').modal('show');
+    _SlNo = 1;
+    var rowData = DataTables.SalesOrderDetailTable.row($(curObj).parents('tr')).data();
+   // BindProductDetails(rowData.ProductID);
+    $("#ProductID").val(rowData.ProductID).trigger('change');
+    //$('#RequisitionDetail_RequestedQty').val(rowData.RequestedQty);
+    //$('#RequisitionDetail_Description').val(rowData.Description);
 
+}
 
 function ShowSalesOrderDetailsModal()
 {
@@ -369,7 +385,7 @@ function BindSalesOrderByID()
     $('#OrderNo').val(salesOrderVM.OrderNo);
     $('#OrderDateFormatted').val(salesOrderVM.OrderDateFormatted);
     $('#ExpectedDeliveryDateFormatted').val(salesOrderVM.ExpectedDeliveryDateFormatted);
-    $('#SalesPerson').val(salesOrderVM.SalesPerson).select2();
+    $('#EmployeeID').val(salesOrderVM.SalesPerson).select2();
     $('#CustomerID').val(salesOrderVM.CustomerID).select2();
     $('#Remarks').val(salesOrderVM.Remarks);
     $('#BillingAddress').val(salesOrderVM.BillingAddress);
@@ -505,4 +521,9 @@ function DeleteSalesOrder() {
         notyAlert('error', e.message);
         return 0;
     }
+}
+
+function Reset()
+{
+    BindSalesOrderByID();
 }

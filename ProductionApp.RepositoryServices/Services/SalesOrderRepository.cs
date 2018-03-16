@@ -61,10 +61,12 @@ namespace ProductionApp.RepositoryServices.Services
                                     SalesOrder salesOrder = new SalesOrder();
                                     {
                                         salesOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : salesOrder.ID);
-                                        //salesOrder.ReqNo = (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : salesOrder.ReqNo);
-                                        //salesOrder.ReqDate = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()) : salesOrder.ReqDate);
-                                        //salesOrder.ReqDateFormatted = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()).ToString(settings.DateFormat) : salesOrder.ReqDateFormatted);
-                                        //salesOrder.Title = (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : salesOrder.Title);
+                                        salesOrder.OrderNo = (sdr["OrderNo"].ToString() != "" ? sdr["OrderNo"].ToString() : salesOrder.OrderNo);
+                                        salesOrder.OrderDate = (sdr["OrderDate"].ToString() != "" ? DateTime.Parse(sdr["OrderDate"].ToString()) : salesOrder.OrderDate);
+                                        salesOrder.OrderDateFormatted = (sdr["OrderDate"].ToString() != "" ? DateTime.Parse(sdr["OrderDate"].ToString()).ToString(settings.DateFormat) : salesOrder.OrderDateFormatted);
+                                        salesOrder.ExpectedDeliveryDate = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()) : salesOrder.ExpectedDeliveryDate);
+                                        salesOrder.ExpectedDeliveryDateFormatted = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()).ToString(settings.DateFormat) : salesOrder.ExpectedDeliveryDateFormatted);
+                                        salesOrder.CustomerName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : salesOrder.CustomerName);
                                         //salesOrder.ReqStatus = (sdr["ReqStatus"].ToString() != "" ? sdr["ReqStatus"].ToString() : salesOrder.ReqStatus);
                                         //salesOrder.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? sdr["ApprovalStatus"].ToString() : salesOrder.ApprovalStatus);
                                         //salesOrder.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : salesOrder.RequisitionBy);

@@ -26,6 +26,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string OrderDateFormatted { get; set; }
         public string ExpectedDeliveryDateFormatted { get; set; }
         public string DetailXML { get; set; }
+        public string CustomerName { get; set; }
         public Common Common { get; set; }
         public List<SalesOrderDetail> SalesOrderDetailList { get; set; }
 
