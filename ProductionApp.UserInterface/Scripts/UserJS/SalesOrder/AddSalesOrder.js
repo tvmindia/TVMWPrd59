@@ -130,7 +130,7 @@ function GetCustomerDetails(customerId) {
     try {
         var data = { "customerId": customerId };
 
-        _jsonData = GetDataFromServer("Customer/GetCustomerDetails/", data);
+        _jsonData = GetDataFromServer("SalesOrder/GetCustomerDetails/", data);
         if (_jsonData != '') {
             _jsonData = JSON.parse(_jsonData);
         }
