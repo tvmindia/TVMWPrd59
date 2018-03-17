@@ -25,5 +25,16 @@ namespace ProductionApp.DataAccessObject.DTO
         public string TaxRegNo { get; set; }
         public string PANNo { get; set; }
         public string GeneralNotes { get; set; }
+
+        //additional fields
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public bool IsUpdate { get; set; }
+        public Common Common { get; set; }
+    }
+    public class SupplierAdvanceSearch
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
     }
 }

@@ -16,12 +16,13 @@ namespace ProductionApp.UserInterface.Controllers
     {
         // GET: SalesOrder
         private ISalesOrderBusiness _salesOrderBusiness;
-
+        private ICustomerBusiness _customerBusiness;
         Common _common = new Common();
         AppConst _appConst = new AppConst();
-        public SalesOrderController(ISalesOrderBusiness salesOrderBusiness)
+        public SalesOrderController(ISalesOrderBusiness salesOrderBusiness,ICustomerBusiness customerBusiness)
         {
             _salesOrderBusiness = salesOrderBusiness;
+            _customerBusiness = customerBusiness;
         }
         public ActionResult AddSalesOrder(string code, Guid? id)
         {
@@ -180,6 +181,21 @@ namespace ProductionApp.UserInterface.Controllers
 
         #endregion DeleteSalesOrderDetail
 
+        #region GetCustomerDetails
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "D")]
+        public string GetCustomerDetails(string customerId)
+        {
+            try
+            {
+                CustomerViewModel customerVM = Mapper.Map<Customer, CustomerViewModel>(_customerBusiness.GetCustomer(Guid.Parse(customerId)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetCustomerDetails
 
         #region DeleteSalesOrder
         [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "D")]

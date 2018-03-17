@@ -213,7 +213,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         public ActionResult AddStageDetail(BillOfMaterialViewModel billOfMaterialVM)
         {
-            return PartialView("_AddProductionLine", billOfMaterialVM);
+            return PartialView("_AddStageDetail", billOfMaterialVM);
         }
         #region ButtonStyling
         [HttpGet]

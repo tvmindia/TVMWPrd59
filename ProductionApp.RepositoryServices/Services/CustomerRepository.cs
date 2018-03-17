@@ -18,6 +18,46 @@ namespace ProductionApp.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
 
+        public Customer GetCustomer(Guid customerId)
+        {
+            Customer customer = new Customer();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetCustomer]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = customerId;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+
+                                while (sdr.Read())
+                                {
+                                    customer.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : customer.BillingAddress);
+                                    customer.ShippingAddress = (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : customer.ShippingAddress);
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return customer;
+        }
+
         public List<Customer> GetCustomerForSelectList()
         {
             List<Customer> customerList = null;
