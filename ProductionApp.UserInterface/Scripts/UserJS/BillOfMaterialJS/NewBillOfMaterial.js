@@ -498,6 +498,26 @@ function LoadPartialAddProductionLine() {
     }
 }
 
+function SaveAndProceed() {
+    try {
+        debugger;
+        $('#step2').removeClass('active').addClass('disabled');
+        $('#step3').removeClass('disabled').addClass('active');
+        var BillOfMaterialVM = new Object();
+        BillOfMaterialVM.ID = $('#IDBillOfMaterial').val();
+        BillOfMaterialVM.IsUpdate = $('#IsUpdateBOM').val();
+        BillOfMaterialVM.Product = new Object();
+        BillOfMaterialVM.Product.Name = $("txtProductName").val();
+        BillOfMaterialVM.BOMComponentLine = new Object();
+        BillOfMaterialVM.BOMComponentLineDetail = new Object();
+        var data = { "billOfMaterialVM": BillOfMaterialVM }
+        $('#divPartial').load("AddStageDetail", data);
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+
 function OnStageSelect() {
     var txt = [];
     $("#selectable li.ui-selected").each(function () {
