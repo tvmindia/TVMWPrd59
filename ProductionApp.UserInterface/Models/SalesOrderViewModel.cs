@@ -24,7 +24,7 @@ namespace ProductionApp.UserInterface.Models
         public string BillingAddress { get; set; }
         [Display(Name = "Shipping Address")]
         public string ShippingAddress { get; set; }
-        public string OrderStatus { get; set; }
+        //public string OrderStatus { get; set; }
         public string Remarks { get; set; }
 
         //additional properties
@@ -77,7 +77,8 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Net Amount")]
         public decimal NetAmount { get; set; }
         [Display(Name = "Gross Amount")]
-        public decimal GrossAmount { get; set; }  
+        public decimal GrossAmount { get; set; }
+        public string TaxTypeDescription { get; set; }
 
         [Display(Name = "Expected Delivery Date")]
         public string ExpectedDeliveryDateFormatted { get; set; }
