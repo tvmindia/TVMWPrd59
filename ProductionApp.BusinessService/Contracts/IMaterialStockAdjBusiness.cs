@@ -14,6 +14,6 @@ namespace ProductionApp.BusinessService.Contracts
         MaterialStockAdj GetMaterialStockAdjustment(Guid id);
         List<MaterialStockAdjDetail> GetMaterialStockAdjustmentDetail(Guid id);
         object DeleteMaterialStockAdjustment(Guid id);
-        object DeleteMaterialStockAdjustmentDetail(Guid id);
+        object DeleteMaterialStockAdjustmentDetail(Guid id);       
     }
 }
