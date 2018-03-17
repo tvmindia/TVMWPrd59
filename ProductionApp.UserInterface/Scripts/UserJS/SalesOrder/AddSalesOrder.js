@@ -191,12 +191,12 @@ function GetProduct(ID) {
 
 function ProductValueCalculation()
 {
-    var rate, qty, discpercent, disc=0, taxTypeCode, taxableAmt=0,taxAmt=0, netAmt=0, GrossAmt=0
-   
+    var product,rate, qty, discpercent, disc=0, taxTypeCode, taxableAmt=0,taxAmt=0, netAmt=0, GrossAmt=0
+    product=$('#ProductID').val();
     rate = $('#SalesOrderDetail_Rate').val();
     qty = $('#SalesOrderDetail_Quantity').val();
 
-    if (rate != "" && qty != "")
+    if (rate != "" && qty != "" && product!="")
     {
         //--------------------Gross Amount-----------------------//
         GrossAmt = rate * qty;
@@ -204,13 +204,23 @@ function ProductValueCalculation()
 
         //--------------------Discount Amount--------------------//
         discpercent = $('#SalesOrderDetail_DiscountPercent').val();
+        if (discpercent > 100)//if greater than 100% set percentage to 0%
+        {
+            $('#SalesOrderDetail_DiscountPercent').val(0);
+            discpercent = 0;
+        }
         if (discpercent != "" && discpercent!=0)
         {
             disc = GrossAmt * (discpercent / 100);
             $('#SalesOrderDetail_TradeDiscountAmount').val(roundoff(disc));
         }
         else {
-            disc = $('#SalesOrderDetail_TradeDiscountAmount').val();
+            disc = $('#SalesOrderDetail_TradeDiscountAmount').val() == "" ? 0 : $('#SalesOrderDetail_TradeDiscountAmount').val();
+            if(GrossAmt<disc)
+            {
+                $('#SalesOrderDetail_TradeDiscountAmount').val(roundoff(0));
+                disc = 0;
+            }
         }
         //--------------------Taxable Amount---------------------//
         taxableAmt = roundoff(parseFloat(GrossAmt) - parseFloat(disc));
