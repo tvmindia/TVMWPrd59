@@ -46,7 +46,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal? DiscountPercent { get; set; }
 
         //additional properties
-        public decimal PkgQty { get; set; }
+        public decimal PrevPkgQty { get; set; }
+        public decimal PkgWt { get; set; }
+        public decimal CurrentPkgQty { get; set; }
         public string ExpectedDeliveryDateFormatted { get; set; }
         public Common Common { get; set; }
         public Product Product { get; set; }
