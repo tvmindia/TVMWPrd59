@@ -102,9 +102,7 @@
             $(document).ready(function () {
                 $.validator.unobtrusive.parse("#FormProduct");
                 $('#txtProductName').val($('#Product_Name').val());
-                $('#BOMComponentLine_ComponentID').change(function () {
-                    $('#BOMComponentLine_LineName').val("Line For " + $('#BOMComponentLine_ComponentID option:selected').text());
-                });
+                $('#BOMComponentLine_LineName').val("Line For " + $('#Product_Name').val());
             });
 
 </script>
