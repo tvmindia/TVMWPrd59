@@ -2,7 +2,7 @@
 //*****************************************************************************
 //Author: Angel
 //CreatedDate: 14-Mar-2018 
-//LastModified: 16-Mar-2018 
+//LastModified: 17-Mar-2018 
 //FileName: AddPackingSlip.js
 //Description: Client side coding for AddPackingSlip.
 //******************************************************************************
@@ -32,14 +32,17 @@ $(document).ready(function () {
         if ($('#ShowPkgSec').val() == 'True' && $('#ShowDispatcherSec').val() == 'True') {
             $('#divPack').find('input, textarea, button, select').prop('disabled', false);
             $('#divDespatch').find('input, textarea, button, select').prop('disabled', false);
+            $('#btnAddPackingSlip').attr("disabled", false);
         }
         else if ($('#ShowDispatcherSec').val() == 'True') {
-            $('#divPack').find('input, textarea, button, select').prop('disabled', false);
-            $('#divDespatch').find('input, textarea, button, select').prop('disabled', true);
+            $('#divPack').find('input, textarea, button, select').prop('disabled', true);
+            $('#btnAddPackingSlip').attr("disabled", true);
+            $('#divDespatch').find('input, textarea, button, select').prop('disabled', false);
         }
         else {
-            $('#divPack').find('input, textarea, button, select').prop('disabled', true);
-            $('#divDespatch').find('input, textarea, button, select').prop('disabled', false);
+            $('#divPack').find('input, textarea, button, select').prop('disabled', false);
+            $('#btnAddPackingSlip').attr("disabled", false);
+            $('#divDespatch').find('input, textarea, button, select').prop('disabled', true);
         }
         $('#SlipNo').attr("disabled", true);
         //ProductListTable
