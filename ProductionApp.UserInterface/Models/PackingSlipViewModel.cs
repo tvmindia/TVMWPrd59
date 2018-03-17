@@ -45,6 +45,8 @@ namespace ProductionApp.UserInterface.Models
         public CommonViewModel Common { get; set; }
         public EmployeeViewModel Employee { get; set; }
         public SalesOrderViewModel SalesOrder { get; set; }
+        public PackingSlipDetailViewModel PackingSlipDetail { get; set; }
+        public List<PackingSlipDetailViewModel> PackingSlipDetailList { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         [Display(Name = "Date")]
@@ -59,6 +61,8 @@ namespace ProductionApp.UserInterface.Models
         public bool IsUpdate { get; set; }
         public bool ShowPkgSec { get; set; }
         public bool ShowDispatcherSec { get; set; }
+        public string DetailXML { get; set; }
+        public string DetailJSON { get; set; }
     }
     public class PackingSlipDetailViewModel
     {
@@ -67,6 +71,8 @@ namespace ProductionApp.UserInterface.Models
         public Guid ProductID { get; set; }
         public decimal Qty { get; set; }
         public decimal Weight { get; set; }
+        //Additional properties
+        public string Name { get; set; }
     }
     public class PackingSlipAdvanceSearchViewModel
     {
