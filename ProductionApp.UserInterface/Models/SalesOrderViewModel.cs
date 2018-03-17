@@ -67,7 +67,9 @@ namespace ProductionApp.UserInterface.Models
         public decimal? DiscountPercent { get; set; }
         
         //additional properties
-        public decimal PkgQty { get; set; }
+        public decimal PrevPkgQty { get; set; }
+        public decimal PkgWt { get; set; }
+        public decimal CurrentPkgQty { get; set; }
         [Display(Name = "Tax Amount")]
         public decimal TaxAmount { get; set; }
         [Display(Name = "Taxable Amount")]

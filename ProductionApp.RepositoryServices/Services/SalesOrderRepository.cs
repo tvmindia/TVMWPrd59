@@ -290,7 +290,13 @@ namespace ProductionApp.RepositoryServices.Services
                                         salesOrder.Product.Name= (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : salesOrder.Product.Name);
                                         salesOrder.Product.CurrentStock= (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : salesOrder.Product.CurrentStock);
                                         salesOrder.Quantity = (sdr["OrderQty"].ToString() != "" ? decimal.Parse(sdr["OrderQty"].ToString()) : salesOrder.Quantity);
-                                        salesOrder.PkgQty = (sdr["PackingQty"].ToString() != "" ? decimal.Parse(sdr["PackingQty"].ToString()) : salesOrder.PkgQty);
+                                        salesOrder.PrevPkgQty = (sdr["PackingQty"].ToString() != "" ? decimal.Parse(sdr["PackingQty"].ToString()) : salesOrder.PrevPkgQty);
+                                        salesOrder.PkgWt = (sdr["PkgWt"].ToString() != "" ? decimal.Parse(sdr["PkgWt"].ToString()) : salesOrder.PkgWt);
+                                        decimal Bal = salesOrder.Quantity - salesOrder.PrevPkgQty;
+                                        if (salesOrder.Product.CurrentStock >= Bal)
+                                            salesOrder.CurrentPkgQty = Bal;
+                                        else
+                                            salesOrder.CurrentPkgQty = salesOrder.Product.CurrentStock;
                                     }
                                     salesOrderList.Add(salesOrder);
                                 }
