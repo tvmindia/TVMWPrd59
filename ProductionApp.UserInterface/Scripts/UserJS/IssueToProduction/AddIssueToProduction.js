@@ -85,6 +85,7 @@ function BindRawMaterialDetails(ID)
 {
     debugger;
     var result = GetMaterial(ID);
+    _SlNo = 1;
     $('#MaterialIssueDetail_Material_MaterialCode').val(result.MaterialCode);
     $('#MaterialIssueDetail_MaterialDesc').val(result.Description);
     $('#MaterialIssueDetail_UnitCode').val(result.UnitCode);
