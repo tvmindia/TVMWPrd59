@@ -16,7 +16,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public DateTime ExpectedDeliveryDate { get; set; }
         public string BillingAddress { get; set; }
         public string ShippingAddress { get; set; }
-        public string OrderStatus { get; set; }
+       // public string OrderStatus { get; set; }
         public string Remarks { get; set; }
 
         //additional properties
@@ -51,6 +51,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal TaxAmount { get; set; }
         public decimal GrossAmount { get; set; }
         public decimal NetAmount { get; set; }
+        public string TaxTypeDescription { get; set; }
 
         public string ExpectedDeliveryDateFormatted { get; set; }
         public Common Common { get; set; }
