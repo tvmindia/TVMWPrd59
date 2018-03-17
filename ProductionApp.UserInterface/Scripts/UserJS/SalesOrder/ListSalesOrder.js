@@ -177,16 +177,20 @@ function BindOrReloadSalesOrderDetailTable(action) {
                 },
                 pageLength: 10,
                 columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
+                    { "data": "SalesOrderDetail.ID", "defaultContent": "<i>-</i>" },
                     { "data": "CustomerName", "defaultContent": "<i>-</i>" },
                     { "data": "OrderNo", "defaultContent": "<i>-</i>" },
+                    { "data": "OrderDateFormatted", "defaultContent": "<i>-</i>" },
+                    { "data": "SalesOrderDetail.Product.Name", render: function (data, type, row) {
+                        row.SalesOrderDetail.Product.HSNNo = row.SalesOrderDetail.Product.HSNNo == null ? "Nill" : row.SalesOrderDetail.Product.HSNNo
+                        return data + '</br><b>HSNNo: </b>' + row.SalesOrderDetail.Product.HSNNo
+                        }
+                        , "defaultContent": "<i>-</i>" },
+                    { "data": "SalesOrderDetail.Quantity", "defaultContent": "<i>-</i>" },
                     { "data": "", "defaultContent": "<i>-</i>" },
                     { "data": "", "defaultContent": "<i>-</i>" },
                     { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
-  { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
+                    { "data": "SalesOrderDetail.ExpectedDeliveryDateFormatted", "defaultContent": "<i>-</i>" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
                             return '<a href="/SalesOrder/AddSalesOrder?code=SALE&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
@@ -194,8 +198,9 @@ function BindOrReloadSalesOrderDetailTable(action) {
                     }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1, 2, 4, 5, 6] },
-                    { className: "text-center", "targets": [3, 7] }],
+                    { className: "text-left", "targets": [1, 2, 4] },
+                    { className: "text-center", "targets": [3, 9, 10] },
+                    { className: "text-right", "targets": [5,6] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {

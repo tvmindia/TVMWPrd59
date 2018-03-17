@@ -30,6 +30,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string CustomerName { get; set; }
         public Common Common { get; set; }
         public List<SalesOrderDetail> SalesOrderDetailList { get; set; }
+        public SalesOrderDetail SalesOrderDetail { get; set; }
 
 
     }

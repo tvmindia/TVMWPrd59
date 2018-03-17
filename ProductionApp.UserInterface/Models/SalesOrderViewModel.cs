@@ -90,11 +90,13 @@ namespace ProductionApp.UserInterface.Models
     {
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
-        [Display(Name = "FromDate")]
+        [Display(Name = "From Date")]
         public string FromDate { get; set; }
-        [Display(Name = "ToDate")]
+        [Display(Name = "To Date")]
         public string ToDate { get; set; }
+        [Display(Name = "Sales Person")]
         public Guid EmployeeID { get; set; }
+        [Display(Name = "Customer")]
         public Guid CustomerID { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
 
