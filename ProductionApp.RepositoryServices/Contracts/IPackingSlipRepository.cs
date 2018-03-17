@@ -10,5 +10,8 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface IPackingSlipRepository
     {
         List<PackingSlip> GetAllPackingSlip(PackingSlipAdvanceSearch paySlipAdvanceSearch);
+        object InsertUpdatePackingSlip(PackingSlip packingSlip);
+        PackingSlip GetPkgSlipByID(Guid id);
+        List<PackingSlipDetail> GetPkgSlipDetailByID(Guid id);
     }
 }

@@ -19,6 +19,7 @@ namespace ProductionApp.UserInterface.Controllers
         private IPackingSlipBusiness _packingSlipBusiness;
         private IEmployeeBusiness _employeeBusiness;
         private ISalesOrderBusiness _salesOrderBusiness;
+        DataAccessObject.DTO.Common _common = new DataAccessObject.DTO.Common();
         AppConst _appConst = new AppConst();
         public PackingSlipController(IEmployeeBusiness employeeBusiness, IPackingSlipBusiness packingSlipBusiness, ISalesOrderBusiness salesOrderBusiness)
         {
@@ -33,6 +34,8 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ViewBag.SysModuleCode = code;
             PackingSlipViewModel PackingSlipVM = new PackingSlipViewModel();
+            PackingSlipVM.ID = id == null ? Guid.Empty : (Guid)id;
+            PackingSlipVM.IsUpdate = id == null ? false : true;
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             PackingSlipVM.Employee = new EmployeeViewModel();
             PackingSlipVM.Employee.SelectList = new List<SelectListItem>();
@@ -118,6 +121,41 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion ListPackingSlips
 
+        #region InsertUpdatePackingSlip
+        [AuthSecurityFilter(ProjectObject = "PackingSlip", Mode = "R")]
+        public string InsertUpdatePackingSlip(PackingSlipViewModel packingSlipVM)
+        {
+
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                packingSlipVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                //Deserialize items
+                object ResultFromJS = JsonConvert.DeserializeObject(packingSlipVM.DetailJSON);
+                string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                packingSlipVM.PackingSlipDetailList = JsonConvert.DeserializeObject<List<PackingSlipDetailViewModel>>(ReadableFormat);
+                var result = _packingSlipBusiness.InsertUpdatePackingSlip(Mapper.Map<PackingSlipViewModel, PackingSlip>(packingSlipVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = "Success" });
+
+
+                //selectListItem = new List<SelectListItem>();
+
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+
+        }
+        #endregion InsertUpdatePackingSlip
+
         #region GetAllPackingSlip
         [HttpPost]
         
@@ -142,6 +180,40 @@ namespace ProductionApp.UserInterface.Controllers
             });
         }
         #endregion GetAllPakingSlip
+
+        #region GetPkgSlipByID
+        [AuthSecurityFilter(ProjectObject = "PackingSlip", Mode = "R")]
+        public string GetPkgSlipByID(string id)
+        {
+            try
+            {
+                PackingSlipViewModel packingSlipVM = new PackingSlipViewModel();
+                packingSlipVM = Mapper.Map<PackingSlip, PackingSlipViewModel>(_packingSlipBusiness.GetPkgSlipByID(Guid.Parse(id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = packingSlipVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex });
+            }
+        }
+        #endregion GetPkgSlipByID
+
+        #region GetPkgSlipDetailByID
+        [AuthSecurityFilter(ProjectObject = "PackingSlip", Mode = "R")]
+        public string GetPkgSlipDetailByID(string id)
+        {
+            try
+            {
+                List<PackingSlipDetailViewModel> pkgSlipDetailVM = new List<PackingSlipDetailViewModel>();
+                pkgSlipDetailVM = Mapper.Map<List<PackingSlipDetail>, List<PackingSlipDetailViewModel>>(_packingSlipBusiness.GetPkgSlipDetailByID(Guid.Parse(id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = pkgSlipDetailVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetPkgSlipDetailByID
 
         #region GetProductList
         public string GetProductList(string id)

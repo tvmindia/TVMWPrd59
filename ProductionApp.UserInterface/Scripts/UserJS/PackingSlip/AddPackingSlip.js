@@ -112,9 +112,9 @@ $(document).ready(function () {
                  return _SlNo++
              }, "defaultContent": "<i></i>"
          },
-         { "data": "Product", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
-         { "data": "CurrentPkgQty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
-         { "data": "PkgWt", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
+         { "data": "Name", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
+         { "data": "Qty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
+         { "data": "Weight", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a> | <a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>' },
          ],
          columnDefs: [{ "targets": [0], "visible": false, searchable: false },
@@ -241,6 +241,7 @@ function AddPackingSlipDetailTbl() {
         DataTables.PackingSlipDetailTable.clear().rows.add(pkgDetail).draw(false); //binding Detail table with new values   
         //if(res)
         $('#PackingSlipModal').modal('hide');
+        Save();
     }
     else
         notyAlert('warning', "Please Enter Weight of Product(s)");
@@ -315,16 +316,21 @@ function Save() {
         _packingSlipViewModel.TotalPackageWeight = $('#TotalPackageWeight').val();
         _packingSlipViewModel.PackingSlipDetail = pkgDetail;
         _SlNo = 1;
+        $("#DetailJSON").val('');
+        var result = JSON.stringify(_packingSlipDetailList);
+        $("#DetailJSON").val(result);
+        _packingSlipViewModel.DetailJSON = $("#DetailJSON").val();
         var data = "{'packingSlipVM':" + JSON.stringify(_packingSlipViewModel) + "}";
-
         PostDataToServer("PackingSlip/InsertUpdatePackingSlip/", data, function (JsonResult) {
             debugger;
             switch (JsonResult.Result) {
                 case "OK":
                     notyAlert('success', JsonResult.Records.Message);
                     ChangeButtonPatchView('PackingSlip', 'divbuttonPatchAddPkgSlip', 'Edit');
+                    debugger;
                     if (JsonResult.Records.ID) {
                         $("#ID").val(JsonResult.Records.ID);
+                        $('#IsUpdate').val('True'); 
                         BindPkgSlip($("#ID").val());
                     } else {
                         Reset();
@@ -349,12 +355,100 @@ function Save() {
 //PackingSlipDetail data 
 function AddPackingSlipDetailList() {
     debugger;
-    var packingSlipDetail = DataTables.PackingSlipDetailTable.rows().data();
+    var packingSlipDetail = DataTables.ProductListTable.rows(".selected").data();
     for (var r = 0; r < packingSlipDetail.length; r++) {
         pkgDetail = new Object();
         pkgDetail.ProductID = packingSlipDetail[r].ProductID;
         pkgDetail.Qty = packingSlipDetail[r].CurrentPkgQty;
         pkgDetail.Weight = packingSlipDetail[r].PkgWt;
         _packingSlipDetailList.push(pkgDetail);
+    }
+}
+//Bind PkgSlipData
+function BindPkgSlip(ID) {
+    try {
+        debugger;
+        _SlNo = 1;
+        var pkgData = GetPkgSlipByID(ID)
+        if (pkgData) {
+
+            $('#SlipNo').val(pkgData.SlipNo);
+            $('#DateFormatted').val(pkgData.DateFormatted);
+            $('#PackedBy').val(pkgData.PackedBy).select2();
+            $('#SalesOrderID').val(pkgData.SalesOrderID).select2();
+            $('#IssueToDispatchDateFormatted').val(pkgData.IssueToDispatchDateFormatted);
+            $('#TotalPackageWeight').val(pkgData.TotalPackageWeight);
+            $('#PackingRemarks').val(pkgData.PackingRemarks);
+            BindPkgSlipDetail();
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.Message);
+    }
+}
+function GetPkgSlipByID(ID) {
+    try {
+        debugger;
+        var id = $('#ID').val();
+        var data = { "ID": id };
+        var result = "";
+        var message = "";
+        var jsonData = {};
+        var pkgDetailVM = new Object();
+        jsonData = GetDataFromServer("PackingSlip/GetPkgSlipByID/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            pkgDetailVM = jsonData.Record;
+            message = jsonData.Message;
+        }
+        if (result == "OK") {
+            return pkgDetailVM;
+
+        }
+        if (result == "ERROR") {
+            alert(Message);
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.Message);
+    }
+}
+
+function BindPkgSlipDetail()
+{
+    debugger;
+    var id = $("#ID").val()
+    DataTables.PackingSlipDetailTable.clear().rows.add(GetPkgDetail(id)).draw(true);
+}
+
+function GetPkgDetail(id)
+{
+    try
+    {
+        debugger;
+        var data = { "id": id };
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var pkgDetailVM = new Object();
+        jsonData = GetDataFromServer("PackingSlip/GetPkgSlipDetailByID/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            pkgDetailVM = jsonData.Records;
+        }
+        if (result == "OK") {
+            return pkgDetailVM;
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e)
+    {
+        notyAlert('error', e.message);
     }
 }
