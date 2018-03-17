@@ -53,7 +53,7 @@ function BindOrReloadBOMTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [0, 1]
+                                 columns: [2, 3]
                              }
             }],
             ordering: false,
@@ -78,11 +78,11 @@ function BindOrReloadBOMTable(action) {
                 "data": null, render: function (data, type, row) {
                     return ++i;
                 },
-                "defaultContent": "<i>-</i>"
+                "defaultContent": "<i>-</i>","width": '5%'
             },
             { "data": "Product.Name", "defaultContent": "<i>-</i>" },
-            { "data": "Description", "defaultContent": "<i>-</i>" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditBillOfMaterialMaster(this)"<i class="glyphicon glyphicon-share" aria-hidden="true"></i></a>' }
+            { "data": "Description", "defaultContent": "<i>-</i>", "width": "55%" },
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditBillOfMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' ,"width":'3%'}
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [1] },

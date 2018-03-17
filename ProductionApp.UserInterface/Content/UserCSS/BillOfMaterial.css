@@ -1,13 +1,12 @@
-﻿body {
-}
+﻿/*wizard*/
 .wizard {
-    margin: 20px auto;
+    margin: 0px auto;
     background: #fff;
 }
 
     .wizard .nav-tabs {
         position: relative;
-        margin: 40px auto;
+        margin: 0px auto;
         margin-bottom: 0;
         /*border-bottom-color: #e0e0e0;*/
     }
@@ -47,7 +46,7 @@ span.round-tab {
     position: absolute;
     left: 0;
     text-align: center;
-    font-size: 25px;
+    font-size: 35px;
 }
 span.round-tab i{
     color:#555555;
@@ -83,7 +82,7 @@ span.round-tab:hover {
 }
 
 .wizard li.active:after {
-    top: 100px;
+    top: 75px;
     content: " ";
     position: absolute;
     left: 46%;
@@ -97,7 +96,7 @@ span.round-tab:hover {
 .wizard .nav-tabs > li a {
     width: 70px;
     height: 70px;
-    margin: 10px auto;
+    margin: 0px auto;
     border-radius: 100%;
     padding: 0;
 }
@@ -148,4 +147,43 @@ span.round-tab:hover {
         position: absolute;
         left: 35%;
     }
+}
+
+/*selectable*/
+.selectable .ui-selecting {
+    background: #3c8dbc;
+}
+
+.selectable .ui-selected {
+    background: #0babe4;
+    color: white;
+}
+
+.selectable {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 60%;
+}
+
+.ui-selectable {
+	-ms-touch-action: none;
+	touch-action: none;
+}
+
+.selectable li {
+    margin: 3px;
+    /*padding: 0.4em;*/
+    font-size: 1em;
+    height: 18px;
+}
+
+.selectable-list{
+    border:1px solid silver;
+    border-radius: 10px;
+    background-color:white;
+    overflow-y:scroll;
+    max-height:130px;
+    height:130px;
+    margin-bottom:3px;
 }

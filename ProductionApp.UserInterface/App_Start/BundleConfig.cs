@@ -25,6 +25,7 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new StyleBundle("~/Content/css/Select2").Include("~/Content/css/select2.css"));
             bundles.Add(new StyleBundle("~/Content/css/Selectmin").Include("~/Content/css/select2.min.css"));
             bundles.Add(new ScriptBundle("~/Content/UserCSS/BillOfMaterial").Include("~/Content/UserCSS/BillOfMaterial.css"));
+            bundles.Add(new StyleBundle("~/Content/css/jquery-ui").Include("~/Content/css/jquery-ui.css"));
 
             //---------------------
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include("~/Scripts/jquery-3.1.1.min.js"));
@@ -44,6 +45,7 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/MvcDatalist/DataList").Include("~/Scripts/MvcDatalist/mvc-datalist.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/selectmin").Include("~/Scripts/select2.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/select2").Include("~/Scripts/select2.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include("~/Scripts/jquery-ui.js"));
 
             //----------------------
             bundles.Add(new ScriptBundle("~/bundles/ManageAccess").Include("~/Scripts/UserJS/ManageAccess.js"));

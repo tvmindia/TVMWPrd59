@@ -1,2 +1,95 @@
 ﻿@model ProductionApp.UserInterface.Models.BillOfMaterialViewModel
 
+<div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
+<div class="col-md-12">
+
+    <div class="form-group col-md-4">
+        <div class="col-md-12">
+            <label class="control-label lblrequired">Product</label>
+        </div>
+        <div class="col-md-12">
+            @Html.HiddenFor(model => model.Product.Name)
+            <input type="text" id="txtProductName" class="form-control HeaderBox " , disabled="disabled" />
+        </div>
+    </div>
+
+    <div class="form-group col-md-4">
+        <div class="col-md-12">
+            <label class="control-label lblrequired">Product</label>
+        </div>
+        <div class="col-md-12">
+            @Html.HiddenFor(model => model.Product.Name)
+            <input type="text" id="txtProductName" class="form-control HeaderBox " , disabled="disabled" />
+        </div>
+    </div>
+
+</div>
+
+<div class="col-md-12">
+    <div class="form-group col-md-4">
+        <div class="col-md-12">
+            @Html.LabelFor(model => model.BOMComponentLine.ComponentID, htmlAttributes: new { @class = "control-label lblrequired" })
+            @{
+                List<SelectListItem> LineList = new List<SelectListItem>();
+                LineList.Add(new SelectListItem
+                { Text = "All", Value = "00000000-0000-0000-0000-000000000000" });
+                LineList.Add(new SelectListItem
+                { Text = "Line 1 for Casserole 3L", Value = "c03440ed-81a7-4158-8be7-aae8a48562ac" });
+            }
+        </div>
+        <div class="col-md-12">
+            @Html.DropDownListFor(model => model.BOMComponentLine.ComponentID, LineList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;" })
+            @Html.ValidationMessageFor(model => model.BOMComponentLine.ComponentID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group col-md-4">
+        <div class="col-md-12">
+            @Html.LabelFor(model => model.BOMComponentLine.ComponentID, htmlAttributes: new { @class = "control-label lblrequired" })
+            @{
+                List<SelectListItem> StageList = new List<SelectListItem>();
+                StageList.Add(new SelectListItem
+                { Text = "All", Value = "00000000-0000-0000-0000-000000000000" });
+                StageList.Add(new SelectListItem
+                { Text = "Pressing", Value = "0" });
+                StageList.Add(new SelectListItem
+                { Text = "Polishing", Value = "1" });
+                StageList.Add(new SelectListItem
+                { Text = "Coating", Value = "2" });
+            }
+        </div>
+        <div class="col-md-12">
+            @Html.DropDownListFor(model => model.BOMComponentLine.ComponentID, StageList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;" })
+            @Html.ValidationMessageFor(model => model.BOMComponentLine.ComponentID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="col-md-6" style="border-right:1px solid silver">
+
+        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-green" aria-hidden="true"></i> Stages</div>
+        
+
+    </div>
+
+    <div class="col-md-6">
+        <label class="control-label">Production Line:</label>
+
+        <div class="col-md-12" style="height:230px;margin-top:18px">
+            <table id="tblBOMComponentLineDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                <thead>
+                    <tr class="text-center TableHead">
+                        <th>Stage</th>
+                        <th>In/Out</th>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Qty</th>
+                        <th>...</th>
+                        <th>...</th>
+                </thead>
+            </table>
+        </div>
+
+    </div>
+
+</div>
