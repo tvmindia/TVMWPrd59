@@ -390,9 +390,11 @@ namespace ProductionApp.RepositoryServices.Services
                                         salesOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : salesOrder.ID);
                                         salesOrder.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : salesOrder.ProductID);
                                         salesOrder.TaxTypeCode = (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : salesOrder.TaxTypeCode);
+                                        salesOrder.TaxTypeDescription = (sdr["TaxTypeDescription"].ToString() != "" ? sdr["TaxTypeDescription"].ToString() : salesOrder.TaxTypeDescription);
                                         salesOrder.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : salesOrder.UnitCode);
                                         salesOrder.Product = new Product();
                                         salesOrder.Product.Name = (sdr["ProductName"].ToString() != "" ? sdr["ProductName"].ToString() : salesOrder.Product.Name);
+                                        salesOrder.Product.HSNNo = (sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : salesOrder.Product.HSNNo);
                                         salesOrder.Quantity = (sdr["Quantity"].ToString() != "" ? decimal.Parse(sdr["Quantity"].ToString()) : salesOrder.Quantity);
                                         salesOrder.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : salesOrder.Rate);
                                         salesOrder.DiscountPercent = (sdr["DiscountPercent"].ToString() != "" ? decimal.Parse(sdr["DiscountPercent"].ToString()) : salesOrder.DiscountPercent);
