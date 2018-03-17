@@ -102,7 +102,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetAllSalesOrder]";
+                        cmd.CommandText = "[AMC].[GetAllSalesOrderDetail]";
                         cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(salesOrderAdvanceSearch.SearchTerm) ? "" : salesOrderAdvanceSearch.SearchTerm;
                         cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = salesOrderAdvanceSearch.DataTablePaging.Start;
                         if (salesOrderAdvanceSearch.DataTablePaging.Length == -1)
@@ -123,13 +123,18 @@ namespace ProductionApp.RepositoryServices.Services
                                     SalesOrder salesOrder = new SalesOrder();
                                     {
                                         salesOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : salesOrder.ID);
-                                        //salesOrder.ReqNo = (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : salesOrder.ReqNo);
-                                        //salesOrder.ReqDate = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()) : salesOrder.ReqDate);
-                                        //salesOrder.ReqDateFormatted = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()).ToString(settings.DateFormat) : salesOrder.ReqDateFormatted);
-                                        //salesOrder.Title = (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : salesOrder.Title);
-                                        //salesOrder.ReqStatus = (sdr["ReqStatus"].ToString() != "" ? sdr["ReqStatus"].ToString() : salesOrder.ReqStatus);
-                                        //salesOrder.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? sdr["ApprovalStatus"].ToString() : salesOrder.ApprovalStatus);
-                                        //salesOrder.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : salesOrder.RequisitionBy);
+                                        salesOrder.OrderNo = (sdr["OrderNo"].ToString() != "" ? sdr["OrderNo"].ToString() : salesOrder.OrderNo);
+                                        salesOrder.OrderDate = (sdr["OrderDate"].ToString() != "" ? DateTime.Parse(sdr["OrderDate"].ToString()) : salesOrder.OrderDate);
+                                        salesOrder.OrderDateFormatted = (sdr["OrderDate"].ToString() != "" ? DateTime.Parse(sdr["OrderDate"].ToString()).ToString(settings.DateFormat) : salesOrder.OrderDateFormatted);
+                                        salesOrder.CustomerName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : salesOrder.CustomerName);
+                                        salesOrder.SalesOrderDetail = new SalesOrderDetail();
+                                        salesOrder.SalesOrderDetail.ID = (sdr["DetailID"].ToString() != "" ? Guid.Parse(sdr["DetailID"].ToString()) : salesOrder.SalesOrderDetail.ID);
+                                        salesOrder.SalesOrderDetail.Quantity = (sdr["Quantity"].ToString() != "" ? decimal.Parse(sdr["Quantity"].ToString()) : salesOrder.SalesOrderDetail.Quantity);
+                                        salesOrder.SalesOrderDetail.ExpectedDeliveryDate = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()) : salesOrder.SalesOrderDetail.ExpectedDeliveryDate);
+                                        salesOrder.SalesOrderDetail.ExpectedDeliveryDateFormatted = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()).ToString(settings.DateFormat) : salesOrder.SalesOrderDetail.ExpectedDeliveryDateFormatted);
+                                        salesOrder.SalesOrderDetail.Product = new Product();
+                                        salesOrder.SalesOrderDetail.Product.Name = (sdr["ProductName"].ToString() != "" ? sdr["ProductName"].ToString() : salesOrder.SalesOrderDetail.Product.Name);
+                                        salesOrder.SalesOrderDetail.Product.HSNNo = (sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : salesOrder.SalesOrderDetail.Product.HSNNo);
                                         //salesOrder.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : salesOrder.TotalCount);
                                         //salesOrder.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : salesOrder.FilteredCount);
                                     }
@@ -290,7 +295,13 @@ namespace ProductionApp.RepositoryServices.Services
                                         salesOrder.Product.Name= (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : salesOrder.Product.Name);
                                         salesOrder.Product.CurrentStock= (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : salesOrder.Product.CurrentStock);
                                         salesOrder.Quantity = (sdr["OrderQty"].ToString() != "" ? decimal.Parse(sdr["OrderQty"].ToString()) : salesOrder.Quantity);
-                                        salesOrder.PkgQty = (sdr["PackingQty"].ToString() != "" ? decimal.Parse(sdr["PackingQty"].ToString()) : salesOrder.PkgQty);
+                                        salesOrder.PrevPkgQty = (sdr["PackingQty"].ToString() != "" ? decimal.Parse(sdr["PackingQty"].ToString()) : salesOrder.PrevPkgQty);
+                                        salesOrder.PkgWt = (sdr["PkgWt"].ToString() != "" ? decimal.Parse(sdr["PkgWt"].ToString()) : salesOrder.PkgWt);
+                                        decimal Bal = salesOrder.Quantity - salesOrder.PrevPkgQty;
+                                        if (salesOrder.Product.CurrentStock >= Bal)
+                                            salesOrder.CurrentPkgQty = Bal;
+                                        else
+                                            salesOrder.CurrentPkgQty = salesOrder.Product.CurrentStock;
                                     }
                                     salesOrderList.Add(salesOrder);
                                 }
@@ -384,13 +395,18 @@ namespace ProductionApp.RepositoryServices.Services
                                         salesOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : salesOrder.ID);
                                         salesOrder.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : salesOrder.ProductID);
                                         salesOrder.TaxTypeCode = (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : salesOrder.TaxTypeCode);
+                                        salesOrder.TaxTypeDescription = (sdr["TaxTypeDescription"].ToString() != "" ? sdr["TaxTypeDescription"].ToString() : salesOrder.TaxTypeDescription);
                                         salesOrder.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : salesOrder.UnitCode);
                                         salesOrder.Product = new Product();
                                         salesOrder.Product.Name = (sdr["ProductName"].ToString() != "" ? sdr["ProductName"].ToString() : salesOrder.Product.Name);
+                                        salesOrder.Product.HSNNo = (sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : salesOrder.Product.HSNNo);
                                         salesOrder.Quantity = (sdr["Quantity"].ToString() != "" ? decimal.Parse(sdr["Quantity"].ToString()) : salesOrder.Quantity);
                                         salesOrder.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : salesOrder.Rate);
                                         salesOrder.DiscountPercent = (sdr["DiscountPercent"].ToString() != "" ? decimal.Parse(sdr["DiscountPercent"].ToString()) : salesOrder.DiscountPercent);
                                         salesOrder.TradeDiscountAmount = (sdr["TradeDiscountAmount"].ToString() != "" ? decimal.Parse(sdr["TradeDiscountAmount"].ToString()) : salesOrder.TradeDiscountAmount);
+                                        salesOrder.GrossAmount = (sdr["GrossAmount"].ToString() != "" ? decimal.Parse(sdr["GrossAmount"].ToString()) : salesOrder.GrossAmount);
+                                        salesOrder.NetAmount = (sdr["NetAmount"].ToString() != "" ? decimal.Parse(sdr["NetAmount"].ToString()) : salesOrder.NetAmount);
+                                        salesOrder.TaxAmount = (sdr["TaxAmount"].ToString() != "" ? decimal.Parse(sdr["TaxAmount"].ToString()) : salesOrder.TaxAmount);
                                         salesOrder.ExpectedDeliveryDateFormatted = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()).ToString(settings.DateFormat) : salesOrder.ExpectedDeliveryDateFormatted);
 
                                     }

@@ -52,34 +52,35 @@ $(document).ready(function () {
           searching: false,
           paging: false,
           data: null,
+          "bInfo": false,
           autoWidth: false,
           columns: [
           { "data": "ID", "defaultContent": "<i></i>" },
           { "data": "ProductID", "defaultContent": "<i></i>" },
            {
                "data": "", render: function (data, type, row) {
-                   debugger;
                    return _SlNo++
                }, "width": "5%"
            },
           {
               "data": "Product.Name", render: function (data, type, row) {
+                  row.Product.HSNNo=row.Product.HSNNo == null ? "Nill" : row.Product.HSNNo
                   return data + '</br><b>HSNNo: </b>' + row.Product.HSNNo + '</br><b>Expected Delivery: </b>' + row.ExpectedDeliveryDateFormatted
-              }, "defaultContent": "<i></i>", "width": "25%"
+              }, "defaultContent": "<i></i>", "width": "20%"
           },
-          { "data": "TaxTypeCode", "defaultContent": "<i></i>", "width": "7%" },
-          { "data": "Quantity", render: function (data, type, row) { return data + ' ' + row.UnitCode }, "defaultContent": "<i></i>", "width": "10%" },
-          { "data": "Rate", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
-          { "data": "GrossAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
-          {
-              "data": "TradeDiscountAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "9%"
-          },
+          { "data": "TaxTypeDescription", "defaultContent": "<i></i>", "width": "7%" },
+          { "data": "Quantity", render: function (data, type, row) { return data + ' ' + row.UnitCode }, "defaultContent": "<i></i>", "width": "8%" },
+          { "data": "Rate", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "8%" },
+          { "data": "GrossAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "8%" },
+          { "data": "TradeDiscountAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "8%" },
           { "data": "TaxAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "9%" },
           { "data": "NetAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "9%" },
-          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ItemDetailsEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
+          { "data": "ExpectedDeliveryDateFormatted", "defaultContent": "<i></i>", "width": "10%" },
+          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ItemDetailsEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "7%" }
+          
           ],
           columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false },
-              { className: "text-center", "targets": [11,4] },
+              { className: "text-center", "targets": [12,11,4] },
               { className: "text-right", "targets": [6,7,8,9,10] },
               { className: "text-left", "targets": [3,5] }
           ]
@@ -115,17 +116,26 @@ $(document).ready(function () {
 function ItemDetailsEdit(curObj) {
     debugger;
     $('#SalesOrderDetailsModal').modal('show');
+    ClearSalesOrderDetailsModalFields();
     _SlNo = 1;
     var rowData = DataTables.SalesOrderDetailTable.row($(curObj).parents('tr')).data();
-   // BindProductDetails(rowData.ProductID);
-    $("#ProductID").val(rowData.ProductID).trigger('change');
-    //$('#RequisitionDetail_RequestedQty').val(rowData.RequestedQty);
-    //$('#RequisitionDetail_Description').val(rowData.Description);
+    $('#ProductID').attr("disabled", true);
+    $('#modelContextLabel').text("Edit Sales Order Details");
 
+    $("#ProductID").val(rowData.ProductID).trigger('change');
+    $('#SalesOrderDetail_Rate').val(rowData.Rate);
+    $('#SalesOrderDetail_Quantity').val(rowData.Quantity);
+    $('#SalesOrderDetail_DiscountPercent').val(rowData.DiscountPercent);
+    $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val(rowData.ExpectedDeliveryDateFormatted);
+    $('#TaxTypeCode').val(rowData.TaxTypeCode);
+    ProductValueCalculation();
 }
 
 function ShowSalesOrderDetailsModal()
 {
+    $('#ProductID').attr("disabled", false);
+    $('#modelContextLabel').text("Add Sales Order Details");
+
     $('#SalesOrderDetailsModal').modal('show');
     ClearSalesOrderDetailsModalFields();
     $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val($('#ExpectedDeliveryDateFormatted').val());
@@ -181,12 +191,12 @@ function GetProduct(ID) {
 
 function ProductValueCalculation()
 {
-    var rate, qty, discpercent, disc=0, taxTypeCode, taxableAmt=0,taxAmt=0, netAmt=0, GrossAmt=0
-   
+    var product,rate, qty, discpercent, disc=0, taxTypeCode, taxableAmt=0,taxAmt=0, netAmt=0, GrossAmt=0
+    product=$('#ProductID').val();
     rate = $('#SalesOrderDetail_Rate').val();
     qty = $('#SalesOrderDetail_Quantity').val();
 
-    if (rate != "" && qty != "")
+    if (rate != "" && qty != "" && product!="")
     {
         //--------------------Gross Amount-----------------------//
         GrossAmt = rate * qty;
@@ -194,13 +204,23 @@ function ProductValueCalculation()
 
         //--------------------Discount Amount--------------------//
         discpercent = $('#SalesOrderDetail_DiscountPercent').val();
-        if (discpercent != "")
+        if (discpercent > 100)//if greater than 100% set percentage to 0%
+        {
+            $('#SalesOrderDetail_DiscountPercent').val(0);
+            discpercent = 0;
+        }
+        if (discpercent != "" && discpercent!=0)
         {
             disc = GrossAmt * (discpercent / 100);
             $('#SalesOrderDetail_TradeDiscountAmount').val(roundoff(disc));
         }
         else {
-            disc = $('#SalesOrderDetail_TradeDiscountAmount').val();
+            disc = $('#SalesOrderDetail_TradeDiscountAmount').val() == "" ? 0 : $('#SalesOrderDetail_TradeDiscountAmount').val();
+            if(GrossAmt<disc)
+            {
+                $('#SalesOrderDetail_TradeDiscountAmount').val(roundoff(0));
+                disc = 0;
+            }
         }
         //--------------------Taxable Amount---------------------//
         taxableAmt = roundoff(parseFloat(GrossAmt) - parseFloat(disc));
@@ -279,6 +299,8 @@ function AddSalesOrderDetails()
         SalesOrderDetailVM.TaxAmount = $('#SalesOrderDetail_TaxAmount').val();
         SalesOrderDetailVM.NetAmount = $('#SalesOrderDetail_NetAmount').val();
         SalesOrderDetailVM.TaxTypeCode = $('#TaxTypeCode').val();
+        if(SalesOrderDetailVM.TaxTypeCode!="")
+        SalesOrderDetailVM.TaxTypeDescription = $('#TaxTypeCode option:selected').text();
         
         _SalesOrderDetail.push(SalesOrderDetailVM);
 
@@ -299,6 +321,8 @@ function AddSalesOrderDetails()
                         SalesOrderDetailList[i].TaxAmount = $('#SalesOrderDetail_TaxAmount').val();
                         SalesOrderDetailList[i].NetAmount = $('#SalesOrderDetail_NetAmount').val();
                         SalesOrderDetailList[i].TaxTypeCode = $('#TaxTypeCode').val();
+                        if (SalesOrderDetailList[i].TaxTypeCode != "")
+                            SalesOrderDetailList[i].TaxTypeDescription = $('#TaxTypeCode option:selected').text();
                         checkPoint = 1;
                         break;
                     }

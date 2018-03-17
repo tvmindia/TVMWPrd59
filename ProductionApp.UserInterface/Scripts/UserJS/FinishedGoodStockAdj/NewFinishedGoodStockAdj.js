@@ -5,12 +5,12 @@ var _FinishedGoodStockAdjDetailList = [];
 var _SlNo = 1;
 $(document).ready(function (){
 debugger;
-try
-{
-    $('#EmployeeID').select2({
-    });
+    try
+    {
+        $('#EmployeeID').select2({
+        });
 
-    $('#ProuctID').select2({dropdownParent:$('#finishedGoodStockAdjDetailsModal')});
+        $('#ProuctID').select2({ dropdownParent: $('#finishedGoodStockAdjDetailsModal') });
     DataTables.FinishedGoodStockAdjTable=$('#tblFinishedGoodStockAdjDetail').DataTable({
         dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
         ordering: false,
@@ -35,7 +35,7 @@ try
         { "targets": [2], "width": "5%" },
         { "targets": [3,5,6], "width": "10%" },
         { "targets": [4], "width": "15%" },        
-        { "targets": [8], "width": "7%" }]
+        { "targets": [8], "width": "4%" }]
     });
     $("#ProductID").change(function () {
         debugger;
@@ -79,7 +79,7 @@ function ProductEdit(curObj)
     $('#finishedGoodStockAdjDetailsModal').modal('show');
 
     var finishedGoodStockAdjDetailVM = DataTables.FinishedGoodStockAdjTable.row($(curObj).parents('tr')).data();
-    _SlNo = 1;
+   _SlNo = 1;
     BindFinishedGoodStockAdjDetails(finishedGoodStockAdjDetailVM.ProductID);
     
     $('#ProductID').val(finishedGoodStockAdjDetailVM.ProductID).trigger('change');
@@ -90,7 +90,7 @@ function ProductEdit(curObj)
 function BindFinishedGoodStockAdjDetails(id)
 {
     debugger;
-    var result = GetProduct(id);
+    var result = GetProduct(id); _SlNo = 1; 
     $('#FinishedGoodStockAdjDetail_Product_Code').val(result.Code);
     $('#FinishedGoodStockAdjDetail_Product_UnitCode').val(result.UnitCode);
     $('#FinishedGoodStockAdjDetail_Product_Description').val(result.Description);

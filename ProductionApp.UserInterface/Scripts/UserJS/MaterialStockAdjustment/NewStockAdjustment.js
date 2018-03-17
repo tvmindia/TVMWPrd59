@@ -87,6 +87,7 @@ function BindStockAdjustmentDetails(id)
 {
     debugger;
     var result = GetMaterial(id);
+    _SlNo = 1;
     $('#MaterialStockAdjDetail_Material_MaterialCode').val(result.MaterialCode);
     $('#MaterialStockAdjDetail_Material_UnitCode').val(result.UnitCode);
     $('#MaterialStockAdjDetail_Material_Description').val(result.Description);

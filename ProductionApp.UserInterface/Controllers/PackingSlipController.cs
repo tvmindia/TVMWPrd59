@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
+using ProductionApp.UserInterface.SecurityFilter;
+using SAMTool.DataAccessObject.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +19,6 @@ namespace ProductionApp.UserInterface.Controllers
         private IPackingSlipBusiness _packingSlipBusiness;
         private IEmployeeBusiness _employeeBusiness;
         private ISalesOrderBusiness _salesOrderBusiness;
-        Common _common = new Common();
         AppConst _appConst = new AppConst();
         public PackingSlipController(IEmployeeBusiness employeeBusiness, IPackingSlipBusiness packingSlipBusiness, ISalesOrderBusiness salesOrderBusiness)
         {
@@ -27,6 +28,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         #region AddPackingSlip
+        [AuthSecurityFilter(ProjectObject = "PackingSlip", Mode = "R")]
         public ActionResult AddPackingSlip(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
@@ -67,6 +69,24 @@ namespace ProductionApp.UserInterface.Controllers
                 }
             }
             PackingSlipVM.SalesOrder.SelectList = selectListItem;
+            Permission _permission = Session["UserRights"] as Permission;
+            string pkgAccess = _permission.SubPermissionList.Where(li => li.Name == "Packer").First().AccessCode;
+            string disAccess = _permission.SubPermissionList.Where(li => li.Name == "Dispatcher").First().AccessCode;
+            if (pkgAccess.Contains("R") || pkgAccess.Contains("W"))
+            {
+                PackingSlipVM.ShowPkgSec = true;
+                PackingSlipVM.ShowDispatcherSec = false;
+            }
+            if (disAccess.Contains("R") || disAccess.Contains("W"))
+            {
+                PackingSlipVM.ShowPkgSec = false;
+                PackingSlipVM.ShowDispatcherSec = true;
+            }
+            if (pkgAccess.Contains("RWD") && disAccess.Contains("RWD"))
+            {
+                PackingSlipVM.ShowPkgSec = true;
+                PackingSlipVM.ShowDispatcherSec = true;
+            }
             return View(PackingSlipVM);
         }
         #endregion AddPackingSlip
@@ -98,7 +118,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion ListPackingSlips
 
-        #region GetAllPaySlip
+        #region GetAllPackingSlip
         [HttpPost]
         
         public JsonResult GetAllPackingSlip(DataTableAjaxPostModel model, PackingSlipAdvanceSearchViewModel packingSlipAdvanceSearchVM)
@@ -121,7 +141,7 @@ namespace ProductionApp.UserInterface.Controllers
                 data = packingSlipList
             });
         }
-        #endregion GetAllPaySlip
+        #endregion GetAllPakingSlip
 
         #region GetProductList
         public string GetProductList(string id)

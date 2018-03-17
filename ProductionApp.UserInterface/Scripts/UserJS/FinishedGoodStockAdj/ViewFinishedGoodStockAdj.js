@@ -6,11 +6,21 @@ $(document).ready(function () {
         $("#EmployeeID").select2({
         });
         BindOrReloadFGStockAdjustmentTable('init');
+        $('#tblFinishedGoodStockAdjustment tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
     }
     catch (e) {
         console.log(e.message);
     }
 });
+
+function Edit(curObj)
+{
+    debugger;
+    var FinishedGoodStockAdjViewModel = DataTables.FinishedGoodStockAdjustmentList.row($(curObj).parents('tr')).data();
+    window.location.replace('NewFinishedGoodStockAdj?code=STR&ID=' + FinishedGoodStockAdjViewModel.ID);
+}
 
 function BindOrReloadFGStockAdjustmentTable(action) {
     try {
@@ -74,7 +84,7 @@ function BindOrReloadFGStockAdjustmentTable(action) {
                     { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },
                     { "data": "AdjustmentDateFormatted", "defaultContent": "<i>-</i>" },
                     { "data": "AdjustedByEmployeeName", "defaultContent": "<i>-</i>" },
-                    { "data": "Remarks", "defaultContent": "<i>-</i>" },
+                    { "data": "Remarks", "defaultContent": "<i>-</i>","width":"50%" },
                     { "data": "ApprovalStatus", "defaultContent": "<i>-</i>" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
@@ -83,8 +93,7 @@ function BindOrReloadFGStockAdjustmentTable(action) {
                     }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-center", "targets": [2] },
-                { "targets": [4], "width": "30%" }],
+              { className: "text-center", "targets": [2] }],           
                 destroy: true,
                 initComplete: function (settings, json) {
                     if (action === 'Export') {

@@ -1,9 +1,106 @@
-﻿@model ProductionApp.UserInterface.Models.BillOfMaterialViewModel
+﻿@using ProductionApp.UserInterface.App_Start
+@model ProductionApp.UserInterface.Models.BillOfMaterialViewModel
 
 @{
-    ViewBag.Title = "NewBillOfMaterial";
+    ViewBag.Title = "New Bill Of Material";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
-<h2>NewBillOfMaterial</h2>
+@section styles {
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableSelect")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatablecheckbox")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Selectmin")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/UserCSS/BillOfMaterial")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/jquery-ui")
+}
 
+
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href=@Url.Action("Index", "Home")><i class="fa fa-cogs"></i> Home</a></li>
+        <li><a href="#">BOM</a> </li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <span id="lblDescription" class="SCHeader"></span>
+    </div>
+
+    <div class="" id="divButtonPatch" style="min-height:25px;">
+        @{
+            var data = new { actionType = "Add" };
+            @Html.Action("ChangeButtonStyle", "BillOfMaterial", data);
+        }
+    </div>
+</div>
+
+@*Wizard CSS*@
+<div class="row wizard">
+    <div class="wizard-inner">
+        <div class="connecting-line"></div>
+        <ul class="nav nav-tabs" role="tablist" style="border-bottom-color:transparent;background-color:#f8f8f8!important;">
+
+            <li role="presentation" class="active" id="step1" style="background-color:#f8f8f8!important;">
+
+                <a data-toggle="tab" aria-controls="step2" role="tab" title="Component">
+                    <span class="round-tab">
+                        <i class="fa fa-puzzle-piece"></i>
+                    </span>
+                </a>
+                <b class="">Component</b>
+            </li>
+            <li role="presentation" class="disabled" id="step2" style="background-color:#f8f8f8!important;">
+
+                <a data-toggle="tab" aria-controls="step3" role="tab" title="Production Line">
+                    <span class="round-tab">
+                        <i class="fa fa-sitemap"></i>
+                    </span>
+                </a>
+                <b class="">Production Line</b>
+            </li>
+            <li role="presentation" class="disabled" id="step3" style="background-color:#f8f8f8!important;">
+
+                <a data-toggle="tab" aria-controls="step4" role="tab" title="Stagewise Input/Output">
+                    <span class="round-tab">
+                        <i class="fa fa-exchange"></i>
+                    </span>
+                </a>
+                <b class="" style="left:25%!important">Stage Input/Output</b>
+            </li>
+        </ul>
+    </div>
+</div>
+@*Wizard CSS*@
+
+<section>
+    @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty, @id = "IDBillOfMaterial" })
+    @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "", @id = "IsUpdateBOM" })
+    <div class="col-md-12">
+        <div class="row tableContainer" id="divPartial">
+            @{
+                Html.RenderPartial("_AddComponent");
+                //Html.RenderPartial("_AddProductionLine");
+                //Html.RenderPartial("_AddStageDetail");
+            }
+        </div>
+    </div>
+    
+</section>
+
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/BillOfMaterial/NewBillOfMaterial")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/selectmin")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery-ui")
+}

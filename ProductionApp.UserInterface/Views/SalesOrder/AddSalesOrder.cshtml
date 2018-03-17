@@ -100,6 +100,7 @@
                             @Html.ValidationMessageFor(model => model.ExpectedDeliveryDateFormatted, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                   
                 </div>
                 <div class="form-group col-md-4">
                     <div class="form-group col-md-12 box-header figuresummary rounded">
@@ -107,7 +108,7 @@
                             <div class="rightAmtCaption">Sales Order Status</div>
                         </div>
                         <div class="form-group col-md-12">
-                            <div class="lblStatusDisplay" id="lblReqStatus">Pending</div>
+                            <div class="lblStatusDisplay" id="lblReqStatus">Open</div>
                         </div>
                         @*<div class="form-group col-md-12">
                             <div class="rightAmtCaption">Approval Status</div>
@@ -149,6 +150,7 @@
                         <th>Disc Amt</th>
                         <th>Tax Amt</th>
                         <th>Net Amt</th>
+                        <th>Expt. Delivery Date</th>
                         <th>...</th>
                     </tr>
                 </thead>
@@ -156,17 +158,20 @@
         </div>
 
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General Notes</div>
+        <div class="col-md-12">
+            <div class="form-group col-md-8">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-12">
+                    @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control HeaderBox", rows = "8" })
+                </div>
+            </div>
 
-        <div class="form-group col-md-8">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
-            </div>
-            <div class="col-md-12">
-                @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control HeaderBox", rows = "8"  })
-            </div>
         </div>
+       
 
-      
+
         <div>
             @Html.Partial("_Fileupload")
         </div>

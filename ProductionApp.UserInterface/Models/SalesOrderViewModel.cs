@@ -24,6 +24,7 @@ namespace ProductionApp.UserInterface.Models
         public string BillingAddress { get; set; }
         [Display(Name = "Shipping Address")]
         public string ShippingAddress { get; set; }
+        //public string OrderStatus { get; set; }
         public string Remarks { get; set; }
 
         //additional properties
@@ -66,7 +67,9 @@ namespace ProductionApp.UserInterface.Models
         public decimal? DiscountPercent { get; set; }
         
         //additional properties
-        public decimal PkgQty { get; set; }
+        public decimal PrevPkgQty { get; set; }
+        public decimal PkgWt { get; set; }
+        public decimal CurrentPkgQty { get; set; }
         [Display(Name = "Tax Amount")]
         public decimal TaxAmount { get; set; }
         [Display(Name = "Taxable Amount")]
@@ -74,7 +77,8 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Net Amount")]
         public decimal NetAmount { get; set; }
         [Display(Name = "Gross Amount")]
-        public decimal GrossAmount { get; set; }  
+        public decimal GrossAmount { get; set; }
+        public string TaxTypeDescription { get; set; }
 
         [Display(Name = "Expected Delivery Date")]
         public string ExpectedDeliveryDateFormatted { get; set; }
@@ -86,11 +90,13 @@ namespace ProductionApp.UserInterface.Models
     {
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
-        [Display(Name = "FromDate")]
+        [Display(Name = "From Date")]
         public string FromDate { get; set; }
-        [Display(Name = "ToDate")]
+        [Display(Name = "To Date")]
         public string ToDate { get; set; }
+        [Display(Name = "Sales Person")]
         public Guid EmployeeID { get; set; }
+        [Display(Name = "Customer")]
         public Guid CustomerID { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
 
