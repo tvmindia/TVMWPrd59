@@ -17,6 +17,12 @@ namespace ProductionApp.BusinessService.Services
             _customerRepository = customerRepository;
         }
 
+        public Customer GetCustomer(Guid customerId)
+        {
+            return _customerRepository.GetCustomer(customerId);
+
+        }
+
         public List<Customer> GetCustomerForSelectList()
         {
             return _customerRepository.GetCustomerForSelectList();

@@ -90,6 +90,10 @@ $(document).ready(function () {
             BindProductDetails(this.value);
             ProductValueCalculation();
         });
+        $("#CustomerID").change(function () {
+            BindCustomerDetails(this.value);
+            
+        });
         $(".Calculation").change(function () {
             debugger;
             ProductValueCalculation();
@@ -112,6 +116,36 @@ $(document).ready(function () {
         console.log(e.message);
     }
 });
+
+
+
+function BindCustomerDetails(customerId)
+{
+    var customerVM = GetCustomerDetails(customerId)
+    $('#BillingAddress').val(customerVM.BillingAddress);
+    $('#ShippingAddress').val(customerVM.ShippingAddress);
+
+}
+function GetCustomerDetails(customerId) {
+    try {
+        var data = { "customerId": customerId };
+
+        _jsonData = GetDataFromServer("Customer/GetCustomerDetails/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+        }
+        if (_jsonData.Result == "OK") {
+            return _jsonData.Records;
+        }
+        if (_jsonData.Result == "ERROR") {
+            alert(_jsonData.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
 
 function ItemDetailsEdit(curObj) {
     debugger;
