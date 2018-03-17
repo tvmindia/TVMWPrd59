@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProductionApp.DataAccessObject.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,11 @@ namespace ProductionApp.BusinessService.Contracts
 {
     public interface IBillOfMaterialBusiness
     {
+        List<BillOfMaterial> GetAllBillOfMaterial(BillOfMaterialAdvanceSearch billOfMaterialAdvanceSearch);
+        object InsertUpdateBillOfMaterial(BillOfMaterial billOfMaterial);
+        BillOfMaterial GetBillOfMaterial(Guid id);
+        List<BillOfMaterialDetail> GetBillOfMaterialDetail(Guid id);
+        object DeleteBillOfMaterial(Guid id);
+        object DeleteBillOfMaterialDetail(Guid id);
     }
 }
