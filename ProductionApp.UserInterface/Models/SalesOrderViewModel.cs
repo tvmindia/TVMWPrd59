@@ -24,6 +24,7 @@ namespace ProductionApp.UserInterface.Models
         public string BillingAddress { get; set; }
         [Display(Name = "Shipping Address")]
         public string ShippingAddress { get; set; }
+        public string OrderStatus { get; set; }
         public string Remarks { get; set; }
 
         //additional properties

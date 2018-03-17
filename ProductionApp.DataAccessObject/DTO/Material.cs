@@ -13,6 +13,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal Rate { get; set; }
         public string MaterialTypeCode { get; set; }
         public string Description { get; set; }
+        public string HSNNo { get; set; }
         public string UnitCode { get; set; }
         public decimal ReorderQty { get; set; }
         public decimal CurrentStock { get; set; }

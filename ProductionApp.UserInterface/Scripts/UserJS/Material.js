@@ -66,7 +66,7 @@ function BindOrReloadMaterialTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [ 1,2,3,4,5,6,7,8,9,10]
+                                 columns: [ 1,2,3,4,5,6,7,8,9,10,11]
                              }
             }],
             ordering: false,
@@ -90,6 +90,7 @@ function BindOrReloadMaterialTable(action) {
             { "data": "MaterialCode", "defaultContent": "<i>-</i>" },
             { "data": "MaterialType.Description", "defaultContent": "<i>-<i>" },
             { "data": "Description", "defaultContent": "<i>-<i>" },
+            { "data": "HSNNo", "defaultContent": "<i>-<i>" },
             { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
             {
                 "data": "Rate", render: function (data, type, row) {
@@ -115,8 +116,8 @@ function BindOrReloadMaterialTable(action) {
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteMaterialMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [5,6,7,8,9,10,11] },
-                { className: "text-left", "targets": [1,2, 3,4,6] },
+                { className: "text-right", "targets": [6,11] },
+                { className: "text-left", "targets": [1,2, 3,4,5,7,8,9,10] },
                 { className: "text-center", "targets": [] }],
             destroy: true,
             //for performing the import operation after the data loaded

@@ -23,17 +23,21 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Material Type")]
         public string MaterialTypeCode { get; set; }
         public string Description { get; set; }
+        public string HSNNo { get; set; }
         [Required(ErrorMessage = "Please Enter UnitCode")]
         [Display(Name = "Unit Code")]
         public string UnitCode { get; set; }
-        [Display(Name = "Reorder Qty")]
+        [Display(Name = "Reorder Quantity")]
         public decimal? ReorderQty { get; set; }
         //additional fields 
         public Guid MaterialID { get; set; }
         [Display(Name = "Current Stock")]
         public decimal CurrentStock { get; set; }
+        [Display(Name = "Opening Stock")]
         public decimal OpeningStock { get; set; }
+        [Display(Name = "Weight In KG")]
         public decimal WeightInKG { get; set; }
+        [Display(Name = "Cost Price")]
         public decimal CostPrice { get; set; }
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }

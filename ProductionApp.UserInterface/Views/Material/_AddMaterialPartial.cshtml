@@ -1,19 +1,38 @@
 ﻿@model ProductionApp.UserInterface.Models.MaterialViewModel
 
+@*<style>
+    /*To Set Only Vertical Scrollbar*/
+.verticalscroll
+{
+overflow-x: hidden;
+overflow-y: auto;
+height:550px;
+border-top:30px;
+/*background-color:#2d80e8;
+width:350px;
+height:150px;*/
+}
+#divFooter
+{
+    position: fixed;
+    bottom: 2px;
+}
+</style>*@
+
 @using (Ajax.BeginForm("InsertUpdateMaterial", "Material", null, new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessMaterial", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "OnMasterBegin", OnComplete = "OnMasterComplete" }, new { @class = "form-horizontal", role = "form", id = "FormMaterial" }))
 {
     @Html.AntiForgeryToken()
+    @*<div class="verticalscroll">*@
+        <div class="form-horizontal">
+            @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
+            @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-horizontal">
-    @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
-    @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-group col-md-12">
-            <div class="col-md-12">
+            <div class="form-group col-md-12">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.MaterialCode, htmlAttributes: new { @class = "control-label lblrequired" })
-                </div>
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.MaterialCode, htmlAttributes: new { @class = "control-label lblrequired" })
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -23,25 +42,25 @@
                 </div>
             </div>
 
-        <div class="form-group col-md-12">
-            <div class="col-md-12">
+            <div class="form-group col-md-12">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.Rate, htmlAttributes: new { @class = "control-label lblrequired" })
-                </div>
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Rate, htmlAttributes: new { @class = "control-label lblrequired" })
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency" } })
                         @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
 
-        <div class="form-group col-md-12">
-            <div class="col-md-12">
+            <div class="form-group col-md-12">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.MaterialTypeCode, htmlAttributes: new { @class = "control-label lblrequired" })
-                </div>
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.MaterialTypeCode, htmlAttributes: new { @class = "control-label lblrequired" })
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -53,11 +72,11 @@
                 </div>
             </div>
 
-        <div class="form-group col-md-12">
-            <div class="col-md-12">
+            <div class="form-group col-md-12">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
-                </div>
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label lblrequired" })
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -67,11 +86,11 @@
                 </div>
             </div>
 
-        <div class="form-group col-md-12">
-            <div class="col-md-12">
+            <div class="form-group col-md-12">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.UnitCode, htmlAttributes: new { @class = "control-label lblrequired" })
-                </div>
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.UnitCode, htmlAttributes: new { @class = "control-label lblrequired" })
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -83,11 +102,11 @@
                 </div>
             </div>
 
-        <div class="form-group col-md-12">
-            <div class="col-md-12">
+            <div class="form-group col-md-12">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.ReorderQty, htmlAttributes: new { @class = "control-label" })
-                </div>
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.ReorderQty, htmlAttributes: new { @class = "control-label" })
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -97,11 +116,11 @@
                 </div>
             </div>
 
-        <div class="form-group col-md-12">
-            <div class="col-md-12">
+            <div class="form-group col-md-12">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.CurrentStock, htmlAttributes: new { @class = "control-label" })
-                </div>
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.CurrentStock, htmlAttributes: new { @class = "control-label" })
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -111,11 +130,11 @@
                 </div>
             </div>
 
-        <div class="form-group col-md-12">
-            <div class="col-md-12">
+            <div class="form-group col-md-12">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.OpeningStock, htmlAttributes: new { @class = "control-label" })
-                </div>
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.OpeningStock, htmlAttributes: new { @class = "control-label" })
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -125,11 +144,11 @@
                 </div>
             </div>
 
-        <div class="form-group col-md-12">
-            <div class="col-md-12">
+            <div class="form-group col-md-12">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.WeightInKG, htmlAttributes: new { @class = "control-label" })
-                </div>
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.WeightInKG, htmlAttributes: new { @class = "control-label" })
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -138,32 +157,47 @@
                     </div>
                 </div>
             </div>
-
-        <div class="form-group col-md-12">
-            <div class="col-md-12">
+            <div class="form-group col-md-12">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label" })
-                </div>
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.HSNNo, htmlAttributes: new { @class = "control-label" })
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.HSNNo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.HSNNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-12">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency" } })
                         @Html.ValidationMessageFor(model => model.CostPrice, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
 
 
-        <div class="form-group ">
-            <div class="col-md-12">
-                <input type="submit" value="Save Changes" id="btnSaveMaster"  class="btn btn-info" style="margin-left:5%" />
-                <img src="~/Content/images/MasterLoading.gif" id="imgMasterLoading" style="display:none" />
-            </div>
+            <div class="form-group "id="divFooter">
+                <div class="col-md-12">
+                    <input type="submit" value="Save Changes" id="btnSaveMaster" class="btn btn-info" style="margin-left:5%" />
+                    <img src="~/Content/images/MasterLoading.gif" id="imgMasterLoading" style="display:none" />
+                </div>
+            @*</div>*@
+
         </div>
-    </div>
-}
-<script>
-    $(document).ready(function () {
-        $.validator.unobtrusive.parse("#FormMaterial");
-    });
-</script>
+        </div>
+        }
+        <script>
+            $(document).ready(function () {
+                $.validator.unobtrusive.parse("#FormMaterial");
+            });
+        </script>
