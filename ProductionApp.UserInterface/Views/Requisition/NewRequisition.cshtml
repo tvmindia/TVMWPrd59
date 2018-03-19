@@ -2,7 +2,14 @@
 @model ProductionApp.UserInterface.Models.RequisitionViewModel
 @using ProductionApp.UserInterface.Models
 @{
-    ViewBag.Title = "New Requisition";
+    if (Model.IsUpdate)
+    {
+        ViewBag.Title = "Edit Requisition";
+    }
+    else
+    {
+        ViewBag.Title = "Add Requisition";
+    }
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 @section styles {
