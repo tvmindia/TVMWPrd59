@@ -372,11 +372,10 @@ function Delete(curobj)
 function DeleteTempItem(Rowindex)
 {
     debugger;
-    //var Itemtabledata = DataTables.RequisitionDetailList.rows().data();
-    //Itemtabledata.splice(Rowindex, 1);
-    //DataTables.RequisitionDetailList.clear().rows.add(Itemtabledata).draw(false);
     _SlNo = 1;
-    DataTables.RequisitionDetailTable.row(Rowindex).remove().draw(false);
+    var Itemtabledata = DataTables.RequisitionDetailTable.rows().data();
+    Itemtabledata.splice(Rowindex, 1);
+    DataTables.RequisitionDetailTable.clear().rows.add(Itemtabledata).draw(false);
     notyAlert('success', 'Deleted Successfully');
 }
 

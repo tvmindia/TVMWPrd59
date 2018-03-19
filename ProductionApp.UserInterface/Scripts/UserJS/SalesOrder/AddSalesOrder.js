@@ -515,9 +515,11 @@ function Delete(curobj) {
 }
 
 function DeleteTempItem(Rowindex) {
-    debugger; 
+    debugger;
+    var Itemtabledata = DataTables.SalesOrderDetailTable.rows().data();
+    Itemtabledata.splice(Rowindex, 1);
     _SlNo = 1;
-    DataTables.SalesOrderDetailTable.row(Rowindex).remove().draw(false);
+    DataTables.SalesOrderDetailTable.clear().rows.add(Itemtabledata).draw(false);
     notyAlert('success', 'Deleted Successfully');
 }
 
