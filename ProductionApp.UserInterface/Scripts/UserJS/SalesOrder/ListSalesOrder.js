@@ -38,6 +38,15 @@ function Edit(curObj,flag) {
     window.location.replace("AddSalesOrder?code=SALE&ID=" + rowData.ID);
 
 }
+
+//Advance Search Apply Button Click
+function BindOrReloadTables(action)
+{
+    BindOrReloadSalesOrderTable(action);
+    BindOrReloadSalesOrderDetailTable(action)
+}
+
+
 //bind sales order list
 function BindOrReloadSalesOrderTable(action) {
     try {
@@ -52,15 +61,16 @@ function BindOrReloadSalesOrderTable(action) {
                 $('#SearchTerm').val('');
                 $('#FromDate').val('');
                 $('#ToDate').val('');
-
+                $('#CustomerID').val('').select2();
+                $('#EmployeeID').val('').select2();
                 break;
             case 'Init':
                 break;
-            case 'Search':
-                break;
-            case 'Apply':
+            case 'Search': 
                 SalesOrderAdvanceSearchViewModel.FromDate = $('#FromDate').val();
                 SalesOrderAdvanceSearchViewModel.ToDate = $('#ToDate').val();
+                SalesOrderAdvanceSearchViewModel.CustomerID = $('#CustomerID').val();
+                SalesOrderAdvanceSearchViewModel.EmployeeID = $('#EmployeeID').val();
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
@@ -127,8 +137,7 @@ function BindOrReloadSalesOrderTable(action) {
     }
 }
 
-
-
+//Bind Sales Order Detail List
 function BindOrReloadSalesOrderDetailTable(action) {
     try {
         //creating advancesearch object
@@ -142,15 +151,17 @@ function BindOrReloadSalesOrderDetailTable(action) {
                 $('#SearchTerm').val('');
                 $('#FromDate').val('');
                 $('#ToDate').val('');
+                $('#CustomerID').val('').select2();
+                $('#EmployeeID').val('').select2();
 
                 break;
             case 'Init':
                 break;
             case 'Search':
-                break;
-            case 'Apply':
                 SalesOrderAdvanceSearchViewModel.FromDate = $('#FromDate').val();
                 SalesOrderAdvanceSearchViewModel.ToDate = $('#ToDate').val();
+                SalesOrderAdvanceSearchViewModel.CustomerID = $('#CustomerID').val();
+                SalesOrderAdvanceSearchViewModel.EmployeeID = $('#EmployeeID').val();
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
@@ -229,10 +240,12 @@ function BindOrReloadSalesOrderDetailTable(action) {
 //function reset the list to initial
 function ResetSalesOrderList() {
     BindOrReloadSalesOrderTable('Reset');
+    BindOrReloadSalesOrderDetailTable('Reset');
 }
 //function export data to excel
 function ImportSalesOrderData() {
     BindOrReloadSalesOrderTable('Export');
+   // BindOrReloadSalesOrderDetailTable('Export');
 }
 
 function ShowHideDataTables()
