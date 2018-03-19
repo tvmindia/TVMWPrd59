@@ -62,6 +62,7 @@ namespace ProductionApp.BusinessService.Services
         public object DeleteMaterialStockAdjustmentDetail(Guid id)
         {
             return _materialStockAdjRepository.DeleteMaterialStockAdjustmentDetail(id);
-        }
+        }      
+
     }
 }

@@ -15,10 +15,12 @@ namespace ProductionApp.UserInterface.Controllers
         #region Constructor Injection
         IMaterialReceiptBusiness _materialReceiptBusiness;
         IIssueToProductionBusiness _issueToProductionBusiness;
-        public DashboardStoreController(IMaterialReceiptBusiness materialReceiptBusiness, IIssueToProductionBusiness issueToProductionBusiness)
+        IDocumentApprovalBusiness _documentApprovalBusiness;
+        public DashboardStoreController(IMaterialReceiptBusiness materialReceiptBusiness, IIssueToProductionBusiness issueToProductionBusiness,IDocumentApprovalBusiness documentApprovalBusiness)
         {
             _materialReceiptBusiness = materialReceiptBusiness;
             _issueToProductionBusiness = issueToProductionBusiness;
+            _documentApprovalBusiness = documentApprovalBusiness;
         }
         #endregion Constructor Injection
 
@@ -31,9 +33,9 @@ namespace ProductionApp.UserInterface.Controllers
 
         public ActionResult MyApprovals()
         {
-            MaterialStockAdjViewModel MaterialStockAdj = new MaterialStockAdjViewModel();
-            MaterialStockAdj.MaterialStockAdjList = new List<MaterialStockAdjViewModel>();
-            return PartialView("_MyApprovals",MaterialStockAdj);
+            DocumentApprovalViewModel DocumentApproval = new DocumentApprovalViewModel();
+            DocumentApproval.DocumentApprovalList = Mapper.Map<List<DocumentApproval>, List<DocumentApprovalViewModel>>(_documentApprovalBusiness.GetStockAdjApprovalSummary());
+            return PartialView("_MyApprovals", DocumentApproval);
         }
 
         public ActionResult IssueSummary()

@@ -22,5 +22,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         object SendDocForApproval(Guid documentID, string documentTypeCode, string approvers, string createdBy, DateTime createdDate);
         object ReSendDocForApproval(Guid documentID, string documentTypeCode, Guid latestApprovalID, string createdBy, DateTime createdDate);
         DocumentApprovalMailDetail GetApprovalMailDetails(Guid DocumentID, string DocumentTypeCode);
+        List<DocumentApproval> GetStockAdjApprovalSummary();
     }
 }

@@ -90,6 +90,10 @@ $(document).ready(function () {
             BindProductDetails(this.value);
             ProductValueCalculation();
         });
+        $("#CustomerID").change(function () {
+            BindCustomerDetails(this.value);
+            
+        });
         $(".Calculation").change(function () {
             debugger;
             ProductValueCalculation();
@@ -112,6 +116,36 @@ $(document).ready(function () {
         console.log(e.message);
     }
 });
+
+
+
+function BindCustomerDetails(customerId)
+{
+    var customerVM = GetCustomerDetails(customerId)
+    $('#BillingAddress').val(customerVM.BillingAddress);
+    $('#ShippingAddress').val(customerVM.ShippingAddress);
+
+}
+function GetCustomerDetails(customerId) {
+    try {
+        var data = { "customerId": customerId };
+
+        _jsonData = GetDataFromServer("SalesOrder/GetCustomerDetails/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+        }
+        if (_jsonData.Result == "OK") {
+            return _jsonData.Records;
+        }
+        if (_jsonData.Result == "ERROR") {
+            alert(_jsonData.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
 
 function ItemDetailsEdit(curObj) {
     debugger;
@@ -406,6 +440,7 @@ function BindSalesOrderByID()
     var ID = $('#ID').val();
     _SlNo = 1;
     var salesOrderVM = GetSalesOrderByID(ID);
+    $('#lblSalesOrderNo').text('Sales Order# :' + salesOrderVM.OrderNo);
     $('#OrderNo').val(salesOrderVM.OrderNo);
     $('#OrderDateFormatted').val(salesOrderVM.OrderDateFormatted);
     $('#ExpectedDeliveryDateFormatted').val(salesOrderVM.ExpectedDeliveryDateFormatted);
@@ -480,9 +515,11 @@ function Delete(curobj) {
 }
 
 function DeleteTempItem(Rowindex) {
-    debugger; 
+    debugger;
+    var Itemtabledata = DataTables.SalesOrderDetailTable.rows().data();
+    Itemtabledata.splice(Rowindex, 1);
     _SlNo = 1;
-    DataTables.SalesOrderDetailTable.row(Rowindex).remove().draw(false);
+    DataTables.SalesOrderDetailTable.clear().rows.add(Itemtabledata).draw(false);
     notyAlert('success', 'Deleted Successfully');
 }
 

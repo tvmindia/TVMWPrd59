@@ -21,6 +21,6 @@ namespace ProductionApp.BusinessService.Contracts
         object SendDocForApproval(Guid documentID, string documentTypeCode, string approvers, string createdBy, DateTime createdDate);
         object ReSendDocForApproval(Guid documentID, string documentTypeCode, Guid latestApprovalID, string createdBy, DateTime createdDate);
         Task<bool> SendApprolMails(Guid documentID, string documentType);
-
+        List<DocumentApproval> GetStockAdjApprovalSummary();
     }
 }

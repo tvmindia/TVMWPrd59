@@ -22,5 +22,33 @@ namespace ProductionApp.BusinessService.Services
         {
             return _packingSlipRepository.GetAllPackingSlip(paySlipAdvanceSearch);
         }
+        public object InsertUpdatePackingSlip(PackingSlip packingSlip)
+        {
+            DetailsXMl(packingSlip);
+            return _packingSlipRepository.InsertUpdatePackingSlip(packingSlip);
+        }
+
+        public void DetailsXMl(PackingSlip packingSlip)
+        {
+            string result = "<Details>";
+            int totalRows = 0;
+            foreach (object some_object in packingSlip.PackingSlipDetailList)
+            {
+                _commonBusiness.XML(some_object, ref result, ref totalRows);
+            }
+            result = result + "</Details>";
+
+            packingSlip.DetailXML = result;
+        }
+
+        public PackingSlip GetPkgSlipByID(Guid id)
+        {
+            return _packingSlipRepository.GetPkgSlipByID(id);
+        }
+
+        public List<PackingSlipDetail> GetPkgSlipDetailByID(Guid id)
+        {
+            return _packingSlipRepository.GetPkgSlipDetailByID(id);
+        }
     }
 }

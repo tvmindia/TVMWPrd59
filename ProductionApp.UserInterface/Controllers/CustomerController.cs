@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
@@ -40,5 +41,21 @@ namespace ProductionApp.UserInterface.Controllers
             return PartialView("_CustomerDropdown", customerVM);
 
         }
+
+        #region GetCustomerDetails
+        //[AuthSecurityFilter(ProjectObject = "", Mode = "R")]
+        public string GetCustomerDetails(string customerId)
+        {
+            try
+            {
+                CustomerViewModel customerVM = Mapper.Map<Customer, CustomerViewModel>(_customerBusiness.GetCustomer(Guid.Parse(customerId)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetSupplierDetails
     }
 }

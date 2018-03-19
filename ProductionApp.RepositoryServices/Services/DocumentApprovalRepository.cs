@@ -517,9 +517,57 @@ namespace ProductionApp.RepositoryServices.Services
 
 
         }
+
+        #region GetStockAdjustmentApprovalSummary
+        public List<DocumentApproval> GetStockAdjApprovalSummary()
+        {
+            List<DocumentApproval> documentApprovalList = new List<DocumentApproval>();
+            DocumentApproval documentApproval = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetStockAdjApprovalSummary]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    documentApproval = new DocumentApproval();
+                                    documentApproval.DocumentID = (sdr["DocumentID"].ToString() != "" ? Guid.Parse(sdr["DocumentID"].ToString()) : Guid.Empty);
+                                    documentApproval.DocumentType = (sdr["DocumentType"].ToString() != "" ? sdr["DocumentType"].ToString() : documentApproval.DocumentType);
+                                    documentApproval.DocumentNo = (sdr["DocumentNo"].ToString() != "" ? sdr["DocumentNo"].ToString() : documentApproval.DocumentNo);
+                                    documentApproval.DocumentDateFormatted = (sdr["DocumentDate"].ToString() != "" ? DateTime.Parse(sdr["DocumentDate"].ToString()).ToString(settings.DateFormat) : documentApproval.DocumentDateFormatted);
+                                    documentApproval.DocumentStatus = (sdr["DocumentStatus"].ToString() != "" ? sdr["DocumentStatus"].ToString() : documentApproval.DocumentStatus);
+                                    documentApproval.ApprovalLogID = (sdr["ApprovalLogID"].ToString() !=""? Guid.Parse(sdr["ApprovalLogID"].ToString()) : Guid.Empty);
+                                    documentApproval.DocumentTypeCode = (sdr["DocumentTypeCode"].ToString() != "" ? sdr["DocumentTypeCode"].ToString() : documentApproval.DocumentTypeCode);
+                                    documentApprovalList.Add(documentApproval);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return documentApprovalList;
+        }
+
+        #endregion
     }
 
 
 
-   
+
 }

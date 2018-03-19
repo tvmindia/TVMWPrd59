@@ -29,6 +29,7 @@ namespace ProductionApp.UserInterface.Models
 
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
+        public List<DocumentApprovalViewModel> DocumentApprovalList { get; set; }
     }
 
     public class ApprovalHistoryViewModel

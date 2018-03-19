@@ -77,6 +77,11 @@ namespace ProductionApp.BusinessService.Services
             return _documentApprovalRepository.ReSendDocForApproval(documentID, documentTypeCode, latestApprovalID, createdBy, createdDate);
         }
 
+        public List<DocumentApproval> GetStockAdjApprovalSummary()
+        {
+            return _documentApprovalRepository.GetStockAdjApprovalSummary();
+        }
+
 
 
         public async Task<bool> SendApprolMails(Guid documentID, string documentType) {

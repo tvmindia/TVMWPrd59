@@ -28,6 +28,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public Common Common { get; set; }
         public Employee Employee { get; set; }
         public SalesOrder SalesOrder { get; set; }
+        public PackingSlipDetail PackingSlipDetail { get; set; }
+        public List<PackingSlipDetail> PackingSlipDetailList { get; set; }
+        public string DetailXML { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public string DateFormatted { get; set; }
@@ -37,6 +40,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string PackedByEmployeeName { get; set; }
         public string DispatchedByEmployeeName { get; set; }
         public bool IsUpdate { get; set; }
+        public string DetailJSON { get; set; }
     }
 
     public class PackingSlipDetail
@@ -46,6 +50,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid ProductID { get; set; }
         public decimal Qty { get; set; }
         public decimal Weight { get; set; }
+        //Additional properties
+        public string Name { get; set; }
     }
     public class PackingSlipAdvanceSearch
     {

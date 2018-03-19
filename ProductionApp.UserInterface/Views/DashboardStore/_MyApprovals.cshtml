@@ -1,4 +1,4 @@
-﻿@model ProductionApp.UserInterface.Models.MaterialStockAdjViewModel
+﻿@model ProductionApp.UserInterface.Models.DocumentApprovalViewModel
 
 <div class="col-md-12">
     <div class="box box-info">
@@ -12,26 +12,26 @@
                 <table class="table no-margin">
                     <thead style="display:table;width:100%;table-layout:fixed;">
                         <tr>
-                            <th>Name</th>
-                            <th>Material</th>
-                            <th>Qty.</th>
+                            <th>Doc.No</th>
+                            <th>Doc.Type</th>
+                            <th>Status.</th>
                             <th>Date</th>
                         </tr>
                     </thead>
-                    <tbody style="height:150px;max-height:500px;display:table;overflow-y:scroll;table-layout:auto;width:100%;">@*Need display to be changed into block*@
-                        @if (Model.MaterialStockAdjList != null)
+                    <tbody style="height:250px;max-height:500px;display:block;overflow-y:scroll;width:100%;">@*Need display to be changed into block*@
+                        @if (Model.DocumentApprovalList != null)
                         {
-                            for (int i = 0; i < Model.MaterialStockAdjList.Count; i++)
+                            for (int i = 0; i < Model.DocumentApprovalList.Count; i++)
                             {
                                 <tr>
-                                    <th><a href="@Model.MaterialStockAdjList[i].ID">@Model.MaterialStockAdjList[i].Employee.Name</a></th>
-                                    <td>@Model.MaterialStockAdjList[i].Material.Description</td>
-                                    <td>@Model.MaterialStockAdjList[i].MaterialStockAdjDetail.Qty</td>
-                                    <td><span class="label label-info bg-olive ">@Model.MaterialStockAdjList[i].AdjustmentDateFormatted</span></td>
+                                    <th><a href="DocumentApproval/ApproveDocument?code=STR&ID=@Model.DocumentApprovalList[i].ApprovalLogID&DocType=@Model.DocumentApprovalList[i].DocumentTypeCode&DocID=@Model.DocumentApprovalList[i].DocumentID">@Model.DocumentApprovalList[i].DocumentNo</a></th>
+                                    <td>@Model.DocumentApprovalList[i].DocumentType</td>
+                                    <td>@Model.DocumentApprovalList[i].DocumentStatus</td>
+                                    <td><span class="label label-info bg-olive ">@Model.DocumentApprovalList[i].DocumentDateFormatted</span></td>
                                 </tr>
                             }
 
-                            for (int i = (Model.MaterialStockAdjList == null ? 0 : Model.MaterialStockAdjList.Count); i < 5; i++)
+                            for (int i = (Model.DocumentApprovalList == null ? 0 : Model.DocumentApprovalList.Count); i < 5; i++)
                             {
                                 <tr>
                                     <th>-</th>

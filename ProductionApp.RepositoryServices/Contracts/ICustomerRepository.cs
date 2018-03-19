@@ -10,6 +10,6 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface ICustomerRepository
     {
         List<Customer> GetCustomerForSelectList();
-
+        Customer GetCustomer(Guid customerId);
     }
 }
