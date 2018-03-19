@@ -16,18 +16,25 @@ $(document).ready(function () {
         
         BindOrReloadSalesOrderTable('Init');
         BindOrReloadSalesOrderDetailTable('Init');
-        //$('#tblSalesOrderSummaryView tbody').on('dblclick', 'td', function () {
-        //    Edit(this);
-        //});
+        $('#tblSalesOrderSummaryView tbody').on('dblclick', 'td', function () {
+            Edit(this,1);
+        });
+        $('#tblSalesOrderDetailView tbody').on('dblclick', 'td', function () {
+            Edit(this, 0);
+        });
     }
     catch (e) {
         console.log(e.message);
     }
 });
 
-function Edit(curObj) {
+function Edit(curObj,flag) {
     debugger;
-    var rowData = DataTables.SalesOrderList.row($(curObj).parents('tr')).data();
+    if(flag)
+        var rowData = DataTables.SalesOrderSummaryView.row($(curObj).parents('tr')).data();
+    else
+        var rowData = DataTables.SalesOrderDetailView.row($(curObj).parents('tr')).data();
+
     window.location.replace("AddSalesOrder?code=SALE&ID=" + rowData.ID);
 
 }

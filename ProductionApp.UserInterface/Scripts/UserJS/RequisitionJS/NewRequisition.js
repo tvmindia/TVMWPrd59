@@ -101,7 +101,8 @@ function ShowRequisitionDetailsModal()
         $('#RequisitionDetail_Description').val('');
         $('#RequisitionDetail_ApproximateRate').val('');
         $('#RequisitionDetail_RequestedQty').val('');
-
+        $('#MaterialID').attr("disabled", false);
+        $('#modelContextLabel').text("Add Requisition Details");
         $('#RequisitionDetailsModal').modal('show');
     }
 }
@@ -110,6 +111,8 @@ function MaterialEdit(curObj)
 {
     debugger;
     $('#RequisitionDetailsModal').modal('show');
+    $('#MaterialID').attr("disabled", true);
+    $('#modelContextLabel').text("Edit Requisition Details");
     _SlNo = 1;
     var rowData = DataTables.RequisitionDetailTable.row($(curObj).parents('tr')).data();
     BindMaterialDetails(rowData.MaterialID);

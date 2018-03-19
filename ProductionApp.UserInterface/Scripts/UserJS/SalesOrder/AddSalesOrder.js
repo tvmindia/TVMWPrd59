@@ -440,6 +440,7 @@ function BindSalesOrderByID()
     var ID = $('#ID').val();
     _SlNo = 1;
     var salesOrderVM = GetSalesOrderByID(ID);
+    $('#lblSalesOrderNo').text('Sales Order# :' + salesOrderVM.OrderNo);
     $('#OrderNo').val(salesOrderVM.OrderNo);
     $('#OrderDateFormatted').val(salesOrderVM.OrderDateFormatted);
     $('#ExpectedDeliveryDateFormatted').val(salesOrderVM.ExpectedDeliveryDateFormatted);
