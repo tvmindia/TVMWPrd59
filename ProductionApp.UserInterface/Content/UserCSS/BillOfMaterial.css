@@ -2,6 +2,8 @@
 .wizard {
     margin: 0px auto;
     background: #fff;
+    text-align: center;
+
 }
 
     .wizard .nav-tabs {
@@ -85,7 +87,7 @@ span.round-tab:hover {
     top: 75px;
     content: " ";
     position: absolute;
-    left: 46%;
+    left: 47%;
     opacity: 1;
     margin: 0 auto;
     bottom: 0px;
@@ -102,11 +104,7 @@ span.round-tab:hover {
 }
 
 .wizard .nav-tabs > li b {
-    width: 70px;
-    height: 70px;
     margin: 10px auto;
-    margin-left:40%;
-    text-align:right;
 }
 
 .wizard .nav-tabs > li a:hover {
@@ -163,7 +161,7 @@ span.round-tab:hover {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 60%;
+    width: 100%;
 }
 
 .ui-selectable {
@@ -183,7 +181,7 @@ span.round-tab:hover {
     border-radius: 10px;
     background-color:white;
     overflow-y:scroll;
-    max-height:130px;
-    height:130px;
+    max-height:180px;
+    height:180px;
     margin-bottom:3px;
 }
