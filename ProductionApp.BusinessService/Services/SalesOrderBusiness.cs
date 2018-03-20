@@ -54,9 +54,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _salesOrderRepository.GetAllSalesOrderForSelectList();
         }
-        public List<SalesOrderDetail> GetSalesOrderProductList(Guid salesOrderId)
+        public List<SalesOrderDetail> GetSalesOrderProductList(Guid salesOrderId,Guid packingSlipID)
         {
-            return _salesOrderRepository.GetSalesOrderProductList(salesOrderId);
+            return _salesOrderRepository.GetSalesOrderProductList(salesOrderId, packingSlipID);
         }
 
         public SalesOrder GetSalesOrder(Guid id)
@@ -77,6 +77,11 @@ namespace ProductionApp.BusinessService.Services
         public object DeleteSalesOrder(Guid id)
         {
             return _salesOrderRepository.DeleteSalesOrder(id);
+        }
+
+        public SalesOrder GetCustomerOfSalesOrderForPackingSlip(Guid salesOrderId)
+        {
+            return _salesOrderRepository.GetCustomerOfSalesOrderForPackingSlip(salesOrderId);
         }
     }
 }

@@ -241,7 +241,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetAllSalesOrder]";
+                        cmd.CommandText = "[AMC].[GetAllSalesOrderForPkgSlip]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -270,7 +270,7 @@ namespace ProductionApp.RepositoryServices.Services
             return salesOrderList;
         }
 
-        public List<SalesOrderDetail> GetSalesOrderProductList(Guid salesOrderId)
+        public List<SalesOrderDetail> GetSalesOrderProductList(Guid salesOrderId, Guid packingSlipID)
         {
             List<SalesOrderDetail> salesOrderList = null;
             try
@@ -287,6 +287,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[GetProductListForPackingSlip]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@SaleOrderID", SqlDbType.UniqueIdentifier).Value = salesOrderId;
+                        cmd.Parameters.Add("@packingSlipID", SqlDbType.UniqueIdentifier).Value = packingSlipID;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
@@ -325,6 +326,44 @@ namespace ProductionApp.RepositoryServices.Services
             return salesOrderList;
         }
 
+        public SalesOrder GetCustomerOfSalesOrderForPackingSlip(Guid salesOrderId)
+        {
+            SalesOrder salesOrder = new SalesOrder();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[SalesOrderCustomer]";
+                        cmd.Parameters.Add("@salesOrderId", SqlDbType.UniqueIdentifier).Value = salesOrderId;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    salesOrder.ExpectedDeliveryDate = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()) : salesOrder.ExpectedDeliveryDate);
+                                    salesOrder.ExpectedDeliveryDateFormatted = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()).ToString(settings.DateFormat) : salesOrder.ExpectedDeliveryDateFormatted);
+                                    salesOrder.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : salesOrder.CustomerName);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return salesOrder;
+        }
         public SalesOrder GetSalesOrder(Guid id)
         {
             SalesOrder salesOrder = new SalesOrder();

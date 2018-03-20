@@ -43,7 +43,7 @@
                     <div class="input-group">
                         @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
                         <div class="input-group-btn">
-                            <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadReturnFromProductionTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
+                            <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadPackingSlipTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
                         </div>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadPaySlipTable('Apply')">Apply</a>
+                <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadPackingSlipTable('Apply')">Apply</a>
             </div>
         </div>
     </div>
@@ -127,11 +127,11 @@
                     <th>Ckecked Pkg.wt.</th>
                     <th>Disp. Date </th>
                     <th>Disp. By</th>
-                    <th>Vehl. #</th>
+                    <th>Vehl. No#</th>
                     <th>Driver Name</th>
                     <th>Recd. By</th>
                     <th>Recd. Date</th>
-                    <th>Disp. Rmrks</th>
+                    <th>Dispatch Section Remarks</th>
                     <th>...</th>
                 </tr>
             </thead>
