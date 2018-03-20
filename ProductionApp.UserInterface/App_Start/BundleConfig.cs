@@ -93,6 +93,10 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJs/PackingSlip/ListPackingSlips").Include("~/Scripts/UserJS/PackingSlip/ListPackingSlips.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/FinishedGoodStockAdj/ViewFinishedGoodStockAdj").Include("~/Scripts/UserJS/FinishedGoodStockAdj/ViewFinishedGoodStockAdj.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/FinishedGoodStockAdj/NewFinishedGoodStockAdj").Include("~/Scripts/UserJS/FinishedGoodStockAdj/NewFinishedGoodStockAdj.js"));
+            //CustomerInvoice
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/CustomerInvoice/NewCustomerInvoice").Include("~/Scripts/UserJS/CustomerInvoice/NewCustomerInvoice.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/CustomerInvoice/ViewCustomerInvoice").Include("~/Scripts/UserJS/CustomerInvoice/ViewCustomerInvoice.js"));
+
         }
     }
 }

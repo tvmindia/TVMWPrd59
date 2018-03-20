@@ -49,7 +49,10 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.Add("@Length", SqlDbType.Int).Value = salesOrderAdvanceSearch.DataTablePaging.Length;
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = salesOrderAdvanceSearch.FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = salesOrderAdvanceSearch.ToDate;
-                       
+                        if (salesOrderAdvanceSearch.CustomerID != Guid.Empty)
+                            cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = salesOrderAdvanceSearch.CustomerID;
+                        if (salesOrderAdvanceSearch.EmployeeID != Guid.Empty)
+                            cmd.Parameters.Add("@EmployeeID", SqlDbType.UniqueIdentifier).Value = salesOrderAdvanceSearch.EmployeeID;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -70,8 +73,8 @@ namespace ProductionApp.RepositoryServices.Services
                                         //salesOrder.ReqStatus = (sdr["ReqStatus"].ToString() != "" ? sdr["ReqStatus"].ToString() : salesOrder.ReqStatus);
                                         //salesOrder.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? sdr["ApprovalStatus"].ToString() : salesOrder.ApprovalStatus);
                                         //salesOrder.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : salesOrder.RequisitionBy);
-                                        //salesOrder.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : salesOrder.TotalCount);
-                                        //salesOrder.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : salesOrder.FilteredCount);
+                                        salesOrder.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : salesOrder.TotalCount);
+                                        salesOrder.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : salesOrder.FilteredCount);
                                     }
                                     salesOrderList.Add(salesOrder);
                                 }
@@ -111,6 +114,10 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.Add("@Length", SqlDbType.Int).Value = salesOrderAdvanceSearch.DataTablePaging.Length;
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = salesOrderAdvanceSearch.FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = salesOrderAdvanceSearch.ToDate;
+                        if (salesOrderAdvanceSearch.CustomerID != Guid.Empty)
+                            cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = salesOrderAdvanceSearch.CustomerID;
+                        if (salesOrderAdvanceSearch.EmployeeID != Guid.Empty)
+                            cmd.Parameters.Add("@EmployeeID", SqlDbType.UniqueIdentifier).Value = salesOrderAdvanceSearch.EmployeeID;
 
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -135,8 +142,8 @@ namespace ProductionApp.RepositoryServices.Services
                                         salesOrder.SalesOrderDetail.Product = new Product();
                                         salesOrder.SalesOrderDetail.Product.Name = (sdr["ProductName"].ToString() != "" ? sdr["ProductName"].ToString() : salesOrder.SalesOrderDetail.Product.Name);
                                         salesOrder.SalesOrderDetail.Product.HSNNo = (sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : salesOrder.SalesOrderDetail.Product.HSNNo);
-                                        //salesOrder.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : salesOrder.TotalCount);
-                                        //salesOrder.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : salesOrder.FilteredCount);
+                                        salesOrder.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : salesOrder.TotalCount);
+                                        salesOrder.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : salesOrder.FilteredCount);
                                     }
                                     salesOrderList.Add(salesOrder);
                                 }

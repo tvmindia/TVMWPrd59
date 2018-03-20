@@ -46,6 +46,7 @@
     <Compile Include="Contracts\IBillOfMaterialBusiness.cs" />
     <Compile Include="Contracts\ICommonBusiness.cs" />
     <Compile Include="Contracts\ICustomerBusiness.cs" />
+    <Compile Include="Contracts\ICustomerInvoiceBusiness.cs" />
     <Compile Include="Contracts\IDocumentApprovalBusiness.cs" />
     <Compile Include="Contracts\IDocumentTypeBusiness.cs" />
     <Compile Include="Contracts\IDynamicUIBusiness.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Contracts\IMaterialStockAdjBusiness.cs" />
     <Compile Include="Contracts\IMaterialTypeBusiness.cs" />
     <Compile Include="Contracts\IPackingSlipBusiness.cs" />
+    <Compile Include="Contracts\IPaymentTermBusiness.cs" />
     <Compile Include="Contracts\IProductBusiness.cs" />
     <Compile Include="Contracts\IPurchaseInvoiceBusiness.cs" />
     <Compile Include="Contracts\IRequisitionBusiness.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Services\BillOfMaterialBusiness.cs" />
     <Compile Include="Services\CommonBusiness.cs" />
     <Compile Include="Services\CustomerBusiness.cs" />
+    <Compile Include="Services\CustomerInvoiceBusiness.cs" />
     <Compile Include="Services\DocumentApprovalBusiness.cs" />
     <Compile Include="Services\DocumentTypeBusiness.cs" />
     <Compile Include="Services\DynamicUIBusiness.cs" />
@@ -90,6 +93,7 @@
     <Compile Include="Services\MaterialStockAdjBusiness.cs" />
     <Compile Include="Services\MaterialTypeBusiness.cs" />
     <Compile Include="Services\PackingSlipBusiness.cs" />
+    <Compile Include="Services\PaymentTermBusiness.cs" />
     <Compile Include="Services\ProductBusiness.cs" />
     <Compile Include="Services\PurchaseInvoiceBusiness.cs" />
     <Compile Include="Services\PurchaseOrderBusiness.cs" />

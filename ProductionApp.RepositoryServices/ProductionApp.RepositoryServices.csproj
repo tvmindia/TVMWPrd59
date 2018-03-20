@@ -45,6 +45,7 @@
     <Compile Include="Contracts\IApproverRepository.cs" />
     <Compile Include="Contracts\IBankRepository.cs" />
     <Compile Include="Contracts\IBillOfMaterialRepository.cs" />
+    <Compile Include="Contracts\ICustomerInvoiceRepository.cs" />
     <Compile Include="Contracts\ICustomerRepository.cs" />
     <Compile Include="Contracts\IDatabaseFactory.cs" />
     <Compile Include="Contracts\IDocumentApprovalRepository.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Contracts\IMaterialStockAdjRepository.cs" />
     <Compile Include="Contracts\IMaterialTypeRepository.cs" />
     <Compile Include="Contracts\IPackingSlipRepository.cs" />
+    <Compile Include="Contracts\IPaymentTermRepository.cs" />
     <Compile Include="Contracts\IProductRepository.cs" />
     <Compile Include="Contracts\IPurchaseInvoiceRepository.cs" />
     <Compile Include="Contracts\IRequisitionRepository.cs" />
@@ -75,6 +77,7 @@
     <Compile Include="Services\ApproverRepository.cs" />
     <Compile Include="Services\BankRepository.cs" />
     <Compile Include="Services\BillOfMaterialRepository.cs" />
+    <Compile Include="Services\CustomerInvoiceRepository.cs" />
     <Compile Include="Services\CustomerRepository.cs" />
     <Compile Include="Services\DatabaseFactory.cs" />
     <Compile Include="Services\DocumentApprovalRepository.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="Services\MaterialStockAdjRepository.cs" />
     <Compile Include="Services\MaterialTypeRepository.cs" />
     <Compile Include="Services\PackingSlipRepository.cs" />
+    <Compile Include="Services\PaymentTermRepository.cs" />
     <Compile Include="Services\ProductRepository.cs" />
     <Compile Include="Services\PurchaseInvoiceRepository.cs" />
     <Compile Include="Services\RequisitionRepository.cs" />

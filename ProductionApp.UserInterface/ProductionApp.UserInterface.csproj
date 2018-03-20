@@ -673,6 +673,8 @@
     <Content Include="Scripts\UserJS\Bank.js" />
     <Content Include="Scripts\UserJS\BillOfMaterialJS\NewBillOfMaterial.js" />
     <Content Include="Scripts\UserJS\BillOfMaterialJS\ViewBillOfMaterial.js" />
+    <Content Include="Scripts\UserJS\CustomerInvoice\NewCustomerInvoice.js" />
+    <Content Include="Scripts\UserJS\CustomerInvoice\ViewCustomerInvoice.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ApprovalHistory.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ApproveDocument.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\DocumentSummary.js" />
@@ -730,6 +732,7 @@
     <Compile Include="Controllers\BankController.cs" />
     <Compile Include="Controllers\BillOfMaterialController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\CustomerInvoiceController.cs" />
     <Compile Include="Controllers\DashboardAccountController.cs" />
     <Compile Include="Controllers\DashboardMasterController.cs" />
     <Compile Include="Controllers\DashboardSaleController.cs" />
@@ -750,6 +753,7 @@
     <Compile Include="Controllers\MaterialStockAdjController.cs" />
     <Compile Include="Controllers\MaterialTypeController.cs" />
     <Compile Include="Controllers\PackingSlipController.cs" />
+    <Compile Include="Controllers\PaymentTermController.cs" />
     <Compile Include="Controllers\PDFGeneratorController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\DashboardProductionController.cs" />
@@ -778,6 +782,7 @@
     <Compile Include="Models\BankViewModel.cs" />
     <Compile Include="Models\BillOfMaterialViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
+    <Compile Include="Models\CustomerInvoiceViewModel.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\DataTableAjaxPostModel.cs" />
     <Compile Include="Models\DataTablePagingViewModel.cs" />
@@ -796,6 +801,7 @@
     <Compile Include="Models\MaterialStockAdjViewModel.cs" />
     <Compile Include="Models\MaterialTypeViewModel.cs" />
     <Compile Include="Models\PackingSlipViewModel.cs" />
+    <Compile Include="Models\PaymentTermViewModel.cs" />
     <Compile Include="Models\PDFGeneratorViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
@@ -930,6 +936,9 @@
     <Content Include="Views\BillOfMaterial\_AddComponent.cshtml" />
     <Content Include="Views\BillOfMaterial\_AddProductionLine.cshtml" />
     <Content Include="Views\BillOfMaterial\_AddStageDetail.cshtml" />
+    <Content Include="Views\CustomerInvoice\ViewCustomerInvoice.cshtml" />
+    <Content Include="Views\CustomerInvoice\NewCustomerInvoice.cshtml" />
+    <Content Include="Views\PaymentTerm\_PaymentTermDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

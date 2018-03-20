@@ -7,6 +7,8 @@
 @using (Ajax.BeginForm("InsertUpdateBillOfMaterial", "BillOfMaterial", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "OnServerCallBegin", OnComplete = "OnServerCallComplete" }, new { @class = "form-horizontal", role = "form", @id = "BillOfMaterialForm" }))
 {
     <div class="form-group col-md-12" style="margin-left:1px">
+        @Html.HiddenFor(model => model.ID, htmlAttributes: new { @id ="HdfID"})
+        @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @id = "HdfIsUpdate" })
         <div class="form-group col-md-4">
             <div class="col-md-12">
                 @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label lblrequired" })

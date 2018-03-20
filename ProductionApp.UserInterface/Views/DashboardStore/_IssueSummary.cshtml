@@ -24,7 +24,7 @@
                             for (int i = 0; i < Model.MaterialIssueList.Count; i++)
                             {
                                 <tr>
-                                    <th><a href="@Model.MaterialIssueList[i].ID">@Model.MaterialIssueList[i].IssueNo</a></th>
+                                    <th><a href="IssueToProduction/AddIssueToProduction?code=STR&id=@Model.MaterialIssueList[i].ID">@Model.MaterialIssueList[i].IssueNo</a></th>
                                     <td>@Model.MaterialIssueList[i].IssueToEmployeeName</td>
                                     <td>@Model.MaterialIssueList[i].IssuedByEmployeeName</td>
                                     <td><span class="label label-info bg-aqua ">@Model.MaterialIssueList[i].IssueDateFormatted</span></td>

@@ -77,6 +77,7 @@
     <Compile Include="DTO\AMCSysModule.cs" />
     <Compile Include="DTO\AMCSysMenu.cs" />
     <Compile Include="DTO\Customer.cs" />
+    <Compile Include="DTO\CustomerInvoice.cs" />
     <Compile Include="DTO\DataTablePaging.cs" />
     <Compile Include="DTO\DocumentApproval.cs" />
     <Compile Include="DTO\DocumentType.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="DTO\MaterialStockAdj.cs" />
     <Compile Include="DTO\MaterialType.cs" />
     <Compile Include="DTO\PackingSlip.cs" />
+    <Compile Include="DTO\PaymentTerm.cs" />
     <Compile Include="DTO\Product.cs" />
     <Compile Include="DTO\PurchaseInvoice.cs" />
     <Compile Include="DTO\Requisition.cs" />

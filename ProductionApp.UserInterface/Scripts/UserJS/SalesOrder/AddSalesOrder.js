@@ -440,6 +440,7 @@ function BindSalesOrderByID()
     var ID = $('#ID').val();
     _SlNo = 1;
     var salesOrderVM = GetSalesOrderByID(ID);
+    $('#lblSalesOrderNo').text('Sales Order# :' + salesOrderVM.OrderNo);
     $('#OrderNo').val(salesOrderVM.OrderNo);
     $('#OrderDateFormatted').val(salesOrderVM.OrderDateFormatted);
     $('#ExpectedDeliveryDateFormatted').val(salesOrderVM.ExpectedDeliveryDateFormatted);
@@ -514,9 +515,11 @@ function Delete(curobj) {
 }
 
 function DeleteTempItem(Rowindex) {
-    debugger; 
+    debugger;
+    var Itemtabledata = DataTables.SalesOrderDetailTable.rows().data();
+    Itemtabledata.splice(Rowindex, 1);
     _SlNo = 1;
-    DataTables.SalesOrderDetailTable.row(Rowindex).remove().draw(false);
+    DataTables.SalesOrderDetailTable.clear().rows.add(Itemtabledata).draw(false);
     notyAlert('success', 'Deleted Successfully');
 }
 

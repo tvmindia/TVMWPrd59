@@ -1,7 +1,14 @@
 ﻿@using ProductionApp.UserInterface.App_Start
 @model ProductionApp.UserInterface.Models.SalesOrderViewModel
 @{
-    ViewBag.Title = "AddSalesOrder";
+    if (Model.IsUpdate)
+    {
+        ViewBag.Title = "Edit Sales Order";
+    }
+    else
+    {
+        ViewBag.Title = "Add Sales Order";
+    }   
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 @section styles {

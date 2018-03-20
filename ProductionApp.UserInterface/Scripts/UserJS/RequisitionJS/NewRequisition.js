@@ -101,7 +101,8 @@ function ShowRequisitionDetailsModal()
         $('#RequisitionDetail_Description').val('');
         $('#RequisitionDetail_ApproximateRate').val('');
         $('#RequisitionDetail_RequestedQty').val('');
-
+        $('#MaterialID').attr("disabled", false);
+        $('#modelContextLabel').text("Add Requisition Details");
         $('#RequisitionDetailsModal').modal('show');
     }
 }
@@ -110,6 +111,8 @@ function MaterialEdit(curObj)
 {
     debugger;
     $('#RequisitionDetailsModal').modal('show');
+    $('#MaterialID').attr("disabled", true);
+    $('#modelContextLabel').text("Edit Requisition Details");
     _SlNo = 1;
     var rowData = DataTables.RequisitionDetailTable.row($(curObj).parents('tr')).data();
     BindMaterialDetails(rowData.MaterialID);
@@ -369,11 +372,10 @@ function Delete(curobj)
 function DeleteTempItem(Rowindex)
 {
     debugger;
-    //var Itemtabledata = DataTables.RequisitionDetailList.rows().data();
-    //Itemtabledata.splice(Rowindex, 1);
-    //DataTables.RequisitionDetailList.clear().rows.add(Itemtabledata).draw(false);
     _SlNo = 1;
-    DataTables.RequisitionDetailTable.row(Rowindex).remove().draw(false);
+    var Itemtabledata = DataTables.RequisitionDetailTable.rows().data();
+    Itemtabledata.splice(Rowindex, 1);
+    DataTables.RequisitionDetailTable.clear().rows.add(Itemtabledata).draw(false);
     notyAlert('success', 'Deleted Successfully');
 }
 

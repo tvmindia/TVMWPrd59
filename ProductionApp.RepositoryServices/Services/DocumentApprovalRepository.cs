@@ -548,6 +548,8 @@ namespace ProductionApp.RepositoryServices.Services
                                     documentApproval.DocumentNo = (sdr["DocumentNo"].ToString() != "" ? sdr["DocumentNo"].ToString() : documentApproval.DocumentNo);
                                     documentApproval.DocumentDateFormatted = (sdr["DocumentDate"].ToString() != "" ? DateTime.Parse(sdr["DocumentDate"].ToString()).ToString(settings.DateFormat) : documentApproval.DocumentDateFormatted);
                                     documentApproval.DocumentStatus = (sdr["DocumentStatus"].ToString() != "" ? sdr["DocumentStatus"].ToString() : documentApproval.DocumentStatus);
+                                    documentApproval.ApprovalLogID = (sdr["ApprovalLogID"].ToString() !=""? Guid.Parse(sdr["ApprovalLogID"].ToString()) : Guid.Empty);
+                                    documentApproval.DocumentTypeCode = (sdr["DocumentTypeCode"].ToString() != "" ? sdr["DocumentTypeCode"].ToString() : documentApproval.DocumentTypeCode);
                                     documentApprovalList.Add(documentApproval);
                                 }
                             }
