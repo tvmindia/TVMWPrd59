@@ -1,4 +1,7 @@
-﻿using ProductionApp.BusinessService.Contracts;
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using ProductionApp.BusinessService.Contracts;
+using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
 using ProductionApp.UserInterface.SecurityFilter;
 using System;
@@ -12,9 +15,11 @@ namespace ProductionApp.UserInterface.Controllers
     public class CustomerInvoiceController : Controller
     {
         private ICustomerInvoiceBusiness _customerInvoiceBusiness;
-        public CustomerInvoiceController(ICustomerInvoiceBusiness customerInvoiceBusiness)
+        private ICustomerBusiness _customerBusiness;
+        public CustomerInvoiceController(ICustomerInvoiceBusiness customerInvoiceBusiness, ICustomerBusiness customerBusiness)
         {
             _customerInvoiceBusiness = customerInvoiceBusiness;
+            _customerBusiness = customerBusiness;
         }
         // GET: CustomerInvoice
         public ActionResult ViewCustomerInvoice(string code)
@@ -33,6 +38,23 @@ namespace ProductionApp.UserInterface.Controllers
             };
             return View(customerInvoiceVM);
         }
+
+
+        #region GetCustomerDetails
+        //[AuthSecurityFilter(ProjectObject = "", Mode = "D")]
+        public string GetCustomerDetails(string customerId)
+        {
+            try
+            {
+                CustomerViewModel customerVM = Mapper.Map<Customer, CustomerViewModel>(_customerBusiness.GetCustomer(Guid.Parse(customerId)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetCustomerDetails
 
         #region ButtonStyling
         [HttpGet]
