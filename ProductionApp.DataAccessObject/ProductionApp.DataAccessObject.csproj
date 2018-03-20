@@ -77,6 +77,7 @@
     <Compile Include="DTO\AMCSysModule.cs" />
     <Compile Include="DTO\AMCSysMenu.cs" />
     <Compile Include="DTO\Customer.cs" />
+    <Compile Include="DTO\CustomerInvoice.cs" />
     <Compile Include="DTO\DataTablePaging.cs" />
     <Compile Include="DTO\DocumentApproval.cs" />
     <Compile Include="DTO\DocumentType.cs" />

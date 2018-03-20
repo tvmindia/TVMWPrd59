@@ -45,6 +45,7 @@
     <Compile Include="Contracts\IApproverRepository.cs" />
     <Compile Include="Contracts\IBankRepository.cs" />
     <Compile Include="Contracts\IBillOfMaterialRepository.cs" />
+    <Compile Include="Contracts\ICustomerInvoiceRepository.cs" />
     <Compile Include="Contracts\ICustomerRepository.cs" />
     <Compile Include="Contracts\IDatabaseFactory.cs" />
     <Compile Include="Contracts\IDocumentApprovalRepository.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Services\ApproverRepository.cs" />
     <Compile Include="Services\BankRepository.cs" />
     <Compile Include="Services\BillOfMaterialRepository.cs" />
+    <Compile Include="Services\CustomerInvoiceRepository.cs" />
     <Compile Include="Services\CustomerRepository.cs" />
     <Compile Include="Services\DatabaseFactory.cs" />
     <Compile Include="Services\DocumentApprovalRepository.cs" />
