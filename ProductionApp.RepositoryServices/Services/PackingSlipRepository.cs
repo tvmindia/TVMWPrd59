@@ -76,6 +76,11 @@ namespace ProductionApp.RepositoryServices.Services
                                         paySlip.ReceivedDate = (sdr["ReceivedDate"].ToString() != "" ? DateTime.Parse(sdr["ReceivedDate"].ToString()) : paySlip.ReceivedDate);
                                         paySlip.SalesOrderID = (sdr["SalesOrderID"].ToString() != "" ? Guid.Parse(sdr["SalesOrderID"].ToString()) : paySlip.SalesOrderID);
                                         paySlip.CheckedPackageWeight = (sdr["CheckedPackageWeight"].ToString() != "" ? decimal.Parse(sdr["CheckedPackageWeight"].ToString()) : paySlip.CheckedPackageWeight);
+                                        paySlip.SalesOrder = new SalesOrder();
+                                        paySlip.SalesOrder.OrderNo= (sdr["OrderNo"].ToString() != "" ? sdr["OrderNo"].ToString() : paySlip.SalesOrder.OrderNo);
+                                        paySlip.SalesOrder.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : paySlip.SalesOrder.CustomerName);
+                                        //paySlip.SalesOrderDetils = (sdr["OrderNo"].ToString() != "" ? (sdr["OrderNo"].ToString()) : "") + '#' + ' ' +
+                                        //   (sdr["CompanyName"].ToString() != "" ? ("&" + sdr["CompanyName"].ToString()) : "");
                                         paySlip.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : paySlip.TotalCount);
                                         paySlip.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : paySlip.FilteredCount);
                                     }
@@ -112,7 +117,13 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[InsertUpdatePackingSlip]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = packingSlip.IsUpdate;
+                        if (packingSlip.ID == Guid.Empty) { 
+                            cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = false;
+                        }
+                        else { 
+                            cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = true;
+                            packingSlip.IsUpdate = true;
+                        }
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = packingSlip.ID;
                         cmd.Parameters.Add("@SalesOrderID", SqlDbType.UniqueIdentifier).Value = packingSlip.SalesOrderID;
                         cmd.Parameters.Add("@PackedBy", SqlDbType.UniqueIdentifier).Value = packingSlip.PackedBy;
@@ -120,10 +131,10 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.Add("@DispatchedBy", SqlDbType.UniqueIdentifier).Value = null;
                         else
                             cmd.Parameters.Add("@DispatchedBy", SqlDbType.UniqueIdentifier).Value = packingSlip.DispatchedBy;
-                        cmd.Parameters.Add("@DispatchedDate", SqlDbType.DateTime).Value = packingSlip.DispatchedDateFormatted;
+                        cmd.Parameters.Add("@DispatchedDate", SqlDbType.DateTime).Value = packingSlip.DispatchedDate;
                         cmd.Parameters.Add("@IssueToDispatchDate", SqlDbType.DateTime).Value = packingSlip.IssueToDispatchDate;
                         cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = packingSlip.Date;
-                        cmd.Parameters.Add("@ReceivedDate", SqlDbType.DateTime).Value = packingSlip.ReceivedDateFormatted;
+                        cmd.Parameters.Add("@ReceivedDate", SqlDbType.DateTime).Value = packingSlip.ReceivedDate;
                         cmd.Parameters.Add("@ReceivedBy", SqlDbType.VarChar).Value = packingSlip.ReceivedBy;
                         cmd.Parameters.Add("@TotalPackageWeight", SqlDbType.Decimal).Value = packingSlip.TotalPackageWeight;
                         cmd.Parameters.Add("@CheckedPackageWeight", SqlDbType.Decimal).Value = packingSlip.CheckedPackageWeight;
@@ -171,8 +182,8 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion InsertUpdatePackingSlip
 
-        #region GetPkgSlipByID
-        public PackingSlip GetPkgSlipByID(Guid id)
+        #region GetPackingSlipByID
+        public PackingSlip GetPackingSlipByID(Guid id)
         {
             PackingSlip packingSlip = new PackingSlip();
             try
@@ -186,7 +197,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetPkgSlipByID]";
+                        cmd.CommandText = "[AMC].[GetPackingSlipByID]";
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -227,10 +238,10 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return packingSlip;
         }
-        #endregion GetPkgSlipByID
+        #endregion GetPackingSlipByID
 
-        #region PkgSlipDetailByID
-        public List<PackingSlipDetail> GetPkgSlipDetailByID(Guid id)
+        #region PackingSlipDetailByID
+        public List<PackingSlipDetail> GetPackingSlipDetailByID(Guid id)
         {
             List<PackingSlipDetail> PkgSlipDetailList = null;
             try
@@ -244,7 +255,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetPkgSlipDetailByID]";
+                        cmd.CommandText = "[AMC].[GetPackingSlipDetailByID]";
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -275,6 +286,136 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return PkgSlipDetailList;
         }
-        #endregion PkgSlipDetailByID
+        #endregion PackingSlipDetailByID
+
+        #region PackingSlipDetailByIDForEdit
+        public List<PackingSlip> PackingSlipDetailByIDForEdit(Guid PkgSlipDetailID)
+        {
+            List<PackingSlip> pkgSlipList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetPackingSlipDetailByIDForEdit]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@PkgSlipDetailID", SqlDbType.UniqueIdentifier).Value = PkgSlipDetailID;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                pkgSlipList = new List<PackingSlip>();
+                                while (sdr.Read())
+                                {
+                                    PackingSlip pkgSlip = new PackingSlip();
+                                    {
+                                        pkgSlip.SalesOrder = new SalesOrder();
+                                        pkgSlip.SalesOrder.SalesOrderDetail = new SalesOrderDetail();
+                                        pkgSlip.SalesOrderID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : pkgSlip.SalesOrderID);
+                                        pkgSlip.ID = (sdr["PkgDetailID"].ToString() != "" ? Guid.Parse(sdr["PkgDetailID"].ToString()) : pkgSlip.ID);
+                                        pkgSlip.SalesOrder.SalesOrderDetail.Product = new Product();
+                                        pkgSlip.SalesOrder.SalesOrderDetail.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : pkgSlip.SalesOrder.SalesOrderDetail.ProductID);
+                                        pkgSlip.SalesOrder.SalesOrderDetail.Product.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : pkgSlip.SalesOrder.SalesOrderDetail.Product.Name);
+                                        pkgSlip.SalesOrder.SalesOrderDetail.Product.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : pkgSlip.SalesOrder.SalesOrderDetail.Product.CurrentStock);
+                                        pkgSlip.SalesOrder.SalesOrderDetail.Quantity = (sdr["OrderQty"].ToString() != "" ? decimal.Parse(sdr["OrderQty"].ToString()) : pkgSlip.SalesOrder.SalesOrderDetail.Quantity);
+                                        pkgSlip.SalesOrder.SalesOrderDetail.PrevPkgQty = (sdr["PackingQty"].ToString() != "" ? decimal.Parse(sdr["PackingQty"].ToString()) : pkgSlip.SalesOrder.SalesOrderDetail.PrevPkgQty);
+                                        pkgSlip.SalesOrder.SalesOrderDetail.PkgWt = (sdr["PkgWt"].ToString() != "" ? decimal.Parse(sdr["PkgWt"].ToString()) : pkgSlip.SalesOrder.SalesOrderDetail.PkgWt);
+                                        decimal Bal = pkgSlip.SalesOrder.SalesOrderDetail.Quantity - pkgSlip.SalesOrder.SalesOrderDetail.PrevPkgQty;
+                                        //if (pkgSlip.SalesOrder.SalesOrderDetail.Product.CurrentStock >= Bal)
+                                        //    pkgSlip.SalesOrder.SalesOrderDetail.CurrentPkgQty = Bal;
+                                        //else
+                                            pkgSlip.SalesOrder.SalesOrderDetail.CurrentPkgQty = (sdr["CurrentPkgQty"].ToString() != "" ? decimal.Parse(sdr["CurrentPkgQty"].ToString()) : pkgSlip.SalesOrder.SalesOrderDetail.CurrentPkgQty);
+                                    }
+                                    pkgSlipList.Add(pkgSlip);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return pkgSlipList;
+        }
+        #endregion PackingSlipDetailByIDForEdit
+
+        #region DeletePackingSlipDetail
+        public object DeletePackingSlipDetail(Guid id)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeletePkgSlipDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+            };
+        }
+        #endregion DeletePackingSlipDetail
+
+        #region DeletePackingSlip
+        public object DeletePackingSlip(Guid id)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeletePackingSlipDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+            };
+        }
+        #endregion DeletePackingSlip
     }
 }

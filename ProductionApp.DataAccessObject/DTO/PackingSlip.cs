@@ -13,15 +13,15 @@ namespace ProductionApp.DataAccessObject.DTO
         public DateTime Date { get; set; }
         public Guid PackedBy { get; set; }
         public Guid SalesOrderID { get; set; }
-        public DateTime IssueToDispatchDate { get; set; }
-        public decimal TotalPackageWeight { get; set; }
-        public DateTime DispatchedDate { get; set; }
+        public DateTime? IssueToDispatchDate { get; set; }
+        public decimal? TotalPackageWeight { get; set; }
+        public DateTime? DispatchedDate { get; set; }
         public Guid DispatchedBy { get; set; }
         public string VehiclePlateNo { get; set; }
         public string DriverName { get; set; }
-        public decimal CheckedPackageWeight { get; set; }
+        public decimal? CheckedPackageWeight { get; set; }
         public string ReceivedBy { get; set; }
-        public DateTime ReceivedDate { get; set; }
+        public DateTime? ReceivedDate { get; set; }
         public string PackingRemarks { get; set; }
         public string DispatchRemarks { get; set; }
         //Additional properties

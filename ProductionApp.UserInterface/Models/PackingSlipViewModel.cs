@@ -19,22 +19,23 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Sales Order is required")]
         public Guid SalesOrderID { get; set; }
         [Display(Name = "Issued To Dispatch Date")]
-        public DateTime IssueToDispatchDate { get; set; }
+        public DateTime? IssueToDispatchDate { get; set; }
         [Display(Name = "Total Package Weight(KGs)")]
-        public decimal TotalPackageWeight { get; set; }
-        public DateTime DispatchedDate { get; set; }
+        public decimal? TotalPackageWeight { get; set; }
+        public DateTime? DispatchedDate { get; set; }
         [Display(Name = "Dispatched By")]
         public Guid? DispatchedBy { get; set; }
         [Display(Name = "Vehicle Plate No.")]
         public string VehiclePlateNo { get; set; }
         [Display(Name = "Driver Name")]
         public string DriverName { get; set; }
-        [Display(Name = "Checked Package Weight(KGs")]
-        public decimal CheckedPackageWeight { get; set; }
+        [Display(Name = "Checked Package Weight(KGs)")]
+        [Required(ErrorMessage = "Checked Package Weight is required")]
+        public decimal? CheckedPackageWeight { get; set; }
         [Display(Name = "Received By")]
         public string ReceivedBy { get; set; }
         [Display(Name = "Received Date")]
-        public DateTime ReceivedDate { get; set; }
+        public DateTime? ReceivedDate { get; set; }
         [Display(Name = "Remarks By Packing Section (If Any)")]
         [DataType(DataType.MultilineText)]
         public string PackingRemarks { get; set; }
@@ -53,6 +54,7 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Date is required")]
         public string DateFormatted { get; set; }
         [Display(Name = "Dispatched Date")]
+        [Required(ErrorMessage = "Dispatched  is required")]
         public string DispatchedDateFormatted { get; set; }
         public string IssueToDispatchDateFormatted { get; set; }
         public string ReceivedDateFormatted { get; set; }

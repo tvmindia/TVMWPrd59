@@ -2,7 +2,7 @@
 //*****************************************************************************
 //Author: Angel
 //CreatedDate: 13-Mar-2018 
-//LastModified: 13-Mar-2018 
+//LastModified: 20-Mar-2018 
 //FileName: ListPackingSlips.js
 //Description: Client side coding for ListPackingSlips.
 //******************************************************************************
@@ -19,12 +19,21 @@ $(document).ready(function () {
         $("#DispatchedBy").select2({
         });
         BindOrReloadPackingSlipTable('Init');
+        $('#tblPaySlip tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
     }
     catch (e) {
         console.log(e.message);
     }
 });
+//edit on table click
+function Edit(curObj) {
+    debugger;
+    var rowData = DataTables.PaySlipList.row($(curObj).parents('tr')).data();
+    window.location.replace("AddPackingSlip?code=SALE&ID=" + rowData.ID);
 
+}
 function BindOrReloadPackingSlipTable(action)
 {
     try {
@@ -94,17 +103,23 @@ function BindOrReloadPackingSlipTable(action)
                 pageLength: 10,
                 columns: [
                     { "data": "ID", "defaultContent": "<i>-</i>" },
-                    { "data": "SlipNo", "defaultContent": "<i>-</i>" },
-                    { "data": "DateFormatted", "defaultContent": "<i>-</i>" },
-                    { "data": "PackedByEmployeeName", "defaultContent": "<i>-</i>" },
-                    { "data": "SalesOrderID", "defaultContent": "<i>-</i>" },
-                    { "data": "CheckedPackageWeight", "defaultContent": "<i>-</i>" },
-                    { "data": "DispatchedDateFormatted", "defaultContent": "<i>-</i>" },
-                    { "data": "DispatchedByEmployeeName", "defaultContent": "<i>-</i>" },
-                    { "data": "VehiclePlateNo", "defaultContent": "<i>-</i>" },
-                    { "data": "DriverName", "defaultContent": "<i>-</i>" },
-                    { "data": "ReceivedBy", "defaultContent": "<i>-</i>" },
-                    { "data": "ReceivedDateFormatted", "defaultContent": "<i>-</i>" },
+                    { "data": "SlipNo", "defaultContent": "<i>-</i>","width":"3%" },
+                    { "data": "DateFormatted", "defaultContent": "<i>-</i>", "width": "8%" },
+                    { "data": "PackedByEmployeeName", "defaultContent": "<i>-</i>","width":"7%" },
+                    {
+                        "data": "SalesOrder.CustomerName",render: function (data, type, row) {
+                            row.SalesOrder.OrderNo = row.SalesOrder.OrderNo == null ? "Nill" : row.SalesOrder.OrderNo
+                            return data + '</br><b>OrderNo: </b>' + row.SalesOrder.OrderNo
+                        },
+                        "defaultContent": "<i>-</i>","width":"10%",
+                    },
+                    { "data": "CheckedPackageWeight", "defaultContent": "<i>-</i>","width":"5%" },
+                    { "data": "DispatchedDateFormatted", "defaultContent": "<i>-</i>", "width": "8%" },
+                    { "data": "DispatchedByEmployeeName", "defaultContent": "<i>-</i>", "width": "7%" },
+                    { "data": "VehiclePlateNo", "defaultContent": "<i>-</i>", "width": "7%" },
+                    { "data": "DriverName", "defaultContent": "<i>-</i>", "width": "7%" },
+                    { "data": "ReceivedBy", "defaultContent": "<i>-</i>", "width": "7%" },
+                    { "data": "ReceivedDateFormatted", "defaultContent": "<i>-</i>", "width": "8%" },
                     { "data": "DispatchRemarks", "defaultContent": "<i>-</i>" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
@@ -113,22 +128,23 @@ function BindOrReloadPackingSlipTable(action)
                     }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                            { className: "text-left", "targets": [1, 3, 4,5,7,8,9,10,12] },
+                            { className: "text-left", "targets": [1, 3, 4, 7, 8, 9, 10, 12] },
+                            { className: "text-right", "targets": [5] },
                             { className: "text-center", "targets": [2,6,11] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
-                //initComplete: function (settings, json) {
-                //    if (action === 'Export') {
-                //        debugger;
-                //        if (json.data[0].length > 0) {
-                //            if (json.data[0].TotalCount > 10000) {
-                //                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                //            }
-                //        }
-                //        $(".buttons-excel").trigger('click');
-                //        BindOrReloadPaySlipTable('Search');
-                //    }
-                //}
+                initComplete: function (settings, json) {
+                    if (action === 'Export') {
+                        debugger;
+                        if (json.data[0].length > 0) {
+                            if (json.data[0].TotalCount > 10000) {
+                                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
+                            }
+                        }
+                        $(".buttons-excel").trigger('click');
+                        BindOrReloadPackingSlipTable('Search');
+                    }
+                }
             });
         $(".buttons-excel").hide();
     }
