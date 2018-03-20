@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.DataAccessObject.DTO
 {
-    class CustomerInvoice
+    public class CustomerInvoice
     {
         public Guid ID { get; set; }
         public string InvoiceNo { get; set; }
