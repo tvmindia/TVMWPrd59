@@ -60,6 +60,7 @@
     <Compile Include="Contracts\IMaterialStockAdjBusiness.cs" />
     <Compile Include="Contracts\IMaterialTypeBusiness.cs" />
     <Compile Include="Contracts\IPackingSlipBusiness.cs" />
+    <Compile Include="Contracts\IPaymentTermBusiness.cs" />
     <Compile Include="Contracts\IProductBusiness.cs" />
     <Compile Include="Contracts\IPurchaseInvoiceBusiness.cs" />
     <Compile Include="Contracts\IRequisitionBusiness.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Services\MaterialStockAdjBusiness.cs" />
     <Compile Include="Services\MaterialTypeBusiness.cs" />
     <Compile Include="Services\PackingSlipBusiness.cs" />
+    <Compile Include="Services\PaymentTermBusiness.cs" />
     <Compile Include="Services\ProductBusiness.cs" />
     <Compile Include="Services\PurchaseInvoiceBusiness.cs" />
     <Compile Include="Services\PurchaseOrderBusiness.cs" />
