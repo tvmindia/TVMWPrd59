@@ -100,6 +100,8 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<CustomerInvoiceDetailViewModel, CustomerInvoiceDetail>().ReverseMap();
                 config.CreateMap<CustomerInvoiceDetailLinkViewModel, CustomerInvoiceDetailLink>().ReverseMap();
                 config.CreateMap<CustomerInvoiceAdvanceSearchViewModel, CustomerInvoiceAdvanceSearch>().ReverseMap();
+                //PaymentTerm
+                config.CreateMap<PaymentTermViewModel, PaymentTerm>().ReverseMap();
 
             });
         }

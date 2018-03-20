@@ -31,7 +31,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[Accounts].[GetPayTerms]";
+                        cmd.CommandText = "[AMC].[GetAllPaymentTerm]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -77,7 +77,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[Accounts].[GetPayTermDetails]";
+                        cmd.CommandText = "[AMC].[GetPaymentTerm]";
                         cmd.Parameters.Add("@Code", SqlDbType.NVarChar, 10).Value = Code;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

@@ -32,12 +32,12 @@ namespace ProductionApp.UserInterface.Controllers
             taxTypeVM.SelectList = new List<SelectListItem>();
             List<TaxTypeViewModel> taxTypeList = Mapper.Map<List<TaxType>, List<TaxTypeViewModel>>(_taxTypeBusiness.GetTaxTypeForSelectList());
             if (taxTypeList != null)
-                foreach (TaxTypeViewModel customer in taxTypeList)
+                foreach (TaxTypeViewModel taxType in taxTypeList)
                 {
                     taxTypeVM.SelectList.Add(new SelectListItem
                     {
-                        Text = customer.Description,
-                        Value = customer.Code,
+                        Text = taxType.Description,
+                        Value = taxType.Code,
                         Selected = false
                     });
                 }

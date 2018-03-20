@@ -9,7 +9,7 @@ namespace ProductionApp.UserInterface.Models
     public class CustomerInvoiceViewModel
     {
         public Guid ID { get; set; }
-        [Display(Name = "InvoiceNo")]
+        [Display(Name = "Invoice No")]
         public string InvoiceNo { get; set; }
         [Required(ErrorMessage = "Customer is missing")]
         [Display(Name = "Customer")]
