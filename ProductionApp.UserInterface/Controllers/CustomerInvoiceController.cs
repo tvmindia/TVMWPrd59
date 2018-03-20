@@ -22,11 +22,16 @@ namespace ProductionApp.UserInterface.Controllers
             ViewBag.SysModuleCode = code;
             return View();
         }
-        public ActionResult NewCustomerInvoice(string code)
+        public ActionResult NewCustomerInvoice(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
+            CustomerInvoiceViewModel customerInvoiceVM = new CustomerInvoiceViewModel
+            {
+                ID = id == null ? Guid.Empty : (Guid)id,
+                IsUpdate = id == null ? false : true,
 
-            return View();
+            };
+            return View(customerInvoiceVM);
         }
 
         #region ButtonStyling
