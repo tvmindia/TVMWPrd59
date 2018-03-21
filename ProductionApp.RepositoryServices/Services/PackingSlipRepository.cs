@@ -417,5 +417,56 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
         #endregion DeletePackingSlip
+
+        #region GetPackingSlipForSelectList
+        public List<PackingSlip> GetPackingSlipForSelectList()
+        {
+            List<PackingSlip> paySlipList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetAllPackingSlip]"; 
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                paySlipList = new List<PackingSlip>();
+                                while (sdr.Read())
+                                {
+                                    PackingSlip paySlip = new PackingSlip();
+                                    {
+                                        paySlip.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : paySlip.ID);
+                                        paySlip.SlipNo = (sdr["SlipNo"].ToString() != "" ? sdr["SlipNo"].ToString() : paySlip.SlipNo);
+                                        paySlip.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()) : paySlip.Date);
+                                        paySlip.SalesOrderID = (sdr["SalesOrderID"].ToString() != "" ? Guid.Parse(sdr["SalesOrderID"].ToString()) : paySlip.SalesOrderID);
+                                        paySlip.CheckedPackageWeight = (sdr["CheckedPackageWeight"].ToString() != "" ? decimal.Parse(sdr["CheckedPackageWeight"].ToString()) : paySlip.CheckedPackageWeight);
+                                        paySlip.SalesOrder = new SalesOrder();
+                                        paySlip.SalesOrder.OrderNo = (sdr["OrderNo"].ToString() != "" ? sdr["OrderNo"].ToString() : paySlip.SalesOrder.OrderNo);
+                                        paySlip.SalesOrder.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : paySlip.SalesOrder.CustomerName);
+                                    }
+                                    paySlipList.Add(paySlip);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return paySlipList;
+        }
+
+        #endregion GetAllPackingSlip
     }
 }

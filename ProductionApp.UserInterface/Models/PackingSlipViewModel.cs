@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ProductionApp.UserInterface.Models
 {
     public class PackingSlipViewModel
     {
+        [Display(Name = "Packing Slip")]
         public Guid ID { get; set; }
         [Display(Name = "Slip No")]
         public string SlipNo { get; set; }
@@ -44,6 +46,7 @@ namespace ProductionApp.UserInterface.Models
         public string DispatchRemarks { get; set; }
         //Additional properties
         public CommonViewModel Common { get; set; }
+        public List<SelectListItem> SelectList { get; set; }
         public EmployeeViewModel Employee { get; set; }
         public SalesOrderViewModel SalesOrder { get; set; }
         public PackingSlipDetailViewModel PackingSlipDetail { get; set; }

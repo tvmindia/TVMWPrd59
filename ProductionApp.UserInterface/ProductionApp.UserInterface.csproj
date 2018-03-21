@@ -939,6 +939,7 @@
     <Content Include="Views\CustomerInvoice\ViewCustomerInvoice.cshtml" />
     <Content Include="Views\CustomerInvoice\NewCustomerInvoice.cshtml" />
     <Content Include="Views\PaymentTerm\_PaymentTermDropdown.cshtml" />
+    <Content Include="Views\PackingSlip\_PackingSlipDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
