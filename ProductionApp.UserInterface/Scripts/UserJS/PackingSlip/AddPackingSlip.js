@@ -16,7 +16,7 @@ var packingDetail = [];
 var _packingSlipDetailList = [];
 var _packingSlipViewModel = new Object();
 var colorFlag = 0;
-var EditFlag = 0;
+var EditFlag = 0,selected=1;
 $(document).ready(function () {
     debugger;
     try {
@@ -34,8 +34,6 @@ $(document).ready(function () {
             $('#divPack').find('input, textarea, button, select').prop('disabled', false);
             $('#divDespatch').find('input, textarea, button, select').prop('disabled', false);
             $('#btnAddPackingSlip').attr("disabled", false);
-            $('#DispatchedDateFormatted').attr("disabled", true);
-            $('#CheckedPackageWeight').attr("disabled", true);
         }
         else if ($('#ShowDispatcherSec').val() == 'True') {
             $('#divPack').find('input, textarea, button, select').prop('disabled', true);
@@ -75,13 +73,13 @@ $(document).ready(function () {
                      }
                  },
                  {
-                     "data": "CurrentPkgQty", "defaultContent": "<i>-</i>",
+                     "data": "CurrentPkgQty", "defaultContent": "<i>-</i>", "width": "5%",
                      'render': function (data, type, row) {
                          return '<input class="form-control description text-right" name="Markup" value="' + data + '" type="text"  onchange="textBoxValueChanged(this,1);">';
                      }
                  },
                  {
-                     "data": "PkgWt", "defaultContent": "<i>-</i>",
+                     "data": "PkgWt", "defaultContent": "<i>-</i>", "width": "5%",
                      'render': function (data, type, row) {
                          Wt = row.PkgWt;
                          return '<input class="form-control description text-right" name="Markup" value="' + Wt + '" type="text" id="txt' + row.ProductID + '" onchange="textBoxValueChanged(this,2);">';
@@ -163,19 +161,19 @@ $(document).ready(function () {
                  {
                      "data": "SalesOrder.SalesOrderDetail.CurrentPkgQty", "defaultContent": "<i>-</i>",
                      'render': function (data, type, row) {
-                         return '<input class="form-control description" name="Markup" value="' + data + '" type="text" onchange="textBoxValueChangedEditTbl(this,1);">';
+                         return '<input class="form-control description text-right" name="Markup" value="' + data + '" type="text" onchange="textBoxValueChangedEditTbl(this,1);">';
                      }
                  },
                  {
                      "data": "SalesOrder.SalesOrderDetail.PkgWt", "defaultContent": "<i>-</i>",
                      'render': function (data, type, row) {
                          Wt = row.SalesOrder.SalesOrderDetail.PkgWt;
-                         return '<input class="form-control description" name="Markup" value="' + Wt + '" type="text" id="txt' + row.ProductID + '" onchange="textBoxValueChangedEditTbl(this,2);">';
+                         return '<input class="form-control description text-right" name="Markup" value="' + Wt + '" type="text" id="txt' + row.ProductID + '" onchange="textBoxValueChangedEditTbl(this,2);">';
                      }
                  }
             ],
             columnDefs: [
-                  { className: "text-right", "targets": [3, 4, 5, 6, 7] }
+                  { className: "text-right", "targets": [3, 4, 5, 6, 7,8] }
                 , { className: "text-left", "targets": [2] }
                 , { "targets": [0,1], "visible": false, "searchable": false }
                 , { "targets": [2, 3, 4, 5, 6], "bSortable": false }],
@@ -195,10 +193,8 @@ $(document).ready(function () {
 
 function AddPackingSlipDetail()
 {
-    //var $form = $('#AddPackingSlipForm');
-    //if ($form.valid()) {
     if($('#PackedBy').val() && $('#DateFormatted').val() && $('#SalesOrderID').val()){
-        $('#lblOrderNo').text("SalesOrder No: " + $("#SalesOrderID option:selected").text());
+        $('#lblOrderNo').text("SalesOrder# : " + $("#SalesOrderID option:selected").text());
         $('#PackingSlipModal').modal('show');
         BindProductListTable();
     }
@@ -333,6 +329,7 @@ function AddPackingSlipDetailTbl() {
     var productDetailsVM = DataTables.ProductListTable.rows(".selected").data();
     debugger;
     var res = CheckProductDetails(productDetailsVM);//Checking all details are entered or not
+if(selected==1)
     if (res) {
         AddPackingSlipDetailData(productDetailsVM);// adding values to packingSlipDetail
         _SlNo = 1;
@@ -347,8 +344,14 @@ function AddPackingSlipDetailTbl() {
 function CheckProductDetails(producDetails)
 {
     var flag = 0;
+    debugger;
+    if (producDetails.length == 0) {
+        notyAlert('warning', "Please Select Product");
+        selected = 0;
+        return false;
+}
     if ((producDetails) && (producDetails.length > 0)) {
-        
+        selected = 1;
         for (var r = 0; r < producDetails.length; r++) {
             if (producDetails[r].PkgWt == 0) {
                 flag = 1;
@@ -400,78 +403,77 @@ function AddPackingSlipDetailData(data)
 //Save
 function Save() {
     debugger;
+    var valid = 0;
     //validation main form 
-    if ($('#ShowPkgSec').val() == 'True' && $('#ShowDispatcherSec').val() == 'True') {
-        if ($('#SlipNo').val()) {
-            $('#DispatchedDateFormatted').attr("disabled", false);
-            $('#CheckedPackageWeight').attr("disabled", false);
-        }
-        else {
-            $('#DispatchedDateFormatted').attr("disabled", true);
-            $('#CheckedPackageWeight').attr("disabled", true);
+    if ($('#ShowDispatcherSec').val() == 'True' && $('#ShowPkgSec').val() == 'False') {
+        if (!($('#DispatchedDateFormatted').val()) && !($('#CheckedPackageWeight').val())) {
+            notyAlert('warning', "Please Fill Dispatched date and Checked package weight Fields ");
+            valid = 1;
         }
     }
-    var $form = $('#AddPackingSlipForm');
-    if ($form.valid()) {
-        _packingSlipDetailList = [];
-        AddPackingSlipDetailList();
-        if (_packingSlipDetailList.length > 0) {
-            _packingSlipViewModel.ID = $('#ID').val();
-            _packingSlipViewModel.SlipNo = $('#SlipNo').val();
-            _packingSlipViewModel.Date = $('#DateFormatted').val();
-            _packingSlipViewModel.IssueToDispatchDate = $('#IssueToDispatchDateFormatted').val();
-            _packingSlipViewModel.SalesOrderID = $('#SalesOrderID').val();
-            _packingSlipViewModel.PackingRemarks = $('#PackingRemarks').val();
-            _packingSlipViewModel.PackedBy = $('#PackedBy').val();
-            _packingSlipViewModel.TotalPackageWeight = $('#TotalPackageWeight').val();
-            _packingSlipViewModel.CheckedPackageWeight = $('#CheckedPackageWeight').val();
-            _packingSlipViewModel.DispatchedBy = $('#DispatchedBy').val();
-            _packingSlipViewModel.DispatchedDate = $('#DispatchedDateFormatted').val();
-            _packingSlipViewModel.VehiclePlateNo = $('#VehiclePlateNo').val();
-            _packingSlipViewModel.DriverName = $('#DriverName').val();
-            _packingSlipViewModel.ReceivedBy = $('#ReceivedBy').val();
-            _packingSlipViewModel.ReceivedDate = $('#ReceivedDateFormatted').val();
-            _packingSlipViewModel.DispatchRemarks = $('#DispatchRemarks').val();
-            _packingSlipViewModel.PackingSlipDetail = packingDetail;
-            _SlNo = 1;
-            $("#DetailJSON").val('');
-            var result = JSON.stringify(_packingSlipDetailList);
-            $("#DetailJSON").val(result);
-            _packingSlipViewModel.DetailJSON = $("#DetailJSON").val();
-            var data = "{'packingSlipVM':" + JSON.stringify(_packingSlipViewModel) + "}";
-            PostDataToServer("PackingSlip/InsertUpdatePackingSlip/", data, function (JsonResult) {
-                debugger;
-                switch (JsonResult.Result) {
-                    case "OK":
-                        notyAlert('success', JsonResult.Records.Message);
-                        ChangeButtonPatchView('PackingSlip', 'divbuttonPatchAddPkgSlip', 'Edit');
-                        debugger;
-                        if (JsonResult.Records.ID) {
-                            $("#ID").val(JsonResult.Records.ID);
-                            $('#IsUpdate').val('True');
-                            BindPkgSlip($("#ID").val());
-                        } else {
-                            Reset();
-                        }
-                        packingDetail = [];
-                        break;
-                    case "Error":
-                        notyAlert('error', JsonResult.Message);
-                        break;
-                    case "ERROR":
-                        notyAlert('error', JsonResult.Message);
-                        break;
-                    default:
-                        break;
-                }
-            })
+    if (valid == 0) {
+        var $form = $('#AddPackingSlipForm');
+        if ($form.valid()) {
+            _packingSlipDetailList = [];
+            AddPackingSlipDetailList();
+            if (_packingSlipDetailList.length > 0) {
+                _packingSlipViewModel.ID = $('#ID').val();
+                _packingSlipViewModel.SlipNo = $('#SlipNo').val();
+                _packingSlipViewModel.Date = $('#DateFormatted').val();
+                _packingSlipViewModel.IssueToDispatchDate = $('#IssueToDispatchDateFormatted').val();
+                _packingSlipViewModel.SalesOrderID = $('#SalesOrderID').val();
+                _packingSlipViewModel.PackingRemarks = $('#PackingRemarks').val();
+                _packingSlipViewModel.PackedBy = $('#PackedBy').val();
+                _packingSlipViewModel.TotalPackageWeight = $('#TotalPackageWeight').val();
+                _packingSlipViewModel.CheckedPackageWeight = $('#CheckedPackageWeight').val();
+                _packingSlipViewModel.DispatchedBy = $('#DispatchedBy').val();
+                _packingSlipViewModel.DispatchedDate = $('#DispatchedDateFormatted').val();
+                _packingSlipViewModel.VehiclePlateNo = $('#VehiclePlateNo').val();
+                _packingSlipViewModel.DriverName = $('#DriverName').val();
+                _packingSlipViewModel.ReceivedBy = $('#ReceivedBy').val();
+                _packingSlipViewModel.ReceivedDate = $('#ReceivedDateFormatted').val();
+                _packingSlipViewModel.DispatchRemarks = $('#DispatchRemarks').val();
+                _packingSlipViewModel.PackingSlipDetail = packingDetail;
+                _SlNo = 1;
+                $("#DetailJSON").val('');
+                var result = JSON.stringify(_packingSlipDetailList);
+                $("#DetailJSON").val(result);
+                _packingSlipViewModel.DetailJSON = $("#DetailJSON").val();
+                var data = "{'packingSlipVM':" + JSON.stringify(_packingSlipViewModel) + "}";
+                PostDataToServer("PackingSlip/InsertUpdatePackingSlip/", data, function (JsonResult) {
+                    debugger;
+                    switch (JsonResult.Result) {
+                        case "OK":
+                            notyAlert('success', JsonResult.Records.Message);
+                            ChangeButtonPatchView('PackingSlip', 'divbuttonPatchAddPkgSlip', 'Edit');
+                            debugger;
+                            if (JsonResult.Records.ID) {
+                                $("#ID").val(JsonResult.Records.ID);
+                                $('#IsUpdate').val('True');
+                                BindPkgSlip($("#ID").val());
+                            } else {
+                                Reset();
+                            }
+                            packingDetail = [];
+                            break;
+                        case "Error":
+                            notyAlert('error', JsonResult.Message);
+                            break;
+                        case "ERROR":
+                            notyAlert('error', JsonResult.Message);
+                            break;
+                        default:
+                            break;
+                    }
+                })
+            }
+            else {
+                notyAlert('warning', 'Please Add item Details!');
+            }
         }
         else {
-            notyAlert('warning', 'Please Add item Details!');
+            notyAlert('warning', "Please Fill Required Fields ");
         }
-    }
-    else {
-        notyAlert('warning', "Please Fill Required Fields ");
     }
 }
 //PackingSlipDetail data 
@@ -530,16 +532,6 @@ function BindPkgSlip(ID) {
             BindPkgSlipDetail();
             OrderDetails();
             $('#SalesOrderID').attr("disabled", true);
-            if ($('#ShowPkgSec').val() == 'True' && $('#ShowDispatcherSec').val() == 'True') {
-                if ($('#SlipNo').val()) {
-                    $('#DispatchedDateFormatted').attr("disabled", false);
-                    $('#CheckedPackageWeight').attr("disabled", false);
-                }
-                else {
-                    $('#DispatchedDateFormatted').attr("disabled", true);
-                    $('#CheckedPackageWeight').attr("disabled", true);
-                }
-            }
         }
     }
     catch (e) {
