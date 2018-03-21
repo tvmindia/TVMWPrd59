@@ -27,5 +27,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _customerRepository.GetCustomerForSelectList();
         }
+        public List<Customer> GetAllCustomer(CustomerAdvanceSearch customerAdvanceSearch)
+        {
+            return _customerRepository.GetAllCustomer(customerAdvanceSearch);
+        }
+
     }
 }

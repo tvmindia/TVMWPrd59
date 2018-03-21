@@ -35,6 +35,9 @@ namespace ProductionApp.UserInterface.Models
         public string PANNo { get; set; }
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
+        public bool IsUpdate { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
         public CommonViewModel Common { get; set; }
         public List<SelectListItem> SelectList { get; set; }
     }

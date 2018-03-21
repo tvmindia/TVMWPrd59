@@ -673,6 +673,7 @@
     <Content Include="Scripts\UserJS\Bank.js" />
     <Content Include="Scripts\UserJS\BillOfMaterialJS\NewBillOfMaterial.js" />
     <Content Include="Scripts\UserJS\BillOfMaterialJS\ViewBillOfMaterial.js" />
+    <Content Include="Scripts\UserJS\Customer.js" />
     <Content Include="Scripts\UserJS\CustomerInvoice\NewCustomerInvoice.js" />
     <Content Include="Scripts\UserJS\CustomerInvoice\ViewCustomerInvoice.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ApprovalHistory.js" />
@@ -946,6 +947,7 @@
     <Content Include="Views\PackingSlip\_PackingSlipDropdown.cshtml" />
     <Content Include="Views\MaterialReturn\ViewMaterialReturn.cshtml" />
     <Content Include="Views\MaterialReturn\NewMaterialReturn.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

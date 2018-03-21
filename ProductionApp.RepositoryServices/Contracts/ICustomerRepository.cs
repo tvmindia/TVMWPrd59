@@ -11,5 +11,6 @@ namespace ProductionApp.RepositoryServices.Contracts
     {
         List<Customer> GetCustomerForSelectList();
         Customer GetCustomer(Guid customerId);
+        List<Customer> GetAllCustomer(CustomerAdvanceSearch customerAdvanceSearch);
     }
 }

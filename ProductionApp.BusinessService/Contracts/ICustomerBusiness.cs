@@ -11,6 +11,6 @@ namespace ProductionApp.BusinessService.Contracts
     {
         List<Customer> GetCustomerForSelectList();
         Customer GetCustomer(Guid customerId);
-
+        List<Customer> GetAllCustomer(CustomerAdvanceSearch customerAdvanceSearch);
     }
 }

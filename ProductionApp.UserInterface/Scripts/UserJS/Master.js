@@ -219,3 +219,11 @@ function SaveSuccessSubComponent(data, status) {
             break;
     }
 }
+
+//-- Add  Customer--//
+function AddCustomerMaster(flag) {
+    GetMasterPartial("Customer", "");
+    $('#h3ModelMasterContextLabel').text('Add Customer')
+    $('#divModelMasterPopUp').modal('show');
+    $('#hdnMasterCall').val(flag);
+}
