@@ -48,7 +48,9 @@ $(document).ready(function () {
          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a> | <a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>'},
          ],
          columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false },
-             { className: "text-left", "targets": [2, 3, 4, 5, 6] },
+             { className: "text-left", "targets": [2, 3, 4, 5] },
+             { className: "text-right", "targets": [6] },
+             { className: "text-center", "targets": [7] },
              { "targets": [2], "width": "2%", },
              { "targets": [3], "width": "5%" },
              { "targets": [4], "width": "15%" },
@@ -235,8 +237,8 @@ function BindReturnFromProductionByID() {
     $('#ID').val(result.ID);
     $('#ReturnNo').val(result.ReturnNo);
     $('#ReturnDateFormatted').val(result.ReturnDateFormatted);
-    $('#ReceivedBy').val(result.ReceivedBy).select2();
-    $('#ReturnBy').val(result.ReturnBy).select2();
+    $('#ReceivedBy').val(result.ReturnBy).select2();
+    $('#ReturnBy').val(result.ReceivedBy).select2();
     $('#GeneralNotes').val(result.GeneralNotes);
     $('#lblReturnNo').text('Receive From Production#:' + result.ReturnNo);
     BindMaterialReturnDetailTable(ID);

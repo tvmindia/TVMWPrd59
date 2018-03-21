@@ -103,24 +103,39 @@ function BindOrReloadPackingSlipTable(action)
                 pageLength: 10,
                 columns: [
                     { "data": "ID", "defaultContent": "<i>-</i>" },
-                    { "data": "SlipNo", "defaultContent": "<i>-</i>","width":"3%" },
+                    { "data": "SlipNo", "defaultContent": "<i>-</i>","width":"5%" },
                     { "data": "DateFormatted", "defaultContent": "<i>-</i>", "width": "8%" },
-                    { "data": "PackedByEmployeeName", "defaultContent": "<i>-</i>","width":"7%" },
                     {
                         "data": "SalesOrder.CustomerName",render: function (data, type, row) {
-                            row.SalesOrder.OrderNo = row.SalesOrder.OrderNo == null ? "Nill" : row.SalesOrder.OrderNo
-                            return data + '</br><b>OrderNo: </b>' + row.SalesOrder.OrderNo
+                            row.SalesOrder.OrderNo = row.SalesOrder.OrderNo == null ? " " : row.SalesOrder.OrderNo
+                            return '<b>By: </b>' + row.PackedByEmployeeName + '</br><b>Customer: </b>' + row.SalesOrder.CustomerName + '</br><b>OrderNo: </b>' + row.SalesOrder.OrderNo
                         },
-                        "defaultContent": "<i>-</i>","width":"10%",
+                        "defaultContent": "<i>-</i>","width":"15%",
                     },
-                    { "data": "CheckedPackageWeight", "defaultContent": "<i>-</i>","width":"5%" },
-                    { "data": "DispatchedDateFormatted", "defaultContent": "<i>-</i>", "width": "8%" },
-                    { "data": "DispatchedByEmployeeName", "defaultContent": "<i>-</i>", "width": "7%" },
-                    { "data": "VehiclePlateNo", "defaultContent": "<i>-</i>", "width": "7%" },
-                    { "data": "DriverName", "defaultContent": "<i>-</i>", "width": "7%" },
-                    { "data": "ReceivedBy", "defaultContent": "<i>-</i>", "width": "7%" },
-                    { "data": "ReceivedDateFormatted", "defaultContent": "<i>-</i>", "width": "8%" },
-                    { "data": "DispatchRemarks", "defaultContent": "<i>-</i>" },
+                   
+                    {
+                        "data": "DispatchedDateFormatted", render: function (data, type, row) {
+                            row.DispatchedDateFormatted = row.DispatchedDateFormatted == null ? " " : row.DispatchedDateFormatted
+                            row.DispatchedByEmployeeName = row.DispatchedByEmployeeName == null ? " " : row.DispatchedByEmployeeName
+                            row.DispatchRemarks = row.DispatchRemarks == null ? " " : row.DispatchRemarks
+                        return '<b>Date: </b>' + row.DispatchedDateFormatted + '</br><b>By: </b>' + row.DispatchedByEmployeeName + '</br><b>Remarks: </b>' + row.DispatchRemarks
+                        }, "defaultContent": "<i>-</i>", "width": "15%"
+                    },
+                     { "data": "CheckedPackageWeight", "defaultContent": "<i>-</i>", "width": "10%" },
+                    {
+                        "data": "VehiclePlateNo", render: function (data, type, row) {
+                            row.VehiclePlateNo = row.VehiclePlateNo == null ? " " : row.VehiclePlateNo
+                            row.DriverName = row.DriverName == null ? " " : row.DriverName
+                            return '<b>PlateNo: </b>' + row.VehiclePlateNo + '</br><b>Driver: </b>' + row.DriverName
+                        }, "defaultContent": "<i>-</i>", "width": "15%"
+                    },
+                    {
+                        "data": "ReceivedBy", render: function (data, type, row) {
+                            row.ReceivedBy = row.ReceivedBy == null ? " " : row.ReceivedBy
+                            row.ReceivedDateFormatted = row.ReceivedDateFormatted == null ? " " : row.ReceivedDateFormatted
+                            return '<b>By: </b>' + row.ReceivedBy + '</br><b>Date: </b>' + row.ReceivedDateFormatted
+                        }, "defaultContent": "<i>-</i>", "width": "15%"
+                    },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
                             return '<a href="/PackingSlip/AddPackingSlip?code=SALE&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
@@ -128,9 +143,9 @@ function BindOrReloadPackingSlipTable(action)
                     }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                            { className: "text-left", "targets": [1, 3, 4, 7, 8, 9, 10, 12] },
+                            { className: "text-left", "targets": [1, 3,4,7, 8] },
                             { className: "text-right", "targets": [5] },
-                            { className: "text-center", "targets": [2,6,11] }],
+                            { className: "text-center", "targets": [2] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
