@@ -20,7 +20,7 @@ $(document).ready(function () {
     debugger;
     try {
         $("#PackingSlipID").select2({
-            dropdownParent: $("#CustomerInvoiceDetailsModal")
+            dropdownParent: $("#CustomerInvoiceDetailsModal") 
         });
         
         $("#CustomerID").select2({
@@ -173,7 +173,7 @@ function BindPackingSlipDetails(packingSlipID)
     $('#PackingSlip_SalesOrder_CustomerName').val(PackingSlipVM.SalesOrder.CustomerName);
     $('#PackingSlip_SalesOrder_OrderNo').val(PackingSlipVM.SalesOrder.OrderNo);
 
-    DataTables.PackingSlipDetailToInvocieTable.clear(GetPackingSlipDetail(packingSlipID)).rows.add().draw(false);
+  //  DataTables.PackingSlipDetailToInvocieTable.clear(GetPackingSlipDetail(packingSlipID)).rows.add().draw(false);
 
 }
 

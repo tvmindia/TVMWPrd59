@@ -226,6 +226,9 @@ namespace ProductionApp.RepositoryServices.Services
                                     packingSlip.VehiclePlateNo = (sdr["VehiclePlateNo"].ToString() != "" ? sdr["VehiclePlateNo"].ToString() : packingSlip.VehiclePlateNo);
                                     packingSlip.DriverName = (sdr["DriverName"].ToString() != "" ? sdr["DriverName"].ToString() : packingSlip.DriverName);
                                     packingSlip.ReceivedBy = (sdr["ReceivedBy"].ToString() != "" ? sdr["ReceivedBy"].ToString() : packingSlip.ReceivedBy);
+                                    packingSlip.SalesOrder = new SalesOrder();
+                                    packingSlip.SalesOrder.OrderNo= (sdr["OrderNo"].ToString() != "" ? sdr["OrderNo"].ToString() : packingSlip.SalesOrder.OrderNo);
+                                    packingSlip.SalesOrder.CustomerName= (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : packingSlip.SalesOrder.CustomerName);
                                 }
                             }
                         }

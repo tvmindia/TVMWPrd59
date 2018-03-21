@@ -33,6 +33,7 @@ namespace ProductionApp.UserInterface.Models
         public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
         public string DetailJSON { get; set; }
+        [Display(Name = "Sales Person")]
         public string CustomerName { get; set; }
 
         public int FilteredCount { get; set; }
