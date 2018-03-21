@@ -694,8 +694,6 @@
     <Content Include="Scripts\UserJS\Master.js" />
     <Content Include="Scripts\UserJS\MaterialReceiptJS\NewMaterialReceipt.js" />
     <Content Include="Scripts\UserJS\MaterialReceiptJS\ViewMaterialReceipt.js" />
-    <Content Include="Scripts\UserJS\MaterialReturn\NewMaterialReturn.js" />
-    <Content Include="Scripts\UserJS\MaterialReturn\ViewMaterialReturn.js" />
     <Content Include="Scripts\UserJS\MaterialStockAdjustment\ListStockAdjustment.js" />
     <Content Include="Scripts\UserJS\MaterialStockAdjustment\NewStockAdjustment.js" />
     <Content Include="Scripts\UserJS\PackingSlip\AddPackingSlip.js" />
@@ -751,12 +749,10 @@
     <Compile Include="Controllers\IssueToProductionController.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\MaterialReceiptController.cs" />
-    <Compile Include="Controllers\MaterialReturnController.cs" />
     <Compile Include="Controllers\MaterialReturnFromProductionController.cs" />
     <Compile Include="Controllers\MaterialStockAdjController.cs" />
     <Compile Include="Controllers\MaterialTypeController.cs" />
     <Compile Include="Controllers\PackingSlipController.cs" />
-    <Compile Include="Controllers\PaymentTermController.cs" />
     <Compile Include="Controllers\PDFGeneratorController.cs" />
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\DashboardProductionController.cs" />
@@ -801,11 +797,9 @@
     <Compile Include="Models\MaterialIssueViewModel.cs" />
     <Compile Include="Models\MaterialReceiptViewModel.cs" />
     <Compile Include="Models\MaterialReturnFromProductionViewModel.cs" />
-    <Compile Include="Models\MaterialReturnViewModel.cs" />
     <Compile Include="Models\MaterialStockAdjViewModel.cs" />
     <Compile Include="Models\MaterialTypeViewModel.cs" />
     <Compile Include="Models\PackingSlipViewModel.cs" />
-    <Compile Include="Models\PaymentTermViewModel.cs" />
     <Compile Include="Models\PDFGeneratorViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
@@ -942,10 +936,7 @@
     <Content Include="Views\BillOfMaterial\_AddStageDetail.cshtml" />
     <Content Include="Views\CustomerInvoice\ViewCustomerInvoice.cshtml" />
     <Content Include="Views\CustomerInvoice\NewCustomerInvoice.cshtml" />
-    <Content Include="Views\PaymentTerm\_PaymentTermDropdown.cshtml" />
-    <Content Include="Views\PackingSlip\_PackingSlipDropdown.cshtml" />
-    <Content Include="Views\MaterialReturn\ViewMaterialReturn.cshtml" />
-    <Content Include="Views\MaterialReturn\NewMaterialReturn.cshtml" />
+    <Content Include="Views\BillOfMaterial\_ListAllStage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

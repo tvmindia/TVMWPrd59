@@ -1,0 +1,17 @@
+﻿@using ProductionApp.UserInterface.App_Start
+@model ProductionApp.UserInterface.Models.BOMComponentLineViewModel
+
+@section styles {
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/UserCSS/BillOfMaterial")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/jquery-ui")
+}
+
+<ol id="selectable" class="selectable">
+    @{
+        for (int i = 0; i < Model.StageList.Count; i++)
+        {
+            <li value=@Model.StageList[i].ID.ToString() class="ui-widget-content">@Model.StageList[i].Description</li>
+        }
+    }
+</ol>
+
