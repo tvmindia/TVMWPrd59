@@ -1,8 +1,36 @@
-﻿
+﻿@using ProductionApp.UserInterface.App_Start
+@model ProductionApp.UserInterface.Models.MaterialReturnViewModel
 @{
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
+@section styles {
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Selectmin")
+}
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-cogs"></i> Return To Supplier</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+<section class="content">
+    <div class="row">
+        <div class="" id="" style="min-height:25px">
 
-<h2>View</h2>
+            @{
+                var data = new { actionType = "List" };
+                @Html.Action("ChangeButtonStyle", "MaterialReturn", data);
+            }
+        </div>
+    </div>
+    <div class="row summaryboxes">
+        <div class="clearfix visible-sm-block"></div>
+    </div>
+    <div class="row">
+        &nbsp;
+    </div>
+</section>
 
