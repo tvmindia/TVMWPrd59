@@ -86,6 +86,7 @@
     <Compile Include="DTO\Mail.cs" />
     <Compile Include="DTO\MaterialIssue.cs" />
     <Compile Include="DTO\MaterialReceipt.cs" />
+    <Compile Include="DTO\MaterialReturn.cs" />
     <Compile Include="DTO\MaterialReturnFromProduction.cs" />
     <Compile Include="DTO\MaterialStockAdj.cs" />
     <Compile Include="DTO\MaterialType.cs" />
