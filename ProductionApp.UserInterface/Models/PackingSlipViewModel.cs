@@ -32,7 +32,6 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Driver Name")]
         public string DriverName { get; set; }
         [Display(Name = "Checked Package Weight(KGs)")]
-        [Required(ErrorMessage = "Checked Package Weight is required")]
         public decimal? CheckedPackageWeight { get; set; }
         [Display(Name = "Received By")]
         public string ReceivedBy { get; set; }
@@ -57,7 +56,6 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Date is required")]
         public string DateFormatted { get; set; }
         [Display(Name = "Dispatched Date")]
-        [Required(ErrorMessage = "Dispatched  is required")]
         public string DispatchedDateFormatted { get; set; }
         public string IssueToDispatchDateFormatted { get; set; }
         public string ReceivedDateFormatted { get; set; }
