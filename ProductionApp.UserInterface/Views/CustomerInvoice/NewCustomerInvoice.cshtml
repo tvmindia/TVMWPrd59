@@ -206,7 +206,17 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                  
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.PackingSlip.ID, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-12">
+                            <div id="divRawMaterialDropdown">
+                                @Html.Action("PackingSlipDropdown", "PackingSlip")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 headSeperator"></div>
 
                 </div>
             </div>

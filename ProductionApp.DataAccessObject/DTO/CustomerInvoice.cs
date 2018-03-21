@@ -27,7 +27,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string PaymentDueDateFormatted { get; set; }
         public Common Common { get; set; }
         public CustomerInvoiceDetail CustomerInvoiceDetail { get; set; }
-
+        public PackingSlip PackingSlip { get; set; }
 
     }
     public class CustomerInvoiceDetail

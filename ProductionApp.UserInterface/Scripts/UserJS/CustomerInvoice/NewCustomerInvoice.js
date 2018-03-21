@@ -19,9 +19,9 @@ var _jsonData = {};
 $(document).ready(function () {
     debugger;
     try {
-        //$("#ProductID").select2({
-        //    dropdownParent: $("#CustomerInvoiceDetailsModal")
-        //});
+        $("#PackingSlipID").select2({
+            dropdownParent: $("#CustomerInvoiceDetailsModal")
+        });
         
         $("#CustomerID").select2({
         });
@@ -124,5 +124,10 @@ function GetCustomerDetails(customerId) {
 function ShowCustomerInvoiceDetailsModal()
 {
     $('#CustomerInvoiceDetailsModal').modal('show');
+}
+function AddCustomerInvoiceDetails()
+{
+    $('#CustomerInvoiceDetailsModal').modal('hide');
+
 }
 

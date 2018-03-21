@@ -63,5 +63,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _packingSlipRepository.DeletePackingSlip(id);
         }
+
+        public List<PackingSlip> GetPackingSlipForSelectList()
+        {
+            return _packingSlipRepository.GetPackingSlipForSelectList();
+        }
     }
 }

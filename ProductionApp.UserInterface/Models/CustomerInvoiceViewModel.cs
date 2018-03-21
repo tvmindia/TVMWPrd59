@@ -37,7 +37,7 @@ namespace ProductionApp.UserInterface.Models
         public string PaymentDueDateFormatted { get; set; }
         public CommonViewModel Common { get; set; }
         public CustomerInvoiceDetailViewModel CustomerInvoiceDetail { get; set; }
-
+        public PackingSlipViewModel PackingSlip { get; set; }
 
     }
     public class CustomerInvoiceDetailViewModel

@@ -310,6 +310,28 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetProductList
 
+        #region PackingSlipDropdown
+        public ActionResult PackingSlipDropdown()
+        {
+            PackingSlipViewModel packingSlipVM = new PackingSlipViewModel();
+            packingSlipVM.SelectList = new List<SelectListItem>();
+            List<PackingSlipViewModel> packingSlipList = Mapper.Map<List<PackingSlip>, List<PackingSlipViewModel>>(_packingSlipBusiness.GetPackingSlipForSelectList());
+            if (packingSlipList != null)
+                foreach (PackingSlipViewModel packingSlip in packingSlipList)
+                {
+                    packingSlipVM.SelectList.Add(new SelectListItem
+                    {
+                        Text = packingSlip.SlipNo+'-'+packingSlip.SalesOrder.CustomerName,
+                        Value = packingSlip.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            return PartialView("_PackingSlipDropdown", packingSlipVM);
+
+        }
+        #endregion PackingSlipDropdown
+
+
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string actionType)

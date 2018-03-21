@@ -943,6 +943,7 @@
     <Content Include="Views\CustomerInvoice\ViewCustomerInvoice.cshtml" />
     <Content Include="Views\CustomerInvoice\NewCustomerInvoice.cshtml" />
     <Content Include="Views\PaymentTerm\_PaymentTermDropdown.cshtml" />
+    <Content Include="Views\PackingSlip\_PackingSlipDropdown.cshtml" />
     <Content Include="Views\MaterialReturn\ViewMaterialReturn.cshtml" />
     <Content Include="Views\MaterialReturn\NewMaterialReturn.cshtml" />
     <None Include="Web.Debug.config">
