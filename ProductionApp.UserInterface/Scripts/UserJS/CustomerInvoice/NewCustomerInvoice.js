@@ -76,11 +76,49 @@ $(document).ready(function () {
               { className: "text-left", "targets": [3, 5] }
           ]
       }); 
-      
+     
+
+        DataTables.PackingSlipDetailToInvocieTable = $('#tblPackingSlipDetailToInvocie').DataTable({
+            dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+            ordering: false,
+            searching: false,
+            paging: true,
+            "bInfo": false,
+            "bSortable": false ,
+            data: null,
+            pageLength: 15,
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search"
+            },
+            columns: [
+                 { "data": "", "defaultContent": "<i>-</i>" },
+                 { "data": "","width": "5%" },
+                 { "data": "Product", "defaultContent": "<i>-</i>" },
+                 { "data": " ", "defaultContent": "<i>-</i>" },
+                 { "data": " ", "defaultContent": "<i>-</i>" },
+                 { "data": " ", "defaultContent": "<i>-</i>" },
+                 { "data": " ", "defaultContent": "<i>-</i>" },
+                 { "data": " ", "defaultContent": "<i>-</i>" } 
+            ],
+            columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 1 }
+                , { className: "text-right", "targets": [] }
+                , { className: "text-left", "targets": [] }
+                , { "targets": [0], "visible": false, "searchable": false }
+                ],
+            select: { style: 'multi', selector: 'td:first-child' },
+            destroy: true
+        });
+
+
+
+        $("#PackingSlipID").change(function () {
+            BindPackingSlipDetails(this.value);
+        });
+
         $("#CustomerID").change(function () {
             BindCustomerDetails(this.value);
-
-        });  
+        });
 
         debugger;
         if ($('#IsUpdate').val() == 'True') {
@@ -89,6 +127,8 @@ $(document).ready(function () {
         else {
             $('#lblCustomerInvoiceNo').text('Customer Invoice# : New');
         }
+
+
     }
     catch (e) {
         console.log(e.message);
@@ -98,8 +138,6 @@ $(document).ready(function () {
 function BindCustomerDetails(customerId) {
     var customerVM = GetCustomerDetails(customerId)
     $('#BillingAddress').val(customerVM.BillingAddress);
-    //$('#ShippingAddress').val(customerVM.ShippingAddress);
-
 }
 function GetCustomerDetails(customerId) {
     try {
@@ -125,9 +163,75 @@ function ShowCustomerInvoiceDetailsModal()
 {
     $('#CustomerInvoiceDetailsModal').modal('show');
 }
+
+
+function BindPackingSlipDetails(packingSlipID)
+{
+    debugger;
+    var PackingSlipVM = GetPackingSlip(packingSlipID);
+    $('#PackingSlip_SlipNo').val(PackingSlipVM.SlipNo);
+    $('#PackingSlip_SalesOrder_CustomerName').val(PackingSlipVM.SalesOrder.CustomerName);
+    $('#PackingSlip_SalesOrder_OrderNo').val(PackingSlipVM.SalesOrder.OrderNo);
+
+    DataTables.PackingSlipDetailToInvocieTable.clear(GetPackingSlipDetail(packingSlipID)).rows.add().draw(false);
+
+}
+
+function GetPackingSlip(packingSlipID)
+{
+    try {
+        debugger;
+        var data = { "packingSlipID": packingSlipID };
+        var PackingSlipVM = new Object();
+
+        jsonData = GetDataFromServer("CustomerInvoice/GetPackingSlip/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            PackingSlipDetailVM = jsonData.Records;
+        }
+        if (result == "OK") {
+            return PackingSlipDetailVM;
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
+    }
+}
+
+function GetPackingSlipDetail(packingSlipId) {
+    try {
+        debugger;
+        var data = {"packingSlipID": packingSlipID };
+        var PackingSlipDetailVM = new Object();
+
+        jsonData = GetDataFromServer("CustomerInvoice/GetPackingSlipDetail/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            PackingSlipDetailVM = jsonData.Records;
+        }
+        if (result == "OK") {
+            return PackingSlipDetailVM;
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
+    }
+}
+
 function AddCustomerInvoiceDetails()
 {
     $('#CustomerInvoiceDetailsModal').modal('hide');
-
 }
 

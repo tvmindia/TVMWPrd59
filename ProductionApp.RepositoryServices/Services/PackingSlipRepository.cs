@@ -433,7 +433,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetAllPackingSlip]"; 
+                        cmd.CommandText = "[AMC].[GetPackingSlipForSelectList]"; 
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -448,7 +448,6 @@ namespace ProductionApp.RepositoryServices.Services
                                         paySlip.SlipNo = (sdr["SlipNo"].ToString() != "" ? sdr["SlipNo"].ToString() : paySlip.SlipNo);
                                         paySlip.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()) : paySlip.Date);
                                         paySlip.SalesOrderID = (sdr["SalesOrderID"].ToString() != "" ? Guid.Parse(sdr["SalesOrderID"].ToString()) : paySlip.SalesOrderID);
-                                        paySlip.CheckedPackageWeight = (sdr["CheckedPackageWeight"].ToString() != "" ? decimal.Parse(sdr["CheckedPackageWeight"].ToString()) : paySlip.CheckedPackageWeight);
                                         paySlip.SalesOrder = new SalesOrder();
                                         paySlip.SalesOrder.OrderNo = (sdr["OrderNo"].ToString() != "" ? sdr["OrderNo"].ToString() : paySlip.SalesOrder.OrderNo);
                                         paySlip.SalesOrder.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : paySlip.SalesOrder.CustomerName);
