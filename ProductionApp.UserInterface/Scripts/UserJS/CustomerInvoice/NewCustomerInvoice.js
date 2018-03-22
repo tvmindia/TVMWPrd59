@@ -92,14 +92,16 @@ $(document).ready(function () {
                 searchPlaceholder: "Search"
             },
             columns: [
-                 { "data": "", "defaultContent": "<i>-</i>" },
-                 { "data": "","width": "5%" },
-                 { "data": "Product", "defaultContent": "<i>-</i>" },
-                 { "data": " ", "defaultContent": "<i>-</i>" },
-                 { "data": " ", "defaultContent": "<i>-</i>" },
-                 { "data": " ", "defaultContent": "<i>-</i>" },
-                 { "data": " ", "defaultContent": "<i>-</i>" },
-                 { "data": " ", "defaultContent": "<i>-</i>" } 
+                    { "data": "", "defaultContent": "<i>-</i>" },
+                    { "data": "","width": "5%" },
+                    { "data": "ProductID", "defaultContent": "<i>-</i>", "width": "23%" },
+                    { "data": " ", "defaultContent": "<i>-</i>", "width": "9%" },
+                    { "data": " ", "defaultContent": "<i>-</i>", "width": "9%" },
+                    { "data": " ", "defaultContent": "<i>-</i>", "width": "9%" },
+                    { "data": " ", "defaultContent": "<i>-</i>", "width": "9%" },
+                    { "data": " ", "defaultContent": "<i>-</i>", "width": "9%" },
+                    { "data": " ", "defaultContent": "<i>-</i>", "width": "9%" },
+                    { "data": " ", "defaultContent": "<i>-</i>", "width": "9%" }
             ],
             columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 1 }
                 , { className: "text-right", "targets": [] }
@@ -172,8 +174,9 @@ function BindPackingSlipDetails(packingSlipID)
     $('#PackingSlip_SlipNo').val(PackingSlipVM.SlipNo);
     $('#PackingSlip_SalesOrder_CustomerName').val(PackingSlipVM.SalesOrder.CustomerName);
     $('#PackingSlip_SalesOrder_OrderNo').val(PackingSlipVM.SalesOrder.OrderNo);
-
-    DataTables.PackingSlipDetailToInvocieTable.clear(GetPackingSlipDetail(packingSlipID)).rows.add().draw(false);
+    var CustomerInvocieDetailVM = GetPackingSlipDetail(packingSlipID);
+    debugger;
+    DataTables.PackingSlipDetailToInvocieTable.clear(CustomerInvocieDetailVM).rows.add().draw(false);
 
 }
 
@@ -207,7 +210,7 @@ function GetPackingSlip(packingSlipID)
 function GetPackingSlipDetail(packingSlipId) {
     try {
         debugger;
-        var data = {"packingSlipID": packingSlipID };
+        var data = {"packingSlipID": packingSlipId };
         var PackingSlipDetailVM = new Object();
 
         jsonData = GetDataFromServer("CustomerInvoice/GetPackingSlipDetail/", data);

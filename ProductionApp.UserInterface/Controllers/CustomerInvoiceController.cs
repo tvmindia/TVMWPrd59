@@ -63,9 +63,9 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                List<PackingSlipDetailViewModel> packingSlipDetailVM = new List<PackingSlipDetailViewModel>();
-                packingSlipDetailVM = Mapper.Map<List<PackingSlipDetail>, List<PackingSlipDetailViewModel>>(_packingSlipBusiness.GetPackingSlipDetailForCustomerInvoice(Guid.Parse(packingSlipID)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = packingSlipDetailVM, Message = "Success" });
+                List<CustomerInvoiceDetailViewModel> customerInvoiceDetailVM = new List<CustomerInvoiceDetailViewModel>();
+                customerInvoiceDetailVM = Mapper.Map<List<CustomerInvoiceDetail>, List<CustomerInvoiceDetailViewModel>>(_customerInvoiceBusiness.GetPackingSlipDetailForCustomerInvoice(Guid.Parse(packingSlipID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerInvoiceDetailVM, Message = "Success" });
             }
             catch (Exception ex)
             {

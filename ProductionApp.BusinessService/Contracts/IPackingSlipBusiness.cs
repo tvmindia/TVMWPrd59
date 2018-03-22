@@ -17,7 +17,6 @@ namespace ProductionApp.BusinessService.Contracts
         object DeletePackingSlipDetail(Guid id);
         object DeletePackingSlip(Guid id);
         List<PackingSlip> GetPackingSlipForSelectList();
-        List<PackingSlipDetail> GetPackingSlipDetailForCustomerInvoice(Guid packingSlipID);
 
 
     }

@@ -53,6 +53,8 @@ namespace ProductionApp.UserInterface.Models
         public decimal TaxAmount { get; set; }
         public bool IsInvoiceInKG { get; set; }
         //additional properties
+        public string ProductName { get; set; }
+
     }
 
     public class CustomerInvoiceDetailLinkViewModel

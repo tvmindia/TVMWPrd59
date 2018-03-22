@@ -74,9 +74,5 @@ namespace ProductionApp.BusinessService.Services
             return _packingSlipRepository.GetPackingSlipForSelectList();
         }
 
-        public List<PackingSlipDetail> GetPackingSlipDetailForCustomerInvoice(Guid packingSlipID)
-        {
-            return _packingSlipRepository.GetPackingSlipDetailForCustomerInvoice(packingSlipID);
-        }
     }
 }

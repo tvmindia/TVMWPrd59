@@ -1,4 +1,5 @@
 ﻿using ProductionApp.BusinessService.Contracts;
+using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.RepositoryServices.Contracts;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,11 @@ namespace ProductionApp.BusinessService.Services
         public CustomerInvoiceBusiness(ICustomerInvoiceRepository customerInvoiceRepository)
         {
             _customerInvoiceRepository = customerInvoiceRepository;
+        }
+
+        public List<CustomerInvoiceDetail> GetPackingSlipDetailForCustomerInvoice(Guid packingSlipID)
+        {
+            return _customerInvoiceRepository.GetPackingSlipDetailForCustomerInvoice(packingSlipID);
         }
     }
 }

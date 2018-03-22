@@ -43,6 +43,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal TaxAmount { get; set; }
         public bool IsInvoiceInKG { get; set; }
         //additional properties
+        public string ProductName { get; set; }
+
     }
 
     public class CustomerInvoiceDetailLink
