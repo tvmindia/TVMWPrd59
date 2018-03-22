@@ -223,7 +223,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     MaterialIssueDetail materialIssue = new MaterialIssueDetail();
                                     {
                                         materialIssue.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : materialIssue.ID);
-                                        materialIssue.HeaderID= (sdr["HeaderID"].ToString() != "" ? Guid.Parse(sdr["HeaderID"].ToString()) : materialIssue.HeaderID);
+                                        materialIssue.MaterialIssueID = (sdr["MaterialIssueID"].ToString() != "" ? Guid.Parse(sdr["MaterialIssueID"].ToString()) : materialIssue.MaterialIssueID);
                                         materialIssue.MaterialID= (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : materialIssue.MaterialID);
                                         materialIssue.MaterialDesc= (sdr["MaterialDesc"].ToString() != "" ? sdr["MaterialDesc"].ToString() : materialIssue.MaterialDesc);
                                         materialIssue.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : materialIssue.ToString());

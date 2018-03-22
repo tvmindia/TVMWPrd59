@@ -57,7 +57,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     FinishedGoodStockAdj finishedStockAdj = new FinishedGoodStockAdj();
                                     {
                                         finishedStockAdj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : finishedStockAdj.ID);
-                                        finishedStockAdj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? sdr["ReferenceNo"].ToString() : finishedStockAdj.ReferenceNo);
+                                        finishedStockAdj.AdjustmentNo = (sdr["AdjustmentNo"].ToString() != "" ? sdr["AdjustmentNo"].ToString() : finishedStockAdj.AdjustmentNo);
                                         finishedStockAdj.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()) : finishedStockAdj.Date);
                                         finishedStockAdj.AdjustmentDateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.DateFormat) : finishedStockAdj.AdjustmentDateFormatted);
                                         finishedStockAdj.AdjustedByEmployeeName = (sdr["AdjustedByEmployeeName"].ToString() != "" ? sdr["AdjustedByEmployeeName"].ToString() : finishedStockAdj.AdjustedByEmployeeName);
@@ -167,7 +167,7 @@ namespace ProductionApp.RepositoryServices.Services
                                 if (sdr.Read())
                                 {
                                     finishedGoodStockAdj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : finishedGoodStockAdj.ID);
-                                    finishedGoodStockAdj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? sdr["ReferenceNo"].ToString() : finishedGoodStockAdj.ReferenceNo);
+                                    finishedGoodStockAdj.AdjustmentNo = (sdr["AdjustmentNo"].ToString() != "" ? sdr["AdjustmentNo"].ToString() : finishedGoodStockAdj.AdjustmentNo);
                                     finishedGoodStockAdj.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()) : finishedGoodStockAdj.Date);
                                     finishedGoodStockAdj.AdjustmentDateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.DateFormat) : finishedGoodStockAdj.AdjustmentDateFormatted);
                                     finishedGoodStockAdj.Remarks = (sdr["Remarks"].ToString() != "" ? sdr["Remarks"].ToString() : finishedGoodStockAdj.Remarks);

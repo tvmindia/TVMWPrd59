@@ -56,7 +56,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     MaterialStockAdj materialStockAdjustment = new MaterialStockAdj();
                                     {
                                         materialStockAdjustment.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : materialStockAdjustment.ID);
-                                        materialStockAdjustment.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? sdr["ReferenceNo"].ToString() : materialStockAdjustment.ReferenceNo);
+                                        materialStockAdjustment.AdjustmentNo = (sdr["AdjustmentNo"].ToString() != "" ? sdr["AdjustmentNo"].ToString() : materialStockAdjustment.AdjustmentNo);
                                         materialStockAdjustment.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()) : materialStockAdjustment.Date);
                                         materialStockAdjustment.AdjustmentDateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.DateFormat) : materialStockAdjustment.AdjustmentDateFormatted);
                                         materialStockAdjustment.AdjustedByEmployeeName = (sdr["AdjustedByEmployeeName"].ToString() != "" ? sdr["AdjustedByEmployeeName"].ToString() : materialStockAdjustment.AdjustedByEmployeeName);
@@ -166,7 +166,7 @@ namespace ProductionApp.RepositoryServices.Services
                                 if (sdr.Read())
                                 {
                                     materialStockAdj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : materialStockAdj.ID);
-                                    materialStockAdj.ReferenceNo = (sdr["ReferenceNo"].ToString() != "" ? sdr["ReferenceNo"].ToString() : materialStockAdj.ReferenceNo);
+                                    materialStockAdj.AdjustmentNo = (sdr["AdjustmentNo"].ToString() != "" ? sdr["AdjustmentNo"].ToString() : materialStockAdj.AdjustmentNo);
                                     materialStockAdj.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()) : materialStockAdj.Date);
                                     materialStockAdj.AdjustmentDateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.DateFormat) : materialStockAdj.AdjustmentDateFormatted);
                                     materialStockAdj.Remarks = (sdr["Remarks"].ToString() != "" ? sdr["Remarks"].ToString() : materialStockAdj.Remarks);

@@ -33,13 +33,11 @@ namespace ProductionApp.DataAccessObject.DTO
     public class MaterialIssueDetail
     {
         public Guid ID { get; set; }
-        public Guid HeaderID { get; set; }
+        public Guid MaterialIssueID { get; set; }
         public Guid MaterialID { get; set; }
         public string MaterialDesc { get; set; }
         public string UnitCode { get; set; }
-        public decimal Qty { get; set; }
-        public string OtherUnit { get; set; }
-        public decimal OtherQty { get; set; }
+        public decimal Qty { get; set; }       
         public Common Common { get; set; }
         public Material Material { get; set; }
     }

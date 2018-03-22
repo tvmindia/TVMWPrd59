@@ -325,7 +325,7 @@ function AddMaterialIssueDetailList()
     {
         MaterialIssueDetail = new Object();
         MaterialIssueDetail.ID = data[r].ID;
-        MaterialIssueDetail.HeaerID = data[r].HeaerID;
+        MaterialIssueDetail.MaterialIssueID = data[r].MaterialIssueID;
         MaterialIssueDetail.MaterialID = data[r].MaterialID;
         MaterialIssueDetail.MaterialDesc = data[r].MaterialDesc;
         MaterialIssueDetail.UnitCode = data[r].UnitCode;

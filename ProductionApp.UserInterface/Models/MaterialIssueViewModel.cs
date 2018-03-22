@@ -42,7 +42,7 @@ namespace ProductionApp.UserInterface.Models
     public class MaterialIssueDetailViewModel
     {
         public Guid ID { get; set; }
-        public Guid HeaderID { get; set; }
+        public Guid MaterialIssueID { get; set; }
         [Display(Name ="Material")]
         public Guid MaterialID { get; set; }
         [Display(Name ="Material Description")]
@@ -50,9 +50,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Unit Code")]
         public string UnitCode { get; set; }
         [Display(Name = "Quantity")]
-        public decimal Qty { get; set; }
-        public string OtherUnit { get; set; }
-        public decimal OtherQty { get; set; }
+        public decimal Qty { get; set; }        
         public CommonViewModel Common { get; set; }   
         public MaterialIssueViewModel MaterialIssue { get; set; }
         public MaterialViewModel Material { get; set; }

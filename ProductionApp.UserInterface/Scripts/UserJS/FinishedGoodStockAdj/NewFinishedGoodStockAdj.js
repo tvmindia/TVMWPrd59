@@ -248,11 +248,11 @@ function BindFinishedGoodStockAdjByID()
     var result = GetFinishedGoodStockAdjByID(id);
     debugger;
     $('#ID').val(result.ID);
-    $('#ReferenceNo').val(result.ReferenceNo);
+    $('#AdjustmentNo').val(result.AdjustmentNo);
     $('#EmployeeID').val(result.EmployeeID).select2();
     $('#AdjustmentDateFormatted').val(result.AdjustmentDateFormatted);
     $('#Remarks').val(result.Remarks);
-    $('#lblFGStockAdjNo').text('Finished Good Stock Adj.No# :' + result.ReferenceNo);
+    $('#lblFGStockAdjNo').text('Finished Good Stock Adj.No# :' + result.AdjustmentNo);
     $('#LatestApprovalStatus').val(result.LatestApprovalStatus);
     $('#LatestApprovalID').val(result.LatestApprovalID);
     $('#lblApprovalStatus').text(result.ApprovalStatus);

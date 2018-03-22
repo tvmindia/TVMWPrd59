@@ -20,7 +20,7 @@ namespace ProductionApp.UserInterface.Models
         public int LatestApprovalStatus { get; set; }
         public bool IsFinalApproved { get; set; }
         public string ApprovalStatus { get; set; }
-        public string ReferenceNo { get; set; }
+        public string AdjustmentNo { get; set; }
         public CommonViewModel Common { get; set; }
 
         //Additional Fields Adjustment

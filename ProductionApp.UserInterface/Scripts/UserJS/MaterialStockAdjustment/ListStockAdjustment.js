@@ -81,7 +81,7 @@ function BindOrReloadStockAdjustmentTable(action) {
                 pageLength: 10,
                 columns: [
                     { "data": "ID", "defaultContent": "<i>-</i>" },
-                    { "data": "ReferenceNo", "defaultContent": "<i>-</i>" },
+                    { "data": "AdjustmentNo", "defaultContent": "<i>-</i>" },
                     { "data": "AdjustmentDateFormatted", "defaultContent": "<i>-</i>" },
                     { "data": "AdjustedByEmployeeName", "defaultContent": "<i>-</i>" },
                     { "data": "Remarks", "defaultContent": "<i>-</i>" },

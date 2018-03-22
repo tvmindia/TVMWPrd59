@@ -16,7 +16,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public int LatestApprovalStatus { get; set; }
         public bool IsFinalApproved { get; set; }
         public string ApprovalStatus { get; set; }
-        public string ReferenceNo { get; set; }
+        public string AdjustmentNo { get; set; }
         public Common Common { get; set; }
 
         public string AdjustmentDateFormatted { get; set; }
