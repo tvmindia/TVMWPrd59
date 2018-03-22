@@ -16,10 +16,12 @@ namespace ProductionApp.UserInterface.Controllers
     {
         private ICustomerInvoiceBusiness _customerInvoiceBusiness;
         private ICustomerBusiness _customerBusiness;
-        public CustomerInvoiceController(ICustomerInvoiceBusiness customerInvoiceBusiness, ICustomerBusiness customerBusiness)
+        private IPackingSlipBusiness _packingSlipBusiness;
+        public CustomerInvoiceController(ICustomerInvoiceBusiness customerInvoiceBusiness, ICustomerBusiness customerBusiness, IPackingSlipBusiness packingSlipBusiness)
         {
             _customerInvoiceBusiness = customerInvoiceBusiness;
             _customerBusiness = customerBusiness;
+            _packingSlipBusiness = packingSlipBusiness;
         }
         // GET: CustomerInvoice
         public ActionResult ViewCustomerInvoice(string code)
@@ -55,6 +57,22 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion GetCustomerDetails
+
+        #region GetPackingSlip
+        public string GetPackingSlip(string packingSlipID)
+        {
+            try
+            {
+                PackingSlipViewModel packingSlipVM = Mapper.Map<PackingSlip, PackingSlipViewModel>(_packingSlipBusiness.GetPackingSlipByID(Guid.Parse(packingSlipID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = packingSlipVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+
+        #endregion GetPackingSlip
 
         #region ButtonStyling
         [HttpGet]
