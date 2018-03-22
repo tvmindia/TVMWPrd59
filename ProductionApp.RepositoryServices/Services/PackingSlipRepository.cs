@@ -183,7 +183,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion InsertUpdatePackingSlip
 
         #region GetPackingSlipByID
-        public PackingSlip GetPackingSlipByID(Guid id)
+        public PackingSlip GetPackingSlip(Guid id)
         {
             PackingSlip packingSlip = new PackingSlip();
             try
@@ -197,7 +197,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetPackingSlipByID]";
+                        cmd.CommandText = "[AMC].[GetPackingSlip]";
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -241,7 +241,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion GetPackingSlipByID
 
         #region PackingSlipDetailByID
-        public List<PackingSlipDetail> GetPackingSlipDetailByID(Guid id)
+        public List<PackingSlipDetail> GetPackingSlipDetail(Guid id)
         {
             List<PackingSlipDetail> PkgSlipDetailList = null;
             try
@@ -255,7 +255,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetPackingSlipDetailByID]";
+                        cmd.CommandText = "[AMC].[GetPackingSlipDetail]";
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -289,7 +289,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion PackingSlipDetailByID
 
         #region PackingSlipDetailByIDForEdit
-        public List<PackingSlip> PackingSlipDetailByIDForEdit(Guid PkgSlipDetailID)
+        public List<PackingSlip> PackingSlipDetailByPackingSlipDetailID(Guid PkgSlipDetailID)
         {
             List<PackingSlip> pkgSlipList = null;
             try
@@ -303,7 +303,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetPackingSlipDetailByIDForEdit]";
+                        cmd.CommandText = "[AMC].[GetPackingSlipDetailByPackingSlipDetailID]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@PkgSlipDetailID", SqlDbType.UniqueIdentifier).Value = PkgSlipDetailID;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

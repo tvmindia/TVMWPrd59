@@ -72,17 +72,17 @@ namespace ProductionApp.BusinessService.Services
         {
             return _purchaseOrderRepository.UpdatePOMailDetails(purchaseOrder);
         }
-        public PurchaseOrder GetPurchaseOrderByID(Guid ID)
+        public PurchaseOrder GetPurchaseOrder(Guid ID)
         {
-            return _purchaseOrderRepository.GetPurchaseOrderByID(ID);
+            return _purchaseOrderRepository.GetPurchaseOrder(ID);
         }
-        public List<PurchaseOrderDetail> GetPurchaseOrderDetailByID(Guid ID)
+        public List<PurchaseOrderDetail> GetPurchaseOrderDetail(Guid ID)
         {
-            return _purchaseOrderRepository.GetPurchaseOrderDetailByID(ID);
+            return _purchaseOrderRepository.GetPurchaseOrderDetails(ID);
         }
-        public List<PurchaseOrderDetail> GetPurchaseOrderDetailByIDForEdit(Guid ID)
+        public List<PurchaseOrderDetail> GetPurchaseOrderDetailByPODetailID(Guid ID)
         {
-            return _purchaseOrderRepository.GetPurchaseOrderDetailByIDForEdit(ID);
+            return _purchaseOrderRepository.GetPurchaseOrderDetailByPODetailID(ID);
         }
         public object DeletePurchaseOrder(Guid ID)
         {
@@ -97,12 +97,12 @@ namespace ProductionApp.BusinessService.Services
             PurchaseOrder purchaseOrder = null;
             try
             {
-                purchaseOrder = GetPurchaseOrderByID(ID);
+                purchaseOrder = GetPurchaseOrder(ID);
                 if (purchaseOrder != null)
                 {
                     if ((purchaseOrder.ID != Guid.Empty) && (purchaseOrder.ID != null))
                     {
-                        purchaseOrder.PODDetail = GetPurchaseOrderDetailByID(ID);
+                        purchaseOrder.PODDetail = GetPurchaseOrderDetail(ID);
                     }
                 }
             }

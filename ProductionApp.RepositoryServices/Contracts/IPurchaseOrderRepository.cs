@@ -13,9 +13,9 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<PurchaseOrder> GetAllPurchaseOrderForSelectList();
         object InsertPurchaseOrder(PurchaseOrder purchaseOrder);
         object UpdatePurchaseOrder(PurchaseOrder purchaseOrder);
-        PurchaseOrder GetPurchaseOrderByID(Guid ID);
-        List<PurchaseOrderDetail> GetPurchaseOrderDetailByID(Guid ID);
-        List<PurchaseOrderDetail> GetPurchaseOrderDetailByIDForEdit(Guid ID);
+        PurchaseOrder GetPurchaseOrder(Guid ID);
+        List<PurchaseOrderDetail> GetPurchaseOrderDetails(Guid ID);
+        List<PurchaseOrderDetail> GetPurchaseOrderDetailByPODetailID(Guid ID);
         object DeletePurchaseOrder(Guid ID);
         object DeletePurchaseOrderDetail(Guid ID);
         object UpdatePurchaseOrderDetailLink(PurchaseOrder purchaseOrder);

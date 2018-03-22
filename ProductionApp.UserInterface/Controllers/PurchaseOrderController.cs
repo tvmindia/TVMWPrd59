@@ -103,13 +103,13 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion UpdatePurchaseOrderDetailLink
 
-        #region EditPurchaseOrderDetail
+        #region GetPurchaseOrderDetailByPODetailID
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
-        public string EditPurchaseOrderDetail(string ID)
+        public string GetPurchaseOrderDetailByPODetailID(string ID)
         {
             try
             {
-                List<PurchaseOrderDetailViewModel> purchaseOrderList = Mapper.Map<List<PurchaseOrderDetail>, List<PurchaseOrderDetailViewModel>>(_purchaseOrderBusiness.GetPurchaseOrderDetailByIDForEdit(Guid.Parse(ID)));
+                List<PurchaseOrderDetailViewModel> purchaseOrderList = Mapper.Map<List<PurchaseOrderDetail>, List<PurchaseOrderDetailViewModel>>(_purchaseOrderBusiness.GetPurchaseOrderDetailByPODetailID(Guid.Parse(ID)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderList, Message = "Success" });
             }
             catch (Exception ex)
@@ -117,15 +117,15 @@ namespace ProductionApp.UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Records="", Message = ex });
             }
         }
-        #endregion EditPurchaseOrderDetail
-        
-        #region GetPurchaseOrderByID
+        #endregion GetPurchaseOrderDetailByPODetailID
+
+        #region GetPurchaseOrder
 
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
-        public string GetPurchaseOrderByID(string ID)
+        public string GetPurchaseOrder(string ID)
         {
             try { 
-            PurchaseOrderViewModel purchaseOrderVM = Mapper.Map<PurchaseOrder, PurchaseOrderViewModel>(_purchaseOrderBusiness.GetPurchaseOrderByID(Guid.Parse( ID)));
+            PurchaseOrderViewModel purchaseOrderVM = Mapper.Map<PurchaseOrder, PurchaseOrderViewModel>(_purchaseOrderBusiness.GetPurchaseOrder(Guid.Parse( ID)));
             return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderVM, Message = "Success" });
             }
             catch (Exception ex)
@@ -133,14 +133,14 @@ namespace ProductionApp.UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
             }
         }
-        #endregion GetPurchaseOrderByID
+        #endregion GetPurchaseOrder
 
-        #region GetPurchaseOrderDetailTableByID
+        #region GetPurchaseOrderDetail
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
-        public string GetPurchaseOrderDetailByID(string ID)
+        public string GetPurchaseOrderDetail(string ID)
         {
             try { 
-            List<PurchaseOrderDetailViewModel> purchaseOrderList = Mapper.Map<List<PurchaseOrderDetail>, List<PurchaseOrderDetailViewModel>>(_purchaseOrderBusiness.GetPurchaseOrderDetailByID(Guid.Parse(ID)));
+            List<PurchaseOrderDetailViewModel> purchaseOrderList = Mapper.Map<List<PurchaseOrderDetail>, List<PurchaseOrderDetailViewModel>>(_purchaseOrderBusiness.GetPurchaseOrderDetail(Guid.Parse(ID)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderList, Message = "Success" });
             }
             catch (Exception ex)
@@ -148,7 +148,7 @@ namespace ProductionApp.UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Records="", Message = ex });
             }
         }
-        #endregion GetPurchaseOrderDetailTableByID
+        #endregion GetPurchaseOrderDetail
 
         #region GetAllPurchaseOrder
         [HttpPost]

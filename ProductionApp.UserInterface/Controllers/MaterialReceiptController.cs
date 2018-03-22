@@ -137,7 +137,7 @@ namespace ProductionApp.UserInterface.Controllers
             try
             {
                 PurchaseOrderViewModel purchaseOrderVM = new PurchaseOrderViewModel();
-                purchaseOrderVM.PODDetail = Mapper.Map<List<PurchaseOrderDetail>, List<PurchaseOrderDetailViewModel>>(_purchaseOrderBusiness.GetPurchaseOrderDetailByID(Guid.Parse(id)));
+                purchaseOrderVM.PODDetail = Mapper.Map<List<PurchaseOrderDetail>, List<PurchaseOrderDetailViewModel>>(_purchaseOrderBusiness.GetPurchaseOrderDetail(Guid.Parse(id)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderVM.PODDetail, Message = "Success" });
             }
             catch(Exception ex)

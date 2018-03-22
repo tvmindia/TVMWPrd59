@@ -14,10 +14,10 @@ namespace ProductionApp.BusinessService.Contracts
         object InsertPurchaseOrder(PurchaseOrder purchaseOrder);
         object UpdatePurchaseOrder(PurchaseOrder purchaseOrder);
         object UpdatePurchaseOrderDetailLink(PurchaseOrder purchaseOrder);
-        PurchaseOrder GetPurchaseOrderByID(Guid ID);
+        PurchaseOrder GetPurchaseOrder(Guid ID);
         PurchaseOrder GetMailPreview(Guid ID);
-        List<PurchaseOrderDetail> GetPurchaseOrderDetailByID(Guid ID);
-        List<PurchaseOrderDetail> GetPurchaseOrderDetailByIDForEdit(Guid ID);
+        List<PurchaseOrderDetail> GetPurchaseOrderDetail(Guid ID);
+        List<PurchaseOrderDetail> GetPurchaseOrderDetailByPODetailID(Guid ID);
         object UpdatePOMailDetails(PurchaseOrder purchaseOrder);
         object DeletePurchaseOrder(Guid ID);
         object DeletePurchaseOrderDetail(Guid ID);

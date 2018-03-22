@@ -547,7 +547,7 @@ function GetPkgSlipByID(ID) {
         var message = "";
         var jsonData = {};
         var pkgDetailVM = new Object();
-        jsonData = GetDataFromServer("PackingSlip/GetPackingSlipByID/", data);
+        jsonData = GetDataFromServer("PackingSlip/GetPackingSlip/", data);
         if (jsonData != '') {
             jsonData = JSON.parse(jsonData);
             result = jsonData.Result;
@@ -585,7 +585,7 @@ function GetPkgDetail(id)
         var result = "";
         var message = "";
         var pkgDetailVM = new Object();
-        jsonData = GetDataFromServer("PackingSlip/GetPackingSlipDetailByID/", data);
+        jsonData = GetDataFromServer("PackingSlip/GetPackingSlipDetail/", data);
         if (jsonData != '') {
             jsonData = JSON.parse(jsonData);
             result = jsonData.Result;
@@ -635,7 +635,7 @@ function GetEditPkgSlipDetail(ID) {
         var message = "";
         var jsonData = {};
         var pkgDetailVM = new Object();
-        jsonData = GetDataFromServer("PackingSlip/EditPackingSlipDetail/", data);
+        jsonData = GetDataFromServer("PackingSlip/PackingSlipDetailByPackingSlipDetailID/", data);
         if (jsonData != '') {
             jsonData = JSON.parse(jsonData);
             pkgDetailVM = jsonData.Records;

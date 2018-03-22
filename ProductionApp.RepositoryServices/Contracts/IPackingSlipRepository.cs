@@ -11,9 +11,9 @@ namespace ProductionApp.RepositoryServices.Contracts
     {
         List<PackingSlip> GetAllPackingSlip(PackingSlipAdvanceSearch paySlipAdvanceSearch);
         object InsertUpdatePackingSlip(PackingSlip packingSlip);
-        PackingSlip GetPackingSlipByID(Guid id);
-        List<PackingSlipDetail> GetPackingSlipDetailByID(Guid id);
-        List<PackingSlip> PackingSlipDetailByIDForEdit(Guid PkgSlipDetailID);
+        PackingSlip GetPackingSlip(Guid id);
+        List<PackingSlipDetail> GetPackingSlipDetail(Guid id);
+        List<PackingSlip> PackingSlipDetailByPackingSlipDetailID(Guid PkgSlipDetailID);
         object DeletePackingSlip(Guid id);
         object DeletePackingSlipDetail(Guid id);
         List<PackingSlip> GetPackingSlipForSelectList();

@@ -829,7 +829,7 @@ function GetPurchaseOrderDetailsByID(ID) {
         var message = "";
         var jsonData = {};
         var purchaseOrderVM = new Object();
-        jsonData = GetDataFromServer("PurchaseOrder/GetPurchaseOrderByID/", data);
+        jsonData = GetDataFromServer("PurchaseOrder/GetPurchaseOrder/", data);
         if (jsonData != '') {
             jsonData = JSON.parse(jsonData);
             purchaseOrderVM = jsonData.Records;
@@ -870,7 +870,7 @@ function GetPurchaseOrderDetailTable() {
         var message = "";
         var jsonData = {};
         var purchaseOrderDetailVM = new Object();
-        jsonData = GetDataFromServer("PurchaseOrder/GetPurchaseOrderDetailByID/", data);
+        jsonData = GetDataFromServer("PurchaseOrder/GetPurchaseOrderDetail/", data);
         if (jsonData != '') {
             jsonData = JSON.parse(jsonData);
             result = jsonData.Result;
@@ -925,7 +925,7 @@ function EditPurchaseOrderDetail(ID) {
         var message = "";
         var jsonData = {};
         var purchaseOrderDetailVM = new Object();
-        jsonData = GetDataFromServer("PurchaseOrder/EditPurchaseOrderDetail/", data);
+        jsonData = GetDataFromServer("PurchaseOrder/GetPurchaseOrderDetailByPODetailID/", data);
         if (jsonData != '') {
             jsonData = JSON.parse(jsonData);
             purchaseOrderDetailVM = jsonData.Records;

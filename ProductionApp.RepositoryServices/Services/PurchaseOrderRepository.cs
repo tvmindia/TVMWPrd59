@@ -478,7 +478,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion UpdatePurchaseOrderMailStatus
 
         #region GetPurchaseOrderByID
-        public PurchaseOrder GetPurchaseOrderByID(Guid ID)
+        public PurchaseOrder GetPurchaseOrder(Guid ID)
         {
             PurchaseOrder purchaseOrder = new PurchaseOrder();
             try
@@ -492,7 +492,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetPurchaseOrderByID]";
+                        cmd.CommandText = "[AMC].[GetPurchaseOrder]";
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -543,7 +543,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion GetPurchaseOrderByID
 
         #region GetPurchaseOrderDetailsBYID
-        public List<PurchaseOrderDetail> GetPurchaseOrderDetailByID(Guid ID)
+        public List<PurchaseOrderDetail> GetPurchaseOrderDetails(Guid ID)
         {
             List<PurchaseOrderDetail> PODList = null;
             try
@@ -557,7 +557,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetPurchaseOrderDetailsByID]";
+                        cmd.CommandText = "[AMC].[GetPurchaseOrderDetails]";
                         cmd.Parameters.Add("@POID", SqlDbType.UniqueIdentifier).Value = ID;
                         cmd.CommandType = CommandType.StoredProcedure;
 
@@ -601,7 +601,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion GetPurchaseOrderDetailsBYID
 
         #region PurchaseOrderDetailForEdit
-        public List<PurchaseOrderDetail> GetPurchaseOrderDetailByIDForEdit(Guid ID)
+        public List<PurchaseOrderDetail> GetPurchaseOrderDetailByPODetailID(Guid ID)
         {
             List<PurchaseOrderDetail> PODList = null;
            
@@ -616,7 +616,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetPurchaseOrderDetailByIDForEdit]";
+                        cmd.CommandText = "[AMC].[GetPurchaseOrderDetailByPODetailID]";
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

@@ -41,18 +41,18 @@ namespace ProductionApp.BusinessService.Services
             packingSlip.DetailXML = result;
         }
 
-        public PackingSlip GetPackingSlipByID(Guid id)
+        public PackingSlip GetPackingSlip(Guid id)
         {
-            return _packingSlipRepository.GetPackingSlipByID(id);
+            return _packingSlipRepository.GetPackingSlip(id);
         }
 
-        public List<PackingSlipDetail> GetPackingSlipDetailByID(Guid id)
+        public List<PackingSlipDetail> GetPackingSlipDetail(Guid id)
         {
-            return _packingSlipRepository.GetPackingSlipDetailByID(id);
+            return _packingSlipRepository.GetPackingSlipDetail(id);
         }
-        public List<PackingSlip> PackingSlipDetailByIDForEdit(Guid PkgSlipDetailID)
+        public List<PackingSlip> PackingSlipDetailByPackingSlipDetailID(Guid PkgSlipDetailID)
         {
-            return _packingSlipRepository.PackingSlipDetailByIDForEdit(PkgSlipDetailID);
+            return _packingSlipRepository.PackingSlipDetailByPackingSlipDetailID(PkgSlipDetailID);
         }
 
         public object DeletePackingSlipDetail(Guid id)

@@ -1,4 +1,5 @@
-﻿using ProductionApp.BusinessService.Contracts;
+﻿using AutoMapper;
+using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
 using System;
@@ -12,22 +13,87 @@ namespace ProductionApp.UserInterface.Controllers
     public class MaterialReturnController : Controller
     {
         IMaterialReturnBusiness _materialReturnBusiness;
+        private IEmployeeBusiness _employeeBusiness;
         AppConst _appConst = new AppConst();
-        public MaterialReturnController(IMaterialReturnBusiness materialReturnBusiness)
+        public MaterialReturnController(IMaterialReturnBusiness materialReturnBusiness, IEmployeeBusiness employeeBusiness)
         {
             _materialReturnBusiness = materialReturnBusiness;
+            _employeeBusiness = employeeBusiness;
         }
         public ActionResult ViewMaterialReturn(string code)
         {
             ViewBag.SysModuleCode = code;
-            return View();
+            MaterialReturnAdvanceSearchViewModel materialReturnAdvanceSearchVM = new MaterialReturnAdvanceSearchViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            materialReturnAdvanceSearchVM.Employee = new EmployeeViewModel();
+            materialReturnAdvanceSearchVM.Employee.SelectList = new List<SelectListItem>();
+            List<EmployeeViewModel> employeeList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_employeeBusiness.GetEmployeeForSelectList());
+            if (employeeList != null)
+            {
+                foreach (EmployeeViewModel Emp in employeeList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Emp.Name,
+                        Value = Emp.ID.ToString(),
+                        Selected = false,
+                    });
+
+                }
+            }
+            materialReturnAdvanceSearchVM.Employee.SelectList = selectListItem;
+            return View(materialReturnAdvanceSearchVM);
         }
 
         public ActionResult NewMaterialReturn(string code)
         {
             ViewBag.SysModuleCode = code;
-            return View();
+            MaterialReturnViewModel materialReturnVM = new MaterialReturnViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            materialReturnVM.Employee = new EmployeeViewModel();
+            materialReturnVM.Employee.SelectList = new List<SelectListItem>();
+            List<EmployeeViewModel> employeeList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_employeeBusiness.GetEmployeeForSelectList());
+            if (employeeList != null)
+            {
+                foreach (EmployeeViewModel Emp in employeeList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Emp.Name,
+                        Value = Emp.ID.ToString(),
+                        Selected = false,
+                    });
+
+                }
+            }
+            materialReturnVM.Employee.SelectList = selectListItem;
+            return View(materialReturnVM);
         }
+
+        #region GetAllReturnToSupplier
+        
+        public JsonResult GetAllReturnToSupplier(DataTableAjaxPostModel model, MaterialReturnAdvanceSearchViewModel materialReturnAdvanceSearchVM)
+        {
+            materialReturnAdvanceSearchVM.DataTablePaging.Start = model.start;
+            materialReturnAdvanceSearchVM.DataTablePaging.Length = (materialReturnAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : materialReturnAdvanceSearchVM.DataTablePaging.Length);
+            List<MaterialReturnViewModel> materialIssueOrderList = Mapper.Map<List<MaterialReturn>, List<MaterialReturnViewModel>>(_materialReturnBusiness.GetAllReturnToSupplier(Mapper.Map<MaterialReturnAdvanceSearchViewModel, MaterialReturnAdvanceSearch>(materialReturnAdvanceSearchVM)));
+            if (materialReturnAdvanceSearchVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = materialIssueOrderList.Count != 0 ? materialIssueOrderList[0].TotalCount : 0;
+                int filteredResult = materialIssueOrderList.Count != 0 ? materialIssueOrderList[0].FilteredCount : 0;
+                materialIssueOrderList = materialIssueOrderList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = materialIssueOrderList.Count != 0 ? materialIssueOrderList[0].TotalCount : 0,
+                recordsFiltered = materialIssueOrderList.Count != 0 ? materialIssueOrderList[0].FilteredCount : 0,
+                data = materialIssueOrderList
+            });
+        }
+
+        #endregion GetAllReturnToSupplier
 
         #region ButtonStyling
         [HttpGet]
