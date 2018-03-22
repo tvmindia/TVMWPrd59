@@ -58,12 +58,30 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetCustomerDetails
 
+        #region GetPackingSlipDetail
+        public string GetPackingSlipDetail(string packingSlipID)
+        {
+            try
+            {
+                List<PackingSlipDetailViewModel> packingSlipDetailVM = new List<PackingSlipDetailViewModel>();
+                packingSlipDetailVM = Mapper.Map<List<PackingSlipDetail>, List<PackingSlipDetailViewModel>>(_packingSlipBusiness.GetPackingSlipDetailForCustomerInvoice(Guid.Parse(packingSlipID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = packingSlipDetailVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+
+        #endregion GetPackingSlipDetail
+
+
         #region GetPackingSlip
         public string GetPackingSlip(string packingSlipID)
         {
             try
             {
-                PackingSlipViewModel packingSlipVM = Mapper.Map<PackingSlip, PackingSlipViewModel>(_packingSlipBusiness.GetPackingSlipByID(Guid.Parse(packingSlipID)));
+                PackingSlipViewModel packingSlipVM = Mapper.Map<PackingSlip, PackingSlipViewModel>(_packingSlipBusiness.GetPackingSlip(Guid.Parse(packingSlipID)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = packingSlipVM, Message = "Success" });
             }
             catch (Exception ex)

@@ -13,15 +13,18 @@ namespace ProductionApp.BusinessService.Services
     {
         private ICommonBusiness _commonBusiness;
         private IPackingSlipRepository _packingSlipRepository;
+
         public PackingSlipBusiness(ICommonBusiness commonBusiness, IPackingSlipRepository packingSlipRepository)
         {
             _commonBusiness = commonBusiness;
             _packingSlipRepository = packingSlipRepository;
         }
+
         public List<PackingSlip> GetAllPackingSlip(PackingSlipAdvanceSearch paySlipAdvanceSearch)
         {
             return _packingSlipRepository.GetAllPackingSlip(paySlipAdvanceSearch);
         }
+
         public object InsertUpdatePackingSlip(PackingSlip packingSlip)
         {
             DetailsXMl(packingSlip);
@@ -50,6 +53,7 @@ namespace ProductionApp.BusinessService.Services
         {
             return _packingSlipRepository.GetPackingSlipDetail(id);
         }
+
         public List<PackingSlip> PackingSlipDetailByPackingSlipDetailID(Guid PkgSlipDetailID)
         {
             return _packingSlipRepository.PackingSlipDetailByPackingSlipDetailID(PkgSlipDetailID);
@@ -59,6 +63,7 @@ namespace ProductionApp.BusinessService.Services
         {
             return _packingSlipRepository.DeletePackingSlipDetail(id);
         }
+
         public object DeletePackingSlip(Guid id)
         {
             return _packingSlipRepository.DeletePackingSlip(id);
@@ -67,6 +72,11 @@ namespace ProductionApp.BusinessService.Services
         public List<PackingSlip> GetPackingSlipForSelectList()
         {
             return _packingSlipRepository.GetPackingSlipForSelectList();
+        }
+
+        public List<PackingSlipDetail> GetPackingSlipDetailForCustomerInvoice(Guid packingSlipID)
+        {
+            return _packingSlipRepository.GetPackingSlipDetailForCustomerInvoice(packingSlipID);
         }
     }
 }

@@ -469,6 +469,54 @@ namespace ProductionApp.RepositoryServices.Services
             return paySlipList;
         }
 
-        #endregion GetAllPackingSlip
+
+        #endregion GetPackingSlipForSelectList
+
+        public List<PackingSlipDetail> GetPackingSlipDetailForCustomerInvoice(Guid packingSlipID)
+        {
+            List<PackingSlipDetail> PackingSlipDetailList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetPackingSlipDetailForCustomerInvoice]";
+                        cmd.Parameters.Add("@PackingSlipID", SqlDbType.UniqueIdentifier).Value = packingSlipID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                PackingSlipDetailList = new List<PackingSlipDetail>();
+                                while (sdr.Read())
+                                {
+                                    PackingSlipDetail packingSlipDetail = new PackingSlipDetail();
+                                    {
+                                        packingSlipDetail.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : packingSlipDetail.ID);
+                                        packingSlipDetail.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : packingSlipDetail.ProductID);
+                                        packingSlipDetail.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : packingSlipDetail.Name);
+                                        packingSlipDetail.Qty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : packingSlipDetail.Qty);
+                                        packingSlipDetail.Weight = (sdr["Weight"].ToString() != "" ? decimal.Parse(sdr["Weight"].ToString()) : packingSlipDetail.Weight);
+                                    }
+                                    PackingSlipDetailList.Add(packingSlipDetail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return PackingSlipDetailList;
+        }
+
     }
 }
