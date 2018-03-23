@@ -30,11 +30,16 @@ namespace ProductionApp.DataAccessObject.DTO
         public int FilteredCount { get; set; }
         public bool IsUpdate { get; set; }
         public Common Common { get; set; }
-    }
+        public CustomerAdvanceSearch CustomerAdvanceSearch { get; set; }
 
+    }
     public class CustomerAdvanceSearch
     {
         public string SearchTerm { get; set; }
         public DataTablePaging DataTablePaging { get; set; }
+    }
+    public class ContactTitle
+    {
+        public string Title { get; set; }
     }
 }

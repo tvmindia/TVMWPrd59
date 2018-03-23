@@ -227,3 +227,28 @@ function AddCustomerMaster(flag) {
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val(flag);
 }
+
+//-- Function After Save Customer--//
+function SaveSuccessCustomer(data, status) {
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            if ($('#hdnMasterCall').val() == "MSTR") {
+                $('#IsUpdate').val('True');
+                $('#ID').val(JsonResult.Records.ID);
+                BindOrReloadCustomerTable('Reset');
+            }
+            else if ($('#hdnMasterCall').val() == "OTR") {
+                $('#divSubComponentDropdown').load('/Customer/CustomerDropdown');
+            }
+            MasterAlert("success", JsonResult.Records.Message)
+            break;
+        case "ERROR":
+            MasterAlert("danger", JsonResult.Message)
+            break;
+        default:
+            MasterAlert("danger", JsonResult.Message)
+            break;
+    }
+}

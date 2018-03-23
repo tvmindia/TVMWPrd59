@@ -9,6 +9,7 @@ namespace ProductionApp.UserInterface.Models
     public class StageViewModel
     {
         public Guid ID { get; set; }
+        [Required(ErrorMessage = "Stage Description required")]
         public string Description { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }

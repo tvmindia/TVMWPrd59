@@ -676,6 +676,8 @@
     <Content Include="Scripts\UserJS\Customer.js" />
     <Content Include="Scripts\UserJS\CustomerInvoice\NewCustomerInvoice.js" />
     <Content Include="Scripts\UserJS\CustomerInvoice\ViewCustomerInvoice.js" />
+    <Content Include="Scripts\UserJS\CustomerJS\NewCustomer.js" />
+    <Content Include="Scripts\UserJS\CustomerJS\ViewCustomer.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ApprovalHistory.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ApproveDocument.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\DocumentSummary.js" />
@@ -951,6 +953,9 @@
     <Content Include="Views\MaterialReturn\ViewMaterialReturn.cshtml" />
     <Content Include="Views\MaterialReturn\NewMaterialReturn.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Customer\_AddCustomerPartial.cshtml" />
+    <Content Include="Views\Customer\ViewCustomer.cshtml" />
+    <Content Include="Views\Customer\NewCustomer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

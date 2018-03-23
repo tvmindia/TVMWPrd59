@@ -17,9 +17,9 @@ namespace ProductionApp.BusinessService.Services
             _customerRepository = customerRepository;
         }
 
-        public Customer GetCustomer(Guid customerId)
+        public Customer GetCustomer(Guid id)
         {
-            return _customerRepository.GetCustomer(customerId);
+            return _customerRepository.GetCustomer(id);
 
         }
 
@@ -27,9 +27,21 @@ namespace ProductionApp.BusinessService.Services
         {
             return _customerRepository.GetCustomerForSelectList();
         }
+        public List<ContactTitle> GetContactTitleForSelectList()
+        {
+            return _customerRepository.GetContactTitleForSelectList();
+        }
         public List<Customer> GetAllCustomer(CustomerAdvanceSearch customerAdvanceSearch)
         {
             return _customerRepository.GetAllCustomer(customerAdvanceSearch);
+        }
+        public object InsertUpdateCustomer(Customer customer)
+        {
+            return _customerRepository.InsertUpdateCustomer(customer);
+        }
+        public object DeleteCustomer(Guid id)
+        {
+            return _customerRepository.DeleteCustomer(id);
         }
 
     }
