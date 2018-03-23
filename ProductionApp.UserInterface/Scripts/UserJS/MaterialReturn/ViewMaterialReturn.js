@@ -62,7 +62,7 @@ function BindOrReloadReturnToSupplierTable(action) {
         materialReturnAdvanceSearchVM.SearchTerm = $('#SearchTerm').val();
         materialReturnAdvanceSearchVM.FromDate = $('#FromDate').val();
         materialReturnAdvanceSearchVM.ToDate = $('#ToDate').val();
-        materialReturnAdvanceSearchVM.SupplierID = $('#c').val();
+        materialReturnAdvanceSearchVM.SupplierID = $('#SupplierID').val();
         materialReturnAdvanceSearchVM.ReturnBy = $('#ReturnBy').val();
         DataTables.ReturnToSupplier = $('#tblReturnToSupplier').DataTable(
             {
@@ -104,18 +104,18 @@ function BindOrReloadReturnToSupplierTable(action) {
                             { className: "text-center", "targets": [2,5] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
-                //initComplete: function (settings, json) {
-                //    if (action === 'Export') {
-                //        debugger;
-                //        if (json.data[0].length > 0) {
-                //            if (json.data[0].TotalCount > 10000) {
-                //                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                //            }
-                //        }
-                //        $(".buttons-excel").trigger('click');
-                //        BindOrReloadReturnFromProductionTable('Search');
-                //    }
-                //}
+                initComplete: function (settings, json) {
+                    if (action === 'Export') {
+                        debugger;
+                        if (json.data[0].length > 0) {
+                            if (json.data[0].TotalCount > 10000) {
+                                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
+                            }
+                        }
+                        $(".buttons-excel").trigger('click');
+                        BindOrReloadReturnToSupplierTable('Search');
+                    }
+                }
             });
         $(".buttons-excel").hide();
     }
@@ -130,6 +130,6 @@ function ResettblReturnToSupplier() {
     BindOrReloadReturnToSupplierTable('Reset');
 }
 //function export data to excel
-function ImportReturnFromProductionData() {
+function ImportReturnToSupplierData() {
     BindOrReloadReturnToSupplierTable('Export');
 }

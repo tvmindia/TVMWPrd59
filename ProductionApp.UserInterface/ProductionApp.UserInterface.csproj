@@ -697,8 +697,6 @@
     <Content Include="Scripts\UserJS\Master.js" />
     <Content Include="Scripts\UserJS\MaterialReceiptJS\NewMaterialReceipt.js" />
     <Content Include="Scripts\UserJS\MaterialReceiptJS\ViewMaterialReceipt.js" />
-    <Content Include="Scripts\UserJS\MaterialReturnFromProduction\NewRecieveFromProduction.js" />
-    <Content Include="Scripts\UserJS\MaterialReturnFromProduction\ViewRecieveFromProduction.js" />
     <Content Include="Scripts\UserJS\MaterialReturn\NewMaterialReturn.js" />
     <Content Include="Scripts\UserJS\MaterialReturn\ViewMaterialReturn.js" />
     <Content Include="Scripts\UserJS\MaterialStockAdjustment\ListStockAdjustment.js" />

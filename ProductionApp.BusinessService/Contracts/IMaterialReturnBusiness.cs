@@ -10,5 +10,10 @@ namespace ProductionApp.BusinessService.Contracts
     public interface IMaterialReturnBusiness
     {
         List<MaterialReturn> GetAllReturnToSupplier(MaterialReturnAdvanceSearch materialReturnAdvanceSearch);
+        object InsertUpdateMaterialReturn(MaterialReturn materialReturn);
+        MaterialReturn GetMaterialReturn(Guid id);
+        List<MaterialReturnDetail> GetMaterialReturnDetail(Guid id);
+        object DeleteMaterialReturn(Guid id);
+        object DeleteMaterialReturnDetail(Guid id);
     }
 }
