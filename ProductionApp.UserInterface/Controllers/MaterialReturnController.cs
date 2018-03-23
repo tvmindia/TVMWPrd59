@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
@@ -13,12 +14,15 @@ namespace ProductionApp.UserInterface.Controllers
     public class MaterialReturnController : Controller
     {
         IMaterialReturnBusiness _materialReturnBusiness;
+        private IMaterialBusiness _rawMaterialBusiness;
         private IEmployeeBusiness _employeeBusiness;
         AppConst _appConst = new AppConst();
-        public MaterialReturnController(IMaterialReturnBusiness materialReturnBusiness, IEmployeeBusiness employeeBusiness)
+        Common _common = new Common();
+        public MaterialReturnController(IMaterialReturnBusiness materialReturnBusiness, IEmployeeBusiness employeeBusiness, IMaterialBusiness rawMaterialBusiness)
         {
             _materialReturnBusiness = materialReturnBusiness;
             _employeeBusiness = employeeBusiness;
+            _rawMaterialBusiness = rawMaterialBusiness;
         }
         public ActionResult ViewMaterialReturn(string code)
         {
@@ -45,10 +49,12 @@ namespace ProductionApp.UserInterface.Controllers
             return View(materialReturnAdvanceSearchVM);
         }
 
-        public ActionResult NewMaterialReturn(string code)
+        public ActionResult NewMaterialReturn(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
             MaterialReturnViewModel materialReturnVM = new MaterialReturnViewModel();
+            materialReturnVM.ID = id == null ? Guid.Empty : (Guid)id;
+            materialReturnVM.IsUpdate = id == null ? false : true;
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             materialReturnVM.Employee = new EmployeeViewModel();
             materialReturnVM.Employee.SelectList = new List<SelectListItem>();
@@ -67,6 +73,7 @@ namespace ProductionApp.UserInterface.Controllers
                 }
             }
             materialReturnVM.Employee.SelectList = selectListItem;
+            materialReturnVM.MaterialReturnDetail = new MaterialReturnDetailViewModel();
             return View(materialReturnVM);
         }
 
@@ -95,6 +102,130 @@ namespace ProductionApp.UserInterface.Controllers
 
         #endregion GetAllReturnToSupplier
 
+        #region InsertUpdateReturnToSupplier
+        [HttpPost]
+        public string InsertUpdateReturnToSupplier(MaterialReturnViewModel materialReturnVM)
+        {
+
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                materialReturnVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                //Deserialize items
+                object ResultFromJS = JsonConvert.DeserializeObject(materialReturnVM.DetailJSON);
+                string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                materialReturnVM.MaterialReturnDetailList = JsonConvert.DeserializeObject<List<MaterialReturnDetailViewModel>>(ReadableFormat);
+                var result = _materialReturnBusiness.InsertUpdateMaterialReturn(Mapper.Map<MaterialReturnViewModel, MaterialReturn>(materialReturnVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+
+        }
+        #endregion InsertUpdateReturnToSupplier
+
+        #region GetMaterialReturn
+        public string GetMaterialReturn(string id)
+        {
+            try
+            {
+                MaterialReturnViewModel materialReturnVM = new MaterialReturnViewModel();
+                materialReturnVM = Mapper.Map<MaterialReturn, MaterialReturnViewModel>(_materialReturnBusiness.GetMaterialReturn(Guid.Parse(id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = materialReturnVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex });
+            }
+        }
+        #endregion GetMaterialReturn
+
+        #region GetMaterialReturnDetail
+        public string GetMaterialReturnDetail(string id)
+        {
+            try
+            {
+                List<MaterialReturnDetailViewModel> materialReturnDetailVM = new List<MaterialReturnDetailViewModel>();
+                materialReturnDetailVM = Mapper.Map<List<MaterialReturnDetail>, List<MaterialReturnDetailViewModel>>(_materialReturnBusiness.GetMaterialReturnDetail(Guid.Parse(id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = materialReturnDetailVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion
+
+        #region DeleteMaterialReturnDetail
+        
+        public string DeleteMaterialReturnDetail(string id)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _materialReturnBusiness.DeleteMaterialReturnDetail(Guid.Parse(id));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+        }
+        #endregion
+
+        #region DeleteMaterialReturn
+        
+        public string DeleteMaterialReturn(string id)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _materialReturnBusiness.DeleteMaterialReturn(Guid.Parse(id));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+        #endregion
+
+        #region GetMaterial
+        public string GetMaterial(string id)
+        {
+            try
+            {
+                MaterialViewModel rawMaterialVM = new MaterialViewModel();
+                if(id != "")
+                rawMaterialVM = Mapper.Map<Material, MaterialViewModel>(_rawMaterialBusiness.GetMaterial(Guid.Parse(id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = rawMaterialVM, Message = "Sucess" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion
+
         #region ButtonStyling
         [HttpGet]
         public ActionResult ChangeButtonStyle(string actionType)
@@ -111,12 +242,12 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset All";
-                    toolboxVM.resetbtn.Event = "ResetPackingSlipList();";
+                    toolboxVM.resetbtn.Event = "ResettblReturnToSupplier();";
                     //----added for export button--------------
                     toolboxVM.PrintBtn.Visible = true;
                     toolboxVM.PrintBtn.Text = "Export";
                     toolboxVM.PrintBtn.Title = "Export";
-                    toolboxVM.PrintBtn.Event = "ImportPackingSlipData();";
+                    toolboxVM.PrintBtn.Event = "ImportReturnToSupplierData();";
                     //---------------------------------------
 
                     break;

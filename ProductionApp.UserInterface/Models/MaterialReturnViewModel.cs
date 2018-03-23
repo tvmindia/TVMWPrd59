@@ -36,6 +36,7 @@ namespace ProductionApp.UserInterface.Models
         public EmployeeViewModel Employee { get; set; }
         public MaterialReturnDetailViewModel MaterialReturnDetail { get; set; }
         public List<MaterialReturnDetailViewModel> MaterialReturnDetailList { get; set; }
+        public string DetailXML { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
     }
@@ -48,9 +49,13 @@ namespace ProductionApp.UserInterface.Models
         public string UnitCode { get; set; }
         public decimal Qty { get; set; }
         public decimal Rate { get; set; }
+        [Display(Name = "CGST %")]
         public decimal CGSTPerc { get; set; }
+        [Display(Name = "SGST %")]
         public decimal SGSTPerc { get; set; }
+        [Display(Name = "IGST %")]
         public decimal IGSTPerc { get; set; }
+        public MaterialViewModel Material { get; set; }
     }
     public class MaterialReturnAdvanceSearchViewModel
     {

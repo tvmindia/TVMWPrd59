@@ -366,7 +366,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[DeletePkgSlipDetail]";
+                        cmd.CommandText = "[AMC].[DeletePackingSlipDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
@@ -401,7 +401,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[DeletePackingSlipDetail]";
+                        cmd.CommandText = "[AMC].[DeletePackingSlip]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);

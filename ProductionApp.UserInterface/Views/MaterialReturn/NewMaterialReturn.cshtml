@@ -11,7 +11,7 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="@Url.Action("NewMaterialReturn", "MaterialReturn", new { Code = "STR" })"><i class="fa fa-cogs"></i> New Material Return</a></li>
+        <li><a href="@Url.Action("NewMaterialReturn", "MaterialReturn", new { Code = "STR" })"><i class="fa fa-cogs"></i> Return To Supplier</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -30,7 +30,7 @@
 
     <div class="row tableContainer">
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
-        @using (Ajax.BeginForm("InsertUpdateReturnToSupplier", "MaterialReturn", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessIssueToProduction", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "ReturnToSupplierForm" }))
+        @using (Ajax.BeginForm("InsertUpdateReturnToSupplier", "MaterialReturn", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessReturnToSupplier", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "ReturnToSupplierForm" }))
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
@@ -73,19 +73,36 @@
                            @Html.Action("SupplierDropdown", "Supplier")
                         </div>
                     </div>
+
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.BillAddress, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.BillAddress, new { htmlAttributes = new { @class = "form-control", @rows = 5 } })
+                         </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ShippingAddress, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                           @Html.EditorFor(model => model.ShippingAddress, new { htmlAttributes = new { @class = "form-control", @rows = 5 } })
+                        </div>
+                    </div>
+
                 </div>
                 <div class="form-group col-md-4">
-
                 </div>
             </div>
 
             <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
 
                 <div class="col-md-12">
-                    <div class="form-group col-md-10">
+                    <div class="form-group col-md-11">
                     </div>
-                    <div class="form-group col-md-2">
-                        <a class="btn btn-openid" onclick="ShowIssueToProductionDetailsModal()" id="btnAddReturnToSupplierItems" style="color:white;font-weight:bold;float:left;margin-left:auto"><i class="glyphicon glyphicon-plus"></i> Add Items</a>
+                    <div class="form-group col-md-1">
+                        <a class="btn btn-openid" onclick="ShowReturnToSupplierDetailsModal()" id="btnAddReturnToSupplierItems" style="color:white;font-weight:bold;float:left;margin-left:auto"><i class="glyphicon glyphicon-plus"></i> Add Items</a>
                     </div>
                 </div>
 
@@ -101,18 +118,30 @@
                                 <th>Unit</th>
                                 <th>Rate</th>
                                 <th>Quantity</th>
-                                <th>CGST %</th>
                                 <th>SGST %</th>
+                                <th>CGST %</th>
                                 <th>IGST %</th>
+                                <th>Amount</th>
                                 <th>...</th>
                             </tr>
                         </thead>
                     </table>
                 </div>
 
+                
+                    <div class="col-md-12">
+                        <div class="col-md-9"></div>
+                        <div class="col-md-1"align="left">
+                            <label for="" id="lblCaption" style="font-size:17px;">Total :</label>
+                        </div>
+                        <div class="col-md-2" align="right">
+                            <label for="" id="lblTotal" style="font-size:17px;">₹ 0.00</label>
+                        </div>
+                    </div>
+                
                 <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General Notes</div>
 
-                <div class="form-group col-md-8">
+                <div class="form-group col-md-12">
                     <div class="col-md-12">
                         @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label" })
                     </div>
@@ -132,7 +161,156 @@
         <div class="col-md-12  ">&nbsp;</div>
     </div>
 
-
-
 </section>
+<!-- Modal Edit Add Return To supplier Details Modal -->
+<div class="modal fade bs-example-modal-lg" id="AddReturnToSupplierItemModal" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="min-width:900px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-9">
+                        <div class="col-md-12 modelIcon">
+                            <h3 class="modal-title SCHeader" id="modelContextLabel">Add Materials</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="col-md-12">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.MaterialReturnDetail.MaterialID, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-10">
+                                <div id="divRawMaterialDropdown">
+                                    @{Html.RenderAction("MaterialDropdown", "Material", Model.MaterialReturnDetail.Material); }
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 headSeperator" style="width:100% !important;margin-left:0% !important"></div>
 
+                    <div class="form-group col-md-12">
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.MaterialReturnDetail.Material.MaterialCode, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaterialReturnDetail.Material.MaterialCode, new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled" } })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.MaterialReturnDetail.MaterialDesc, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaterialReturnDetail.MaterialDesc, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.MaterialReturnDetail.UnitCode, htmlAttributes: new { @class = "control-label " })
+                            </div>
+
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaterialReturnDetail.UnitCode, new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled" } })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.MaterialReturnDetail.SGSTPerc, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaterialReturnDetail.SGSTPerc, new { htmlAttributes = new { @class = "form-control HeaderBox Amount", onkeypress = "return isNumber(event)" } })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.MaterialReturnDetail.Qty, htmlAttributes: new { @class = "control-label lblrequired" })
+                            </div>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaterialReturnDetail.Qty, new { htmlAttributes = new { @class = "form-control HeaderBox Amount", onkeypress = "return isNumber(event)" } })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.MaterialReturnDetail.CGSTPerc, htmlAttributes: new { @class = "control-label " })
+                            </div>
+
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaterialReturnDetail.CGSTPerc, new { htmlAttributes = new { @class = "form-control HeaderBox Amount", onkeypress = "return isNumber(event)" } })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.MaterialReturnDetail.Rate, htmlAttributes: new { @class = "control-label lblrequired " })
+                            </div>
+
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaterialReturnDetail.Rate, new { htmlAttributes = new { @class = "form-control HeaderBox Amount", onkeypress = "return isNumber(event)" } })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.MaterialReturnDetail.IGSTPerc, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaterialReturnDetail.IGSTPerc, new { htmlAttributes = new { @class = "form-control HeaderBox Amount", onkeypress = "return isNumber(event)" } })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer" style="height: 50px;padding: 7px;">
+                <a class="btn btn-primary" onclick="AddReturnToSupplierItem()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/MaterialReturn/NewMaterialReturn")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+}

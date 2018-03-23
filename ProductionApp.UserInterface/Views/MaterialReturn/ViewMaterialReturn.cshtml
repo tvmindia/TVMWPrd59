@@ -42,7 +42,7 @@
                     <div class="input-group">
                         @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
                         <div class="input-group-btn">
-                            <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadReturnFromProductionTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
+                            <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadReturnToSupplierTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
                         </div>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadReturnFromProductionTable('Apply')">Apply</a>
+                <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadReturnToSupplierTable('Apply')">Apply</a>
             </div>
         </div>
     </div>
@@ -119,6 +119,5 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/selectmin")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/MaterialReturn/ViewMaterialReturn")
 }

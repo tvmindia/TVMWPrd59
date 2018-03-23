@@ -25,6 +25,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public MaterialReturnDetail MaterialReturnDetail { get; set; }
         public List<MaterialReturnDetail> MaterialReturnDetailList { get; set; }
         public string SupplierName { get; set; }
+        public string DetailXML { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
     }
@@ -40,6 +41,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal CGSTPerc { get; set; }
         public decimal SGSTPerc { get; set; }
         public decimal IGSTPerc { get; set; }
+        public Material Material { get; set; }
     }
     public class MaterialReturnAdvanceSearch
     {
