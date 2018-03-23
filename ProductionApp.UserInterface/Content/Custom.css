@@ -1175,3 +1175,15 @@ background-position: 0% 50%;
     box-shadow: 0 8px 6px -6px #868282;
     border:1px solid #efefef;
 }
+
+.no-padding {
+            padding: 0px;
+        }
+
+        .no-left-padding{
+            padding-left: 0px;
+        }
+
+        .no-right-padding{
+            padding-right: 0px;
+        }

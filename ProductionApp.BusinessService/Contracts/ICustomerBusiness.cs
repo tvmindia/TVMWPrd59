@@ -10,7 +10,10 @@ namespace ProductionApp.BusinessService.Contracts
     public interface ICustomerBusiness
     {
         List<Customer> GetCustomerForSelectList();
-        Customer GetCustomer(Guid customerId);
+        List<ContactTitle> GetContactTitleForSelectList();
+        Customer GetCustomer(Guid id);
         List<Customer> GetAllCustomer(CustomerAdvanceSearch customerAdvanceSearch);
+        object InsertUpdateCustomer(Customer customer);
+        object DeleteCustomer(Guid id);
     }
 }

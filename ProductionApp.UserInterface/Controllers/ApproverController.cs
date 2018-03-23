@@ -81,7 +81,7 @@ namespace ProductionApp.UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]
         public ActionResult MasterPartial(string masterCode)
         {
-            ApproverViewModel approverVM = string.IsNullOrEmpty(masterCode) ? new ApproverViewModel() : Mapper.Map<Approver, ApproverViewModel>(_approverBusiness.GetApprover(Guid.Parse(masterCode)));
+            ApproverViewModel approverVM = string.IsNullOrEmpty(masterCode) ? new ApproverViewModel { Level=1 } : Mapper.Map<Approver, ApproverViewModel>(_approverBusiness.GetApprover(Guid.Parse(masterCode)));
             approverVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
             if (string.IsNullOrEmpty(masterCode))
             {
