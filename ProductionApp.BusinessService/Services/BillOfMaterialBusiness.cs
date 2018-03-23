@@ -79,8 +79,49 @@ namespace ProductionApp.BusinessService.Services
         }
         #endregion DeleteBillOfMaterialDetail
 
-        #region
-        #endregion
+        #region InsertUpdateBOMComponentLine
+        public object InsertUpdateBOMComponentLine(BOMComponentLine bOMComponentLine)
+        {
+            StageXML(bOMComponentLine);
+            return _billOfMaterialRepository.InsertUpdateBOMComponentLine(bOMComponentLine);
+        }
+        #endregion InsertUpdateBOMComponentLine
+
+        #region StageXML
+        public void StageXML(BOMComponentLine bOMComponentLine)
+        {
+            string result = "<Details>";
+            int totalRows = 0;
+            foreach (object some_object in bOMComponentLine.BOMComponentLineStageList)
+            {
+                _commonBusiness.XML(some_object, ref result, ref totalRows);
+            }
+            result = result + "</Details>";
+
+            bOMComponentLine.StageXML = result;
+        }
+        #endregion StageXML
+
+        #region DeleteBOMComponentLine
+        public object DeleteBOMComponentLine(Guid id)
+        {
+            return _billOfMaterialRepository.DeleteBOMComponentLine(id);
+        }
+        #endregion DeleteBOMComponentLine
+
+        #region GetBOMComponentLineByComponentID
+        public List<BOMComponentLine> GetBOMComponentLineByComponentID(Guid componentID)
+        {
+            return _billOfMaterialRepository.GetBOMComponentLineByComponentID(componentID);
+        }
+        #endregion GetBOMComponentLineByComponentID
+
+        #region GetBOMComponentLineStage
+        public List<BOMComponentLineStage> GetBOMComponentLineStage(Guid id)
+        {
+            return _billOfMaterialRepository.GetBOMComponentLineStage(id);
+        }
+        #endregion GetBOMComponentLineStage
 
     }
 }

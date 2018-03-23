@@ -13,6 +13,6 @@ namespace ProductionApp.BusinessService.Contracts
         object InsertUpdateStage(Stage stage);
         Stage GetStage(Guid id);
         object DeleteStage(Guid id);
-
+        List<Stage> GetStageForSelectList();
     }
 }
