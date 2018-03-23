@@ -39,11 +39,16 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal Weight { get; set; }
         public decimal Rate { get; set; }
         public string TaxTypeCode { get; set; }
-        public decimal TaxPercApplied { get; set; }
-        public decimal TaxAmount { get; set; }
+        public decimal IGSTPerc { get; set; }
+        public decimal SGSTPerc { get; set; }
+        public decimal CGSTPerc { get; set; }
+        public decimal TradeDiscountPerc { get; set; }
+        public decimal TradeDiscountAmount { get; set; }
         public bool IsInvoiceInKG { get; set; }
         //additional properties
         public string ProductName { get; set; }
+        public decimal Total { get; set; }
+
 
     }
 

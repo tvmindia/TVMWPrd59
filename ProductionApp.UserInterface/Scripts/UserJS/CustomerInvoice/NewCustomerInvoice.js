@@ -19,12 +19,9 @@ var _jsonData = {};
 $(document).ready(function () {
     debugger;
     try {
-        $("#PackingSlipID").select2({
-            dropdownParent: $("#CustomerInvoiceDetailsModal") 
-        });
-        
-        $("#CustomerID").select2({
-        });
+        //------select2 fields-------//
+        $("#PackingSlipID").select2({ dropdownParent: $("#CustomerInvoiceDetailsModal")  });
+        $("#CustomerID").select2({ });
 
         $('#btnUpload').click(function () {
             debugger;
@@ -85,28 +82,27 @@ $(document).ready(function () {
             paging: true,
             "bInfo": false,
             "bSortable": false ,
+            autoWidth: false,
             data: null,
-            pageLength: 15,
+            pageLength:5,
             language: {
                 search: "_INPUT_",
                 searchPlaceholder: "Search"
             },
             columns: [
-                    { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "","width": "5%" },
-                    { "data": "ProductID", "defaultContent": "<i>-</i>", "width": "23%" },
-                    { "data": " ", "defaultContent": "<i>-</i>", "width": "9%" },
-                    { "data": " ", "defaultContent": "<i>-</i>", "width": "9%" },
-                    { "data": " ", "defaultContent": "<i>-</i>", "width": "9%" },
-                    { "data": " ", "defaultContent": "<i>-</i>", "width": "9%" },
-                    { "data": " ", "defaultContent": "<i>-</i>", "width": "9%" },
-                    { "data": " ", "defaultContent": "<i>-</i>", "width": "9%" },
-                    { "data": " ", "defaultContent": "<i>-</i>", "width": "9%" }
+                    { "data": "", "defaultContent": "<i></i>", "width": "5%" },
+                    { "data": "ProductName", "defaultContent": "<i>-</i>", "width": "23%" },
+                    { "data": "Quantity", "defaultContent": "<i>-</i>", "width": "9%" },
+                    { "data": "Weight", "defaultContent": "<i>-</i>", "width": "9%" },
+                    { "data": "Rate", "defaultContent": "<i>-</i>", "width": "9%" },
+                    { "data": "IsInvoiceInKG", "defaultContent": "<i>-</i>", "width": "9%" },
+                    { "data": "TradeDiscountAmount", "defaultContent": "<i>-</i>", "width": "9%" },
+                    { "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "9%" },
+                    { "data": "Total", "defaultContent": "<i>-</i>", "width": "9%" }
             ],
-            columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 1 }
-                , { className: "text-right", "targets": [] }
-                , { className: "text-left", "targets": [] }
-                , { "targets": [0], "visible": false, "searchable": false }
+            columnDefs: [{ orderable: false, className: 'select-checkbox', "targets":0 }
+                , { className: "text-left", "targets": [1,5,7] }
+                , { className: "text-right", "targets": [2, 3, 4, 6, 8] }
                 ],
             select: { style: 'multi', selector: 'td:first-child' },
             destroy: true
@@ -170,20 +166,26 @@ function ShowCustomerInvoiceDetailsModal()
 function BindPackingSlipDetails(packingSlipID)
 {
     debugger;
-    var PackingSlipVM = GetPackingSlip(packingSlipID);
-    $('#PackingSlip_SlipNo').val(PackingSlipVM.SlipNo);
-    $('#PackingSlip_SalesOrder_CustomerName').val(PackingSlipVM.SalesOrder.CustomerName);
-    $('#PackingSlip_SalesOrder_OrderNo').val(PackingSlipVM.SalesOrder.OrderNo);
-    var CustomerInvocieDetailVM = GetPackingSlipDetail(packingSlipID);
-    debugger;
-    DataTables.PackingSlipDetailToInvocieTable.clear(CustomerInvocieDetailVM).rows.add().draw(false);
-
+    if (packingSlipID != "")
+    {
+        var PackingSlipVM = GetPackingSlip(packingSlipID);
+        $('#PackingSlip_SlipNo').val(PackingSlipVM.SlipNo);
+        $('#PackingSlip_SalesOrder_CustomerName').val(PackingSlipVM.SalesOrder.CustomerName);
+        $('#PackingSlip_SalesOrder_OrderNo').val(PackingSlipVM.SalesOrder.OrderNo);
+        DataTables.PackingSlipDetailToInvocieTable.clear().rows.add(GetPackingSlipDetail(packingSlipID)).draw(false);
+    }
+    else
+    {
+        $('#PackingSlip_SlipNo').val('');
+        $('#PackingSlip_SalesOrder_CustomerName').val('');
+        $('#PackingSlip_SalesOrder_OrderNo').val('');
+        DataTables.PackingSlipDetailToInvocieTable.clear().draw(false);
+    }
 }
 
 function GetPackingSlip(packingSlipID)
 {
     try {
-        debugger;
         var data = { "packingSlipID": packingSlipID };
         var PackingSlipVM = new Object();
 
@@ -209,7 +211,6 @@ function GetPackingSlip(packingSlipID)
 
 function GetPackingSlipDetail(packingSlipId) {
     try {
-        debugger;
         var data = {"packingSlipID": packingSlipId };
         var PackingSlipDetailVM = new Object();
 
