@@ -117,7 +117,7 @@ $(document).ready(function () {
          { "data": "Name", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "Qty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "Weight", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
-         { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a> | <a href="#" class="actionLink"  onclick="EditPkgSlipDetailTable(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>' },
+         { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditPkgSlipDetailTable(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a> | <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
          ],
          columnDefs: [{ "targets": [0,1], "visible": false, searchable: false },
              { className: "text-left", "targets": [2, 3] },
@@ -406,8 +406,8 @@ function Save() {
     var valid = 0;
     //validation main form 
     if ($('#ShowDispatcherSec').val() == 'True' && $('#ShowPkgSec').val() == 'False') {
-        if (!($('#DispatchedDateFormatted').val()) && !($('#CheckedPackageWeight').val())) {
-            notyAlert('warning', "Please Fill Dispatched date and Checked package weight Fields ");
+        if (!($('#DispatchedDateFormatted').val())) {
+            notyAlert('warning', "Please Fill Dispatched date");
             valid = 1;
         }
     }

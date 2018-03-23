@@ -150,7 +150,7 @@
                                     <th>Sl.No</th>
                                     <th>Product</th>
                                     <th>Quantity</th>
-                                    <th>Weight</th>
+                                    <th>Weight (KGs)</th>
                                     <th>......</th>
                             </thead>
                         </table>
@@ -224,7 +224,7 @@
                             <div class="form-group col-md-4">
                                 <div class="form-group col-md-12">
                                     <div class="col-md-12">
-                                        @Html.LabelFor(model => model.CheckedPackageWeight, htmlAttributes: new { @class = "control-label lblrequired" })
+                                        @Html.LabelFor(model => model.CheckedPackageWeight, htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="col-md-12">
                                         @Html.EditorFor(model => model.CheckedPackageWeight, new { htmlAttributes = new { @class = "form-control HeaderBox Amount" } })
