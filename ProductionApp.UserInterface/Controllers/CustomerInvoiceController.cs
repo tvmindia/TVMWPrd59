@@ -17,11 +17,13 @@ namespace ProductionApp.UserInterface.Controllers
         private ICustomerInvoiceBusiness _customerInvoiceBusiness;
         private ICustomerBusiness _customerBusiness;
         private IPackingSlipBusiness _packingSlipBusiness;
-        public CustomerInvoiceController(ICustomerInvoiceBusiness customerInvoiceBusiness, ICustomerBusiness customerBusiness, IPackingSlipBusiness packingSlipBusiness)
+        private ITaxTypeBusiness _taxTypeBusiness;
+        public CustomerInvoiceController(ICustomerInvoiceBusiness customerInvoiceBusiness, ICustomerBusiness customerBusiness, IPackingSlipBusiness packingSlipBusiness, ITaxTypeBusiness taxTypeBusiness)
         {
             _customerInvoiceBusiness = customerInvoiceBusiness;
             _customerBusiness = customerBusiness;
             _packingSlipBusiness = packingSlipBusiness;
+            _taxTypeBusiness = taxTypeBusiness;
         }
         // GET: CustomerInvoice
         public ActionResult ViewCustomerInvoice(string code)
@@ -75,6 +77,23 @@ namespace ProductionApp.UserInterface.Controllers
 
         #endregion GetPackingSlipDetail
 
+        #region  GetTaxTypeForSelectList
+        public string GetTaxTypeForSelectList()
+        {
+            try
+            {
+            List<TaxTypeViewModel> taxTypeVMList = Mapper.Map<List<TaxType>, List<TaxTypeViewModel>>(_taxTypeBusiness.GetTaxTypeForSelectList());
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = taxTypeVMList, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+
+        }
+        
+        
+        #endregion  GetTaxTypeForSelectList
 
         #region GetPackingSlip
         public string GetPackingSlip(string packingSlipID)

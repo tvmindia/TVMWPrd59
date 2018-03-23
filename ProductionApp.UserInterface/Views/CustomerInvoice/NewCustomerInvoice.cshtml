@@ -147,18 +147,16 @@
             <div class="col-md-12">
                 <table id="tblCustomerInvoiceDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" style="width:100%">
                     <thead>
-                        <tr class="text-center TableHead">
-                            <th>ID</th>
-                            <th>ProductID</th>
+                        <tr class="text-center TableHead"> 
                             <th>Sl. No</th>
                             <th>Product</th>
-                            <th>GST %</th>
-                            <th>Qty</th>
+                            <th>Quantity</th>
+                            <th>Weight</th>
                             <th>Rate</th>
-                            <th>Gross Amt</th>
-                            <th>Disc Amt</th>
-                            <th>Tax Amt</th>
-                            <th>Net Amt</th>
+                            <th>Is Invoice Kg</th>
+                            <th>Discount</th>
+                            <th>GST %</th>
+                            <th>Total</th>
                             <th>...</th>
                         </tr>
                     </thead>
@@ -191,7 +189,7 @@
 
 <!-- Modal Edit <!-- Modal Edit Sales Order Details Modal -->
 <div class="modal fade bs-example-modal-lg" id="CustomerInvoiceDetailsModal" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document" style="min-width:900px !important;">
+    <div class="modal-dialog modal-lg" role="document" style="min-width:1000px !important;">
         <div class="modal-content" style="margin-top:4%;">
             <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
                 <div class="container-fluid" style="padding-right: 0px;">
@@ -252,7 +250,6 @@
                                     <th>Quantity</th>
                                     <th>Weight</th>
                                     <th>Rate</th>
-                                    <th>Is Invoice Kg</th>
                                     <th>Discount</th>
                                     <th>GST %</th>
                                     <th>Total</th>
@@ -261,6 +258,9 @@
                         </table>
                     </div>
                 </div>
+            </div>
+            <div hidden="hidden" id="TaxTypeDropdowndiv">
+                @Html.Action("TaxTypeDropdown", "TaxType")
             </div>
             <div class="modal-footer" style="height: 50px;padding: 7px;">
                 <a class="btn btn-primary" onclick="AddCustomerInvoiceDetails()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>

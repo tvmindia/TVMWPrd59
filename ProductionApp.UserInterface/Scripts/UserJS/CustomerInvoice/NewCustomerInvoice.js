@@ -15,6 +15,7 @@ var _SlNo = 1;
 var _result = "";
 var _message = "";
 var _jsonData = {};
+var _taxDropdownScript = '';
 
 $(document).ready(function () {
     debugger;
@@ -48,23 +49,21 @@ $(document).ready(function () {
           "bInfo": false,
           autoWidth: false,
           columns: [
-          { "data": "ID", "defaultContent": "<i></i>" },
-          { "data": "", "defaultContent": "<i></i>" },
-           {
-               "data": "", render: function (data, type, row) {
-                   return _SlNo++
-               }, "width": "5%"
-           }, 
-          { "data": "ItemDescription", "defaultContent": "<i></i>", "width": "7%" },
-          { "data": "TaxTypeDescription", "defaultContent": "<i></i>", "width": "7%" },
-          { "data": "Quantity", render: function (data, type, row) { return data + ' ' + row.UnitCode }, "defaultContent": "<i></i>", "width": "8%" },
-          { "data": "Rate", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "8%" },
-          { "data": "GrossAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "8%" },
-          { "data": "TradeDiscountAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "8%" },
-          { "data": "TaxAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "9%" },
-          { "data": "NetAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "9%" },
-          { "data": "ExpectedDeliveryDateFormatted", "defaultContent": "<i></i>", "width": "10%" },
-          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ItemDetailsEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "7%" }
+           
+            {
+                "data": "", render: function (data, type, row) {
+                    return _SlNo++
+                }, "width": "5%"
+            }, 
+            { "data": "ProductName", "defaultContent": "<i>-</i>", "width": "" },
+            { "data": "Quantity", "defaultContent": "<i>-</i>", "width": "" },
+            { "data": "Weight", "defaultContent": "<i>-</i>", "width": "" },
+            { "data": "Rate", "defaultContent": "<i>-</i>", "width": "" },
+            { "data": "IsInvoiceInKG", "defaultContent": "<i>-</i>", "width": "" },
+            { "data": "TradeDiscountAmount", "defaultContent": "<i>-</i>", "width": "" },
+            { "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "9%" },
+            { "data": "Total", "defaultContent": "<i>-</i>", "width": "9%" },
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ItemDetailsEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "7%" }
 
           ],
           columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false },
@@ -91,18 +90,59 @@ $(document).ready(function () {
             },
             columns: [
                     { "data": "", "defaultContent": "<i></i>", "width": "5%" },
-                    { "data": "ProductName", "defaultContent": "<i>-</i>", "width": "23%" },
-                    { "data": "Quantity", "defaultContent": "<i>-</i>", "width": "9%" },
-                    { "data": "Weight", "defaultContent": "<i>-</i>", "width": "9%" },
-                    { "data": "Rate", "defaultContent": "<i>-</i>", "width": "9%" },
-                    { "data": "IsInvoiceInKG", "defaultContent": "<i>-</i>", "width": "9%" },
-                    { "data": "TradeDiscountAmount", "defaultContent": "<i>-</i>", "width": "9%" },
-                    { "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "9%" },
+                    {
+                        "data": "ProductName", "defaultContent": "<i>-</i>", "width": "23%",
+                        'render': function (data, type, row) {
+                            if (row.IsInvoiceInKG)
+                                return data +'</br>(<b>Invoice in Kg </b>)'
+                            else
+                                return data
+                        }
+                    },
+                    {
+                        "data": "Quantity", "defaultContent": "<i>-</i>", "width": "9%",
+                        'render': function (data, type, row) {
+                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="textBoxValueChanged(this,1);"style="width:100%">';
+                        }
+                    },
+                    {
+                        "data": "Weight", "defaultContent": "<i>-</i>", "width": "9%",
+                        'render': function (data, type, row) {
+                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="textBoxValueChanged(this,2);"style="width:100%">';
+                        }
+                    },
+                    {
+                        "data": "Rate", "defaultContent": "<i>-</i>", "width": "9%",
+                      'render': function (data, type, row) {
+                          return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="textBoxValueChanged(this,3);"style="width:100%">';
+                      }
+                    },
+                    {
+                        "data": "TradeDiscountAmount", "defaultContent": "<i>-</i>", "width": "9%",
+                        'render': function (data, type, row) {
+                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="textBoxValueChanged(this,4);" style="width:100%">';
+                        }
+                    },
+                    {
+                        "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "9%",
+                        'render': function (data, type, row) {
+                            if (data != null)
+                            {
+                                var first = _taxDropdownScript.slice(0, _taxDropdownScript.indexOf('value="' + data + '"'));
+                                var second = _taxDropdownScript.slice(_taxDropdownScript.indexOf('value="' + data + '"'), _taxDropdownScript.length);
+                                return '<select class="form-control" onchange="EdittextBoxValue(this,5);" >' + first + ' selected="selected" ' + second + '</select>';
+                            }
+                            else
+                            {
+                                return '<select class="form-control" onchange="EdittextBoxValue(this,5);" >' + _taxDropdownScript + '</select>';
+                            }                       
+                        }
+                    },
                     { "data": "Total", "defaultContent": "<i>-</i>", "width": "9%" }
             ],
             columnDefs: [{ orderable: false, className: 'select-checkbox', "targets":0 }
-                , { className: "text-left", "targets": [1,5,7] }
-                , { className: "text-right", "targets": [2, 3, 4, 6, 8] }
+                , { className: "text-left", "targets": [1,6] }
+                , { className: "text-right", "targets": [2, 3, 4,7] }
                 ],
             select: { style: 'multi', selector: 'td:first-child' },
             destroy: true
@@ -166,6 +206,7 @@ function ShowCustomerInvoiceDetailsModal()
 function BindPackingSlipDetails(packingSlipID)
 {
     debugger;
+    TaxtypeDropdown();
     if (packingSlipID != "")
     {
         var PackingSlipVM = GetPackingSlip(packingSlipID);
@@ -233,7 +274,41 @@ function GetPackingSlipDetail(packingSlipId) {
         console.log(e.message);
     }
 }
+function TaxtypeDropdown()
+{
+    var taxTypeVM = GetTaxtypeDropdown()
+    _taxDropdownScript = "<option value="+''+">-Select-</option>";
+    for (i = 0; i < taxTypeVM.length; i++)
+    {
+        _taxDropdownScript = _taxDropdownScript + '<option value="' + taxTypeVM[i].Code + '">' + taxTypeVM[i].Description + '</option>'
+    }
+}
 
+function GetTaxtypeDropdown()
+{
+    try {
+        var data = { };
+        var taxTypeVM = new Object();
+        jsonData = GetDataFromServer("CustomerInvoice/GetTaxTypeForSelectList/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            taxTypeVM = jsonData.Records;
+        }
+        if (result == "OK") {
+            return taxTypeVM;
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
+    }
+
+}
 function AddCustomerInvoiceDetails()
 {
     $('#CustomerInvoiceDetailsModal').modal('hide');
