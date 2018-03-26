@@ -48,6 +48,9 @@ namespace ProductionApp.DataAccessObject.DTO
         //additional properties
         public string ProductName { get; set; }
         public decimal Total { get; set; }
+        public Guid PackingSlipDetailID { get; set; }
+        public decimal QuantityCheck { get; set; }
+        public decimal WeightCheck { get; set; }
 
 
     }
