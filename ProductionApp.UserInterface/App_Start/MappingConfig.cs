@@ -98,7 +98,10 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<MaterialReturnViewModel, MaterialReturn>().ReverseMap();
                 config.CreateMap<MaterialReturnDetailViewModel, MaterialReturnDetail>().ReverseMap(); 
                 config.CreateMap<MaterialReturnAdvanceSearchViewModel, MaterialReturnAdvanceSearch>().ReverseMap();
-                //CustomerInvoice
+                config.CreateMap<CustomerPaymentViewModel, CustomerPayment>().ReverseMap();
+                config.CreateMap<CustomerPaymentDetailViewModel, CustomerPaymentDetail>().ReverseMap();
+                config.CreateMap<CustomerPaymentAdvanceSearchViewModel, CustomerPaymentAdvanceSearch>().ReverseMap();
+                //CustomerInvoice 
                 config.CreateMap<CustomerInvoiceViewModel,CustomerInvoice>().ReverseMap();
                 config.CreateMap<CustomerInvoiceDetailViewModel, CustomerInvoiceDetail>().ReverseMap();
                 config.CreateMap<CustomerInvoiceDetailLinkViewModel, CustomerInvoiceDetailLink>().ReverseMap();
