@@ -60,7 +60,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetCustomerDetails
 
-        #region GetPackingSlipDetail
+        #region GetPackingSlipDetailForCustomerInvoice
         public string GetPackingSlipDetail(string packingSlipID)
         {
             try
@@ -75,7 +75,7 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
 
-        #endregion GetPackingSlipDetail
+        #endregion GetPackingSlipDetailForCustomerInvoice
 
         #region  GetTaxTypeForSelectList
         public string GetTaxTypeForSelectList()

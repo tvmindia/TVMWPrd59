@@ -1,0 +1,15 @@
+﻿@using ProductionApp.UserInterface.App_Start
+@model ProductionApp.UserInterface.Models.CustomerPaymentViewModel
+@{
+    ViewBag.Title = "NewCustomerPayment";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+@section styles {
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableSelect")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Selectmin")
+}
+<h2>NewCustomerPayment</h2>
+
