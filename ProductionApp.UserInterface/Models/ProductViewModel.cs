@@ -33,15 +33,15 @@ namespace ProductionApp.UserInterface.Models
         public decimal? CurrentStock { get; set; }
         public string HSNNo { get; set; }
         [Display(Name = "Weight In KG")]
-        public decimal WeightInKG { get; set; }
+        public decimal? WeightInKG { get; set; }
         [Display(Name = "Cost Price")]
-        public decimal CostPrice { get; set; }
+        public decimal? CostPrice { get; set; }
         [Display(Name = "Selling Price")]
-        public decimal SellingPrice { get; set; }
+        public decimal? SellingPrice { get; set; }
         [Display(Name = "Selling Price In KG")]
-        public decimal SellingPriceInKG { get; set; }
+        public decimal? SellingPriceInKG { get; set; }
         [Display(Name = "Selling Price Per Piece")]
-        public decimal SellingPricePerPiece { get; set; }
+        public decimal? SellingPricePerPiece { get; set; }
         [Display(Name = "Is Invoice In KG")]
         public bool IsInvoiceInKG { get; set; }
         public string Type { get; set; }
