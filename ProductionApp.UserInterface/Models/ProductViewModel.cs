@@ -27,15 +27,29 @@ namespace ProductionApp.UserInterface.Models
         public string Category { get; set; }
         [Required(ErrorMessage = "Please Enter Rate")]
         public decimal Rate { get; set; }
+        [Display(Name = "Opening Stock")]
         public decimal? OpeningStock { get; set; }
         [Display(Name = "Current Stock")]
         public decimal? CurrentStock { get; set; }
+        public string HSNNo { get; set; }
+        [Display(Name = "Weight In KG")]
+        public decimal WeightInKG { get; set; }
+        [Display(Name = "Cost Price")]
+        public decimal CostPrice { get; set; }
+        [Display(Name = "Selling Price")]
+        public decimal SellingPrice { get; set; }
+        [Display(Name = "Selling Price In KG")]
+        public decimal SellingPriceInKG { get; set; }
+        [Display(Name = "Selling Price Per Piece")]
+        public decimal SellingPricePerPiece { get; set; }
+        [Display(Name = "Is Invoice In KG")]
+        public bool IsInvoiceInKG { get; set; }
+        public string Type { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public Guid ProductID { get; set; }
-        public string HSNNo { get; set; }
         public CommonViewModel Common { get; set; }
         public UnitViewModel Unit { get; set; }
         public List<SelectListItem> SelectList { get; set; }

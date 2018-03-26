@@ -17,13 +17,21 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal Rate { get; set; }
         public decimal OpeningStock { get; set; }
         public decimal CurrentStock { get; set; }
+        public string HSNNo { get; set; }
+        public decimal WeightInKG { get; set; }
+        public decimal CostPrice { get; set; }
+        public decimal SellingPrice { get; set; }
+        public decimal SellingPriceInKG { get; set; }
+        public decimal SellingPricePerPiece { get; set; }
+        public bool IsInvoiceInKG { get; set; }
+        public string Type { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
-        public string HSNNo { get; set; }
         public Common Common { get; set; }
         public Unit Unit { get; set; }
+        public Customer Customer { get; set; }
     }
     public class ProductAdvanceSearch
     {

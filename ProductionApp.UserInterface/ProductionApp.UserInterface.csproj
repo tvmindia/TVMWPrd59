@@ -931,7 +931,6 @@
     <Content Include="Views\MaterialReturnFromProduction\ViewRecieveFromProduction.cshtml" />
     <Content Include="Views\Stage\Index.cshtml" />
     <Content Include="Views\Stage\_AddStagePartial.cshtml" />
-    <Content Include="Views\Customer\Customer.cshtml" />
     <Content Include="Views\Customer\_CustomerDropdown.cshtml" />
     <Content Include="Views\TaxType\_TaxTypeDropdown.cshtml" />
     <Content Include="Views\SubComponent\Index.cshtml" />
@@ -950,7 +949,6 @@
     <Content Include="Views\PackingSlip\_PackingSlipDropdown.cshtml" />
     <Content Include="Views\MaterialReturn\ViewMaterialReturn.cshtml" />
     <Content Include="Views\MaterialReturn\NewMaterialReturn.cshtml" />
-    <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Customer\_AddCustomerPartial.cshtml" />
     <Content Include="Views\Customer\ViewCustomer.cshtml" />
     <Content Include="Views\Customer\NewCustomer.cshtml" />

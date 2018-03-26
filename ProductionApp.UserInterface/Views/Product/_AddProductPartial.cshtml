@@ -60,8 +60,6 @@
                 <div class="col-md-12">
                     <div class="col-md-12">
                         @{Html.RenderAction("UnitDropdown", "Unit", Model.Unit);}
-                        @*@Html.Action("UnitDropdown", "Unit")
-                    @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })*@
                     </div>
                 </div>
             </div>
@@ -107,6 +105,120 @@
                     </div>
                 </div>
             </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.OpeningStock, htmlAttributes: new { @class = "control-label " })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.OpeningStock, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.OpeningStock, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.HSNNo, htmlAttributes: new { @class = "control-label " })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.HSNNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.HSNNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.WeightInKG, htmlAttributes: new { @class = "control-label " })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.WeightInKG, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.WeightInKG, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency" } })
+                    @Html.ValidationMessageFor(model => model.CostPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.SellingPrice, htmlAttributes: new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.SellingPrice, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency" } })
+                    @Html.ValidationMessageFor(model => model.SellingPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.SellingPriceInKG, htmlAttributes: new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.SellingPriceInKG, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency" } })
+                    @Html.ValidationMessageFor(model => model.SellingPriceInKG, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.SellingPricePerPiece, htmlAttributes: new { @class = "control-label " })
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.SellingPricePerPiece, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency" } })
+                    @Html.ValidationMessageFor(model => model.SellingPricePerPiece, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+           
+            <div class="col-md-12">
+                <div class="col-md-12">@Html.EditorFor(model => model.IsInvoiceInKG, new { htmlAttributes = new { @class = "" } })
+                    @Html.LabelFor(model => model.IsInvoiceInKG, htmlAttributes: new { @class = "control-label " })
+                    @Html.ValidationMessageFor(model => model.IsInvoiceInKG, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
 
         <div class="form-group ">
             <div class="col-md-12">

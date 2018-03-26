@@ -126,6 +126,14 @@ namespace ProductionApp.RepositoryServices.Services
                                         product.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : product.Rate);
                                         product.OpeningStock = (sdr["OpeningStock"].ToString() != "" ? decimal.Parse(sdr["OpeningStock"].ToString()) : product.OpeningStock);
                                         product.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : product.CurrentStock);
+                                        product.HSNNo = (sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : product.HSNNo);
+                                        product.WeightInKG = (sdr["WeightInKG"].ToString() != "" ? decimal.Parse(sdr["WeightInKG"].ToString()) : product.WeightInKG);
+                                        product.CostPrice = (sdr["CostPrice"].ToString() != "" ? decimal.Parse(sdr["CostPrice"].ToString()) : product.CostPrice);
+                                        product.SellingPrice = (sdr["SellingPrice"].ToString() != "" ? decimal.Parse(sdr["SellingPrice"].ToString()) : product.SellingPrice);
+                                        product.SellingPriceInKG = (sdr["SellingPriceInKG"].ToString() != "" ? decimal.Parse(sdr["SellingPriceInKG"].ToString()) : product.SellingPriceInKG);
+                                        product.SellingPricePerPiece = (sdr["SellingPricePerPiece"].ToString() != "" ? decimal.Parse(sdr["SellingPricePerPiece"].ToString()) : product.SellingPricePerPiece);
+                                        product.IsInvoiceInKG= (sdr["IsInvoiceInKG"].ToString() != "" ? bool.Parse(sdr["IsInvoiceInKG"].ToString()) : product.IsInvoiceInKG);
+                                        product.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : product.Type);
                                         product.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : product.FilteredCount);
                                         product.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : product.TotalCount);
                                     }
@@ -174,6 +182,16 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@UnitCode", SqlDbType.VarChar).Value = product.UnitCode;
                         cmd.Parameters.Add("@Category", SqlDbType.VarChar).Value = product.Category;
                         cmd.Parameters.Add("@Rate", SqlDbType.Decimal).Value = product.Rate;
+                        cmd.Parameters.Add("@OpeningStock", SqlDbType.Decimal).Value = product.OpeningStock;
+                        cmd.Parameters.Add("@CurrentStock", SqlDbType.Decimal).Value = product.CurrentStock;
+                        cmd.Parameters.Add("@HSNNo", SqlDbType.NVarChar,30).Value = product.HSNNo;
+                        cmd.Parameters.Add("@WeightInKG", SqlDbType.Decimal).Value = product.WeightInKG;
+                        cmd.Parameters.Add("@CostPrice", SqlDbType.Decimal).Value = product.CostPrice;
+                        cmd.Parameters.Add("@SellingPrice", SqlDbType.Decimal).Value = product.SellingPrice;
+                        cmd.Parameters.Add("@SellingPriceInKG", SqlDbType.Decimal).Value = product.SellingPriceInKG;
+                        cmd.Parameters.Add("@SellingPricePerPiece", SqlDbType.Decimal).Value = product.SellingPricePerPiece;
+                        cmd.Parameters.Add("@IsInvoiceInKG", SqlDbType.Bit).Value = product.IsInvoiceInKG;
+                        cmd.Parameters.Add("@Type", SqlDbType.NVarChar,5).Value = product.Type;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar).Value = product.Common.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = product.Common.CreatedDate;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.VarChar).Value = product.Common.UpdatedBy;
@@ -286,6 +304,15 @@ namespace ProductionApp.RepositoryServices.Services
                                     product.Unit.Code = sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : product.UnitCode;
                                     product.Category = sdr["Category"].ToString() != "" ? sdr["Category"].ToString() : product.Category;
                                     product.Rate = sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : product.Rate;
+                                    product.OpeningStock = sdr["OpeningStock"].ToString() != "" ? decimal.Parse(sdr["OpeningStock"].ToString()) : product.OpeningStock;
+                                    product.CurrentStock = sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : product.CurrentStock;
+                                    product.WeightInKG = sdr["WeightInKG"].ToString() != "" ? decimal.Parse(sdr["WeightInKG"].ToString()) : product.WeightInKG;
+                                    product.CostPrice = sdr["CostPrice"].ToString() != "" ? decimal.Parse(sdr["CostPrice"].ToString()) : product.CostPrice;
+                                    product.SellingPrice = sdr["SellingPrice"].ToString() != "" ? decimal.Parse(sdr["SellingPrice"].ToString()) : product.SellingPrice;
+                                    product.SellingPriceInKG = sdr["SellingPriceInKG"].ToString() != "" ? decimal.Parse(sdr["SellingPriceInKG"].ToString()) : product.SellingPriceInKG;
+                                    product.SellingPricePerPiece = sdr["SellingPricePerPiece"].ToString() != "" ? decimal.Parse(sdr["SellingPricePerPiece"].ToString()) : product.SellingPricePerPiece;
+                                    product.IsInvoiceInKG = sdr["IsInvoiceInKG"].ToString() != "" ? bool.Parse(sdr["IsInvoiceInKG"].ToString()) : product.IsInvoiceInKG;
+                                    product.Type = sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : product.Type;
                                     product.HSNNo = sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : product.HSNNo;
                                 }
                             }
