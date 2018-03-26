@@ -20,9 +20,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public bool IsUpdate { get; set; }
         public string DetailXML { get; set; }
         public BOMComponentLine BOMComponentLine { get; set; }
-        public List<BOMComponentLine> BOMComponentLineList { get; set; }
-        public BOMComponentLineDetail BOMComponentLineDetail { get; set; }
-        public List<BOMComponentLineDetail> BOMComponentLineDetailList { get; set; }
+        public BOMComponentLineStageDetail BOMComponentLineStageDetail { get; set; }
+        public BOMComponentLineStage BOMComponentLineStage { get; set; }
     }
     public class BillOfMaterialAdvanceSearch
     {
@@ -46,8 +45,12 @@ namespace ProductionApp.DataAccessObject.DTO
         public string LineName { get; set; }
         public Common Common { get; set; }
         //Additional
-        public List<BOMComponentLineStage> BOMComponentLineStage { get; set; }
-        public List<BOMComponentLineDetail> BOMComponentLineDetail { get; set; }
+        public List<BOMComponentLineStage> BOMComponentLineStageList { get; set; }
+        //public List<BOMComponentLineStageDetail> BOMComponentLineDetailList { get; set; }
+        public Product Product { get; set; }
+        public List<Stage> StageList { get; set; }
+        public bool IsUpdate { get; set; }
+        public string StageXML { get; set; }
     }
     public class BOMComponentLineStage
     {
@@ -56,8 +59,11 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid StageID { get; set; }
         public int StageOrder { get; set; }
         public Common Common { get; set; }
+        //Additional
+        public Stage Stage { get; set; }
+        public List<Stage> StageList { get; set; }
     }
-    public class BOMComponentLineDetail
+    public class BOMComponentLineStageDetail
     {
         public Guid ID { get; set; }
         public Guid ComponentLineID { get; set; }

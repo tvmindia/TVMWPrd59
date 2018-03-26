@@ -1187,3 +1187,7 @@ background-position: 0% 50%;
         .no-right-padding{
             padding-right: 0px;
         }
+
+select{
+    padding:4px 2px!important;
+}

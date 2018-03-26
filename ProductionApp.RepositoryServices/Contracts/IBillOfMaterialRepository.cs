@@ -15,5 +15,9 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<BillOfMaterialDetail> GetBillOfMaterialDetail(Guid id);
         object DeleteBillOfMaterial(Guid id);
         object DeleteBillOfMaterialDetail(Guid id);
+        object InsertUpdateBOMComponentLine(BOMComponentLine bOMComponentLine);
+        object DeleteBOMComponentLine(Guid id);
+        List<BOMComponentLine> GetBOMComponentLineByComponentID(Guid componentID);
+        List<BOMComponentLineStage> GetBOMComponentLineStage(Guid id);
     }
 }

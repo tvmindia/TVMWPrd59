@@ -245,5 +245,46 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion DeleteStage
 
+        #region GetStageForSelectList
+        public List<Stage> GetStageForSelectList()
+        {
+            List<Stage> stageList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetStageForSelectList]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                stageList = new List<Stage>();
+                                while (sdr.Read())
+                                {
+                                    Stage stage = new Stage();
+                                    stage.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : stage.ID);
+                                    stage.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : stage.Description);
+                                    stageList.Add(stage);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return stageList;
+        }
+        #endregion GetStageForSelectList
     }
 }

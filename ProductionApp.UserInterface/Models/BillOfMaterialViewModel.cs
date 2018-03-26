@@ -23,9 +23,8 @@ namespace ProductionApp.UserInterface.Models
         public bool IsUpdate { get; set; }
         public string DetailJSON { get; set; }
         public BOMComponentLineViewModel BOMComponentLine { get; set; }
-        public List<BOMComponentLineViewModel> BOMComponentLineList { get; set; }
-        public BOMComponentLineDetailViewModel BOMComponentLineDetail { get; set; }
-        public List<BOMComponentLineDetailViewModel> BOMComponentLineDetailList { get; set; }
+        public BOMComponentLineStageDetailViewModel BOMComponentLineStageDetail { get; set; }
+        public BOMComponentLineStageViewModel BOMComponentLineStage { get; set; }
     }
     public class BillOfMaterialAdvanceSearchViewModel
     {
@@ -53,9 +52,13 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Line Name Required")]
         public string LineName { get; set; }
         public CommonViewModel Common { get; set; }
-
-        List<BOMComponentLineStageViewModel> BOMComponentLineStageList { get; set; }
-        List<BOMComponentLineDetailViewModel> BOMComponentLineDetailList { get; set; }
+        //Additional
+        public List<BOMComponentLineStageViewModel> BOMComponentLineStageList { get; set; }
+        //public List<BOMComponentLineStageDetailViewModel> BOMComponentLineDetailList { get; set; }
+        public ProductViewModel Product { get; set; }
+        public List<StageViewModel> StageList { get; set; }
+        public bool IsUpdate { get; set; }
+        public string StageJSON { get; set; }
     }
     public class BOMComponentLineStageViewModel
     {
@@ -64,8 +67,10 @@ namespace ProductionApp.UserInterface.Models
         public Guid StageID { get; set; }
         public int StageOrder { get; set; }
         public CommonViewModel Common { get; set; }
+        //Additional
+        public StageViewModel Stage { get; set; }
     }
-    public class BOMComponentLineDetailViewModel
+    public class BOMComponentLineStageDetailViewModel
     {
         public Guid ID { get; set; }
         public Guid ComponentLineID { get; set; }

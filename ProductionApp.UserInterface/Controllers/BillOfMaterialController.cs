@@ -15,14 +15,16 @@ namespace ProductionApp.UserInterface.Controllers
     public class BillOfMaterialController : Controller
     {
         #region Constructor Injection
-        private IProductBusiness _productBusiness;
         private IBillOfMaterialBusiness _billOfMaterialBusiness;
+        private IProductBusiness _productBusiness;
+        private IStageBusiness _stageBusiness;
         AppConst _appConst = new AppConst();
         Common _common = new Common();
-        public BillOfMaterialController(IBillOfMaterialBusiness billOfMaterialBusiness, IProductBusiness productBusiness)
+        public BillOfMaterialController(IBillOfMaterialBusiness billOfMaterialBusiness, IProductBusiness productBusiness, IStageBusiness stageBusiness)
         {
-            _productBusiness = productBusiness;
             _billOfMaterialBusiness = billOfMaterialBusiness;
+            _productBusiness = productBusiness;
+            _stageBusiness = stageBusiness;
         }
         #endregion Constructor Injection
 
@@ -175,7 +177,7 @@ namespace ProductionApp.UserInterface.Controllers
             }
             catch (Exception ex)
             {
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex.Message });
             }
         }
         #endregion DeleteBillOfMaterial
@@ -190,11 +192,12 @@ namespace ProductionApp.UserInterface.Controllers
             }
             catch (Exception ex)
             {
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex.Message });
             }
         }
         #endregion DeleteBillOfMaterialDetail
 
+        #region PartialViews
         public ActionResult AddComponent(Guid? id)
         {
             BillOfMaterialViewModel billOfMaterialVM = new BillOfMaterialViewModel
@@ -208,6 +211,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         public ActionResult AddProductionLine(BillOfMaterialViewModel billOfMaterialVM)
         {
+            billOfMaterialVM.BillOfMaterialDetailList = Mapper.Map<List<BillOfMaterialDetail>, List<BillOfMaterialDetailViewModel>>(_billOfMaterialBusiness.GetBillOfMaterialDetail(billOfMaterialVM.ID));
             return PartialView("_AddProductionLine", billOfMaterialVM);
         }
 
@@ -215,6 +219,70 @@ namespace ProductionApp.UserInterface.Controllers
         {
             return PartialView("_AddStageDetail", billOfMaterialVM);
         }
+
+        public ActionResult ListAllStage(BOMComponentLineViewModel bOMComponentLineVM)
+        {
+            bOMComponentLineVM.StageList = Mapper.Map<List<Stage>, List<StageViewModel>>(_stageBusiness.GetStageForSelectList());
+            return PartialView("_ListAllStage", bOMComponentLineVM);
+        }
+        #endregion PartialViews
+
+        #region InsertUpdateBOMComponentLine
+        public string InsertUpdateBOMComponentLine(BillOfMaterialViewModel billOfMaterialVM)
+        {
+            try//billOfMaterialVM.BOMComponentLine
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                billOfMaterialVM.BOMComponentLine.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                //Deserialize items
+                object resultFromJS = JsonConvert.DeserializeObject(billOfMaterialVM.BOMComponentLine.StageJSON);
+                string readableFormat = JsonConvert.SerializeObject(resultFromJS);
+                billOfMaterialVM.BOMComponentLine.BOMComponentLineStageList = JsonConvert.DeserializeObject<List<BOMComponentLineStageViewModel>>(readableFormat);
+                object result = _billOfMaterialBusiness.InsertUpdateBOMComponentLine(Mapper.Map<BOMComponentLineViewModel, BOMComponentLine>(billOfMaterialVM.BOMComponentLine));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = _appConst.InsertSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+        }
+        #endregion InsertUpdateBOMComponentLine
+
+        #region DeleteBOMComponentLine
+        public object DeleteBOMComponentLine(string id)
+        {
+            try
+            {
+                object result = _billOfMaterialBusiness.DeleteBOMComponentLine(Guid.Parse(id));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex.Message });
+            }
+        }
+        #endregion DeleteBOMComponentLine
+
+        #region GetBOMComponentLine
+        public string GetBOMComponentLine(string componentID)
+        {
+            List<BOMComponentLine> bOMComponentLineList = new List<BOMComponentLine>();
+            bOMComponentLineList = _billOfMaterialBusiness.GetBOMComponentLineByComponentID(Guid.Parse(componentID));
+            foreach(BOMComponentLine bOMComponentLine in bOMComponentLineList)
+            {
+                bOMComponentLine.BOMComponentLineStageList = _billOfMaterialBusiness.GetBOMComponentLineStage(bOMComponentLine.ID);
+            }
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = bOMComponentLineList, Message = "Success" });
+        }
+        #endregion
+
         #region ButtonStyling
         [HttpGet]
         //[AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "R")]

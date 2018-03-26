@@ -33,6 +33,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _stageRepository.DeleteStage(id);
         }
-
+        public List<Stage> GetStageForSelectList()
+        {
+            return _stageRepository.GetStageForSelectList();
+        }
     }
 }
