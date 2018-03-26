@@ -328,13 +328,12 @@ function AddPackingSlipDetailTbl() {
     _SlNo = 1;
     var productDetailsVM = DataTables.ProductListTable.rows(".selected").data();
     debugger;
-    var res = CheckProductDetails(productDetailsVM);//Checking all details are entered or not
-if(selected==1)
+    var res = CheckProductList(productDetailsVM);//Checking all details are entered or not
+    if(selected==1)
     if (res) {
         AddPackingSlipDetailData(productDetailsVM);// adding values to packingSlipDetail
         _SlNo = 1;
         DataTables.PackingSlipDetailTable.clear().rows.add(packingDetail).draw(false); //binding Detail table with new values   
-        //if(res)
         $('#PackingSlipModal').modal('hide');
         Save();
     }
@@ -343,13 +342,7 @@ if(selected==1)
 }
 function CheckProductDetails(producDetails)
 {
-    var flag = 0;
-    debugger;
-    if (producDetails.length == 0) {
-        notyAlert('warning', "Please Select Product");
-        selected = 0;
-        return false;
-}
+   var flag = 0;
     if ((producDetails) && (producDetails.length > 0)) {
         selected = 1;
         for (var r = 0; r < producDetails.length; r++) {
@@ -364,7 +357,16 @@ function CheckProductDetails(producDetails)
         return true;
     }
 }
-
+function CheckProductList(producDetails)
+{
+    
+    if (producDetails.length == 0) {
+        notyAlert('warning', "Please Select Product");
+        selected = 0;
+        return false;
+    }
+    CheckProductDetails(producDetails);
+}
 function AddPackingSlipDetailData(data)
 {
     var flag = 0;

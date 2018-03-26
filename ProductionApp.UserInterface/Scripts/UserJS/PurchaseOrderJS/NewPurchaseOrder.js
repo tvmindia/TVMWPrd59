@@ -300,6 +300,9 @@ $(document).ready(function () {
               BindPurchaseOrder($('#ID').val());
           }
           $('#btnSendDownload').hide();
+          $("#SupplierID").change(function () {
+              SupplierDetails();
+          });
         }
         
     

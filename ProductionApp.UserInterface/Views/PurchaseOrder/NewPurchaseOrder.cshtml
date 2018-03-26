@@ -2,7 +2,14 @@
 @model ProductionApp.UserInterface.Models.PurchaseOrderViewModel
 @using ProductionApp.UserInterface.Models
 @{
-    ViewBag.Title = "NewPurchaseOrder";
+    if (Model.ID != Guid.Empty)
+    {
+        ViewBag.Title = "Edit Purchase Order";
+    }
+    else
+    {
+        ViewBag.Title = "New Purchase Order";
+    }
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 @section styles {
@@ -14,7 +21,7 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i> Purchase Order</a></li>
+        <li><a href="@Url.Action("NewPurchaseOrder", "PurchaseOrder", new { Code = "PURCH" })"><i class="fa fa-cogs"></i> Purchase Order</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
