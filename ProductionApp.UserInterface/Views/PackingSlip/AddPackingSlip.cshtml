@@ -1,7 +1,14 @@
 ﻿@using ProductionApp.UserInterface.App_Start
 @model ProductionApp.UserInterface.Models.PackingSlipViewModel
 @{
-    ViewBag.Title = "Add Packing Slip";
+    if (Model.IsUpdate)
+    {
+        ViewBag.Title = "Edit Packing Slip";
+    }
+    else
+    {
+        ViewBag.Title = "Add Packing Slip";
+    }
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 @section styles {
@@ -13,7 +20,7 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i>Packing Slip</a></li>
+        <li><a href="@Url.Action("AddPackingSlip", "PackingSlip", new { Code = "SALE" })"><i class="fa fa-cogs"></i>Packing Slip</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>

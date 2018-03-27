@@ -124,7 +124,7 @@ height:150px;*/
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.CurrentStock, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.CurrentStock, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                         @Html.ValidationMessageFor(model => model.CurrentStock, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -138,7 +138,7 @@ height:150px;*/
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.OpeningStock, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.OpeningStock, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                         @Html.ValidationMessageFor(model => model.OpeningStock, "", new { @class = "text-danger" })
                     </div>
                 </div>

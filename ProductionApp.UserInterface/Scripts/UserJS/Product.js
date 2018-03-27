@@ -62,7 +62,7 @@ function BindOrReloadProductTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [1, 2, 3, 4, 5, 6,7]
+                                 columns: [0,1, 2, 3, 4, 5,6,7,8,9,10,11,12,13]
                              }
             }],
             ordering: false,
@@ -82,26 +82,39 @@ function BindOrReloadProductTable(action) {
             },
             pageLength: 10,
             columns: [
-            { "data": "ID", "defaultContent": "<i>-</i>" },
-            { "data": "Code", "defaultContent": "<i>-</i>" },
-            { "data": "Name", "defaultContent": "<i>-</i>" },
-            { "data": "Description", "defaultContent": "<i>-<i>" },
-            { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
-            { "data": "Category", "defaultContent": "<i>-<i>" },
+            { "data": "Code", "defaultContent": "<i>-</i>" ,"width":"5%"},
+            {
+                "data": "Name", "defaultContent": "<i>-</i>", "width": "10%",
+             'render': function (data, type, row) {
+            if (row.IsInvoiceInKG)
+                return data +'</br>(<b>Invoice in Kg </b>)'
+            else
+                return data
+        }},
+            { "data": "Description", "defaultContent": "<i>-<i>", "width": "10%" },
+            { "data": "Unit.Description", "defaultContent": "<i>-<i>", "width": "5%" },
+            { "data": "Category", "defaultContent": "<i>-<i>", "width": "5%" },
+            { "data": "Type", "defaultContent": "<i>-<i>", "width": "5%" },
             {
                  "data": "Rate", render: function (data, type, row) {
                      if (data == 0)
                          return '-'
                      else
                          return roundoff(data, 1);
-                 }, "defaultContent": "<i>-</i>"
+                 }, "defaultContent": "<i>-</i>", "width": "5%"
             },
-            { "data": "CurrentStock", "defaultContent": "<i>-<i>" },
+            { "data": "CurrentStock", "defaultContent": "<i>-<i>", "width": "5%" },
+            { "data": "HSNNo", "defaultContent": "<i>-<i>", "width": "5%" },
+            { "data": "WeightInKG", "defaultContent": "<i>-<i>", "width": "5%" },
+            { "data": "CostPrice", "defaultContent": "<i>-<i>", "width": "5%" },
+            { "data": "SellingPrice", "defaultContent": "<i>-<i>", "width": "5%" },
+            { "data": "SellingPriceInKG", "defaultContent": "<i>-<i>", "width": "5%" },
+            { "data": "SellingPricePerPiece", "defaultContent": "<i>-<i>", "width": "5%" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteProductMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
             ],
-            columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [6,7,8] },
-                { className: "text-left", "targets": [1,2, 3, 4, 5] },
+            columnDefs: [{ "targets": [12,13], "visible": false, "searchable": false },
+                { className: "text-right", "targets": [6,7,8,9,10,11,12,13] },
+                { className: "text-left", "targets": [0,1,2, 3, 4,5,8] },
                 { className: "text-center", "targets": [] }],
             destroy: true,
             //for performing the import operation after the data loaded

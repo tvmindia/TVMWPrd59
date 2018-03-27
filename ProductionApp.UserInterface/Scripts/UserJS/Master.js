@@ -49,7 +49,7 @@ function SaveSuccessMaterial(data, status) {
             }
             else if ($('#hdnMasterCall').val() == "OTR")
             {
-                $('#divMaterialDropdown').load('/Material/MaterialDropdown');
+                $('#divRawMaterialDropdown').load('/Material/MaterialDropdown');
             }            
             MasterAlert("success", JsonResult.Records.Message)            
             break;
@@ -62,10 +62,11 @@ function SaveSuccessMaterial(data, status) {
     }
 }
 //-- add Product--//
-function AddProductMaster() {
+function AddProductMaster(flag) {
     GetMasterPartial("Product", "");
     $('#h3ModelMasterContextLabel').text('Add Product')
     $('#divModelMasterPopUp').modal('show');
+    $('#hdnMasterCall').val(flag);
 }
 //-- Function After Product Save --//
 function SaveSuccessProduct(data, status) {
@@ -232,17 +233,17 @@ function AddCustomerMaster(flag) {
 function SaveSuccessCustomer(data, status) {
     debugger;
     var JsonResult = JSON.parse(data)
-    switch (JsonResult.Result) {
+    switch (JsonResult.Status) {
         case "OK":
             if ($('#hdnMasterCall').val() == "MSTR") {
                 $('#IsUpdate').val('True');
-                $('#ID').val(JsonResult.Records.ID);
+                $('#ID').val(JsonResult.Record.ID);
                 BindOrReloadCustomerTable('Reset');
             }
             else if ($('#hdnMasterCall').val() == "OTR") {
-                $('#divSubComponentDropdown').load('/Customer/CustomerDropdown');
+                $('#divCustomerDropdown').load('/Customer/CustomerDropdown');
             }
-            MasterAlert("success", JsonResult.Records.Message)
+            MasterAlert("success", JsonResult.Record.Message)
             break;
         case "ERROR":
             MasterAlert("danger", JsonResult.Message)

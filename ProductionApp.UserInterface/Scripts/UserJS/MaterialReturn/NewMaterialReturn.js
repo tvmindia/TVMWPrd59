@@ -80,7 +80,9 @@ $(document).ready(function () {
         else {
             $('#lblReturnSlipNo').text('Return To Supplier# : New');
         }
-
+        $("#SupplierID").change(function () {
+            SupplierDetails();
+        });
     }
     catch (e) {
         console.log(e.message);
@@ -133,6 +135,43 @@ function GetMaterial(ID) {
     }
     catch (e) {
         notyAlert('error', e.message);
+    }
+}
+//bind supplier address 
+function SupplierDetails() {
+    debugger;
+    var supplierid = $('#SupplierID').val();
+    supplierVM = GetSupplierDetails(supplierid);
+    $('#BillAddress').val(supplierVM.BillingAddress);
+    $('#ShippingAddress').val(supplierVM.ShippingAddress);
+}
+function GetSupplierDetails(supplierid) {
+    try {
+        debugger;
+        var data = { "supplierid": supplierid };
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var supplierVM = new Object();
+
+        jsonData = GetDataFromServer("MaterialReturn/GetSupplierDetails/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            supplierVM = jsonData.Records;
+        }
+        if (result == "OK") {
+
+            return supplierVM;
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
     }
 }
 function AddReturnToSupplierItem()

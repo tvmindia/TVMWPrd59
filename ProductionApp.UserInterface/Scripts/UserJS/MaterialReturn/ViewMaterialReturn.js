@@ -27,6 +27,13 @@ $(document).ready(function () {
         console.log(e.message);
     }
 });
+//edit on table click
+function Edit(curObj) {
+    debugger;
+    var rowData = DataTables.ReturnToSupplier.row($(curObj).parents('tr')).data();
+    window.location.replace("NewMaterialReturn?code=STR&ID=" + rowData.ID);
+
+}
 function BindOrReloadReturnToSupplierTable(action) {
     try {
         debugger;

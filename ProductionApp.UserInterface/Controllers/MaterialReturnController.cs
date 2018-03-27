@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
+using ProductionApp.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +17,17 @@ namespace ProductionApp.UserInterface.Controllers
         IMaterialReturnBusiness _materialReturnBusiness;
         private IMaterialBusiness _rawMaterialBusiness;
         private IEmployeeBusiness _employeeBusiness;
+        private ISupplierBusiness _supplierBusiness;
         AppConst _appConst = new AppConst();
         Common _common = new Common();
-        public MaterialReturnController(IMaterialReturnBusiness materialReturnBusiness, IEmployeeBusiness employeeBusiness, IMaterialBusiness rawMaterialBusiness)
+        public MaterialReturnController(IMaterialReturnBusiness materialReturnBusiness, IEmployeeBusiness employeeBusiness, IMaterialBusiness rawMaterialBusiness, ISupplierBusiness supplierBusiness)
         {
             _materialReturnBusiness = materialReturnBusiness;
             _employeeBusiness = employeeBusiness;
             _rawMaterialBusiness = rawMaterialBusiness;
+            _supplierBusiness = supplierBusiness;
         }
+        [AuthSecurityFilter(ProjectObject = "MaterialReturn", Mode = "R")]
         public ActionResult ViewMaterialReturn(string code)
         {
             ViewBag.SysModuleCode = code;
@@ -49,6 +53,7 @@ namespace ProductionApp.UserInterface.Controllers
             return View(materialReturnAdvanceSearchVM);
         }
 
+        [AuthSecurityFilter(ProjectObject = "MaterialReturn", Mode = "R")]
         public ActionResult NewMaterialReturn(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
@@ -78,7 +83,8 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         #region GetAllReturnToSupplier
-        
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "MaterialReturn", Mode = "R")]
         public JsonResult GetAllReturnToSupplier(DataTableAjaxPostModel model, MaterialReturnAdvanceSearchViewModel materialReturnAdvanceSearchVM)
         {
             materialReturnAdvanceSearchVM.DataTablePaging.Start = model.start;
@@ -104,6 +110,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateReturnToSupplier
         [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "MaterialReturn", Mode = "R")]
         public string InsertUpdateReturnToSupplier(MaterialReturnViewModel materialReturnVM)
         {
 
@@ -134,6 +141,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion InsertUpdateReturnToSupplier
 
         #region GetMaterialReturn
+        [AuthSecurityFilter(ProjectObject = "MaterialReturn", Mode = "R")]
         public string GetMaterialReturn(string id)
         {
             try
@@ -150,6 +158,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetMaterialReturn
 
         #region GetMaterialReturnDetail
+        [AuthSecurityFilter(ProjectObject = "MaterialReturn", Mode = "R")]
         public string GetMaterialReturnDetail(string id)
         {
             try
@@ -166,7 +175,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region DeleteMaterialReturnDetail
-        
+        [AuthSecurityFilter(ProjectObject = "MaterialReturn", Mode = "R")]
         public string DeleteMaterialReturnDetail(string id)
         {
             object result = null;
@@ -188,7 +197,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region DeleteMaterialReturn
-        
+        [AuthSecurityFilter(ProjectObject = "MaterialReturn", Mode = "R")]
         public string DeleteMaterialReturn(string id)
         {
             object result = null;
@@ -226,8 +235,24 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion
 
+        #region GetSupplierDetails
+        public string GetSupplierDetails(string supplierid)
+        {
+            try
+            {
+                SupplierViewModel supplierVM = Mapper.Map<Supplier, SupplierViewModel>(_supplierBusiness.GetSupplier(Guid.Parse(supplierid)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetSupplierDetails
+
         #region ButtonStyling
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "MaterialReturn", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();

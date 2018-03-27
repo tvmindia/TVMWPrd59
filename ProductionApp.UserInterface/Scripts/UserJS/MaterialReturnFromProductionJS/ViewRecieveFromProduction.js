@@ -19,12 +19,21 @@ $(document).ready(function () {
         $("#ReturnBy").select2({
         });
         BindOrReloadReturnFromProductionTable('Init');
+        $('#tblRecieveFromProduction tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
     }
     catch (e) {
         console.log(e.message);
     }
 });
+//edit on table click
+function Edit(curObj) {
+    debugger;
+    var rowData = DataTables.ReturnFromProductionList.row($(curObj).parents('tr')).data();
+    window.location.replace("NewRecieveFromProduction?code=STR&ID=" + rowData.ID);
 
+}
 function BindOrReloadReturnFromProductionTable(action)
 {
         try {
