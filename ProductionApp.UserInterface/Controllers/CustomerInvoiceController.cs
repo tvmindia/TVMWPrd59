@@ -18,6 +18,10 @@ namespace ProductionApp.UserInterface.Controllers
         private ICustomerBusiness _customerBusiness;
         private IPackingSlipBusiness _packingSlipBusiness;
         private ITaxTypeBusiness _taxTypeBusiness;
+
+        Common _common = new Common();
+        AppConst _appConst = new AppConst();
+
         public CustomerInvoiceController(ICustomerInvoiceBusiness customerInvoiceBusiness, ICustomerBusiness customerBusiness, IPackingSlipBusiness packingSlipBusiness, ITaxTypeBusiness taxTypeBusiness)
         {
             _customerInvoiceBusiness = customerInvoiceBusiness;
@@ -110,6 +114,36 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         #endregion GetPackingSlip
+
+        #region InsertUpdateCustomerInvoice
+        [HttpPost]
+        public string InsertUpdateCustomerInvoice(CustomerInvoiceViewModel customerInvoiceVM)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                customerInvoiceVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                //Deserialize items
+                object ResultFromJS = JsonConvert.DeserializeObject(customerInvoiceVM.DetailJSON);
+                string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                customerInvoiceVM.CustomerInvoiceDetailList = JsonConvert.DeserializeObject<List<CustomerInvoiceDetailViewModel>>(ReadableFormat);
+                var result = _customerInvoiceBusiness.InsertUpdateCustomerInvoice(Mapper.Map<CustomerInvoiceViewModel, CustomerInvoice>(customerInvoiceVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+        }
+        #endregion InsertUpdateCustomerInvoice
 
         #region ButtonStyling
         [HttpGet]

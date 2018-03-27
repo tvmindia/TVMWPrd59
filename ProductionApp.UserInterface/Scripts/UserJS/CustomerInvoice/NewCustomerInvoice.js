@@ -17,6 +17,8 @@ var _message = "";
 var _jsonData = {};
 var _taxDropdownScript = '';
 
+var _CustomerInvoiceDetail = []; 
+
 $(document).ready(function () {
     debugger;
     try {
@@ -198,7 +200,18 @@ function GetCustomerDetails(customerId) {
 
 function ShowCustomerInvoiceDetailsModal()
 {
-    $('#CustomerInvoiceDetailsModal').modal('show');
+    debugger;
+    
+
+    if ($('#CustomerID').val() != "" && $('#InvoiceDateFormatted').val() != "" && $('#PaymentDueDateFormatted').val() != "")
+        $('#CustomerInvoiceDetailsModal').modal('show');
+    else
+    {
+        $('#CustomerInvoiceForm').valid();
+        notyAlert('warning', "Please Fill Required Fields");
+    }
+       
+
 }
 
 
@@ -370,8 +383,42 @@ function selectCheckbox(IDs) {
 
 function AddCustomerInvoiceDetails()
 {
+    debugger;
     var customerInvoiceDetailVM = DataTables.PackingSlipDetailToInvocieTable.rows(".selected").data();
-
-    $('#CustomerInvoiceDetailsModal').modal('hide');
+    if (customerInvoiceDetailVM.length > 0)
+    {
+        AddCustomerInvoiceDetailList(customerInvoiceDetailVM)
+        var result = JSON.stringify(_CustomerInvoiceDetail);
+        $("#DetailJSON").val(result);
+        _SlNo = 1;
+        $('#btnSave').trigger('click');
+        $('#CustomerInvoiceDetailsModal').modal('hide');
+    }
+    else
+    {
+        notyAlert('warning', "No Rows Selected");
+    }
+}
+function AddCustomerInvoiceDetailList(customerInvoiceDetailVM) {
+    debugger;
+   
+    for (var r = 0; r < customerInvoiceDetailVM.length; r++) {
+        CustomerInvoiceDetail = new Object();
+        //   CustomerInvoiceDetail.ID = customerInvoiceDetailVM[r].ID;
+        //   CustomerInvoiceDetail.CustomerInvoiceID = customerInvoiceDetailVM[r].CustomerInvoiceID;
+        CustomerInvoiceDetail.PackingSlipDetailID = customerInvoiceDetailVM[r].PackingSlipDetailID;
+        CustomerInvoiceDetail.ProductID = customerInvoiceDetailVM[r].ProductID;
+        CustomerInvoiceDetail.Quantity = customerInvoiceDetailVM[r].Quantity;
+        CustomerInvoiceDetail.Weight = customerInvoiceDetailVM[r].Weight;
+        CustomerInvoiceDetail.Rate = customerInvoiceDetailVM[r].Rate;
+        CustomerInvoiceDetail.TaxTypeCode = customerInvoiceDetailVM[r].TaxTypeCode == "" ? null : customerInvoiceDetailVM[r].TaxTypeCode;
+        CustomerInvoiceDetail.IGSTPerc = customerInvoiceDetailVM[r].IGSTPerc;
+        CustomerInvoiceDetail.SGSTPerc = customerInvoiceDetailVM[r].SGSTPerc;
+        CustomerInvoiceDetail.CGSTPerc = customerInvoiceDetailVM[r].CGSTPerc;
+        CustomerInvoiceDetail.TradeDiscountPerc = customerInvoiceDetailVM[r].TradeDiscountPerc;
+        CustomerInvoiceDetail.TradeDiscountAmount = customerInvoiceDetailVM[r].TradeDiscountAmount;
+        CustomerInvoiceDetail.IsInvoiceInKG = customerInvoiceDetailVM[r].IsInvoiceInKG;
+        _CustomerInvoiceDetail.push(CustomerInvoiceDetail);
+    }
 }
 

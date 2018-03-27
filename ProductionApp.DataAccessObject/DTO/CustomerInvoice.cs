@@ -22,12 +22,15 @@ namespace ProductionApp.DataAccessObject.DTO
         public bool IsUpdate { get; set; }
         public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
+        public string DetailJSON { get; set; }
+        public string DetailXML { get; set; }
         public int FilteredCount { get; set; }
         public string InvoiceDateFormatted { get; set; }
         public string PaymentDueDateFormatted { get; set; }
         public Common Common { get; set; }
         public CustomerInvoiceDetail CustomerInvoiceDetail { get; set; }
         public PackingSlip PackingSlip { get; set; }
+        public List<CustomerInvoiceDetail> CustomerInvoiceDetailList { get; set; }
 
     }
     public class CustomerInvoiceDetail

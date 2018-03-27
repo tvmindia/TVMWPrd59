@@ -28,6 +28,7 @@ namespace ProductionApp.UserInterface.Models
         public bool IsUpdate { get; set; }
         public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
+        public string DetailJSON { get; set; }
         public int FilteredCount { get; set; }
         [Display(Name = " Invoice Date")]
         [Required(ErrorMessage = "Invoice Date is missing")]
@@ -38,6 +39,8 @@ namespace ProductionApp.UserInterface.Models
         public CommonViewModel Common { get; set; }
         public CustomerInvoiceDetailViewModel CustomerInvoiceDetail { get; set; }
         public PackingSlipViewModel PackingSlip { get; set; }
+        public List<CustomerInvoiceDetailViewModel> CustomerInvoiceDetailList { get; set; }
+
 
     }
     public class CustomerInvoiceDetailViewModel
