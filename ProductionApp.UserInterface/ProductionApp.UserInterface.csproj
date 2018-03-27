@@ -954,6 +954,7 @@
     <Content Include="Views\Customer\_AddCustomerPartial.cshtml" />
     <Content Include="Views\Customer\ViewCustomer.cshtml" />
     <Content Include="Views\Customer\NewCustomer.cshtml" />
+    <Content Include="Views\BillOfMaterial\_StageDropdownForLine.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
