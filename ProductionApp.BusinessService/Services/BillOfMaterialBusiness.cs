@@ -123,5 +123,11 @@ namespace ProductionApp.BusinessService.Services
         }
         #endregion GetBOMComponentLineStage
 
+        #region InsertUpdateBOMComponentLineStageDetail
+        public object InsertUpdateBOMComponentLineStageDetail(BOMComponentLineStageDetail bOMComponentLineStageDetail)
+        {
+            return _billOfMaterialRepository.InsertUpdateBOMComponentLineStageDetail(bOMComponentLineStageDetail);
+        }
+        #endregion InsertUpdateBOMComponentLineStageDetail
     }
 }

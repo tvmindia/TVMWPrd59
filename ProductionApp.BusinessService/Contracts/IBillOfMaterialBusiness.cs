@@ -19,5 +19,6 @@ namespace ProductionApp.BusinessService.Contracts
         object DeleteBOMComponentLine(Guid id);
         List<BOMComponentLine> GetBOMComponentLineByComponentID(Guid componentID);
         List<BOMComponentLineStage> GetBOMComponentLineStage(Guid id);
+        object InsertUpdateBOMComponentLineStageDetail(BOMComponentLineStageDetail bOMComponentLineStageDetail);
     }
 }
