@@ -12,14 +12,34 @@ namespace ProductionApp.BusinessService.Services
     public class CustomerInvoiceBusiness: ICustomerInvoiceBusiness
     {
         private ICustomerInvoiceRepository _customerInvoiceRepository;
-        public CustomerInvoiceBusiness(ICustomerInvoiceRepository customerInvoiceRepository)
+        private ICommonBusiness _commonBusiness;
+        public CustomerInvoiceBusiness(ICustomerInvoiceRepository customerInvoiceRepository, ICommonBusiness commonBusiness)
         {
             _customerInvoiceRepository = customerInvoiceRepository;
+            _commonBusiness = commonBusiness;
         }
 
         public List<CustomerInvoiceDetail> GetPackingSlipDetailForCustomerInvoice(Guid packingSlipID)
         {
             return _customerInvoiceRepository.GetPackingSlipDetailForCustomerInvoice(packingSlipID);
+        }
+
+        public object InsertUpdateCustomerInvoice(CustomerInvoice customerInvoice)
+        {
+            DetailsXMl(customerInvoice);
+            return _customerInvoiceRepository.InsertUpdateCustomerInvoice(customerInvoice);
+        }
+        public void DetailsXMl(CustomerInvoice customerInvoice)
+        {
+            string result = "<Details>";
+            int totalRows = 0;
+            foreach (object some_object in customerInvoice.CustomerInvoiceDetailList)
+            {
+                _commonBusiness.XML(some_object, ref result, ref totalRows);
+            }
+            result = result + "</Details>";
+
+            customerInvoice.DetailXML = result;
         }
     }
 }

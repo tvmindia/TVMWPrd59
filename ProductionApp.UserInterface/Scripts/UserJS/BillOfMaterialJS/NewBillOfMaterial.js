@@ -599,9 +599,20 @@ function LoadLineStageTable() {
             ],
             destroy: true
         });
-        //if ($("#BOMComponentLine_ComponentID").val() !== null && $("#BOMComponentLine_ComponentID").val() !== EmptyGuid) {
-        //    GetBOMComponentLine($("#BOMComponentLine_ComponentID").val())
-        //}
+        if ($("#BOMComponentLine_ComponentID").val() !== null && $("#BOMComponentLine_ComponentID").val() !== EmptyGuid) {
+            ComponentIDOnChange();
+        }
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//------------------------------ComponentID on change---------------------------------//
+function ComponentIDOnChange() {
+    try {
+        debugger;
+        var id = $("#BOMComponentLine_ComponentID").val();
+        DataTables.LineStageList.clear().rows.add(GetBOMComponentLine(id)).draw(true);
     }
     catch (ex) {
         console.log(ex.message);
@@ -637,6 +648,16 @@ function GetBOMComponentLine(id) {
         console.log(ex.message);
     }
 }
+//------------------------------Bind Line List Table------------------------------------//
+//function BindLineStageListTable() {
+//    try{
+//        debugger;
+
+//    }
+//    catch (ex) {
+//        console.log(ex.message);
+//    }
+//}
 //--------------------Refresh Properties for newLine for the component------------------//
 function NewLine() {
     try{
@@ -735,7 +756,8 @@ function SaveAndProceed() {
         BillOfMaterialVM.BOMComponentLine = new Object();
         BillOfMaterialVM.BOMComponentLine.ID = $("#BOMComponentLine_ID").val();
         BillOfMaterialVM.BOMComponentLine.Product = new Object();
-        BillOfMaterialVM.BOMComponentLine.Product.Name = $('#BOMComponentLine_ComponentID').text();
+        BillOfMaterialVM.BOMComponentLine.Product.Name = $('#BOMComponentLine_ComponentID option:selected').text();
+        BillOfMaterialVM.BOMComponentLine.ComponentID = $('#BOMComponentLine_ComponentID').val();
         BillOfMaterialVM.BOMComponentLine.LineName = $('#BOMComponentLine_LineName').val();
         BillOfMaterialVM.BOMComponentLineStageDetail = new Object();
         var data = { "billOfMaterialVM": BillOfMaterialVM }
@@ -803,6 +825,138 @@ function DeleteBOMComponentLine(id, rowindex) {
 }
  //________________________________________________________________________________//
 //-----------------------Return to Production Line page---------------------------//
+function LoadStageDetailTable() {
+    try{
+        debugger;
+        DataTables.StageDetailTable = $('#tblBOMComponentLineStageDetail').DataTable({
+            dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+            order: [],
+            "scrollY": "150px",
+            "scrollCollapse": true,
+            searching: false,
+            paging: false,
+            data: null,
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search"
+            },
+            columns: [
+              { "data": "ID" },
+              { "data": "ComponentLineID", "defaultContent": "<i>-</i>" },//1
+              { "data": "Stage.Description", "defaultContent": "<i>-</i>" },
+              { "data": "EntryType", "defaultContent": "<i>-</i>" },//3
+              { "data": "PartType", "defaultContent": "<i>-</i>" },
+              {
+                  "data": null, render: function (data, type, row) {
+                      switch (row.PartType) {
+                          case "RAW":
+                              return row.Material.Description
+                          case "SUB":
+                              return row.SubComponent.Description
+                          case "COM":
+                              return row.Product.Name
+                          default:
+                              return "<i>-</i>"
+                      }
+                  }, "defaultContent": "<i>-</i>"
+              },//5
+              { "data": "Qty", "defaultContent": "<i>-</i>" },
+              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditLine(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>' },
+              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="DeleteLine(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
+            ],
+            columnDefs: [
+                { "targets": [0, 1], "visible": false, "searchable": false },
+                { className: "text-left", "targets": [2, 3, 4, 5, 6], },
+                { className: "text-center", "targets": [7, 8], "width": "3%" },
+                { "targets": [0, 1], "bSortable": false }
+            ],
+            destroy: true
+        })
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//----------------------------Entry Type On Change-------------------------------//
+function EntryTypeOnChange(value) {
+    try {
+        debugger;
+        switch (value) {
+            case "Input":
+                $('#BOMComponentLineStageDetail_PartType').find('option').prop("disabled", false);
+                $('#BOMComponentLineStageDetail_PartType').find('option[value="2"]').prop("disabled", true);
+                if ($('#BOMComponentLineStageDetail_PartType').val() === "2")
+                    $('#BOMComponentLineStageDetail_PartType').val("1").trigger('change');
+                break;
+            case "Output":
+                $('#BOMComponentLineStageDetail_PartType').find('option').prop("disabled", false);
+                $('#BOMComponentLineStageDetail_PartType').find('option[value="0"]').prop("disabled", true);
+                if ($('#BOMComponentLineStageDetail_PartType').val() === "0")
+                    $('#BOMComponentLineStageDetail_PartType').val("1").trigger('change');
+                break;
+            default:
+                $('#BOMComponentLineStageDetail_PartType').find('option').prop("disabled", false);
+                break;
+        }
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//-----------------------Part Type On Change--------------------------------------//
+function PartTypeOnChange(value) {
+    try{
+        debugger;
+        switch (value) {
+            case "0":
+                $("#divItemSelector").children().hide();
+                $("#divMaterial").show();
+                break;
+            case "1":
+                $("#divItemSelector").children().hide();
+                $("#divSubComponent").show();
+                break;
+            case "2":
+                $("#divItemSelector").children().hide();
+                $("#divComponent").show();
+                break;
+            default:
+                $("#divItemSelector").children().hide();
+                $("#divMaterial").show();
+                break;
+        }
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//----------------------LoadPartialStageDropdownForLine---------------------//
+function LoadPartialStageDropdownForLine(StageID) {
+    try {
+        debugger;
+        var BOMComponentLineViewModel = new Object();
+        BOMComponentLineViewModel.ID = $('#BOMComponentLineStageDetail_ComponentLineID').val();
+        BOMComponentLineViewModel.BOMComponentLineStageDetail = new Object();
+        BOMComponentLineViewModel.BOMComponentLineStageDetail.StageID = StageID;
+
+        var data = { "bOMComponentLineVM": BOMComponentLineViewModel }
+        $('#divStageList').load("StageDropdownForLine", data);
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//---------------------------Save BOMComponentLineStageDetail---------------------------//
+function SaveDetail() {
+    try {
+        debugger;
+        $("#btnSave").click();
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//-------------------------Return to ProductionLine----------------------------//
 function GoBack() {
     try {
         debugger;
@@ -820,5 +974,6 @@ function GoBack() {
         console.log(ex.message);
     }
 }
+
  //__________________________________________End_______________________________________________//
 ////////////////////////////////////////////////////////////////////////////////////////////////

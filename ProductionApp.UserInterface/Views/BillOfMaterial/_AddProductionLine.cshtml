@@ -90,6 +90,7 @@
                         <th>Stage IDs</th>
                         <th>...</th>
                         <th>...</th>
+                    </tr>
                 </thead>
             </table>
 
@@ -108,11 +109,13 @@
 
 <script>
             $(document).ready(function () {
-                $.validator.unobtrusive.parse("#FormProduct");
+                $.validator.unobtrusive.parse("#BOMComponentLineForm");
                 $('#txtProductName').val($('#Product_Name').val());
                 $('#BOMComponentLine_ComponentID').change(function () {
-                    if ($(this).val() !== "")
+                    if ($(this).val() !== ""){
                         $('#BOMComponentLine_LineName').val("Line For " + $('#BOMComponentLine_ComponentID option:selected').text());
+                        ComponentIDOnChange();
+                    }
                     else
                         $('#BOMComponentLine_LineName').val("");
                 });

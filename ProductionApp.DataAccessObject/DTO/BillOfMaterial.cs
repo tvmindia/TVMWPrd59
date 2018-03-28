@@ -20,6 +20,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public bool IsUpdate { get; set; }
         public string DetailXML { get; set; }
         public BOMComponentLine BOMComponentLine { get; set; }
+        public List<BOMComponentLine> BOMComponentLineList { get; set; }
         public BOMComponentLineStageDetail BOMComponentLineStageDetail { get; set; }
         public BOMComponentLineStage BOMComponentLineStage { get; set; }
     }
@@ -61,7 +62,6 @@ namespace ProductionApp.DataAccessObject.DTO
         public Common Common { get; set; }
         //Additional
         public Stage Stage { get; set; }
-        public List<Stage> StageList { get; set; }
     }
     public class BOMComponentLineStageDetail
     {
@@ -73,5 +73,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public string EntryType { get; set; }
         public decimal Qty { get; set; }
         public Common Common { get; set; }
+        //Additional
+        public Stage Stage { get; set; }
+        public bool IsUpdate { get; set; }
     }
 }

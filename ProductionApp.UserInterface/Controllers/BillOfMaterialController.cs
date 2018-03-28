@@ -217,6 +217,18 @@ namespace ProductionApp.UserInterface.Controllers
 
         public ActionResult AddStageDetail(BillOfMaterialViewModel billOfMaterialVM)
         {
+            billOfMaterialVM.BOMComponentLineList = Mapper.Map<List<BOMComponentLine>, List<BOMComponentLineViewModel>>(_billOfMaterialBusiness.GetBOMComponentLineByComponentID(billOfMaterialVM.BOMComponentLine.ComponentID));
+            foreach (BOMComponentLineViewModel bOMComponentLine in billOfMaterialVM.BOMComponentLineList)
+            {
+                bOMComponentLine.BOMComponentLineStageList = Mapper.Map<List<BOMComponentLineStage>, List<BOMComponentLineStageViewModel>>(_billOfMaterialBusiness.GetBOMComponentLineStage(bOMComponentLine.ID));
+            }
+            billOfMaterialVM.BOMComponentLineStageDetail = new BOMComponentLineStageDetailViewModel()
+            {
+                Stage = new StageViewModel(),
+                Material = new MaterialViewModel(),
+                SubComponent = new SubComponentViewModel(),
+                Product = new ProductViewModel()
+            };
             return PartialView("_AddStageDetail", billOfMaterialVM);
         }
 
@@ -224,6 +236,12 @@ namespace ProductionApp.UserInterface.Controllers
         {
             bOMComponentLineVM.StageList = Mapper.Map<List<Stage>, List<StageViewModel>>(_stageBusiness.GetStageForSelectList());
             return PartialView("_ListAllStage", bOMComponentLineVM);
+        }
+
+        public ActionResult StageDropdownForLine(BOMComponentLineViewModel bOMComponentLineVM)
+        {
+            bOMComponentLineVM.BOMComponentLineStageList = Mapper.Map<List<BOMComponentLineStage>, List<BOMComponentLineStageViewModel>>(_billOfMaterialBusiness.GetBOMComponentLineStage(bOMComponentLineVM.ID));
+            return PartialView("_StageDropdownForLine", bOMComponentLineVM);
         }
         #endregion PartialViews
 
@@ -238,7 +256,7 @@ namespace ProductionApp.UserInterface.Controllers
                     CreatedBy = appUA.UserName,
                     CreatedDate = _common.GetCurrentDateTime(),
                     UpdatedBy = appUA.UserName,
-                    UpdatedDate = _common.GetCurrentDateTime(),
+                    UpdatedDate = _common.GetCurrentDateTime()
                 };
                 //Deserialize items
                 object resultFromJS = JsonConvert.DeserializeObject(billOfMaterialVM.BOMComponentLine.StageJSON);
@@ -273,15 +291,42 @@ namespace ProductionApp.UserInterface.Controllers
         #region GetBOMComponentLine
         public string GetBOMComponentLine(string componentID)
         {
-            List<BOMComponentLine> bOMComponentLineList = new List<BOMComponentLine>();
-            bOMComponentLineList = _billOfMaterialBusiness.GetBOMComponentLineByComponentID(Guid.Parse(componentID));
-            foreach(BOMComponentLine bOMComponentLine in bOMComponentLineList)
+            List<BOMComponentLineViewModel> bOMComponentLineList = new List<BOMComponentLineViewModel>();
+            if (componentID != "")
             {
-                bOMComponentLine.BOMComponentLineStageList = _billOfMaterialBusiness.GetBOMComponentLineStage(bOMComponentLine.ID);
+                bOMComponentLineList = Mapper.Map<List<BOMComponentLine>, List<BOMComponentLineViewModel>>(_billOfMaterialBusiness.GetBOMComponentLineByComponentID(Guid.Parse(componentID)));
+                foreach (BOMComponentLineViewModel bOMComponentLine in bOMComponentLineList)
+                {
+                    bOMComponentLine.BOMComponentLineStageList = Mapper.Map<List<BOMComponentLineStage>, List<BOMComponentLineStageViewModel>>(_billOfMaterialBusiness.GetBOMComponentLineStage(bOMComponentLine.ID));
+                }
             }
             return JsonConvert.SerializeObject(new { Result = "OK", Records = bOMComponentLineList, Message = "Success" });
         }
         #endregion
+
+        #region InsertUpdateBOMComponentLineStageDetail
+        public string InsertUpdateBOMComponentLineStageDetail(BillOfMaterialViewModel billOfMaterialVM)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                billOfMaterialVM.BOMComponentLineStageDetail.Common = new CommonViewModel()
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime()
+                };
+                object result = _billOfMaterialBusiness.InsertUpdateBOMComponentLineStageDetail(Mapper.Map<BOMComponentLineStageDetailViewModel, BOMComponentLineStageDetail>(billOfMaterialVM.BOMComponentLineStageDetail));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = _appConst.InsertSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+        }
+        #endregion InsertUpdateBOMComponentLineStageDetail
 
         #region ButtonStyling
         [HttpGet]

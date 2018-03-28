@@ -23,6 +23,7 @@ namespace ProductionApp.UserInterface.Models
         public bool IsUpdate { get; set; }
         public string DetailJSON { get; set; }
         public BOMComponentLineViewModel BOMComponentLine { get; set; }
+        public List<BOMComponentLineViewModel> BOMComponentLineList { get; set; }
         public BOMComponentLineStageDetailViewModel BOMComponentLineStageDetail { get; set; }
         public BOMComponentLineStageViewModel BOMComponentLineStage { get; set; }
     }
@@ -53,9 +54,12 @@ namespace ProductionApp.UserInterface.Models
         public string LineName { get; set; }
         public CommonViewModel Common { get; set; }
         //Additional
+        [Display(Name = "Selected Stages")]
         public List<BOMComponentLineStageViewModel> BOMComponentLineStageList { get; set; }
-        //public List<BOMComponentLineStageDetailViewModel> BOMComponentLineDetailList { get; set; }
+        public BOMComponentLineStageDetailViewModel BOMComponentLineStageDetail { get; set; }
+        [Display(Name = "Component")]
         public ProductViewModel Product { get; set; }
+        [Display(Name = "Available Stages")]
         public List<StageViewModel> StageList { get; set; }
         public bool IsUpdate { get; set; }
         public string StageJSON { get; set; }
@@ -73,12 +77,23 @@ namespace ProductionApp.UserInterface.Models
     public class BOMComponentLineStageDetailViewModel
     {
         public Guid ID { get; set; }
+        [Display(Name = "Select Production Line")]
         public Guid ComponentLineID { get; set; }
+        [Display(Name = "Select Stage")]
         public Guid StageID { get; set; }
+        [Display(Name = "Item Type")]
         public string PartType { get; set; }
+        [Display(Name = "Select Item")]
         public Guid PartID { get; set; }
+        [Display(Name = "Entry Type")]
         public string EntryType { get; set; }
+        [Display(Name = "Quantity")]
         public decimal Qty { get; set; }
         public CommonViewModel Common { get; set; }
+        //Additional
+        public StageViewModel Stage { get; set; }
+        public MaterialViewModel Material { get; set; }
+        public SubComponentViewModel SubComponent { get; set; }
+        public ProductViewModel Product { get; set; }
     }
 }

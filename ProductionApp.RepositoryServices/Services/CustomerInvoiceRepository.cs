@@ -13,6 +13,10 @@ namespace ProductionApp.RepositoryServices.Services
     public class CustomerInvoiceRepository: ICustomerInvoiceRepository
     {
         private IDatabaseFactory _databaseFactory;
+
+        Settings settings = new Settings();
+        AppConst _appConst = new AppConst();
+
         public CustomerInvoiceRepository(IDatabaseFactory databaseFactory)
         {
             _databaseFactory = databaseFactory;
@@ -76,5 +80,71 @@ namespace ProductionApp.RepositoryServices.Services
             return customerInvoiceDetailList;
         }
 
+        public object InsertUpdateCustomerInvoice(CustomerInvoice customerInvoice )
+        {
+            SqlParameter outputStatus, IDOut = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[InsertUpdateCustomerInvoice]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = customerInvoice.IsUpdate;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = customerInvoice.ID;
+                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = customerInvoice.CustomerID;
+                        cmd.Parameters.Add("@FileDupID", SqlDbType.UniqueIdentifier).Value = customerInvoice.hdnFileID;
+                        cmd.Parameters.Add("@PaymentTermCode", SqlDbType.VarChar,10 ).Value = customerInvoice.PaymentTerm;
+                        cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = customerInvoice.InvoiceDateFormatted;
+                        cmd.Parameters.Add("@PaymentDueDate", SqlDbType.DateTime).Value = customerInvoice.PaymentDueDateFormatted;
+                        cmd.Parameters.Add("@DetailXML", SqlDbType.VarChar, -1).Value = customerInvoice.DetailXML;
+                        cmd.Parameters.Add("@Discount", SqlDbType.Decimal).Value = customerInvoice.Discount;
+                        
+                        cmd.Parameters.Add("@BillingAddress", SqlDbType.VarChar,-1 ).Value = customerInvoice.BillingAddress;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.VarChar,-1 ).Value = customerInvoice.GeneralNotes;
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = customerInvoice.Common.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = customerInvoice.Common.CreatedDate;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = customerInvoice.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = customerInvoice.Common.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        IDOut = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier);
+                        IDOut.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(customerInvoice.IsUpdate ? _appConst.UpdateFailure : _appConst.InsertFailure);
+                    case "1":
+                        //  requisition.ID = Guid.Parse(IDOut.Value.ToString());
+                        return new
+                        {
+                            ID = IDOut.Value.ToString(),
+                            Status = outputStatus.Value.ToString(),
+                            Message = customerInvoice.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+                        };
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Code = IDOut.Value.ToString(),
+                Status = outputStatus.Value.ToString(),
+                Message = customerInvoice.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+            };
+        }
     }
 }

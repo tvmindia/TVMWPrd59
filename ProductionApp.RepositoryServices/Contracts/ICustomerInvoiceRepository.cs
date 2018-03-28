@@ -10,6 +10,7 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface ICustomerInvoiceRepository
     {
         List<CustomerInvoiceDetail> GetPackingSlipDetailForCustomerInvoice(Guid packingSlipID);
+        object InsertUpdateCustomerInvoice(CustomerInvoice customerInvoice);
 
     }
 }

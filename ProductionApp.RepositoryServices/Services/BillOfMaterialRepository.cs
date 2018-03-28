@@ -504,5 +504,69 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetBOMComponentLineStage
 
+        #region InsertUpdateBOMComponentLineStageDetail
+        public object InsertUpdateBOMComponentLineStageDetail(BOMComponentLineStageDetail bOMComponentLineStageDetail)
+        {
+            SqlParameter outputStatus, IDOut = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[InsertUpdateBOMComponentLineStageDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = bOMComponentLineStageDetail.IsUpdate;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = bOMComponentLineStageDetail.ID;
+                        cmd.Parameters.Add("@ComponentLineID", SqlDbType.UniqueIdentifier).Value = bOMComponentLineStageDetail.ComponentLineID;
+                        cmd.Parameters.Add("@EntryType", SqlDbType.VarChar, 10).Value = bOMComponentLineStageDetail.EntryType;
+                        cmd.Parameters.Add("@StageID", SqlDbType.UniqueIdentifier).Value = bOMComponentLineStageDetail.StageID;
+                        cmd.Parameters.Add("@PartType", SqlDbType.VarChar, 10).Value = bOMComponentLineStageDetail.PartType;
+                        cmd.Parameters.Add("@PartID", SqlDbType.UniqueIdentifier).Value = bOMComponentLineStageDetail.PartID;
+                        cmd.Parameters.Add("@Qty", SqlDbType.Decimal).Value = bOMComponentLineStageDetail.Qty;
+
+
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar, 50).Value = bOMComponentLineStageDetail.Common.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.SmallDateTime).Value = bOMComponentLineStageDetail.Common.CreatedDate;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.VarChar, 50).Value = bOMComponentLineStageDetail.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.SmallDateTime).Value = bOMComponentLineStageDetail.Common.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        IDOut = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier);
+                        IDOut.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(bOMComponentLineStageDetail.IsUpdate ? _appConst.UpdateFailure : _appConst.InsertFailure);
+                    case "1":
+                        return new
+                        {
+                            ID = IDOut.Value.ToString(),
+                            Status = outputStatus.Value.ToString(),
+                            Message = bOMComponentLineStageDetail.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+                        };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                ID = IDOut.Value.ToString(),
+                Status = outputStatus.Value.ToString(),
+                Message = bOMComponentLineStageDetail.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+            };
+        }
+        #endregion InsertUpdateBOMComponentLineStageDetail
     }
 }

@@ -17,6 +17,8 @@ var _message = "";
 var _jsonData = {};
 var _taxDropdownScript = '';
 
+var _CustomerInvoiceDetail = []; 
+
 $(document).ready(function () {
     debugger;
     try {
@@ -155,8 +157,11 @@ $(document).ready(function () {
 
         $("#CustomerID").change(function () {
             BindCustomerDetails(this.value);
+        }); 
+        $("#PaymentTermCode").change(function () {
+            GetDueDate(this.value);
         });
-
+        
         debugger;
         if ($('#IsUpdate').val() == 'True') {
             BindSalesOrderByID()
@@ -198,7 +203,18 @@ function GetCustomerDetails(customerId) {
 
 function ShowCustomerInvoiceDetailsModal()
 {
-    $('#CustomerInvoiceDetailsModal').modal('show');
+    debugger;
+    
+
+    if ($('#CustomerID').val() != "" && $('#InvoiceDateFormatted').val() != "" && $('#PaymentDueDateFormatted').val() != "")
+        $('#CustomerInvoiceDetailsModal').modal('show');
+    else
+    {
+        $('#CustomerInvoiceForm').valid();
+        notyAlert('warning', "Please Fill Required Fields");
+    }
+       
+
 }
 
 
@@ -370,8 +386,74 @@ function selectCheckbox(IDs) {
 
 function AddCustomerInvoiceDetails()
 {
+    debugger;
     var customerInvoiceDetailVM = DataTables.PackingSlipDetailToInvocieTable.rows(".selected").data();
-
-    $('#CustomerInvoiceDetailsModal').modal('hide');
+    if (customerInvoiceDetailVM.length > 0)
+    {
+        AddCustomerInvoiceDetailList(customerInvoiceDetailVM)
+        var result = JSON.stringify(_CustomerInvoiceDetail);
+        $("#DetailJSON").val(result);
+        _SlNo = 1;
+        $('#btnSave').trigger('click');
+        $('#CustomerInvoiceDetailsModal').modal('hide');
+    }
+    else
+    {
+        notyAlert('warning', "No Rows Selected");
+    }
+}
+function AddCustomerInvoiceDetailList(customerInvoiceDetailVM) {
+    debugger;
+   
+    for (var r = 0; r < customerInvoiceDetailVM.length; r++) {
+        CustomerInvoiceDetail = new Object();
+        //   CustomerInvoiceDetail.ID = customerInvoiceDetailVM[r].ID;
+        //   CustomerInvoiceDetail.CustomerInvoiceID = customerInvoiceDetailVM[r].CustomerInvoiceID;
+        CustomerInvoiceDetail.PackingSlipDetailID = customerInvoiceDetailVM[r].PackingSlipDetailID;
+        CustomerInvoiceDetail.ProductID = customerInvoiceDetailVM[r].ProductID;
+        CustomerInvoiceDetail.Quantity = customerInvoiceDetailVM[r].Quantity;
+        CustomerInvoiceDetail.Weight = customerInvoiceDetailVM[r].Weight;
+        CustomerInvoiceDetail.Rate = customerInvoiceDetailVM[r].Rate;
+        CustomerInvoiceDetail.TaxTypeCode = customerInvoiceDetailVM[r].TaxTypeCode == "" ? null : customerInvoiceDetailVM[r].TaxTypeCode;
+        CustomerInvoiceDetail.IGSTPerc = customerInvoiceDetailVM[r].IGSTPerc;
+        CustomerInvoiceDetail.SGSTPerc = customerInvoiceDetailVM[r].SGSTPerc;
+        CustomerInvoiceDetail.CGSTPerc = customerInvoiceDetailVM[r].CGSTPerc;
+        CustomerInvoiceDetail.TradeDiscountPerc = customerInvoiceDetailVM[r].TradeDiscountPerc;
+        CustomerInvoiceDetail.TradeDiscountAmount = customerInvoiceDetailVM[r].TradeDiscountAmount;
+        CustomerInvoiceDetail.IsInvoiceInKG = customerInvoiceDetailVM[r].IsInvoiceInKG;
+        _CustomerInvoiceDetail.push(CustomerInvoiceDetail);
+    }
 }
 
+
+//Bind Payment due date based on Payment date
+function GetDueDate(Code) {
+    try {
+        debugger;
+          var PaymentTermViewModel = GetPaymentTermDetails(Code);
+        $('#PaymentDueDateFormatted').val(PaymentTermViewModel);
+    }
+    catch (e) {
+
+    }
+}
+function GetPaymentTermDetails(Code) {
+    debugger;
+    try {
+        var data = { "Code": Code, "InvoiceDate": $('#InvoiceDateFormatted').val() };
+        var ds = {};
+        ds = GetDataFromServer("CustomerInvoice/GetDueDate/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
