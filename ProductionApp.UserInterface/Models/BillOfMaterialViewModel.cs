@@ -79,21 +79,25 @@ namespace ProductionApp.UserInterface.Models
         public Guid ID { get; set; }
         [Display(Name = "Select Production Line")]
         public Guid ComponentLineID { get; set; }
+        [Required(ErrorMessage = "Stage Required")]
         [Display(Name = "Select Stage")]
         public Guid StageID { get; set; }
         [Display(Name = "Item Type")]
         public string PartType { get; set; }
         [Display(Name = "Select Item")]
+        [Required(ErrorMessage = "Item Required")]
         public Guid PartID { get; set; }
         [Display(Name = "Entry Type")]
         public string EntryType { get; set; }
         [Display(Name = "Quantity")]
+        [Required(ErrorMessage = "Qty Required")]
         public decimal Qty { get; set; }
         public CommonViewModel Common { get; set; }
         //Additional
+        public bool IsUpdate { get; set; }
         public StageViewModel Stage { get; set; }
+        public ProductViewModel Product { get; set; }
         public MaterialViewModel Material { get; set; }
         public SubComponentViewModel SubComponent { get; set; }
-        public ProductViewModel Product { get; set; }
     }
 }

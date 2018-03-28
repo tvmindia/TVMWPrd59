@@ -16,6 +16,7 @@ var _BillOfMaterialDetailList = [];
 var _BillOfMaterialDetail = {};
 var _BOMComponentLineList = [];
 var _BOMComponentLine = {};
+var _BOMComponentLineStageDetailList = [];
 //-------------------------------------------------------------
 
 $(document).ready(function () {
@@ -256,6 +257,7 @@ function SaveSuccess(data, status) {
             $('#IDBillOfMaterial').val(billOfMaterialVM.ID)
             message = billOfMaterialVM.Message;
             //notyAlert("success", message)
+            ChangeButtonPatchView('BillOfMaterial', 'divButtonPatch', 'Add');
             LoadPartialAddProductionLine();
             //BindBillOfMaterial();
             break;
@@ -478,7 +480,7 @@ function DeleteTempItem(rowindex) {
 }
 //--------------------------Reset property values to default----------------------//
 function Reset() {
-    try{
+    try {
         debugger;
         if ($('#IsUpdateBOM').val() === "True") {
             var id = $('#IDBillOfMaterial').val();
@@ -490,7 +492,7 @@ function Reset() {
         console.log(ex.message);
     }
 }
- //_________________________________________________________________________________//
+//_________________________________________________________________________________//
 //*****************************Production Line*************************************//
 
 function LoadPartialAddProductionLine(curobj) {
@@ -579,7 +581,7 @@ function LoadLineStageTable() {
               },
               {
                   "data": null, render: function (data, type, row) {
-                      debugger;
+                      //debugger;
                       var StageIDs = [];
                       for (var i = 0; i < row.BOMComponentLineStageList.length; i++) {
                           StageIDs.push(row.BOMComponentLineStageList[i].ID);
@@ -660,7 +662,7 @@ function GetBOMComponentLine(id) {
 //}
 //--------------------Refresh Properties for newLine for the component------------------//
 function NewLine() {
-    try{
+    try {
         debugger;
         //$('#BOMComponentLine_ComponentID').val("");
         $('#BOMComponentLine_LineName').val("");
@@ -676,7 +678,7 @@ function NewLine() {
 }
 //----------------------Load ComponentLine to DataTable-----------------------------------//
 function SaveLine() {
-    try{
+    try {
         debugger;
         var BOMComponentLineList = [];
         var BOMComponentLineVM = new Object();
@@ -742,32 +744,6 @@ function RebindLineStageListTable(id) {
         console.log(ex.message);
     }
 }
-//-------------------Save the BOMComponentLine details and forwards to next Page----------------// 
-function SaveAndProceed() {
-    try {
-        debugger;
-        $('#step2').removeClass('active').addClass('disabled');
-        $('#step3').removeClass('disabled').addClass('active');
-        var BillOfMaterialVM = new Object();
-        BillOfMaterialVM.ID = $('#IDBillOfMaterial').val();
-        BillOfMaterialVM.IsUpdate = $('#IsUpdateBOM').val();
-        BillOfMaterialVM.Product = new Object();
-        BillOfMaterialVM.Product.Name = $("#Product_Name").val();
-        BillOfMaterialVM.BOMComponentLine = new Object();
-        BillOfMaterialVM.BOMComponentLine.ID = $("#BOMComponentLine_ID").val();
-        BillOfMaterialVM.BOMComponentLine.Product = new Object();
-        BillOfMaterialVM.BOMComponentLine.Product.Name = $('#BOMComponentLine_ComponentID option:selected').text();
-        BillOfMaterialVM.BOMComponentLine.ComponentID = $('#BOMComponentLine_ComponentID').val();
-        BillOfMaterialVM.BOMComponentLine.LineName = $('#BOMComponentLine_LineName').val();
-        BillOfMaterialVM.BOMComponentLineStageDetail = new Object();
-        var data = { "billOfMaterialVM": BillOfMaterialVM }
-
-        $('#divPartial').load("AddStageDetail", data);
-    }
-    catch (ex) {
-        console.log(ex.message);
-    }
-}
 //-------------------------Delete BOMComponentLine-------------------------------//
 function DeleteLine(curobj) {
     try {
@@ -823,15 +799,46 @@ function DeleteBOMComponentLine(id, rowindex) {
         console.log(ex.message);
     }
 }
- //________________________________________________________________________________//
+//-------------------Save the BOMComponentLine details and forwards to next Page----------------// 
+function SaveAndProceed() {
+    try {
+        debugger;
+        if ($('#BOMComponentLine_ComponentID').val() !== "") {
+            $('#step2').removeClass('active').addClass('disabled');
+            $('#step3').removeClass('disabled').addClass('active');
+            var BillOfMaterialVM = new Object();
+            BillOfMaterialVM.ID = $('#IDBillOfMaterial').val();
+            BillOfMaterialVM.IsUpdate = $('#IsUpdateBOM').val();
+            BillOfMaterialVM.Product = new Object();
+            BillOfMaterialVM.Product.Name = $("#Product_Name").val();
+            BillOfMaterialVM.BOMComponentLine = new Object();
+            BillOfMaterialVM.BOMComponentLine.ID = $("#BOMComponentLine_ID").val();
+            BillOfMaterialVM.BOMComponentLine.Product = new Object();
+            BillOfMaterialVM.BOMComponentLine.Product.Name = $('#BOMComponentLine_ComponentID option:selected').text();
+            BillOfMaterialVM.BOMComponentLine.ComponentID = $('#BOMComponentLine_ComponentID').val();
+            BillOfMaterialVM.BOMComponentLine.LineName = $('#BOMComponentLine_LineName').val();
+            BillOfMaterialVM.BOMComponentLineStageDetail = new Object();
+            var data = { "billOfMaterialVM": BillOfMaterialVM }
+
+            $('#divPartial').load("AddStageDetail", data);
+        }
+        else {
+            notyAlert('warning', "Select a Component to Proceed");
+        }
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//________________________________________________________________________________//
 //-----------------------Return to Production Line page---------------------------//
 function LoadStageDetailTable() {
-    try{
+    try {
         debugger;
         DataTables.StageDetailTable = $('#tblBOMComponentLineStageDetail').DataTable({
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
             order: [],
-            "scrollY": "150px",
+            "scrollY": "130px",
             "scrollCollapse": true,
             searching: false,
             paging: false,
@@ -845,9 +852,24 @@ function LoadStageDetailTable() {
               { "data": "ComponentLineID", "defaultContent": "<i>-</i>" },//1
               { "data": "Stage.Description", "defaultContent": "<i>-</i>" },
               { "data": "EntryType", "defaultContent": "<i>-</i>" },//3
-              { "data": "PartType", "defaultContent": "<i>-</i>" },
+              {
+                  "data": "PartType", render: function (data, type, row) {
+                      debugger;
+                      switch (data) {
+                          case "RAW":
+                              return "Raw Material"
+                          case "SUB":
+                              return "Sub Component"
+                          case "COM":
+                              return "Component"
+                          default:
+                              return "<i>-</i>"
+                      }
+                  }, "defaultContent": "<i>-</i>"
+              },
               {
                   "data": null, render: function (data, type, row) {
+                      debugger;
                       switch (row.PartType) {
                           case "RAW":
                               return row.Material.Description
@@ -861,8 +883,8 @@ function LoadStageDetailTable() {
                   }, "defaultContent": "<i>-</i>"
               },//5
               { "data": "Qty", "defaultContent": "<i>-</i>" },
-              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditLine(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>' },
-              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="DeleteLine(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
+              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditStageDetail(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>' },
+              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="DeleteStageDetail(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
             ],
             columnDefs: [
                 { "targets": [0, 1], "visible": false, "searchable": false },
@@ -871,7 +893,46 @@ function LoadStageDetailTable() {
                 { "targets": [0, 1], "bSortable": false }
             ],
             destroy: true
-        })
+        });
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//ComponentLine On Change
+function ComponentLineOnChange(id) {
+    try {
+        DataTables.StageDetailTable.clear().rows.add(GetBOMComponentLineStageDetail(id));
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//---------------------------Get BOMComponentLineSageDetail----------------------//
+function GetBOMComponentLineStageDetail(id) {
+    try {
+        debugger;
+        var data = { "componentLineID": id };
+        var result = "";
+        var message = "";
+        _BOMComponentLineStageDetailList = [];
+        var jsonData = GetDataFromServer("BillOfMaterial/GetBOMComponentLineStageDetail/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            _BOMComponentLineStageDetailList = jsonData.Records;
+        }
+        switch (result) {
+            case "OK":
+                break;
+            case "ERROR":
+                notyAlert('error', message);
+                break;
+            default:
+                break;
+        }
+        return _BOMComponentLineStageDetailList;
     }
     catch (ex) {
         console.log(ex.message);
@@ -884,15 +945,17 @@ function EntryTypeOnChange(value) {
         switch (value) {
             case "Input":
                 $('#BOMComponentLineStageDetail_PartType').find('option').prop("disabled", false);
-                $('#BOMComponentLineStageDetail_PartType').find('option[value="2"]').prop("disabled", true);
-                if ($('#BOMComponentLineStageDetail_PartType').val() === "2")
-                    $('#BOMComponentLineStageDetail_PartType').val("1").trigger('change');
+                $('#BOMComponentLineStageDetail_PartType').find('option[value="COM"]').prop("disabled", true);
+                if ($('#BOMComponentLineStageDetail_PartType').val() === "COM") {
+                    $('#BOMComponentLineStageDetail_PartType').val("SUB").trigger('change');
+                }
                 break;
             case "Output":
                 $('#BOMComponentLineStageDetail_PartType').find('option').prop("disabled", false);
-                $('#BOMComponentLineStageDetail_PartType').find('option[value="0"]').prop("disabled", true);
-                if ($('#BOMComponentLineStageDetail_PartType').val() === "0")
-                    $('#BOMComponentLineStageDetail_PartType').val("1").trigger('change');
+                $('#BOMComponentLineStageDetail_PartType').find('option[value="RAW"]').prop("disabled", true);
+                if ($('#BOMComponentLineStageDetail_PartType').val() === "RAW") {
+                    $('#BOMComponentLineStageDetail_PartType').val("SUB").trigger('change');
+                }
                 break;
             default:
                 $('#BOMComponentLineStageDetail_PartType').find('option').prop("disabled", false);
@@ -905,18 +968,18 @@ function EntryTypeOnChange(value) {
 }
 //-----------------------Part Type On Change--------------------------------------//
 function PartTypeOnChange(value) {
-    try{
+    try {
         debugger;
         switch (value) {
-            case "0":
+            case "RAW":
                 $("#divItemSelector").children().hide();
                 $("#divMaterial").show();
                 break;
-            case "1":
+            case "SUB":
                 $("#divItemSelector").children().hide();
                 $("#divSubComponent").show();
                 break;
-            case "2":
+            case "COM":
                 $("#divItemSelector").children().hide();
                 $("#divComponent").show();
                 break;
@@ -949,8 +1012,115 @@ function LoadPartialStageDropdownForLine(StageID) {
 //---------------------------Save BOMComponentLineStageDetail---------------------------//
 function SaveDetail() {
     try {
-        debugger;
         $("#btnSave").click();
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//After Save Success
+function SaveDetailSuccess(data, status) {
+    try {
+        debugger;
+        var JsonResult = JSON.parse(data)
+        var result = JsonResult.Result;
+        var message = JsonResult.Message;
+        var BOMComponentLineStageDetailViewModel = new Object();
+        BOMComponentLineStageDetailViewModel = JsonResult.Records;
+        switch (result) {
+            case "OK":
+                message = BOMComponentLineStageDetailViewModel.Message;
+                notyAlert("success", message)
+                AddStageDetailToTable(BOMComponentLineStageDetailViewModel.ID)
+                ClearStageDetail();
+                break;
+            case "ERROR":
+                notyAlert("danger", message)
+                break;
+            default:
+                notyAlert("danger", message)
+                break;
+        }
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//Add to StageDetails Table
+function AddStageDetailToTable(id) {
+    try {
+        debugger;
+        var BOMComponentLineStageDetailViewModel = new Object();
+        BOMComponentLineStageDetailViewModel.ID = id;
+        BOMComponentLineStageDetailViewModel.ComponentLineID = $('#BOMComponentLineStageDetail_ComponentLineID').val();
+        BOMComponentLineStageDetailViewModel.Stage = new Object();
+        BOMComponentLineStageDetailViewModel.StageID = BOMComponentLineStageDetailViewModel.Stage.ID = $('#StageID').val();
+        BOMComponentLineStageDetailViewModel.Stage.Description = $($('#StageID')).children("option[value='" + $('#StageID').val() + "']").first().html();
+
+        BOMComponentLineStageDetailViewModel.EntryType = $('#BOMComponentLineStageDetail_EntryType').val();
+        BOMComponentLineStageDetailViewModel.PartType = $('#BOMComponentLineStageDetail_PartType').val();
+        switch (BOMComponentLineStageDetailViewModel.PartType) {
+            case "RAW":
+                BOMComponentLineStageDetailViewModel.Material = new Object();
+                BOMComponentLineStageDetailViewModel.PartID = BOMComponentLineStageDetailViewModel.Material.ID = $('#MaterialID').val();
+                BOMComponentLineStageDetailViewModel.Material.Description = $($('#MaterialID')).children("option[value='" + $('#MaterialID').val() + "']").first().html();
+
+                break;
+            case "SUB":
+                BOMComponentLineStageDetailViewModel.SubComponent = new Object();
+                BOMComponentLineStageDetailViewModel.PartID = BOMComponentLineStageDetailViewModel.SubComponent.ID = $('#SubComponentID').val();
+                BOMComponentLineStageDetailViewModel.SubComponent.Description = $($('#SubComponentID')).children("option[value='" + $('#SubComponentID').val() + "']").first().html();
+
+                break;
+            case "COM":
+                BOMComponentLineStageDetailViewModel.Product = new Object();
+                BOMComponentLineStageDetailViewModel.PartID = BOMComponentLineStageDetailViewModel.Product.ID = $('#ProductID').val();
+                BOMComponentLineStageDetailViewModel.Product.Name = $($('#ProductID')).children("option[value='" + $('#ProductID').val() + "']").first().html();
+
+                break;
+            default:
+
+                break;
+        }
+        BOMComponentLineStageDetailViewModel.Qty = $('#BOMComponentLineStageDetail_Qty').val();
+        BindStageDetailTable(_BOMComponentLineStageDetailList)
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//Bind StageDetails Table
+function BindStageDetailTable(BOMComponentLineStageDetailViewModel) {
+    try {
+        _BOMComponentLineStageDetailList = DataTables.StageDetailTable.rows().data();
+        if (_BOMComponentLineStageDetailList.legth > 0) {
+            for (var i = 0; i < _BOMComponentLineStageDetailList.legth; i++) {
+                if (_BOMComponentLineStageDetailList[i].ID === BOMComponentLineStageDetailViewModel.ID) {
+                    
+
+                }
+            }
+        }
+        else {
+            _BOMComponentLineStageDetailList.push(BOMComponentLineStageDetailViewModel);
+            DataTables.StageDetailTable.rows.add(_BOMComponentLineStageDetailList).draw(false);
+        }
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//Clear Details
+function ClearStageDetail() {
+    try {
+        debugger;
+        $('#StageID').val("").trigger('change');
+        $('#BOMComponentLineStageDetail_EntryType').val("Input").trigger('change');
+        $('#BOMComponentLineStageDetail_PartType').val("RAW").trigger('change');
+        $('#MaterialID').val("").select2().trigger('change');
+        $('#SubComponentID').val("").select2().trigger('change');
+        $('#ProductID').val("").select2().trigger('change');
+        $('#BOMComponentLineStageDetail_Qty').val(0);
     }
     catch (ex) {
         console.log(ex.message);
@@ -974,6 +1144,92 @@ function GoBack() {
         console.log(ex.message);
     }
 }
+//-----------------------------Delete StageDetail--------------------------------//
+function DeleteStageDetail(curobj) {
+    try {
+        debugger;
 
- //__________________________________________End_______________________________________________//
+        var billOfMaterialLineStageDetailVM = DataTables.StageDetailTable.row($(curobj).parents('tr')).data();
+        var rowindex = DataTables.StageDetailTable.row($(curobj).parents('tr')).index();
+
+        if ((billOfMaterialLineStageDetailVM !== null) && (billOfMaterialLineStageDetailVM.ID !== EmptyGuid)) {
+            var res = notyConfirm('Are you sure to delete?', 'DeleteBOMComponentLineStageDetail("' + billOfMaterialLineStageDetailVM.ID + '",' + rowindex + ')');
+        }
+        else {
+            notyConfirm('Are you sure to delete?', 'DeleteTempDetail("' + rowindex + '")');
+        }
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//Delete Temp Detail from StageDetail DataTable
+function DeleteTempDetail(rowindex) {
+    debugger;
+    DataTables.StageDetailTable.row(rowindex).remove().draw(true);
+}
+//Delete BOMComponentLineStageDetail from DB
+function DeleteBOMComponentLineStageDetail(id, rowindex) {
+    try {
+        debugger;
+        var data = { "id": id };
+        var result = "";
+        var message = "";
+        var BOMComponentLineStageDetailViewModel = new Object();
+        var jsonData = GetDataFromServer("BillOfMaterial/DeleteBOMComponentLineStageDetail/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            BOMComponentLineStageDetailViewModel = jsonData.Record;
+        }
+        switch (result) {
+            case "OK":
+                notyAlert('success', message);
+                DeleteTempDetail(rowindex);
+                break;
+            case "ERROR":
+                notyAlert('error', message);
+                break;
+            default:
+                break;
+        }
+        return BOMComponentLineStageDetailViewModel;
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//----------------------------Edit StageDetail--------------------------------//
+function EditStageDetail(thisObj) {
+    try {
+        debugger;
+        var BOMComponentLineStageDetail = DataTables.StageDetailTable.row($(thisObj).parents('tr')).data();
+        $('#BOMComponentLineStageDetail_ID').val(BOMComponentLineStageDetail.ID);
+        $('#BOMComponentLineStageDetail_IsUpdate').val('true');
+        $('#BOMComponentLineStageDetail_ComponentLineID').val(BOMComponentLineStageDetail.ComponentLineID).trigger('change');
+        $('#StageID').val(BOMComponentLineStageDetail.StageID).trigger('change');
+        $('#BOMComponentLineStageDetail_EntryType').val(BOMComponentLineStageDetail.EntryType).trigger('change');
+        $('#BOMComponentLineStageDetail_PartType').val(BOMComponentLineStageDetail.PartType).trigger('change');
+        switch (BOMComponentLineStageDetail.PartType) {
+            case "RAW":
+                $('#MaterialID').val(BOMComponentLineStageDetail.PartID).select2().trigger('change');
+                break;
+            case "SUB":
+                $('#SubComponentID').val(BOMComponentLineStageDetail.PartID).select2().trigger('change');
+                break;
+            case "COM":
+                $('#ProductID').val(BOMComponentLineStageDetail.PartID).select2().trigger('change');
+                break;
+            default:
+                break;
+        }
+        $('#BOMComponentLineStageDetail_Qty').val(BOMComponentLineStageDetail.Qty);
+
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+//__________________________________________End_______________________________________________//
 ////////////////////////////////////////////////////////////////////////////////////////////////

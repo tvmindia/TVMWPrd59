@@ -74,7 +74,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal Qty { get; set; }
         public Common Common { get; set; }
         //Additional
-        public Stage Stage { get; set; }
         public bool IsUpdate { get; set; }
+        public Stage Stage { get; set; }
+        public Product Product { get; set; }
+        public Material Material { get; set; }
+        public SubComponent SubComponent { get; set; }
     }
 }
