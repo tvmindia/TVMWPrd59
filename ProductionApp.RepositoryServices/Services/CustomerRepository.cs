@@ -109,14 +109,6 @@ namespace ProductionApp.RepositoryServices.Services
                                     {
                                         customer.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : customer.ID);
                                         customer.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : customer.CompanyName);
-                                       // customer.MobileNo = (sdr["MobileNo"].ToString() != "" ? sdr["MobileNo"].ToString() : customer.MobileNo);
-                                        //customer.EmpType = (sdr["EmpType"].ToString() != "" ? sdr["EmpType"].ToString() : customer.EmpType);
-                                        //customer.Address = (sdr["Address"].ToString() != "" ? sdr["Address"].ToString() : customer.Address);
-                                        //customer.ImageURL = (sdr["ImageURL"].ToString() != "" ? sdr["ImageURL"].ToString() : customer.ImageURL);
-                                        //customer.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : customer.GeneralNotes);
-                                        //customer.Department = (sdr["Department"].ToString() != "" ? sdr["Department"].ToString() : customer.Department);
-                                        //customer.EmployeeCategory = (sdr["EmployeeCategory"].ToString() != "" ? sdr["EmployeeCategory"].ToString() : customer.EmployeeCategory);
-                                        //customer.IsActive = (sdr["GeneralNotes"].ToString() != "" ? bool.Parse(sdr["GeneralNotes"].ToString()) : customer.IsActive);
                                     }
                                     customerList.Add(customer);
                                 }

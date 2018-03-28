@@ -253,3 +253,37 @@ function SaveSuccessCustomer(data, status) {
             break;
     }
 }
+
+//-- Add  Supplier--//
+function AddSupplierMaster(flag) {
+    debugger;
+    GetMasterPartial("Supplier", "");
+    $('#h3ModelMasterContextLabel').text('Add Supplier')
+    $('#divModelMasterPopUp').modal('show');
+    $('#hdnMasterCall').val(flag);
+}
+
+//-- Function After Save Supplier--//
+function SaveSuccessSupplier(data, status) {
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Status) {
+        case "OK":
+            if ($('#hdnMasterCall').val() == "MSTR") {
+                $('#IsUpdate').val('True');
+                $('#ID').val(JsonResult.Record.ID);
+                BindOrReloadSupplierTable('Reset');
+            }
+            else if ($('#hdnMasterCall').val() == "OTR") {
+                $('#divSupplierDropdown').load('/Supplier/SupplierDropdown');
+            }
+            MasterAlert("success", JsonResult.Record.Message)
+            break;
+        case "ERROR":
+            MasterAlert("danger", JsonResult.Message)
+            break;
+        default:
+            MasterAlert("danger", JsonResult.Message)
+            break;
+    }
+}

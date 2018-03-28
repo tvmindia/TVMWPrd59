@@ -65,6 +65,8 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Customer").Include("~/Scripts/UserJS/Customer.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/CustomerJS/ViewCustomer").Include("~/Scripts/UserJS/CustomerJS/ViewCustomer.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/CustomerJS/NewCustomer").Include("~/Scripts/UserJS/CustomerJS/NewCustomer.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/SupplierJS/ViewSupplier").Include("~/Scripts/UserJS/SupplierJS/ViewSupplier.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/SupplierJS/NewSupplier").Include("~/Scripts/UserJS/SupplierJS/NewSupplier.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Bank").Include("~/Scripts/UserJS/Bank.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Approver").Include("~/Scripts/UserJS/Approver.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/SubComponent").Include("~/Scripts/UserJS/SubComponent.js"));

@@ -42,6 +42,7 @@ namespace ProductionApp.UserInterface.Models
         [DataType(DataType.MultilineText)]
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
+        //additional fields
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
