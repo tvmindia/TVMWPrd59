@@ -22,6 +22,7 @@ namespace ProductionApp.UserInterface.Models
         public DateTime PaymentDueDate  { get; set; }
         [Display(Name = "Billing Address")]
         public string BillingAddress  { get; set; }
+        [Display(Name = "Cash Discount")]
         public decimal Discount  { get; set; }
         [Display(Name = "General Notes")]
         public string GeneralNotes  { get; set; }
@@ -39,6 +40,11 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Payment Due Date")]
         public string PaymentDueDateFormatted { get; set; }
 
+        [Display(Name = "Total Tax Amount")]
+        public decimal TotalTaxAmount { get; set; }
+        [Display(Name = "Total Taxable Amount")]
+        public decimal TotalTaxableAmount { get; set; }
+        [Display(Name = "Invoice Amount")]
         public decimal InvoiceAmount { get; set; }
         public decimal PaymentReceived { get; set; }
         public decimal Balance { get; set; }
