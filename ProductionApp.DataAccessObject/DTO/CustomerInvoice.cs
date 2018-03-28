@@ -27,6 +27,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public int FilteredCount { get; set; }
         public string InvoiceDateFormatted { get; set; }
         public string PaymentDueDateFormatted { get; set; }
+        public decimal InvoiceAmount { get; set; }
+        public decimal PaymentReceived { get; set; }
+        public decimal Balance { get; set; }
         public Common Common { get; set; }
         public CustomerInvoiceDetail CustomerInvoiceDetail { get; set; }
         public PackingSlip PackingSlip { get; set; }

@@ -36,6 +36,10 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Payment Due Date is missing")]
         [Display(Name = "Payment Due Date")]
         public string PaymentDueDateFormatted { get; set; }
+
+        public decimal InvoiceAmount { get; set; }
+        public decimal PaymentReceived { get; set; }
+        public decimal Balance { get; set; }
         public CommonViewModel Common { get; set; }
         public CustomerInvoiceDetailViewModel CustomerInvoiceDetail { get; set; }
         public PackingSlipViewModel PackingSlip { get; set; }
