@@ -71,7 +71,6 @@
                             @Html.LabelFor(model => model.CustomerID, htmlAttributes: new { @class = "control-label lblrequired " })
                         </div>
                         <div class="col-md-12">
-                            @*@Html.Action("CustomerDropdown", "Customer")*@
                             @Html.DropDownListFor(model => model.CustomerID, Model.Customer.SelectList, "--Select Customer--", new { @class = "form-control BlockEnter", @style = "width:100%" })
                             @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
                         </div>

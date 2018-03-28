@@ -11,7 +11,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid ID { get; set; }
         public string InvoiceNo { get; set; }
         public Guid CustomerID { get; set; }
-        public Guid ReferenceCustomer { get; set; }
+        public Guid? ReferenceCustomer { get; set; }
         public string PaymentTerm { get; set; }
         public DateTime InvoiceDate { get; set; }
         public DateTime PaymentDueDate { get; set; }

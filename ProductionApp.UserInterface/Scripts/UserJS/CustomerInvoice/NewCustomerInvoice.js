@@ -151,11 +151,10 @@ $(document).ready(function () {
         });
 
 
-
+//------------------------------------------------------------------------------------------------//
         $("#PackingSlipID").change(function () {
             BindPackingSlipDetails(this.value);
         });
-
         $("#CustomerID").change(function () {
             BindCustomerDetails(this.value);
         }); 
@@ -163,15 +162,12 @@ $(document).ready(function () {
             GetDueDate(this.value);
         });
         
-        debugger;
-        if ($('#IsUpdate').val() == 'True') {
+        if ($('#IsUpdate').val() == 'True')  {
             BindSalesOrderByID()
         }
-        else {
+        else  {
             $('#lblCustomerInvoiceNo').text('Customer Invoice# : New');
         }
-
-
     }
     catch (e) {
         console.log(e.message);
@@ -179,9 +175,15 @@ $(document).ready(function () {
 });
 
 function BindCustomerDetails(customerId) {
-    var customerVM = GetCustomerDetails(customerId)
-    $('#BillingAddress').val(customerVM.BillingAddress);
+    if (customerId != "") {
+        var customerVM = GetCustomerDetails(customerId)
+        $('#BillingAddress').val(customerVM.BillingAddress);
+    }
+    else   {
+        $('#BillingAddress').val('');
+    }
 }
+
 function GetCustomerDetails(customerId) {
     try {
         var data = { "customerId": customerId };
@@ -204,20 +206,13 @@ function GetCustomerDetails(customerId) {
 
 function ShowCustomerInvoiceDetailsModal()
 {
-    debugger;
-    
-
-    if ($('#CustomerID').val() != "" && $('#InvoiceDateFormatted').val() != "" && $('#PaymentDueDateFormatted').val() != "")
-        $('#CustomerInvoiceDetailsModal').modal('show');
+    if ($('#CustomerInvoiceForm').valid())
+    $('#CustomerInvoiceDetailsModal').modal('show');
     else
     {
-        $('#CustomerInvoiceForm').valid();
         notyAlert('warning', "Please Fill Required Fields");
     }
-       
-
 }
-
 
 function BindPackingSlipDetails(packingSlipID)
 {
