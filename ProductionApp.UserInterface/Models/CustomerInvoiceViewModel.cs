@@ -43,6 +43,7 @@ namespace ProductionApp.UserInterface.Models
         public decimal PaymentReceived { get; set; }
         public decimal Balance { get; set; }
         public CommonViewModel Common { get; set; }
+        public CustomerViewModel Customer { get; set; }
         public CustomerInvoiceDetailViewModel CustomerInvoiceDetail { get; set; }
         public PackingSlipViewModel PackingSlip { get; set; }
         public List<CustomerInvoiceDetailViewModel> CustomerInvoiceDetailList { get; set; }

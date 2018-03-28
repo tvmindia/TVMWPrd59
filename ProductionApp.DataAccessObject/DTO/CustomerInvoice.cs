@@ -32,6 +32,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal PaymentReceived { get; set; }
         public decimal Balance { get; set; }
         public Common Common { get; set; }
+        public Customer Customer { get; set; }
         public CustomerInvoiceDetail CustomerInvoiceDetail { get; set; }
         public PackingSlip PackingSlip { get; set; }
         public List<CustomerInvoiceDetail> CustomerInvoiceDetailList { get; set; }

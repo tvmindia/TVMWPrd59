@@ -25,6 +25,7 @@ $(document).ready(function () {
         //------select2 fields-------//
         $("#PackingSlipID").select2({ dropdownParent: $("#CustomerInvoiceDetailsModal")  });
         $("#CustomerID").select2({ });
+        $("#ReferenceCustomer").select2({});
 
         $('#btnUpload').click(function () {
             debugger;
