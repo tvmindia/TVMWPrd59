@@ -157,8 +157,11 @@ $(document).ready(function () {
 
         $("#CustomerID").change(function () {
             BindCustomerDetails(this.value);
+        }); 
+        $("#PaymentTermCode").change(function () {
+            GetDueDate(this.value);
         });
-
+        
         debugger;
         if ($('#IsUpdate').val() == 'True') {
             BindSalesOrderByID()
@@ -422,3 +425,35 @@ function AddCustomerInvoiceDetailList(customerInvoiceDetailVM) {
     }
 }
 
+
+//Bind Payment due date based on Payment date
+function GetDueDate(Code) {
+    try {
+        debugger;
+          var PaymentTermViewModel = GetPaymentTermDetails(Code);
+        $('#PaymentDueDateFormatted').val(PaymentTermViewModel);
+    }
+    catch (e) {
+
+    }
+}
+function GetPaymentTermDetails(Code) {
+    debugger;
+    try {
+        var data = { "Code": Code, "InvoiceDate": $('#InvoiceDateFormatted').val() };
+        var ds = {};
+        ds = GetDataFromServer("CustomerInvoice/GetDueDate/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
