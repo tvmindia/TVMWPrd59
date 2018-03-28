@@ -34,6 +34,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public CustomerInvoiceDetail CustomerInvoiceDetail { get; set; }
         public PackingSlip PackingSlip { get; set; }
         public List<CustomerInvoiceDetail> CustomerInvoiceDetailList { get; set; }
+        public CustomerPayment CustomerPayment { get; set; }
 
     }
     public class CustomerInvoiceDetail

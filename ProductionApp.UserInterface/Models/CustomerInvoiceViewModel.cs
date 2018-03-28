@@ -44,6 +44,7 @@ namespace ProductionApp.UserInterface.Models
         public CustomerInvoiceDetailViewModel CustomerInvoiceDetail { get; set; }
         public PackingSlipViewModel PackingSlip { get; set; }
         public List<CustomerInvoiceDetailViewModel> CustomerInvoiceDetailList { get; set; }
+        public CustomerPaymentViewModel CustomerPayment { get; set; }
 
 
     }
