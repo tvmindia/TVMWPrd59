@@ -12,6 +12,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string OrderNo { get; set; }
         public DateTime OrderDate { get; set; }
         public Guid CustomerID { get; set; }
+        public Guid ReferenceCustomer { get; set; }
         public Guid SalesPerson { get; set; }
         public DateTime ExpectedDeliveryDate { get; set; }
         public string BillingAddress { get; set; }
