@@ -18,16 +18,18 @@ namespace ProductionApp.UserInterface.Controllers
         private ICustomerBusiness _customerBusiness;
         private IPackingSlipBusiness _packingSlipBusiness;
         private ITaxTypeBusiness _taxTypeBusiness;
+        private IPaymentTermBusiness _paymentTermBusiness;
 
         Common _common = new Common();
         AppConst _appConst = new AppConst();
 
-        public CustomerInvoiceController(ICustomerInvoiceBusiness customerInvoiceBusiness, ICustomerBusiness customerBusiness, IPackingSlipBusiness packingSlipBusiness, ITaxTypeBusiness taxTypeBusiness)
+        public CustomerInvoiceController(ICustomerInvoiceBusiness customerInvoiceBusiness, ICustomerBusiness customerBusiness, IPackingSlipBusiness packingSlipBusiness, ITaxTypeBusiness taxTypeBusiness, IPaymentTermBusiness paymentTermBusiness)
         {
             _customerInvoiceBusiness = customerInvoiceBusiness;
             _customerBusiness = customerBusiness;
             _packingSlipBusiness = packingSlipBusiness;
             _taxTypeBusiness = taxTypeBusiness;
+            _paymentTermBusiness = paymentTermBusiness;
         }
         // GET: CustomerInvoice
         public ActionResult ViewCustomerInvoice(string code)
@@ -44,6 +46,20 @@ namespace ProductionApp.UserInterface.Controllers
                 IsUpdate = id == null ? false : true,
 
             };
+            CustomerViewModel customerVM = new CustomerViewModel();
+            customerVM.SelectList = new List<SelectListItem>();
+            List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetCustomerForSelectList());
+            if (customerList != null)
+                foreach (CustomerViewModel customer in customerList)
+                {
+                    customerVM.SelectList.Add(new SelectListItem
+                    {
+                        Text = customer.CompanyName,
+                        Value = customer.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            customerInvoiceVM.Customer = customerVM;
             return View(customerInvoiceVM);
         }
 
@@ -144,6 +160,37 @@ namespace ProductionApp.UserInterface.Controllers
 
         }
         #endregion InsertUpdateCustomerInvoice
+
+
+        #region GetDueDate
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoices", Mode = "R")]
+        public string GetDueDate(string Code, string InvoiceDate = "")
+        {
+            try
+            {
+                string PaymentDueDate;
+                DateTime Datenow = _common.GetCurrentDateTime();
+                PaymentTermViewModel payTermsObj = Mapper.Map<PaymentTerm, PaymentTermViewModel>(_paymentTermBusiness.GetPaymentTermDetails(Code));
+                if (InvoiceDate == "")
+                {
+                    PaymentDueDate = Datenow.AddDays(payTermsObj.NoOfDays).ToString("dd-MMM-yyyy");
+                }
+                else
+                {
+                    PaymentDueDate = Convert.ToDateTime(InvoiceDate).AddDays(payTermsObj.NoOfDays).ToString("dd-MMM-yyyy");
+                }
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = PaymentDueDate });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion GetDueDate
+
+
 
         #region ButtonStyling
         [HttpGet]

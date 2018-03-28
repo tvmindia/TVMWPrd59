@@ -2,10 +2,10 @@
 //*****************************************************************************
 //*****************************************************************************
 //Author: Jais
-//CreatedDate:22-Mar-2018 
-//LastModified: 22-Mar-2018 
-//FileName: ViewCustomer.js
-//Description: Client side coding for ViewCustomer
+//CreatedDate:27-Mar-2018 
+//LastModified: 27-Mar-2018 
+//FileName: ViewSupplier.js
+//Description: Client side coding for ViewSupplier
 //******************************************************************************
 //******************************************************************************
 
@@ -16,10 +16,10 @@ var _emptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
-      
-        BindOrReloadCustomerTable('Init');
 
-        $('#tblCustomer tbody').on('dblclick', 'td', function () {
+        BindOrReloadSupplierTable('Init');
+
+        $('#tblSupplier tbody').on('dblclick', 'td', function () {
             Edit(this);
         });
     }
@@ -29,14 +29,14 @@ $(document).ready(function () {
 });
 
 
-//--function bind the Customer list checking search and filter--//
-function BindOrReloadCustomerTable(action) {
+//--function bind the Supplier list checking search and filter--//
+function BindOrReloadSupplierTable(action) {
     try {
         debugger;
         //creating advancesearch object
-        CustomerViewModel = new Object();
+        SupplierViewModel = new Object();
         DataTablePagingViewModel = new Object();
-        CustomerAdvanceSearchViewModel = new Object();
+        SupplierAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
         //switch case to check the operation
         switch (action) {
@@ -53,18 +53,18 @@ function BindOrReloadCustomerTable(action) {
             default:
                 break;
         }
-        CustomerAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
-        CustomerAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+        SupplierAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
+        SupplierAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
 
-        //apply datatable plugin on Customer table
-        _dataTables.customerList = $('#tblCustomer').DataTable(
+        //apply datatable plugin on Supplier table
+        _dataTables.supplierList = $('#tblSupplier').DataTable(
         {
             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
             buttons: [{
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [0,1, 2, 3, 4]
+                                 columns: [0,1, 2, 3, 4, 5]
                              }
             }],
             ordering: false,
@@ -78,26 +78,27 @@ function BindOrReloadCustomerTable(action) {
             },
             serverSide: true,
             ajax: {
-                url: "GetAllCustomer/",
-                data: { "customerAdvanceSearchVM": CustomerAdvanceSearchViewModel },
+                url: "GetAllSupplier/",
+                data: { "supplierAdvanceSearchVM": SupplierAdvanceSearchViewModel },
                 type: 'POST'
             },
             pageLength: 10,
             columns: [
             { "data": "CompanyName", "defaultContent": "<i>-</i>" },
-            { "data": "ContactPerson", "defaultContent": "<i>-<i>" },
+            { "data": "ContactPerson", "defaultContent": "<i>-<i>","width":"10%" },
+            { "data": "Product", "defaultContent": "<i>-<i>" },
             { "data": "Mobile", "defaultContent": "<i>-<i>" },
             { "data": "TaxRegNo", "defaultContent": "<i>-<i>" },
             { "data": "PANNo", "defaultContent": "<i>-<i>", "width": "7%" },
              {
                  "data": "ID", "orderable": false, render: function (data, type, row) {
-                     return '<a href="/Customer/NewCustomer?code=MSTR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
-                 }, "defaultContent": "<i>-</i>","width":"3%"
+                     return '<a href="/Supplier/NewSupplier?code=MSTR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                 }, "defaultContent": "<i>-</i>", "width": "3%"
              }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [] },
-                { className: "text-left", "targets": [0,1, 2, 3, 4, 5] },
+                { className: "text-left", "targets": [0, 1, 2, 3, 4, 5,6] },
                 { className: "text-center", "targets": [] }],
             destroy: true,
             //for performing the import operation after the data loaded
@@ -109,7 +110,7 @@ function BindOrReloadCustomerTable(action) {
                         }
                     }
                     $(".buttons-excel").trigger('click');
-                    BindOrReloadCustomerTable('Search');
+                    BindOrReloadSupplierTable('Search');
                 }
             }
         });
@@ -120,12 +121,11 @@ function BindOrReloadCustomerTable(action) {
     }
 }
 
-
 //function reset the list to initial
-function ResetCustomerList() {
-    BindOrReloadCustomerTable('Reset');
+function ResetSupplierList() {
+    BindOrReloadSupplierTable('Reset');
 }
 //function export data to excel
-function ImportCustomerData() {
-    BindOrReloadCustomerTable('Export');
+function ImportSupplierData() {
+    BindOrReloadSupplierTable('Export');
 }

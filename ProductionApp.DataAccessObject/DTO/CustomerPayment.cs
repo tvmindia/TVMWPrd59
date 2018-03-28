@@ -26,6 +26,15 @@ namespace ProductionApp.DataAccessObject.DTO
         //Additional properties
         public string PaymentDateFormatted { get; set; }
         public string ChequeDateFormatted { get; set; }
+        public CustomerPaymentDetail CustomerPaymentDetail { get; set; }
+        public List<CustomerPaymentDetail> CustomerPaymentDetailList { get; set; }
+        public string CustomerName { get; set; }
+        public decimal AdvanceAmount { get; set; }
+        public string CreditNo { get; set; }
+        public string DetailXML { get; set; }
+        public bool IsUpdate { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
     }
     public class CustomerPaymentDetail
     {
@@ -40,5 +49,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public DataTablePaging DataTablePaging { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
+        public Guid CustomerID { get; set; }
+        public string PaymentMode { get; set; }
     }
 }

@@ -16,6 +16,8 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Customer")]
         [Required(ErrorMessage = "Customer required")]
         public Guid CustomerID { get; set; }
+        [Display(Name = "Reference Customer")]
+        public Guid ReferenceCustomer { get; set; }
         [Display(Name = "Sales Person")]
       //  [Required(ErrorMessage = "Sales Person required")]
         public Guid SalesPerson { get; set; }

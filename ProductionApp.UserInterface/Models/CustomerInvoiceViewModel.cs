@@ -14,12 +14,15 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Customer is missing")]
         [Display(Name = "Customer")]
         public Guid CustomerID  { get; set; }
+        [Display(Name = "Reference Customer")]
+        public Guid? ReferenceCustomer { get; set; }
         [Display(Name = "Payment Term")]
         public string PaymentTerm  { get; set; }
         public DateTime InvoiceDate  { get; set; }
         public DateTime PaymentDueDate  { get; set; }
         [Display(Name = "Billing Address")]
         public string BillingAddress  { get; set; }
+        [Display(Name = "Cash Discount")]
         public decimal Discount  { get; set; }
         [Display(Name = "General Notes")]
         public string GeneralNotes  { get; set; }
@@ -36,10 +39,21 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Payment Due Date is missing")]
         [Display(Name = "Payment Due Date")]
         public string PaymentDueDateFormatted { get; set; }
+
+        [Display(Name = "Total Tax Amount")]
+        public decimal TotalTaxAmount { get; set; }
+        [Display(Name = "Total Taxable Amount")]
+        public decimal TotalTaxableAmount { get; set; }
+        [Display(Name = "Invoice Amount")]
+        public decimal InvoiceAmount { get; set; }
+        public decimal PaymentReceived { get; set; }
+        public decimal Balance { get; set; }
         public CommonViewModel Common { get; set; }
+        public CustomerViewModel Customer { get; set; }
         public CustomerInvoiceDetailViewModel CustomerInvoiceDetail { get; set; }
         public PackingSlipViewModel PackingSlip { get; set; }
         public List<CustomerInvoiceDetailViewModel> CustomerInvoiceDetailList { get; set; }
+        public CustomerPaymentViewModel CustomerPayment { get; set; }
 
 
     }
