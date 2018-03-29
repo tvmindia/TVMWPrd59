@@ -106,14 +106,15 @@
         </div>
     </div>
 
-                        }
+                }
 
 <script>
             $(document).ready(function () {
                 $.validator.unobtrusive.parse("#BOMComponentLineForm");
                 $('#txtProductName').val($('#Product_Name').val());
                 $('#BOMComponentLine_ComponentID').change(function () {
-                    if ($(this).val() !== ""){
+                    if ($(this).val() !== "" && $(this).val()!==(@Guid.Empty) )
+                    {
                         $('#BOMComponentLine_LineName').val("Line For " + $('#BOMComponentLine_ComponentID option:selected').text());
                         ComponentIDOnChange();
                     }

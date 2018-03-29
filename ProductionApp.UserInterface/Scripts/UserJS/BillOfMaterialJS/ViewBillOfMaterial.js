@@ -81,7 +81,7 @@ function BindOrReloadBOMTable(action) {
                     debugger;
                     var componentList = [];
                     for (var i = 0; i < row.BillOfMaterialDetailList.length; i++) {
-                        componentList.push(" "+BillOfMaterialDetailList[i].Product.Name + " [" + BillOfMaterialDetailList[i].Qty + "]")
+                        componentList.push(" " + row.BillOfMaterialDetailList[i].Product.Name + " [" + row.BillOfMaterialDetailList[i].Qty + "]")
                     }
                     return componentList
                 },
