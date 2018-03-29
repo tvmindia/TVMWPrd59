@@ -52,18 +52,30 @@
 
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-green" aria-hidden="true"></i> Stages</div>
         <div class="col-md-12" style="margin-bottom:3px;">
-            <div class="col-md-5 selectable-list" id="divStageList">
-                @*Html.ListBoxFor(model => model.BOMComponentLine.StageList, Model.BOMComponentLine.StageList.Select(stage => new SelectListItem { Text = stage.Description, Value = stage.ID.ToString() }), new { Multiple = "multiple", @id = "selectable", @class="selectable"})*@
-                <ol id="selectable" class="selectable"></ol>
+            <div>
+                <div class="col-md-5">
+                    @Html.LabelFor(model => model.BOMComponentLine.StageList, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-5">
+                    @Html.LabelFor(model => model.BOMComponentLine.BOMComponentLineStageList, htmlAttributes: new { @class = "control-label" })
+                </div>
             </div>
-            <div class="col-md-2 text-center">
-                <a id="btnStage" class="btn btn-default" style="margin-top:40%;margin-bottom:15%;position:center;" onclick="OnStageSelect()">>></a>
-                <br />
-                <a id="btnUnstage" class="btn btn-default" style="margin-top:15%;margin-bottom:15%;position:center;" onclick="OnStageDeselect()"><<</a>
+            
+            <div>
+                <div class="col-md-5 selectable-list" id="divStageList">
+                    <ol id="selectable" class="selectable"></ol>
+                </div>
+                <div class="col-md-2 text-center">
+                    <a id="btnStage" class="btn btn-default" style="margin-top:40%;margin-bottom:15%;position:center;" onclick="OnStageSelect()">>></a>
+                    <br />
+                    <a id="btnUnstage" class="btn btn-default" style="margin-top:15%;margin-bottom:15%;position:center;" onclick="OnStageDeselect()"><<</a>
+                </div>
+                <div class="col-md-5 selectable-list">
+                    <ol id="selected" class="selectable"></ol>
+                </div>
             </div>
-            <div class="col-md-5 selectable-list"> 
-                <ol id="selected" class="selectable"></ol>
-            </div>
+
         </div>
 
         <div class="col-md-9">
@@ -111,7 +123,9 @@
 <script>
             $(document).ready(function () {
                 $.validator.unobtrusive.parse("#BOMComponentLineForm");
-                $('#txtProductName').val($('#Product_Name').val());
+
+                LoadLineStageTable();
+
                 $('#BOMComponentLine_ComponentID').change(function () {
                     if ($(this).val() !== "" && $(this).val()!==(@Guid.Empty) )
                     {
@@ -120,11 +134,10 @@
                     }
                     else
                         $('#BOMComponentLine_LineName').val("");
-                });
+                }).trigger('change');
 
                 $("#selectable").selectable();
                 $("#selected").selectable().sortable();
-                LoadLineStageTable();
                 LoadPartialListAllStage();
             });
 </script>

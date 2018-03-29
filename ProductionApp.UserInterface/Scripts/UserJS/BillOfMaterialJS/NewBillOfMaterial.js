@@ -78,6 +78,7 @@ $(document).ready(function () {
         console.log(ex.message);
     }
 });
+
 //-----------------Onchange for description for Dynamic ability------------------//
 function DescriptionOnChange(currObj) {
     if ($('#DescriptionBOM').val() !== "") {
@@ -87,11 +88,13 @@ function DescriptionOnChange(currObj) {
         $('#lblDescription').text('BOM: New');
     }
 }
+
 //-----------------------Product List Pop Up---------------------------//
 function LoadComponents() {
     $('#ProductListModal').modal('show');
     BindProductList();
 }
+
 //Bind Values into Product List DataTable for Pop Up
 function BindProductList() {
     try {
@@ -144,6 +147,7 @@ function BindProductList() {
     }
 
 }
+
 //------------------------Add Product and BOM Component as Detail---------------------//
 //Add Product
 function AddComponent() {
@@ -156,6 +160,7 @@ function AddComponent() {
         console.log(ex.message);
     }
 }
+
 //Add Product as Component in Details Table
 function AddProduct() {
     try {
@@ -170,6 +175,7 @@ function AddProduct() {
         console.log(ex.message);
     }
 }
+
 //Load Details properties as Component Object into Data table
 function AddNewComponent() {
     try {
@@ -190,6 +196,7 @@ function AddNewComponent() {
         console.log(ex.message);
     }
 }
+
 //---------------Load selected Product from List DataTable into Deatails DataTable--------------//
 function BindComponentToTable() {
     try {
@@ -212,6 +219,7 @@ function BindComponentToTable() {
         console.log(ex.message);
     }
 }
+
 //Add vales into Data Table
 function RebindComponentList(_BillOfMaterialDetailList) {
     try {
@@ -223,6 +231,7 @@ function RebindComponentList(_BillOfMaterialDetailList) {
         console.log(ex.message);
     }
 }
+
 //--------------------------------Save BillOfMaterials and BOMDetails---------------------//
 function SaveComponentDetail() {
     try {
@@ -243,6 +252,7 @@ function SaveComponentDetail() {
         console.log(ex.message);
     }
 }
+
 //After Saved Successfully
 function SaveSuccess(data, status) {
     debugger;
@@ -269,6 +279,7 @@ function SaveSuccess(data, status) {
             break;
     }
 }
+
 //Fetch Details from Table
 function GetDetailsFromTable() {
     try {
@@ -286,6 +297,7 @@ function GetDetailsFromTable() {
         console.log(ex.message);
     }
 }
+
 //----------------------------Bind Details values into property boxes--------------------//
 function BindBillOfMaterial() {
     try {
@@ -300,6 +312,7 @@ function BindBillOfMaterial() {
         console.log(ex.message);
     }
 }
+
 //-------------------------Get Details of BillOfMaterial and BOMDetail------------------------//
 function GetBillOfMaterial(id) {
     try {
@@ -331,6 +344,7 @@ function GetBillOfMaterial(id) {
     }
 }
 
+//Get BillOfMaterialDetail
 function GetBillOfMaterialDetail(id) {
     try {
         debugger;
@@ -360,6 +374,7 @@ function GetBillOfMaterialDetail(id) {
         console.log(ex.message);
     }
 }
+
 //---------------Load Qty value change into corresponding Object---------------------//
 function TextBoxValueChanged(thisObj) {
     try {
@@ -377,6 +392,7 @@ function TextBoxValueChanged(thisObj) {
         console.log(ex.message);
     }
 }
+
 //------------------------------Delete BillOfMaterial-------------------------//
 function DeleteClick() {
     try {
@@ -391,6 +407,7 @@ function DeleteClick() {
         console.log(ex.message);
     }
 }
+
 //Delete BOM
 function DeleteBillOfMaterial(id) {
     try {
@@ -423,6 +440,7 @@ function DeleteBillOfMaterial(id) {
         console.log(ex.message);
     }
 }
+
 //------------------------------------Delete BOMDetail-----------------------------//
 function Delete(curobj) {
     try {
@@ -440,6 +458,7 @@ function Delete(curobj) {
         console.log(ex.message);
     }
 }
+
 //Delete BOMDetail
 function DeleteBillOfMaterialDetail(id, rowindex) {
     try {
@@ -473,11 +492,13 @@ function DeleteBillOfMaterialDetail(id, rowindex) {
         console.log(ex.message);
     }
 }
+
 //Delete Datatable Item
 function DeleteTempItem(rowindex) {
     debugger;
     DataTables.ComponentList.row(rowindex).remove().draw(true);
 }
+
 //--------------------------Reset property values to default----------------------//
 function Reset() {
     try {
@@ -492,7 +513,8 @@ function Reset() {
         console.log(ex.message);
     }
 }
-//_________________________________________________________________________________//
+
+ //_________________________________________________________________________________//
 //*****************************Production Line*************************************//
 
 function LoadPartialAddProductionLine(curobj) {
@@ -519,6 +541,7 @@ function LoadPartialAddProductionLine(curobj) {
         console.log(ex.message);
     }
 }
+
 //Reload ListAllStage PartialView
 function LoadPartialListAllStage() {
     try {
@@ -530,6 +553,7 @@ function LoadPartialListAllStage() {
         console.log(ex.message);
     }
 }
+
 //Insert stages into selected
 function OnStageSelect() {
     debugger;
@@ -541,15 +565,33 @@ function OnStageSelect() {
         $(this).remove();
     });
 }
+
 //Revert stages from selected
 function OnStageDeselect() {
     debugger;
+    var ValueList = [];
     $("#selected li.ui-selected").each(function () {
         debugger;
         $("#selectable").append('<li value="' + $(this).attr('value') + '" class="ui-widget-content ui-selectee">' + $(this).text() + '</li>');
         $(this).remove();
+        ValueList.push($(this).attr('value'));
+    });
+    ResetListAllStage(ValueList);
+}
+
+//Reset ListAllStage
+function ResetListAllStage(ValueList) {
+    debugger;
+    LoadPartialListAllStage();
+    $("#selectable li.ui-selected").each(function () {
+        debugger;
+        for (var i = 0; i < ValueList.length; i++) {
+            if (ValueList[i] === $(this).attr('value'))
+                $(this).remove();
+        }
     });
 }
+
 //--------------------Load LineStage table as DataTable-------------------//(called in the PartialView-script)
 function LoadLineStageTable() {
     try {
@@ -601,14 +643,15 @@ function LoadLineStageTable() {
             ],
             destroy: true
         });
-        if ($("#BOMComponentLine_ComponentID").val() !== null && $("#BOMComponentLine_ComponentID").val() !== EmptyGuid) {
-            ComponentIDOnChange();
-        }
+        //if ($("#BOMComponentLine_ComponentID").val() !== null && $("#BOMComponentLine_ComponentID").val() !== EmptyGuid) {
+        //    ComponentIDOnChange();
+        //}
     }
     catch (ex) {
         console.log(ex.message);
     }
 }
+
 //------------------------------ComponentID on change---------------------------------//
 function ComponentIDOnChange() {
     try {
@@ -620,6 +663,7 @@ function ComponentIDOnChange() {
         console.log(ex.message);
     }
 }
+
 //--------------------------Get BOMComponentLine Details------------------------------//
 function GetBOMComponentLine(id) {
     try {
@@ -650,13 +694,14 @@ function GetBOMComponentLine(id) {
         console.log(ex.message);
     }
 }
+
 //--------------------Refresh Properties for newLine for the component------------------//
 function NewLine() {
     try {
         debugger;
         //$('#BOMComponentLine_ComponentID').val("");
-        $('#BOMComponentLine_ID').val(EmptyGuid);
-        $('#BOMComponentLine_IsUpdate').val() = "false";
+        $('#BOMComponentLine_ID').val(""+EmptyGuid);
+        $('#BOMComponentLine_IsUpdate').val("false");
         $('#BOMComponentLine_LineName').val("");
         $("#selected li.ui-selectee").each(function () {
             debugger;
@@ -668,38 +713,42 @@ function NewLine() {
         console.log(ex.message);
     }
 }
+
 //-----------------------------------------Edit Line--------------------------------------------//
 function EditLine(curobj) {
     try {
         debugger;
+        NewLine();
         BOMComponentLineViewModel = DataTables.LineStageList.row($(curobj).parents('tr')).data();
         $('#BOMComponentLine_ID').val(BOMComponentLineViewModel.ID);
         $('#BOMComponentLine_IsUpdate').val('true');
         $('#BOMComponentLine_StageJSON').val(JSON.stringify(BOMComponentLineViewModel.BOMComponentLineStageList));
-        
-        $("#selectable li.ui-selectee").each(function () {
-            debugger;
-            for (var i = 0; i < BOMComponentLineViewModel.BOMComponentLineStageList.length; i++) {
+        $('#BOMComponentLine_LineName').val(BOMComponentLineViewModel.LineName);
+
+        debugger;
+        for (var i = 0; i < BOMComponentLineViewModel.BOMComponentLineStageList.length; i++) {
+            $("#selectable li.ui-selectee").each(function () {
                 if (BOMComponentLineViewModel.BOMComponentLineStageList[i].StageID === $(this).attr('value')) {
                     $(this).addClass("ui-selected");
                 }
-            }
-        });
+            });
+        }
         OnStageSelect();
     }
     catch (ex) {
         console.log(ex.message);
     }
 }
+
 //----------------------Load ComponentLine to DataTable-----------------------------------//
 function SaveLine() {
     try {
         debugger;
-        //var BOMComponentLineList = [];
-        //var BOMComponentLineVM = new Object();
-        //BOMComponentLineVM.BOMComponentLineStageList = [];
-        //var BOMComponentLineStageList = [];
-        //var order = 1;
+        ////var BOMComponentLineList = [];
+        ////var BOMComponentLineVM = new Object();
+        ////BOMComponentLineVM.BOMComponentLineStageList = [];
+        ////var BOMComponentLineStageList = [];
+        ////var order = 1;
         $("#selected li.ui-selectee").each(function () {
             var BOMComponentLineStage = new Object();
             BOMComponentLineStage.Stage = new Object();
@@ -709,24 +758,31 @@ function SaveLine() {
             BOMComponentLineStage.StageOrder = order++;
             BOMComponentLineStageList.push(BOMComponentLineStage);
         });
-        if ($('#BOMComponentLine_IsUpdate').val() === "true")
-        {
-            //if ($('#BOMComponentLine_StageJSON').val() !== null && $('#BOMComponentLine_StageJSON').val() !== "")
-            JSON.parse(jsonData)
+        //if ($('#BOMComponentLine_IsUpdate').val() === "true")
+        //{
+        //    //if ($('#BOMComponentLine_StageJSON').val() !== null && $('#BOMComponentLine_StageJSON').val() !== "")
+        //    JSON.parse(jsonData)
+        //}
+        ////debugger;
+        ////BOMComponentLineVM.LineName = $('#BOMComponentLine_LineName').val();
+        ////BOMComponentLineVM.ComponentID = $('#BOMComponentLine_ComponentID').val();
+        ////BOMComponentLineVM.BOMComponentLineStageList = BOMComponentLineStageList;
+        ////BOMComponentLineList.push(BOMComponentLineVM);
+        ////DataTables.LineStageList.rows.add(BOMComponentLineList).draw(true);
+        if (BOMComponentLineStageList.length = 0) {
+            notyAlert('warning',"No Stages Selected")
         }
-        //debugger;
-        //BOMComponentLineVM.LineName = $('#BOMComponentLine_LineName').val();
-        //BOMComponentLineVM.ComponentID = $('#BOMComponentLine_ComponentID').val();
-        //BOMComponentLineVM.BOMComponentLineStageList = BOMComponentLineStageList;
-        //BOMComponentLineList.push(BOMComponentLineVM);
-        //DataTables.LineStageList.rows.add(BOMComponentLineList).draw(true);
-        $('#BOMComponentLine_StageJSON').val(JSON.stringify(BOMComponentLineStageList));
-        $("#btnSave").click();
+        else {
+            $('#BOMComponentLine_StageJSON').val("");
+            $('#BOMComponentLine_StageJSON').val(JSON.stringify(BOMComponentLineStageList));
+            $("#btnSave").click();
+        }
 
     } catch (ex) {
         console.log(ex.message);
     }
 }
+
 //After Saved Successfully
 function SaveLineSuccess(data, status) {
     try{
@@ -760,6 +816,7 @@ function SaveLineSuccess(data, status) {
     }
     
 }
+
 ////To add ID returned into the 
 //function RebindLineStageListTable(id) {
 //    try {
@@ -772,6 +829,7 @@ function SaveLineSuccess(data, status) {
 //        console.log(ex.message);
 //    }
 //}
+
 //-------------------------Delete BOMComponentLine-------------------------------//
 function DeleteLine(curobj) {
     try {
@@ -790,11 +848,13 @@ function DeleteLine(curobj) {
         console.log(ex.message);
     }
 }
+
 //Delete detail by index from LineStage Datatable
 function DeleteTempLine(rowindex) {
     debugger;
     DataTables.LineStageList.row(rowindex).remove().draw(true);
 }
+
 //DeleteBOMComponentLine
 function DeleteBOMComponentLine(id, rowindex) {
     try {
@@ -827,10 +887,12 @@ function DeleteBOMComponentLine(id, rowindex) {
         console.log(ex.message);
     }
 }
+
 //-------------------Save the BOMComponentLine details and forwards to next Page----------------// 
 function SaveAndProceed() {
     try {
         debugger;
+        OnServerCallBegin();
         if ($('#BOMComponentLine_ComponentID').val() !== "") {
             $('#step2').removeClass('active').addClass('disabled');
             $('#step3').removeClass('disabled').addClass('active');
@@ -859,6 +921,7 @@ function SaveAndProceed() {
         console.log(ex.message);
     }
 }
+
 //on click of forward button on LineStage Table
 function BindComponentLineStageDetail(curobj) {
     try {
@@ -884,6 +947,7 @@ function BindComponentLineStageDetail(curobj) {
         console.log(ex.message);
     }
 }
+
  //________________________________________________________________________________//
 //-----------------------Return to Production Line page---------------------------//
 function LoadStageDetailTable() {
@@ -953,6 +1017,7 @@ function LoadStageDetailTable() {
         console.log(ex.message);
     }
 }
+
 //ComponentLine On Change
 function ComponentLineOnChange(id) {
     try {
@@ -962,6 +1027,7 @@ function ComponentLineOnChange(id) {
         console.log(ex.message);
     }
 }
+
 //---------------------------Get BOMComponentLineSageDetail----------------------//
 function GetBOMComponentLineStageDetail(id) {
     try {
@@ -992,6 +1058,7 @@ function GetBOMComponentLineStageDetail(id) {
         console.log(ex.message);
     }
 }
+
 //----------------------------Entry Type On Change-------------------------------//
 function EntryTypeOnChange(value) {
     try {
@@ -1020,6 +1087,7 @@ function EntryTypeOnChange(value) {
         console.log(ex.message);
     }
 }
+
 //-----------------------Part Type On Change--------------------------------------//
 function PartTypeOnChange(value) {
     try {
@@ -1047,6 +1115,7 @@ function PartTypeOnChange(value) {
         console.log(ex.message);
     }
 }
+
 //----------------------LoadPartialStageDropdownForLine---------------------//
 function LoadPartialStageDropdownForLine(StageID) {
     try {
@@ -1063,6 +1132,7 @@ function LoadPartialStageDropdownForLine(StageID) {
         console.log(ex.message);
     }
 }
+
 //---------------------------Save BOMComponentLineStageDetail---------------------------//
 function SaveDetail() {
     try {
@@ -1072,6 +1142,7 @@ function SaveDetail() {
         console.log(ex.message);
     }
 }
+
 //After Save Success
 function SaveDetailSuccess(data, status) {
     try {
@@ -1100,6 +1171,7 @@ function SaveDetailSuccess(data, status) {
         console.log(ex.message);
     }
 }
+
 //Add to StageDetails Table
 function AddStageDetailToTable(id) {
     try {
@@ -1143,6 +1215,7 @@ function AddStageDetailToTable(id) {
         console.log(ex.message);
     }
 }
+
 //Bind StageDetails Table
 function BindStageDetailTable(BOMComponentLineStageDetailViewModel) {
     try {
@@ -1192,6 +1265,7 @@ function BindStageDetailTable(BOMComponentLineStageDetailViewModel) {
         console.log(ex.message);
     }
 }
+
 //Clear Details
 function ClearStageDetail() {
     try {
@@ -1211,6 +1285,7 @@ function ClearStageDetail() {
         console.log(ex.message);
     }
 }
+
 //-------------------------Return to ProductionLine----------------------------//
 function GoBack() {
     try {
@@ -1229,6 +1304,7 @@ function GoBack() {
         console.log(ex.message);
     }
 }
+
 //-----------------------------Delete StageDetail--------------------------------//
 function DeleteStageDetail(curobj) {
     try {
@@ -1248,11 +1324,13 @@ function DeleteStageDetail(curobj) {
         console.log(ex.message);
     }
 }
+
 //Delete Temp Detail from StageDetail DataTable
 function DeleteTempDetail(rowindex) {
     debugger;
     DataTables.StageDetailTable.row(rowindex).remove().draw(true);
 }
+
 //Delete BOMComponentLineStageDetail from DB
 function DeleteBOMComponentLineStageDetail(id, rowindex) {
     try {
@@ -1285,6 +1363,7 @@ function DeleteBOMComponentLineStageDetail(id, rowindex) {
         console.log(ex.message);
     }
 }
+
 //----------------------------Edit StageDetail--------------------------------//
 function EditStageDetail(thisObj) {
     try {
@@ -1317,5 +1396,6 @@ function EditStageDetail(thisObj) {
         console.log(ex.message);
     }
 }
+
  //__________________________________________End_______________________________________________//
 ////////////////////////////////////////////////////////////////////////////////////////////////
