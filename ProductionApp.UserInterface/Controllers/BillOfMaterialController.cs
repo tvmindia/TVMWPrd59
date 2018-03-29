@@ -226,13 +226,11 @@ namespace ProductionApp.UserInterface.Controllers
             {
                 bOMComponentLine.BOMComponentLineStageList = Mapper.Map<List<BOMComponentLineStage>, List<BOMComponentLineStageViewModel>>(_billOfMaterialBusiness.GetBOMComponentLineStage(bOMComponentLine.ID));
             }
-            billOfMaterialVM.BOMComponentLineStageDetail = new BOMComponentLineStageDetailViewModel()
-            {
-                Stage = new StageViewModel(),
-                Material = new MaterialViewModel(),
-                SubComponent = new SubComponentViewModel(),
-                Product = new ProductViewModel()
-            };
+            billOfMaterialVM.BOMComponentLineStageDetail.Stage = new StageViewModel();
+            billOfMaterialVM.BOMComponentLineStageDetail.Material = new MaterialViewModel();
+            billOfMaterialVM.BOMComponentLineStageDetail.SubComponent = new SubComponentViewModel();
+            billOfMaterialVM.BOMComponentLineStageDetail.Product = new ProductViewModel();
+
             return PartialView("_AddStageDetail", billOfMaterialVM);
         }
 

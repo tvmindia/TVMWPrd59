@@ -590,13 +590,13 @@ function LoadLineStageTable() {
                   }, "defaultContent": "<i>-</i>"
               },
               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditLine(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>' },
-              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="DeleteLine(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  |  <a href="#"></a>' },
+              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="DeleteLine(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  |  <a href="#" onclick="BindComponentLineStageDetail(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
             ],
             columnDefs: [
                 { "targets": [0, 2, 4], "visible": false, "searchable": false },
-                { className: "text-left", "targets": [1, 3], "width": "40%" },
+                { className: "text-left", "targets": [1, 3]},
                 { className: "text-center", "targets": [5], "width": "3%" },
-                { className: "text-center", "targets": [6], "width": "7%" },
+                { className: "text-center", "targets": [6], "width": "9%" },
                 { "targets": [0, 2, 4], "bSortable": false }
             ],
             destroy: true
@@ -800,7 +800,7 @@ function DeleteBOMComponentLine(id, rowindex) {
     }
 }
 //-------------------Save the BOMComponentLine details and forwards to next Page----------------// 
-function SaveAndProceed() {
+function SaveAndProceed(curobj) {
     try {
         debugger;
         if ($('#BOMComponentLine_ComponentID').val() !== "") {
@@ -812,14 +812,14 @@ function SaveAndProceed() {
             BillOfMaterialVM.Product = new Object();
             BillOfMaterialVM.Product.Name = $("#Product_Name").val();
             BillOfMaterialVM.BOMComponentLine = new Object();
+            BillOfMaterialVM.BOMComponentLineStageDetail = new Object();
             BillOfMaterialVM.BOMComponentLine.ID = $("#BOMComponentLine_ID").val();
             BillOfMaterialVM.BOMComponentLine.Product = new Object();
             BillOfMaterialVM.BOMComponentLine.Product.Name = $('#BOMComponentLine_ComponentID option:selected').text();
             BillOfMaterialVM.BOMComponentLine.ComponentID = $('#BOMComponentLine_ComponentID').val();
             BillOfMaterialVM.BOMComponentLine.LineName = $('#BOMComponentLine_LineName').val();
-            BillOfMaterialVM.BOMComponentLineStageDetail = new Object();
-            var data = { "billOfMaterialVM": BillOfMaterialVM }
 
+            var data = { "billOfMaterialVM": BillOfMaterialVM }
             $('#divPartial').load("AddStageDetail", data);
         }
         else {
@@ -830,7 +830,32 @@ function SaveAndProceed() {
         console.log(ex.message);
     }
 }
-//________________________________________________________________________________//
+//on click of forward button on LineStage Table
+function BindComponentLineStageDetail(curobj) {
+    try {
+        debugger;
+
+        $('#step2').removeClass('active').addClass('disabled');
+        $('#step3').removeClass('disabled').addClass('active');
+        var BillOfMaterialVM = new Object();
+        BillOfMaterialVM.ID = $('#IDBillOfMaterial').val();
+        BillOfMaterialVM.IsUpdate = $('#IsUpdateBOM').val();
+        BillOfMaterialVM.Product = new Object();
+        BillOfMaterialVM.Product.Name = $("#Product_Name").val();
+        BillOfMaterialVM.BOMComponentLine = new Object();
+        BillOfMaterialVM.BOMComponentLineStageDetail = new Object();
+        BillOfMaterialVM.BOMComponentLine = DataTables.LineStageList.row($(curobj).parents('tr')).data();
+        BillOfMaterialVM.BOMComponentLine.Product.Name = $('#BOMComponentLine_ComponentID option:selected').text();
+        BillOfMaterialVM.BOMComponentLineStageDetail.ComponentLineID = BillOfMaterialVM.BOMComponentLine.ID;
+
+        var data = { "billOfMaterialVM": BillOfMaterialVM }
+        $('#divPartial').load("AddStageDetail", data);
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+ //________________________________________________________________________________//
 //-----------------------Return to Production Line page---------------------------//
 function LoadStageDetailTable() {
     try {
@@ -902,7 +927,7 @@ function LoadStageDetailTable() {
 //ComponentLine On Change
 function ComponentLineOnChange(id) {
     try {
-        DataTables.StageDetailTable.clear().rows.add(GetBOMComponentLineStageDetail(id));
+        DataTables.StageDetailTable.clear().rows.add(GetBOMComponentLineStageDetail(id)).draw(false);
     }
     catch (ex) {
         console.log(ex.message);
@@ -1083,7 +1108,7 @@ function AddStageDetailToTable(id) {
                 break;
         }
         BOMComponentLineStageDetailViewModel.Qty = $('#BOMComponentLineStageDetail_Qty').val();
-        BindStageDetailTable(_BOMComponentLineStageDetailList)
+        BindStageDetailTable(BOMComponentLineStageDetailViewModel);
     }
     catch (ex) {
         console.log(ex.message);
@@ -1092,19 +1117,47 @@ function AddStageDetailToTable(id) {
 //Bind StageDetails Table
 function BindStageDetailTable(BOMComponentLineStageDetailViewModel) {
     try {
+        debugger;
         _BOMComponentLineStageDetailList = DataTables.StageDetailTable.rows().data();
         if (_BOMComponentLineStageDetailList.legth > 0) {
             for (var i = 0; i < _BOMComponentLineStageDetailList.legth; i++) {
                 if (_BOMComponentLineStageDetailList[i].ID === BOMComponentLineStageDetailViewModel.ID) {
-                    
 
+                    _BOMComponentLineStageDetailList[i].ComponentLineID = BOMComponentLineStageDetailViewModel.ComponentLineID;
+                    _BOMComponentLineStageDetailList[i].Stage = new Object();
+                    _BOMComponentLineStageDetailList[i].StageID = _BOMComponentLineStageDetailList[i].Stage.ID = BOMComponentLineStageDetailViewModel.StageID;
+                    _BOMComponentLineStageDetailList[i].Stage.Description = BOMComponentLineStageDetailViewModel.Stage.Description;
+                    _BOMComponentLineStageDetailList[i].EntryType = BOMComponentLineStageDetailViewModel.EntryType;
+                    _BOMComponentLineStageDetailList[i].PartType = BOMComponentLineStageDetailViewModel.PartType;
+                    _BOMComponentLineStageDetailList[i].PartID = BOMComponentLineStageDetailViewModel.PartID;
+                    _BOMComponentLineStageDetailList[i].Qty = BOMComponentLineStageDetailViewModel.Qty;
+                    switch (BOMComponentLineStageDetailViewModel.PartType) {
+                        case "RAW":
+                            _BOMComponentLineStageDetailList[i].Material = new Object();
+                            _BOMComponentLineStageDetailList[i].Material.ID = BOMComponentLineStageDetailViewModel.Material.ID;
+                            _BOMComponentLineStageDetailList[i].Material.Description
+                            break;
+                        case "SUB":
+                            _BOMComponentLineStageDetailList[i].SubComponent = new Object();
+                            _BOMComponentLineStageDetailList[i].SubComponent.ID = BOMComponentLineStageDetailViewModel.SubComponent.ID
+                            _BOMComponentLineStageDetailList[i].SubComponent.Description
+                            break;
+                        case "COM":
+                            _BOMComponentLineStageDetailList[i].Product = new Object();
+                            _BOMComponentLineStageDetailList[i].Product.ID = BOMComponentLineStageDetailViewModel.Product.ID
+                            _BOMComponentLineStageDetailList[i].Product.Name
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }
-        else {
+        else
+        {
             _BOMComponentLineStageDetailList.push(BOMComponentLineStageDetailViewModel);
-            DataTables.StageDetailTable.rows.add(_BOMComponentLineStageDetailList).draw(false);
         }
+        DataTables.StageDetailTable.clear().rows.add(_BOMComponentLineStageDetailList).draw(false);
     }
     catch (ex) {
         console.log(ex.message);
@@ -1114,13 +1167,16 @@ function BindStageDetailTable(BOMComponentLineStageDetailViewModel) {
 function ClearStageDetail() {
     try {
         debugger;
+
+        $('#BOMComponentLineStageDetail_ID').val(EmptyGuid);
+        $('#BOMComponentLineStageDetail_IsUpdate').val('false');
         $('#StageID').val("").trigger('change');
         $('#BOMComponentLineStageDetail_EntryType').val("Input").trigger('change');
         $('#BOMComponentLineStageDetail_PartType').val("RAW").trigger('change');
         $('#MaterialID').val("").select2().trigger('change');
         $('#SubComponentID').val("").select2().trigger('change');
         $('#ProductID').val("").select2().trigger('change');
-        $('#BOMComponentLineStageDetail_Qty').val(0);
+        $('#BOMComponentLineStageDetail_Qty').val(0.00);
     }
     catch (ex) {
         console.log(ex.message);
@@ -1207,7 +1263,8 @@ function EditStageDetail(thisObj) {
         var BOMComponentLineStageDetail = DataTables.StageDetailTable.row($(thisObj).parents('tr')).data();
         $('#BOMComponentLineStageDetail_ID').val(BOMComponentLineStageDetail.ID);
         $('#BOMComponentLineStageDetail_IsUpdate').val('true');
-        $('#BOMComponentLineStageDetail_ComponentLineID').val(BOMComponentLineStageDetail.ComponentLineID).trigger('change');
+        $('#BOMComponentLineStageDetail_ComponentLineID').val(BOMComponentLineStageDetail.ComponentLineID);//.trigger('change');
+        LoadPartialStageDropdownForLine(BOMComponentLineStageDetail.StageID);
         $('#StageID').val(BOMComponentLineStageDetail.StageID).trigger('change');
         $('#BOMComponentLineStageDetail_EntryType').val(BOMComponentLineStageDetail.EntryType).trigger('change');
         $('#BOMComponentLineStageDetail_PartType').val(BOMComponentLineStageDetail.PartType).trigger('change');
@@ -1231,5 +1288,5 @@ function EditStageDetail(thisObj) {
         console.log(ex.message);
     }
 }
-//__________________________________________End_______________________________________________//
+ //__________________________________________End_______________________________________________//
 ////////////////////////////////////////////////////////////////////////////////////////////////
