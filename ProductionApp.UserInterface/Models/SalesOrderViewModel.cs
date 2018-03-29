@@ -37,6 +37,8 @@ namespace ProductionApp.UserInterface.Models
         public string DetailJSON { get; set; }
         [Display(Name = "Sales Person")]
         public string CustomerName { get; set; }
+        public string ReferenceCustomerName { get; set; }
+        public string SalesPersonName { get; set; }
 
         public int FilteredCount { get; set; }
         [Display(Name = "Order Date")]

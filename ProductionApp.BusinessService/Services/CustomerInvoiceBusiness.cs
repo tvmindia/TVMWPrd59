@@ -19,9 +19,9 @@ namespace ProductionApp.BusinessService.Services
             _commonBusiness = commonBusiness;
         }
 
-        public List<CustomerInvoiceDetail> GetPackingSlipDetailForCustomerInvoice(Guid packingSlipID)
+        public List<CustomerInvoiceDetail> GetPackingSlipListDetail(string packingSlipIDs)
         {
-            return _customerInvoiceRepository.GetPackingSlipDetailForCustomerInvoice(packingSlipID);
+            return _customerInvoiceRepository.GetPackingSlipListDetail(packingSlipIDs);
         }
 
         public object InsertUpdateCustomerInvoice(CustomerInvoice customerInvoice)
@@ -40,6 +40,11 @@ namespace ProductionApp.BusinessService.Services
             result = result + "</Details>";
 
             customerInvoice.DetailXML = result;
+        }
+
+        public List<PackingSlip> GetPackingSlipList(Guid customerID)
+        {
+            return _customerInvoiceRepository.GetPackingSlipList(customerID);
         }
     }
 }
