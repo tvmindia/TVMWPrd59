@@ -10,7 +10,7 @@
     @{
         for (int i = 0; i < Model.StageList.Count; i++)
         {
-            <li value="@Model.StageList[i].ID" class="ui-widget-content">@Model.StageList[i].Description</li>
+            <li value=@Model.StageList[i].ID.ToString() class="ui-widget-content">@Model.StageList[i].Description</li>
         }
     }
 </ol>

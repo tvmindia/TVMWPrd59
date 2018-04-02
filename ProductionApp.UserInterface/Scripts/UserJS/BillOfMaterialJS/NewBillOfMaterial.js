@@ -533,6 +533,9 @@ function LoadPartialAddProductionLine(curobj) {
             var billOfMaterialDetailVM = DataTables.ComponentList.row($(curobj).parents('tr')).data();
             BillOfMaterialViewModel.BOMComponentLine.ComponentID = billOfMaterialDetailVM.ComponentID;
         }
+
+        ChangeButtonPatchView('BillOfMaterial', 'divButtonPatch', 'Add');
+
         var data = { "billOfMaterialVM": BillOfMaterialViewModel }
         $('#divPartial').load("AddProductionLine", data);
 
@@ -569,27 +572,41 @@ function OnStageSelect() {
 //Revert stages from selected
 function OnStageDeselect() {
     debugger;
-    var ValueList = [];
     $("#selected li.ui-selected").each(function () {
         debugger;
         $("#selectable").append('<li value="' + $(this).attr('value') + '" class="ui-widget-content ui-selectee">' + $(this).text() + '</li>');
         $(this).remove();
-        ValueList.push($(this).attr('value'));
     });
-    ResetListAllStage(ValueList);
+    //ResetListAllStage();
 }
 
 //Reset ListAllStage
-function ResetListAllStage(ValueList) {
-    debugger;
-    LoadPartialListAllStage();
-    $("#selectable li.ui-selected").each(function () {
+function ResetListAllStage() {
+    try{
+        LoadPartialListAllStage();
+
         debugger;
+        var ValueList = [];
+        $("#selected li.ui-selectee").each(function () {
+            ValueList.push($(this).attr('value'));
+        });
+
         for (var i = 0; i < ValueList.length; i++) {
-            if (ValueList[i] === $(this).attr('value'))
-                $(this).remove();
+            $("#selectable li.ui-selectee").each(function () {
+                debugger;
+                if (ValueList[i] === $(this).attr('value')) {
+                    $(this).addClass("ui-selected");
+                }
+            });
         }
-    });
+
+        $("#selectable li.ui-selected").each(function () {
+            $(this).remove();
+        });
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
 }
 
 //--------------------Load LineStage table as DataTable-------------------//(called in the PartialView-script)
@@ -656,6 +673,7 @@ function LoadLineStageTable() {
 function ComponentIDOnChange() {
     try {
         debugger;
+        NewLine();
         var id = $("#BOMComponentLine_ComponentID").val();
         DataTables.LineStageList.clear().rows.add(GetBOMComponentLine(id)).draw(true);
     }
@@ -729,7 +747,7 @@ function EditLine(curobj) {
         for (var i = 0; i < BOMComponentLineViewModel.BOMComponentLineStageList.length; i++) {
             $("#selectable li.ui-selectee").each(function () {
                 if (BOMComponentLineViewModel.BOMComponentLineStageList[i].StageID === $(this).attr('value')) {
-                    $(this).addClass("ui-selected");
+                    $(this).addClass('ui-selected');
                 }
             });
         }
@@ -747,9 +765,10 @@ function SaveLine() {
         ////var BOMComponentLineList = [];
         ////var BOMComponentLineVM = new Object();
         ////BOMComponentLineVM.BOMComponentLineStageList = [];
-        ////var BOMComponentLineStageList = [];
-        ////var order = 1;
+        var BOMComponentLineStageList = [];
+        var order = 1;
         $("#selected li.ui-selectee").each(function () {
+            debugger;
             var BOMComponentLineStage = new Object();
             BOMComponentLineStage.Stage = new Object();
             BOMComponentLineStage.ID = EmptyGuid;
@@ -769,7 +788,7 @@ function SaveLine() {
         ////BOMComponentLineVM.BOMComponentLineStageList = BOMComponentLineStageList;
         ////BOMComponentLineList.push(BOMComponentLineVM);
         ////DataTables.LineStageList.rows.add(BOMComponentLineList).draw(true);
-        if (BOMComponentLineStageList.length = 0) {
+        if (BOMComponentLineStageList.length === 0) {
             notyAlert('warning',"No Stages Selected")
         }
         else {
@@ -914,6 +933,7 @@ function SaveAndProceed() {
             $('#divPartial').load("AddStageDetail", data);
         }
         else {
+            OnServerCallComplete();
             notyAlert('warning', "Select a Component to Proceed");
         }
     }
@@ -1209,62 +1229,69 @@ function AddStageDetailToTable(id) {
                 break;
         }
         BOMComponentLineStageDetailViewModel.Qty = $('#BOMComponentLineStageDetail_Qty').val();
-        BindStageDetailTable(BOMComponentLineStageDetailViewModel);
+        //BindStageDetailTable(BOMComponentLineStageDetailViewModel);
+        ComponentLineOnChange(BOMComponentLineStageDetailViewModel.ComponentLineID);
     }
     catch (ex) {
         console.log(ex.message);
     }
 }
 
-//Bind StageDetails Table
-function BindStageDetailTable(BOMComponentLineStageDetailViewModel) {
-    try {
-        debugger;
-        _BOMComponentLineStageDetailList = DataTables.StageDetailTable.rows().data();
-        if (_BOMComponentLineStageDetailList.length > 0) {
-            for (var i = 0; i < _BOMComponentLineStageDetailList.length; i++) {
-                if (_BOMComponentLineStageDetailList[i].ID === BOMComponentLineStageDetailViewModel.ID) {
+////Bind StageDetails Table
+//function BindStageDetailTable(BOMComponentLineStageDetailViewModel) {
+//    try {
+//        debugger;
+//        _IsInput = false;
+//        _BOMComponentLineStageDetailList = DataTables.StageDetailTable.rows().data();
+//        if (_BOMComponentLineStageDetailList.length > 0) {
+//            for (var i = 0; i < _BOMComponentLineStageDetailList.length; i++) {
+//                if (_BOMComponentLineStageDetailList[i].ID === BOMComponentLineStageDetailViewModel.ID) {
 
-                    _BOMComponentLineStageDetailList[i].ComponentLineID = BOMComponentLineStageDetailViewModel.ComponentLineID;
-                    _BOMComponentLineStageDetailList[i].Stage = new Object();
-                    _BOMComponentLineStageDetailList[i].StageID = _BOMComponentLineStageDetailList[i].Stage.ID = BOMComponentLineStageDetailViewModel.StageID;
-                    _BOMComponentLineStageDetailList[i].Stage.Description = BOMComponentLineStageDetailViewModel.Stage.Description;
-                    _BOMComponentLineStageDetailList[i].EntryType = BOMComponentLineStageDetailViewModel.EntryType;
-                    _BOMComponentLineStageDetailList[i].PartType = BOMComponentLineStageDetailViewModel.PartType;
-                    _BOMComponentLineStageDetailList[i].PartID = BOMComponentLineStageDetailViewModel.PartID;
-                    _BOMComponentLineStageDetailList[i].Qty = BOMComponentLineStageDetailViewModel.Qty;
-                    switch (BOMComponentLineStageDetailViewModel.PartType) {
-                        case "RAW":
-                            _BOMComponentLineStageDetailList[i].Material = new Object();
-                            _BOMComponentLineStageDetailList[i].Material.ID = BOMComponentLineStageDetailViewModel.Material.ID;
-                            _BOMComponentLineStageDetailList[i].Material.Description
-                            break;
-                        case "SUB":
-                            _BOMComponentLineStageDetailList[i].SubComponent = new Object();
-                            _BOMComponentLineStageDetailList[i].SubComponent.ID = BOMComponentLineStageDetailViewModel.SubComponent.ID
-                            _BOMComponentLineStageDetailList[i].SubComponent.Description
-                            break;
-                        case "COM":
-                            _BOMComponentLineStageDetailList[i].Product = new Object();
-                            _BOMComponentLineStageDetailList[i].Product.ID = BOMComponentLineStageDetailViewModel.Product.ID
-                            _BOMComponentLineStageDetailList[i].Product.Name
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-        }
-        else
-        {
-            _BOMComponentLineStageDetailList.push(BOMComponentLineStageDetailViewModel);
-        }
-        DataTables.StageDetailTable.clear().rows.add(_BOMComponentLineStageDetailList).draw(false);
-    }
-    catch (ex) {
-        console.log(ex.message);
-    }
-}
+//                    _IsInput = true;
+//                    _BOMComponentLineStageDetailList[i].ComponentLineID = BOMComponentLineStageDetailViewModel.ComponentLineID;
+//                    _BOMComponentLineStageDetailList[i].Stage = new Object();
+//                    _BOMComponentLineStageDetailList[i].StageID = _BOMComponentLineStageDetailList[i].Stage.ID = BOMComponentLineStageDetailViewModel.StageID;
+//                    _BOMComponentLineStageDetailList[i].Stage.Description = BOMComponentLineStageDetailViewModel.Stage.Description;
+//                    _BOMComponentLineStageDetailList[i].EntryType = BOMComponentLineStageDetailViewModel.EntryType;
+//                    _BOMComponentLineStageDetailList[i].PartType = BOMComponentLineStageDetailViewModel.PartType;
+//                    _BOMComponentLineStageDetailList[i].PartID = BOMComponentLineStageDetailViewModel.PartID;
+//                    _BOMComponentLineStageDetailList[i].Qty = BOMComponentLineStageDetailViewModel.Qty;
+//                    switch (BOMComponentLineStageDetailViewModel.PartType) {
+//                        case "RAW":
+//                            _BOMComponentLineStageDetailList[i].Material = new Object();
+//                            _BOMComponentLineStageDetailList[i].Material.ID = BOMComponentLineStageDetailViewModel.Material.ID;
+//                            _BOMComponentLineStageDetailList[i].Material.Description
+//                            break;
+//                        case "SUB":
+//                            _BOMComponentLineStageDetailList[i].SubComponent = new Object();
+//                            _BOMComponentLineStageDetailList[i].SubComponent.ID = BOMComponentLineStageDetailViewModel.SubComponent.ID
+//                            _BOMComponentLineStageDetailList[i].SubComponent.Description
+//                            break;
+//                        case "COM":
+//                            _BOMComponentLineStageDetailList[i].Product = new Object();
+//                            _BOMComponentLineStageDetailList[i].Product.ID = BOMComponentLineStageDetailViewModel.Product.ID
+//                            _BOMComponentLineStageDetailList[i].Product.Name
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                }
+//                if (_IsInput = false)
+//                {
+//                    DataTables.StageDetailTable.rows.add(_BOMComponentLineStageDetailList).draw(false);
+//                }
+//            }
+//        }
+//        else
+//        {
+//            _BOMComponentLineStageDetailList.push(BOMComponentLineStageDetailViewModel);
+//        }
+//        DataTables.StageDetailTable.clear().rows.add(_BOMComponentLineStageDetailList).draw(false);
+//    }
+//    catch (ex) {
+//        console.log(ex.message);
+//    }
+//}
 
 //Clear Details
 function ClearStageDetail() {
