@@ -505,9 +505,9 @@ function Reset() {
         debugger;
         if ($('#IsUpdateBOM').val() === "True") {
             var id = $('#IDBillOfMaterial').val();
-            window.location.replace("NewBillOfMaterial?code=STR&id=" + id + "");
+            window.location.replace("NewBillOfMaterial?code=PROD&id=" + id + "");
         } else {
-            window.location.replace("NewBillOfMaterial?code=STR");
+            window.location.replace("NewBillOfMaterial?code=PROD");
         }
     } catch (ex) {
         console.log(ex.message);
@@ -736,7 +736,13 @@ function NewLine() {
 function EditLine(curobj) {
     try {
         debugger;
-        NewLine();
+        //NewLine();
+        //LoadPartialListAllStage();
+        $("#selected li.ui-selectee").each(function () {
+            $(this).addClass('ui-selected');
+        });
+        OnStageDeselect();
+
         BOMComponentLineViewModel = DataTables.LineStageList.row($(curobj).parents('tr')).data();
         $('#BOMComponentLine_ID').val(BOMComponentLineViewModel.ID);
         $('#BOMComponentLine_IsUpdate').val('true');
@@ -1156,7 +1162,24 @@ function LoadPartialStageDropdownForLine(StageID) {
 //---------------------------Save BOMComponentLineStageDetail---------------------------//
 function SaveDetail() {
     try {
-        $("#btnSave").click();
+        debugger;
+        _IsInput = false;
+        if (parseFloat($('#BOMComponentLineStageDetail_Qty').val()) > 0) {
+            if (($('#BOMComponentLineStageDetail_PartID').val() !== "") && ($('#BOMComponentLineStageDetail_PartID').val() !== EmptyGuid)) {
+                _IsInput = true;
+                $('#lblPartID').hide();
+            }
+            else {
+                $('#lblPartID').show();
+            }
+            $('#lblQty').hide();
+        }
+        else {
+            $('#lblQty').show();
+        }
+        if (_IsInput) {
+            $("#btnSave").click();
+        }
     }
     catch (ex) {
         console.log(ex.message);

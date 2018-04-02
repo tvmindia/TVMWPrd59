@@ -111,6 +111,7 @@
                 </div>
                 @Html.HiddenFor(model => model.BOMComponentLineStageDetail.PartID, new { @value = -1 })
                 @Html.ValidationMessageFor(model => model.BOMComponentLineStageDetail.PartID, "", new { @class = "text-danger" })
+                <span id="lblPartID" class="text-danger">Item Required</span>
             </div>
         </div>
 
@@ -121,6 +122,7 @@
             <div class="col-md-12">
                 @Html.EditorFor(model => model.BOMComponentLineStageDetail.Qty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = -1 } })
                 @Html.ValidationMessageFor(model => model.BOMComponentLineStageDetail.Qty, "", new { @class = "text-danger" })
+                <span id="lblQty" class="text-danger">Quantity required</span>
             </div>
         </div>
 
@@ -192,6 +194,8 @@
         });
 
         $('#MaterialID,#ProductID,#SubComponentID').select2({});
+
+        $('#lblPartID,#lblQty').hide();
 
         OnServerCallComplete();
     });
