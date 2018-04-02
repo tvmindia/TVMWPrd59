@@ -174,6 +174,37 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion DeleteSubComponent
 
+        #region SubComponentDropdown
+        public ActionResult SubComponentDropdown(SubComponentViewModel subComponentVM)
+        {
+            try
+            {
+                List<SelectListItem> selectListItem = new List<SelectListItem>();
+                subComponentVM.SelectList = new List<SelectListItem>();
+                List<SubComponentViewModel> subComponentList = Mapper.Map<List<SubComponent>, List<SubComponentViewModel>>(_subComponentBusiness.GetSubComponentForSelectList());
+                if (subComponentList != null)
+                {
+                    foreach (SubComponentViewModel subComponent in subComponentList)
+                    {
+                        selectListItem.Add(new SelectListItem
+                        {
+                            Text = subComponent.Description,
+                            Value = subComponent.ID.ToString(),
+                            Selected = false
+                        });
+                    }
+                }
+                subComponentVM.SelectList = selectListItem;
+                return PartialView("_SubComponentDropdown", subComponentVM);
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return Json(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion SubComponentDropdown
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SubComponent", Mode = "R")]

@@ -298,5 +298,57 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion DeleteSubComponent
 
+        #region GetSubComponentForSelectList
+        public List<SubComponent> GetSubComponentForSelectList()
+        {
+            try
+            {
+                List<SubComponent> subComponentList = null;
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetSubComponentForSelectList]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.ExecuteNonQuery();
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                subComponentList = new List<SubComponent>();
+                                while (sdr.Read())
+                                {
+                                    SubComponent subComponent = new SubComponent();
+                                    {
+                                        subComponent.ID = sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : subComponent.ID;
+                                        subComponent.Code = sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : subComponent.Code;
+                                        subComponent.Description = sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : subComponent.Description;
+                                        subComponent.UnitCode = sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : subComponent.UnitCode;
+                                        subComponent.Unit = new Unit();
+                                        subComponent.Unit.Code = sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : subComponent.UnitCode;
+                                        subComponent.OpeningQty = sdr["OpeningQty"].ToString() != "" ? decimal.Parse(sdr["OpeningQty"].ToString()) : subComponent.OpeningQty;
+                                        subComponent.CurrentQty = sdr["CurrentQty"].ToString() != "" ? decimal.Parse(sdr["CurrentQty"].ToString()) : subComponent.CurrentQty;
+                                        subComponent.WeightInKG = sdr["WeightInKG"].ToString() != "" ? decimal.Parse(sdr["WeightInKG"].ToString()) : subComponent.WeightInKG;
+                                    }
+                                    subComponentList.Add(subComponent);
+                                }
+                            }
+                        }
+
+                    }
+                }
+                return subComponentList;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion GetSubComponentForSelectList
     }
 }

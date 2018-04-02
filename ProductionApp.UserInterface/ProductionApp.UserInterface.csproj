@@ -963,6 +963,7 @@
     <Content Include="Views\Supplier\ViewSupplier.cshtml" />
     <Content Include="Views\Supplier\NewSupplier.cshtml" />
     <Content Include="Views\Supplier\_AddSupplierPartial.cshtml" />
+    <Content Include="Views\SubComponent\_SubComponentDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

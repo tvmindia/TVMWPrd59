@@ -39,5 +39,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _subComponentRepository.DeleteSubComponent(id);
         }
+        public List<SubComponent> GetSubComponentForSelectList()
+        {
+            return _subComponentRepository.GetSubComponentForSelectList();
+        }
     }
 }
