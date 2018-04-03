@@ -342,6 +342,7 @@ function AddPackingSlipDetailTbl() {
 }
 function CheckProductDetails(producDetails)
 {
+   debugger;
    var flag = 0;
     if ((producDetails) && (producDetails.length > 0)) {
         selected = 1;
@@ -359,13 +360,14 @@ function CheckProductDetails(producDetails)
 }
 function CheckProductList(producDetails)
 {
-    
+    debugger;
     if (producDetails.length == 0) {
         notyAlert('warning', "Please Select Product");
         selected = 0;
         return false;
     }
-    CheckProductDetails(producDetails);
+    var result = CheckProductDetails(producDetails);
+    return result;
 }
 function AddPackingSlipDetailData(data)
 {
