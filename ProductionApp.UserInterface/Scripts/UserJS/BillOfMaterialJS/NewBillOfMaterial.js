@@ -577,13 +577,13 @@ function OnStageDeselect() {
         $("#selectable").append('<li value="' + $(this).attr('value') + '" class="ui-widget-content ui-selectee">' + $(this).text() + '</li>');
         $(this).remove();
     });
-    //ResetListAllStage();
+    _IsInput = true;
+    LoadPartialListAllStage();
 }
 
 //Reset ListAllStage
 function ResetListAllStage() {
     try{
-        LoadPartialListAllStage();
 
         debugger;
         var ValueList = [];
@@ -601,6 +601,7 @@ function ResetListAllStage() {
         }
 
         $("#selectable li.ui-selected").each(function () {
+            debugger;
             $(this).remove();
         });
     }
@@ -735,10 +736,10 @@ function NewLine() {
 //-----------------------------------------Edit Line--------------------------------------------//
 function EditLine(curobj) {
     try {
-        debugger;
         //NewLine();
         //LoadPartialListAllStage();
         $("#selected li.ui-selectee").each(function () {
+            debugger;
             $(this).addClass('ui-selected');
         });
         OnStageDeselect();
@@ -754,10 +755,11 @@ function EditLine(curobj) {
             $("#selectable li.ui-selectee").each(function () {
                 if (BOMComponentLineViewModel.BOMComponentLineStageList[i].StageID === $(this).attr('value')) {
                     $(this).addClass('ui-selected');
+                    OnStageSelect();
                 }
             });
         }
-        OnStageSelect();
+        _IsInput = true;
     }
     catch (ex) {
         console.log(ex.message);
