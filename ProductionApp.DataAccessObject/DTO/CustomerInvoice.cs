@@ -65,6 +65,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal QuantityCheck { get; set; }
         public decimal WeightCheck { get; set; }
 
+        public Product Product { get; set; }
+
 
     }
 
