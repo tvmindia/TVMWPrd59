@@ -707,6 +707,7 @@
     <Content Include="Scripts\UserJS\PackingSlip\ListPackingSlips.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
+    <Content Include="Scripts\UserJS\ProductionTracking\NewProductionTracking.js" />
     <Content Include="Scripts\UserJS\PurchaseOrderJS\NewPurchaseOrder.js" />
     <Content Include="Scripts\UserJS\Product.js" />
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\NewRecieveFromProduction.js" />
@@ -770,6 +771,7 @@
     <Compile Include="Controllers\DashboardProductionController.cs" />
     <Compile Include="Controllers\DashboardPurchaseController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProductionTrackingController.cs" />
     <Compile Include="Controllers\RequisitionController.cs" />
     <Compile Include="Controllers\PurchaseOrderController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
@@ -817,6 +819,7 @@
     <Compile Include="Models\PaymentTermViewModel.cs" />
     <Compile Include="Models\PDFGeneratorViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
+    <Compile Include="Models\ProductionTrackingViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\PurchaseInvoiceViewModel.cs" />
     <Compile Include="Models\RequisitionViewModel.cs" />
@@ -964,6 +967,7 @@
     <Content Include="Views\Supplier\NewSupplier.cshtml" />
     <Content Include="Views\Supplier\_AddSupplierPartial.cshtml" />
     <Content Include="Views\SubComponent\_SubComponentDropdown.cshtml" />
+    <Content Include="Views\ProductionTracking\NewProductionTracking.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
