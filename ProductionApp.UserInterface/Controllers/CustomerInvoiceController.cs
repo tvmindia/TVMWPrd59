@@ -160,25 +160,39 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         #endregion GetPackingSlipDetailForCustomerInvoice
-        
-        //currently not using
-        #region GetPackingSlip
-        public string GetPackingSlip(string packingSlipID)
+
+        #region GetCustomerInvoice
+        public string GetCustomerInvoice(string ID)
         {
             try
             {
-                PackingSlipViewModel packingSlipVM = Mapper.Map<PackingSlip, PackingSlipViewModel>(_packingSlipBusiness.GetPackingSlip(Guid.Parse(packingSlipID)));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = packingSlipVM, Message = "Success" });
+                CustomerInvoiceViewModel customerInvoiceVM = Mapper.Map<CustomerInvoice, CustomerInvoiceViewModel>(_customerInvoiceBusiness.GetCustomerInvoice(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerInvoiceVM, Message = "Success" });
             }
             catch (Exception ex)
             {
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
             }
         }
+        #endregion GetCustomerInvoice
 
-        #endregion GetPackingSlip
+        #region GetCustomerInvoiceDetail
+        //[AuthSecurityFilter(ProjectObject = "", Mode = "R")]
+        public string GetCustomerInvoiceDetail(string ID)
+        {
+            try
+            {
+                List<CustomerInvoiceDetailViewModel> customerInvoiceDetailVM = new List<CustomerInvoiceDetailViewModel>();
+                customerInvoiceDetailVM = Mapper.Map<List<CustomerInvoiceDetail>, List<CustomerInvoiceDetailViewModel>>(_customerInvoiceBusiness.GetCustomerInvoiceDetail(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerInvoiceDetailVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
 
-
+        #endregion GetSalesOrderDetail
 
         #region InsertUpdateCustomerInvoice
         [HttpPost]

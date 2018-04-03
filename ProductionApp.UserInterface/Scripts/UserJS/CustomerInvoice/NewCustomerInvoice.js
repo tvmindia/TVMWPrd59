@@ -6,9 +6,23 @@
 //FileName: NewCustomerInvoice.js
 //Description: Client side coding for New/Edit Customer Invoice
 //******************************************************************************
+// ##1--Global Declaration
+// ##2--Document Ready function
+// ##3--On Change Customer : Bind Customer Details
+// ##4--Customer Invoice Detail Modal Popup
+// ##5--Bind Packing Slip List
+// ##6--Popup Tab Clicks
+// ##7--Bind Packing Slip Selected List Details
+// ##8-- PackingSlipListDetail DataTable: Dropdown,TextBoxes,CheckBox Binding
+// ##9--Add Customer Invoice Details
+// ##10--Bind Payment due date, based on Payment date
+// ##11--Save Success Customer Invoice
+// ##12--Bind Customer Invoice By ID
+// 
+//
 //******************************************************************************
 
-//--Global Declaration--//
+//##1--Global Declaration---------------------------------------------##1 
 var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 var _SlNo = 1;
@@ -16,9 +30,9 @@ var _result = "";
 var _message = "";
 var _jsonData = {};
 var _taxDropdownScript = '';
-
 var _CustomerInvoiceDetail = []; 
 
+//##2--Document Ready function-----------------------------------------##2 
 $(document).ready(function () {
     debugger;
     try {
@@ -58,12 +72,20 @@ $(document).ready(function () {
                     return _SlNo++
                 }, "width": "5%"
             }, 
-            { "data": "ProductName", "defaultContent": "<i>-</i>", "width": "" },
-            { "data": "Quantity", "defaultContent": "<i>-</i>", "width": "" },
-            { "data": "Weight", "defaultContent": "<i>-</i>", "width": "" },
-            { "data": "Rate", "defaultContent": "<i>-</i>", "width": "" },
-            { "data": "TradeDiscountAmount", "defaultContent": "<i>-</i>", "width": "" },
-            { "data": "TaxableAmount", "defaultContent": "<i>-</i>", "width": "" },
+            {
+                "data": "Product.ProductName", "defaultContent": "<i>-</i>", "width": "25%",
+                'render': function (data, type, row) {
+                    if (row.IsInvoiceInKG)
+                        return data + '</br>(<b>Invoice in Kg </b>)'
+                    else
+                        return data
+                }
+            },
+            { "data": "Quantity", "defaultContent": "<i>-</i>", "width": "9%" },
+            { "data": "Weight", "defaultContent": "<i>-</i>", "width": "9%" },
+            { "data": "Rate", "defaultContent": "<i>-</i>", "width": "9%" },
+            { "data": "TradeDiscountAmount", "defaultContent": "<i>-</i>", "width": "9%" },
+            { "data": "TaxableAmount", "defaultContent": "<i>-</i>", "width": "9%" },
             { "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "9%" },
             { "data": "Total", "defaultContent": "<i>-</i>", "width": "9%" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ItemDetailsEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "7%" }
@@ -122,7 +144,7 @@ $(document).ready(function () {
             columns: [
                     { "data": "", "defaultContent": "<i></i>", "width": "5%" },
                     {
-                        "data": "ProductName", "defaultContent": "<i>-</i>", "width": "23%",
+                        "data": "ProductName", "defaultContent": "<i>-</i>", "width": "30%",
                         'render': function (data, type, row) {
                             if (row.IsInvoiceInKG)
                                 return data +'</br>(<b>Invoice in Kg </b>)'
@@ -130,32 +152,33 @@ $(document).ready(function () {
                                 return data
                         }
                     },
+                    { "data": "SlipNo", "defaultContent": "<i></i>", "width": "10%" },
                     {
-                        "data": "Quantity", "defaultContent": "<i>-</i>", "width": "9%",
+                        "data": "Quantity", "defaultContent": "<i>-</i>", "width": "11%",
                         'render': function (data, type, row) {
                             return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,1);"style="width:100%">';
                         }
                     },
                     {
-                        "data": "Weight", "defaultContent": "<i>-</i>", "width": "9%",
+                        "data": "Weight", "defaultContent": "<i>-</i>", "width": "11%",
                         'render': function (data, type, row) {
                             return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,2);"style="width:100%">';
                         }
                     },
                     {
-                        "data": "Rate", "defaultContent": "<i>-</i>", "width": "9%",
+                        "data": "Rate", "defaultContent": "<i>-</i>", "width": "11%",
                       'render': function (data, type, row) {
                           return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,3);"style="width:100%">';
                       }
                     },
                     {
-                        "data": "TradeDiscountAmount", "defaultContent": "<i>-</i>", "width": "9%",
+                        "data": "TradeDiscountAmount", "defaultContent": "<i>-</i>", "width": "11%",
                         'render': function (data, type, row) {
                             return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,4);" style="width:100%">';
                         }
                     },
                     {
-                        "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "9%",
+                        "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "11%",
                         'render': function (data, type, row) {
                             if (data != null)
                             {
@@ -201,7 +224,8 @@ $(document).ready(function () {
         console.log(e.message);
     }
 });
-//----------------------------On Change Customer : Bind Customer Details-----------------------//
+
+//##3--On Change Customer : Bind Customer Details----------------------##3
 function BindCustomerDetails(customerId) {
     if (customerId != "") {
         var customerVM = GetCustomerDetails(customerId)
@@ -230,13 +254,13 @@ function GetCustomerDetails(customerId) {
     }
 }
 
-//--------------------Customer Invoice Detail Modal Popup----------------------------//
+//##4--Customer Invoice Detail Modal Popup----------------------------##4
 function ShowCustomerInvoiceDetailsModal()
 {
     if ($('#CustomerInvoiceForm').valid())
     {
-        ViewPackingSlipList(1);
-        BindPackingSlipListTable();
+        ViewPackingSlipList(1);         //##6
+        BindPackingSlipListTable();     //##5
         $('#CustomerInvoiceDetailsModal').modal('show');
     }
     else
@@ -245,7 +269,7 @@ function ShowCustomerInvoiceDetailsModal()
     }
 }
 
-//------------------Bind Packing Slip List ------------------------------------//
+//##5--Bind Packing Slip List ----------------------------------------##5
 function BindPackingSlipListTable() {
     var packingSlipList = GetPackingSlipList();
     DataTables.PackingSlipListTable.clear().rows.add(packingSlipList).draw(false);
@@ -276,7 +300,7 @@ function GetPackingSlipList()
     }
 }
 
-//----------------------------Popup Tab Clicks------------------------------//
+//##6--Popup Tab Clicks------------------------------------------------##6
 function ViewPackingSlipList(value) {
     $('#tabDetail').attr('data-toggle', 'tab');
     $('#btnForward').show();
@@ -298,7 +322,7 @@ function ViewPackingSlipListDetails(value) {
             DataTables.PackingSlipListDetailTable.rows().select();
             $('#btnForward').hide();
             $('#btnBackward').show();
-            $('#btnAddPODetails').show();
+            $('#btnAdd').show();
         }
         else {
            $('#tabDetail').attr('data-toggle', '');
@@ -321,51 +345,20 @@ function GetSelectedRowPackingSlipIds() {
     }
 }
 
-//-----------------------------Bind Packing Slip Selected List Details---------------------------------------
+//##7--Bind Packing Slip Selected List Details-------------------------##7
 function BindPackingSlipListDetailTable(packingSlipIDs)
 {
     debugger;
-    TaxtypeDropdown();
+    TaxtypeDropdown(); //##8
     if (packingSlipIDs != "")
     {
         DataTables.PackingSlipListDetailTable.clear().rows.add(GetPackingSlipListDetail(packingSlipIDs)).draw(false);
     }
-    //else
-    //{
-    //    DataTables.PackingSlipListDetailTable.clear().draw(false);
-    //}
 }
-
-//function GetPackingSlip(packingSlipID)
-//{
-//    try {
-//        var data = { "packingSlipID": packingSlipID };
-//        var PackingSlipVM = new Object();
-//        jsonData = GetDataFromServer("CustomerInvoice/GetPackingSlip/", data);
-//        if (jsonData != '') {
-//            jsonData = JSON.parse(jsonData);
-//            result = jsonData.Result;
-//            message = jsonData.Message;
-//            PackingSlipDetailVM = jsonData.Records;
-//        }
-//        if (result == "OK") {
-//            return PackingSlipDetailVM;
-//        }
-//        if (result == "ERROR") {
-//            alert(message);
-//        }
-//    }
-//    catch (e) {
-//        //this will show the error msg in the browser console(F12) 
-//        console.log(e.message);
-//    }
-//}
-
 function GetPackingSlipListDetail(packingSlipIDs) {
     try {
         var data = { "packingSlipIDs": packingSlipIDs };
         var PackingSlipDetailVM = new Object();
-
         jsonData = GetDataFromServer("CustomerInvoice/GetPackingSlipListDetail/", data);
         if (jsonData != '') {
             jsonData = JSON.parse(jsonData);
@@ -386,6 +379,7 @@ function GetPackingSlipListDetail(packingSlipIDs) {
     }
 }
 
+//##8-- PackingSlipListDetail DataTable: Dropdown,TextBoxes,CheckBox Binding-----------------##8
 function TaxtypeDropdown()
 {
     var taxTypeVM = GetTaxtypeDropdown()
@@ -395,7 +389,6 @@ function TaxtypeDropdown()
         _taxDropdownScript = _taxDropdownScript + '<option value="' + taxTypeVM[i].Code + '">' + taxTypeVM[i].Description + '</option>'
     }
 }
-
 function GetTaxtypeDropdown()
 {
     try {
@@ -421,7 +414,6 @@ function GetTaxtypeDropdown()
     }
 
 }
-
 function EdittextBoxValue(thisObj, textBoxCode)
 {
     debugger;
@@ -437,13 +429,11 @@ function EdittextBoxValue(thisObj, textBoxCode)
                     customerInvoiceDetailVM[i].Quantity = thisObj.value;
                 else
                     customerInvoiceDetailVM[i].Quantity = customerInvoiceDetailVM[i].QuantityCheck;
-
             if (textBoxCode == 2)
                 if (thisObj.value <= customerInvoiceDetailVM[i].WeightCheck)
                     customerInvoiceDetailVM[i].Weight = thisObj.value;
                 else
                     customerInvoiceDetailVM[i].Weight = customerInvoiceDetailVM[i].WeightCheck;
-
             if (textBoxCode == 3)
                 customerInvoiceDetailVM[i].Rate = thisObj.value;
             if (textBoxCode == 4)
@@ -455,7 +445,6 @@ function EdittextBoxValue(thisObj, textBoxCode)
     DataTables.PackingSlipListDetailTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
     selectCheckbox(IDs); //Selecting the checked rows with their ids taken 
 }
-
 function selectedRowIDs() {
     var allData = DataTables.PackingSlipListDetailTable.rows(".selected").data();
     var arrIDs = "";
@@ -467,7 +456,6 @@ function selectedRowIDs() {
     }
     return arrIDs;
 }
-//selected Checkbox
 function selectCheckbox(IDs) {
     var customerInvoiceDetailVM = DataTables.PackingSlipListDetailTable.rows().data()
     for (var i = 0; i < customerInvoiceDetailVM.length; i++) {
@@ -480,10 +468,9 @@ function selectCheckbox(IDs) {
     }
 }
 
-
+//##9--Add Customer Invoice Details ---------------------------------------##9
 function AddCustomerInvoiceDetails()
 {
-    debugger;
     var customerInvoiceDetailVM = DataTables.PackingSlipListDetailTable.rows(".selected").data();
     if (customerInvoiceDetailVM.length > 0)
     {
@@ -501,7 +488,6 @@ function AddCustomerInvoiceDetails()
 }
 function AddCustomerInvoiceDetailList(customerInvoiceDetailVM) {
     debugger;
-   
     for (var r = 0; r < customerInvoiceDetailVM.length; r++) {
         CustomerInvoiceDetail = new Object();
         //   CustomerInvoiceDetail.ID = customerInvoiceDetailVM[r].ID;
@@ -522,8 +508,7 @@ function AddCustomerInvoiceDetailList(customerInvoiceDetailVM) {
     }
 }
 
-
-//----Bind Payment due date based on Payment date-------------//
+//##10--Bind Payment due date, based on Payment date-------------##10
 function GetDueDate(Code) {
     try {
         debugger;
@@ -554,4 +539,84 @@ function GetPaymentTermDetails(Code) {
         notyAlert('error', e.message);
     }
 }
-//------------------------------------------------------------//
+
+//##11--Save Success Customer Invoice----------------------------##11
+function SaveSuccessCustomerInvoice(data, status)
+{
+    _jsonData = JSON.parse(data)
+    switch (_jsonData.Result) {
+        case "OK":
+            $('#IsUpdate').val('True');
+            $('#ID').val(_jsonData.Records.ID)
+            BindCustomerInvoiceByID();
+            notyAlert("success", _jsonData.Records.Message)
+            break;
+        case "ERROR":
+            notyAlert("danger", _jsonData.Message)
+            break;
+        default:
+            notyAlert("danger", _jsonData.Message)
+            break;
+    }
+}
+
+//##12--Bind Customer Invoice By ID----------------------------##12
+function BindCustomerInvoiceByID()
+{
+    debugger;
+    ChangeButtonPatchView('CustomerInvoice', 'divbuttonPatchAddCustomerInvoice', 'Edit');
+    var ID = $('#ID').val();
+    _SlNo = 1;
+    var customerInvoiceVM = GetCustomerInvoiceByID(ID);
+    $('#lblCustomerInvoiceNo').text('Customer Invoice# :' + customerInvoiceVM.InvoiceNo);
+    $('#InvoiceNo').val(customerInvoiceVM.InvoiceNo);
+    $('#InvoiceDateFormatted').val(customerInvoiceVM.InvoiceDateFormatted);
+    $('#CustomerID').val(customerInvoiceVM.CustomerID).select2();
+    $('#GeneralNotes').val(customerInvoiceVM.GeneralNotes);
+    $('#BillingAddress').val(customerInvoiceVM.BillingAddress);
+    //detail Table values binding with header id
+    BindCustomerInvoiceDetailTable(ID);
+    PaintImages(ID);//bind attachments written in custom js
+}
+function GetCustomerInvoiceByID(ID) {
+    try {
+        var data = { "ID": ID };
+        _jsonData = GetDataFromServer("CustomerInvoice/GetCustomerInvoice/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+        }
+        if (_jsonData.Result == "OK") {
+            return _jsonData.Records;
+        }
+        if (_jsonData.Result == "ERROR") {
+            alert(_jsonData.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+function BindCustomerInvoiceDetailTable(ID)
+{
+    DataTables.CustomerInvoiceDetailTable.clear().rows.add(GetCustomerInvoiceDetail(ID)).draw(false);
+}
+function GetCustomerInvoiceDetail(ID)
+{
+   try {
+        debugger;
+        var data = { "ID": ID };
+        _jsonData = GetDataFromServer("CustomerInvoice/GetCustomerInvoiceDetail/", data);
+    if (_jsonData != '') {
+        _jsonData = JSON.parse(_jsonData);
+    }
+    if (_jsonData.Result == "OK") {
+        return _jsonData.Records;
+    }
+    if (_jsonData.Result == "ERROR") {
+        alert(_jsonData.Message);
+    }
+   }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}

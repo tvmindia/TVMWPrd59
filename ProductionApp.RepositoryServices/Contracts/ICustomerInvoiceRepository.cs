@@ -12,6 +12,8 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<CustomerInvoiceDetail> GetPackingSlipListDetail(string packingSlipIDs);
         List<PackingSlip> GetPackingSlipList(Guid customerID);
         object InsertUpdateCustomerInvoice(CustomerInvoice customerInvoice);
+        CustomerInvoice GetCustomerInvoice(Guid id);
+        List<CustomerInvoiceDetail> GetCustomerInvoiceDetail(Guid id);
 
     }
 }

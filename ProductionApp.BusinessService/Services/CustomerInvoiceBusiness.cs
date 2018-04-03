@@ -46,5 +46,15 @@ namespace ProductionApp.BusinessService.Services
         {
             return _customerInvoiceRepository.GetPackingSlipList(customerID);
         }
+
+        public CustomerInvoice GetCustomerInvoice(Guid id)
+        {
+            return _customerInvoiceRepository.GetCustomerInvoice(id);
+        }
+
+        public List<CustomerInvoiceDetail> GetCustomerInvoiceDetail(Guid id)
+        {
+            return _customerInvoiceRepository.GetCustomerInvoiceDetail(id);
+        }
     }
 }
