@@ -9,7 +9,8 @@ namespace ProductionApp.BusinessService.Contracts
 {
     public interface ICustomerInvoiceBusiness
     {
-        List<CustomerInvoiceDetail> GetPackingSlipDetailForCustomerInvoice(Guid packingSlipID);
+        List<CustomerInvoiceDetail> GetPackingSlipListDetail(string packingSlipIDs);
+        List<PackingSlip> GetPackingSlipList(Guid customerID);
         object InsertUpdateCustomerInvoice(CustomerInvoice customerInvoice);
 
     }

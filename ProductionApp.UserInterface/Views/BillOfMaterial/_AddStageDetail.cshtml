@@ -97,20 +97,21 @@
 
         <div class="form-group col-md-8">
             <div class="col-md-12">
-                @Html.LabelFor(model => model.BOMComponentLineStageDetail.PartType, htmlAttributes: new { @class = "control-label lblrequired" })
+                @Html.LabelFor(model => model.BOMComponentLineStageDetail.PartID, htmlAttributes: new { @class = "control-label lblrequired" })
             </div>
             <div class="col-md-12" id="divItemSelector">
                 <div id="divMaterial">
                     @{Html.RenderAction("MaterialDropdown", "Material", Model.BOMComponentLineStageDetail.Material); }
                 </div>
                 <div id="divSubComponent">
-                    @{Html.RenderAction("MaterialDropdown", "Material", Model.BOMComponentLineStageDetail.SubComponent); }
+                    @{Html.RenderAction("SubComponentDropdown", "SubComponent", Model.BOMComponentLineStageDetail.SubComponent); }
                 </div>
                 <div id="divComponent">
                     @{Html.RenderAction("ProductDropdown", "Product", Model.BOMComponentLineStageDetail.Product); }
                 </div>
-                @Html.HiddenFor(model=>model.BOMComponentLineStageDetail.PartID)
-                @Html.ValidationMessageFor(model => model.BOMComponentLineStageDetail.PartType, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.BOMComponentLineStageDetail.PartID, new { @value = -1 })
+                @Html.ValidationMessageFor(model => model.BOMComponentLineStageDetail.PartID, "", new { @class = "text-danger" })
+                <span id="lblPartID" class="text-danger">Item Required</span>
             </div>
         </div>
 
@@ -119,7 +120,9 @@
                 @Html.LabelFor(model => model.BOMComponentLineStageDetail.Qty, htmlAttributes: new { @class = "control-label lblrequired" })
             </div>
             <div class="col-md-12">
-                @Html.EditorFor(model => model.BOMComponentLineStageDetail.Qty, new { htmlAttributes = new { @class = "form-control HeaderBox ", @autofocus = true } })
+                @Html.EditorFor(model => model.BOMComponentLineStageDetail.Qty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = -1 } })
+                @Html.ValidationMessageFor(model => model.BOMComponentLineStageDetail.Qty, "", new { @class = "text-danger" })
+                <span id="lblQty" class="text-danger">Quantity required</span>
             </div>
         </div>
 
@@ -130,6 +133,8 @@
             <a class="btn btn-openid" onclick="SaveDetail()" style="color:white;font-weight:bold;float:right;">&nbsp;&nbsp; Save &nbsp;&nbsp;<i class="fa fa-save"></i>&nbsp;&nbsp; </a>@*//margin-left:20px;*@
         </div>
     </div>
+    @Html.HiddenFor(model => model.BOMComponentLineStageDetail.ID)
+    @Html.HiddenFor(model => model.BOMComponentLineStageDetail.IsUpdate)
                         }
 <div class="col-md-6">
     <h4>Production Line:</h4>
@@ -155,10 +160,10 @@
 
     <div class="col-md-5">&nbsp;</div>
     <div class="col-md-4">
-        <a class="btn btn-openid" onclick="GoBack()" style="color:white;font-weight:bold;float:right;"><i class="fa fa-angle-double-left"></i> Back </a>@*//margin-left:20px;*@
+        <a class="btn btn-openid" onclick="GoBack()" style="color:white;font-weight:bold;float:right;">&nbsp;&nbsp;<i class="fa fa-angle-double-left"></i>&nbsp; Back&nbsp;&nbsp; </a>@*//margin-left:20px;*@
     </div>
     <div class="col-md-3">
-        <a class="btn btn-openid" onclick="Save()" style="color:white;font-weight:bold;float:right;">&nbsp;&nbsp;Save Details &nbsp;<i class="fa fa-save"></i>&nbsp;&nbsp; </a>@*//margin-left:20px;*@
+        <a class="btn btn-openid" onclick="Reset()" style="color:white;font-weight:bold;float:right;">Finish <i class="fa fa-flag-checkered"></i> </a>@*//margin-left:20px;*@
     </div>
 
 </div>
@@ -166,8 +171,9 @@
 <script>
     $(document).ready(function () {
         $.validator.unobtrusive.parse("#BOMStageDetailForm");
+        debugger;
 
-        $('#MaterialID,#ProductID').select2({});
+        LoadStageDetailTable();
 
         $('#BOMComponentLineStageDetail_PartType').change(function () {
             PartTypeOnChange($(this).val());
@@ -180,13 +186,17 @@
         $('#BOMComponentLineStageDetail_ComponentLineID').change(function () {
             var StageID = $('#BOMComponentLineStageDetail_StageID').val();
             LoadPartialStageDropdownForLine(StageID);
+            ComponentLineOnChange($(this).val());
         }).trigger('change');
 
-        $('#MaterialID,#ProductID').change(function () {
-            $('#BOMComponentLineStageDetail_PartID').val($(this).val())
+        $('#MaterialID,#ProductID,#SubComponentID').change(function () {
+            $('#BOMComponentLineStageDetail_PartID').val($(this).val());
         });
 
-        LoadStageDetailTable();
+        $('#MaterialID,#ProductID,#SubComponentID').select2({});
 
+        $('#lblPartID,#lblQty').hide();
+
+        OnServerCallComplete();
     });
 </script>

@@ -22,7 +22,7 @@ namespace ProductionApp.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
 
-        public List<CustomerInvoiceDetail> GetPackingSlipDetailForCustomerInvoice(Guid packingSlipID)
+        public List<CustomerInvoiceDetail> GetPackingSlipListDetail(string packingSlipIDs)
         {
             List<CustomerInvoiceDetail> customerInvoiceDetailList = null;
             try
@@ -36,8 +36,8 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetPackingSlipDetailForCustomerInvoice]";
-                        cmd.Parameters.Add("@PackingSlipID", SqlDbType.UniqueIdentifier).Value = packingSlipID;
+                        cmd.CommandText = "[AMC].[GetPackingSlipListDetailForCustomerInvoice]";
+                        cmd.Parameters.Add("@PackingSlipIDs", SqlDbType.NVarChar,-1).Value = packingSlipIDs;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -145,6 +145,54 @@ namespace ProductionApp.RepositoryServices.Services
                 Status = outputStatus.Value.ToString(),
                 Message = customerInvoice.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
             };
+        }
+
+        public List<PackingSlip> GetPackingSlipList(Guid customerID)
+        {
+            List<PackingSlip> packingSlipList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetPackingSlipListForCustomerInvoice]";
+                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = customerID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                packingSlipList = new List<PackingSlip>();
+                                while (sdr.Read())
+                                {
+                                    PackingSlip packingSlip = new PackingSlip();
+                                    {
+                                        packingSlip.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : packingSlip.ID);
+                                        packingSlip.SlipNo = (sdr["SlipNo"].ToString() != "" ? sdr["SlipNo"].ToString() : packingSlip.SlipNo);
+                                        packingSlip.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.DateFormat) : packingSlip.DateFormatted);
+                                        packingSlip.SalesOrder = new SalesOrder();
+                                        packingSlip.SalesOrder.OrderNo = (sdr["OrderNo"].ToString() != "" ? sdr["OrderNo"].ToString() : packingSlip.SalesOrder.OrderNo);
+                                        packingSlip.SalesOrder.SalesPersonName = (sdr["SalesPersonName"].ToString() != "" ? sdr["SalesPersonName"].ToString() : packingSlip.SalesOrder.SalesPersonName);
+                                        packingSlip.SalesOrder.ReferenceCustomerName = (sdr["ReferenceCustomerName"].ToString() != "" ? sdr["ReferenceCustomerName"].ToString() : packingSlip.SalesOrder.ReferenceCustomerName);
+                                    }
+                                    packingSlipList.Add(packingSlip);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return packingSlipList;
         }
     }
 }

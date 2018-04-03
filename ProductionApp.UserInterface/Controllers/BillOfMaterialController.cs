@@ -77,24 +77,28 @@ namespace ProductionApp.UserInterface.Controllers
             {
                 billOfMaterialAdvanceSearchVM.DataTablePaging.Start = model.start;
                 billOfMaterialAdvanceSearchVM.DataTablePaging.Length = (billOfMaterialAdvanceSearchVM.DataTablePaging.Length==0)?model.length: billOfMaterialAdvanceSearchVM.DataTablePaging.Length;
-                List<BillOfMaterialViewModel> billOfMaterialVMList = Mapper.Map<List<BillOfMaterial>, List<BillOfMaterialViewModel>>(_billOfMaterialBusiness.GetAllBillOfMaterial(Mapper.Map<BillOfMaterialAdvanceSearchViewModel, BillOfMaterialAdvanceSearch>(billOfMaterialAdvanceSearchVM)));
+                List<BillOfMaterialViewModel> billOfMaterialList = Mapper.Map<List<BillOfMaterial>, List<BillOfMaterialViewModel>>(_billOfMaterialBusiness.GetAllBillOfMaterial(Mapper.Map<BillOfMaterialAdvanceSearchViewModel, BillOfMaterialAdvanceSearch>(billOfMaterialAdvanceSearchVM)));
                 if (billOfMaterialAdvanceSearchVM.DataTablePaging.Length == -1)
                 {
-                    int totalResult = billOfMaterialVMList.Count != 0 ? billOfMaterialVMList[0].TotalCount : 0;
-                    int filteredResult = billOfMaterialVMList.Count != 0 ? billOfMaterialVMList[0].FilteredCount : 0;
-                    billOfMaterialVMList = billOfMaterialVMList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+                    int totalResult = billOfMaterialList.Count != 0 ? billOfMaterialList[0].TotalCount : 0;
+                    int filteredResult = billOfMaterialList.Count != 0 ? billOfMaterialList[0].FilteredCount : 0;
+                    billOfMaterialList = billOfMaterialList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
                 }
                 var settings = new JsonSerializerSettings
                 {
                     //ContractResolver = new CamelCasePropertyNamesContractResolver(),
                     Formatting = Formatting.None
                 };
+                foreach(BillOfMaterialViewModel billOfMaterial in billOfMaterialList)
+                {
+                    billOfMaterial.BillOfMaterialDetailList= Mapper.Map<List<BillOfMaterialDetail>, List<BillOfMaterialDetailViewModel>>(_billOfMaterialBusiness.GetBillOfMaterialDetail(billOfMaterial.ID));
+                }
                 return Json(new
                 {
                     draw = model.draw,
-                    recordsTotal = billOfMaterialVMList.Count != 0 ? billOfMaterialVMList[0].TotalCount : 0,
-                    recordsFiltered = billOfMaterialVMList.Count != 0 ? billOfMaterialVMList[0].FilteredCount : 0,
-                    data = billOfMaterialVMList
+                    recordsTotal = billOfMaterialList.Count != 0 ? billOfMaterialList[0].TotalCount : 0,
+                    recordsFiltered = billOfMaterialList.Count != 0 ? billOfMaterialList[0].FilteredCount : 0,
+                    data = billOfMaterialList
                 });
             }
             catch(Exception ex)
@@ -222,13 +226,11 @@ namespace ProductionApp.UserInterface.Controllers
             {
                 bOMComponentLine.BOMComponentLineStageList = Mapper.Map<List<BOMComponentLineStage>, List<BOMComponentLineStageViewModel>>(_billOfMaterialBusiness.GetBOMComponentLineStage(bOMComponentLine.ID));
             }
-            billOfMaterialVM.BOMComponentLineStageDetail = new BOMComponentLineStageDetailViewModel()
-            {
-                Stage = new StageViewModel(),
-                Material = new MaterialViewModel(),
-                SubComponent = new SubComponentViewModel(),
-                Product = new ProductViewModel()
-            };
+            billOfMaterialVM.BOMComponentLineStageDetail.Stage = new StageViewModel();
+            billOfMaterialVM.BOMComponentLineStageDetail.Material = new MaterialViewModel();
+            billOfMaterialVM.BOMComponentLineStageDetail.SubComponent = new SubComponentViewModel();
+            billOfMaterialVM.BOMComponentLineStageDetail.Product = new ProductViewModel();
+
             return PartialView("_AddStageDetail", billOfMaterialVM);
         }
 
@@ -291,6 +293,8 @@ namespace ProductionApp.UserInterface.Controllers
         #region GetBOMComponentLine
         public string GetBOMComponentLine(string componentID)
         {
+            try
+            {
             List<BOMComponentLineViewModel> bOMComponentLineList = new List<BOMComponentLineViewModel>();
             if (componentID != "")
             {
@@ -301,6 +305,12 @@ namespace ProductionApp.UserInterface.Controllers
                 }
             }
             return JsonConvert.SerializeObject(new { Result = "OK", Records = bOMComponentLineList, Message = "Success" });
+
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex.Message });
+            }
         }
         #endregion
 
@@ -327,6 +337,36 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion InsertUpdateBOMComponentLineStageDetail
+
+        #region DeleteBOMComponentLineStageDetail
+        public string DeleteBOMComponentLineStageDetail(string id)
+        {
+            try
+            {
+                object result = _billOfMaterialBusiness.DeleteBOMComponentLineStageDetail(Guid.Parse(id));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex.Message });
+            }
+        }
+        #endregion DeleteBOMComponentLineStageDetail
+
+        #region GetBOMComponentLineStageDetail
+        public string GetBOMComponentLineStageDetail(string componentLineID)
+        {
+            try
+            {
+                List<BOMComponentLineStageDetailViewModel> bOMComponentLineStageDetailList = Mapper.Map<List<BOMComponentLineStageDetail>, List<BOMComponentLineStageDetailViewModel>>(_billOfMaterialBusiness.GetBOMComponentLineStageDetail(Guid.Parse(componentLineID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = bOMComponentLineStageDetailList, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex.Message });
+            }
+        }
+        #endregion GetBOMComponentLineStageDetail
 
         #region ButtonStyling
         [HttpGet]

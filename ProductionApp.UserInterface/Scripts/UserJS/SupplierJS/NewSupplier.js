@@ -1,10 +1,10 @@
 ﻿//*****************************************************************************
 //*****************************************************************************
 //Author: Jais
-//CreatedDate: 22-Mar-2018 
-//LastModified: 22-Mar-2018 
-//FileName: NewCustomer.js
-//Description: Client side coding for New/Edit Customer
+//CreatedDate: 27-Mar-2018 
+//LastModified: 27-Mar-2018 
+//FileName: NewSupplier.js
+//Description: Client side coding for New/Edit Supplier
 //******************************************************************************
 //******************************************************************************
 
@@ -19,10 +19,10 @@ $(document).ready(function () {
 
         debugger;
         if ($('#IsUpdate').val() == 'True') {
-            BindCustomer()
+            BindSupplier()
         }
         else {
-            $('#lblCustumerNo').text('Customer# : New');
+            $('#lblSupplierNo').text('Supplier# : New');
         }
 
     }
@@ -31,37 +31,38 @@ $(document).ready(function () {
     }
 });
 
-//--function bind the Customer --//
-function BindCustomer() {
+//--function bind the Supplier --//
+function BindSupplier() {
     var id = $('#ID').val();
-    var customer = GetCustomer(id);
+    var supplier = GetSupplier(id);
     debugger;
-    $('#ID').val(customer.ID);
-    $('#CompanyName').val(customer.CompanyName);
-    $('#ContactPerson').val(customer.ContactPerson);
-    $('#ContactEmail').val(customer.ContactEmail);
-    $('#ContactTitle').val(customer.ContactTitle);
-    $('#Website').val(customer.Website);
-    $('#LandLine').val(customer.LandLine);
-    $('#Mobile').val(customer.Mobile);
-    $('#Fax').val(customer.Fax);
-    $('#OtherPhoneNumbers').val(customer.OtherPhoneNumbers);
-    $('#BillingAddress').val(customer.BillingAddress);
-    $('#ShippingAddress').val(customer.ShippingAddress);
-    $('#PaymentTermCode').val(customer.PaymentTermCode);
-    $('#TaxRegNo').val(customer.TaxRegNo);
-    $('#PANNo').val(customer.PANNo);
-    $('#GeneralNotes').val(customer.GeneralNotes);
-    ChangeButtonPatchView('Customer', 'divbuttonPatchAddCustomer', 'Edit');
+    $('#ID').val(supplier.ID);
+    $('#CompanyName').val(supplier.CompanyName);
+    $('#ContactPerson').val(supplier.ContactPerson);
+    $('#ContactEmail').val(supplier.ContactEmail);
+    $('#ContactTitle').val(supplier.ContactTitle);
+    $('#Product').val(supplier.Product);
+    $('#Website').val(supplier.Website);
+    $('#LandLine').val(supplier.LandLine);
+    $('#Mobile').val(supplier.Mobile);
+    $('#Fax').val(supplier.Fax);
+    $('#OtherPhoneNos').val(supplier.OtherPhoneNos);
+    $('#BillingAddress').val(supplier.BillingAddress);
+    $('#ShippingAddress').val(supplier.ShippingAddress);
+    $('#PaymentTermCode').val(supplier.PaymentTermCode);
+    $('#TaxRegNo').val(supplier.TaxRegNo);
+    $('#PANNo').val(supplier.PANNo);
+    $('#GeneralNotes').val(supplier.GeneralNotes);
+    ChangeButtonPatchView('Supplier', 'divbuttonPatchAddSupplier', 'Edit');
 }
 
-//--Function To Get Customer Details By ID--//
-function GetCustomer(id) {
+//--Function To Get Supplier Details By ID--//
+function GetSupplier(id) {
     try {
         debugger;
         var data = { "id": id };
         var ds = {};
-        ds = GetDataFromServer("Customer/GetCustomerDetails/", data);
+        ds = GetDataFromServer("Supplier/GetSupplierDetails/", data);
         if (ds != '') {
             ds = JSON.parse(ds);
         }
@@ -79,11 +80,12 @@ function GetCustomer(id) {
 
 //--Function To Trigger Save button--//
 function Save() {
+    debugger;
     $('#btnSave').trigger('click');
 }
 
 //--Function on Save Success--//
-function SaveSuccessCustomer(data, status) {
+function SaveSuccessSupplier(data, status) {
     try {
         debugger;
         var jsonData = JSON.parse(data)
@@ -95,7 +97,7 @@ function SaveSuccessCustomer(data, status) {
             case "OK":
                 $('#IsUpdate').val('True');
                 $('#ID').val(result.ID);
-                ChangeButtonPatchView("Customer", "divbuttonPatchAddCustomer", "Edit");
+                ChangeButtonPatchView("Supplier", "divbuttonPatchAddSupplier", "Edit");
                 notyAlert('success', result.Message);
                 break;
             case "ERROR":
@@ -111,15 +113,16 @@ function SaveSuccessCustomer(data, status) {
     }
 }
 
-//--Function To Confirm Customer Deletion 
+//--Function To Confirm Supplier Deletion 
 function DeleteClick() {
     debugger;
-    notyConfirm('Are you sure to delete?', 'DeleteCustomer()');
+    notyConfirm('Are you sure to delete?', 'DeleteSupplier()');
 }
 
-//--Function To Delete Customer
-function DeleteCustomer() {
+//--Function To Delete Supplier
+function DeleteSupplier() {
     try {
+        debugger;
         var id = $('#ID').val();
         if (id) {
             var data = { "id": id };
@@ -127,7 +130,7 @@ function DeleteCustomer() {
             var message = "";
             var status = "";
             var result = "";
-            jsonData = GetDataFromServer("Customer/DeleteCustomer/", data);
+            jsonData = GetDataFromServer("Supplier/DeleteSupplier/", data);
             if (jsonData != '') {
                 jsonData = JSON.parse(jsonData);
                 message = jsonData.Message;
@@ -137,7 +140,7 @@ function DeleteCustomer() {
             switch (status) {
                 case "OK":
                     notyAlert('success', result.Message);
-                    window.location.replace("NewCustomer?code=MSTR");
+                    window.location.replace("NewSupplier?code=MSTR");
                     break;
                 case "ERROR":
                     notyAlert('error', message);

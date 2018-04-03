@@ -1,2 +1,5 @@
 ﻿@model ProductionApp.UserInterface.Models.SupplierViewModel
-@Html.DropDownList("SupplierID", Model.SelectList,"---Select Supplier---", new { @class = "form-control",@style="width:100%" })
+<div class="input-group">
+    @Html.DropDownList("SupplierID", Model.SelectList, "---Select Supplier---", new { @class = "form-control", @style = "width:100%" })
+    <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddSupplierMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
+</div>

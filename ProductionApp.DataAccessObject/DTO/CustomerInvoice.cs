@@ -11,6 +11,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid ID { get; set; }
         public string InvoiceNo { get; set; }
         public Guid CustomerID { get; set; }
+        public Guid? ReferenceCustomer { get; set; }
         public string PaymentTerm { get; set; }
         public DateTime InvoiceDate { get; set; }
         public DateTime PaymentDueDate { get; set; }
@@ -27,10 +28,14 @@ namespace ProductionApp.DataAccessObject.DTO
         public int FilteredCount { get; set; }
         public string InvoiceDateFormatted { get; set; }
         public string PaymentDueDateFormatted { get; set; }
+
+        public decimal TotalTaxAmount { get; set; }
+        public decimal TotalTaxableAmount { get; set; }
         public decimal InvoiceAmount { get; set; }
         public decimal PaymentReceived { get; set; }
         public decimal Balance { get; set; }
         public Common Common { get; set; }
+        public Customer Customer { get; set; }
         public CustomerInvoiceDetail CustomerInvoiceDetail { get; set; }
         public PackingSlip PackingSlip { get; set; }
         public List<CustomerInvoiceDetail> CustomerInvoiceDetailList { get; set; }

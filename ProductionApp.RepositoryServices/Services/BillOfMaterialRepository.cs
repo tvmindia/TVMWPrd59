@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.RepositoryServices.Services
 {
-    public class BillOfMaterialRepository: IBillOfMaterialRepository
+    public class BillOfMaterialRepository : IBillOfMaterialRepository
     {
         #region Constructor Injection
         private IDatabaseFactory _databaseFactory;
@@ -38,7 +38,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetAllBillOfMaterial]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(billOfMaterialAdvanceSearch.SearchTerm)?"": billOfMaterialAdvanceSearch.SearchTerm;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(billOfMaterialAdvanceSearch.SearchTerm) ? "" : billOfMaterialAdvanceSearch.SearchTerm;
                         cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = billOfMaterialAdvanceSearch.DataTablePaging.Start;
                         if (billOfMaterialAdvanceSearch.DataTablePaging.Length == -1)
                             cmd.Parameters.AddWithValue("@Length", DBNull.Value);
@@ -69,7 +69,7 @@ namespace ProductionApp.RepositoryServices.Services
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -568,5 +568,115 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
         #endregion InsertUpdateBOMComponentLineStageDetail
+
+        #region DeleteBOMComponentLineStageDetail
+        public object DeleteBOMComponentLineStageDetail(Guid id)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeleteBOMComponentLineStageDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString()
+            };
+        }
+        #endregion DeleteBOMComponentLineStageDetail
+
+        #region GetBOMComponentLineStageDetail
+        public List<BOMComponentLineStageDetail> GetBOMComponentLineStageDetail(Guid id)
+        {
+            List<BOMComponentLineStageDetail> bOMComponentLineStageDetailList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetBOMComponentLineStageDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ComponentLineID", SqlDbType.UniqueIdentifier).Value = id;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                bOMComponentLineStageDetailList = new List<BOMComponentLineStageDetail>();
+                                while (sdr.Read())
+                                {
+                                    BOMComponentLineStageDetail bOMComponentLineStageDetail = new BOMComponentLineStageDetail();
+                                    {
+                                        bOMComponentLineStageDetail.Stage = new Stage();
+                                        bOMComponentLineStageDetail.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : bOMComponentLineStageDetail.ID);
+                                        bOMComponentLineStageDetail.ComponentLineID = (sdr["ComponentLineID"].ToString() != "" ? Guid.Parse(sdr["ComponentLineID"].ToString()) : bOMComponentLineStageDetail.ComponentLineID);
+                                        bOMComponentLineStageDetail.Stage.ID = bOMComponentLineStageDetail.StageID = (sdr["StageID"].ToString() != "" ? Guid.Parse(sdr["StageID"].ToString()) : bOMComponentLineStageDetail.StageID);
+                                        bOMComponentLineStageDetail.Stage.Description = (sdr["StageName"].ToString() != "" ? sdr["StageName"].ToString() : bOMComponentLineStageDetail.Stage.Description);
+                                        bOMComponentLineStageDetail.EntryType = (sdr["EntryType"].ToString() != "" ? sdr["EntryType"].ToString() : bOMComponentLineStageDetail.EntryType);
+                                        bOMComponentLineStageDetail.Qty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : bOMComponentLineStageDetail.Qty);
+                                        bOMComponentLineStageDetail.PartType = (sdr["PartType"].ToString() != "" ? sdr["PartType"].ToString() : bOMComponentLineStageDetail.PartType);
+                                        bOMComponentLineStageDetail.PartID = (sdr["PartID"].ToString() != "" ? Guid.Parse(sdr["PartID"].ToString()) : bOMComponentLineStageDetail.PartID);
+                                        switch (bOMComponentLineStageDetail.PartType)
+                                        {
+                                            case "RAW":
+                                                bOMComponentLineStageDetail.Material = new Material();
+                                                bOMComponentLineStageDetail.Material.ID = bOMComponentLineStageDetail.PartID;
+                                                bOMComponentLineStageDetail.Material.Description= (sdr["ItemName"].ToString() != "" ? sdr["ItemName"].ToString() : bOMComponentLineStageDetail.Material.Description);
+                                                break;
+                                            case "SUB":
+                                                bOMComponentLineStageDetail.SubComponent = new SubComponent();
+                                                bOMComponentLineStageDetail.SubComponent.ID = bOMComponentLineStageDetail.PartID;
+                                                bOMComponentLineStageDetail.SubComponent.Description= (sdr["ItemName"].ToString() != "" ? sdr["ItemName"].ToString() : bOMComponentLineStageDetail.SubComponent.Description);
+                                                break;
+                                            case "COM":
+                                                bOMComponentLineStageDetail.Product = new Product();
+                                                bOMComponentLineStageDetail.Product.ID = bOMComponentLineStageDetail.PartID;
+                                                bOMComponentLineStageDetail.Product.Name= (sdr["ItemName"].ToString() != "" ? sdr["ItemName"].ToString() : bOMComponentLineStageDetail.Product.Name);
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    }
+                                    bOMComponentLineStageDetailList.Add(bOMComponentLineStageDetail);
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return bOMComponentLineStageDetailList;
+        }
     }
+    #endregion GetBOMComponentLineStageDetail
+
 }

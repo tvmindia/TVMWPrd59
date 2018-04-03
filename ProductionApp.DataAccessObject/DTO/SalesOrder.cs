@@ -12,6 +12,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string OrderNo { get; set; }
         public DateTime OrderDate { get; set; }
         public Guid CustomerID { get; set; }
+        public Guid ReferenceCustomer { get; set; }
         public Guid SalesPerson { get; set; }
         public DateTime ExpectedDeliveryDate { get; set; }
         public string BillingAddress { get; set; }
@@ -28,6 +29,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public string ExpectedDeliveryDateFormatted { get; set; }
         public string DetailXML { get; set; }
         public string CustomerName { get; set; }
+        public string SalesPersonName { get; set; }
+        public string ReferenceCustomerName { get; set; }
         public Common Common { get; set; }
         public List<SalesOrderDetail> SalesOrderDetailList { get; set; }
         public SalesOrderDetail SalesOrderDetail { get; set; }

@@ -14,5 +14,6 @@ namespace ProductionApp.BusinessService.Contracts
         object InsertUpdateSubComponent(SubComponent subComponent);
         SubComponent GetSubComponent(Guid id);
         object DeleteSubComponent(Guid id);
+        List<SubComponent> GetSubComponentForSelectList();
     }
 }

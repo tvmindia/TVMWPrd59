@@ -26,6 +26,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion Constructor Injection
 
+        #region ViewCustomer
         [AuthSecurityFilter(ProjectObject = "Customer", Mode = "R")]
         public ActionResult ViewCustomer(string code)
         {
@@ -33,7 +34,9 @@ namespace ProductionApp.UserInterface.Controllers
 
             return View();
         }
+        #endregion ViewCustomer
 
+        #region NewCustomer
         [AuthSecurityFilter(ProjectObject = "Customer", Mode = "R")]
         public ActionResult NewCustomer(string code, Guid? id)
         {
@@ -59,7 +62,9 @@ namespace ProductionApp.UserInterface.Controllers
             customerVM.ContactTitleList = selectListItem;
             return View(customerVM);
         }
+        #endregion NewCustomer
 
+        #region CustomerDropdown
         public ActionResult CustomerDropdown()
         {
             CustomerViewModel customerVM = new CustomerViewModel();
@@ -78,6 +83,7 @@ namespace ProductionApp.UserInterface.Controllers
             return PartialView("_CustomerDropdown", customerVM);
 
         }
+        #endregion CustomerDropdown
 
         #region GetCustomerDetails
         //[AuthSecurityFilter(ProjectObject = "", Mode = "R")]
@@ -212,7 +218,7 @@ namespace ProductionApp.UserInterface.Controllers
             }
 
         }
-        #endregion DeleteRequisition
+        #endregion DeleteCustomer
 
         #region ButtonStyling
         [HttpGet]
@@ -285,7 +291,7 @@ namespace ProductionApp.UserInterface.Controllers
             }
             return PartialView("ToolboxView", toolboxVM);
         }
+        #endregion ButtonStyling
 
-        #endregion
     }
 }

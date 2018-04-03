@@ -16,13 +16,26 @@ namespace ProductionApp.BusinessService.Services
         {
             _supplierRepository = supplierRepository;
         }
-        public List<Supplier> GetAllSupplier()
+        public List<Supplier> GetSupplierForSelectList()
         {
-            return _supplierRepository.GetAllSupplier();
+            return _supplierRepository.GetSupplierForSelectList();
         }
-        public Supplier GetSupplier(Guid supplierid)
+        public List<Supplier> GetAllSupplier(SupplierAdvanceSearch supplierAdvanceSearch)
         {
-            return _supplierRepository.GetSupplier(supplierid);
+            return _supplierRepository.GetAllSupplier(supplierAdvanceSearch);
         }
+        public object InsertUpdateSupplier(Supplier supplier)
+        {
+            return _supplierRepository.InsertUpdateSupplier(supplier);
+        }
+        public Supplier GetSupplier(Guid id)
+        {
+            return _supplierRepository.GetSupplier(id);
+        }
+        public object DeleteSupplier(Guid id)
+        {
+            return _supplierRepository.DeleteSupplier(id);
+        }
+
     }
 }

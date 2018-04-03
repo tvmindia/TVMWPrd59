@@ -16,6 +16,8 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Customer")]
         [Required(ErrorMessage = "Customer required")]
         public Guid CustomerID { get; set; }
+        [Display(Name = "Reference Customer")]
+        public Guid ReferenceCustomer { get; set; }
         [Display(Name = "Sales Person")]
       //  [Required(ErrorMessage = "Sales Person required")]
         public Guid SalesPerson { get; set; }
@@ -35,6 +37,8 @@ namespace ProductionApp.UserInterface.Models
         public string DetailJSON { get; set; }
         [Display(Name = "Sales Person")]
         public string CustomerName { get; set; }
+        public string ReferenceCustomerName { get; set; }
+        public string SalesPersonName { get; set; }
 
         public int FilteredCount { get; set; }
         [Display(Name = "Order Date")]

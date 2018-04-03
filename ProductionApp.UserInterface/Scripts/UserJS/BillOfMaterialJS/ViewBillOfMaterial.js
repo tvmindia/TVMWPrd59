@@ -74,19 +74,24 @@ function BindOrReloadBOMTable(action) {
             pageLength: 10,
             columns: [
             { "data": "ID", "defaultContent": "<i>-</i>" },
+            { "data": "Product.Name", "defaultContent": "<i>-</i>" },
+            { "data": "Description", "defaultContent": "<i>-</i>"},
             {
                 "data": null, render: function (data, type, row) {
-                    return ++i;
+                    debugger;
+                    var componentList = [];
+                    for (var i = 0; i < row.BillOfMaterialDetailList.length; i++) {
+                        componentList.push(" " + row.BillOfMaterialDetailList[i].Product.Name + " [" + row.BillOfMaterialDetailList[i].Qty + "]")
+                    }
+                    return componentList
                 },
-                "defaultContent": "<i>-</i>","width": '5%'
+                "defaultContent": "<i>-</i>"
             },
-            { "data": "Product.Name", "defaultContent": "<i>-</i>" },
-            { "data": "Description", "defaultContent": "<i>-</i>", "width": "55%" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditBillOfMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' ,"width":'3%'}
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [1] },
-                { className: "text-left", "targets": [2, 3] },
+                { className: "text-left", "targets": [3], "width": "55%" },
+                { className: "text-left", "targets": [2, 1], "width": '15%' },
                 { className: "text-center", "targets": [4] }],
             destroy: true,
             //for performing the import operation after the data loaded
@@ -116,4 +121,14 @@ function Reset() {
 //function export data to excel
 function Export() {
     BindOrReloadBOMTable('Export');
+}
+
+function EditBillOfMaterialMaster(curobj) {
+    try{
+        var BillOfMaterialViewModel = DataTables.BillOfMaterialList.row($(curobj).parents('tr')).data();
+        window.location.replace("/BillOfMaterial/NewBillOfMaterial?code=PROD&id=" + BillOfMaterialViewModel.ID);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }

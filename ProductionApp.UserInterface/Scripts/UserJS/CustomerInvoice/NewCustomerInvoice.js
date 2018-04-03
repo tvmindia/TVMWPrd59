@@ -25,6 +25,7 @@ $(document).ready(function () {
         //------select2 fields-------//
         $("#PackingSlipID").select2({ dropdownParent: $("#CustomerInvoiceDetailsModal")  });
         $("#CustomerID").select2({ });
+        $("#ReferenceCustomer").select2({});
 
         $('#btnUpload').click(function () {
             debugger;
@@ -75,8 +76,36 @@ $(document).ready(function () {
           ]
       }); 
      
-
-        DataTables.PackingSlipDetailToInvocieTable = $('#tblPackingSlipDetailToInvocie').DataTable({
+        DataTables.PackingSlipListTable = $('#tblPackingSlipList').DataTable({
+            dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+            ordering: false,
+            searching: false,
+            paging: true,
+            "bInfo": false,
+            "bSortable": false,
+            autoWidth: false,
+            data: null,
+            pageLength: 5,
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search"
+            },
+            columns: [
+                    { "data": "", "defaultContent": "<i></i>", "width": "5%" },
+                    { "data": "SlipNo", "defaultContent": "<i></i>", "width": "10%" },
+                    { "data": "SalesOrder.ReferenceCustomerName", "defaultContent": "<i></i>", "width": "25%" },
+                    { "data": "DateFormatted", "defaultContent": "<i></i>", "width": "25%" },
+                    { "data": "SalesOrder.SalesPersonName", "defaultContent": "<i></i>", "width": "25%" },
+                    { "data": "SalesOrder.OrderNo", "defaultContent": "<i></i>", "width": "10%" }
+            ],
+            columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 0 }
+                , { className: "text-center", "targets": [0,1,3,5] }
+                , { className: "text-left", "targets": [2,3] }
+            ],
+            select: { style: 'multi', selector: 'td:first-child' },
+            destroy: true
+        });
+        DataTables.PackingSlipListDetailTable = $('#tblPackingSlipListDetail').DataTable({
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
             ordering: false,
             searching: false,
@@ -150,38 +179,41 @@ $(document).ready(function () {
         });
 
 
-
-        $("#PackingSlipID").change(function () {
-            BindPackingSlipDetails(this.value);
-        });
-
+//------------------------------------------------------------------------------------------------//
+        //$("#PackingSlipID").change(function () {
+        //    BindPackingSlipDetails(this.value);
+        //});
         $("#CustomerID").change(function () {
             BindCustomerDetails(this.value);
+        }); 
+        $("#PaymentTermCode").change(function () {
+            GetDueDate(this.value);
         });
-
-        debugger;
-        if ($('#IsUpdate').val() == 'True') {
+        
+        if ($('#IsUpdate').val() == 'True')  {
             BindSalesOrderByID()
         }
-        else {
+        else  {
             $('#lblCustomerInvoiceNo').text('Customer Invoice# : New');
         }
-
-
     }
     catch (e) {
         console.log(e.message);
     }
 });
-
+//----------------------------On Change Customer : Bind Customer Details-----------------------//
 function BindCustomerDetails(customerId) {
-    var customerVM = GetCustomerDetails(customerId)
-    $('#BillingAddress').val(customerVM.BillingAddress);
+    if (customerId != "") {
+        var customerVM = GetCustomerDetails(customerId)
+        $('#BillingAddress').val(customerVM.BillingAddress);
+    }
+    else   {
+        $('#BillingAddress').val('');
+    }
 }
 function GetCustomerDetails(customerId) {
     try {
         var data = { "customerId": customerId };
-
         _jsonData = GetDataFromServer("CustomerInvoice/GetCustomerDetails/", data);
         if (_jsonData != '') {
             _jsonData = JSON.parse(_jsonData);
@@ -198,76 +230,143 @@ function GetCustomerDetails(customerId) {
     }
 }
 
+//--------------------Customer Invoice Detail Modal Popup----------------------------//
 function ShowCustomerInvoiceDetailsModal()
 {
-    debugger;
-    
-
-    if ($('#CustomerID').val() != "" && $('#InvoiceDateFormatted').val() != "" && $('#PaymentDueDateFormatted').val() != "")
+    if ($('#CustomerInvoiceForm').valid())
+    {
+        ViewPackingSlipList(1);
+        BindPackingSlipListTable();
         $('#CustomerInvoiceDetailsModal').modal('show');
+    }
     else
     {
-        $('#CustomerInvoiceForm').valid();
         notyAlert('warning', "Please Fill Required Fields");
     }
-       
-
 }
 
+//------------------Bind Packing Slip List ------------------------------------//
+function BindPackingSlipListTable() {
+    var packingSlipList = GetPackingSlipList();
+    DataTables.PackingSlipListTable.clear().rows.add(packingSlipList).draw(false);
+}
+function GetPackingSlipList()
+{
+    try {
+        var customerID=$("#CustomerID").val();
+        var data = { "customerID": customerID };
+        var PackingSlipDetailVM = new Object();
+        jsonData = GetDataFromServer("CustomerInvoice/GetPackingSlipList/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            PackingSlipDetailVM = jsonData.Records;
+        }
+        if (result == "OK") {
+            return PackingSlipDetailVM;
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
+    }
+}
 
-function BindPackingSlipDetails(packingSlipID)
+//----------------------------Popup Tab Clicks------------------------------//
+function ViewPackingSlipList(value) {
+    $('#tabDetail').attr('data-toggle', 'tab');
+    $('#btnForward').show();
+    $('#btnBackward').hide();
+    $('#btnAdd').hide();
+    if (value)
+        $('#tabList').trigger('click');
+}
+function ViewPackingSlipListDetails(value) {
+    $('#tabDetail').attr('data-toggle', 'tab');
+    if (value)
+        $('#tabDetail').trigger('click');
+    else {
+        //selecting Checked IDs for  bind the detail Table
+        debugger;
+        var packingSlipIds = GetSelectedRowPackingSlipIds();
+        if (packingSlipIds) {
+            BindPackingSlipListDetailTable(packingSlipIds);
+            DataTables.PackingSlipListDetailTable.rows().select();
+            $('#btnForward').hide();
+            $('#btnBackward').show();
+            $('#btnAddPODetails').show();
+        }
+        else {
+           $('#tabDetail').attr('data-toggle', '');
+            DataTables.PackingSlipListDetailTable.clear().draw(false);
+            notyAlert('warning', "Please Select Packing Slip");
+        }
+    }
+}
+function GetSelectedRowPackingSlipIds() {
+    var SelectedRows = DataTables.PackingSlipListTable.rows(".selected").data();
+    if ((SelectedRows) && (SelectedRows.length > 0)) {
+        var arrIDs = "";
+        for (var r = 0; r < SelectedRows.length; r++) {
+            if (r == 0)
+                arrIDs = SelectedRows[r].ID;
+            else
+                arrIDs = arrIDs + ',' + SelectedRows[r].ID;
+        }
+        return arrIDs;
+    }
+}
+
+//-----------------------------Bind Packing Slip Selected List Details---------------------------------------
+function BindPackingSlipListDetailTable(packingSlipIDs)
 {
     debugger;
     TaxtypeDropdown();
-    if (packingSlipID != "")
+    if (packingSlipIDs != "")
     {
-        var PackingSlipVM = GetPackingSlip(packingSlipID);
-        $('#PackingSlip_SlipNo').val(PackingSlipVM.SlipNo);
-        $('#PackingSlip_SalesOrder_CustomerName').val(PackingSlipVM.SalesOrder.CustomerName);
-        $('#PackingSlip_SalesOrder_OrderNo').val(PackingSlipVM.SalesOrder.OrderNo);
-        DataTables.PackingSlipDetailToInvocieTable.clear().rows.add(GetPackingSlipDetail(packingSlipID)).draw(false);
+        DataTables.PackingSlipListDetailTable.clear().rows.add(GetPackingSlipListDetail(packingSlipIDs)).draw(false);
     }
-    else
-    {
-        $('#PackingSlip_SlipNo').val('');
-        $('#PackingSlip_SalesOrder_CustomerName').val('');
-        $('#PackingSlip_SalesOrder_OrderNo').val('');
-        DataTables.PackingSlipDetailToInvocieTable.clear().draw(false);
-    }
+    //else
+    //{
+    //    DataTables.PackingSlipListDetailTable.clear().draw(false);
+    //}
 }
 
-function GetPackingSlip(packingSlipID)
-{
-    try {
-        var data = { "packingSlipID": packingSlipID };
-        var PackingSlipVM = new Object();
+//function GetPackingSlip(packingSlipID)
+//{
+//    try {
+//        var data = { "packingSlipID": packingSlipID };
+//        var PackingSlipVM = new Object();
+//        jsonData = GetDataFromServer("CustomerInvoice/GetPackingSlip/", data);
+//        if (jsonData != '') {
+//            jsonData = JSON.parse(jsonData);
+//            result = jsonData.Result;
+//            message = jsonData.Message;
+//            PackingSlipDetailVM = jsonData.Records;
+//        }
+//        if (result == "OK") {
+//            return PackingSlipDetailVM;
+//        }
+//        if (result == "ERROR") {
+//            alert(message);
+//        }
+//    }
+//    catch (e) {
+//        //this will show the error msg in the browser console(F12) 
+//        console.log(e.message);
+//    }
+//}
 
-        jsonData = GetDataFromServer("CustomerInvoice/GetPackingSlip/", data);
-        if (jsonData != '') {
-            jsonData = JSON.parse(jsonData);
-            result = jsonData.Result;
-            message = jsonData.Message;
-            PackingSlipDetailVM = jsonData.Records;
-        }
-        if (result == "OK") {
-            return PackingSlipDetailVM;
-        }
-        if (result == "ERROR") {
-            alert(message);
-        }
-    }
-    catch (e) {
-        //this will show the error msg in the browser console(F12) 
-        console.log(e.message);
-    }
-}
-
-function GetPackingSlipDetail(packingSlipId) {
+function GetPackingSlipListDetail(packingSlipIDs) {
     try {
-        var data = {"packingSlipID": packingSlipId };
+        var data = { "packingSlipIDs": packingSlipIDs };
         var PackingSlipDetailVM = new Object();
 
-        jsonData = GetDataFromServer("CustomerInvoice/GetPackingSlipDetail/", data);
+        jsonData = GetDataFromServer("CustomerInvoice/GetPackingSlipListDetail/", data);
         if (jsonData != '') {
             jsonData = JSON.parse(jsonData);
             result = jsonData.Result;
@@ -286,6 +385,7 @@ function GetPackingSlipDetail(packingSlipId) {
         console.log(e.message);
     }
 }
+
 function TaxtypeDropdown()
 {
     var taxTypeVM = GetTaxtypeDropdown()
@@ -326,8 +426,8 @@ function EdittextBoxValue(thisObj, textBoxCode)
 {
     debugger;
     var IDs = selectedRowIDs();//identify the selected rows 
-    var customerInvoiceDetailVM = DataTables.PackingSlipDetailToInvocieTable.rows().data();
-    var rowtable = DataTables.PackingSlipDetailToInvocieTable.row($(thisObj).parents('tr')).data();
+    var customerInvoiceDetailVM = DataTables.PackingSlipListDetailTable.rows().data();
+    var rowtable = DataTables.PackingSlipListDetailTable.row($(thisObj).parents('tr')).data();
     for (var i = 0; i < customerInvoiceDetailVM.length; i++)
     {
         if (customerInvoiceDetailVM[i].ProductID == rowtable.ProductID)
@@ -352,12 +452,12 @@ function EdittextBoxValue(thisObj, textBoxCode)
                 customerInvoiceDetailVM[i].TaxTypeCode = thisObj.value;
         }
     }
-    DataTables.PackingSlipDetailToInvocieTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
+    DataTables.PackingSlipListDetailTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
     selectCheckbox(IDs); //Selecting the checked rows with their ids taken 
 }
 
 function selectedRowIDs() {
-    var allData = DataTables.PackingSlipDetailToInvocieTable.rows(".selected").data();
+    var allData = DataTables.PackingSlipListDetailTable.rows(".selected").data();
     var arrIDs = "";
     for (var r = 0; r < allData.length; r++) {
         if (r == 0)
@@ -369,13 +469,13 @@ function selectedRowIDs() {
 }
 //selected Checkbox
 function selectCheckbox(IDs) {
-    var customerInvoiceDetailVM = DataTables.PackingSlipDetailToInvocieTable.rows().data()
+    var customerInvoiceDetailVM = DataTables.PackingSlipListDetailTable.rows().data()
     for (var i = 0; i < customerInvoiceDetailVM.length; i++) {
         if (IDs.includes(customerInvoiceDetailVM[i].ProductID)) {
-            DataTables.PackingSlipDetailToInvocieTable.rows(i).select();
+            DataTables.PackingSlipListDetailTable.rows(i).select();
         }
         else {
-            DataTables.PackingSlipDetailToInvocieTable.rows(i).deselect();
+            DataTables.PackingSlipListDetailTable.rows(i).deselect();
         }
     }
 }
@@ -384,7 +484,7 @@ function selectCheckbox(IDs) {
 function AddCustomerInvoiceDetails()
 {
     debugger;
-    var customerInvoiceDetailVM = DataTables.PackingSlipDetailToInvocieTable.rows(".selected").data();
+    var customerInvoiceDetailVM = DataTables.PackingSlipListDetailTable.rows(".selected").data();
     if (customerInvoiceDetailVM.length > 0)
     {
         AddCustomerInvoiceDetailList(customerInvoiceDetailVM)
@@ -422,3 +522,36 @@ function AddCustomerInvoiceDetailList(customerInvoiceDetailVM) {
     }
 }
 
+
+//----Bind Payment due date based on Payment date-------------//
+function GetDueDate(Code) {
+    try {
+        debugger;
+          var PaymentTermViewModel = GetPaymentTermDetails(Code);
+        $('#PaymentDueDateFormatted').val(PaymentTermViewModel);
+    }
+    catch (e) {
+
+    }
+}
+function GetPaymentTermDetails(Code) {
+    debugger;
+    try {
+        var data = { "Code": Code, "InvoiceDate": $('#InvoiceDateFormatted').val() };
+        var ds = {};
+        ds = GetDataFromServer("CustomerInvoice/GetDueDate/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+//------------------------------------------------------------//
