@@ -73,7 +73,7 @@ $(document).ready(function () {
                 }, "width": "5%"
             }, 
             {
-                "data": "Product.ProductName", "defaultContent": "<i>-</i>", "width": "25%",
+                "data": "ProductName", "defaultContent": "<i>-</i>", "width": "25%",
                 'render': function (data, type, row) {
                     if (row.IsInvoiceInKG)
                         return data + '</br>(<b>Invoice in Kg </b>)'
@@ -86,7 +86,7 @@ $(document).ready(function () {
             { "data": "Rate", "defaultContent": "<i>-</i>", "width": "9%" },
             { "data": "TradeDiscountAmount", "defaultContent": "<i>-</i>", "width": "9%" },
             { "data": "TaxableAmount", "defaultContent": "<i>-</i>", "width": "9%" },
-            { "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "9%" },
+            { "data": "TaxTypeDescription", "defaultContent": "<i>-</i>", "width": "9%" },
             { "data": "Total", "defaultContent": "<i>-</i>", "width": "9%" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ItemDetailsEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "7%" }
 
@@ -471,6 +471,7 @@ function selectCheckbox(IDs) {
 //##9--Add Customer Invoice Details ---------------------------------------##9
 function AddCustomerInvoiceDetails()
 {
+    _CustomerInvoiceDetail = [];
     var customerInvoiceDetailVM = DataTables.PackingSlipListDetailTable.rows(".selected").data();
     if (customerInvoiceDetailVM.length > 0)
     {

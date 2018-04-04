@@ -74,7 +74,9 @@ namespace ProductionApp.UserInterface.Models
         public bool IsInvoiceInKG { get; set; }
         //additional properties
         public string ProductName { get; set; }
+        public string TaxTypeDescription { get; set; }
         public string SlipNo { get; set; }
+        public decimal TaxableAmount { get; set; }
         public decimal Total { get; set; }
         public Guid PackingSlipDetailID { get; set; }
         public decimal QuantityCheck { get; set; }
