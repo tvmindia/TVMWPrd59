@@ -108,7 +108,10 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<CustomerInvoiceAdvanceSearchViewModel, CustomerInvoiceAdvanceSearch>().ReverseMap();
                 //PaymentTerm
                 config.CreateMap<PaymentTermViewModel, PaymentTerm>().ReverseMap();
-
+                //ProductionTracking
+                config.CreateMap<ProductionTrackingViewModel, ProductionTracking>().ReverseMap();
+                config.CreateMap<ProductionTrackingAdvanceSearchViewModel, ProductionTrackingAdvanceSearch>().ReverseMap();
+                config.CreateMap<ProductionTrackingSearchViewModel, ProductionTrackingSearch>().ReverseMap();
             });
         }
     }

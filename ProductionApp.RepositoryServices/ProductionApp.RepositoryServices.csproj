@@ -90,7 +90,7 @@
     <Compile Include="Services\EmployeeRepository.cs" />
     <Compile Include="Services\FileUploadRepository.cs" />
     <Compile Include="Services\FinishedGoodStockAdjRepository.cs" />
-    <Compile Include="Services\IProductionTrackingRepository.cs" />
+    <Compile Include="Services\ProductionTrackingRepository.cs" />
     <Compile Include="Services\IssueToProductionRepository.cs" />
     <Compile Include="Services\MaterialReceiptRepository.cs" />
     <Compile Include="Services\MaterialReturnFromProductionRepository.cs" />

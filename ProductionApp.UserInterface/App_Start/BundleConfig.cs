@@ -105,6 +105,9 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJs/CustomerInvoice/ViewCustomerInvoice").Include("~/Scripts/UserJS/CustomerInvoice/ViewCustomerInvoice.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/MaterialReturn/NewMaterialReturn").Include("~/Scripts/UserJS/MaterialReturn/NewMaterialReturn.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/MaterialReturn/ViewMaterialReturn").Include("~/Scripts/UserJS/MaterialReturn/ViewMaterialReturn.js"));
+            //ProductionTracking
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/ProductionTracking/NewProductionTracking").Include("~/Scripts/UserJS/ProductionTracking/NewProductionTracking.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/ProductionTracking/ViewProductionTracking").Include("~/Scripts/UserJS/ProductionTracking/ViewProductionTracking.js"));
 
         }
     }
