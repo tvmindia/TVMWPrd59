@@ -63,7 +63,7 @@
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.Supplier, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12" id="divSupplierDropdown">
                             @Html.Action("SupplierDropdown", "Supplier")
                             @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
                         </div>

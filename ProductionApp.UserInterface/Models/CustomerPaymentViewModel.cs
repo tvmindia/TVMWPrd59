@@ -11,11 +11,12 @@ namespace ProductionApp.UserInterface.Models
     {
         public Guid ID { get; set; }
         public string EntryNo { get; set; }
+        [Required(ErrorMessage = "Customer is required")]
         [Display(Name = "Customer")]
-        public Guid CustomerID { get; set; }
+        public Guid? CustomerID { get; set; }
         [Display(Name = "Payment Mode")]
         public string PaymentMode { get; set; }
-        public Guid DepositWithdrawalID { get; set; }
+        public Guid? DepositWithdrawalID { get; set; }
         [Display(Name = "Deposit To")]
         public string BankCode { get; set; }
         [Display(Name = "Reference No.")]
@@ -24,33 +25,37 @@ namespace ProductionApp.UserInterface.Models
         [DataType(DataType.MultilineText)]
         public string GeneralNotes { get; set; }
         [Display(Name = "Amount Received")]
-        public decimal TotalRecievedAmt { get; set; }
-        public Guid CreditID { get; set; }
+        public decimal? TotalRecievedAmt { get; set; }
+        public Guid? CreditID { get; set; }
         public string Type { get; set; }
         [Display(Name = "Cheque Date")]
-        public DateTime ChequeDate { get; set; }
+        public DateTime? ChequeDate { get; set; }
         [Display(Name = "Reference Bank")]
         public string ReferenceBank { get; set; }
 
         //Additional properties
+        public CommonViewModel Common { get; set; }
+        [Required(ErrorMessage = "Payment Date is required")]
+        [Display(Name = "Payment Date")]
         public string PaymentDateFormatted { get; set; }
         public string ChequeDateFormatted { get; set; }
-        public CustomerPaymentDetail CustomerPaymentDetail { get; set; }
-        public List<CustomerPaymentDetail> CustomerPaymentDetailList { get; set; }
+        public CustomerPaymentDetailViewModel CustomerPaymentDetail { get; set; }
+        public List<CustomerPaymentDetailViewModel> CustomerPaymentDetailList { get; set; }
         public string CustomerName { get; set; }
-        public decimal AdvanceAmount { get; set; }
+        public decimal? AdvanceAmount { get; set; }
         public string CreditNo { get; set; }
         public string DetailXML { get; set; }
         public bool IsUpdate { get; set; }
+        public string DetailJSON { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
     }
     public class CustomerPaymentDetailViewModel
     {
-        public Guid ID { get; set; }
-        public Guid PaymentID { get; set; }
-        public Guid InvoiceID { get; set; }
-        public decimal PaidAmount { get; set; }
+        public Guid? ID { get; set; }
+        public Guid? PaymentID { get; set; }
+        public Guid? InvoiceID { get; set; }
+        public decimal? PaidAmount { get; set; }
     }
     public class CustomerPaymentAdvanceSearchViewModel
     {
