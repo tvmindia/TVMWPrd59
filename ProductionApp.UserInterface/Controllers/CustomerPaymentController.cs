@@ -146,6 +146,28 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetCustomerPayment
 
+        #region DeleteCustomerPayment
+        [AuthSecurityFilter(ProjectObject = "CustomerPayment", Mode = "R")]
+        public string DeleteCustomerPayment(string id)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _customerPaymentBusiness.DeleteCustomerPayment(Guid.Parse(id));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+        #endregion DeleteCustomerPayment
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "CustomerPayment", Mode = "R")]

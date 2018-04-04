@@ -66,7 +66,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         customerPayment.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : customerPayment.PaymentMode);
                                         customerPayment.TotalRecievedAmt = (sdr["AmountReceived"].ToString() != "" ? Decimal.Parse(sdr["AmountReceived"].ToString()) : customerPayment.TotalRecievedAmt);
                                         customerPayment.AdvanceAmount = (sdr["AdvanceAmount"].ToString() != "" ? Decimal.Parse(sdr["AdvanceAmount"].ToString()) : customerPayment.AdvanceAmount);
-                                        customerPayment.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : customerPayment.Type);
+                                        customerPayment.Type = (sdr["TypeDesc"].ToString() != "" ? sdr["TypeDesc"].ToString() : customerPayment.Type);
                                         customerPayment.CustomerName = (sdr["Customer"].ToString() != "" ? sdr["Customer"].ToString() : customerPayment.CustomerName);
                                         customerPayment.CreditNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : customerPayment.CreditNo);
                                     }
@@ -106,7 +106,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = customerPayment.ID;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = customerPayment.CustomerID;
                         cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = customerPayment.PaymentDateFormatted;
-                        cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = customerPayment.ChequeDate;
+                        cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = customerPayment.ChequeDateFormatted;
                         cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = customerPayment.PaymentMode;
                         cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 10).Value = customerPayment.BankCode;
                         cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 10).Value = customerPayment.PaymentRef;
@@ -275,6 +275,41 @@ namespace ProductionApp.RepositoryServices.Services
 
         }
         #endregion GetCustomerPayment
+
+        #region DeleteCustomerPayment
+        public object DeleteCustomerPayment(Guid id)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeleteCustomerPayment]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+            };
+        }
+        #endregion DeleteCustomerPayment
 
         #region GetOutstandingAmount
         public CustomerInvoice GetOutstandingAmount(Guid Id)

@@ -35,6 +35,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string DetailXML { get; set; }
         public bool IsUpdate { get; set; }
         public string DetailJSON { get; set; }
+        public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
     }

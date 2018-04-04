@@ -9,8 +9,8 @@
 //******************************************************************************
 
 //--Global Declaration--//
-var DataTables = {};
-var EmptyGuid = "00000000-0000-0000-0000-000000000000";
+var _dataTable = {};
+var _emptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
@@ -30,7 +30,7 @@ $(document).ready(function () {
 //edit on table click
 function Edit(curObj) {
     debugger;
-    var rowData = DataTables.ReturnToSupplier.row($(curObj).parents('tr')).data();
+    var rowData = _dataTable.ReturnToSupplier.row($(curObj).parents('tr')).data();
     window.location.replace("NewMaterialReturn?code=STR&ID=" + rowData.ID);
 
 }
@@ -71,7 +71,7 @@ function BindOrReloadReturnToSupplierTable(action) {
         materialReturnAdvanceSearchVM.ToDate = $('#ToDate').val();
         materialReturnAdvanceSearchVM.SupplierID = $('#SupplierID').val();
         materialReturnAdvanceSearchVM.ReturnBy = $('#ReturnBy').val();
-        DataTables.ReturnToSupplier = $('#tblReturnToSupplier').DataTable(
+        _dataTable.ReturnToSupplier = $('#tblReturnToSupplier').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
                 buttons: [{
