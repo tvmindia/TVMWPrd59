@@ -63,6 +63,24 @@ namespace ProductionApp.UserInterface.Controllers
             return View(customerInvoiceVM);
         }
 
+        #region GetAllCustomerInvoice
+        //   [AuthSecurityFilter(ProjectObject = "", Mode = "R")]
+        public JsonResult GetAllCustomerInvoice(DataTableAjaxPostModel model, CustomerInvoiceAdvanceSearchViewModel customerInvoiceAdvanceSearchVM)
+        {
+            customerInvoiceAdvanceSearchVM.DataTablePaging.Start = model.start;
+            customerInvoiceAdvanceSearchVM.DataTablePaging.Length = (customerInvoiceAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : customerInvoiceAdvanceSearchVM.DataTablePaging.Length);
+            List<CustomerInvoiceViewModel> salesOrderList = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoiceViewModel>>(_customerInvoiceBusiness.GetAllCustomerInvoice(Mapper.Map<CustomerInvoiceAdvanceSearchViewModel, CustomerInvoiceAdvanceSearch>(customerInvoiceAdvanceSearchVM)));
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = salesOrderList.Count != 0 ? salesOrderList[0].TotalCount : 0,
+                recordsFiltered = salesOrderList.Count != 0 ? salesOrderList[0].FilteredCount : 0,
+                data = salesOrderList
+            });
+        }
+        #endregion GetAllCustomerInvoice
+
+
 
         #region GetCustomerDetails
         //[AuthSecurityFilter(ProjectObject = "", Mode = "D")]

@@ -214,7 +214,7 @@ $(document).ready(function () {
         });
         
         if ($('#IsUpdate').val() == 'True')  {
-            BindSalesOrderByID()
+            BindCustomerInvoiceByID()
         }
         else  {
             $('#lblCustomerInvoiceNo').text('Customer Invoice# : New');

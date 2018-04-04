@@ -56,5 +56,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _customerInvoiceRepository.GetCustomerInvoiceDetail(id);
         }
+
+        public List<CustomerInvoice> GetAllCustomerInvoice(CustomerInvoiceAdvanceSearch customerInvoiceAdvanceSearch)
+        {
+            return _customerInvoiceRepository.GetAllCustomerInvoice(customerInvoiceAdvanceSearch);
+        }
     }
 }

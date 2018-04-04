@@ -14,6 +14,6 @@ namespace ProductionApp.BusinessService.Contracts
         object InsertUpdateCustomerInvoice(CustomerInvoice customerInvoice);
         CustomerInvoice GetCustomerInvoice(Guid id);
         List<CustomerInvoiceDetail> GetCustomerInvoiceDetail(Guid id);
-
+        List<CustomerInvoice> GetAllCustomerInvoice(CustomerInvoiceAdvanceSearch customerInvoiceAdvanceSearch);
     }
 }
