@@ -357,7 +357,8 @@ function BindPackingSlipListDetailTable(packingSlipIDs)
 }
 function GetPackingSlipListDetail(packingSlipIDs) {
     try {
-        var data = { "packingSlipIDs": packingSlipIDs };
+        var id = $('#ID').val();
+        var data = { "packingSlipIDs": packingSlipIDs,"id":id };
         var PackingSlipDetailVM = new Object();
         jsonData = GetDataFromServer("CustomerInvoice/GetPackingSlipListDetail/", data);
         if (jsonData != '') {

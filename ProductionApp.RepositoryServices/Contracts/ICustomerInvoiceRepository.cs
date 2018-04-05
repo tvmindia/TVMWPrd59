@@ -9,7 +9,7 @@ namespace ProductionApp.RepositoryServices.Contracts
 {
     public interface ICustomerInvoiceRepository
     {
-        List<CustomerInvoiceDetail> GetPackingSlipListDetail(string packingSlipIDs);
+        List<CustomerInvoiceDetail> GetPackingSlipListDetail(string packingSlipIDs, string id);
         List<PackingSlip> GetPackingSlipList(Guid customerID);
         object InsertUpdateCustomerInvoice(CustomerInvoice customerInvoice);
         CustomerInvoice GetCustomerInvoice(Guid id);

@@ -163,12 +163,12 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetPackingSlipList
 
         #region GetPackingSlipListDetail
-        public string GetPackingSlipListDetail(string packingSlipIDs)
+        public string GetPackingSlipListDetail(string packingSlipIDs,string id)
         {
             try
             {
                 List<CustomerInvoiceDetailViewModel> customerInvoiceDetailVM = new List<CustomerInvoiceDetailViewModel>();
-                customerInvoiceDetailVM = Mapper.Map<List<CustomerInvoiceDetail>, List<CustomerInvoiceDetailViewModel>>(_customerInvoiceBusiness.GetPackingSlipListDetail(packingSlipIDs));
+                customerInvoiceDetailVM = Mapper.Map<List<CustomerInvoiceDetail>, List<CustomerInvoiceDetailViewModel>>(_customerInvoiceBusiness.GetPackingSlipListDetail(packingSlipIDs, id));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = customerInvoiceDetailVM, Message = "Success" });
             }
             catch (Exception ex)

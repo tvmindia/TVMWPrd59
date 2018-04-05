@@ -19,9 +19,9 @@ namespace ProductionApp.BusinessService.Services
             _commonBusiness = commonBusiness;
         }
 
-        public List<CustomerInvoiceDetail> GetPackingSlipListDetail(string packingSlipIDs)
+        public List<CustomerInvoiceDetail> GetPackingSlipListDetail(string packingSlipIDs, string id)
         {
-            return _customerInvoiceRepository.GetPackingSlipListDetail(packingSlipIDs);
+            return _customerInvoiceRepository.GetPackingSlipListDetail(packingSlipIDs,id);
         }
 
         public object InsertUpdateCustomerInvoice(CustomerInvoice customerInvoice)

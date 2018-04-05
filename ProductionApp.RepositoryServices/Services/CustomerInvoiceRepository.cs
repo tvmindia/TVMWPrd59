@@ -22,7 +22,7 @@ namespace ProductionApp.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
 
-        public List<CustomerInvoiceDetail> GetPackingSlipListDetail(string packingSlipIDs)
+        public List<CustomerInvoiceDetail> GetPackingSlipListDetail(string packingSlipIDs, string id)
         {
             List<CustomerInvoiceDetail> customerInvoiceDetailList = null;
             try
@@ -38,6 +38,8 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetPackingSlipListDetailForCustomerInvoice]";
                         cmd.Parameters.Add("@PackingSlipIDs", SqlDbType.NVarChar,-1).Value = packingSlipIDs;
+                        if(id!=null)
+                         cmd.Parameters.Add("@CustomerInvoiceID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(id);
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
