@@ -29,12 +29,17 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion Constructor Injection
 
         // GET: BillOfMaterial
+        #region ViewBillOfMaterial
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "R")]
         public ActionResult ViewBillOfMaterial(string code)
         {
             ViewBag.SysModuleCode = code;
             return View();
         }
+        #endregion ViewBillOfMaterial
 
+        #region NewBillOfMaterial
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "R")]
         public ActionResult NewBillOfMaterial(string code,Guid? id)
         {
             ViewBag.SysModuleCode = code;
@@ -46,8 +51,10 @@ namespace ProductionApp.UserInterface.Controllers
             };
             return View(billOfMaterialVM);
         }
+        #endregion NewBillOfMaterial
 
         #region GetAllComponents
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "R")]
         public ActionResult GetAllComponent(DataTableAjaxPostModel model, ProductAdvanceSearchViewModel productAdvanceSearchVM)
         {
             productAdvanceSearchVM.DataTablePaging.Start = model.start;
@@ -71,6 +78,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetAllComponents
         
         #region GetAllBillOfMaterial
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "R")]
         public ActionResult GetAllBillOfMaterial(DataTableAjaxPostModel model, BillOfMaterialAdvanceSearchViewModel billOfMaterialAdvanceSearchVM)
         {
             try
@@ -112,6 +120,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetAllBillOfMaterial
 
         #region InsertUpdateBillOfMaterial
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "W")]
         public string InsertUpdateBillOfMaterial(BillOfMaterialViewModel billOfMaterialVM)
         {
             try
@@ -140,6 +149,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion InsertUpdateBillOfMaterial
 
         #region GetBillOfMaterial
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "R")]
         public string GetBillOfMaterial(string id)
         {
             try
@@ -156,6 +166,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetBillOfMaterial
 
         #region GetBillOfMaterialDetail
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "R")]
         public string GetBillOfMaterialDetail(string id)
         {
             try
@@ -172,6 +183,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetBillOfMaterialDetail
 
         #region DeleteBillOfMaterial
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "D")]
         public string DeleteBillOfMaterial(string id)
         {
             try
@@ -187,6 +199,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion DeleteBillOfMaterial
 
         #region DeleteBillOfMaterialDetail
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "D")]
         public object DeleteBillOfMaterialDetail(string id)
         {
             try
@@ -202,6 +215,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion DeleteBillOfMaterialDetail
 
         #region PartialViews
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "W")]
         public ActionResult AddComponent(Guid? id)
         {
             BillOfMaterialViewModel billOfMaterialVM = new BillOfMaterialViewModel
@@ -213,12 +227,14 @@ namespace ProductionApp.UserInterface.Controllers
             return PartialView("_AddComponent", billOfMaterialVM);
         }
 
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "W")]
         public ActionResult AddProductionLine(BillOfMaterialViewModel billOfMaterialVM)
         {
             billOfMaterialVM.BillOfMaterialDetailList = Mapper.Map<List<BillOfMaterialDetail>, List<BillOfMaterialDetailViewModel>>(_billOfMaterialBusiness.GetBillOfMaterialDetail(billOfMaterialVM.ID));
             return PartialView("_AddProductionLine", billOfMaterialVM);
         }
 
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "W")]
         public ActionResult AddStageDetail(BillOfMaterialViewModel billOfMaterialVM)
         {
             billOfMaterialVM.BOMComponentLineList = Mapper.Map<List<BOMComponentLine>, List<BOMComponentLineViewModel>>(_billOfMaterialBusiness.GetBOMComponentLineByComponentID(billOfMaterialVM.BOMComponentLine.ComponentID));
@@ -234,12 +250,14 @@ namespace ProductionApp.UserInterface.Controllers
             return PartialView("_AddStageDetail", billOfMaterialVM);
         }
 
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "W")]
         public ActionResult ListAllStage(BOMComponentLineViewModel bOMComponentLineVM)
         {
             bOMComponentLineVM.StageList = Mapper.Map<List<Stage>, List<StageViewModel>>(_stageBusiness.GetStageForSelectList());
             return PartialView("_ListAllStage", bOMComponentLineVM);
         }
 
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "W")]
         public ActionResult StageDropdownForLine(BOMComponentLineViewModel bOMComponentLineVM)
         {
             bOMComponentLineVM.BOMComponentLineStageList = Mapper.Map<List<BOMComponentLineStage>, List<BOMComponentLineStageViewModel>>(_billOfMaterialBusiness.GetBOMComponentLineStage(bOMComponentLineVM.ID));
@@ -248,6 +266,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion PartialViews
 
         #region InsertUpdateBOMComponentLine
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "W")]
         public string InsertUpdateBOMComponentLine(BillOfMaterialViewModel billOfMaterialVM)
         {
             try//billOfMaterialVM.BOMComponentLine
@@ -276,6 +295,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion InsertUpdateBOMComponentLine
 
         #region DeleteBOMComponentLine
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "D")]
         public object DeleteBOMComponentLine(string id)
         {
             try
@@ -291,6 +311,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion DeleteBOMComponentLine
 
         #region GetBOMComponentLine
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "R")]
         public string GetBOMComponentLine(string componentID)
         {
             try
@@ -315,6 +336,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region InsertUpdateBOMComponentLineStageDetail
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "W")]
         public string InsertUpdateBOMComponentLineStageDetail(BillOfMaterialViewModel billOfMaterialVM)
         {
             try
@@ -339,6 +361,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion InsertUpdateBOMComponentLineStageDetail
 
         #region DeleteBOMComponentLineStageDetail
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "D")]
         public string DeleteBOMComponentLineStageDetail(string id)
         {
             try
@@ -354,6 +377,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion DeleteBOMComponentLineStageDetail
 
         #region GetBOMComponentLineStageDetail
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "R")]
         public string GetBOMComponentLineStageDetail(string componentLineID)
         {
             try
@@ -370,7 +394,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();
