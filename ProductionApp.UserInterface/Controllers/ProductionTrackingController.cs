@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using Newtonsoft.Json;
+using ProductionApp.UserInterface.SecurityFilter;
 
 namespace ProductionApp.UserInterface.Controllers
 {
@@ -25,6 +26,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         // GET: ProductionTracking
         #region NewProductionTracking
+        [AuthSecurityFilter(ProjectObject = "ProductionTracking", Mode = "R")]
         public ActionResult NewProductionTracking(string code, string id)
         {
             ViewBag.SysModuleCode = code;
@@ -56,7 +58,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "ProductionTracking", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();
