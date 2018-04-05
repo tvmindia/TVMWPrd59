@@ -10,6 +10,7 @@ namespace ProductionApp.UserInterface.Models
     public class CustomerPaymentViewModel
     {
         public Guid ID { get; set; }
+        [Display(Name = "Entry No")]
         public string EntryNo { get; set; }
         [Required(ErrorMessage = "Customer is required")]
         [Display(Name = "Customer")]
@@ -22,6 +23,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Reference No.")]
         public string PaymentRef { get; set; }
         public DateTime PaymentDate { get; set; }
+        [Display(Name = "General Notes")]
         [DataType(DataType.MultilineText)]
         public string GeneralNotes { get; set; }
         [Display(Name = "Amount Received")]

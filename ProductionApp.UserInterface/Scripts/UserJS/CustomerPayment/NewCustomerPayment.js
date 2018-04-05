@@ -15,12 +15,12 @@ var _CustomerPaymentDetailList= [];
 $(document).ready(function () {
     debugger;
     try {
-        $("#PaymentMode").select2({
-        });
+        //$("#PaymentMode").select2({
+        //});
         $("#CustomerID").select2({
         });
-        $("#Type").select2({
-        });
+        //$("#Type").select2({
+        //});
         $("#BankCode").select2({
         });
         $('#btnUpload').click(function () {
@@ -416,7 +416,7 @@ function BindCustomerPayment() {
     $('#PaymentDateFormatted').val(thisitem.PaymentDateFormatted);
     $('#ChequeDateFormatted').val(thisitem.ChequeDateFormatted);
     $('#PaymentRef').val(thisitem.PaymentRef);
-    $('#PaymentMode').val(thisitem.PaymentMode).select2();
+    $('#PaymentMode').val(thisitem.PaymentMode);
     $('#BankCode').val(thisitem.BankCode);
     $('#DepositWithdrawalID').val(thisitem.DepositWithdrawalID);
     $('#GeneralNotes').val(thisitem.GeneralNotes);
@@ -503,6 +503,55 @@ function GetCustomerPayments() {
         if (result == "OK") {
 
             return customerPaymentVM;
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
+    }
+}
+//Bind CreditDropDown
+function BindCreditDropDown() {
+    debugger;
+    var ID = $("#CustomerID").val() == "" ? null : $("#CustomerID").val();
+    if (ID != null) {
+        var ds = GetCreditNoteByCustomer(ID);
+        if (ds.length > 0) {
+            $("#CreditID").html(""); // clear before appending new list 
+            $("#CreditID").append($('<option></option>').val(emptyGUID).html('--Select Credit Note--'));
+            $.each(ds, function (i, credit) {
+                $("#CreditID").append(
+                    $('<option></option>').val(credit.ID).html(credit.CreditNoteNo + ' ( Credit Amt: ₹' + credit.AvailableCredit + ')'));
+            });
+        }
+        else {
+            $("#CreditID").html("");
+            $("#CreditID").append($('<option></option>').val(emptyGUID).html('No Credit Notes Available'));
+        }
+    }
+}
+function GetCreditNoteByCustomer(ID) {
+    try {
+        debugger;
+        var data = { "Id": ID };
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var customerCreditNoteVM = new Object();
+
+        jsonData = GetDataFromServer("CustomerPayment/GetCustomerCreditNote/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            customerCreditNoteVM = jsonData.Record;
+        }
+        if (result == "OK") {
+
+            return customerCreditNoteVM;
         }
         if (result == "ERROR") {
             alert(message);

@@ -1,6 +1,6 @@
 ﻿@model ProductionApp.UserInterface.Models.BankViewModel
 <div class="input-group">
-    @Html.DropDownListFor(model=>model.BankCode, Model.SelectList, "--Select Bank--", new { @class = "form-control" })
+    @Html.DropDownListFor(model=>model.BankCode, Model.SelectList, "--Select Bank--", new { @class = "form-control", @style = "width:100%" })
     <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddBankMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
 </div>
  

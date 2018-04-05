@@ -78,7 +78,7 @@
                                     TypeList.Add(new SelectListItem
                                     { Text = "Credit Adujustment", Value = "C" });
                                 }
-                                @Html.DropDownListFor(model => model.Type, TypeList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;", onchange = "TypeOnChange();" })
+                                @Html.DropDownListFor(model => model.Type, TypeList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;width:100 %", onchange = "TypeOnChange();" })
                             </div>
                         </div>
                         
@@ -193,7 +193,7 @@
                             @Html.LabelFor(model => model.TotalRecievedAmt, htmlAttributes: new { @class = "control-label", @id = "lblTotalAmtRecdCptn" })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.TotalRecievedAmt, new { htmlAttributes = new { @class = "form-control HeaderBox selecttext",  style = "text-align: right", onchange = "AmountChanged();" } })
+                            @Html.EditorFor(model => model.TotalRecievedAmt, new { htmlAttributes = new { @class = "form-control HeaderBox selecttext Amount",  style = "text-align: right", onchange = "AmountChanged();" } })
                             @Html.ValidationMessageFor(model => model.TotalRecievedAmt, "", new { @class = "text-danger" })
                         </div>
                     </div>
