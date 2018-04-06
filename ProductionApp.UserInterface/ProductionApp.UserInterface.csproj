@@ -707,6 +707,7 @@
     <Content Include="Scripts\UserJS\PackingSlip\ListPackingSlips.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
     <Content Include="Scripts\UserJS\PrivilegesView.js" />
+    <Content Include="Scripts\UserJS\ProductCategory.js" />
     <Content Include="Scripts\UserJS\ProductionTracking\NewProductionTracking.js" />
     <Content Include="Scripts\UserJS\ProductionTracking\ViewProductionTracking.js" />
     <Content Include="Scripts\UserJS\PurchaseOrderJS\NewPurchaseOrder.js" />
@@ -771,6 +772,7 @@
     <Compile Include="Controllers\PrivilegesController.cs" />
     <Compile Include="Controllers\DashboardProductionController.cs" />
     <Compile Include="Controllers\DashboardPurchaseController.cs" />
+    <Compile Include="Controllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductionTrackingController.cs" />
     <Compile Include="Controllers\RequisitionController.cs" />
@@ -820,6 +822,7 @@
     <Compile Include="Models\PaymentTermViewModel.cs" />
     <Compile Include="Models\PDFGeneratorViewModel.cs" />
     <Compile Include="Models\PrivilegesViewModel.cs" />
+    <Compile Include="Models\ProductCategoryViewModel.cs" />
     <Compile Include="Models\ProductionTrackingViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\PurchaseInvoiceViewModel.cs" />
@@ -980,6 +983,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\" />
     <Folder Include="Views\FileUpload\" />
+    <Folder Include="Views\ProductCategory\" />
     <Folder Include="Views\RecieveFromProduction\" />
   </ItemGroup>
   <ItemGroup>
