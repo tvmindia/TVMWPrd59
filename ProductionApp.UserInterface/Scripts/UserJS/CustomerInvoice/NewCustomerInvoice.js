@@ -479,8 +479,7 @@ function AddCustomerInvoiceDetails()
         AddCustomerInvoiceDetailList(customerInvoiceDetailVM)
         var result = JSON.stringify(_CustomerInvoiceDetail);
         $("#DetailJSON").val(result);
-        _SlNo = 1;
-        $('#btnSave').trigger('click');
+        Save();
         $('#CustomerInvoiceDetailsModal').modal('hide');
     }
     else
@@ -542,7 +541,17 @@ function GetPaymentTermDetails(Code) {
     }
 }
 
+
+
 //##11--Save Success Customer Invoice----------------------------##11
+function Save()
+{
+    debugger;
+    _SlNo = 1;
+    $('#btnSave').trigger('click');
+}
+
+//##12--Save Success Customer Invoice----------------------------##12
 function SaveSuccessCustomerInvoice(data, status)
 {
     _jsonData = JSON.parse(data)
@@ -562,7 +571,7 @@ function SaveSuccessCustomerInvoice(data, status)
     }
 }
 
-//##12--Bind Customer Invoice By ID----------------------------##12
+//##13--Bind Customer Invoice By ID----------------------------##13
 function BindCustomerInvoiceByID()
 {
     debugger;
@@ -573,6 +582,8 @@ function BindCustomerInvoiceByID()
     $('#lblCustomerInvoiceNo').text('Customer Invoice# :' + customerInvoiceVM.InvoiceNo);
     $('#InvoiceNo').val(customerInvoiceVM.InvoiceNo);
     $('#InvoiceDateFormatted').val(customerInvoiceVM.InvoiceDateFormatted);
+    $('#PaymentTermCode').val(customerInvoiceVM.PaymentTermCode);
+    $('#PaymentDueDateFormatted').val(customerInvoiceVM.PaymentDueDateFormatted);
     $('#CustomerID').val(customerInvoiceVM.CustomerID).select2();
     $('#GeneralNotes').val(customerInvoiceVM.GeneralNotes);
     $('#BillingAddress').val(customerInvoiceVM.BillingAddress);

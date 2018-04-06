@@ -17,7 +17,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Reference Customer")]
         public Guid? ReferenceCustomer { get; set; }
         [Display(Name = "Payment Term")]
-        public string PaymentTerm  { get; set; }
+        public string PaymentTermCode { get; set; }
         public DateTime InvoiceDate  { get; set; }
         public DateTime PaymentDueDate  { get; set; }
         [Display(Name = "Billing Address")]

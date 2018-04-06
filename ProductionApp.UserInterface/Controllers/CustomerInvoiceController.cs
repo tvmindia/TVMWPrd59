@@ -226,10 +226,14 @@ namespace ProductionApp.UserInterface.Controllers
                     UpdatedBy = appUA.UserName,
                     UpdatedDate = _common.GetCurrentDateTime(),
                 };
-                //Deserialize items
-                object ResultFromJS = JsonConvert.DeserializeObject(customerInvoiceVM.DetailJSON);
-                string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
-                customerInvoiceVM.CustomerInvoiceDetailList = JsonConvert.DeserializeObject<List<CustomerInvoiceDetailViewModel>>(ReadableFormat);
+                if (customerInvoiceVM.DetailJSON != null)
+                {
+                    //Deserialize items
+                    object ResultFromJS = JsonConvert.DeserializeObject(customerInvoiceVM.DetailJSON);
+                    string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                    customerInvoiceVM.CustomerInvoiceDetailList = JsonConvert.DeserializeObject<List<CustomerInvoiceDetailViewModel>>(ReadableFormat);
+                }
+               
                 var result = _customerInvoiceBusiness.InsertUpdateCustomerInvoice(Mapper.Map<CustomerInvoiceViewModel, CustomerInvoice>(customerInvoiceVM));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
