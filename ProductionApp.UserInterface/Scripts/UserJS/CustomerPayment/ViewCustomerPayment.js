@@ -19,14 +19,21 @@ $(document).ready(function () {
         $("#CustomerID").select2({
         });
         BindOrReloadCustomerPaymentTable('Init');
-        //$('#tblCustomerPayment tbody').on('dblclick', 'td', function () {
-        //    Edit(this);
-        //});
+        $('#tblCustomerPayment tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
     }
     catch (e) {
         console.log(e.message);
     }
 });
+//edit on table click
+function Edit(curObj) {
+    debugger;
+    var rowData = DataTables.CustomerPayment.row($(curObj).parents('tr')).data();
+    window.location.replace("NewCustomerPayment?code=ACC&ID=" + rowData.ID);
+
+}
 function BindOrReloadCustomerPaymentTable(action)
 {
     try {
