@@ -128,11 +128,12 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion DeleteBank
         #region BankDropdown
-        public ActionResult BankDropdown(BankViewModel bankVM)
+        public ActionResult BankDropdown(BankViewModel bankVM, string required)
         {
             bankVM.BankCode = bankVM.Code;
             List<SelectListItem> selectListItem = new List<SelectListItem>();
             bankVM.SelectList = new List<SelectListItem>();
+            ViewBag.IsRequired = required;
             List<BankViewModel> bankList = Mapper.Map<List<Bank>, List<BankViewModel>>(_bankBusiness.GetBankForSelectList());
             if (bankList != null)
                 foreach (BankViewModel bank in bankList)

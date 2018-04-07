@@ -1,6 +1,22 @@
 ﻿@model ProductionApp.UserInterface.Models.CustomerViewModel
+@if (@ViewBag.IsRequired == "required")
+{
+    <div class="input-group">
+        @Html.DropDownList("CustomerID", Model.SelectList, "--Select Customer--", new { @class = "form-control newinput", @required = "", @title = "The Customer is missing", @style = "width:100%" })
+        <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddCustomerMaster('OTR')"><i class="fa fa-plus-square-o"></i></span> 
+    </div>
+}
+else
+{
 <div class="input-group">
     @Html.DropDownList("CustomerID", Model.SelectList, "--Select Customer--", new { @class = "form-control", @style = "width:100%" })
     <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddCustomerMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
 </div>
+}
 @Html.ValidationMessage("CustomerID", "", new { @class = "text-danger" })
+<script>
+    $(document).ready(function () {
+        $("#CustomerID").select2({
+        });
+    });
+</script>

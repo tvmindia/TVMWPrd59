@@ -16,6 +16,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Customer")]
         public Guid? CustomerID { get; set; }
         [Display(Name = "Payment Mode")]
+        [Required(ErrorMessage = "Payment Mode is required")]
         public string PaymentMode { get; set; }
         public Guid? DepositWithdrawalID { get; set; }
         [Display(Name = "Deposit To")]
@@ -27,6 +28,7 @@ namespace ProductionApp.UserInterface.Models
         [DataType(DataType.MultilineText)]
         public string GeneralNotes { get; set; }
         [Display(Name = "Amount Received")]
+        [Required(ErrorMessage = "Amount Received is required")]
         public decimal? TotalRecievedAmt { get; set; }
         public Guid? CreditID { get; set; }
         public string Type { get; set; }

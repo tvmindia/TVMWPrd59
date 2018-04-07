@@ -15,5 +15,6 @@ namespace ProductionApp.BusinessService.Contracts
         object InsertUpdateCustomerPayment(CustomerPayment customerPayment);
         CustomerPayment GetCustomerPayment(string Id);
         object DeleteCustomerPayment(Guid id);
+        object ValidateCustomerPayment(Guid id, string paymentrefNo);
     }
 }

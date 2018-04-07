@@ -57,5 +57,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _customerPaymentRepository.DeleteCustomerPayment(id);
         }
+
+        public object ValidateCustomerPayment(Guid id, string paymentrefNo)
+        {
+            return _customerPaymentRepository.ValidateCustomerPayment(id, paymentrefNo);
+        }
     }
 }

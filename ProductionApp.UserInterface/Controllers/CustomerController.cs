@@ -65,11 +65,12 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion NewCustomer
 
         #region CustomerDropdown
-        public ActionResult CustomerDropdown()
+        public ActionResult CustomerDropdown(string required)
         {
             CustomerViewModel customerVM = new CustomerViewModel();
             customerVM.SelectList = new List<SelectListItem>();
             List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetCustomerForSelectList());
+            ViewBag.IsRequired = required;
             if (customerList != null)
                 foreach (CustomerViewModel customer in customerList)
                 {

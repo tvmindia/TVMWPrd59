@@ -95,6 +95,23 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion InsertUpdateCustomerPayment
 
+        #region ValidateCustomerPayment
+        public string ValidateCustomerPayment(string id,string paymentRefNo)
+        {
+            object result = null;
+            try
+            {
+                result = _customerPaymentBusiness.ValidateCustomerPayment(Guid.Parse(id),paymentRefNo);
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = "" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+        #endregion ValidateCustomerPayment
+
         #region GetOutStandingInvoices
         [AuthSecurityFilter(ProjectObject = "CustomerPayment", Mode = "R")]
         public string GetOutStandingInvoices(string paymentId,string CustomerId)

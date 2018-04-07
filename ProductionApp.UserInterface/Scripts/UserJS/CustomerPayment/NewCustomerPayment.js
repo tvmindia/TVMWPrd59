@@ -353,20 +353,61 @@ function GetOutstandingAmountByCustomer() {
 }
 // Save CustomerPayment
 function Save() {
-    debugger;
+    debugger; 
+    var $form = $('#CustomerPaymentForm');
+    if ($form.valid())
+    {
+            ValidatePaymentRefNo();
+           
+    }
+    else {
+        notyAlert('warning', "Please Fill Required Fields,To Add Items ");
+    }
+}
+function ValidatePaymentRefNo() {
+    try {
+        debugger;
+        var PaymentID = $('#ID').val();
+        var paymentRefNo=$("#PaymentRef").val();
+        var data = { "id": PaymentID, "paymentRefNo": paymentRefNo };
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        
+        jsonData = GetDataFromServer("CustomerPayment/ValidateCustomerPayment/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+        }
+        if (result == "OK") {
+            if (jsonData.Record.Status == 1)
+                notyConfirm(jsonData.Record.Message, 'SaveValidatedData();', '', "Yes,Proceed!", 1);
+            else
+                SaveValidatedData();
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+function SaveValidatedData()
+{
+    $(".cancel").click();
     $("#DetailJSON").val('');
     _CustomerPaymentDetailList = [];
     AddCustomerPaymentDetailList();
-    if (_CustomerPaymentDetailList.length > 0) {
-        debugger;
-        var result = JSON.stringify(_CustomerPaymentDetailList);
-        $("#DetailJSON").val(result);
+    var result = JSON.stringify(_CustomerPaymentDetailList);
+    $("#DetailJSON").val(result);
+    $('#hdfCreditAmount').val($('#lblPaymentApplied').text());
+    $('#AdvanceAmount').val($('#lblCredit').text());
+    setTimeout(function () {
         $('#btnSave').trigger('click');
-        _SlNo = 1;
-    }
-    else {
-        notyAlert('warning', 'Please Add Payment Details!');
-    }
+    }, 1000);
+    _SlNo = 1;
 }
 function AddCustomerPaymentDetailList() {
     debugger;
@@ -417,7 +458,7 @@ function BindCustomerPayment() {
     $('#ChequeDateFormatted').val(thisitem.ChequeDateFormatted);
     $('#PaymentRef').val(thisitem.PaymentRef);
     $('#PaymentMode').val(thisitem.PaymentMode);
-    $('#BankCode').val(thisitem.BankCode);
+    $('#BankCode').val(thisitem.BankCode).select2();
     $('#DepositWithdrawalID').val(thisitem.DepositWithdrawalID);
     $('#GeneralNotes').val(thisitem.GeneralNotes);
     $('#TotalRecievedAmt').val(roundoff(thisitem.TotalRecievedAmt));

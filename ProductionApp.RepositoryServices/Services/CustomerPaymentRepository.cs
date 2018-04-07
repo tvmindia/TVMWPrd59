@@ -192,7 +192,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         customerInvoice.PaymentDueDate = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()) : customerInvoice.PaymentDueDate);
                                         customerInvoice.InvoiceAmount = (sdr["TotalInvoiceAmount"].ToString() != "" ? Decimal.Parse(sdr["TotalInvoiceAmount"].ToString()) : customerInvoice.InvoiceAmount);
                                         customerInvoice.Balance = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : customerInvoice.Balance);
-                                        customerInvoice.PaymentReceived = (sdr["PaidAmountEdit"].ToString() != "" ? Decimal.Parse(sdr["PaidAmountEdit"].ToString()) : customerInvoice.PaymentReceived);
+                                        customerInvoice.PaymentReceived = (sdr["OtherPayments"].ToString() != "" ? Decimal.Parse(sdr["OtherPayments"].ToString()) : customerInvoice.PaymentReceived);
                                         customerInvoice.PaymentDueDate = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()) : customerInvoice.PaymentDueDate);
                                         //customerInvoice.OtherPayments = (sdr["OtherPayments"].ToString() != "" ? Decimal.Parse(sdr["OtherPayments"].ToString()) : customerInvoice.OtherPayments);
                                         customerInvoice.CustomerPayment = new CustomerPayment();
@@ -218,6 +218,50 @@ namespace ProductionApp.RepositoryServices.Services
             return CustomerInvoicesList;
         }
         #endregion
+
+        #region ValidateCustomerPayment
+        public object ValidateCustomerPayment(Guid id,string paymentrefNo)
+        {
+            SqlParameter outputStatus,message = null;
+            try
+            {
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[ValidateCustomerPayment]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = paymentrefNo;
+                        if (id != Guid.Empty)
+                            cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        message = cmd.Parameters.Add("@message", SqlDbType.VarChar, 100);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        message.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+                    }
+                }
+
+            }
+
+
+            catch (Exception ex)
+
+            {
+                return new { Message = ex.ToString(), Status = -1 };
+            }
+
+            return new { Message = message.Value.ToString(), Status = outputStatus.Value };
+
+        }
+        #endregion ValidateCustomerPayment
 
         #region GetCustomerPayment
         public CustomerPayment GetCustomerPayment(string Id)
