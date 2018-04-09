@@ -31,22 +31,8 @@ namespace ProductionApp.UserInterface.Controllers
         #region UnitDropdown
         public ActionResult UnitDropdown(UnitViewModel unitVM)
         {
-            //UnitViewModel unitVM = new UnitViewModel();
             unitVM.UnitCode = unitVM.Code;
-            List<SelectListItem> selectListItem = new List<SelectListItem>();
-            unitVM.SelectList = new List<SelectListItem>();
-            List<UnitViewModel> unitList = Mapper.Map<List<Unit>, List<UnitViewModel>>(_unitBusiness.GetUnitForSelectList());
-            if (unitList != null)
-                foreach (UnitViewModel unit in unitList)
-                {
-                    selectListItem.Add(new SelectListItem
-                    {
-                        Text = unit.Description,
-                        Value = unit.Code.ToString(),
-                        Selected = false
-                    });
-                }
-            unitVM.SelectList = selectListItem;
+            unitVM.UnitSelectList = _unitBusiness.GetUnitForSelectList();
             return PartialView("_UnitDropdown", unitVM);
         }
         #endregion UnitDropdown

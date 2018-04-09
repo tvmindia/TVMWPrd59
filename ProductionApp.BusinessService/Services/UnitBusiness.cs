@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace ProductionApp.BusinessService.Services
 {
@@ -18,9 +19,22 @@ namespace ProductionApp.BusinessService.Services
             _unitRepository = unitRepository;
         }
 
-        public List<Unit> GetUnitForSelectList()
+        public List<SelectListItem> GetUnitForSelectList()
         {
-            return _unitRepository.GetUnitForSelectList();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            List<Unit> unitList = _unitRepository.GetUnitForSelectList();
+            if (unitList != null)
+                foreach (Unit unit in unitList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = unit.Description,
+                        Value = unit.Code,
+                        Selected = false
+                    });
+                }
+            return selectListItem;
         }
+
     }
 }

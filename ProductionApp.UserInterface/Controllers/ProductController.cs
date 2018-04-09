@@ -46,9 +46,6 @@ namespace ProductionApp.UserInterface.Controllers
                 productAdvanceSearchVM.DataTablePaging.Start = model.start;
                 productAdvanceSearchVM.DataTablePaging.Length = (productAdvanceSearchVM.DataTablePaging.Length == 0) ? model.length : productAdvanceSearchVM.DataTablePaging.Length;
 
-                //bankAdvanceSearchVM.OrderColumn = model.order[0].column;
-                //bankAdvanceSearchVM.OrderDir = model.order[0].dir;
-
                 // action inside a standard controller
                 List<ProductViewModel> productVMList = Mapper.Map<List<Product>, List<ProductViewModel>>(_productBusiness.GetAllProduct(Mapper.Map<ProductAdvanceSearchViewModel, ProductAdvanceSearch>(productAdvanceSearchVM)));
                 if (productAdvanceSearchVM.DataTablePaging.Length == -1)

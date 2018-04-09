@@ -18,15 +18,19 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Please Enter Product Name")]
         [Display(Name = "Product Name")]
         public string Name { get; set; }
+        [Display(Name = "Specification")]
         [Required(ErrorMessage = "Please Enter Description")]
         public string Description { get; set; }
         [Required(ErrorMessage = "Please Enter Unit Code")]
         [Display(Name = "Unit Code")]
         public string UnitCode { get; set; }
+        [Display(Name = "Product Category")]
         [Required(ErrorMessage = "Please Enter Category")]
-        public string Category { get; set; }
-        [Required(ErrorMessage = "Please Enter Rate")]
-        public decimal Rate { get; set; }
+        public string ProductCategoryCode { get; set; }
+        [Display(Name = "Reorder Quantity")]
+        public decimal? ReorderQty { get; set; }
+        //[Required(ErrorMessage = "Please Enter Rate")]
+        //public decimal Rate { get; set; }
         [Display(Name = "Opening Stock")]
         public decimal? OpeningStock { get; set; }
         [Display(Name = "Current Stock")]
@@ -36,14 +40,15 @@ namespace ProductionApp.UserInterface.Models
         public decimal? WeightInKG { get; set; }
         [Display(Name = "Cost Price")]
         public decimal? CostPrice { get; set; }
-        [Display(Name = "Selling Price")]
-        public decimal? SellingPrice { get; set; }
+        //[Display(Name = "Selling Price")]
+        //public decimal? SellingPrice { get; set; }
         [Display(Name = "Selling Price In KG")]
         public decimal? SellingPriceInKG { get; set; }
         [Display(Name = "Selling Price Per Piece")]
         public decimal? SellingPricePerPiece { get; set; }
         [Display(Name = "Is Invoice In KG")]
         public bool IsInvoiceInKG { get; set; }
+        [Required(ErrorMessage = "Please Select Type")]
         public string Type { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }
@@ -52,6 +57,7 @@ namespace ProductionApp.UserInterface.Models
         public Guid ProductID { get; set; }
         public CommonViewModel Common { get; set; }
         public UnitViewModel Unit { get; set; }
+        public ProductCategoryViewModel ProductCategory { get; set; }
         public List<SelectListItem> SelectList { get; set; }
     }
 

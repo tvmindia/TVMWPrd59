@@ -287,3 +287,36 @@ function SaveSuccessSupplier(data, status) {
             break;
     }
 }
+
+//-- add  Product Category--//
+function AddProductCategoryMaster(flag) {
+    debugger;
+    GetMasterPartial("ProductCategory", "");
+    $('#h3ModelMasterContextLabel').text('Add Product Category')
+    $('#divModelMasterPopUp').modal('show');
+    $('#hdnMasterCall').val(flag);
+}
+//-- Function After Save ProductCategory--//
+function SaveSuccessProductCategory(data, status) {
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Status) {
+        case "OK":
+            if ($('#hdnMasterCall').val() == "MSTR") {
+                $('#IsUpdate').val('True');
+               // $('#ID').val(JsonResult.Records.ID);
+                BindOrReloadProductCategoryTable('Reset');
+            }
+            else if ($('#hdnMasterCall').val() == "OTR") {
+                $('#divProductCategoryDropdown').load('/ProductCategory/ProductCategoryDropdown');
+            }
+            MasterAlert("success", JsonResult.Record.Message)
+            break;
+        case "ERROR":
+            MasterAlert("danger", JsonResult.Message)
+            break;
+        default:
+            MasterAlert("danger", JsonResult.Message)
+            break;
+    }
+}

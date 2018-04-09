@@ -89,7 +89,7 @@ function BindOrReloadMaterialTable(action) {
             { "data": "ID", "defaultContent": "<i>-</i>" },
             { "data": "MaterialCode", "defaultContent": "<i>-</i>" },
             { "data": "MaterialType.Description", "defaultContent": "<i>-<i>" },
-            { "data": "Description", "defaultContent": "<i>-<i>" },
+            { "data": "Description", "defaultContent": "<i>-<i>","width":"15%" },
             { "data": "HSNNo", "defaultContent": "<i>-<i>" },
             { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
             {

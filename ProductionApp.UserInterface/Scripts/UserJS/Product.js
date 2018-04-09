@@ -10,8 +10,8 @@
 //******************************************************************************
 
 //--Global Declaration--//
-var DataTables = {};
-var EmptyGuid = "00000000-0000-0000-0000-000000000000";
+var _dataTable = {};
+var _emptyGuid = "00000000-0000-0000-0000-000000000000";
 
 //--Loading DOM--//
 $(document).ready(function () {
@@ -53,16 +53,17 @@ function BindOrReloadProductTable(action) {
         UnitViewModel.Code = $('#UnitCode').val();
         ProductAdvanceSearchViewModel.Unit = UnitViewModel;
         ProductAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
-
+        debugger;
         //apply datatable plugin on Raw Material table
-        DataTables.productList = $('#tblProduct').DataTable(
+        _dataTable.productList = $('#tblProduct').DataTable(
         {
+           
             dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
             buttons: [{
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [0,1, 2, 3, 4, 5,6,7,8,9,10,11,12,13]
+                                 columns: [0,1, 2, 3, 4, 5,6,7,8,9,10,11]
                              }
             }],
             ordering: false,
@@ -85,36 +86,66 @@ function BindOrReloadProductTable(action) {
             { "data": "Code", "defaultContent": "<i>-</i>" ,"width":"5%"},
             {
                 "data": "Name", "defaultContent": "<i>-</i>", "width": "10%",
-             'render': function (data, type, row) {
-            if (row.IsInvoiceInKG)
-                return data +'</br>(<b>Invoice in Kg </b>)'
-            else
-                return data
+                'render': function (data, type, row) {
+                    debugger;
+                 if (row.IsInvoiceInKG) {
+                     if(row.Type == "COM"){
+                         return data + '</br>(<b>Invoice in Kg </b>)' + '</br>(<b>Component</b>)'
+                     }
+                     else{
+                         return data + '</br>(<b>Invoice in Kg </b>)' + '</br>(<b>Product</b>)'
+                     }
+                 }
+                 else{
+                     if(row.Type == "COM"){
+                         return data  + '</br>(<b>Component</b>)'
+                     }
+                     else{
+                         return data + '</br>(<b>Product</b>)'
+                     }
+                 }
         }},
             { "data": "Description", "defaultContent": "<i>-<i>", "width": "10%" },
             { "data": "Unit.Description", "defaultContent": "<i>-<i>", "width": "5%" },
-            { "data": "Category", "defaultContent": "<i>-<i>", "width": "5%" },
-            { "data": "Type", "defaultContent": "<i>-<i>", "width": "5%" },
-            {
-                 "data": "Rate", render: function (data, type, row) {
-                     if (data == 0)
-                         return '-'
-                     else
-                         return roundoff(data, 1);
-                 }, "defaultContent": "<i>-</i>", "width": "5%"
-            },
+            { "data": "ProductCategory.Description", "defaultContent": "<i>-<i>", "width": "5%" },
+            //{ "data": "Type", "defaultContent": "<i>-<i>", "width": "5%" },
+            {"data": "ReorderQty", "defaultContent": "<i>-<i>", "width": "5%" },
             { "data": "CurrentStock", "defaultContent": "<i>-<i>", "width": "5%" },
             { "data": "HSNNo", "defaultContent": "<i>-<i>", "width": "5%" },
             { "data": "WeightInKG", "defaultContent": "<i>-<i>", "width": "5%" },
-            { "data": "CostPrice", "defaultContent": "<i>-<i>", "width": "5%" },
-            { "data": "SellingPrice", "defaultContent": "<i>-<i>", "width": "5%" },
-            { "data": "SellingPriceInKG", "defaultContent": "<i>-<i>", "width": "5%" },
-            { "data": "SellingPricePerPiece", "defaultContent": "<i>-<i>", "width": "5%" },
+            { "data": "CostPrice", render: function (data, type, row) {
+                if (data == 0)
+                    return '-'
+                else
+                    return roundoff(data, 1);
+            }, "defaultContent": "<i>-<i>", "width": "5%" },
+            //{ "data": "SellingPrice" , render: function (data, type, row) {
+            //    if (data == 0)
+            //        return '-'
+            //    else
+            //        return roundoff(data, 1);
+            //}, "defaultContent": "<i>-<i>", "width": "5%" },
+            {
+                "data": "SellingPriceInKG", render: function (data, type, row) {
+                    if (data == 0)
+                        return '-'
+                    else
+                        return roundoff(data, 1);
+                }, "defaultContent": "<i>-<i>", "width": "5%"
+            },
+            {
+                "data": "SellingPricePerPiece", render: function (data, type, row) {
+                    if (data == 0)
+                        return '-'
+                    else
+                        return roundoff(data, 1);
+                }, "defaultContent": "<i>-<i>", "width": "5%"
+            },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteProductMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
             ],
-            columnDefs: [{ "targets": [12,13], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [6,7,8,9,10,11,12,13] },
-                { className: "text-left", "targets": [0,1,2, 3, 4,5,8] },
+            columnDefs: [{ "targets": [], "visible": false, "searchable": false },
+                { className: "text-right", "targets": [5,6,8,9,10,11,12] },
+                { className: "text-left", "targets": [0,1,2, 3, 4,7] },
                 { className: "text-center", "targets": [] }],
             destroy: true,
             //for performing the import operation after the data loaded
@@ -148,17 +179,18 @@ function ImportProductData() {
 }
 //--edit Product--//
 function EditProductMaster(this_obj) {
-    ProductViewModel = DataTables.productList.row($(this_obj).parents('tr')).data();
+    ProductViewModel = _dataTable.productList.row($(this_obj).parents('tr')).data();
     GetMasterPartial("Product", ProductViewModel.ID);
     $('#h3ModelMasterContextLabel').text('Edit Product')
     $('#divModelMasterPopUp').modal('show');
+    $('#hdnMasterCall').val('MSTR');
 }
 
 
 //--Function To Confirm Product Deletion 
 function DeleteProductMaster(this_obj) {
     debugger;
-    productVM = DataTables.productList.row($(this_obj).parents('tr')).data();
+    productVM = _dataTable.productList.row($(this_obj).parents('tr')).data();
     notyConfirm('Are you sure to delete?', 'DeleteProduct("' + productVM.ID + '")');
 }
 

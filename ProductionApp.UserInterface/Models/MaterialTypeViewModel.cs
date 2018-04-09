@@ -9,13 +9,13 @@ namespace ProductionApp.UserInterface.Models
 {
     public class MaterialTypeViewModel
     {
-        [Required(ErrorMessage ="MaterialType code is required")]
+        [Required(ErrorMessage ="Material Type code is required")]
         [MaxLength(10,ErrorMessage ="Length exceeds")]
         public string Code { get; set; }
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         public bool IsUpdate { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please Select Material Type ")]
         public string MaterialTypeCode { get; set; }
         public List<SelectListItem> SelectList { get; set; }
     }

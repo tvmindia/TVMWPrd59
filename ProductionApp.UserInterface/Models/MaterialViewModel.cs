@@ -22,9 +22,11 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Please Enter Type")]
         [Display(Name = "Material Type")]
         public string MaterialTypeCode { get; set; }
+        [Required(ErrorMessage = "Please Enter Description")]
         public string Description { get; set; }
+        [Display(Name = "HSN No.")]
         public string HSNNo { get; set; }
-        [Required(ErrorMessage = "Please Enter UnitCode")]
+        [Required(ErrorMessage = "Please Select Unit Code")]
         [Display(Name = "Unit Code")]
         public string UnitCode { get; set; }
         [Display(Name = "Reorder Quantity")]
@@ -32,13 +34,13 @@ namespace ProductionApp.UserInterface.Models
         //additional fields 
         public Guid MaterialID { get; set; }
         [Display(Name = "Current Stock")]
-        public decimal CurrentStock { get; set; }
+        public decimal? CurrentStock { get; set; }
         [Display(Name = "Opening Stock")]
-        public decimal OpeningStock { get; set; }
+        public decimal? OpeningStock { get; set; }
         [Display(Name = "Weight In KG")]
-        public decimal WeightInKG { get; set; }
+        public decimal? WeightInKG { get; set; }
         [Display(Name = "Cost Price")]
-        public decimal CostPrice { get; set; }
+        public decimal? CostPrice { get; set; }
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }

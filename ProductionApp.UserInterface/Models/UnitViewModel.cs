@@ -9,10 +9,12 @@ namespace ProductionApp.UserInterface.Models
 {
     public class UnitViewModel
     {
+        [Required(ErrorMessage = "Please Select Unit")]
         public string Code { get; set; }
         public string Description { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please Select Unit")]
         public string UnitCode { get; set; }
-        public List<SelectListItem> SelectList { get; set; }
+        public List<SelectListItem> UnitSelectList { get; set; }
+
     }
 }

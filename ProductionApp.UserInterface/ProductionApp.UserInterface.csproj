@@ -972,6 +972,9 @@
     <Content Include="Views\Supplier\_AddSupplierPartial.cshtml" />
     <Content Include="Views\SubComponent\_SubComponentDropdown.cshtml" />
     <Content Include="Views\ProductionTracking\NewProductionTracking.cshtml" />
+    <Content Include="Views\ProductCategory\_ProductCategoryDropdown.cshtml" />
+    <Content Include="Views\ProductCategory\Index.cshtml" />
+    <Content Include="Views\ProductCategory\_AddProductCategoryPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -983,7 +986,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\" />
     <Folder Include="Views\FileUpload\" />
-    <Folder Include="Views\ProductCategory\" />
     <Folder Include="Views\RecieveFromProduction\" />
   </ItemGroup>
   <ItemGroup>

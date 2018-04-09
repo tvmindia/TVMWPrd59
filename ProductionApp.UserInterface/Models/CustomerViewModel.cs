@@ -9,6 +9,7 @@ namespace ProductionApp.UserInterface.Models
 {
     public class CustomerViewModel
     {
+        [Required(ErrorMessage = "Please Select Customer")]
         public Guid ID { get; set; }
         [Display(Name = "Company Name")]
         [Required(ErrorMessage = "Company Name required")]
