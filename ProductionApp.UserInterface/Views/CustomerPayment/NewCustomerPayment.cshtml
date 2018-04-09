@@ -44,253 +44,237 @@
             @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
             @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
             @Html.HiddenFor(model => model.hdnFileID, htmlAttributes: new { @class = "", @id = "hdnFileDupID", @value = Guid.Empty })
-           
+            @Html.HiddenFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "" })
+
             <div class="col-md-12">
-                <div class="form-group col-md-12">
-                    <div class="form-group col-md-8">
-                        <div class="form-group col-md-12">
-                            <div class="form-group col-md-6">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.EntryNo, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-md-12">
-                                    @Html.EditorFor(model => model.EntryNo, new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled", @placeholder = "Auto Generated" } })
-                                </div>
-                            </div>
+                <div class="form-group col-md-8">
+                     <div class="form-group col-md-6">
+                          <div class="col-md-12">
+                               @Html.LabelFor(model => model.EntryNo, htmlAttributes: new { @class = "control-label" })
+                           </div>
+                           <div class="col-md-12">
+                               @Html.EditorFor(model => model.EntryNo, new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled", @placeholder = "Auto Generated" } })
+                           </div>
+                     </div>
 
-                            <div class="form-group col-md-6">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.CustomerID, htmlAttributes: new { @class = "control-label lblrequired" })
-                                </div>
-                                <div class="col-md-12" id="divCustomerDropdown">
-                                    @Html.Action("CustomerDropdown", "Customer", new { required = "required" })
-                                </div>
-                            </div>
+                    <div class="form-group col-md-6">
+                         <div class="col-md-12">
+                             @Html.LabelFor(model => model.CustomerID, htmlAttributes: new { @class = "control-label lblrequired" })
+                         </div>
+                         <div class="col-md-12" id="divCustomerDropdown">
+                             @Html.Action("CustomerDropdown", "Customer", new { required = "required" })
+                         </div>
+                    </div>
+                    <div class="col-md-12"></div>
 
+                    <div class="form-group col-md-6">
+                         <div class="col-md-12">
+                             @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
+                         </div>
+                         <div class="col-md-12">
+                             @{
+                               List<SelectListItem> TypeList = new List<SelectListItem>();
+                               TypeList.Add(new SelectListItem
+                               { Text = "Payment", Value = "P" });
+                               TypeList.Add(new SelectListItem
+                               { Text = "Credit Adujustment", Value = "C" });
+                              }
+                              @Html.DropDownListFor(model => model.Type, TypeList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;width:100 %", onchange = "TypeOnChange();" })
+                         </div>
+                    </div>
+
+                   <div class="form-group col-md-6" id="ddlCreditDiv" style="visibility:hidden">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.CreditID, htmlAttributes: new { @class = "control-label" })
                         </div>
-
-                        <div class="form-group col-md-12">
-                            <div class="form-group col-md-6">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-md-12">
-                                    @{
-                                    List<SelectListItem> TypeList = new List<SelectListItem>();
-                                    TypeList.Add(new SelectListItem
-                                    { Text = "Payment", Value = "P" });
-                                    TypeList.Add(new SelectListItem
-                                    { Text = "Credit Adujustment", Value = "C" });
-                                    }
-                                    @Html.DropDownListFor(model => model.Type, TypeList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;width:100 %", onchange = "TypeOnChange();" })
-                                </div>
-                            </div>
-
-                            <div class="form-group col-md-6" id="ddlCreditDiv" style="visibility:hidden">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.CreditID, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-md-12">
-                                    @Html.DropDownListFor(model => model.CreditID, new SelectList(Enumerable.Empty<SelectListItem>(), "CreditID", "CreditName"), "-- Select Credit --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;width:100%;", @id = "CreditID", onchange = "ddlCreditOnChange()" })
-                                </div>
-
-                            </div>
-
+                        <div class="col-md-12">
+                            @Html.DropDownListFor(model => model.CreditID, new SelectList(Enumerable.Empty<SelectListItem>(), "CreditID", "CreditName"), "-- Select Credit --", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;width:100%;", @id = "CreditID", onchange = "ddlCreditOnChange()" })
                         </div>
-
-                        <div class="form-group col-md-12">
-                            <div class="form-group col-md-6">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.PaymentMode, htmlAttributes: new { @class = "control-label lblrequired" })
-                                </div>
-                                <div class="col-md-12">
-                                    @{
-                                    List<SelectListItem> PaymentType = new List<SelectListItem>();
-                                    PaymentType.Add(new SelectListItem
-                                    { Text = "CASH", Value = "CASH" });
-                                    PaymentType.Add(new SelectListItem
-                                    { Text = "CHEQUE", Value = "CHEQUE" });
-                                    PaymentType.Add(new SelectListItem
-                                    { Text = "ONLINE", Value = "ONLINE" });
-                                    }
-                                    @Html.DropDownListFor(model => model.PaymentMode, PaymentType, "--Select Payment Mode--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;width:100%;", onchange = "PaymentModeChanged();" })
-                                    @Html.ValidationMessageFor(model => model.PaymentMode, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.ChequeDate, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-md-12">
-                                    @Html.EditorFor(model => model.ChequeDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker" } })
-                                    @Html.ValidationMessageFor(model => model.ChequeDateFormatted, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
+                   </div>
+                   <div class="col-md-12"></div>
+                        
+                   <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.PaymentMode, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
-                        <div class="form-group col-md-12">
-                            <div class="form-group col-md-6">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.ReferenceBank, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-md-12">
-                                    @Html.EditorFor(model => model.ReferenceBank, new { htmlAttributes = new { @class = "form-control HeaderBox", rows = "8" } })
-                                    @Html.ValidationMessageFor(model => model.ReferenceBank, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label lblrequired" })
-                                </div>
-                                <div class="col-md-12">
-                                    @Html.Action("BankDropdown", "Bank", new { required = "required" })
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <div class="form-group col-md-6">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.PaymentRef, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-md-12">
-                                    @Html.EditorFor(model => model.PaymentRef, new { htmlAttributes = new { @class = "form-control HeaderBox", rows = "8" } })
-                                    @Html.ValidationMessageFor(model => model.PaymentRef, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.PaymentDateFormatted, htmlAttributes: new { @class = "control-label lblrequired" })
-                                </div>
-                                <div class="col-md-12">
-                                    @Html.EditorFor(model => model.PaymentDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker" } })
-                                    @Html.ValidationMessageFor(model => model.PaymentDateFormatted, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                        <div class="col-md-12">
+                             @{
+                                List<SelectListItem> PaymentType = new List<SelectListItem>();
+                                PaymentType.Add(new SelectListItem
+                                { Text = "CASH", Value = "CASH" });
+                                PaymentType.Add(new SelectListItem
+                                { Text = "CHEQUE", Value = "CHEQUE" });
+                                PaymentType.Add(new SelectListItem
+                                { Text = "ONLINE", Value = "ONLINE" });
+                              }
+                              @Html.DropDownListFor(model => model.PaymentMode, PaymentType, "--Select Payment Mode--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;width:100%;", onchange = "PaymentModeChanged();" })
+                              @Html.ValidationMessageFor(model => model.PaymentMode, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="col-md-4" id="CommonFigure">
-                        <div class="form-group col-md-12 box-header figuresummary rounded">
-                            <div class="form-group col-md-12">
-                                <div class="col-md-12 text-right">
-                                    <div class="rightAmtCaption">Outstanding  Amount</div>
-                                </div>
-                                <div class="col-md-12 text-right">
-                                    <div class="rightAmt" id="invoicedAmt">₹ 0.00</div>
-                                </div>
-                                <div class="col-md-12" id="outstandingdetailsdiv" style="text-size-adjust:10%">
-                                    <div id="lblOutstandingdetails"></div>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <div class="col-md-12 text-right">
-                                    <div class="rightAmtCaption" id="lblpaidAmt">Amount Received</div>
-                                </div>
-                                <div class="col-md-12 text-right">
-                                    <div class="rightAmt" id="paidAmt">₹ 0.00</div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
+
+                    <div class="form-group col-md-6">
+                         <div class="col-md-12">
+                             @Html.LabelFor(model => model.ChequeDate, htmlAttributes: new { @class = "control-label" })
+                         </div>
+                         <div class="col-md-12">
+                             @Html.EditorFor(model => model.ChequeDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker" } })
+                             @Html.ValidationMessageFor(model => model.ChequeDateFormatted, "", new { @class = "text-danger" })
+                          </div>
+                    </div>
+                    <div class="col-md-12"></div>
+                        
+                    <div class="form-group col-md-6">
+                         <div class="col-md-12">
+                             @Html.LabelFor(model => model.ReferenceBank, htmlAttributes: new { @class = "control-label" })
+                         </div>
+                         <div class="col-md-12">
+                             @Html.EditorFor(model => model.ReferenceBank, new { htmlAttributes = new { @class = "form-control HeaderBox", rows = "8" } })
+                             @Html.ValidationMessageFor(model => model.ReferenceBank, "", new { @class = "text-danger" })
+                         </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                         <div class="col-md-12">
+                             @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label lblrequired" })
+                          </div>
+                          <div class="col-md-12">
+                              @Html.Action("BankDropdown", "Bank", new { required = "required" })
+                          </div>
+                    </div>
+                    <div class="col-md-12"></div>
+                        
+                    <div class="form-group col-md-6">
+                         <div class="col-md-12">
+                              @Html.LabelFor(model => model.PaymentRef, htmlAttributes: new { @class = "control-label" })
+                         </div>
+                         <div class="col-md-12">
+                             @Html.EditorFor(model => model.PaymentRef, new { htmlAttributes = new { @class = "form-control HeaderBox", rows = "8" } })
+                             @Html.ValidationMessageFor(model => model.PaymentRef, "", new { @class = "text-danger" })
+                         </div>
+                     </div>
+
+                     <div class="form-group col-md-6">
+                          <div class="col-md-12">
+                              @Html.LabelFor(model => model.PaymentDateFormatted, htmlAttributes: new { @class = "control-label lblrequired" })
+                          </div>
+                          <div class="col-md-12">
+                              @Html.EditorFor(model => model.PaymentDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker" } })
+                              @Html.ValidationMessageFor(model => model.PaymentDateFormatted, "", new { @class = "text-danger" })
+                          </div>
+                     </div>
+                    <div class="col-md-12"></div>
+                        
                 </div>
-            </div>
+                <div class="form-group col-md-4">
+                     <div class="form-group col-md-12 box-header figuresummary rounded">
+
+                          <div class="form-group col-md-12 ">
+                               <div class="rightAmtCaption">Outstanding  Amount</div>
+                           </div>
+                           <div class="form-group col-md-12">
+                                <div class="lblStatusDisplay" id="invoicedAmt">₹ 0.00</div>
+                           </div>
+                           <div class="form-group col-md-12">
+                                <div class="rightAmtCaption" id="lblpaidAmt">Amount Received</div>
+                           </div>
+                            <div class="form-group col-md-12">
+                                <div class="lblStatusDisplay" id="paidAmt">₹ 0.00</div>
+                            </div>
+
+                        </div>
+                    </div>
+             </div>
 
             <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Outstanding Invoices</div>
-            <div class="col-md-12">
-                <div class="col-md-9"></div>
-                <div class="col-md-3">
-                    <div class="form-group col-md-8">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.TotalRecievedAmt, htmlAttributes: new { @class = "control-label lblrequired", @id = "lblTotalAmtRecdCptn" })
-                        </div>
-                        <div class="col-md-12">
-                            @Html.EditorFor(model => model.TotalRecievedAmt, new { htmlAttributes = new { @class = "form-control HeaderBox selecttext Amount",  style = "text-align: right", onchange = "AmountChanged();" } })
-                            @Html.ValidationMessageFor(model => model.TotalRecievedAmt, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+
+            <div class="col-md-10"></div>
+            <div class="form-group col-md-2 pull-right">
+                 <div class="col-md-12">
+                   @Html.LabelFor(model => model.TotalRecievedAmt, htmlAttributes: new { @class = "control-label lblrequired", @id = "lblTotalAmtRecdCptn" })
                 </div>
+                 <div class="col-md-12">
+                   @Html.EditorFor(model => model.TotalRecievedAmt, new { htmlAttributes = new { @class = "form-control HeaderBox selecttext Amount", style = "text-align: right", onchange = "AmountChanged();" } })
+                   @Html.ValidationMessageFor(model => model.TotalRecievedAmt, "", new { @class = "text-danger" })
+                 </div>
             </div>
 
             <div class="col-md-12">
-                @*<div class="col-md-12">*@
-                    <table id="tblOutStandingDetails" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
-                        <thead>
-                            <tr class="text-center TableHead">
-                                <th>ID</th>
-                                <th></th>
-                                <th>Description</th>
-                                <th>Payment Due Date</th>
-                                <th>Invoiced (₹)</th>
-                                <th>Paid (₹)</th>
-                                <th>Balance Due (₹)</th>
-                                <th>Current Payment (₹)</th>
-                                <th>PaymentDetailID</th>
-                            </tr>
-                        </thead>
-                    </table>
-                @*</div>*@
-            </div>
+                <table id="tblOutStandingDetails" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                    <thead>
+                        <tr class="text-center TableHead">
+                            <th>ID</th>
+                            <th></th>
+                            <th>Description</th>
+                            <th>Payment Due Date</th>
+                            <th>Invoiced (₹)</th>
+                            <th>Paid (₹)</th>
+                            <th>Balance Due (₹)</th>
+                            <th>Current Payment (₹)</th>
+                            <th>PaymentDetailID</th>
+                       </tr>
+                   </thead>
+               </table>
+
+             </div>
 
             <div class="col-md-12">
                 <div class="col-md-8"></div>
                 <div class="col-md-4">
                     <div class="form-group col-md-12">
                         <div class="col-md-8" style="text-align: right">
-                            @Html.Label("Total Amount Received:", htmlAttributes: new { @class = "control-label ", @id = "lblTotalRecdAmtCptn" })
+                           @Html.Label("Total Amount Received:", htmlAttributes: new { @class = "control-label ", @id = "lblTotalRecdAmtCptn" })
                         </div>
                         <div class="col-md-4" style="text-align: right">
-                            @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblTotalRecdAmt" })
+                          @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblTotalRecdAmt" })
                         </div>
-                    </div>
-                    <div class="form-group col-md-12">
+                     </div>
+                     <div class="form-group col-md-12">
                         <div class="col-md-8" style="text-align: right">
                             @Html.Label("Payment Applied:", htmlAttributes: new { @class = "control-label ", @id = "lblPaymentAppliedCptn" })
                         </div>
                         <div class="col-md-4" style="text-align: right">
                             @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblPaymentApplied" })
-                        </div>
-                    </div>
+                       </div>
+                     </div>
                     <div class="form-group col-md-12">
                         <div class="col-md-8" style="text-align: right">
-                            @Html.Label("Credit Received:", htmlAttributes: new { @class = "control-label ", @id = "lblCreditCptn" })
+                          @Html.Label("Credit Received:", htmlAttributes: new { @class = "control-label ", @id = "lblCreditCptn" })
                         </div>
-                        <div class="col-md-4" style="text-align: right">
-                            @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblCredit" })
-                        </div>
+                       <div class="col-md-4" style="text-align: right">
+                         @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblCredit" })
+                       </div>
                     </div>
                 </div>
-            </div>
+           </div>
 
             <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General Notes</div>
             <div class="col-md-12">
                 <div class="form-group col-md-8">
                     <div class="col-md-12">
-                        @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label " })
+                      @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label " })
                     </div>
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.GeneralNotes, new { htmlAttributes = new { @class = "form-control HeaderBox", @rows = 5 } })
+                      @Html.EditorFor(model => model.GeneralNotes, new { htmlAttributes = new { @class = "form-control HeaderBox", @rows = 5 } })
                     </div>
-                </div>
+               </div>
             </div>
+
             <div>
-                @Html.Partial("_Fileupload")
+             @Html.Partial("_Fileupload")
             </div>
 
             <div class="form-group" hidden="hidden">
-                <div class="col-md-offset-2 col-md-10">
+                 <div class="col-md-offset-2 col-md-10">
                     @Html.HiddenFor(model => model.DetailJSON, htmlAttributes: new { @class = "" })
                     <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </div>
-                                    }
+                 </div>
+             </div>
+        }
         <div class="col-md-12  ">&nbsp;</div>
         <div class="col-md-12  ">&nbsp;</div>
         </div>
-</section>
+    </section>
+
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")
