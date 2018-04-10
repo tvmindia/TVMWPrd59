@@ -64,6 +64,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal Total { get; set; }
         public decimal TaxableAmount { get; set; }
         public Guid PackingSlipDetailID { get; set; }
+        public Guid PackingSlipDetailLinkID { get; set; }
         public decimal QuantityCheck { get; set; }
         public decimal WeightCheck { get; set; }
 
@@ -75,6 +76,11 @@ namespace ProductionApp.DataAccessObject.DTO
     public class CustomerInvoiceDetailLink
     {
         public Guid ID { get; set; }
+        public Guid PackingSlipDetailID { get; set; }
+        public Guid CustomerInvoiceDetailID { get; set; }
+        public decimal Quantity  { get; set; }
+        public decimal Weight { get; set; }
+
     }
 
     public class CustomerInvoiceAdvanceSearch
