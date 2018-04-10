@@ -16,7 +16,9 @@ namespace ProductionApp.UserInterface.Controllers
     {
 
         #region Constructor Injection
+        Settings settings = new Settings();
         Common _common = new Common();
+        AppConst _appConst = new AppConst();
         private IProductionTrackingBusiness _ProductionTrackingBusiness;
         public ProductionTrackingController(IProductionTrackingBusiness ProductionTrackingBusiness)
         {
@@ -31,30 +33,58 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ViewBag.SysModuleCode = code;
 
-            List<SelectListItem> selectList = new List<SelectListItem>();
-            List<ProductionTrackingSearchViewModel> ProductionTrackingSearchList = Mapper.Map<List<ProductionTrackingSearch>, List<ProductionTrackingSearchViewModel>>(_ProductionTrackingBusiness.GetProductionTrackingSearchList());
-            if (ProductionTrackingSearchList != null)
-            {
-                foreach(ProductionTrackingSearchViewModel ProductionTrackingSearch in ProductionTrackingSearchList)
-                {
-                    selectList.Add(new SelectListItem
-                    {
-                        Text = ProductionTrackingSearch.Text,
-                        Value = ProductionTrackingSearch.Value,
-                        Selected = false
-                    });
-                }
-            }
-
             ProductionTrackingViewModel ProductionTracking = new ProductionTrackingViewModel
             {
                 ID = id == null ? Guid.Empty : Guid.Parse(id),
                 IsUpdate = id == null ? false : true,
-                SelectList = selectList
+                EntryDateFormatted = _common.GetCurrentDateTime().ToString(settings.DateFormat),
+                SubComponent = new SubComponentViewModel()
             };
             return View(ProductionTracking);
         }
         #endregion NewProductionTracking
+
+        #region GetProductionTrackingSearchList
+        public string GetProductionTrackingSearchList(string searchTerm)
+        {
+            try
+            {
+                List<ProductionTrackingViewModel> productionTrackingList = Mapper.Map<List<ProductionTracking>, List<ProductionTrackingViewModel>>(_ProductionTrackingBusiness.GetProductionTrackingSearchList(searchTerm));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = productionTrackingList, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+        #endregion GetProductionTrackingSearchList
+
+        #region InsertUpdateProductionTracking
+        public string InsertUpdateProductionTracking(ProductionTrackingViewModel productionTrackingVM)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                productionTrackingVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+
+
+                object result = _ProductionTrackingBusiness.InsertUpdateProductionTracking(Mapper.Map<ProductionTrackingViewModel, ProductionTracking>(productionTrackingVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = _appConst.InsertSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+        }
+        #endregion InsertUpdateProductionTracking
 
         #region ButtonStyling
         [HttpGet]
