@@ -2,7 +2,7 @@
 @model ProductionApp.UserInterface.Models.MaterialIssueAdvanceSearchViewModel
 
 @{
-    ViewBag.Title = "List Issue ToProduction";
+    ViewBag.Title = "View Issue ToProduction";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 @section styles {
@@ -29,67 +29,69 @@
     <div class="row tableContainer" style="vertical-align:bottom">
         <div class="form-group col-md-8">
             <div class="col-md-12">
-                @Html.LabelFor(model => model.SearchTerm, htmlAttributes: new { @class = "control-label" })
-            </div>
-            <div class="col-md-12">
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.SearchTerm, htmlAttributes: new { @class = "control-label" })
                 </div>
-                <div class="col-md-2">
-                    <a class="btn btn-primary" onclick="BindOrReloadIssueToProductionTable('Search')">Search</a>
+                <div class="col-md-12">
+                    <div class="input-group">
+                        @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadIssueToProductionTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="form-group col-md-4" style="padding-top:50px;">
             <div class="col-md-12">
-                <p id="filter" style="float:right;font-size:small"><i class="fa fa-filter advanceFilterLink" aria-hidden="true" ></i>&nbsp;<a href="#" class="accordion" data-toggle="collapse" data-target="#demo">Advanced Filter</a></p>
-                </div>
+                <p id="filter" style="float:right;font-size:small"><i class="fa fa-filter advanceFilterLink" aria-hidden="true"></i>&nbsp;<a href="#" class="accordion" data-toggle="collapse" data-target="#demo">Advanced Filter</a></p>
+            </div>
         </div>
     </div>
 
-        @*-----------Advance filter------------*@
-      
+    @*-----------Advance filter------------*@
+
     <div class="row tableContainer">
         <div class="form-group col-md-12 collapse" id="demo">
             <div style="border-top:1px solid #d9d9d9;margin-left: 15px;" class="form-group col-md-12"></div>
-                <div class="col-md-5">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
-                    </div>
-                    <div class="col-md-12">
-                        @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3" } })
-                    </div>
+            <div class="col-md-5">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
                 </div>
-                <div class="col-md-5">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
-                    </div>
-                    <div class="col-md-12">
-                        @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3" } })
-                    </div>
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3" } })
                 </div>
-                <div class="col-md-2">
+            </div>
+            <div class="col-md-5">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3" } })
+                </div>
+            </div>
+            <div class="col-md-2">
 
+            </div>
+            <div class="col-md-5">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.IssueTo, htmlAttributes: new { @class = "control-label " })
                 </div>
-                <div class="col-md-5">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.IssueTo, htmlAttributes: new { @class = "control-label " })
-                    </div>
-                    <div class="col-md-12">
-                        @Html.DropDownListFor(model => model.IssueTo, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", style = "width:100%" })
-                    </div>
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.IssueTo, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", style = "width:100%" })
                 </div>
-                <div class="col-md-5">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.IssuedBy, htmlAttributes: new { @class = "control-label " })
-                    </div>
-                    <div class="col-md-12">
-                        @Html.DropDownListFor(model => model.IssuedBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", style = "width:100%" })
-                    </div>
+            </div>
+            <div class="col-md-5">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.IssuedBy, htmlAttributes: new { @class = "control-label " })
                 </div>
-                <div class="col-md-2">
-                    <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadIssueToProductionTable('Apply')">Apply</a>
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.IssuedBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", style = "width:100%" })
                 </div>
+            </div>
+            <div class="col-md-2">
+                <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadIssueToProductionTable('Apply')">Apply</a>
+            </div>
         </div>
     </div>
 

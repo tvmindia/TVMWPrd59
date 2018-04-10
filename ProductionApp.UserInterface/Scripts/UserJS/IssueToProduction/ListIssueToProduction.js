@@ -19,9 +19,14 @@ $(document).ready(function () {
 
 function Edit(curObj)
 {
-    debugger;
-    var MaterialIssueViewModel = DataTables.IssueToProductionList.row($(curObj).parents('tr')).data();
-    window.location.replace("AddIssueToProduction?code=STR&ID=" + MaterialIssueViewModel.ID);
+    try{
+        debugger;
+        var MaterialIssueViewModel = DataTables.IssueToProductionList.row($(curObj).parents('tr')).data();
+        window.location.replace("AddIssueToProduction?code=STR&ID=" + MaterialIssueViewModel.ID);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function BindOrReloadIssueToProductionTable(action)
@@ -125,9 +130,21 @@ function BindOrReloadIssueToProductionTable(action)
 
 
 function ResetIssueToProductionList() {
-    BindOrReloadIssueToProductionTable('Reset');
+    try{
+        debugger;
+        BindOrReloadIssueToProductionTable('Reset');
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 //function export data to excel
 function ImportIssueToProductionData() {
-    BindOrReloadIssueToProductionTable('Export');
+    try{
+        debugger;
+        BindOrReloadIssueToProductionTable('Export');
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }

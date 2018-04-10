@@ -161,9 +161,10 @@
                             @Html.LabelFor(model => model.FinishedGoodStockAdjDetail.ProductID, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
                         <div class="col-md-12" >
-                            <div id="divRawMaterialDropdown">
-                                @Html.Action("ProductDropdown", "Product")
+                            <div class="col-md-12" id="divProductDropdown">
+                                @Html.Action("ProductDropdown", "Product", new { required = "" })
                             </div>
+                            @Html.HiddenFor(model => model.FinishedGoodStockAdjDetail.ProductID, htmlAttributes: new { @class = "", @id = "hdnProductID" })
                         </div>
                     </div>
                     <div class="col-md-12 headSeperator"></div>
@@ -253,6 +254,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse("#FinishedGoodStockAdjForm");
+        //$('#ProductID').val($('#hdnProductID').val());
+    });
+</script>
 
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")

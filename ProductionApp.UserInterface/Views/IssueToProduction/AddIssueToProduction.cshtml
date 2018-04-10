@@ -1,7 +1,7 @@
 ﻿@using ProductionApp.UserInterface.App_Start
 @model ProductionApp.UserInterface.Models.MaterialIssueViewModel
 @{
-    ViewBag.Title = "Add Issue To Production";
+    ViewBag.Title = "New Issue To Production";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 @section styles {
@@ -27,7 +27,7 @@
             }
         </div>
     </div>
-     
+
     <div class="row tableContainer">
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
         @using (Ajax.BeginForm("InsertUpdateIssueToProduction", "IssueToProduction", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessIssueToProduction", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "AddIssueToProductionForm" }))
@@ -37,7 +37,7 @@
             @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
 
             <div class="form-group col-md-12">
-                <div class="form-group col-md-8">  
+                <div class="form-group col-md-8">
                     <div class="form-group col-md-6">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.IssueNo, htmlAttributes: new { @class = "control-label" })
@@ -55,13 +55,13 @@
                             @Html.ValidationMessageFor(model => model.IssueDateFormatted, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                   
+
                     <div class="form-group col-md-6">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.IssueTo, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
                         <div class="col-md-12">
-                            @Html.DropDownListFor(model => model.IssueTo, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter",@Style="width:100%"})
+                            @Html.DropDownListFor(model => model.IssueTo, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", @Style = "width:100%" })
                             @Html.ValidationMessageFor(model => model.IssueTo, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -70,23 +70,23 @@
                             @Html.LabelFor(model => model.IssuedBy, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
                         <div class="col-md-12">
-                            @Html.DropDownListFor(model => model.IssuedBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter",@style="width:100%" })
+                            @Html.DropDownListFor(model => model.IssuedBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", @style = "width:100%" })
                             @Html.ValidationMessageFor(model => model.IssuedBy, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                  
+
                 </div>
             </div>
 
-                <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
-              
-                <div class="col-md-12">
+            <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
+
+                <div class="col-md-12" style="padding-bottom:3px;padding-left:590px">
                     <div class="form-group col-md-10">
                     </div>
-                    <div class="form-group col-md-2">
-                        <a class="btn btn-openid"  onclick="ShowIssueToProductionDetailsModal()" id="btnAddIssueToProductionItems" style="color:white;font-weight:bold;float:left;margin-left:auto"><i class="glyphicon glyphicon-plus"></i> Add Items</a>
+                    <div class="form-group col-md-2 ">
+                        <a class="btn btn-openid" onclick="ShowIssueToProductionDetailsModal()" id="btnAddIssueToProductionItems" style="color:white;font-weight:bold;"><i class="glyphicon glyphicon-plus"></i> Add Items</a>
                     </div>
                 </div>
 
@@ -106,9 +106,9 @@
                         </thead>
                     </table>
                 </div>
-               
+
                 <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General Notes</div>
-               
+
                 <div class="form-group col-md-8">
                     <div class="col-md-12">
                         @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label" })
@@ -160,6 +160,7 @@
                             <div class="col-md-10">
                                 <div id="divRawMaterialDropdown">
                                     @{Html.RenderAction("MaterialDropdown", "Material", Model.MaterialIssueDetail.Material); }
+                                    
                                 </div>
                             </div>
                             <div class="col-md-1"></div>
