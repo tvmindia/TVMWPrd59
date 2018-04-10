@@ -2,7 +2,7 @@
 @if (@ViewBag.IsRequired == "required")
 {
     <div class="input-group">
-        @Html.DropDownList("ProductID", Model.ProductSelectList, "--Select product--", new { @class = "form-control", @required = "", @title = "The Product is missing", @onchange = "$('#hdnProductID').val(this.value)" })
+        @Html.DropDownList("ProductID", Model.ProductSelectList, "--Select product--", new { @class = "form-control", @required = "", @title = "The Product is missing",@style="width:100%", @onchange = "$('#hdnProductID').val(this.value)" })
         <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddProductMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
 
     </div>
@@ -10,7 +10,7 @@
 else
 {
     <div class="input-group">
-        @Html.DropDownList("ProductID", Model.ProductSelectList, "--Select product--", new { @class = "form-control", @onchange = "$('#hdnProductID').val(this.value)" })
+        @Html.DropDownList("ProductID", Model.ProductSelectList, "--Select product--", new { @class = "form-control", @style = "width:100%", @onchange = "$('#hdnProductID').val(this.value)" })
         <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddProductMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
     </div>
 }
