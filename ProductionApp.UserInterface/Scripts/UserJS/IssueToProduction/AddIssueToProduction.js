@@ -72,24 +72,36 @@ debugger;
 });
 function ShowIssueToProductionDetailsModal()
 {
-    debugger;
-    $('#MaterialID').val('').select2();
-    $('#MaterialIssueDetail_Material_MaterialCode').val('');
-    $('#MaterialIssueDetail_MaterialDesc').val('');
-    $('#MaterialIssueDetail_UnitCode').val('');
-    $('#MaterialIssueDetail_Qty').val('');
-    $('#AddIssueToProductionItemModal').modal('show');
+    try{
+        debugger;
+        $('#MaterialID').val('').select2();
+        $('#MaterialIssueDetail_Material_MaterialCode').val('');
+        $('#MaterialIssueDetail_MaterialDesc').val('');
+        $('#MaterialIssueDetail_UnitCode').val('');
+        $('#MaterialIssueDetail_Qty').val('');
+        $('#AddIssueToProductionItemModal').modal('show');
+    }
+    catch(e)
+    {
+        console.log(e.message);
+    }
 }
 
 function BindRawMaterialDetails(ID)
 {
-    debugger;
-    var result = GetMaterial(ID);
-    _SlNo = 1;
-    $('#MaterialIssueDetail_Material_MaterialCode').val(result.MaterialCode);
-    $('#MaterialIssueDetail_MaterialDesc').val(result.Description);
-    $('#MaterialIssueDetail_UnitCode').val(result.UnitCode);
-    $('#MaterialIssueDetail_Qty').val(result.Qty);
+    try{
+        debugger;
+        var result = GetMaterial(ID);
+        _SlNo = 1;
+        $('#MaterialIssueDetail_Material_MaterialCode').val(result.MaterialCode);
+        $('#MaterialIssueDetail_MaterialDesc').val(result.Description);
+        $('#MaterialIssueDetail_UnitCode').val(result.UnitCode);
+        $('#MaterialIssueDetail_Qty').val(result.Qty);
+    }
+    catch(e)
+    {
+        console.log(e.message);
+    }
 }
 
 function GetMaterial(ID) {
@@ -121,104 +133,126 @@ function GetMaterial(ID) {
 
 function AddIssueToProductItem()
 {
-    debugger;
-    if ($('#MaterialID').val() != "" && $('#MaterialIssueDetail_Qty').val()!="")
-    {
-        _MaterialIssueDetail = [];
-        AddMaterialIssue = new Object();
-        AddMaterialIssue.MaterialID = $('#MaterialID').val();
-        AddMaterialIssue.Material = new Object();
-        AddMaterialIssue.Material.MaterialCode = $('#MaterialIssueDetail_Material_MaterialCode').val();
-        AddMaterialIssue.MaterialDesc = $('#MaterialIssueDetail_MaterialDesc').val();
-        AddMaterialIssue.UnitCode = $('#MaterialIssueDetail_UnitCode').val();
-        AddMaterialIssue.Qty = $('#MaterialIssueDetail_Qty').val();
-        _MaterialIssueDetail.push(AddMaterialIssue);
-
-        if(_MaterialIssueDetail!=null)
+    try{
+        debugger;
+        if ($('#MaterialID').val() != "" && $('#MaterialIssueDetail_Qty').val()!="")
         {
-            var materialIssueDetailList = DataTables.MaterialIssueDetailTable.rows().data();
-            if (materialIssueDetailList.length > 0)
+            _MaterialIssueDetail = [];
+            AddMaterialIssue = new Object();
+            AddMaterialIssue.MaterialID = $('#MaterialID').val();
+            AddMaterialIssue.Material = new Object();
+            AddMaterialIssue.Material.MaterialCode = $('#MaterialIssueDetail_Material_MaterialCode').val();
+            AddMaterialIssue.MaterialDesc = $('#MaterialIssueDetail_MaterialDesc').val();
+            AddMaterialIssue.UnitCode = $('#MaterialIssueDetail_UnitCode').val();
+            AddMaterialIssue.Qty = $('#MaterialIssueDetail_Qty').val();
+            _MaterialIssueDetail.push(AddMaterialIssue);
+
+            if(_MaterialIssueDetail!=null)
             {
-                var checkPoint = 0;
-                for (var i = 0; i < materialIssueDetailList.length; i++)
+                var materialIssueDetailList = DataTables.MaterialIssueDetailTable.rows().data();
+                if (materialIssueDetailList.length > 0)
                 {
-                    if (materialIssueDetailList[i].MaterialID == $('#MaterialID').val())
-                    {                       
-                        materialIssueDetailList[i].MaterialDesc = $('#MaterialIssueDetail_MaterialDesc').val();
-                        materialIssueDetailList[i].UnitCode = $('#MaterialIssueDetail_UnitCode').val();
-                        materialIssueDetailList[i].Qty = $('#MaterialIssueDetail_Qty').val();
-                        checkPoint = 1;
-                        break;
+                    var checkPoint = 0;
+                    for (var i = 0; i < materialIssueDetailList.length; i++)
+                    {
+                        if (materialIssueDetailList[i].MaterialID == $('#MaterialID').val())
+                        {                       
+                            materialIssueDetailList[i].MaterialDesc = $('#MaterialIssueDetail_MaterialDesc').val();
+                            materialIssueDetailList[i].UnitCode = $('#MaterialIssueDetail_UnitCode').val();
+                            materialIssueDetailList[i].Qty = $('#MaterialIssueDetail_Qty').val();
+                            checkPoint = 1;
+                            break;
+                        }
                     }
-                }
-                if(!checkPoint)
-                {
+                    if(!checkPoint)
+                    {
                   
-                    DataTables.MaterialIssueDetailTable.rows.add(_MaterialIssueDetail).draw(false);
+                        DataTables.MaterialIssueDetailTable.rows.add(_MaterialIssueDetail).draw(false);
+                    }
+                    else
+                    {
+                        DataTables.MaterialIssueDetailTable.clear().rows.add(materialIssueDetailList).draw(false);
+                    }
                 }
                 else
                 {
-                    DataTables.MaterialIssueDetailTable.clear().rows.add(materialIssueDetailList).draw(false);
+                
+                    DataTables.MaterialIssueDetailTable.rows.add(_MaterialIssueDetail).draw(false);
                 }
             }
-            else
-            {
-                
-                DataTables.MaterialIssueDetailTable.rows.add(_MaterialIssueDetail).draw(false);
-            }
+            $('#AddIssueToProductionItemModal').modal('hide');
         }
-        $('#AddIssueToProductionItemModal').modal('hide');
+        else
+        {
+            notyAlert('warning', "Material and Quantity fields are required ");
+        }
     }
-    else
-    {
-        notyAlert('warning', "Material and Quantity fields are required ");
+    catch (e) {
+        console.log(e.message);
     }
 
 }
 
 function MaterialEdit(curObj)
 {
-    debugger;
-    $('#AddIssueToProductionItemModal').modal('show');
+    try{
+        debugger;
+        $('#AddIssueToProductionItemModal').modal('show');
     
-    var materialIssueDetailVM = DataTables.MaterialIssueDetailTable.row($(curObj).parents('tr')).data();
-    _SlNo = 1;
-    //DataTables.MaterialIssueDetailTable.clear().rows.add(Itemtabledata).draw(false);
-    if ((materialIssueDetailVM != null) && (materialIssueDetailVM.MaterialID != null))
-    {
-        $("#MaterialID").val(materialIssueDetailVM.MaterialID).select2();
-        $('#MaterialIssueDetail_Material_MaterialCode').val(materialIssueDetailVM.Material.MaterialCode);
-        $('#MaterialIssueDetail_MaterialDesc').val(materialIssueDetailVM.MaterialDesc);
-        $('#MaterialIssueDetail_UnitCode').val(materialIssueDetailVM.UnitCode);
-        $('#MaterialIssueDetail_Qty').val(materialIssueDetailVM.Qty);
+        var materialIssueDetailVM = DataTables.MaterialIssueDetailTable.row($(curObj).parents('tr')).data();
+        _SlNo = 1;
+        //DataTables.MaterialIssueDetailTable.clear().rows.add(Itemtabledata).draw(false);
+        if ((materialIssueDetailVM != null) && (materialIssueDetailVM.MaterialID != null))
+        {
+            $("#MaterialID").val(materialIssueDetailVM.MaterialID).select2();
+            $('#MaterialIssueDetail_Material_MaterialCode').val(materialIssueDetailVM.Material.MaterialCode);
+            $('#MaterialIssueDetail_MaterialDesc').val(materialIssueDetailVM.MaterialDesc);
+            $('#MaterialIssueDetail_UnitCode').val(materialIssueDetailVM.UnitCode);
+            $('#MaterialIssueDetail_Qty').val(materialIssueDetailVM.Qty);
+        }
+    }
+    catch (e) {
+        console.log(e.message);
     }
 }
 
 function Delete(curObj)
 {
-    debugger;
-    var materialIssueDetailVM = DataTables.MaterialIssueDetailTable.row($(curObj).parents('tr')).data();
-    var materialIssueDetailVMIndex = DataTables.MaterialIssueDetailTable.row($(curObj).parents('tr')).index();
+    try
+    {
+        debugger;
+        var materialIssueDetailVM = DataTables.MaterialIssueDetailTable.row($(curObj).parents('tr')).data();
+        var materialIssueDetailVMIndex = DataTables.MaterialIssueDetailTable.row($(curObj).parents('tr')).index();
 
-    if ((materialIssueDetailVM != null) && (materialIssueDetailVM.ID != null))
-    {
-        notyConfirm('Are you sure to delete?', 'DeleteItem("' + materialIssueDetailVM.ID + '")');
+        if ((materialIssueDetailVM != null) && (materialIssueDetailVM.ID != null))
+        {
+            notyConfirm('Are you sure to delete?', 'DeleteItem("' + materialIssueDetailVM.ID + '")');
         
+        }
+        else
+        {
+            var res = notyConfirm('Are you sure to delete?', 'DeleteTempItem("' + materialIssueDetailVMIndex + '")');
+        }
     }
-    else
-    {
-        var res = notyConfirm('Are you sure to delete?', 'DeleteTempItem("' + materialIssueDetailVMIndex + '")');
+    catch (e) {
+        console.log(e.message);
     }
 }
 
 function DeleteTempItem(materialIssueDetailVMIndex)
 {
-    debugger;
-    var Itemtabledata = DataTables.MaterialIssueDetailTable.rows().data();
-    Itemtabledata.splice(materialIssueDetailVMIndex, 1);
-    _SlNo = 1;
-    DataTables.MaterialIssueDetailTable.clear().rows.add(Itemtabledata).draw(false);    
-    notyAlert('success', 'Deleted Successfully');
+    try
+    {
+        debugger;
+        var Itemtabledata = DataTables.MaterialIssueDetailTable.rows().data();
+        Itemtabledata.splice(materialIssueDetailVMIndex, 1);
+        _SlNo = 1;
+        DataTables.MaterialIssueDetailTable.clear().rows.add(Itemtabledata).draw(false);    
+        notyAlert('success', 'Deleted Successfully');
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 //-------------for delete from details table which saved in db-------
@@ -300,59 +334,76 @@ function DeleteIssueToProduction()
 
 function Save()
 {
-    debugger;
-    $("#DetailJSON").val('');
-    _MaterialIssueDetailList = [];
-    AddMaterialIssueDetailList();
-    if (_MaterialIssueDetailList.length > 0)
+    try
     {
         debugger;
-        var result = JSON.stringify(_MaterialIssueDetailList);
-        $("#DetailJSON").val(result);
-        $('#btnSave').trigger('click');
-        _SlNo = 1;
+        $("#DetailJSON").val('');
+        _MaterialIssueDetailList = [];
+        AddMaterialIssueDetailList();
+        if (_MaterialIssueDetailList.length > 0)
+        {
+            debugger;
+            var result = JSON.stringify(_MaterialIssueDetailList);
+            $("#DetailJSON").val(result);
+            $('#btnSave').trigger('click');
+            _SlNo = 1;
+        }
+        else
+        {
+            notyAlert('warning', 'Please Add Material Details!');
+        }
     }
-    else
-    {
-        notyAlert('warning', 'Please Add Material Details!');
+    catch (e) {
+        console.log(e.message);
     }
 }
 function AddMaterialIssueDetailList()
 {
-    debugger;
-    var data = DataTables.MaterialIssueDetailTable.rows().data();
-    for(var r=0;r<data.length;r++)
-    {
-        MaterialIssueDetail = new Object();
-        MaterialIssueDetail.ID = data[r].ID;
-        MaterialIssueDetail.MaterialIssueID = data[r].MaterialIssueID;
-        MaterialIssueDetail.MaterialID = data[r].MaterialID;
-        MaterialIssueDetail.MaterialDesc = data[r].MaterialDesc;
-        MaterialIssueDetail.UnitCode = data[r].UnitCode;
-        MaterialIssueDetail.Qty = data[r].Qty;
-        _MaterialIssueDetailList.push(MaterialIssueDetail);
+    try{
+        debugger;
+        var data = DataTables.MaterialIssueDetailTable.rows().data();
+        for(var r=0;r<data.length;r++)
+        {
+            MaterialIssueDetail = new Object();
+            MaterialIssueDetail.ID = data[r].ID;
+            MaterialIssueDetail.MaterialIssueID = data[r].MaterialIssueID;
+            MaterialIssueDetail.MaterialID = data[r].MaterialID;
+            MaterialIssueDetail.MaterialDesc = data[r].MaterialDesc;
+            MaterialIssueDetail.UnitCode = data[r].UnitCode;
+            MaterialIssueDetail.Qty = data[r].Qty;
+            _MaterialIssueDetailList.push(MaterialIssueDetail);
+        }
+    }
+    catch (e) {
+        console.log(e.message);
     }
 }
 function SaveSuccessIssueToProduction(data,status)
 {
-    debugger;
-    var JsonResult = JSON.parse(data)
-    switch(JsonResult.Result)
+    try
     {
-        case "OK":
-            $('#IsUpdate').val('True');
-            $('#ID').val(JsonResult.Records.ID)
-            BindIssueToProductionByID();
-            _SlNo = 1;
-            notyAlert("success", JsonResult.Records.Message)
-            ChangeButtonPatchView('IssueToProduction', 'divbuttonPatchAddIssueToProduction', 'Edit');
-            break;
-        case "ERROR":
-            notyAlert("danger", JsonResult.Message)
-            break;
-        default:
-            notyAlert("danger", JsonResult.Message)
-            break;
+        debugger;
+        var JsonResult = JSON.parse(data)
+        switch(JsonResult.Result)
+        {
+            case "OK":
+                $('#IsUpdate').val('True');
+                $('#ID').val(JsonResult.Records.ID)
+                BindIssueToProductionByID();
+                _SlNo = 1;
+                notyAlert("success", JsonResult.Records.Message)
+                ChangeButtonPatchView('IssueToProduction', 'divbuttonPatchAddIssueToProduction', 'Edit');
+                break;
+            case "ERROR":
+                notyAlert("danger", JsonResult.Message)
+                break;
+            default:
+                notyAlert("danger", JsonResult.Message)
+                break;
+        }
+    }
+    catch (e) {
+        console.log(e.message);
     }
 }
 
@@ -363,19 +414,24 @@ function Reset()
 
 function  BindIssueToProductionByID()
 {
-    debugger;
-    ChangeButtonPatchView('IssueToProduction', 'divbuttonPatchAddIssueToProduction', 'New');
-    _SlNo = 1;
-    var ID = $('#ID').val();
-    var result = GetIssueToProductionByID(ID);
-    $('#ID').val(result.ID);
-    $('#IssueNo').val(result.IssueNo);
-    $('#IssueDateFormatted').val(result.IssueDateFormatted);
-    $('#IssuedBy').val(result.IssuedBy).select2();
-    $('#IssueTo').val(result.IssueTo).select2();
-    $('#GeneralNotes').val(result.GeneralNotes);
-    $('#lblIssueNo').text('Issue To Production#:' + result.IssueNo);
-    BindMaterialIssueDetailTable(ID);
+    try{
+        debugger;
+        ChangeButtonPatchView('IssueToProduction', 'divbuttonPatchAddIssueToProduction', 'New');
+        _SlNo = 1;
+        var ID = $('#ID').val();
+        var result = GetIssueToProductionByID(ID);
+        $('#ID').val(result.ID);
+        $('#IssueNo').val(result.IssueNo);
+        $('#IssueDateFormatted').val(result.IssueDateFormatted);
+        $('#IssuedBy').val(result.IssuedBy).select2();
+        $('#IssueTo').val(result.IssueTo).select2();
+        $('#GeneralNotes').val(result.GeneralNotes);
+        $('#lblIssueNo').text('Issue To Production#:' + result.IssueNo);
+        BindMaterialIssueDetailTable(ID);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function GetIssueToProductionByID(ID)

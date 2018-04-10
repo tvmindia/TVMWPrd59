@@ -17,9 +17,14 @@ $(document).ready(function () {
 
 function Edit(curObj)
 {
-    debugger;
-    var MaterialStockAjViewModel = DataTables.MaterialStockAdjustmentList.row($(curObj).parents('tr')).data();
-    window.location.replace('NewStockAdjustment?code=STR&ID=' + MaterialStockAjViewModel.ID);
+    try{
+        debugger;
+        var MaterialStockAjViewModel = DataTables.MaterialStockAdjustmentList.row($(curObj).parents('tr')).data();
+        window.location.replace('NewStockAdjustment?code=STR&ID=' + MaterialStockAjViewModel.ID);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function BindOrReloadStockAdjustmentTable(action) {
@@ -116,9 +121,19 @@ function BindOrReloadStockAdjustmentTable(action) {
 }
 
 function ResetStockAdjustmentList() {
-    BindOrReloadStockAdjustmentTable('Reset');
+    try{
+        BindOrReloadStockAdjustmentTable('Reset');
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 //function export data to excel
 function ImportStockAdjustmentData() {
-    BindOrReloadStockAdjustmentTable('Export');
+    try{
+        BindOrReloadStockAdjustmentTable('Export');
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }

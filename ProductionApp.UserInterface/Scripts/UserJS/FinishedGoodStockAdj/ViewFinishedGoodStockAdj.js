@@ -17,9 +17,14 @@ $(document).ready(function () {
 
 function Edit(curObj)
 {
-    debugger;
-    var FinishedGoodStockAdjViewModel = DataTables.FinishedGoodStockAdjustmentList.row($(curObj).parents('tr')).data();
-    window.location.replace('NewFinishedGoodStockAdj?code=STR&ID=' + FinishedGoodStockAdjViewModel.ID);
+    try{
+        debugger;
+        var FinishedGoodStockAdjViewModel = DataTables.FinishedGoodStockAdjustmentList.row($(curObj).parents('tr')).data();
+        window.location.replace('NewFinishedGoodStockAdj?code=STR&ID=' + FinishedGoodStockAdjViewModel.ID);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function BindOrReloadFGStockAdjustmentTable(action) {
@@ -115,9 +120,21 @@ function BindOrReloadFGStockAdjustmentTable(action) {
     }
 }
 function ResetFGStockAdjustmentList() {
-    BindOrReloadFGStockAdjustmentTable('Reset');
+    try{
+        debugger;
+        BindOrReloadFGStockAdjustmentTable('Reset');
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 //function export data to excel
 function ImportFGStockAdjustmentData() {
-    BindOrReloadFGStockAdjustmentTable('Export');
+    try{
+        debugger
+        BindOrReloadFGStockAdjustmentTable('Export');
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }

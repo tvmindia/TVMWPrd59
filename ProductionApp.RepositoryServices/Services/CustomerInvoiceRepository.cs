@@ -128,7 +128,6 @@ namespace ProductionApp.RepositoryServices.Services
                     case "0":
                         throw new Exception(customerInvoice.IsUpdate ? _appConst.UpdateFailure : _appConst.InsertFailure);
                     case "1":
-                        //  requisition.ID = Guid.Parse(IDOut.Value.ToString());
                         return new
                         {
                             ID = IDOut.Value.ToString(),
@@ -397,7 +396,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         customerInvoiceDetail.Quantity = (sdr["Quantity"].ToString() != "" ? decimal.Parse(sdr["Quantity"].ToString()) : customerInvoiceDetail.Quantity);
                                         customerInvoiceDetail.Weight = (sdr["Weight"].ToString() != "" ? decimal.Parse(sdr["Weight"].ToString()) : customerInvoiceDetail.Weight);
                                         customerInvoiceDetail.PackingSlipDetailID = (sdr["PackingSlipDetailID"].ToString() != "" ? Guid.Parse(sdr["PackingSlipDetailID"].ToString()) : customerInvoiceDetail.PackingSlipDetailID);
-                                        customerInvoiceDetail.PackingSlipDetailLinkID = (sdr["LinkID"].ToString() != "" ? Guid.Parse(sdr["LinkID"].ToString()) : customerInvoiceDetail.PackingSlipDetailLinkID);
+                                        customerInvoiceDetail.CustomerInvoiceDetailLinkID = (sdr["LinkID"].ToString() != "" ? Guid.Parse(sdr["LinkID"].ToString()) : customerInvoiceDetail.CustomerInvoiceDetailLinkID);
                                         customerInvoiceDetail.QuantityCheck = (sdr["QuantityCheck"].ToString() != "" ? decimal.Parse(sdr["QuantityCheck"].ToString()) : customerInvoiceDetail.QuantityCheck);
                                         customerInvoiceDetail.WeightCheck = (sdr["WeightCheck"].ToString() != "" ? decimal.Parse(sdr["WeightCheck"].ToString()) : customerInvoiceDetail.WeightCheck);
                                         customerInvoiceDetail.IsInvoiceInKG = (sdr["IsInvoiceInKG"].ToString() != "" ? bool.Parse(sdr["IsInvoiceInKG"].ToString()) : customerInvoiceDetail.IsInvoiceInKG);
@@ -419,6 +418,142 @@ namespace ProductionApp.RepositoryServices.Services
                 throw ex;
             }
             return customerInvoiceDetailList;
+        }
+
+        public object UpdateCustomerInvoiceDetail(CustomerInvoice customerInvoice)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[UpdateCustomerInvoiceDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@DetailXML", SqlDbType.VarChar, -1).Value = customerInvoice.DetailXML;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = customerInvoice.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = customerInvoice.Common.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(_appConst.UpdateFailure);
+                    case "1":
+                        return new
+                        { 
+                            Status = outputStatus.Value.ToString(),
+                            Message = _appConst.UpdateSuccess
+                        };
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = _appConst.UpdateSuccess
+            };
+
+        }
+
+        public object DeleteCustomerInvoice(Guid id)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeleteCustomerInvoice]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(_appConst.DeleteFailure);
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = _appConst.DeleteSuccess
+            };
+        }
+
+        public object DeleteCustomerInvoiceDetail(Guid id)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeleteCustomerInvoiceDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(_appConst.DeleteFailure);
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = _appConst.DeleteSuccess
+            };
         }
     }
 }

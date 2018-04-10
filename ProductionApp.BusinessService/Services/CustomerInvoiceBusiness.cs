@@ -66,5 +66,23 @@ namespace ProductionApp.BusinessService.Services
         {
             return _customerInvoiceRepository.GetCustomerInvoiceDetailLinkForEdit(id);
         }
+
+        public object UpdateCustomerInvoiceDetail(CustomerInvoice customerInvoice)
+        {
+            DetailsXMl(customerInvoice);
+            return _customerInvoiceRepository.UpdateCustomerInvoiceDetail(customerInvoice);
+        }
+
+        public object DeleteCustomerInvoice(Guid id)
+        {
+            return _customerInvoiceRepository.DeleteCustomerInvoice(id);
+
+        }
+
+        public object DeleteCustomerInvoiceDetail(Guid id)
+        {
+            return _customerInvoiceRepository.DeleteCustomerInvoiceDetail(id);
+
+        }
     }
 }

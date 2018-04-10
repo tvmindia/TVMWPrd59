@@ -57,42 +57,57 @@ $(document).ready(function () {
 });
 
 function ShowStockAdjustmentDetailsModal() {
-    debugger;
-    if ($("#LatestApprovalStatus").val() == 3 || $("#LatestApprovalStatus").val() == 0) {
-        $("#MaterialID").val('').select2();
-        $('#MaterialStockAdjDetail_Material_MaterialCode').val('');
-        $('#MaterialStockAdjDetail_Material_Description').val('');
-        $('#MaterialStockAdjDetail_Material_UnitCode').val('');
-        $('#MaterialStockAdjDetail_Qty').val('');
-        $('#MaterialStockAdjDetail_Remarks').val('');
+    try{
+        debugger;
+        if ($("#LatestApprovalStatus").val() == 3 || $("#LatestApprovalStatus").val() == 0) {
+            $("#MaterialID").val('').select2();
+            $('#MaterialStockAdjDetail_Material_MaterialCode').val('');
+            $('#MaterialStockAdjDetail_Material_Description').val('');
+            $('#MaterialStockAdjDetail_Material_UnitCode').val('');
+            $('#MaterialStockAdjDetail_Qty').val('');
+            $('#MaterialStockAdjDetail_Remarks').val('');
 
-        $('#StockAdjustmentDetailsModal').modal('show');
+            $('#StockAdjustmentDetailsModal').modal('show');
+        }
+    }
+    catch (e) {
+        console.log(e.message);
     }
 }
 
 function MaterialEdit(curObj) {
-    debugger;
-    $('#StockAdjustmentDetailsModal').modal('show');
+    try{
+        debugger;
+        $('#StockAdjustmentDetailsModal').modal('show');
 
-    var materialStockAdjDetailVM = DataTables.StockAdjustmentDetailTable.row($(curObj).parents('tr')).data();
-    _SlNo = 1;
-    BindStockAdjustmentDetails(materialStockAdjDetailVM.MaterialID);
+        var materialStockAdjDetailVM = DataTables.StockAdjustmentDetailTable.row($(curObj).parents('tr')).data();
+        _SlNo = 1;
+        BindStockAdjustmentDetails(materialStockAdjDetailVM.MaterialID);
 
-    $("#MaterialID").val(materialStockAdjDetailVM.MaterialID).trigger('change');
-    $('#MaterialStockAdjDetail_Qty').val(materialStockAdjDetailVM.Qty);
-    $('#MaterialStockAdjDetail_Remarks').val(materialStockAdjDetailVM.Remarks);
+        $("#MaterialID").val(materialStockAdjDetailVM.MaterialID).trigger('change');
+        $('#MaterialStockAdjDetail_Qty').val(materialStockAdjDetailVM.Qty);
+        $('#MaterialStockAdjDetail_Remarks').val(materialStockAdjDetailVM.Remarks);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function BindStockAdjustmentDetails(id)
 {
-    debugger;
-    var result = GetMaterial(id);
-    _SlNo = 1;
-    $('#MaterialStockAdjDetail_Material_MaterialCode').val(result.MaterialCode);
-    $('#MaterialStockAdjDetail_Material_UnitCode').val(result.UnitCode);
-    $('#MaterialStockAdjDetail_Material_Description').val(result.Description);
-    $('#MaterialStockAdjDetail_Material_Qty').val(result.Qty);
-    $('#MaterialStockAdjDetail_Material_Remarks').val(result.Remarks);
+    try{
+        debugger;
+        var result = GetMaterial(id);
+        _SlNo = 1;
+        $('#MaterialStockAdjDetail_Material_MaterialCode').val(result.MaterialCode);
+        $('#MaterialStockAdjDetail_Material_UnitCode').val(result.UnitCode);
+        $('#MaterialStockAdjDetail_Material_Description').val(result.Description);
+        $('#MaterialStockAdjDetail_Material_Qty').val(result.Qty);
+        $('#MaterialStockAdjDetail_Material_Remarks').val(result.Remarks);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function GetMaterial(id) {
@@ -124,117 +139,137 @@ function GetMaterial(id) {
 
 function AddStockAdjustmentDetails()
 {
-    debugger;
-    if ($('#MaterialID').val() != "" && $('#MaterialStockAdjDetail_Qty').val() != "" && $('#MaterialStockAdjDetail_Remarks').val()!="")
-    {
-        _StockAdjustmentDetail = [];
-        AddStockAdjustment = new Object();
-        AddStockAdjustment.MaterialID = $('#MaterialID').val();
-        AddStockAdjustment.Material = new Object();
-        AddStockAdjustment.Material.MaterialCode = $('#MaterialStockAdjDetail_Material_MaterialCode').val();
-        AddStockAdjustment.Material.Description = $('#MaterialStockAdjDetail_Material_Description').val();
-        AddStockAdjustment.Material.UnitCode = $('#MaterialStockAdjDetail_Material_UnitCode').val();
-        AddStockAdjustment.Qty = $('#MaterialStockAdjDetail_Qty').val();
-        AddStockAdjustment.Remarks = $('#MaterialStockAdjDetail_Remarks').val();
-        _StockAdjustmentDetail.push(AddStockAdjustment);
-
-        if (_StockAdjustmentDetail != null)
+    try{
+        debugger;
+        if ($('#MaterialID').val() != "" && $('#MaterialStockAdjDetail_Qty').val() != "" && $('#MaterialStockAdjDetail_Remarks').val()!="")
         {
-            var materialStockAdjDetailList = DataTables.StockAdjustmentDetailTable.rows().data();
-            if (materialStockAdjDetailList.length > 0)
+            _StockAdjustmentDetail = [];
+            AddStockAdjustment = new Object();
+            AddStockAdjustment.MaterialID = $('#MaterialID').val();
+            AddStockAdjustment.Material = new Object();
+            AddStockAdjustment.Material.MaterialCode = $('#MaterialStockAdjDetail_Material_MaterialCode').val();
+            AddStockAdjustment.Material.Description = $('#MaterialStockAdjDetail_Material_Description').val();
+            AddStockAdjustment.Material.UnitCode = $('#MaterialStockAdjDetail_Material_UnitCode').val();
+            AddStockAdjustment.Qty = $('#MaterialStockAdjDetail_Qty').val();
+            AddStockAdjustment.Remarks = $('#MaterialStockAdjDetail_Remarks').val();
+            _StockAdjustmentDetail.push(AddStockAdjustment);
+
+            if (_StockAdjustmentDetail != null)
             {
-                var checkPoint = 0;
-                for (var i = 0; i < materialStockAdjDetailList.length; i++)
+                var materialStockAdjDetailList = DataTables.StockAdjustmentDetailTable.rows().data();
+                if (materialStockAdjDetailList.length > 0)
                 {
-                    if (materialStockAdjDetailList[i].MaterialID == $('#MaterialID').val())
+                    var checkPoint = 0;
+                    for (var i = 0; i < materialStockAdjDetailList.length; i++)
                     {
-                        materialStockAdjDetailList[i].Material.MaterialCode = $('#MaterialStockAdjDetail_Material_MaterialCode').val();
-                        materialStockAdjDetailList[i].Material.Description = $('#MaterialStockAdjDetail_Material_Description').val();
-                        materialStockAdjDetailList[i].Material.UnitCode = $('#MaterialStockAdjDetail_Material_UnitCode').val();
-                        materialStockAdjDetailList[i].Qty = $('#MaterialStockAdjDetail_Qty').val();
-                        materialStockAdjDetailList[i].Remarks = $('#MaterialStockAdjDetail_Remarks').val();
-                        checkPoint = 1;
-                        break;
+                        if (materialStockAdjDetailList[i].MaterialID == $('#MaterialID').val())
+                        {
+                            materialStockAdjDetailList[i].Material.MaterialCode = $('#MaterialStockAdjDetail_Material_MaterialCode').val();
+                            materialStockAdjDetailList[i].Material.Description = $('#MaterialStockAdjDetail_Material_Description').val();
+                            materialStockAdjDetailList[i].Material.UnitCode = $('#MaterialStockAdjDetail_Material_UnitCode').val();
+                            materialStockAdjDetailList[i].Qty = $('#MaterialStockAdjDetail_Qty').val();
+                            materialStockAdjDetailList[i].Remarks = $('#MaterialStockAdjDetail_Remarks').val();
+                            checkPoint = 1;
+                            break;
+                        }
                     }
-                }
-                if (!checkPoint)
-                {
-                    DataTables.StockAdjustmentDetailTable.rows.add(_StockAdjustmentDetail).draw(false);
+                    if (!checkPoint)
+                    {
+                        DataTables.StockAdjustmentDetailTable.rows.add(_StockAdjustmentDetail).draw(false);
+                    }
+                    else
+                    {
+                        DataTables.StockAdjustmentDetailTable.clear().rows.add(materialStockAdjDetailList).draw(false);
+                    }
                 }
                 else
                 {
-                    DataTables.StockAdjustmentDetailTable.clear().rows.add(materialStockAdjDetailList).draw(false);
+                    DataTables.StockAdjustmentDetailTable.rows.add(_StockAdjustmentDetail).draw(false);
                 }
             }
-            else
-            {
-                DataTables.StockAdjustmentDetailTable.rows.add(_StockAdjustmentDetail).draw(false);
-            }
+            $('#StockAdjustmentDetailsModal').modal('hide');
         }
-        $('#StockAdjustmentDetailsModal').modal('hide');
+        else
+        {
+            notyAlert('warning', "Material,Quantity and Remark fields are required ");
+        }
     }
-    else
-    {
-        notyAlert('warning', "Material,Quantity and Remark fields are required ");
+    catch (e) {
+        console.log(e.message);
     }
 }
 
 function Save() {
-    debugger;
-    $("#DetailJSON").val('');
-    _StockAdjustmentDetailList = [];
-    AddStockAdjustmentDetailList();
-    if (_StockAdjustmentDetailList.length > 0) {
-        var result = JSON.stringify(_StockAdjustmentDetailList);
-        $("#DetailJSON").val(result);
-        $('#btnSave').trigger('click');
-        _SlNo = 1;
+    try{
+        debugger;
+        $("#DetailJSON").val('');
+        _StockAdjustmentDetailList = [];
+        AddStockAdjustmentDetailList();
+        if (_StockAdjustmentDetailList.length > 0) {
+            var result = JSON.stringify(_StockAdjustmentDetailList);
+            $("#DetailJSON").val(result);
+            $('#btnSave').trigger('click');
+            _SlNo = 1;
+        }
+        else {
+            notyAlert('warning', 'Please Add Stock Adjustment Details!');
+        }
     }
-    else {
-        notyAlert('warning', 'Please Add Stock Adjustment Details!');
+    catch (e) {
+        console.log(e.message);
     }
 
 }
 
 function AddStockAdjustmentDetailList()
 {
-    debugger;
-    var stockAdjDetailData = DataTables.StockAdjustmentDetailTable.rows().data();
-    for (var r = 0; r < stockAdjDetailData.length; r++)
-    {
-        StockAdjustmentDetail = new Object();
-        //Material = new Object();
-        //Material.Description = stockAdjDetailData[r].Description;
-        StockAdjustmentDetail.ID = stockAdjDetailData[r].ID;
-        StockAdjustmentDetail.AdjustmentID = stockAdjDetailData[r].AdjustmentID;
-        StockAdjustmentDetail.MaterialID = stockAdjDetailData[r].MaterialID;
-        //StockAdjustmentDetail.Material.Description = Material;
-        StockAdjustmentDetail.Qty = stockAdjDetailData[r].Qty;
-        StockAdjustmentDetail.Remarks = stockAdjDetailData[r].Remarks;
-        _StockAdjustmentDetailList.push(StockAdjustmentDetail);
+    try{
+        debugger;
+        var stockAdjDetailData = DataTables.StockAdjustmentDetailTable.rows().data();
+        for (var r = 0; r < stockAdjDetailData.length; r++)
+        {
+            StockAdjustmentDetail = new Object();
+            //Material = new Object();
+            //Material.Description = stockAdjDetailData[r].Description;
+            StockAdjustmentDetail.ID = stockAdjDetailData[r].ID;
+            StockAdjustmentDetail.AdjustmentID = stockAdjDetailData[r].AdjustmentID;
+            StockAdjustmentDetail.MaterialID = stockAdjDetailData[r].MaterialID;
+            //StockAdjustmentDetail.Material.Description = Material;
+            StockAdjustmentDetail.Qty = stockAdjDetailData[r].Qty;
+            StockAdjustmentDetail.Remarks = stockAdjDetailData[r].Remarks;
+            _StockAdjustmentDetailList.push(StockAdjustmentDetail);
+        }
+    }
+    catch (e) {
+        console.log(e.message);
     }
 }
 
 function SaveSuccessStockAdjustment(data,status)
 {
-    debugger;
-    var JsonResult = JSON.parse(data)
-    switch(JsonResult.Result)
-    {
-        case "OK":
-            $('#IsUpdate').val('True');
-            $('#ID').val(JsonResult.Records.ID)
-            BindStockAdjustmentByID();
-            _SlNo = 1;
-            notyAlert("success", JsonResult.Records.Message)
+    try{
+        debugger;
+        var JsonResult = JSON.parse(data)
+        switch(JsonResult.Result)
+        {
+            case "OK":
+                $('#IsUpdate').val('True');
+                $('#ID').val(JsonResult.Records.ID)
+                BindStockAdjustmentByID();
+                _SlNo = 1;
+                notyAlert("success", JsonResult.Records.Message)
            
-            break;
-        case "ERROR":
-            notyAlert("danger", JsonResult.Message)
-            break;
-        default:
-            notyAlert("danger", JsonResult.Message)
-            break;
+                break;
+            case "ERROR":
+                notyAlert("danger", JsonResult.Message)
+                break;
+            default:
+                notyAlert("danger", JsonResult.Message)
+                break;
+        }
+    }
+    catch (e) {
+        console.log(e.message);
     }
 }
 
@@ -245,40 +280,50 @@ function Reset()
 
 function BindStockAdjustmentByID()
 {
-    _SlNo = 1;
-    var id = $('#ID').val();
-    var result = GetStockAdjustmentByID(id);
-    debugger;
-    $('#ID').val(result.ID);
-    $('#AdjustmentNo').val(result.AdjustmentNo);
-    $('#EmployeeID').val(result.EmployeeID).select2();
-    $('#AdjustmentDateFormatted').val(result.AdjustmentDateFormatted);
-    $('#Remarks').val(result.Remarks);
-    $('#lblStockAdjNo').text('Stock Adj.No# :' + result.AdjustmentNo);
-    $('#LatestApprovalStatus').val(result.LatestApprovalStatus);
-    $('#LatestApprovalID').val(result.LatestApprovalID);
-    $('#lblApprovalStatus').text(result.ApprovalStatus);
+    try{
+        _SlNo = 1;
+        var id = $('#ID').val();
+        var result = GetStockAdjustmentByID(id);
+        debugger;
+        $('#ID').val(result.ID);
+        $('#AdjustmentNo').val(result.AdjustmentNo);
+        $('#EmployeeID').val(result.EmployeeID).select2();
+        $('#AdjustmentDateFormatted').val(result.AdjustmentDateFormatted);
+        $('#Remarks').val(result.Remarks);
+        $('#lblStockAdjNo').text('Stock Adj.No# :' + result.AdjustmentNo);
+        $('#LatestApprovalStatus').val(result.LatestApprovalStatus);
+        $('#LatestApprovalID').val(result.LatestApprovalID);
+        $('#lblApprovalStatus').text(result.ApprovalStatus);
 
-    if (result.LatestApprovalStatus == 3 || result.LatestApprovalStatus == 0)
-    {
-        ChangeButtonPatchView('MaterialStockAdj', 'divbuttonPatchAddStockAdj', 'Edit');
-        EnableDisableFields(false)       
+        if (result.LatestApprovalStatus == 3 || result.LatestApprovalStatus == 0)
+        {
+            ChangeButtonPatchView('MaterialStockAdj', 'divbuttonPatchAddStockAdj', 'Edit');
+            EnableDisableFields(false)       
+        }
+        else
+        {
+            ChangeButtonPatchView('MaterialStockAdj', 'divbuttonPatchAddStockAdj', 'Disable');
+            EnableDisableFields(true)
+        }
+        BindStockAdjustmentDetailTable(id);
     }
-    else
-    {
-        ChangeButtonPatchView('MaterialStockAdj', 'divbuttonPatchAddStockAdj', 'Disable');
-        EnableDisableFields(true)
+    catch (e) {
+        console.log(e.message);
     }
-    BindStockAdjustmentDetailTable(id);
 }
 
 function EnableDisableFields(value)
 {
-    $('#btnAddStockAdjustmentItems').attr('disabled', value);
-    $('#EmployeeID').attr('disabled', value);
-    $('#AdjustmentDateFormatted').attr('disabled', value);
-    $('#Remarks').attr('disabled', value);
-    DataTables.StockAdjustmentDetailTable.column(8).visible(!value);
+    try{
+        $('#btnAddStockAdjustmentItems').attr('disabled', value);
+        $('#EmployeeID').attr('disabled', value);
+        $('#AdjustmentDateFormatted').attr('disabled', value);
+        $('#Remarks').attr('disabled', value);
+        DataTables.StockAdjustmentDetailTable.column(8).visible(!value);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function GetStockAdjustmentByID(id)
@@ -313,8 +358,13 @@ function GetStockAdjustmentByID(id)
 
 function BindStockAdjustmentDetailTable(id)
 {
-    debugger;
-    DataTables.StockAdjustmentDetailTable.clear().rows.add(GetMaterialStockAdjustmentDetail(id)).draw(false);
+    try{
+        debugger;
+        DataTables.StockAdjustmentDetailTable.clear().rows.add(GetMaterialStockAdjustmentDetail(id)).draw(false);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function GetMaterialStockAdjustmentDetail(id)
@@ -346,26 +396,36 @@ function GetMaterialStockAdjustmentDetail(id)
 }
 
 function Delete(curObj) {
-    debugger;
-    var materialStockAdjDetailVM = DataTables.StockAdjustmentDetailTable.row($(curObj).parents('tr')).data();
-    var materialStockAdjDetailVMIndex = DataTables.StockAdjustmentDetailTable.row($(curObj).parents('tr')).index();
+    try{
+        debugger;
+        var materialStockAdjDetailVM = DataTables.StockAdjustmentDetailTable.row($(curObj).parents('tr')).data();
+        var materialStockAdjDetailVMIndex = DataTables.StockAdjustmentDetailTable.row($(curObj).parents('tr')).index();
 
-    if ((materialStockAdjDetailVM != null) && (materialStockAdjDetailVM.ID != null)) {
-        notyConfirm('Are you sure to delete?', 'DeleteItem("' + materialStockAdjDetailVM.ID + '")');
+        if ((materialStockAdjDetailVM != null) && (materialStockAdjDetailVM.ID != null)) {
+            notyConfirm('Are you sure to delete?', 'DeleteItem("' + materialStockAdjDetailVM.ID + '")');
 
+        }
+        else {
+            var res = notyConfirm('Are you sure to delete?', 'DeleteTempItem("' + materialStockAdjDetailVMIndex + '")');
+        }
     }
-    else {
-        var res = notyConfirm('Are you sure to delete?', 'DeleteTempItem("' + materialStockAdjDetailVMIndex + '")');
+    catch (e) {
+        console.log(e.message);
     }
 }
 
 function DeleteTempItem(materialStockAdjDetailVMIndex) {
-    debugger;
-    var Itemtabledata = DataTables.StockAdjustmentDetailTable.rows().data();
-    Itemtabledata.splice(materialStockAdjDetailVMIndex, 1);
-    _SlNo = 1;
-    DataTables.StockAdjustmentDetailTable.clear().rows.add(Itemtabledata).draw(false);
-    notyAlert('success', 'Deleted Successfully');
+    try{
+        debugger;
+        var Itemtabledata = DataTables.StockAdjustmentDetailTable.rows().data();
+        Itemtabledata.splice(materialStockAdjDetailVMIndex, 1);
+        _SlNo = 1;
+        DataTables.StockAdjustmentDetailTable.clear().rows.add(Itemtabledata).draw(false);
+        notyAlert('success', 'Deleted Successfully');
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function DeleteItem(id)
@@ -446,30 +506,39 @@ function DeleteStockAdjustment()
 }
 
 function ShowSendForApproval(documentTypeCode) {
-    debugger;
-    if ($('#LatestApprovalStatus').val() == 3) {
-        var documentID = $('#ID').val();
-        var latestApprovalID = $('#LatestApprovalID').val();
-        ReSendDocForApproval(documentID, documentTypeCode, latestApprovalID);
+    try{
+        debugger;
+        if ($('#LatestApprovalStatus').val() == 3) {
+            var documentID = $('#ID').val();
+            var latestApprovalID = $('#LatestApprovalID').val();
+            ReSendDocForApproval(documentID, documentTypeCode, latestApprovalID);
+        }
+        else {
+            $('#SendApprovalModal').modal('show');
+        }
     }
-    else {
-        $('#SendApprovalModal').modal('show');
+    catch (e) {
+        console.log(e.message);
     }
 }
 
 function SendForApproval(documentTypeCode) {
-    debugger;
-    var documentID = $('#ID').val();
-    var approversCSV;
-    var count = $('#ApproversCount').val();
+    try{
+        debugger;
+        var documentID = $('#ID').val();
+        var approversCSV;
+        var count = $('#ApproversCount').val();
 
-    for (i = 0; i < count; i++) {
-        if (i == 0)
-            approversCSV = $('#ApproverLevel' + i).val();
-        else
-            approversCSV = approversCSV + ',' + $('#ApproverLevel' + i).val();
+        for (i = 0; i < count; i++) {
+            if (i == 0)
+                approversCSV = $('#ApproverLevel' + i).val();
+            else
+                approversCSV = approversCSV + ',' + $('#ApproverLevel' + i).val();
+        }
+        SendDocForApproval(documentID, documentTypeCode, approversCSV);
+        $('#SendApprovalModal').modal('hide');
+        BindStockAdjustmentByID();
+    } catch (e) {
+        console.log(e.message);
     }
-    SendDocForApproval(documentID, documentTypeCode, approversCSV);
-    $('#SendApprovalModal').modal('hide');
-    BindStockAdjustmentByID();
 }

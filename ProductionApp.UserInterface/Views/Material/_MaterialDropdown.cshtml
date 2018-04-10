@@ -1,13 +1,28 @@
 ﻿@model ProductionApp.UserInterface.Models.MaterialViewModel
 <div class="input-group">
-    @Html.DropDownListFor(model=>model.MaterialID, Model.SelectList, "---Select Code---", new { @class = "form-control", @style = "width:100%" })
+    @Html.DropDownListFor(model=>model.MaterialID, Model.SelectList, "---Select Code---", new { @class = "form-control", @style = "width:100%" ,@onchange= "$('#hdnMaterialID').val(this.value)" })
     <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddMaterialMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
 </div>
 
 <script>
     $(document).ready(function () {
-        $("#MaterialID").select2({
-        });
+        try{
+            $("#MaterialID").select2({
+            });
+        }
+        catch(e)
+        {
+            console.log(e.message);
+        }
+        try{
+            $("#MaterialID").change(function () {
+                debugger;
+                BindRawMaterialDetails(this.value)
+            });
+        }
+        catch (e) {
+            console.log(e.message);
+        }
     });
 </script>
 
