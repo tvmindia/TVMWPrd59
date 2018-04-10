@@ -1191,3 +1191,10 @@ background-position: 0% 50%;
 select{
     padding:4px 2px!important;
 }
+
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    line-height: 23px!important;
+}
+.input-group .form-control,.input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group{
+    z-index:initial!important;
+}
