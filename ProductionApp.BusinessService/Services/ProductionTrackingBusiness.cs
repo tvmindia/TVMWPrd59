@@ -19,10 +19,14 @@ namespace ProductionApp.BusinessService.Services
         }
         #endregion ConstructorInjection
 
-        public List<ProductionTrackingSearch> GetProductionTrackingSearchList()
+        public List<ProductionTracking> GetProductionTrackingSearchList(string searchTerm)
         {
-            return _ProductionTrackingRepository.GetProductionTrackingSearchList();
+            return _ProductionTrackingRepository.GetProductionTrackingSearchList(searchTerm);
         }
-
+        
+        public object InsertUpdateProductionTracking(ProductionTracking productionTracking)
+        {
+            return _ProductionTrackingRepository.InsertUpdateProductionTracking(productionTracking);
+        }
     }
 }

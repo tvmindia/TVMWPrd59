@@ -18,44 +18,37 @@ namespace ProductionApp.UserInterface.Models
         public Guid ProductID { get; set; }
         public Guid LineStageDetailID { get; set; }
         [Display(Name = "Accepted Quantity")]
-        public int AcceptedQty { get; set; }
+        public int? AcceptedQty { get; set; }
         [Display(Name = "Accepted Weight")]
-        public decimal AcceptedWt { get; set; }
+        public decimal? AcceptedWt { get; set; }
         [Display(Name = "Damaged Quantity")]
-        public int DamagedQty { get; set; }
+        public int? DamagedQty { get; set; }
         [Display(Name = "Damaged Weight")]
-        public decimal DamagedWt { get; set; }
+        public decimal? DamagedWt { get; set; }
         [Display(Name = "Employee")]
         public Guid ForemanID { get; set; }
         [Display(Name = "Remarks")]
+        [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
         public CommonViewModel Common { get; set; }
         //Additional
         public bool IsUpdate { get; set; }
         public string EntryDateFormatted { get; set; }
-        [Display(Name = "Component")]
+        [Display(Name = "Product")]
         public ProductViewModel Product { get; set; }
-        [Display(Name = "Component Line")]
-        public BOMComponentLineViewModel BOMComponentLine { get; set; }
-        [Display(Name = "Stage")]
-        public StageViewModel Stage { get; set; }
-        [Display(Name = "Output")]
+        //[Display(Name = "Component Line")]
+        //public BOMComponentLineViewModel BOMComponentLine { get; set; }
+        //[Display(Name = "Stage")]
+        //public StageViewModel Stage { get; set; }
+        //[Display(Name = "Output")]
         public SubComponentViewModel SubComponent { get; set; }
-        public string SearchValue { get; set; }
-        public string SearchText { get; set; }
+        public string SearchDetail { get; set; }
         public BOMComponentLineStageDetailViewModel BOMComponentLineStageDetail { get; set; }
-        public ProductionTrackingSearchViewModel ProductionTrackingSearch { get; set; }
-        public List<SelectListItem> SelectList { get; set; }
     }
 
     public class ProductionTrackingAdvanceSearchViewModel
     {
 
     }
-
-    public class ProductionTrackingSearchViewModel
-    {
-        public string Text { get; set; }
-        public string Value { get; set; }
-    }
+    
 }
