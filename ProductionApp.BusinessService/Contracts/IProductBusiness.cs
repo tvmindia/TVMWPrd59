@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace ProductionApp.BusinessService.Contracts
 {
     public interface IProductBusiness
     {
-        List<Product> GetProductForSelectList();
+        List<SelectListItem> GetProductForSelectList();
         List<Product> GetAllProduct(ProductAdvanceSearch productAdvanceSearch);
         bool CheckProductCodeExist(string productCode);
         object InsertUpdateProduct(Product product);
