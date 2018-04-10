@@ -1,30 +1,35 @@
 ﻿@model ProductionApp.UserInterface.Models.ProductViewModel
-<div class="input-group">
-    @Html.DropDownListFor(model => model.ProductID, Model.SelectList, "---Select Product---", new { @class = "form-control", @style = "width:100%" })
-    <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddProductMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
-</div>
-
-@model ProductionApp.UserInterface.Models.ProductViewModel
 @if (@ViewBag.IsRequired == "required")
 {
     <div class="input-group">
-        @Html.DropDownList("StateCode", Model.StateSelectList, "--Select state--", new { @class = "form-control newinput", @required = "", @title = "The State is missing", @onchange = "$('#hdnStateCode').val(this.value)" })
-        <span class="input-group-addon" style="cursor:pointer;color:#4bd24b;box-shadow:0px 1px 3px 0px #4bd24b" onclick="AddStateMaster('OTR')"><i class="far fa-plus-square"></i></span>
+        @Html.DropDownList("ProductID", Model.ProductSelectList, "--Select product--", new { @class = "form-control", @required = "", @title = "The Product is missing", @onchange = "$('#hdnProductID').val(this.value)" })
+        <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddProductMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
+
     </div>
 }
 else
 {
     <div class="input-group">
-        @Html.DropDownList("StateCode", Model.StateSelectList, "--Select state--", new { @class = "form-control newinput", @onchange = "$('#hdnStateCode').val(this.value)" })
-        <span class="input-group-addon" style="cursor:pointer;color:#4bd24b;box-shadow:0px 1px 3px 0px #4bd24b" onclick="AddStateMaster('OTR')"><i class="far fa-plus-square"></i></span>
+        @Html.DropDownList("ProductID", Model.ProductSelectList, "--Select product--", new { @class = "form-control", @onchange = "$('#hdnProductID').val(this.value)" })
+        <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddProductMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
     </div>
 }
 
-@Html.ValidationMessage("StateCode", "", new { @class = "text-danger" })
+@Html.ValidationMessage("ProductID", "", new { @class = "text-danger" })
 
 <script>
     $(document).ready(function () {
-        $.validator.unobtrusive.parse("#StateCode");
-        $('#StateCode').val($('#hdnStateCode').val());
+        $('#ProductID').val($('#hdnProductID').val());
     });
 </script>
+
+@* New proposed Dropdown Approach *@
+@*<div class="form-group col-md-4">
+        <div class="col-md-12">
+            @Html.LabelFor(model => model.Product, htmlAttributes: new { @class = "control-label lblrequired" })
+        </div>
+        <div class="col-md-12" id="divProductDropdown">
+            @Html.Action("ProductDropdown", "Product", new { required = "required" })
+        </div>
+        @Html.HiddenFor(model => model.ProductID, new { htmlAttributes = new { @id = "hdnProductID", @value = Guid.Empty } })
+    </div>*@

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace ProductionApp.BusinessService.Services
 {
@@ -19,9 +20,21 @@ namespace ProductionApp.BusinessService.Services
             _productRepository = productRepository;
             _commonBusiness = commonBusiness;
         }
-        public List<Product> GetProductForSelectList()
+        public List<SelectListItem> GetProductForSelectList()
         {
-            return _productRepository.GetProductForSelectList();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            List<Product> productList = _productRepository.GetProductForSelectList();
+            if (productList != null)
+                foreach (Product product in productList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = product.Code+" | " +product.Description,
+                        Value = product.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            return selectListItem;
         }
         public List<Product> GetAllProduct(ProductAdvanceSearch productAdvanceSearch)
         {

@@ -72,7 +72,7 @@ function AddProductMaster(flag) {
 function SaveSuccessProduct(data, status) {
     debugger;
     var JsonResult = JSON.parse(data)
-    switch (JsonResult.Result) {
+    switch (JsonResult.Status) {
         case "OK":
             if ($('#hdnMasterCall').val() == "MSTR") {
                 $('#IsUpdate').val('True');
@@ -94,6 +94,7 @@ function SaveSuccessProduct(data, status) {
 }
 //-- add MaterialType--//
 function AddMaterialTypeMaster(flag) {
+    debugger;
     GetMasterPartial("MaterialType", "");
     $('#h3ModelMasterContextLabel').text('Add Material Type')
     $('#divModelMasterPopUp').modal('show');
@@ -112,7 +113,7 @@ function SaveSuccessMaterialType(data, status) {
             else if ($('#hdnMasterCall').val() == "OTR") {
                 $('#divMaterialTypeDropdown').load('/MaterialType/MaterialTypeDropdown');
             }
-            MasterAlert("success", JsonResult.Records.Message)
+            MasterAlert("success", JsonResult.Record.Message)
             break;
         case "ERROR":
             MasterAlert("danger", JsonResult.Message)
@@ -320,3 +321,35 @@ function SaveSuccessProductCategory(data, status) {
             break;
     }
 }
+
+////-- add  Material Type--//
+//function AddMaterialTypeMaster(flag) {
+//    debugger;
+//    GetMasterPartial("MaterialType", "");
+//    $('#h3ModelMasterContextLabel').text('Add Material Type')
+//    $('#divModelMasterPopUp').modal('show');
+//    $('#hdnMasterCall').val(flag);
+//}
+////-- Function After Save Material Type--//
+//function SaveSuccessMaterialType(data, status) {
+//    debugger;
+//    var JsonResult = JSON.parse(data)
+//    switch (JsonResult.Status) {
+//        case "OK":
+//            if ($('#hdnMasterCall').val() == "MSTR") {
+//                $('#IsUpdate').val('True');
+//                BindOrReloadMaterialTypeTable('Reset');
+//            }
+//            else if ($('#hdnMasterCall').val() == "OTR") {
+//                $('#divMaterialTypeDropdown').load('/MaterialType/MaterialTypeDropdown');
+//            }
+//            MasterAlert("success", JsonResult.Record.Message)
+//            break;
+//        case "ERROR":
+//            MasterAlert("danger", JsonResult.Message)
+//            break;
+//        default:
+//            MasterAlert("danger", JsonResult.Message)
+//            break;
+//    }
+//}

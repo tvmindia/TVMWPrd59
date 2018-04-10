@@ -54,11 +54,10 @@ namespace ProductionApp.UserInterface.Models
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
-        public Guid ProductID { get; set; }
         public CommonViewModel Common { get; set; }
         public UnitViewModel Unit { get; set; }
         public ProductCategoryViewModel ProductCategory { get; set; }
-        public List<SelectListItem> SelectList { get; set; }
+        public List<SelectListItem> ProductSelectList { get; set; }
     }
 
     public class ProductAdvanceSearchViewModel
