@@ -61,5 +61,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _customerInvoiceRepository.GetAllCustomerInvoice(customerInvoiceAdvanceSearch);
         }
+
+        public List<CustomerInvoiceDetail> GetCustomerInvoiceDetailLinkForEdit(string id)
+        {
+            return _customerInvoiceRepository.GetCustomerInvoiceDetailLinkForEdit(id);
+        }
     }
 }

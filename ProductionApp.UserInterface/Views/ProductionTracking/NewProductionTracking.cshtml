@@ -9,6 +9,9 @@
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Selectmin")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableSelect")
 }
 
 
@@ -34,159 +37,204 @@
         </div>
     </div>
 
-    <div class="row tableContainer">
-        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
-        <div class="form-group col-md-12">
-            @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
-            @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
+
+    @using (Ajax.BeginForm("InsertUpdateProductionTracking", "ProductionTracking", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "OnServerCallBegin", OnComplete = "OnServerCallComplete" }, new { @class = "form-horizontal", role = "form", @id = "ProductionTrackingForm" }))
+    {
+
+        <div class="row tableContainer">
+            <div class="col-md-12">
+                <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
+            </div>
+            @Html.HiddenFor(model => model.ID)
+            @Html.HiddenFor(model => model.IsUpdate)
+            @Html.HiddenFor(model => model.ForemanID)
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div class="form-group col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.EntryDate, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.EntryDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @value = ViewBag.CurrentDate } })
+                            @Html.ValidationMessageFor(model => model.EntryDateFormatted, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ForemanID, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.Action("EmployeeDropdown", "Employee", Model.ForemanID)
+                            @Html.ValidationMessageFor(model => model.ForemanID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ProductionRefNo, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.ProductionRefNo, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                            @Html.ValidationMessageFor(model => model.ProductionRefNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Selected Product/Component/Stage Details</div>
+            </div>
+
+
+
+            <div class="col-md-8">
+                <div class="form-group col-md-12">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            @Html.Label("Search", htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                @Html.Editor("ProductionTrackingSearch", new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "ProductionTrackingSearch", placeholder = "Search" } })@*, @onkeypress = "ProductionTrackingSearchOnKeyPress(this)"*@
+                                <div class="input-group-btn">
+                                    <a class="btn btn-primary" style="height:27.5px" onclick="ProductionTrackingSearch()"><i class="glyphicon glyphicon-search"></i></a> @*type="submit"*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div id="TrackingDetailSearchDiv" class="addEmp" style="width:92.5%;margin-left:2%;display:none">
+                        <div class="col-md-11"></div>
+                        <div class="col-md-1">
+                            <a class="close" onclick="CancelSearch();" style="padding-top:5px" aria-label="Close"><i style="font-size: 22px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="col-md-12">
+                            <div id="TrackingDetailSearchMsg" class="col-md-12" style="color:red" hidden="hidden">* Select SubComponent/Product/Component/Stage as applicable</div>
+                        </div>
+                        <div class="col-md-12">
+                            @*<h5 style="text-align:left;font-size:16px;position:absolute;padding-top:20px; padding-left:20px">Select SubComponent</h5>*@
+                            <table id="TrackingDetailSearchTable" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="text-center TableHead">
+                                        @*<th>Search</th>*@
+                                        @*<th></th>*@
+                                        <th>ProductID</th>
+                                        <th>BOMComponentLineStageID</th>
+                                        <th>SubComponent/Component</th>
+                                        <th>Details</th>
+                                        <th>...</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-12 headSeperator" style="border-right:25px solid #f8f8f8"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Quantity Details</div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.AcceptedQty, htmlAttributes: new { @class = "control-label " })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.AcceptedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                        @Html.ValidationMessageFor(model => model.AcceptedQty, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.DamagedQty, htmlAttributes: new { @class = "control-label " })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.DamagedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                        @Html.ValidationMessageFor(model => model.DamagedQty, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.AcceptedWt, htmlAttributes: new { @class = "control-label " })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.AcceptedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                        @Html.ValidationMessageFor(model => model.AcceptedWt, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.DamagedWt, htmlAttributes: new { @class = "control-label " })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.DamagedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                        @Html.ValidationMessageFor(model => model.DamagedWt, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control HeaderBox", @rows = 7 } })
+                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
 
             <div class="form-group col-md-4">
-                <div class="col-md-12">
-                    @Html.LabelFor(model => model.EntryDate, htmlAttributes: new { @class = "control-label lblrequired" })
-                </div>
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.EntryDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker" } })
-                    @Html.ValidationMessageFor(model => model.EntryDateFormatted, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group col-md-4">
-                <div class="col-md-12">
-                    @Html.LabelFor(model => model.ForemanID, htmlAttributes: new { @class = "control-label lblrequired" })
-                </div>
-                <div class="col-md-12">
-                    @Html.Action("EmployeeDropdown", "Employee", Model.ForemanID)
-                    @*@Html.EditorFor(model => model.ForemanID, new { htmlAttributes = new { @class = "form-control HeaderBox" } })*@
-                    @Html.ValidationMessageFor(model => model.ForemanID, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group col-md-4">
-                <div class="col-md-12">
-                    @Html.LabelFor(model => model.ProductionRefNo, htmlAttributes: new { @class = "control-label lblrequired" })
-                </div>
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.ProductionRefNo, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
-                    @Html.ValidationMessageFor(model => model.ProductionRefNo, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group col-md-8">
-                <div class="col-md-12" >
-                    @Html.LabelFor(model => model.ProductionTrackingSearch, htmlAttributes: new { @class = "control-label" })
-                </div>
-                <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.ProductionTrackingSearch.Value, Model.SelectList, "", new { @class = "form-control BlockEnter", data_placeholder="Search" })
+                @Html.HiddenFor(model => model.ProductID)
+                @Html.HiddenFor(model => model.LineStageDetailID)
+                <div class="form-group col-md-12 box-header figuresummary rounded">
+                    <div class="form-group col-md-12">
+                        <div class="rightAmtCaption">Product</div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <div class="lblStatusDisplay" id="lblProduct" style="font-size: 13.5px;">N/A</div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <div class="rightAmtCaption">Component</div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <div class="lblStatusDisplay" id="lblComponent" style="font-size: 13.5px;">N/A</div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <div class="rightAmtCaption">Stage</div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <div class="lblStatusDisplay" id="lblStage" style="font-size: 13.5px;">N/A</div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <div class="rightAmtCaption">SubComponent</div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <div class="lblStatusDisplay" id="lblSubComponent" style="font-size: 13.5px;">N/A</div>
+                    </div>
                 </div>
             </div>
 
+            <div class="form-group" hidden="hidden">
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
 
         </div>
-
-        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Selected Product/Component/Stage Details</div>
-        
-        <div class="form-group col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.ProductID, htmlAttributes: new { @class = "control-label lblrequired" })
-            </div>
-            <div class="col-md-12">
-                @*@Html.EditorFor(model => model.ProductID, new { htmlAttributes = new { @class = "form-control HeaderBox" } })*@
-                @Html.Action("ProductDropdown", "Product", Model.ProductID)
-                @Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.Product, htmlAttributes: new { @class = "control-label lblrequired" })
-            </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.Product.ID, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
-                @Html.ValidationMessageFor(model => model.Product.ID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.BOMComponentLine, htmlAttributes: new { @class = "control-label lblrequired" })
-            </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.BOMComponentLine.ID, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
-                @Html.ValidationMessageFor(model => model.BOMComponentLine.ID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.Stage, htmlAttributes: new { @class = "control-label lblrequired" })
-            </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.Stage.ID, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
-                @Html.ValidationMessageFor(model => model.Stage.ID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.ForemanID, htmlAttributes: new { @class = "control-label lblrequired" })
-            </div>
-            <div class="col-md-12">
-                @Html.Action("SubComponentDropdown", "SubComponent", Model.ProductID)
-                @*@Html.EditorFor(model => model.ForemanID, new { htmlAttributes = new { @class = "form-control HeaderBox" } })*@
-                @Html.ValidationMessageFor(model => model.ForemanID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="col-md-12"></div>
-        <div class="col-md-4 headSeperator" style="border-right:25px solid #f8f8f8"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Accepted Details</div>
-        <div class="col-md-4 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Damaged Details</div>
-        <div class="col-md-12"></div>
-        <div class="col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.AcceptedQty, htmlAttributes: new { @class = "control-label lblrequired" })
-            </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.AcceptedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
-                @Html.ValidationMessageFor(model => model.AcceptedQty, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.DamagedQty, htmlAttributes: new { @class = "control-label lblrequired" })
-            </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.DamagedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
-                @Html.ValidationMessageFor(model => model.DamagedQty, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="col-md-12"></div>
-
-        <div class="col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.AcceptedWt, htmlAttributes: new { @class = "control-label lblrequired" })
-            </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.AcceptedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
-                @Html.ValidationMessageFor(model => model.AcceptedWt, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.DamagedWt, htmlAttributes: new { @class = "control-label lblrequired" })
-            </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.DamagedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
-                @Html.ValidationMessageFor(model => model.DamagedWt, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-    </div>
+    }
 </section>
 
 @section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/ProductionTracking/NewProductionTracking")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/selectmin")
