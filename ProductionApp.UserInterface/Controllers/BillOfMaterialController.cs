@@ -245,7 +245,10 @@ namespace ProductionApp.UserInterface.Controllers
             billOfMaterialVM.BOMComponentLineStageDetail.Stage = new StageViewModel();
             billOfMaterialVM.BOMComponentLineStageDetail.Material = new MaterialViewModel();
             billOfMaterialVM.BOMComponentLineStageDetail.SubComponent = new SubComponentViewModel();
-            billOfMaterialVM.BOMComponentLineStageDetail.Product = new ProductViewModel();
+            billOfMaterialVM.BOMComponentLineStageDetail.Product = new ProductViewModel()
+            {
+                ProductSelectList=_productBusiness.GetProductForSelectList()
+            };
 
             return PartialView("_AddStageDetail", billOfMaterialVM);
         }

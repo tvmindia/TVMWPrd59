@@ -3,64 +3,68 @@
 
 @using (Ajax.BeginForm("InsertUpdateBOMComponentLineStageDetail", "BillOfMaterial", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveDetailSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "OnServerCallBegin", OnComplete = "OnServerCallComplete" }, new { @class = "form-horizontal", role = "form", @id = "BOMStageDetailForm" }))
 {
-    <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
+    <div class="col-md-12">
+        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
 
-    <div class="form-group col-md-4">
-        <div class="col-md-12">
-            @Html.LabelFor(model => model.Product.Name, htmlAttributes: new { @class = "control-label" })
-        </div>
-        <div class="col-md-12">
-            @Html.EditorFor(model => model.Product.Name, new { htmlAttributes = new { @class = "form-control HeaderBox ", @disabled = "disabled" } })
-        </div>
-    </div>
-
-    <div class="form-group col-md-4">
-        <div class="col-md-12">
-            @Html.LabelFor(model => model.BOMComponentLine.Product.Name, htmlAttributes: new { @class = "control-label lblrequired" })
-        </div>
-        <div class="col-md-12">
-            @Html.HiddenFor(model => model.BOMComponentLine.ID)
-            @Html.EditorFor(model => model.BOMComponentLine.Product.Name, new { htmlAttributes = new { @class = "form-control HeaderBox ", @disabled = "disabled" } })
-        </div>
-    </div>
-    <div class="col-md-12"></div>
-
-    <div class="form-group col-md-4">
-        <div class="col-md-12">
-            @Html.LabelFor(model => model.BOMComponentLineStageDetail.ComponentLineID, htmlAttributes: new { @class = "control-label lblrequired" })
-            @{
-                List<SelectListItem> LineList = new List<SelectListItem>();
-                for (int i = 0; i < Model.BOMComponentLineList.Count; i++)
-                {
-                    LineList.Add(new SelectListItem
-                    { Text = Model.BOMComponentLineList[i].LineName, Value = Model.BOMComponentLineList[i].ID.ToString() });
-                }
-            }
-        </div>
-        <div class="col-md-12">
-            @Html.DropDownListFor(model => model.BOMComponentLineStageDetail.ComponentLineID, LineList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;" })
-            @Html.ValidationMessageFor(model => model.BOMComponentLineStageDetail.ComponentLineID, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group col-md-4">
-        <div class="col-md-12">
-            @Html.LabelFor(model => model.BOMComponentLineStageDetail.StageID, htmlAttributes: new { @class = "control-label lblrequired" })
-        </div>
-        <div class="col-md-12">
-            <div id="divStageList">
+        <div class="form-group col-md-4">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.Product, htmlAttributes: new { @class = "control-label" })
             </div>
-            @Html.HiddenFor(model => model.BOMComponentLineStageDetail.StageID)
-            @Html.ValidationMessageFor(model => model.BOMComponentLineStageDetail.StageID, "", new { @class = "text-danger" })
+            <div class="col-md-12">
+                @Html.EditorFor(model => model.Product.Name, new { htmlAttributes = new { @class = "form-control HeaderBox ", @disabled = "disabled" } })
+            </div>
+        </div>
+
+        <div class="form-group col-md-4">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.BOMComponentLine.Product, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-12">
+                @Html.HiddenFor(model => model.BOMComponentLine.ID)
+                @Html.HiddenFor(model => model.BOMComponentLine.ComponentID)
+                @Html.EditorFor(model => model.BOMComponentLine.Product.Name, new { htmlAttributes = new { @class = "form-control HeaderBox ", @disabled = "disabled" } })
+            </div>
+        </div>
+        <div class="col-md-12"></div>
+
+        <div class="form-group col-md-4">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.BOMComponentLineStageDetail.ComponentLineID, htmlAttributes: new { @class = "control-label lblrequired" })
+                @{
+                    List<SelectListItem> LineList = new List<SelectListItem>();
+                    for (int i = 0; i < Model.BOMComponentLineList.Count; i++)
+                    {
+                        LineList.Add(new SelectListItem
+                        { Text = Model.BOMComponentLineList[i].LineName, Value = Model.BOMComponentLineList[i].ID.ToString() });
+                    }
+                }
+            </div>
+            <div class="col-md-12">
+                @Html.DropDownListFor(model => model.BOMComponentLineStageDetail.ComponentLineID, LineList, new { @class = "form-control BlockEnter", style = "padding:4px 12px;" })
+                @Html.ValidationMessageFor(model => model.BOMComponentLineStageDetail.ComponentLineID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-4">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.BOMComponentLineStageDetail.StageID, htmlAttributes: new { @class = "control-label lblrequired" })
+            </div>
+            <div class="col-md-12">
+                <div id="divStageList">
+                </div>
+                @Html.HiddenFor(model => model.BOMComponentLineStageDetail.StageID)
+                @Html.ValidationMessageFor(model => model.BOMComponentLineStageDetail.StageID, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
+    
     <div class="col-md-12"></div>
 
     <div class="col-md-6" style="border-right:1px solid silver">
 
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-green" aria-hidden="true"></i> Input / Output for selected stage</div>
 
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-6">
             <div class="col-md-12">
                 @Html.LabelFor(model => model.BOMComponentLineStageDetail.EntryType, htmlAttributes: new { @class = "control-label lblrequired" })
                 @{
@@ -76,7 +80,7 @@
             </div>
         </div>
 
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-6">
             <div class="col-md-12">
                 @Html.LabelFor(model => model.BOMComponentLineStageDetail.PartType, htmlAttributes: new { @class = "control-label lblrequired" })
                 @{
@@ -95,7 +99,7 @@
             </div>
         </div>
 
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-6">
             <div class="col-md-12">
                 @Html.LabelFor(model => model.BOMComponentLineStageDetail.PartID, htmlAttributes: new { @class = "control-label lblrequired" })
             </div>
@@ -107,15 +111,17 @@
                     @{Html.RenderAction("SubComponentDropdown", "SubComponent", Model.BOMComponentLineStageDetail.SubComponent); }
                 </div>
                 <div id="divComponent">
-                    @{Html.RenderAction("ProductDropdown", "Product", Model.BOMComponentLineStageDetail.Product); }
+                    @Html.DropDownListFor(model => model.BOMComponentLineStageDetail.PartID, Model.BOMComponentLineStageDetail.Product.ProductSelectList, "--Select product--", new { @class = "form-control", @required = "", @title = "The Product is missing", @style = "width:100%!important", @id = "ProductID" })
+                    @Html.HiddenFor(model => model.BOMComponentLineStageDetail.PartID, new { @value = -1 })
+                    @Html.ValidationMessageFor(model => model.BOMComponentLineStageDetail.PartID, "", new { @class = "text-danger" })
+                    @*@{Html.RenderAction("ProductDropdown", "Product", Model.BOMComponentLineStageDetail.Product); }*@
                 </div>
-                @Html.HiddenFor(model => model.BOMComponentLineStageDetail.PartID, new { @value = -1 })
-                @Html.ValidationMessageFor(model => model.BOMComponentLineStageDetail.PartID, "", new { @class = "text-danger" })
+
                 <span id="lblPartID" class="text-danger">Item Required</span>
             </div>
         </div>
 
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-6">
             <div class="col-md-12">
                 @Html.LabelFor(model => model.BOMComponentLineStageDetail.Qty, htmlAttributes: new { @class = "control-label lblrequired" })
             </div>
@@ -130,16 +136,16 @@
             <input type="submit" id="btnSave" value="Create" class="btn btn-default" />
         </div>
         <div class="col-md-4">
-            <a class="btn btn-openid" onclick="SaveDetail()" style="color:white;font-weight:bold;float:right;">&nbsp;&nbsp; Save &nbsp;&nbsp;<i class="fa fa-save"></i>&nbsp;&nbsp; </a>@*//margin-left:20px;*@
+            <a class="btn btn-openid" onclick="SaveDetail()" style="color:white;font-weight:bold;float:right;margin-top:88px;">&nbsp;&nbsp; Save &nbsp;&nbsp;<i class="fa fa-save"></i>&nbsp;&nbsp; </a>@*//margin-left:20px;*@
         </div>
     </div>
     @Html.HiddenFor(model => model.BOMComponentLineStageDetail.ID)
     @Html.HiddenFor(model => model.BOMComponentLineStageDetail.IsUpdate)
                         }
 <div class="col-md-6">
-    <h4>Production Line:</h4>
+    <div class="col-md-12 headSeperator"><i class="fa fa-th ig-green" aria-hidden="true"></i> Stage Details:</div>
 
-    <div class="col-md-12" style="height:188px;margin-top:18px">
+    <div class="col-md-12" style="height:212px;">
         <table id="tblBOMComponentLineStageDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
             <thead>
                 <tr class="text-center TableHead">
@@ -147,10 +153,9 @@
                     <th>ComponentLineID</th>
                     <th>Stage</th>
                     <th>In/Out</th>
-                    <th>Type</th>
-                    <th>Name</th>
+                    <th>Item Type</th>
+                    <th>Item Name</th>
                     <th>Qty</th>
-                    <th>...</th>
                     <th>...</th>
                 </tr>
             </thead>
@@ -160,10 +165,10 @@
 
     <div class="col-md-5">&nbsp;</div>
     <div class="col-md-4">
-        <a class="btn btn-openid" onclick="GoBack()" style="color:white;font-weight:bold;float:right;">&nbsp;&nbsp;<i class="fa fa-angle-double-left"></i>&nbsp; Back&nbsp;&nbsp; </a>@*//margin-left:20px;*@
+        <a class="btn btn-openid" onclick="GoBack()" style="color:white;font-weight:bold;">&nbsp;&nbsp;<i class="fa fa-angle-double-left"></i>&nbsp; Back&nbsp;&nbsp; </a>@*//margin-left:20px;*@
     </div>
     <div class="col-md-3">
-        <a class="btn btn-openid" onclick="Reset()" style="color:white;font-weight:bold;float:right;">Finish <i class="fa fa-flag-checkered"></i> </a>@*//margin-left:20px;*@
+        <a class="btn btn-openid" onclick="Reset()" style="color:white;font-weight:bold;float:right;">Go To Component <i class="fa fa-backward"></i> </a>@*//margin-left:20px;*@
     </div>
 
 </div>

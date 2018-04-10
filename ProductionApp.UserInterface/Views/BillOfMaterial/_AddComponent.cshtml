@@ -11,21 +11,21 @@
         @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @id = "HdfIsUpdate" })
         <div class="form-group col-md-4">
             <div class="col-md-12">
-                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label lblrequired" })
-            </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control HeaderBox ", @autofocus = true, onkeyup = "DescriptionOnChange(this);", @id = "DescriptionBOM" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group col-md-4">
-            <div class="col-md-12">
                 @Html.LabelFor(model => model.Product, htmlAttributes: new { @class = "control-label lblrequired" })
             </div>
             <div class="col-md-12">
                 @Html.Action("ProductDropdown", "Product")
                 @Html.HiddenFor(model => model.ProductID, new { htmlAttributes = new { @id = "ProID", @value = Guid.Empty } })
                 @Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label lblrequired" })
+            </div>
+            <div class="col-md-12">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control HeaderBox ", @autofocus = true, onkeyup = "DescriptionOnChange(this);", @id = "DescriptionBOM" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -36,7 +36,7 @@
                 <div class="col-md-12">
                     <div class="col-md-6"></div>
                     <div class="col-md-4">
-                        <a class="btn btn-openid" onclick="LoadComponents()" style="color:white;font-weight:bold;float:right;"><i class="fa fa-arrow-down"></i> Load Existing Components</a>@*margin-left:70px;*@
+                        <a class="btn btn-openid" onclick="LoadComponents()" style="color:white;font-weight:bold;"><i class="fa fa-arrow-down"></i> Load Existing Components</a>@*margin-left:70px;*@
                     </div>
                     <div class="col-md-2">
                         <a class="btn btn-openid" onclick="AddComponent()" style="color:white;font-weight:bold;float:right;"><i class="fa fa-plus"></i> Add New Component</a>@*//margin-left:20px;*@
@@ -81,7 +81,9 @@
             <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
                 <div class="container-fluid" style="padding-right: 0px;">
                     <div class="col-md-9">
-                        <h3 class="modal-title SCHeader" id="modelContextLabel">Load Existing Components</h3>
+                        <div class="col-md-12 modelIcon">
+                            <h3 class="modal-title SCHeader" id="modelContextLabel">Load Existing Components</h3>
+                        </div>
                     </div>
                     <div class="col-md-3" style="padding-right: 4px;">
                         <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>

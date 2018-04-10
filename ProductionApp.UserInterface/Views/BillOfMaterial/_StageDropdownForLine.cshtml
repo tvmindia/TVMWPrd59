@@ -8,7 +8,7 @@
         { Text = Model.BOMComponentLineStageList[i].Stage.Description, Value = Model.BOMComponentLineStageList[i].StageID.ToString() });
     }
 }
-@Html.DropDownListFor(model => model.BOMComponentLineStageDetail.StageID, StageList, "--Select Stage--", new { @class = "form-control", @id = "StageID"})
+@Html.DropDownListFor(model => model.BOMComponentLineStageDetail.StageID, StageList, new { @class = "form-control", @id = "StageID"})
 
 <script>
     $(document).ready(function () {

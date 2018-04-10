@@ -10,6 +10,7 @@ namespace ProductionApp.UserInterface.Models
     {
         public Guid ID { get; set; }
         [Required(ErrorMessage ="Descritpion Required")]
+        [Display(Name = "BOM Name")]
         public string Description { get; set; }
         [Required(ErrorMessage ="Please select a Product")]
         public Guid ProductID { get; set; }

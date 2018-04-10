@@ -51,9 +51,9 @@ $(document).ready(function () {
                 ],
                 columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 1 },
                     { "targets": [0, 1], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [4], "width": "15%" },
+                    { className: "text-right", "targets": [4], "width": "13%" },
                     { className: "text-left", "targets": [2, 3], "width": "40%" },
-                    { className: "text-center", "targets": [5], "width": "5%" },
+                    { className: "text-center", "targets": [5], "width": "7%" },
                     { "targets": [3, 4, 5], "bSortable": false }
                 ],
                 select: { style: 'multi', selector: 'td:first-child' },
@@ -214,7 +214,7 @@ function BindComponentToTable() {
             _BillOfMaterialDetailList.push(_BillOfMaterialDetail);
         }
         RebindComponentList(_BillOfMaterialDetailList);
-
+        $(".close").click();
     } catch (ex) {
         console.log(ex.message);
     }
@@ -497,6 +497,7 @@ function DeleteBillOfMaterialDetail(id, rowindex) {
 function DeleteTempItem(rowindex) {
     debugger;
     DataTables.ComponentList.row(rowindex).remove().draw(true);
+    $("button.cancel").click();
 }
 
 //--------------------------Reset property values to default----------------------//
@@ -616,7 +617,7 @@ function LoadLineStageTable() {
         DataTables.LineStageList = $('#tblBOMLineStageList').DataTable({
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
             order: [],
-            "scrollY": "150px",
+            "scrollY": "160px",
             "scrollCollapse": true,
             searching: false,
             paging: false,
@@ -656,7 +657,7 @@ function LoadLineStageTable() {
                 { "targets": [0, 2, 4], "visible": false, "searchable": false },
                 { className: "text-left", "targets": [1, 3]},
                 { className: "text-center", "targets": [5], "width": "3%" },
-                { className: "text-center", "targets": [6], "width": "9%" },
+                { className: "text-center", "targets": [6], "width": "12%" },
                 { "targets": [0, 2, 4], "bSortable": false }
             ],
             destroy: true
@@ -677,6 +678,7 @@ function ComponentIDOnChange() {
         NewLine();
         var id = $("#BOMComponentLine_ComponentID").val();
         DataTables.LineStageList.clear().rows.add(GetBOMComponentLine(id)).draw(true);
+        $("#tblBOMLineStageList_info").hide();
     }
     catch (ex) {
         console.log(ex.message);
@@ -901,6 +903,8 @@ function DeleteBOMComponentLine(id, rowindex) {
             case "OK":
                 notyAlert('success', message);
                 DeleteTempLine(rowindex);
+                NewLine();
+
                 break;
             case "ERROR":
                 notyAlert('error', message);
@@ -921,24 +925,32 @@ function SaveAndProceed() {
         debugger;
         OnServerCallBegin();
         if ($('#BOMComponentLine_ComponentID').val() !== "") {
-            $('#step2').removeClass('active').addClass('disabled');
-            $('#step3').removeClass('disabled').addClass('active');
-            var BillOfMaterialViewModel = new Object();
-            BillOfMaterialViewModel.ID = $('#IDBillOfMaterial').val();
-            BillOfMaterialViewModel.IsUpdate = $('#IsUpdateBOM').val();
-            BillOfMaterialViewModel.Product = new Object();
-            BillOfMaterialViewModel.Product.Name = $("#Product_Name").val();
-            BillOfMaterialViewModel.BOMComponentLine = new Object();
-            BillOfMaterialViewModel.BOMComponentLine.ID = $("#BOMComponentLine_ID").val();
-            BillOfMaterialViewModel.BOMComponentLine.Product = new Object();
-            BillOfMaterialViewModel.BOMComponentLine.Product.Name = $('#BOMComponentLine_ComponentID option:selected').text();
-            BillOfMaterialViewModel.BOMComponentLine.ComponentID = $('#BOMComponentLine_ComponentID').val();
-            BillOfMaterialViewModel.BOMComponentLine.LineName = $('#BOMComponentLine_LineName').val();
-            BillOfMaterialViewModel.BOMComponentLineStageDetail = new Object();
-            BillOfMaterialViewModel.BOMComponentLineStageDetail.ComponentLineID = ($("#BOMComponentLine_ID").val() !== EmptyGuid && $("#BOMComponentLine_ID").val() !== "") ? $("#BOMComponentLine_ID").val() : EmptyGuid;
 
-            var data = { "billOfMaterialVM": BillOfMaterialViewModel }
-            $('#divPartial').load("AddStageDetail", data);
+            if (DataTables.LineStageList.rows().data().length > 0) {
+                $('#step2').removeClass('active').addClass('disabled');
+                $('#step3').removeClass('disabled').addClass('active');
+                var BillOfMaterialViewModel = new Object();
+                BillOfMaterialViewModel.ID = $('#IDBillOfMaterial').val();
+                BillOfMaterialViewModel.IsUpdate = $('#IsUpdateBOM').val();
+                BillOfMaterialViewModel.Product = new Object();
+                BillOfMaterialViewModel.Product.Name = $("#Product_Name").val();
+                BillOfMaterialViewModel.BOMComponentLine = new Object();
+                BillOfMaterialViewModel.BOMComponentLine.ID = $("#BOMComponentLine_ID").val();
+                BillOfMaterialViewModel.BOMComponentLine.Product = new Object();
+                BillOfMaterialViewModel.BOMComponentLine.Product.Name = $('#BOMComponentLine_ComponentID option:selected').text();
+                BillOfMaterialViewModel.BOMComponentLine.Product.ID = $('#BOMComponentLine_ComponentID').val();
+                BillOfMaterialViewModel.BOMComponentLine.ComponentID = $('#BOMComponentLine_ComponentID').val();
+                BillOfMaterialViewModel.BOMComponentLine.LineName = $('#BOMComponentLine_LineName').val();
+                BillOfMaterialViewModel.BOMComponentLineStageDetail = new Object();
+                BillOfMaterialViewModel.BOMComponentLineStageDetail.ComponentLineID = ($("#BOMComponentLine_ID").val() !== EmptyGuid && $("#BOMComponentLine_ID").val() !== "") ? $("#BOMComponentLine_ID").val() : EmptyGuid;
+
+                var data = { "billOfMaterialVM": BillOfMaterialViewModel }
+                $('#divPartial').load("AddStageDetail", data);
+            }
+            else {
+                OnServerCallComplete();
+                notyAlert('warning', "No Line For Selected Component");
+            }
         }
         else {
             OnServerCallComplete();
@@ -970,6 +982,7 @@ function BindComponentLineStageDetail(curobj) {
 
         var data = { "billOfMaterialVM": BillOfMaterialViewModel }
         $('#divPartial').load("AddStageDetail", data);
+        
     }
     catch (ex) {
         console.log(ex.message);
@@ -1029,13 +1042,12 @@ function LoadStageDetailTable() {
                   }, "defaultContent": "<i>-</i>"
               },//5
               { "data": "Qty", "defaultContent": "<i>-</i>" },
-              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditStageDetail(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>' },
-              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="DeleteStageDetail(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
+              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditStageDetail(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a> | <a href="#" class="DeleteLink"  onclick="DeleteStageDetail(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
             ],
             columnDefs: [
                 { "targets": [0, 1], "visible": false, "searchable": false },
                 { className: "text-left", "targets": [2, 3, 4, 5, 6], },
-                { className: "text-center", "targets": [7, 8], "width": "3%" },
+                { className: "text-center", "targets": [7], "width": "12%" },
                 { "targets": [0, 1], "bSortable": false }
             ],
             destroy: true
@@ -1349,6 +1361,10 @@ function GoBack() {
         BillOfMaterialViewModel.IsUpdate = $('#IsUpdateBOM').val();
         BillOfMaterialViewModel.Product = new Object();
         BillOfMaterialViewModel.Product.Name = $('#Product_Name').val();
+        BillOfMaterialViewModel.BOMComponentLine = new Object();
+        BillOfMaterialViewModel.BOMComponentLine.Product = new Object();
+        BillOfMaterialViewModel.BOMComponentLine.Product.Name = $('#BOMComponentLine_Product_Name').val();
+        BillOfMaterialViewModel.BOMComponentLine.ComponentID = $('#BOMComponentLine_ComponentID').val();
         var data = { "billOfMaterialVM": BillOfMaterialViewModel }
         $('#divPartial').load("AddProductionLine", data);
     }
