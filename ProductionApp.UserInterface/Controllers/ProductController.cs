@@ -115,12 +115,12 @@ namespace ProductionApp.UserInterface.Controllers
                     UpdatedDate = _common.GetCurrentDateTime(),
                 };
                 var result = _productBusiness.InsertUpdateProduct(Mapper.Map<ProductViewModel, Product>(productVM));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+                return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
             }
             catch (Exception ex)
             {
                 AppConstMessage cm = _appConst.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
             }
         }
         #endregion InsertUpdateProduct

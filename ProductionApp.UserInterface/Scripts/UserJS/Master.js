@@ -76,13 +76,13 @@ function SaveSuccessProduct(data, status) {
         case "OK":
             if ($('#hdnMasterCall').val() == "MSTR") {
                 $('#IsUpdate').val('True');
-                $('#ID').val(JsonResult.Records.ID);
+                $('#ID').val(JsonResult.Record.ID);
                 BindOrReloadProductTable('Reset');
             }
             else if ($('#hdnMasterCall').val() == "OTR") {
                 $('#divProductDropdown').load('/Product/ProductDropdown');
             }            
-            MasterAlert("success", JsonResult.Records.Message)
+            MasterAlert("success", JsonResult.Record.Message)
             break;
         case "ERROR":
             MasterAlert("danger", JsonResult.Message)
