@@ -38,8 +38,6 @@ debugger;
         { "targets": [8], "width": "4%" }]
     });
     $("#ProductID").change(function () {
-        debugger;
-           
         BindFinishedGoodStockAdjDetails(this.value)
     });
 

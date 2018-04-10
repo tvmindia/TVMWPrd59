@@ -255,13 +255,6 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $.validator.unobtrusive.parse("#FinishedGoodStockAdjForm");
-        //$('#ProductID').val($('#hdnProductID').val());
-    });
-</script>
-
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")

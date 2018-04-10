@@ -19,8 +19,22 @@ else
 
 <script>
     $(document).ready(function () {
-        $('#ProductID').val($('#hdnProductID').val());
-    });
+        try{
+            $('#ProductID').select2({});
+            $('#ProductID').val($('#hdnProductID').val());
+        }
+        catch (e) {
+            console.log(e.message);
+        }
+        try{
+            $("#ProductID").change(function () {
+                BindFinishedGoodStockAdjDetails(this.value)
+            });
+        }
+        catch (e) {
+            console.log(e.message);
+        }
+        });
 </script>
 
 @* New proposed Dropdown Approach *@
