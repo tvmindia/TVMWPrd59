@@ -64,7 +64,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         #region GetAllCustomerInvoice
-        //   [AuthSecurityFilter(ProjectObject = "", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
         public JsonResult GetAllCustomerInvoice(DataTableAjaxPostModel model, CustomerInvoiceAdvanceSearchViewModel customerInvoiceAdvanceSearchVM)
         {
             customerInvoiceAdvanceSearchVM.DataTablePaging.Start = model.start;
@@ -80,10 +80,8 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetAllCustomerInvoice
 
-
-
         #region GetCustomerDetails
-        //[AuthSecurityFilter(ProjectObject = "", Mode = "D")]
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
         public string GetCustomerDetails(string customerId)
         {
             try
@@ -99,6 +97,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetCustomerDetails
 
         #region  GetTaxTypeForSelectList
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
         public string GetTaxTypeForSelectList()
         {
             try
@@ -117,7 +116,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion  GetTaxTypeForSelectList
 
         #region GetDueDate
-        //[AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
         public string GetDueDate(string Code, string InvoiceDate = "")
         {
             try
@@ -145,6 +144,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetDueDate
 
         #region GetPackingSlipList
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
         public string GetPackingSlipList(string customerID)
         {
             try
@@ -163,6 +163,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetPackingSlipList
 
         #region GetPackingSlipListDetail
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
         public string GetPackingSlipListDetail(string packingSlipIDs,string id)
         {
             try
@@ -180,6 +181,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetPackingSlipDetailForCustomerInvoice
 
         #region GetCustomerInvoice
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
         public string GetCustomerInvoice(string ID)
         {
             try
@@ -195,7 +197,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetCustomerInvoice
 
         #region GetCustomerInvoiceDetail
-        //[AuthSecurityFilter(ProjectObject = "", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
         public string GetCustomerInvoiceDetail(string ID)
         {
             try
@@ -214,6 +216,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateCustomerInvoice
         [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
         public string InsertUpdateCustomerInvoice(CustomerInvoiceViewModel customerInvoiceVM)
         {
             try
@@ -246,9 +249,52 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion InsertUpdateCustomerInvoice
 
+        #region GetCustomerInvoiceDetailLinkForEdit
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
+        public string GetCustomerInvoiceDetailLinkForEdit(string id)
+        {
+            try
+            {
+                List<CustomerInvoiceDetailViewModel> customerInvoiceDetailVM = new List<CustomerInvoiceDetailViewModel>();
+                customerInvoiceDetailVM = Mapper.Map<List<CustomerInvoiceDetail>, List<CustomerInvoiceDetailViewModel>>(_customerInvoiceBusiness.GetCustomerInvoiceDetailLinkForEdit(id));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerInvoiceDetailVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+
+        #endregion GetCustomerInvoiceDetailLinkForEdit
+
+        #region UpdateCustomerInvoiceDetail
+        public string UpdateCustomerInvoiceDetail(CustomerInvoiceViewModel customerInvoiceVM)
+        {
+            try
+            {
+                object result = null;
+                AppUA appUA = Session["AppUA"] as AppUA;
+                customerInvoiceVM.Common = new CommonViewModel
+                {
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                result = "";// _customerInvoiceBusiness.UpdateCustomerInvoiceDetail(Mapper.Map<CustomerInvoiceViewModel, CustomerInvoice>(customerInvoiceVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+
+        #endregion UpdateCustomerInvoiceDetail
+
         #region ButtonStyling
         [HttpGet]
-        //[AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "")]
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();
