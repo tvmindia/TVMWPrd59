@@ -29,7 +29,7 @@ namespace ProductionApp.BusinessService.Services
                 {
                     selectListItem.Add(new SelectListItem
                     {
-                        Text = product.Code+" | " +product.Description,
+                        Text = product.Code+" | " +product.Name,
                         Value = product.ID.ToString(),
                         Selected = false
                     });
