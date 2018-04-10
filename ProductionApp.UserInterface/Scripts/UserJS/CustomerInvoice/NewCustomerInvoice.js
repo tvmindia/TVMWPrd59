@@ -21,7 +21,8 @@
 // ##13--Bind Customer Invoice By ID
 // ##14--Reset Button Click
 // ##15--Edit Popup Modal Update Customer Invoice Details
-// 
+// ##16--DELETE Customer Invoice 
+// ##17--DELETE Customer Invoice Details 
 // 
 //******************************************************************************
 
@@ -93,7 +94,7 @@ $(document).ready(function () {
             { "data": "TaxableAmount", "defaultContent": "<i>-</i>", "width": "9%" },
             { "data": "TaxTypeDescription", "defaultContent": "<i>-</i>", "width": "9%" },
             { "data": "Total", "defaultContent": "<i>-</i>", "width": "9%" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ItemDetailsEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "7%" }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ItemDetailsEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="DeleteDetail(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "7%" }
 
           ],
           columnDefs: [{ "targets": [0], "visible": false, searchable: false },
@@ -741,7 +742,6 @@ function GetCustomerInvoiceDetailLinkForEdit(id) {
         notyAlert('error', e.message);
     }
 }
-
 function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
     debugger;
     var customerInvoiceDetailVM = _DataTables.EditPackingSlipListDetailTable.rows().data();
@@ -812,5 +812,72 @@ function UpdateCustomerInvoiceDetailLinkVM(CustomerInvoiceDetailLinkVM) {
         CustomerInvoiceDetail.TradeDiscountPerc = CustomerInvoiceDetailLinkVM[r].TradeDiscountPerc;
         CustomerInvoiceDetail.TradeDiscountAmount = CustomerInvoiceDetailLinkVM[r].TradeDiscountAmount;
         _CustomerInvoiceDetailLink.push(CustomerInvoiceDetail);
+    }
+}
+
+
+//##16--DELETE Customer Invoice -----------------------------------------------------##16
+function DeleteClick()
+{
+    notyConfirm('Are you sure to delete?', 'DeleteCustomerInvoice()');
+}
+function DeleteCustomerInvoice() {
+    try {
+        debugger;
+        var id = $('#ID').val();
+        if (id != '' && id != null) {
+            var data = { "id": id };
+            _jsonData = GetDataFromServer("CustomerInvoice/DeleteCustomerInvoice/", data);
+            if (_jsonData != '') {
+                _jsonData = JSON.parse(_jsonData);
+                _result = _jsonData.Result;
+                _message = _jsonData.Message;
+            }
+            if (_result == "OK") {
+                notyAlert('success', _message);
+                window.location.replace("NewCustomerInvoice?code=SALE");
+            }
+            if (_result == "ERROR") {
+                notyAlert('error', _message);
+            }
+            return 1;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
+    }
+}
+
+//##17--DELETE Customer Invoice Details------------------------------------------------##17
+function DeleteDetail(curobj)
+{
+    var rowData = _DataTables.CustomerInvoiceDetailTable.row($(curobj).parents('tr')).data();
+    notyConfirm('Are you sure to delete?', 'DeleteCustomerInvoiceDetail("' + rowData.ID + '")');
+}
+function DeleteCustomerInvoiceDetail(id) {
+    try {
+        debugger;
+        if (id != '' && id != null) {
+            var data = { "id": id };
+            _jsonData = GetDataFromServer("CustomerInvoice/DeleteCustomerInvoiceDetail/", data);
+            if (_jsonData != '') {
+                _jsonData = JSON.parse(_jsonData);
+                _result = _jsonData.Result;
+                _message = _jsonData.Message;
+            }
+            if (_result == "OK") {
+                notyAlert('success', _message);
+                BindCustomerInvoiceByID();
+            }
+            if (_result == "ERROR") {
+                  notyAlert('error', _message); 
+            }
+            return 1;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
     }
 }

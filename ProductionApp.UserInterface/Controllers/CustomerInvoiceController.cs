@@ -292,6 +292,49 @@ namespace ProductionApp.UserInterface.Controllers
 
         #endregion UpdateCustomerInvoiceDetail
 
+
+        #region DeleteCustomerInvoice
+        public string DeleteCustomerInvoice(string ID)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _customerInvoiceBusiness.DeleteCustomerInvoice(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+        #endregion DeleteCustomerInvoice
+
+        #region DeleteCustomerInvoiceDetail
+        public string DeleteCustomerInvoiceDetail(string ID)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _customerInvoiceBusiness.DeleteCustomerInvoiceDetail(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion DeleteCustomerInvoiceDetail
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
