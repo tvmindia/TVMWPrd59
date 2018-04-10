@@ -176,6 +176,7 @@ function MasterAlert(type,msgtxt)
 }
 function notyAlert(type, msgtxt,title) {
     var t = '';
+    if (type == 'danger') { type ='error'}
     if (title == undefined) {
         t = type;
     }
