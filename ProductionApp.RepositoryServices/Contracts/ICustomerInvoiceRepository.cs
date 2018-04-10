@@ -16,6 +16,7 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<CustomerInvoiceDetail> GetCustomerInvoiceDetail(Guid id);
         List<CustomerInvoice> GetAllCustomerInvoice(CustomerInvoiceAdvanceSearch customerInvoiceAdvanceSearch);
         List<CustomerInvoiceDetail> GetCustomerInvoiceDetailLinkForEdit(string id);
+        object UpdateCustomerInvoiceDetail(CustomerInvoice customerInvoice);
 
     }
 }

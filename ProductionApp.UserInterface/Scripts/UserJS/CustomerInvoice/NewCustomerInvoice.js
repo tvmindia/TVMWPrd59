@@ -774,29 +774,29 @@ function UpdateCustomerInvoiceDetails()
     var CustomerInvoiceDetailVM = _DataTables.EditPackingSlipListDetailTable.rows().data();
     _CustomerInvoiceDetailLink = [];
     UpdateCustomerInvoiceDetailLinkVM(CustomerInvoiceDetailVM)
-    //customerInvoiceVM = new Object();
-    //customerInvoiceVM.CustomerInvoiceDetailList = new Object();
-    //customerInvoiceVM.CustomerInvoiceDetailList = _CustomerInvoiceDetailLink;
-    //var data = "{'customerInvoiceVM':" + JSON.stringify(customerInvoiceVM) + "}";
+    customerInvoiceVM = new Object();
+    customerInvoiceVM.CustomerInvoiceDetailList = new Object();
+    customerInvoiceVM.CustomerInvoiceDetailList = _CustomerInvoiceDetailLink;
+    var data = "{'customerInvoiceVM':" + JSON.stringify(customerInvoiceVM) + "}";
 
-    //PostDataToServer("CustomerInvoice/UpdateCustomerInvoiceDetail/", data, function (JsonResult) {
+    PostDataToServer("CustomerInvoice/UpdateCustomerInvoiceDetail/", data, function (JsonResult) {
 
-    //    debugger;
-    //    switch (JsonResult.Result) {
-    //        case "OK":
-    //            notyAlert('success', JsonResult.Records.Message);
-    //            BindCustomerInvoiceByID() 
-    //            break;
-    //        case "Error":
-    //            notyAlert('error', JsonResult.Message);
-    //            break;
-    //        case "ERROR":
-    //            notyAlert('error', JsonResult.Message);
-    //            break;
-    //        default:
-    //            break;
-    //    }
-    //})
+        debugger;
+        switch (JsonResult.Result) {
+            case "OK":
+                notyAlert('success', JsonResult.Records.Message);
+                BindCustomerInvoiceByID() 
+                break;
+            case "Error":
+                notyAlert('error', JsonResult.Message);
+                break;
+            case "ERROR":
+                notyAlert('error', JsonResult.Message);
+                break;
+            default:
+                break;
+        }
+    })
     $('#EditCustomerInvoiceDetailModal').modal('hide');
 }
 function UpdateCustomerInvoiceDetailLinkVM(CustomerInvoiceDetailLinkVM) {
@@ -804,7 +804,7 @@ function UpdateCustomerInvoiceDetailLinkVM(CustomerInvoiceDetailLinkVM) {
     for (var r = 0; r < CustomerInvoiceDetailLinkVM.length; r++) {
         CustomerInvoiceDetail = new Object();
         CustomerInvoiceDetail.ID = CustomerInvoiceDetailLinkVM[r].ID;
-        CustomerInvoiceDetail.PackingSlipDetailLinkID = CustomerInvoiceDetailLinkVM[r].PackingSlipDetailLinkID;
+        CustomerInvoiceDetail.CustomerInvoiceDetailLinkID = CustomerInvoiceDetailLinkVM[r].CustomerInvoiceDetailLinkID;
         CustomerInvoiceDetail.Quantity = CustomerInvoiceDetailLinkVM[r].Quantity;
         CustomerInvoiceDetail.Weight = CustomerInvoiceDetailLinkVM[r].Weight;
         CustomerInvoiceDetail.Rate = CustomerInvoiceDetailLinkVM[r].Rate;

@@ -279,7 +279,7 @@ namespace ProductionApp.UserInterface.Controllers
                     UpdatedBy = appUA.UserName,
                     UpdatedDate = _common.GetCurrentDateTime(),
                 };
-                result = "";// _customerInvoiceBusiness.UpdateCustomerInvoiceDetail(Mapper.Map<CustomerInvoiceViewModel, CustomerInvoice>(customerInvoiceVM));
+                result = _customerInvoiceBusiness.UpdateCustomerInvoiceDetail(Mapper.Map<CustomerInvoiceViewModel, CustomerInvoice>(customerInvoiceVM));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
             catch (Exception ex)

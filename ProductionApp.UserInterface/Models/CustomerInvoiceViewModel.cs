@@ -79,7 +79,7 @@ namespace ProductionApp.UserInterface.Models
         public decimal TaxableAmount { get; set; }
         public decimal Total { get; set; }
         public Guid PackingSlipDetailID { get; set; }
-        public Guid PackingSlipDetailLinkID { get; set; }
+        public Guid CustomerInvoiceDetailLinkID { get; set; }
         public decimal QuantityCheck { get; set; }
         public decimal WeightCheck { get; set; }
 
