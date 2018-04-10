@@ -9,7 +9,7 @@ namespace ProductionApp.UserInterface.Models
 {
     public class MaterialTypeViewModel
     {
-        [Required(ErrorMessage ="Material Type code is required")]
+        [Required(ErrorMessage = "Material Type code is missing")]
         [MaxLength(10,ErrorMessage ="Length exceeds")]
         public string Code { get; set; }
         [DataType(DataType.MultilineText)]

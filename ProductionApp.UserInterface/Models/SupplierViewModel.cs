@@ -11,7 +11,7 @@ namespace ProductionApp.UserInterface.Models
     {
         public Guid ID { get; set; }
         [Display(Name = "Company Name")]
-        [Required(ErrorMessage = "Company Name required")]
+        [Required(ErrorMessage = "Company Name is missing")]
         public string CompanyName { get; set; }
         [Display(Name = "Contact Person")]
         public string ContactPerson { get; set; }

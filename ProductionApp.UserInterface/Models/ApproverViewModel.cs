@@ -11,11 +11,11 @@ namespace ProductionApp.UserInterface.Models
     public class ApproverViewModel
     {
         public Guid ID { get; set; }
-        [Required(ErrorMessage = "Please Enter Document Type")]
+        [Required(ErrorMessage = "Document Type is missing")]
         [Display(Name = "Document Type")]
         public string DocumentTypeCode { get; set; }
         public int Level { get; set; }
-        [Required(ErrorMessage = "Please Enter User ")]
+        [Required(ErrorMessage = "User is missing")]
         [Display(Name = "User")]
         public Guid UserID { get; set; }
         [Display(Name = "Is Default Approver")]

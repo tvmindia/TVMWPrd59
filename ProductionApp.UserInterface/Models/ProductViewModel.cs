@@ -13,19 +13,19 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Product")]
         public Guid ID { get; set; }
         [Remote(action: "CheckProductCodeExist", controller: "Product", AdditionalFields = nameof(IsUpdate))]
-        [Required(ErrorMessage = "Please Enter Product Code")]
+        [Required(ErrorMessage = "Product Code is missing")]
         public string Code { get; set; }
-        [Required(ErrorMessage = "Please Enter Product Name")]
+        [Required(ErrorMessage = "Product Name is missing")]
         [Display(Name = "Product Name")]
         public string Name { get; set; }
         [Display(Name = "Specification")]
-        [Required(ErrorMessage = "Please Enter Description")]
+        [Required(ErrorMessage = "Description is missing")]
         public string Description { get; set; }
-        [Required(ErrorMessage = "Please Enter Unit Code")]
+        [Required(ErrorMessage = "Unit Code is missing")]
         [Display(Name = "Unit Code")]
         public string UnitCode { get; set; }
         [Display(Name = "Product Category")]
-        [Required(ErrorMessage = "Please Enter Category")]
+        [Required(ErrorMessage = "Category is missing")]
         public string ProductCategoryCode { get; set; }
         [Display(Name = "Reorder Quantity")]
         public decimal? ReorderQty { get; set; }
