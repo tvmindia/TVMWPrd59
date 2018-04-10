@@ -1,5 +1,9 @@
-﻿@model ProductionApp.UserInterface.Models.UserViewModel
-<div class="input-group">
-    @Html.DropDownListFor(model => model.UserID, Model.userList, "---Select User---", new { @class = "form-control" })
-    <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddUserMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
-</div>
+﻿
+@model ProductionApp.UserInterface.Models.UserViewModel
+@Html.DropDownListFor(model => model.UserID, Model.userList, "--- Select User ---", new { @class = "form-control", @style = "width:100%" })
+
+@*@model ProductionApp.UserInterface.Models.UserViewModel
+    <div class="input-group">
+        @Html.DropDownListFor(model => model.UserID, Model.userList, "---Select User---", new { @class = "form-control" })
+        <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddUserMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
+    </div>*@

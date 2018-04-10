@@ -14,19 +14,19 @@ namespace ProductionApp.UserInterface.Models
         public Guid ID { get; set; }
         [Remote(action: "CheckMaterialCodeExist", controller: "Material", AdditionalFields = nameof(IsUpdate))]
         [MaxLength(50)]
-        [Required(ErrorMessage = "Please Enter Material Code")]
+        [Required(ErrorMessage = "Material Code is missing")]
         [Display(Name = "Material Code")]
         public string MaterialCode { get; set; }
-        [Required(ErrorMessage = "Please Enter Rate")]
+        [Required(ErrorMessage = "Rate is missing")]
         public decimal Rate { get; set; }
-        [Required(ErrorMessage = "Please Enter Type")]
+        [Required(ErrorMessage = "Type is missing")]
         [Display(Name = "Material Type")]
         public string MaterialTypeCode { get; set; }
-        [Required(ErrorMessage = "Please Enter Description")]
+        [Required(ErrorMessage = "Description is missing")]
         public string Description { get; set; }
         [Display(Name = "HSN No.")]
         public string HSNNo { get; set; }
-        [Required(ErrorMessage = "Please Select Unit Code")]
+        [Required(ErrorMessage = "Unit Code is missing")]
         [Display(Name = "Unit Code")]
         public string UnitCode { get; set; }
         [Display(Name = "Reorder Quantity")]

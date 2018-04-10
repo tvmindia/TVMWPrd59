@@ -11,7 +11,7 @@ namespace ProductionApp.UserInterface.Models
     {
         public string Code { get; set; }
         public string Description { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Document Type is missing")]
         public string DocumentTypeCode { get; set; }
         public List<SelectListItem> SelectList { get; set; }
     }

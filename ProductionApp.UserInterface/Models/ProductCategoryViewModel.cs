@@ -9,10 +9,10 @@ namespace ProductionApp.UserInterface.Models
 {
     public class ProductCategoryViewModel
     {
-        [Required(ErrorMessage = "Please Select Product Category")]
+        [Required(ErrorMessage = "Product Category is missing")]
         public string Code { get; set; }
         public string Description { get; set; }
-        [Required(ErrorMessage = "Please Select Product Category")]
+        [Required(ErrorMessage = "Product Category is missing")]
         public string ProductCategoryCode { get; set; }
         //additional fields
         public int TotalCount { get; set; }

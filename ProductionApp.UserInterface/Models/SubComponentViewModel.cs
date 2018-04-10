@@ -10,9 +10,9 @@ namespace ProductionApp.UserInterface.Models
     public class SubComponentViewModel
     {
         public Guid ID { get; set; }
-        [Required(ErrorMessage = "SubComponent Code required")]
+        [Required(ErrorMessage = "SubComponent Code is missing")]
         public string Code { get; set; }
-        [Required(ErrorMessage = "SubComponent Description required")]
+        [Required(ErrorMessage = "SubComponent Description is missing")]
         public string Description { get; set; }
         [Display(Name = "Opening Quantity")]
         public decimal OpeningQty { get; set; }
