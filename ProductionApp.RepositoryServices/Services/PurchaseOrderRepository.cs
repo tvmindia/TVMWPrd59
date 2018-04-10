@@ -675,7 +675,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[DeletePurchaseOrderOrder]";
+                        cmd.CommandText = "[AMC].[DeletePurchaseOrder]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);

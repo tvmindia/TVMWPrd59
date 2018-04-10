@@ -71,7 +71,7 @@ $(document).ready(function () {
             ChangeButtonPatchView('MaterialReturnFromProduction', 'divbuttonPatchReturnFromProduction', 'Edit');
         }
         else {
-            $('#lblReturnNo').text('Receive From Production#: New');
+            $('#lblReturnNo').text('Receive From Production# : New');
         }
     }
     catch (e) {
@@ -240,7 +240,7 @@ function BindReturnFromProductionByID() {
     $('#ReceivedBy').val(result.ReturnBy).select2();
     $('#ReturnBy').val(result.ReceivedBy).select2();
     $('#GeneralNotes').val(result.GeneralNotes);
-    $('#lblReturnNo').text('Receive From Production#:' + result.ReturnNo);
+    $('#lblReturnNo').text('Receive From Production# : ' + result.ReturnNo);
     BindMaterialReturnDetailTable(ID);
 }
 function GetReturnFromProductionByID(ID) {

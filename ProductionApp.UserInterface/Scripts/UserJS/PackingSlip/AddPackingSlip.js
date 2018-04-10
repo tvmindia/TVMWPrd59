@@ -62,27 +62,27 @@ $(document).ready(function () {
             columns: [
                  { "data": "ProductID", "defaultContent": "<i>-</i>" },
                  { "data": "Checkbox", "defaultContent": "", "width": "5%" },
-                 { "data": "Product.Name", "defaultContent": "<i>-</i>" },
-                 { "data": "Product.CurrentStock", "defaultContent": "<i>-</i>" },
-                 { "data": "Quantity", "defaultContent": "<i>-</i>" },
-                 { "data": "PrevPkgQty", "defaultContent": "<i>-</i>" },
+                 { "data": "Product.Name", "defaultContent": "<i>-</i>", "width": "30%" },
+                 { "data": "Product.CurrentStock", "defaultContent": "<i>-</i>", "width": "10%" },
+                 { "data": "Quantity", "defaultContent": "<i>-</i>", "width": "10%" },
+                 { "data": "PrevPkgQty", "defaultContent": "<i>-</i>", "width": "10%" },
                  {
-                     "data": "BalQty", "defaultContent": "<i>-</i>",
+                     "data": "BalQty", "defaultContent": "<i>-</i>", "width": "10%",
                      'render': function (data, type, row) {
                          return BalQty = row.Quantity - row.PrevPkgQty;
                      }
                  },
                  {
-                     "data": "CurrentPkgQty", "defaultContent": "<i>-</i>", "width": "5%",
+                     "data": "CurrentPkgQty", "defaultContent": "<i>-</i>", "width": "10%",
                      'render': function (data, type, row) {
-                         return '<input class="form-control description text-right" name="Markup" value="' + data + '" type="text"  onchange="textBoxValueChanged(this,1);">';
+                         return '<input class="form-control description text-right" name="Markup" value="' + data + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" id="txt' + row.ProductID + '"  onchange="textBoxValueChanged(this,1);"style="width:100%">';
                      }
                  },
                  {
-                     "data": "PkgWt", "defaultContent": "<i>-</i>", "width": "5%",
+                     "data": "PkgWt", "defaultContent": "<i>-</i>", "width": "15%",
                      'render': function (data, type, row) {
                          Wt = row.PkgWt;
-                         return '<input class="form-control description text-right" name="Markup" value="' + Wt + '" type="text" id="txt' + row.ProductID + '" onchange="textBoxValueChanged(this,2);">';
+                         return '<input class="form-control description text-right" name="Markup" value="' + Wt + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text"  onchange="textBoxValueChanged(this,2);"style="width:100%">';
                      }
                  }
             ],
@@ -123,10 +123,10 @@ $(document).ready(function () {
              { className: "text-left", "targets": [2, 3] },
              { className: "text-right", "targets": [4, 5] },
              { className: "text-center", "targets": [6] },
-             { "targets": [2], "width": "3%", },
-             { "targets": [3], "width": "30%" },
-             { "targets": [4], "width": "10%" },
-             { "targets": [5], "width": "10%" },
+             { "targets": [2], "width": "3%" },
+             { "targets": [3], "width": "50%" },
+             { "targets": [4], "width": "20%" },
+             { "targets": [5], "width": "20%" },
              { "targets": [6], "width": "7%" }
          ],
 
@@ -161,14 +161,14 @@ $(document).ready(function () {
                  {
                      "data": "SalesOrder.SalesOrderDetail.CurrentPkgQty", "defaultContent": "<i>-</i>",
                      'render': function (data, type, row) {
-                         return '<input class="form-control description text-right" name="Markup" value="' + data + '" type="text" onchange="textBoxValueChangedEditTbl(this,1);">';
+                         return '<input class="form-control description text-right" name="Markup" value="' + data + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" id="txt' + row.ProductID + '" onchange="textBoxValueChangedEditTbl(this,1);"style="width:100%">';
                      }
                  },
                  {
                      "data": "SalesOrder.SalesOrderDetail.PkgWt", "defaultContent": "<i>-</i>",
                      'render': function (data, type, row) {
                          Wt = row.SalesOrder.SalesOrderDetail.PkgWt;
-                         return '<input class="form-control description text-right" name="Markup" value="' + Wt + '" type="text" id="txt' + row.ProductID + '" onchange="textBoxValueChangedEditTbl(this,2);">';
+                         return '<input class="form-control description text-right" name="Markup" value="' + Wt + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text"  onchange="textBoxValueChangedEditTbl(this,2);"style="width:100%">';
                      }
                  }
             ],
@@ -338,7 +338,7 @@ function AddPackingSlipDetailTbl() {
         Save();
     }
     else
-        notyAlert('warning', "Please Enter Weight of Product(s)");
+        notyAlert('warning', "Please Enter Packing Quantity of Product(s)");
 }
 function CheckProductDetails(producDetails)
 {
@@ -347,7 +347,7 @@ function CheckProductDetails(producDetails)
     if ((producDetails) && (producDetails.length > 0)) {
         selected = 1;
         for (var r = 0; r < producDetails.length; r++) {
-            if (producDetails[r].PkgWt == 0) {
+            if (producDetails[r].CurrentPkgQty == 0) {
                 flag = 1;
                 $("#txt" + producDetails[r].ProductID).attr('style','border-color:red;')
             }
@@ -698,14 +698,14 @@ function AddPackingSlipDetailEditTbl() {
         Save();
     }
     else
-        notyAlert('warning', "Please Enter Weight of Product(s)");
+        notyAlert('warning', "Please Enter Packing Quantity");
 }
 function CheckProductDetailsEditTbl(producDetails) {
     var flag = 0;
     if ((producDetails) && (producDetails.length > 0)) {
 
         for (var r = 0; r < producDetails.length; r++) {
-            if (producDetails[r].SalesOrder.SalesOrderDetail.PkgWt == 0) {
+            if (producDetails[r].SalesOrder.SalesOrderDetail.CurrentPkgQty == 0) {
                 flag = 1;
                 $("#txt" + producDetails[r].ProductID).attr('style', 'border-color:red;')
             }
