@@ -58,42 +58,57 @@ catch(e)
 });
 
 function ShowFinishedGoodStockAdjDetailsModal() {
-    debugger;
-    if ($("#LatestApprovalStatus").val() == 3 || $("#LatestApprovalStatus").val() == 0)
-    {
-        $('#ProductID').val('').select2();
+    try{
+        debugger;
+        if ($("#LatestApprovalStatus").val() == 3 || $("#LatestApprovalStatus").val() == 0)
+        {
+            $('#ProductID').val('').select2();
 
-        $('#FinishedGoodStockAdjDetail_Product_Code').val('');
-        $('#FinishedGoodStockAdjDetail_Product_Description').val('');
-        $('#FinishedGoodStockAdjDetail_Product_UnitCode').val('');
-        $('#FinishedGoodStockAdjDetail_Qty').val('');
-        $('#FinishedGoodStockAdjDetail_Remarks').val('');
+            $('#FinishedGoodStockAdjDetail_Product_Code').val('');
+            $('#FinishedGoodStockAdjDetail_Product_Description').val('');
+            $('#FinishedGoodStockAdjDetail_Product_UnitCode').val('');
+            $('#FinishedGoodStockAdjDetail_Qty').val('');
+            $('#FinishedGoodStockAdjDetail_Remarks').val('');
 
-        $('#finishedGoodStockAdjDetailsModal').modal('show');
+            $('#finishedGoodStockAdjDetailsModal').modal('show');
+        }
+    }
+    catch (e) {
+        console.log(e.message);
     }
 }
 
 function ProductEdit(curObj)
 {
-    debugger;
-    $('#finishedGoodStockAdjDetailsModal').modal('show');
+    try{
+        debugger;
+        $('#finishedGoodStockAdjDetailsModal').modal('show');
 
-    var finishedGoodStockAdjDetailVM = DataTables.FinishedGoodStockAdjTable.row($(curObj).parents('tr')).data();
-   _SlNo = 1;
-    BindFinishedGoodStockAdjDetails(finishedGoodStockAdjDetailVM.ProductID);
+        var finishedGoodStockAdjDetailVM = DataTables.FinishedGoodStockAdjTable.row($(curObj).parents('tr')).data();
+        _SlNo = 1;
+        BindFinishedGoodStockAdjDetails(finishedGoodStockAdjDetailVM.ProductID);
     
-    $('#ProductID').val(finishedGoodStockAdjDetailVM.ProductID).trigger('change');
-    $('#FinishedGoodStockAdjDetail_Qty').val(finishedGoodStockAdjDetailVM.Qty);
-    $('#FinishedGoodStockAdjDetail_Remarks').val(finishedGoodStockAdjDetailVM.Remarks);
+        $('#ProductID').val(finishedGoodStockAdjDetailVM.ProductID).trigger('change');
+        $('#FinishedGoodStockAdjDetail_Qty').val(finishedGoodStockAdjDetailVM.Qty);
+        $('#FinishedGoodStockAdjDetail_Remarks').val(finishedGoodStockAdjDetailVM.Remarks);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function BindFinishedGoodStockAdjDetails(id)
 {
-    debugger;
-    var result = GetProduct(id); _SlNo = 1; 
-    $('#FinishedGoodStockAdjDetail_Product_Code').val(result.Code);
-    $('#FinishedGoodStockAdjDetail_Product_UnitCode').val(result.UnitCode);
-    $('#FinishedGoodStockAdjDetail_Product_Description').val(result.Description);
+    try{
+        debugger;
+        var result = GetProduct(id); _SlNo = 1; 
+        $('#FinishedGoodStockAdjDetail_Product_Code').val(result.Code);
+        $('#FinishedGoodStockAdjDetail_Product_UnitCode').val(result.UnitCode);
+        $('#FinishedGoodStockAdjDetail_Product_Description').val(result.Description);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function GetProduct(id) {
@@ -125,114 +140,133 @@ function GetProduct(id) {
 
 function AddFinishedGoodStockAdjDetails()
 {
-    debugger;
-    if ($('#ProductID').val() != "" && $('#FinishedGoodStockAdjDetail_Qty').val()!= "" && $('#FinishedGoodStockAdjDetail_Remarks').val()!="")
-    {
-        _FinishedGoodStockAdjDetail = [];
-        AddFinishedGoodStockAdj = new Object();
-        AddFinishedGoodStockAdj.ProductID = $('#ProductID').val();
-        AddFinishedGoodStockAdj.Product = new Object();
-        AddFinishedGoodStockAdj.Product.Code = $('#FinishedGoodStockAdjDetail_Product_Code').val();
-        AddFinishedGoodStockAdj.Product.UnitCode = $('#FinishedGoodStockAdjDetail_Product_UnitCode').val();
-        AddFinishedGoodStockAdj.Product.Description = $('#FinishedGoodStockAdjDetail_Product_Description').val();
-        AddFinishedGoodStockAdj.Qty = $('#FinishedGoodStockAdjDetail_Qty').val();
-        AddFinishedGoodStockAdj.Remarks = $('#FinishedGoodStockAdjDetail_Remarks').val();
-        _FinishedGoodStockAdjDetail.push(AddFinishedGoodStockAdj);
-
-        if(_FinishedGoodStockAdjDetail!=null)
+    try{
+        debugger;
+        if ($('#ProductID').val() != "" && $('#FinishedGoodStockAdjDetail_Qty').val()!= "" && $('#FinishedGoodStockAdjDetail_Remarks').val()!="")
         {
-            var finishedGoodStockAdjDetailList = DataTables.FinishedGoodStockAdjTable.rows().data();
-            if(finishedGoodStockAdjDetailList.length>0)
+            _FinishedGoodStockAdjDetail = [];
+            AddFinishedGoodStockAdj = new Object();
+            AddFinishedGoodStockAdj.ProductID = $('#ProductID').val();
+            AddFinishedGoodStockAdj.Product = new Object();
+            AddFinishedGoodStockAdj.Product.Code = $('#FinishedGoodStockAdjDetail_Product_Code').val();
+            AddFinishedGoodStockAdj.Product.UnitCode = $('#FinishedGoodStockAdjDetail_Product_UnitCode').val();
+            AddFinishedGoodStockAdj.Product.Description = $('#FinishedGoodStockAdjDetail_Product_Description').val();
+            AddFinishedGoodStockAdj.Qty = $('#FinishedGoodStockAdjDetail_Qty').val();
+            AddFinishedGoodStockAdj.Remarks = $('#FinishedGoodStockAdjDetail_Remarks').val();
+            _FinishedGoodStockAdjDetail.push(AddFinishedGoodStockAdj);
+
+            if(_FinishedGoodStockAdjDetail!=null)
             {
-                var checkPoint = 0;
-                for(var i=0;i<finishedGoodStockAdjDetailList.length;i++)
+                var finishedGoodStockAdjDetailList = DataTables.FinishedGoodStockAdjTable.rows().data();
+                if(finishedGoodStockAdjDetailList.length>0)
                 {
-                    if(finishedGoodStockAdjDetailList[i].ProductID==$('#ProductID').val())
+                    var checkPoint = 0;
+                    for(var i=0;i<finishedGoodStockAdjDetailList.length;i++)
                     {
-                        finishedGoodStockAdjDetailList[i].Product.Code = $('#FinishedGoodStockAdjDetail_Product_Code').val();
-                        finishedGoodStockAdjDetailList[i].Product.UnitCode = $('#FinishedGoodStockAdjDetail_Product_UnitCode').val();
-                        finishedGoodStockAdjDetailList[i].Product.Description = $('#FinishedGoodStockAdjDetail_Product_Description').val();
-                        finishedGoodStockAdjDetailList[i].Qty = $('#FinishedGoodStockAdjDetail_Qty').val();
-                        finishedGoodStockAdjDetailList[i].Remarks = $('#FinishedGoodStockAdjDetail_Remarks').val();
-                        checkPoint = 1;
-                        break;
+                        if(finishedGoodStockAdjDetailList[i].ProductID==$('#ProductID').val())
+                        {
+                            finishedGoodStockAdjDetailList[i].Product.Code = $('#FinishedGoodStockAdjDetail_Product_Code').val();
+                            finishedGoodStockAdjDetailList[i].Product.UnitCode = $('#FinishedGoodStockAdjDetail_Product_UnitCode').val();
+                            finishedGoodStockAdjDetailList[i].Product.Description = $('#FinishedGoodStockAdjDetail_Product_Description').val();
+                            finishedGoodStockAdjDetailList[i].Qty = $('#FinishedGoodStockAdjDetail_Qty').val();
+                            finishedGoodStockAdjDetailList[i].Remarks = $('#FinishedGoodStockAdjDetail_Remarks').val();
+                            checkPoint = 1;
+                            break;
+                        }
                     }
-                }
-                if(!checkPoint)
-                {
-                    DataTables.FinishedGoodStockAdjTable.rows.add(_FinishedGoodStockAdjDetail).draw(false);
+                    if(!checkPoint)
+                    {
+                        DataTables.FinishedGoodStockAdjTable.rows.add(_FinishedGoodStockAdjDetail).draw(false);
+                    }
+                    else
+                    {
+                        DataTables.FinishedGoodStockAdjTable.clear().rows.add(finishedGoodStockAdjDetailList).draw(false);
+                    }
                 }
                 else
                 {
-                    DataTables.FinishedGoodStockAdjTable.clear().rows.add(finishedGoodStockAdjDetailList).draw(false);
+                    DataTables.FinishedGoodStockAdjTable.rows.add(_FinishedGoodStockAdjDetail).draw(false);
                 }
             }
-            else
-            {
-                DataTables.FinishedGoodStockAdjTable.rows.add(_FinishedGoodStockAdjDetail).draw(false);
-            }
+            $('#finishedGoodStockAdjDetailsModal').modal('hide');
         }
-        $('#finishedGoodStockAdjDetailsModal').modal('hide');
+        else
+        {
+            notyAlert('warning', "Product,Quantity and Remark fields are required ");
+        }
     }
-    else
-    {
-        notyAlert('warning', "Product,Quantity and Remark fields are required ");
+    catch (e) {
+        console.log(e.message);
     }
 }
 
 function Save() {
-    debugger;
-    $("#DetailJSON").val('');
-    _FinishedGoodStockAdjDetailList = [];
-    AddFinishedGoodStockAdjDetailList();
-    if (_FinishedGoodStockAdjDetailList.length > 0) {
-        var result = JSON.stringify(_FinishedGoodStockAdjDetailList);
-        $("#DetailJSON").val(result);
-        $('#btnSave').trigger('click');
-        _SlNo = 1;
+    try{
+        debugger;
+        $("#DetailJSON").val('');
+        _FinishedGoodStockAdjDetailList = [];
+        AddFinishedGoodStockAdjDetailList();
+        if (_FinishedGoodStockAdjDetailList.length > 0) {
+            var result = JSON.stringify(_FinishedGoodStockAdjDetailList);
+            $("#DetailJSON").val(result);
+            $('#btnSave').trigger('click');
+            _SlNo = 1;
+        }
+        else {
+            notyAlert('warning', 'Please Add Finished Good Stock Adjustment Details!');
+        }
     }
-    else {
-        notyAlert('warning', 'Please Add Finished Good Stock Adjustment Details!');
+    catch (e) {
+        console.log(e.message);
     }
-
 }
 
 function AddFinishedGoodStockAdjDetailList()
 {
-    debugger;
-    var finishedGoodStockAdjDetailData = DataTables.FinishedGoodStockAdjTable.rows().data();
-    for(var r=0;r<finishedGoodStockAdjDetailData.length;r++)
-    {
-        finishedGoodStockAdjDetail = new Object();
+    try{
+        debugger;
+        var finishedGoodStockAdjDetailData = DataTables.FinishedGoodStockAdjTable.rows().data();
+        for(var r=0;r<finishedGoodStockAdjDetailData.length;r++)
+        {
+            finishedGoodStockAdjDetail = new Object();
 
-        finishedGoodStockAdjDetail.ID = finishedGoodStockAdjDetailData[r].ID;
-        finishedGoodStockAdjDetail.AdjustmentID = finishedGoodStockAdjDetailData[r].AdjustmentID;
-        finishedGoodStockAdjDetail.ProductID = finishedGoodStockAdjDetailData[r].ProductID;       
-        finishedGoodStockAdjDetail.Qty = finishedGoodStockAdjDetailData[r].Qty;
-        finishedGoodStockAdjDetail.Remarks = finishedGoodStockAdjDetailData[r].Remarks;
-        _FinishedGoodStockAdjDetailList.push(finishedGoodStockAdjDetail);
+            finishedGoodStockAdjDetail.ID = finishedGoodStockAdjDetailData[r].ID;
+            finishedGoodStockAdjDetail.AdjustmentID = finishedGoodStockAdjDetailData[r].AdjustmentID;
+            finishedGoodStockAdjDetail.ProductID = finishedGoodStockAdjDetailData[r].ProductID;       
+            finishedGoodStockAdjDetail.Qty = finishedGoodStockAdjDetailData[r].Qty;
+            finishedGoodStockAdjDetail.Remarks = finishedGoodStockAdjDetailData[r].Remarks;
+            _FinishedGoodStockAdjDetailList.push(finishedGoodStockAdjDetail);
+        }
+    }
+    catch (e) {
+        console.log(e.message);
     }
 }
 
 function SaveSuccessFinishedGoodStockAdj(data,status)
 {
-    debugger;
-    var JsonResult = JSON.parse(data)
-    switch (JsonResult.Result) {
-        case "OK":
-            $('#IsUpdate').val('True');
-            $('#ID').val(JsonResult.Records.ID)
-            BindFinishedGoodStockAdjByID();
-            _SlNo = 1;
-            notyAlert("success", JsonResult.Records.Message)
+    try{
+        debugger;
+        var JsonResult = JSON.parse(data)
+        switch (JsonResult.Result) {
+            case "OK":
+                $('#IsUpdate').val('True');
+                $('#ID').val(JsonResult.Records.ID)
+                BindFinishedGoodStockAdjByID();
+                _SlNo = 1;
+                notyAlert("success", JsonResult.Records.Message)
 
-            break;
-        case "ERROR":
-            notyAlert("danger", JsonResult.Message)
-            break;
-        default:
-            notyAlert("danger", JsonResult.Message)
-            break;
+                break;
+            case "ERROR":
+                notyAlert("danger", JsonResult.Message)
+                break;
+            default:
+                notyAlert("danger", JsonResult.Message)
+                break;
+        }
+    }
+    catch (e) {
+        console.log(e.message);
     }
 }
 
@@ -243,37 +277,47 @@ function Reset()
 
 function BindFinishedGoodStockAdjByID()
 {
-    _SlNo = 1;
-    var id = $('#ID').val();
-    var result = GetFinishedGoodStockAdjByID(id);
-    debugger;
-    $('#ID').val(result.ID);
-    $('#AdjustmentNo').val(result.AdjustmentNo);
-    $('#EmployeeID').val(result.EmployeeID).select2();
-    $('#AdjustmentDateFormatted').val(result.AdjustmentDateFormatted);
-    $('#Remarks').val(result.Remarks);
-    $('#lblFGStockAdjNo').text('Finished Good Stock Adj.No# :' + result.AdjustmentNo);
-    $('#LatestApprovalStatus').val(result.LatestApprovalStatus);
-    $('#LatestApprovalID').val(result.LatestApprovalID);
-    $('#lblApprovalStatus').text(result.ApprovalStatus);
+    try{
+        _SlNo = 1;
+        var id = $('#ID').val();
+        var result = GetFinishedGoodStockAdjByID(id);
+        debugger;
+        $('#ID').val(result.ID);
+        $('#AdjustmentNo').val(result.AdjustmentNo);
+        $('#EmployeeID').val(result.EmployeeID).select2();
+        $('#AdjustmentDateFormatted').val(result.AdjustmentDateFormatted);
+        $('#Remarks').val(result.Remarks);
+        $('#lblFGStockAdjNo').text('Finished Good Stock Adj.No# :' + result.AdjustmentNo);
+        $('#LatestApprovalStatus').val(result.LatestApprovalStatus);
+        $('#LatestApprovalID').val(result.LatestApprovalID);
+        $('#lblApprovalStatus').text(result.ApprovalStatus);
 
-    if (result.LatestApprovalStatus == 3 || result.LatestApprovalStatus == 0) {
-        ChangeButtonPatchView('FinishedGoodStockAdj', 'divbuttonPatchAddFGStockAdj', 'Edit');
-        EnableDisableFields(false)
+        if (result.LatestApprovalStatus == 3 || result.LatestApprovalStatus == 0) {
+            ChangeButtonPatchView('FinishedGoodStockAdj', 'divbuttonPatchAddFGStockAdj', 'Edit');
+            EnableDisableFields(false)
+        }
+        else {
+            ChangeButtonPatchView('FinishedGoodStockAdj', 'divbuttonPatchAddFGStockAdj', 'Disable');
+            EnableDisableFields(true)
+        }
+        BindFinishedGoodStockAdjDetailTable(id);
     }
-    else {
-        ChangeButtonPatchView('FinishedGoodStockAdj', 'divbuttonPatchAddFGStockAdj', 'Disable');
-        EnableDisableFields(true)
+    catch (e) {
+        console.log(e.message);
     }
-    BindFinishedGoodStockAdjDetailTable(id);
 }
 
 function EnableDisableFields(value) {
-    $('#btnAddFinishedGoodStockAdjItems').attr('disabled', value);
-    $('#EmployeeID').attr('disabled', value);
-    $('#AdjustmentDateFormatted').attr('disabled', value);
-    $('#Remarks').attr('disabled', value);
-    DataTables.FinishedGoodStockAdjTable.column(8).visible(!value);
+    try{
+        $('#btnAddFinishedGoodStockAdjItems').attr('disabled', value);
+        $('#EmployeeID').attr('disabled', value);
+        $('#AdjustmentDateFormatted').attr('disabled', value);
+        $('#Remarks').attr('disabled', value);
+        DataTables.FinishedGoodStockAdjTable.column(8).visible(!value);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function GetFinishedGoodStockAdjByID(id)
@@ -339,26 +383,36 @@ function GetFinishedGoodStockAdjDetail(id)
 
 function Delete(curObj)
 {
-    debugger;
-    var finishedGoodStockAdjDetailVM = DataTables.FinishedGoodStockAdjTable.row($(curObj).parents('tr')).data();
-    var finishedGoodStockAdjDetailVMIndex = DataTables.FinishedGoodStockAdjTable.row($(curObj).parents('tr')).index();
-    if((finishedGoodStockAdjDetailVM!=null)&&(finishedGoodStockAdjDetailVM.ID!=null))
-    {
-        notyConfirm('Are you sure to delete?', 'DeleteItem("' + finishedGoodStockAdjDetailVM.ID + '")');
+    try{
+        debugger;
+        var finishedGoodStockAdjDetailVM = DataTables.FinishedGoodStockAdjTable.row($(curObj).parents('tr')).data();
+        var finishedGoodStockAdjDetailVMIndex = DataTables.FinishedGoodStockAdjTable.row($(curObj).parents('tr')).index();
+        if((finishedGoodStockAdjDetailVM!=null)&&(finishedGoodStockAdjDetailVM.ID!=null))
+        {
+            notyConfirm('Are you sure to delete?', 'DeleteItem("' + finishedGoodStockAdjDetailVM.ID + '")');
+        }
+        else
+        {
+            var tempDelete = notyConfirm('Are you sure to delete?', 'DeleteTempItem("' + finishedGoodStockAdjDetailVMIndex + '")');
+        }
     }
-    else
-    {
-        var tempDelete = notyConfirm('Are you sure to delete?', 'DeleteTempItem("' + finishedGoodStockAdjDetailVMIndex + '")');
+    catch (e) {
+        console.log(e.message);
     }
 }
 
 function DeleteTempItem(finishedGoodStockAdjDetailVMIndex) {
-    debugger;
-    var Itemtabledata = DataTables.FinishedGoodStockAdjTable.rows().data();
-    Itemtabledata.splice(finishedGoodStockAdjDetailVMIndex, 1);
-    _SlNo = 1;
-    DataTables.FinishedGoodStockAdjTable.clear().rows.add(Itemtabledata).draw(false);
-    notyAlert('success', 'Deleted Successfully');
+    try{
+        debugger;
+        var Itemtabledata = DataTables.FinishedGoodStockAdjTable.rows().data();
+        Itemtabledata.splice(finishedGoodStockAdjDetailVMIndex, 1);
+        _SlNo = 1;
+        DataTables.FinishedGoodStockAdjTable.clear().rows.add(Itemtabledata).draw(false);
+        notyAlert('success', 'Deleted Successfully');
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function DeleteItem(id) {
@@ -436,30 +490,40 @@ function DeleteFinishedGoodStockAdj() {
 }
 
 function ShowSendForApproval(documentTypeCode) {
-    debugger;
-    if ($('#LatestApprovalStatus').val() == 3) {
-        var documentID = $('#ID').val();
-        var latestApprovalID = $('#LatestApprovalID').val();
-        ReSendDocForApproval(documentID, documentTypeCode, latestApprovalID);
+    try{
+        debugger;
+        if ($('#LatestApprovalStatus').val() == 3) {
+            var documentID = $('#ID').val();
+            var latestApprovalID = $('#LatestApprovalID').val();
+            ReSendDocForApproval(documentID, documentTypeCode, latestApprovalID);
+        }
+        else {
+            $('#SendApprovalModal').modal('show');
+        }
     }
-    else {
-        $('#SendApprovalModal').modal('show');
+    catch (e) {
+        console.log(e.message);
     }
 }
 
 function SendForApproval(documentTypeCode) {
-    debugger;
-    var documentID = $('#ID').val();
-    var approversCSV;
-    var count = $('#ApproversCount').val();
+    try{
+        debugger;
+        var documentID = $('#ID').val();
+        var approversCSV;
+        var count = $('#ApproversCount').val();
 
-    for (i = 0; i < count; i++) {
-        if (i == 0)
-            approversCSV = $('#ApproverLevel' + i).val();
-        else
-            approversCSV = approversCSV + ',' + $('#ApproverLevel' + i).val();
+        for (i = 0; i < count; i++) {
+            if (i == 0)
+                approversCSV = $('#ApproverLevel' + i).val();
+            else
+                approversCSV = approversCSV + ',' + $('#ApproverLevel' + i).val();
+        }
+        SendDocForApproval(documentID, documentTypeCode, approversCSV);
+        $('#SendApprovalModal').modal('hide');
+        BindFinishedGoodStockAdjByID();
     }
-    SendDocForApproval(documentID, documentTypeCode, approversCSV);
-    $('#SendApprovalModal').modal('hide');
-    BindFinishedGoodStockAdjByID();
+    catch (e) {
+        console.log(e.message);
+    }
 }
