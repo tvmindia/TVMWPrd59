@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace ProductionApp.BusinessService.Services
 {
@@ -17,10 +18,25 @@ namespace ProductionApp.BusinessService.Services
         {
             _materialTypeRepository = materialRepository;
         }
-
-        public List<MaterialType> GetMaterialTypeForSelectList()
+        public List<SelectListItem> GetMaterialTypeForSelectList()
         {
-            return _materialTypeRepository.GetMaterialTypeForSelectList();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            List<MaterialType> materialTypeList = _materialTypeRepository.GetMaterialTypeForSelectList();
+            if (materialTypeList != null)
+                foreach (MaterialType materialType in materialTypeList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = materialType.Description,
+                        Value = materialType.Code,
+                        Selected = false
+                    });
+                }
+            return selectListItem;
+        }
+        public object InsertUpdateMaterialType(MaterialType materialType)
+        {
+            return _materialTypeRepository.InsertUpdateMaterialType(materialType);
         }
         public MaterialType GetMaterialType(string code)
         {

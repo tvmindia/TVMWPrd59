@@ -92,7 +92,7 @@ function SaveSuccessProduct(data, status) {
             break;
     }
 }
-//-- add MaterialType--//
+//-- add Material Type--//
 function AddMaterialTypeMaster(flag) {
     debugger;
     GetMasterPartial("MaterialType", "");
@@ -100,15 +100,15 @@ function AddMaterialTypeMaster(flag) {
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val(flag);
 }
-//-- Function After MaterialType Save --//
+//-- Function After Save Material Type--//
 function SaveSuccessMaterialType(data, status) {
     debugger;
     var JsonResult = JSON.parse(data)
-    switch (JsonResult.Result) {
+    switch (JsonResult.Status) {
         case "OK":
             if ($('#hdnMasterCall').val() == "MSTR") {
                 $('#IsUpdate').val('True');
-                //BindOrReloadMaterialTypeTable('Reset');
+                BindOrReloadMaterialTypeTable('Reset');
             }
             else if ($('#hdnMasterCall').val() == "OTR") {
                 $('#divMaterialTypeDropdown').load('/MaterialType/MaterialTypeDropdown');
@@ -322,34 +322,3 @@ function SaveSuccessProductCategory(data, status) {
     }
 }
 
-////-- add  Material Type--//
-//function AddMaterialTypeMaster(flag) {
-//    debugger;
-//    GetMasterPartial("MaterialType", "");
-//    $('#h3ModelMasterContextLabel').text('Add Material Type')
-//    $('#divModelMasterPopUp').modal('show');
-//    $('#hdnMasterCall').val(flag);
-//}
-////-- Function After Save Material Type--//
-//function SaveSuccessMaterialType(data, status) {
-//    debugger;
-//    var JsonResult = JSON.parse(data)
-//    switch (JsonResult.Status) {
-//        case "OK":
-//            if ($('#hdnMasterCall').val() == "MSTR") {
-//                $('#IsUpdate').val('True');
-//                BindOrReloadMaterialTypeTable('Reset');
-//            }
-//            else if ($('#hdnMasterCall').val() == "OTR") {
-//                $('#divMaterialTypeDropdown').load('/MaterialType/MaterialTypeDropdown');
-//            }
-//            MasterAlert("success", JsonResult.Record.Message)
-//            break;
-//        case "ERROR":
-//            MasterAlert("danger", JsonResult.Message)
-//            break;
-//        default:
-//            MasterAlert("danger", JsonResult.Message)
-//            break;
-//    }
-//}

@@ -108,8 +108,8 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.Add("@Length", SqlDbType.Int).Value = materialAdvanceSearch.DataTablePaging.Length;
                         //cmd.Parameters.Add("@OrderDir", SqlDbType.NVarChar, 5).Value = model.order[0].dir;
                         //cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar, -1).Value = model.order[0].column;
-                        cmd.Parameters.Add("@MaterialTypeCode", SqlDbType.VarChar,10).Value = materialAdvanceSearch.MaterialType.Code;
-                        cmd.Parameters.Add("@UnitCode", SqlDbType.VarChar,15).Value = materialAdvanceSearch.Unit.Code;
+                        cmd.Parameters.Add("@MaterialTypeCode", SqlDbType.VarChar,10).Value = materialAdvanceSearch.MaterialTypeCode;
+                        cmd.Parameters.Add("@UnitCode", SqlDbType.VarChar,15).Value = materialAdvanceSearch.UnitCode;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using(SqlDataReader sdr = cmd.ExecuteReader())
                         {

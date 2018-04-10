@@ -1,6 +1,26 @@
-﻿@model ProductionApp.UserInterface.Models.MaterialTypeViewModel
-<div class="input-group">
-    @Html.DropDownListFor(model => model.MaterialTypeCode, Model.SelectList, "---Select Material Type---", new { @class = "form-control" })
-    <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddMaterialTypeMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
-</div>
+﻿
+@model ProductionApp.UserInterface.Models.MaterialTypeViewModel
+@if (@ViewBag.IsRequired == "required")
+{
+    <div class="input-group">
+        @Html.DropDownList("MaterialTypeCode", Model.MaterialTypeSelectList, "--Select Material Type--", new { @class = "form-control", @required = "", @title = "The Material Type is missing", @style = "width:100%", @onchange = "$('#hdnMaterialTypeCode').val(this.value)" })
+        <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddMaterialTypeMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
+
+    </div>
+}
+else
+{
+    <div class="input-group">
+        @Html.DropDownList("MaterialTypeCode", Model.MaterialTypeSelectList, "--Select Material Type--", new { @class = "form-control", @style = "width:100%", @onchange = "$('#hdnMaterialTypeCode').val(this.value)" })
+        <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddMaterialTypeMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
+    </div>
+}
+
+@Html.ValidationMessage("MaterialTypeCode", "", new { @class = "text-danger" })
+
+<script>
+    $(document).ready(function () {
+        $('#MaterialTypeCode').val($('#hdnMaterialTypeCode').val());
+    });
+</script>
 

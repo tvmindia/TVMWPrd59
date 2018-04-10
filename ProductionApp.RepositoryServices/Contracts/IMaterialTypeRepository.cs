@@ -11,5 +11,6 @@ namespace ProductionApp.RepositoryServices.Contracts
     {
         List<MaterialType> GetMaterialTypeForSelectList();
         MaterialType GetMaterialType(string code);
+        object InsertUpdateMaterialType(MaterialType materialType);
     }
 }

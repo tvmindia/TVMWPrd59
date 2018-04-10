@@ -10,5 +10,15 @@ namespace ProductionApp.DataAccessObject.DTO
     {
         public string Code { get; set; }
         public string Description { get; set; }
+        //additional fields
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public bool IsUpdate { get; set; }
+        public Common Common { get; set; }
+    }
+    public class MaterialTypeAdvanceSearch
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
     }
 }

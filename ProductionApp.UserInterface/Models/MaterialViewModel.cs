@@ -55,8 +55,13 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
+
+        [Display(Name = "Unit")]
         public UnitViewModel Unit { get; set; }
         public MaterialTypeViewModel MaterialType { get; set; }
+        //[Display(Name = "Material Type ")]
+        //public string MaterialType { get; set; }
+
     }
 
 

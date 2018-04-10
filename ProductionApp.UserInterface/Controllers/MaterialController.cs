@@ -17,11 +17,15 @@ namespace ProductionApp.UserInterface.Controllers
         AppConst _appConst = new AppConst();
         private Common _common = new Common();
         private IMaterialBusiness _materialBusiness;
+        private IMaterialTypeBusiness _materialTypeBusiness;
+        private IUnitBusiness _unitBusiness;
 
         #region Constructor Injection
-        public MaterialController(IMaterialBusiness materialBusiness)
+        public MaterialController(IMaterialBusiness materialBusiness, IMaterialTypeBusiness materialTypeBusiness, IUnitBusiness unitBusiness)
         {
             _materialBusiness = materialBusiness;
+            _materialTypeBusiness = materialTypeBusiness;
+            _unitBusiness = unitBusiness;
         }
         #endregion Constructor Injection
 
@@ -32,6 +36,15 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ViewBag.SysModuleCode = code;
             MaterialAdvanceSearchViewModel materialAdvanceSearchVM = new MaterialAdvanceSearchViewModel();
+            materialAdvanceSearchVM.MaterialType = new MaterialTypeViewModel()
+            {
+                MaterialTypeSelectList= _materialTypeBusiness.GetMaterialTypeForSelectList()
+            };
+            materialAdvanceSearchVM.Unit = new UnitViewModel()
+            {
+                UnitSelectList = _unitBusiness.GetUnitForSelectList()
+            };   
+            
             return View(materialAdvanceSearchVM);
         }
         #endregion Index

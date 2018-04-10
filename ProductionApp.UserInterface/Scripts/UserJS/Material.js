@@ -52,10 +52,10 @@ function BindOrReloadMaterialTable(action) {
                 break;
         }
         MaterialAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
-        MaterialTypeViewModel.Code = $('#MaterialTypeCode').val();
-        MaterialAdvanceSearchViewModel.MaterialType = MaterialTypeViewModel;
-        UnitViewModel.Code = $('#UnitCode').val();
-        MaterialAdvanceSearchViewModel.Unit = UnitViewModel;
+       // MaterialTypeViewModel.Code = $('#MaterialTypeCode').val();
+        MaterialAdvanceSearchViewModel.MaterialTypeCode = $('#MaterialTypeCode').val();
+        //UnitViewModel.Code = $('#UnitCode').val();
+        MaterialAdvanceSearchViewModel.UnitCode = $('#UnitCode').val();
         MaterialAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
 
         //apply datatable plugin on Raw Material table
@@ -116,8 +116,8 @@ function BindOrReloadMaterialTable(action) {
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteMaterialMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [6,11] },
-                { className: "text-left", "targets": [1,2, 3,4,5,7,8,9,10] },
+                { className: "text-right", "targets": [6,7,8,9,10,11] },
+                { className: "text-left", "targets": [1,2, 3,4,5] },
                 { className: "text-center", "targets": [] }],
             destroy: true,
             //for performing the import operation after the data loaded

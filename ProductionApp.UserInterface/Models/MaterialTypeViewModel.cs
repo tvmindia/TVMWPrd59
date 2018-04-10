@@ -14,9 +14,17 @@ namespace ProductionApp.UserInterface.Models
         public string Code { get; set; }
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+        //additional fields
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
         public bool IsUpdate { get; set; }
-        [Required(ErrorMessage = "Please Select Material Type ")]
-        public string MaterialTypeCode { get; set; }
-        public List<SelectListItem> SelectList { get; set; }
+        public CommonViewModel Common { get; set; }
+        public List<SelectListItem> MaterialTypeSelectList { get; set; }
+    }
+    public class MaterialTypeAdvanceSearchViewModel
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
     }
 }

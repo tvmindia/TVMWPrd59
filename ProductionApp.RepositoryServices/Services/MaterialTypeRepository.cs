@@ -74,6 +74,65 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetMaterialTypeForSelectList
 
+        #region InsertUpdateMaterialType
+        /// <summary>
+        /// To Insert and update Material Type
+        /// </summary>
+        /// <param name="materialType"></param>
+        /// <returns>object</returns>
+        public object InsertUpdateMaterialType(MaterialType materialType)
+        {
+            SqlParameter outputStatus, outputCode;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[InsertUpdateMaterialType]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = materialType.IsUpdate;
+                        cmd.Parameters.Add("@Code", SqlDbType.VarChar, 10).Value = materialType.Code;
+                        cmd.Parameters.Add("@Description", SqlDbType.NVarChar, 250).Value = materialType.Description;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        outputCode = cmd.Parameters.Add("@CodeOut", SqlDbType.VarChar, 20);
+                        outputCode.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(materialType.IsUpdate ? _appConst.UpdateFailure : _appConst.InsertFailure);
+                    case "1":
+                        materialType.Code = outputCode.Value.ToString();
+                        return new
+                        {
+                            Code = materialType.Code,
+                            Status = outputStatus.Value.ToString(),
+                            Message = materialType.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+                        };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                ID = Guid.Parse(outputCode.Value.ToString()),
+                Status = outputStatus.Value.ToString(),
+                Message = materialType.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+            };
+        }
+        #endregion InsertUpdateMaterialType
+
         public MaterialType GetMaterialType(string code)
         {
             MaterialType materialType = null;

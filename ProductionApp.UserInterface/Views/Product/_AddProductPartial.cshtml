@@ -103,11 +103,6 @@
                             @Html.Action("ProductCategorySelectList", "ProductCategory", new { required = "required" })
                         </div>
                         @Html.HiddenFor(model => model.ProductCategoryCode, htmlAttributes: new { @class = "", @id = "hdnProductCategoryCode" })
-
-                         <div id="divProductCategoryDropdown">
-                        @*@{Html.RenderAction("ProductCategoryDropdown", "ProductCategory", Model.ProductCategory);}*@
-                         </div>
-                        @*@Html.ValidationMessageFor(model => model.ProductCategoryCode, "", new { @class = "text-danger" })*@
                     </div>
                 </div>
             </div>

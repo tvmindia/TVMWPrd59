@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
+using ProductionApp.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,27 +39,77 @@ namespace ProductionApp.UserInterface.Controllers
             return PartialView("_AddMaterialTypePartial", materTypeVM);
         }
         #endregion MasterPartial
+
         #region MaterialTypeDropdown
-        public ActionResult MaterialTypeDropdown(MaterialTypeViewModel materialTypeVM)
+        public ActionResult MaterialTypeSelectList(string required)
         {
-            materialTypeVM.MaterialTypeCode = materialTypeVM.Code;
-            List<SelectListItem> selectListItem = new List<SelectListItem>();
-            materialTypeVM.SelectList = new List<SelectListItem>();
-            List<MaterialTypeViewModel> materialTypeList = Mapper.Map<List<MaterialType>, List<MaterialTypeViewModel>>(_materialTypeBusiness.GetMaterialTypeForSelectList());
-            if (materialTypeList != null)
-                foreach (MaterialTypeViewModel unit in materialTypeList)
-                {
-                    selectListItem.Add(new SelectListItem
-                    {
-                        Text = unit.Description,
-                        Value = unit.Code.ToString(),
-                        Selected = false
-                    });
-                }
-            materialTypeVM.SelectList = selectListItem;
+            ViewBag.IsRequired = required;
+            MaterialTypeViewModel materialTypeVM = new MaterialTypeViewModel();
+            materialTypeVM.MaterialTypeSelectList = _materialTypeBusiness.GetMaterialTypeForSelectList();
             return PartialView("_MaterialTypeDropdown", materialTypeVM);
         }
         #endregion MaterialTypeDropdown
+
+        #region InsertUpdateMaterialType
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "MaterialType", Mode = "R")]
+        public string InsertUpdateMaterialType(MaterialTypeViewModel materialTypeVM)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                materialTypeVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                var result = _materialTypeBusiness.InsertUpdateMaterialType(Mapper.Map<MaterialTypeViewModel, MaterialType>(materialTypeVM));
+                return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Status = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+        #endregion InsertUpdateMaterialType
+
+        #region ButtonStyling
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "MaterialType", Mode = "R")]
+        public ActionResult ChangeButtonStyle(string actionType)
+        {
+            ToolboxViewModel toolboxVM = new ToolboxViewModel();
+            switch (actionType)
+            {
+                case "List":
+                    toolboxVM.addbtn.Visible = true;
+                    toolboxVM.addbtn.Text = "Add";
+                    toolboxVM.addbtn.Title = "Add New";
+                    toolboxVM.addbtn.Event = "AddMaterialTypeMaster('MSTR')";
+                    //----added for reset button---------------
+                    toolboxVM.resetbtn.Visible = true;
+                    toolboxVM.resetbtn.Text = "Reset";
+                    toolboxVM.resetbtn.Title = "Reset All";
+                    toolboxVM.resetbtn.Event = "ResetMaterialTypeList();";
+                    //----added for export button--------------
+                    toolboxVM.PrintBtn.Visible = true;
+                    toolboxVM.PrintBtn.Text = "Export";
+                    toolboxVM.PrintBtn.Title = "Export";
+                    toolboxVM.PrintBtn.Event = "ImportMaterialTypeData();";
+                    //---------------------------------------
+                    break;
+
+                default:
+                    return Content("Nochange");
+            }
+            return PartialView("ToolboxView", toolboxVM);
+        }
+
+        #endregion ButtonStyling
 
     }
 }

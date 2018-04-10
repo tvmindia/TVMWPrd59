@@ -65,9 +65,9 @@ height:150px;*/
                 <div class="col-md-12">
                     <div class="col-md-12">
                         <div id="divMaterialTypeDropdown">
-                            @{Html.RenderAction("MaterialTypeDropdown", "MaterialType", Model.MaterialType);}
+                            @Html.Action("MaterialTypeSelectList", "MaterialType", new { required = "required" })
                         </div>
-                        @Html.ValidationMessageFor(model => model.MaterialTypeCode, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.MaterialTypeCode, htmlAttributes: new { @class = "", @id ="hdnMaterialTypeCode" })
                     </div>
                 </div>
             </div>
@@ -116,7 +116,7 @@ height:150px;*/
                 </div>
             </div>
 
-            <div class="form-group col-md-12">
+            @*<div class="form-group col-md-12">
                 <div class="col-md-12">
                     <div class="col-md-12">
                         @Html.LabelFor(model => model.CurrentStock, htmlAttributes: new { @class = "control-label" })
@@ -128,9 +128,9 @@ height:150px;*/
                         @Html.ValidationMessageFor(model => model.CurrentStock, "", new { @class = "text-danger" })
                     </div>
                 </div>
-            </div>
+            </div>*@
 
-            <div class="form-group col-md-12">
+            @*<div class="form-group col-md-12">
                 <div class="col-md-12">
                     <div class="col-md-12">
                         @Html.LabelFor(model => model.OpeningStock, htmlAttributes: new { @class = "control-label" })
@@ -142,7 +142,7 @@ height:150px;*/
                         @Html.ValidationMessageFor(model => model.OpeningStock, "", new { @class = "text-danger" })
                     </div>
                 </div>
-            </div>
+            </div>*@
 
             <div class="form-group col-md-12">
                 <div class="col-md-12">
@@ -186,14 +186,20 @@ height:150px;*/
             </div>
 
 
-            <div class="form-group "id="divFooter">
-                <div class="col-md-12">
+            @*<div class="form-group "id="divFooter">*@
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="col-md-11" style="margin-bottom: 2%;margin-top: 10px;">
+                            <button type="submit" id="btnSaveMaster" class="btn btn-info pull-right" style="margin-right:-5px;">Save Changes <i class="fa fa-spinner fa-spin" id="imgMasterLoading" style="display:none;"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="col-md-12">
                     <input type="submit" value="Save Changes" id="btnSaveMaster" class="btn btn-info" style="margin-left:5%" />
                     <img src="~/Content/images/MasterLoading.gif" id="imgMasterLoading" style="display:none" />
-                </div>
-            @*</div>*@
-
-        </div>
+                </div>*@
+        @*</div>*@
         </div>
         }
         <script>
