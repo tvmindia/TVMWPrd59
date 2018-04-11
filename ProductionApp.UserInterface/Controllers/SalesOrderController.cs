@@ -18,14 +18,18 @@ namespace ProductionApp.UserInterface.Controllers
         private ISalesOrderBusiness _salesOrderBusiness;
         private ICustomerBusiness _customerBusiness;
         private IEmployeeBusiness _employeeBusiness;
+        private IProductBusiness _productBusiness;
         Common _common = new Common();
         AppConst _appConst = new AppConst();
-        public SalesOrderController(ISalesOrderBusiness salesOrderBusiness,ICustomerBusiness customerBusiness,IEmployeeBusiness employeeBusiness)
+        public SalesOrderController(ISalesOrderBusiness salesOrderBusiness,
+            ICustomerBusiness customerBusiness,IEmployeeBusiness employeeBusiness,
+            IProductBusiness productBusiness)
 
         {
             _salesOrderBusiness = salesOrderBusiness;
             _customerBusiness = customerBusiness;
             _employeeBusiness = employeeBusiness;
+            _productBusiness = productBusiness;
         }
         [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
         public ActionResult AddSalesOrder(string code, Guid? id)
@@ -37,6 +41,10 @@ namespace ProductionApp.UserInterface.Controllers
                 IsUpdate = id == null ? false : true,
                 
             };
+            salesOrderVM.SalesOrderDetail = new SalesOrderDetailViewModel();
+            salesOrderVM.SalesOrderDetail.Product = new ProductViewModel();
+            salesOrderVM.SalesOrderDetail.Product.ProductSelectList=_productBusiness.GetProductForSelectList();
+            
             return View(salesOrderVM);
         }
 
