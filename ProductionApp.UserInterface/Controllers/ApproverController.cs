@@ -17,11 +17,13 @@ namespace ProductionApp.UserInterface.Controllers
         AppConst _appConst = new AppConst();
         private Common _common = new Common();
         private IApproverBusiness _approverBusiness;
+        private IDocumentTypeBusiness _documentTypeBusiness;
 
         #region Constructor Injection
-        public ApproverController(IApproverBusiness approverBusiness)
+        public ApproverController(IApproverBusiness approverBusiness, IDocumentTypeBusiness documentTypeBusiness)
         {
             _approverBusiness = approverBusiness;
+            _documentTypeBusiness = documentTypeBusiness;
         }
         #endregion Constructor Injection
 
@@ -31,6 +33,10 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ViewBag.SysModuleCode = code;
             ApproverAdvanceSearchViewModel approverAdvanceSearchVM = new ApproverAdvanceSearchViewModel();
+            approverAdvanceSearchVM.DocumentType = new DocumentTypeViewModel()
+            {
+                SelectList = _documentTypeBusiness.GetDocumentTypeForSelectList()
+            };
             return View(approverAdvanceSearchVM);
         }
         #endregion Index
@@ -91,6 +97,8 @@ namespace ProductionApp.UserInterface.Controllers
             }
             //--For Manging disabled checkbox IsDefault--//
             approverVM.IsDefaultString = approverVM.IsDefault?"true":"false";
+            approverVM.DocumentType = new DocumentTypeViewModel();
+            approverVM.DocumentType.SelectList = _documentTypeBusiness.GetDocumentTypeForSelectList();
             return PartialView("_AddApproverPartial", approverVM);
         }
         #endregion MasterPartial

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace ProductionApp.BusinessService.Services
 {
@@ -17,10 +18,21 @@ namespace ProductionApp.BusinessService.Services
         {
             _documentTypeRepository = documentTypeRepository;
         }
-
-        public List<DocumentType> GetDocumentTypeForSelectList()
+        public List<SelectListItem> GetDocumentTypeForSelectList()
         {
-            return _documentTypeRepository.GetDocumentTypeForSelectList();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            List<DocumentType> documentTypeList = _documentTypeRepository.GetDocumentTypeForSelectList();
+            if (documentTypeList != null)
+                foreach (DocumentType productCategory in documentTypeList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = productCategory.Description,
+                        Value = productCategory.Code,
+                        Selected = false
+                    });
+                }
+            return selectListItem;
         }
     }
 }

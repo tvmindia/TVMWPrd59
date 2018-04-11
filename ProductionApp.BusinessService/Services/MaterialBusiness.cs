@@ -27,9 +27,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _materialRepository.GetAllMaterial(materialAdvanceSearch);
         }
-        public bool CheckMaterialCodeExist(string materialCode)
+        public bool CheckMaterialCodeExist(Material material)
         {
-            return _materialRepository.CheckMaterialCodeExist(materialCode);
+            return _materialRepository.CheckMaterialCodeExist(material);
         }
         public object InsertUpdateMaterial(Material material)
         {

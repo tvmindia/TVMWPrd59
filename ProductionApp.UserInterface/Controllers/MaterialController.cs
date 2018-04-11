@@ -75,10 +75,11 @@ namespace ProductionApp.UserInterface.Controllers
         #region CheckMaterialCodeExist
         [AcceptVerbs("Get", "Post")]
         public ActionResult CheckMaterialCodeExist(MaterialViewModel materialVM)
-        {
+       {
             try
             {
-                bool exists = materialVM.IsUpdate ? false : _materialBusiness.CheckMaterialCodeExist(materialVM.MaterialCode);
+                bool exists = _materialBusiness.CheckMaterialCodeExist(Mapper.Map<MaterialViewModel, Material>(materialVM));
+
                 if (exists)
                 {
                     return Json("<p><span style='vertical-align: 2px'>Material code already in use </span> <i class='fa fa-close' style='font-size:19px; color: red'></i></p>", JsonRequestBehavior.AllowGet);
