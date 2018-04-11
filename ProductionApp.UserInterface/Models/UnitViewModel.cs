@@ -9,6 +9,7 @@ namespace ProductionApp.UserInterface.Models
 {
     public class UnitViewModel
     {
+        [Display(Name = "Unit")]
         [Required(ErrorMessage = "Unit is missing")]
         public string Code { get; set; }
         public string Description { get; set; }

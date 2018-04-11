@@ -11,8 +11,8 @@ namespace ProductionApp.UserInterface.Models
     public class ApproverViewModel
     {
         public Guid ID { get; set; }
-        [Required(ErrorMessage = "Document Type is missing")]
         [Display(Name = "Document Type")]
+        [Required(ErrorMessage = "Document Type is missing")]
         public string DocumentTypeCode { get; set; }
         public int Level { get; set; }
         [Required(ErrorMessage = "User is missing")]

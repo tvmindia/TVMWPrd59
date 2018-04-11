@@ -216,6 +216,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@Rate", SqlDbType.Decimal).Value = material.Rate;
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar,10).Value = material.MaterialTypeCode;
                         cmd.Parameters.Add("@Description", SqlDbType.VarChar,-1).Value = material.Description;
+                        cmd.Parameters.Add("@HSNNo", SqlDbType.NVarChar,30).Value = material.HSNNo;
                         cmd.Parameters.Add("@UnitCode", SqlDbType.VarChar,15).Value = material.UnitCode;
                         cmd.Parameters.Add("@ReorderQty", SqlDbType.Decimal).Value = material.ReorderQty;
                         cmd.Parameters.Add("@OpeningStock", SqlDbType.Decimal).Value = material.OpeningStock;
@@ -298,6 +299,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     material.MaterialType = new MaterialType();
                                     material.MaterialType.Code= sdr["MaterialTypeCode"].ToString() != "" ? sdr["MaterialTypeCode"].ToString() : material.MaterialTypeCode;
                                     material.Description = sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : material.Description;
+                                    material.HSNNo = sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : material.HSNNo;
                                     material.UnitCode = sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : material.UnitCode;
                                     material.Unit = new Unit();
                                     material.Unit.Code= sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : material.UnitCode;

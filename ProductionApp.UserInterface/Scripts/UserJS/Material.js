@@ -52,10 +52,10 @@ function BindOrReloadMaterialTable(action) {
                 break;
         }
         MaterialAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
-       // MaterialTypeViewModel.Code = $('#MaterialTypeCode').val();
-        MaterialAdvanceSearchViewModel.MaterialTypeCode = $('#MaterialTypeCode').val();
-        //UnitViewModel.Code = $('#UnitCode').val();
-        MaterialAdvanceSearchViewModel.UnitCode = $('#UnitCode').val();
+        MaterialTypeViewModel.Code = $('#MaterialType_Code').val();
+        MaterialAdvanceSearchViewModel.MaterialType = MaterialTypeViewModel;
+        UnitViewModel.Code = $('#Unit_Code').val();
+        MaterialAdvanceSearchViewModel.Unit = UnitViewModel;
         MaterialAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
 
         //apply datatable plugin on Raw Material table
