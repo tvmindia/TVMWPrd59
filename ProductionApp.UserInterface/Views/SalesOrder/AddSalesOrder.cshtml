@@ -90,7 +90,7 @@
                             @Html.LabelFor(model => model.BillingAddress, htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="col-md-12">
-                            @Html.TextAreaFor(model => model.BillingAddress, new { @class = "form-control HeaderBox", rows = "5" })
+                            @Html.TextAreaFor(model => model.BillingAddress, new { @class = "form-control HeaderBox textareafix", rows = "5" })
                         </div>
                     </div>
                     <div class="form-group col-md-6">
@@ -98,7 +98,7 @@
                             @Html.LabelFor(model => model.ShippingAddress, htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="col-md-12">
-                            @Html.TextAreaFor(model => model.ShippingAddress, new { @class = "form-control HeaderBox", rows = "5" })
+                            @Html.TextAreaFor(model => model.ShippingAddress, new { @class = "form-control HeaderBox textareafix", rows = "5" })
                         </div>
                     </div>
                     <div class="form-group col-md-6">
@@ -113,6 +113,10 @@
 
                 </div>
                 <div class="form-group col-md-4">
+                    <div class="col-md-12">
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                    </div>
                     <div class="form-group col-md-12 box-header figuresummary rounded">
                         <div class="form-group col-md-12">
                             <div class="rightAmtCaption">Sales Order Status</div>
@@ -215,7 +219,8 @@
                         </div>
                         <div class="col-md-12">
                             <div id="divProductDropdown"> 
-                                @* binding from javascript document ready function using div id *@
+                                @Html.Action("ProductDropdown", "Product")
+                                 @* binding from javascript document ready function using div id *@
                             </div>
                         </div>
                     </div>
@@ -331,7 +336,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="height: 50px;padding: 7px;">
-                <a class="btn btn-primary" onclick="AddSalesOrderDetails()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
+                <a class="btn btn-info" onclick="AddSalesOrderDetails()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
             </div>
         </div>
     </div>

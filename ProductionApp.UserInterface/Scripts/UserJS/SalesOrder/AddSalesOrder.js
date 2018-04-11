@@ -27,7 +27,7 @@ $(document).ready(function () {
             $("#EmployeeID").select2({
             });
         });
-        $("#divProductDropdown").load('/Product/ProductDropdown')
+       // $("#divProductDropdown").load('/Product/ProductDropdown')
       
         $('#btnUpload').click(function () {
             debugger;
@@ -42,7 +42,7 @@ $(document).ready(function () {
             FileObject.ParentType = "SalesOrder";
             FileObject.Controller = "FileUpload";
             UploadFile(FileObject);
-        });
+        });//
 
         DataTables.SalesOrderDetailTable = $('#tblSalesOrderDetail').DataTable(
       {
