@@ -12,7 +12,7 @@ namespace ProductionApp.UserInterface.Models
     {        
 
         public Guid ID { get; set; }
-        [Remote(action: "CheckMaterialCodeExist", controller: "Material", AdditionalFields = nameof(IsUpdate))]
+        [Remote(action: "CheckMaterialCodeExist", controller: "Material", AdditionalFields = "IsUpdate,ID")]
         [MaxLength(50)]
         [Required(ErrorMessage = "Material Code is missing")]
         [Display(Name = "Material Code")]

@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 
-namespace ProductionApp.BusinessService.Contracts
+namespace ProductionApp.RepositoryServices.Contracts
 {
-    public interface IDocumentTypeBusiness
+    public interface IDepartmentRepository
     {
-        List<SelectListItem> GetDocumentTypeForSelectList();
+        List<Department> GetDepartmentForSelectList();
     }
 }

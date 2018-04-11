@@ -595,6 +595,7 @@
     <Content Include="Content\AdminLTE\css\adminlte.min.css.map" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\editableGrid.js" />
+    <Content Include="Scripts\Employee.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
     <Content Include="Scripts\i18n\az.js" />
@@ -685,6 +686,7 @@
     <Content Include="Scripts\UserJS\DocumentApproval\ApproveDocument.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\DocumentSummary.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ViewPendingDocuments.js" />
+    <Content Include="Scripts\UserJS\Employee.js" />
     <Content Include="Scripts\UserJS\FinishedGoodStockAdj\NewFinishedGoodStockAdj.js" />
     <Content Include="Scripts\UserJS\FinishedGoodStockAdj\ViewFinishedGoodStockAdj.js" />
     <Content Include="Scripts\UserJS\Home\FinishedGoodSummary.js" />
@@ -751,6 +753,7 @@
     <Compile Include="Controllers\DashboardMasterController.cs" />
     <Compile Include="Controllers\DashboardSaleController.cs" />
     <Compile Include="Controllers\DashboardSettingsController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\DocumentApprovalController.cs" />
     <Compile Include="Controllers\DocumentTypeController.cs" />
     <Compile Include="Controllers\DynamicUIController.cs" />
@@ -804,6 +807,7 @@
     <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\DataTableAjaxPostModel.cs" />
     <Compile Include="Models\DataTablePagingViewModel.cs" />
+    <Compile Include="Models\DepartmentViewModel.cs" />
     <Compile Include="Models\DocumentApprovalViewModel.cs" />
     <Compile Include="Models\DocumentTypeViewModel.cs" />
     <Compile Include="Models\DynamicUIViewModel.cs" />
@@ -893,7 +897,7 @@
     <Content Include="Views\PurchaseOrder\NewPurchaseOrder.cshtml" />
     <Content Include="Views\Supplier\_SupplierDropdown.cshtml" />
     <Content Include="Views\Material\_MaterialDropdown.cshtml" />
-    <Content Include="Views\Employee\Employee.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\_EmployeeDropdown.cshtml" />
     <Content Include="Views\DashboardStore\_MyApprovals.cshtml" />
     <Content Include="Views\DashboardStore\_ReOrderAlert.cshtml" />
@@ -986,6 +990,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\" />
+    <Folder Include="Views\Department\" />
     <Folder Include="Views\FileUpload\" />
     <Folder Include="Views\RecieveFromProduction\" />
   </ItemGroup>

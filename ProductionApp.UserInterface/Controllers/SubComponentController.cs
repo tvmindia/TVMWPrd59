@@ -17,11 +17,13 @@ namespace ProductionApp.UserInterface.Controllers
         AppConst _appConst = new AppConst();
         private Common _common = new Common();
         private ISubComponentBusiness _subComponentBusiness;
+        private IUnitBusiness _unitBusiness;
 
         #region Constructor Injection
-        public SubComponentController(ISubComponentBusiness subComponentBusiness)
+        public SubComponentController(ISubComponentBusiness subComponentBusiness, IUnitBusiness unitBusiness)
         {
             _subComponentBusiness = subComponentBusiness;
+            _unitBusiness = unitBusiness;
         }
         #endregion Constructor Injection
 
@@ -151,6 +153,8 @@ namespace ProductionApp.UserInterface.Controllers
         {
             SubComponentViewModel subComponentVM = string.IsNullOrEmpty(masterCode) ? new SubComponentViewModel() : Mapper.Map<SubComponent, SubComponentViewModel>(_subComponentBusiness.GetSubComponent(Guid.Parse(masterCode)));
             subComponentVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
+            subComponentVM.Unit = new UnitViewModel();
+            subComponentVM.Unit.UnitSelectList = _unitBusiness.GetUnitForSelectList();
             return PartialView("_AddSubComponentPartial", subComponentVM);
         }
         #endregion MasterPartial
