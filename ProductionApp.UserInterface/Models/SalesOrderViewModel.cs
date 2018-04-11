@@ -103,6 +103,9 @@ namespace ProductionApp.UserInterface.Models
         public Guid EmployeeID { get; set; }
         [Display(Name = "Customer")]
         public Guid CustomerID { get; set; }
+        public CustomerViewModel Customer { get; set; }
+        public EmployeeViewModel Employee { get; set; }
+
         public DataTablePagingViewModel DataTablePaging { get; set; }
 
     }

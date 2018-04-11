@@ -130,15 +130,15 @@ $(document).ready(function () {
                           return _SlNo++
                       }, "defaultContent": "<i></i>", "width": "3%"
                   },
-                  { "data": "MaterialCode", "defaultContent": "<i>-</i>", "width": "5%" },
+                  { "data": "MaterialCode", "defaultContent": "<i>-</i>", "width": "10%" },
                   { "data": "MaterialDesc", "defaultContent": "<i>-</i>" },
-                  { "data": "UnitCode", "defaultContent": "<i>-</i>", "width": "3%" },
+                  { "data": "UnitCode", "defaultContent": "<i>-</i>", "width": "5%" },
                   { "data": "Qty", "defaultContent": "<i>-</i>", "width": "4%" },
                   {
                       "data": "Rate", "defaultContent": "<i>-</i>",
                       'render': function (data, type, row) {
                           return roundoff(data, 1);
-                      }, "width": "8%"
+                      }, "width": "6%"
                   },
                   {
                       "data": "Discount", "defaultContent": "<i>-</i>",

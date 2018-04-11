@@ -15,11 +15,13 @@ namespace ProductionApp.UserInterface.Controllers
     public class CustomerPaymentController : Controller
     {
         private ICustomerPaymentBusiness _customerPaymentBusiness;
+        private ICustomerBusiness _customerBusiness;
         AppConst _appConst = new AppConst();
         Common _common = new Common();
-        public CustomerPaymentController(ICustomerPaymentBusiness customerPaymentBusiness)
+        public CustomerPaymentController(ICustomerPaymentBusiness customerPaymentBusiness, ICustomerBusiness customerBusiness)
         {
             _customerPaymentBusiness = customerPaymentBusiness;
+            _customerBusiness = customerBusiness;
         }
         [AuthSecurityFilter(ProjectObject = "CustomerPayment", Mode = "R")]
         public ActionResult NewCustomerPayment(string code, Guid? id)
@@ -35,7 +37,26 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ViewCustomerPayment(string code)
         {
             ViewBag.SysModuleCode = code;
-            return View();
+            CustomerPaymentAdvanceSearchViewModel customerPaymentSearchVM = new CustomerPaymentAdvanceSearchViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            customerPaymentSearchVM.Customer = new CustomerViewModel();
+            customerPaymentSearchVM.Customer.SelectList = new List<SelectListItem>();
+            List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetCustomerForSelectList());
+            if (customerList != null)
+            {
+                foreach (CustomerViewModel Cust in customerList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = Cust.CompanyName,
+                        Value = Cust.ID.ToString(),
+                        Selected = false,
+                    });
+
+                }
+            }
+            customerPaymentSearchVM.Customer.SelectList = selectListItem;
+            return View(customerPaymentSearchVM);
         }
 
         #region GetAllCustomerPayment

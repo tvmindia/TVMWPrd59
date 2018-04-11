@@ -72,7 +72,7 @@
                     @Html.LabelFor(model => model.CustomerID, htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="col-md-12">
-                    @Html.Action("CustomerDropdown", "Customer")
+                    @Html.DropDownListFor(model => model.CustomerID, Model.Customer.SelectList, "--Select Customer--", new { @class = "form-control BlockEnter", @Style = "width:100%" })
                 </div>
             </div>
             <div class="col-md-5">
@@ -80,7 +80,7 @@
                     @Html.LabelFor(model => model.EmployeeID, htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="col-md-12">
-                    @Html.Action("EmployeeDropdown", "Employee")
+                    @Html.DropDownListFor(model => model.EmployeeID, Model.Employee.SelectList, "--Select Customer--", new { @class = "form-control BlockEnter", @Style = "width:100%" })
                 </div>
             </div>
             <div class="col-md-2">

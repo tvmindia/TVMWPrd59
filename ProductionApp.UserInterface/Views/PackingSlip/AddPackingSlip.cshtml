@@ -115,7 +115,7 @@
                             @Html.LabelFor(model => model.PackingRemarks, htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.PackingRemarks, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", rows = "5" } })
+                            @Html.EditorFor(model => model.PackingRemarks, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", rows = "5" ,style="max-width:100%; min-width:100%; max-height:100%; min-height:100%;" } })
                             @Html.ValidationMessageFor(model => model.PackingRemarks, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -249,7 +249,7 @@
                                         @Html.LabelFor(model => model.DispatchRemarks, htmlAttributes: new { @class = "control-label" })
                                     </div>
                                     <div class="col-md-12">
-                                        @Html.EditorFor(model => model.DispatchRemarks, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", rows = "5" } })
+                                        @Html.EditorFor(model => model.DispatchRemarks, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", rows = "5", style = "max-width:100%; min-width:100%; max-height:100%; min-height:100%;" } })
                                         @Html.ValidationMessageFor(model => model.DispatchRemarks, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

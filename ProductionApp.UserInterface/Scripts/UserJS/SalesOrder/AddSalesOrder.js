@@ -22,14 +22,13 @@ var _jsonData = {};
 $(document).ready(function () {
     debugger;
     try {
-        $("#ProductID").select2({
-            dropdownParent: $("#SalesOrderDetailsModal")
+        $("#divCustomerDropdown").load('/Customer/CustomerDropdown')
+        $("#divEmployeeDropdown").load('/Employee/EmployeeDropdown', function () {
+            $("#EmployeeID").select2({
+            });
         });
-        $("#EmployeeID").select2({
-        });
-        $("#CustomerID").select2({
-        });
-
+       // $("#divProductDropdown").load('/Product/ProductDropdown')
+      
         $('#btnUpload').click(function () {
             debugger;
             //Pass the controller name
@@ -43,7 +42,7 @@ $(document).ready(function () {
             FileObject.ParentType = "SalesOrder";
             FileObject.Controller = "FileUpload";
             UploadFile(FileObject);
-        });
+        });//
 
         DataTables.SalesOrderDetailTable = $('#tblSalesOrderDetail').DataTable(
       {

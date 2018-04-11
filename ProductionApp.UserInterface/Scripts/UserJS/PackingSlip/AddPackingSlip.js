@@ -285,13 +285,18 @@ function textBoxValueChanged(thisObj, textBoxCode) {
         if (productDetailsVM[i].ProductID == rowtable.ProductID) {
             if (textBoxCode == 1)//textBoxCode is the code to know, which textbox changed is triggered
                 {
-                if (thisObj.value <= productDetailsVM[i].Product.CurrentStock)
+                if ((thisObj.value <= productDetailsVM[i].Product.CurrentStock) && (thisObj.value != ""))
                     productDetailsVM[i].CurrentPkgQty = parseFloat(thisObj.value);
                 else
                     productDetailsVM[i].CurrentPkgQty = parseFloat(productDetailsVM[i].Product.CurrentStock) - parseFloat(productDetailsVM[i].PrevPkgQty)
             }
             if (textBoxCode == 2)
-                productDetailsVM[i].PkgWt = parseFloat(thisObj.value);
+            {
+                if (thisObj.value != "")
+                    productDetailsVM[i].PkgWt = parseFloat(thisObj.value);
+                else
+                    productDetailsVM[i].PkgWt = 0;
+            }
         }
     }
     DataTables.ProductListTable.clear().rows.add(productDetailsVM).draw(false);
@@ -347,7 +352,7 @@ function CheckProductDetails(producDetails)
     if ((producDetails) && (producDetails.length > 0)) {
         selected = 1;
         for (var r = 0; r < producDetails.length; r++) {
-            if (producDetails[r].CurrentPkgQty == 0) {
+            if (producDetails[r].CurrentPkgQty == 0)  {
                 flag = 1;
                 $("#txt" + producDetails[r].ProductID).attr('style','border-color:red;')
             }

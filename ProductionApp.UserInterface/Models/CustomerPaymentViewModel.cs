@@ -75,5 +75,6 @@ namespace ProductionApp.UserInterface.Models
         public Guid CustomerID { get; set; }
         [Display(Name = "Payment Mode")]
         public string PaymentMode { get; set; }
+        public CustomerViewModel Customer { get; set; }
     }
 }
