@@ -27,6 +27,7 @@ namespace ProductionApp.UserInterface.Controllers
             _customerBusiness = customerBusiness;
             _employeeBusiness = employeeBusiness;
         }
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
         public ActionResult AddSalesOrder(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
@@ -38,6 +39,8 @@ namespace ProductionApp.UserInterface.Controllers
             };
             return View(salesOrderVM);
         }
+
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
         public ActionResult ListSalesOrder(string code)
         {
             ViewBag.SysModuleCode = code;

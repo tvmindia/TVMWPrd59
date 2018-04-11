@@ -8,7 +8,7 @@
     else
     {
         ViewBag.Title = "Add Sales Order";
-    }   
+    }
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 @section styles {
@@ -44,7 +44,7 @@
             @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
             @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
             @*@Html.HiddenFor(model => model.LatestApprovalStatus)
-            @Html.HiddenFor(model => model.LatestApprovalID)*@
+                @Html.HiddenFor(model => model.LatestApprovalID)*@
             @Html.HiddenFor(model => model.hdnFileID, htmlAttributes: new { @class = "", @id = "hdnFileDupID", @value = Guid.Empty })
             <div class="col-md-12">
                 <div class="form-group col-md-8">
@@ -70,18 +70,21 @@
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.CustomerID, htmlAttributes: new { @class = "control-label lblrequired " })
                         </div>
-                        <div class="col-md-12">
-                            @Html.Action("CustomerDropdown", "Customer")
+                        <div class="col-md-12" id="divCustomerDropdown">
+                            <span class="form-control"> <i class="fa fa-spinner fa-spin"> </i></span>
+                            @* binding from javascript document ready function using div id *@
                         </div>
                     </div>
                     <div class="form-group col-md-6">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.SalesPerson, htmlAttributes: new { @class = "control-label" })
                         </div>
-                        <div class="col-md-12">
-                            @Html.Action("EmployeeDropdown", "Employee")
+                        <div class="col-md-12" id="divEmployeeDropdown">
+                            <span class="form-control"> <i class="fa fa-spinner fa-spin"> </i></span>
+                            @* binding from javascript document ready function using div id *@
                         </div>
                     </div>
+                    <div class="col-md-12"></div>
                     <div class="form-group col-md-6">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.BillingAddress, htmlAttributes: new { @class = "control-label" })
@@ -107,7 +110,7 @@
                             @Html.ValidationMessageFor(model => model.ExpectedDeliveryDateFormatted, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                   
+
                 </div>
                 <div class="form-group col-md-4">
                     <div class="form-group col-md-12 box-header figuresummary rounded">
@@ -118,11 +121,11 @@
                             <div class="lblStatusDisplay" id="lblReqStatus">Open</div>
                         </div>
                         @*<div class="form-group col-md-12">
-                            <div class="rightAmtCaption">Approval Status</div>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <div class="lblStatusDisplay" id="lblApprovalStatus">N/A</div>
-                        </div>*@
+                                <div class="rightAmtCaption">Approval Status</div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="lblStatusDisplay" id="lblApprovalStatus">N/A</div>
+                            </div>*@
                     </div>
                 </div>
             </div>
@@ -132,64 +135,64 @@
                     <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
                 </div>
             </div>
-                              
 
-        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
-        <div class="col-md-12" style="padding-bottom:3px">
-            <div class="col-md-10">
-            </div>
-            <div class="col-md-2">
-                <a class="btn btn-openid" onclick="ShowSalesOrderDetailsModal()" id="btnAddSalesOrderItems" style="color:white;font-weight:bold;float:right"><i class="glyphicon glyphicon-plus"></i> Add Item </a>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <table id="tblSalesOrderDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" style="width:100%">
-                <thead>
-                    <tr class="text-center TableHead">
-                        <th>ID</th>
-                        <th>ProductID</th>
-                        <th>Sl. No</th>
-                        <th>Product</th>
-                        <th>GST %</th>
-                        <th>Qty</th>
-                        <th>Rate</th>
-                        <th>Gross Amt</th>
-                        <th>Disc Amt</th>
-                        <th>Tax Amt</th>
-                        <th>Net Amt</th>
-                        <th>Expt. Delivery Date</th>
-                        <th>...</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
 
-        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General Notes</div>
-        <div class="col-md-12">
-            <div class="form-group col-md-8">
-                <div class="col-md-12">
-                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
+            <div class="col-md-12" style="padding-bottom:3px">
+                <div class="col-md-10">
                 </div>
-                <div class="col-md-12">
-                    @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control HeaderBox", rows = "8" })
+                <div class="col-md-2">
+                    <a class="btn btn-openid" onclick="ShowSalesOrderDetailsModal()" id="btnAddSalesOrderItems" style="color:white;font-weight:bold;float:right"><i class="glyphicon glyphicon-plus"></i> Add Item </a>
                 </div>
             </div>
+            <div class="col-md-12">
+                <table id="tblSalesOrderDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" style="width:100%">
+                    <thead>
+                        <tr class="text-center TableHead">
+                            <th>ID</th>
+                            <th>ProductID</th>
+                            <th>Sl. No</th>
+                            <th>Product</th>
+                            <th>GST %</th>
+                            <th>Qty</th>
+                            <th>Rate</th>
+                            <th>Gross Amt</th>
+                            <th>Disc Amt</th>
+                            <th>Tax Amt</th>
+                            <th>Net Amt</th>
+                            <th>Expt. Delivery Date</th>
+                            <th>...</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
 
-        </div>
-       
+            <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General Notes</div>
+            <div class="col-md-12">
+                <div class="form-group col-md-8">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control HeaderBox", rows = "8" })
+                    </div>
+                </div>
+
+            </div>
 
 
-        <div>
-            @Html.Partial("_Fileupload")
-        </div>
-        <div class="col-md-12  ">&nbsp;</div>
-        <div class="col-md-12  ">&nbsp;</div>
+
+            <div>
+                @Html.Partial("_Fileupload")
+            </div>
+            <div class="col-md-12  ">&nbsp;</div>
+            <div class="col-md-12  ">&nbsp;</div>
         }
     </div>
 </section>
 
 <!-- Modal Edit Sales Order Details Modal -->
-<div class="modal fade bs-example-modal-lg" id="SalesOrderDetailsModal"  role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade bs-example-modal-lg" id="SalesOrderDetailsModal" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document" style="min-width:900px !important;">
         <div class="modal-content" style="margin-top:4%;">
             <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
@@ -211,10 +214,9 @@
                             @Html.LabelFor(model => model.SalesOrderDetail.Product.ID, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
                         <div class="col-md-12">
-                            <div id="divRawMaterialDropdown">
-                                @Html.Action("ProductDropdown", "Product")
+                            <div id="divProductDropdown"> 
+                                @* binding from javascript document ready function using div id *@
                             </div>
-
                         </div>
                     </div>
                     <div class="col-md-12 headSeperator"></div>
@@ -250,7 +252,7 @@
                             @Html.EditorFor(model => model.SalesOrderDetail.ExpectedDeliveryDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker" } })
                         </div>
                     </div>
-             
+
                     <div class="col-md-4">
                         <div class="col-md-6">
                             @Html.LabelFor(model => model.SalesOrderDetail.Rate, htmlAttributes: new { @class = "control-label lblrequired" })
@@ -265,7 +267,7 @@
                             @Html.EditorFor(model => model.SalesOrderDetail.Quantity, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)" } })
                         </div>
                     </div>
-                   
+
                     <div class="col-md-4">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.SalesOrderDetail.GrossAmount, htmlAttributes: new { @class = "control-label" })
@@ -315,8 +317,8 @@
                             @Html.EditorFor(model => model.SalesOrderDetail.TaxAmount, new { htmlAttributes = new { @class = "form-control HeaderBox text-right", @disabled = "disabled" } })
                         </div>
                     </div>
-                   
-                    
+
+
                     <div class="col-md-4">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.SalesOrderDetail.NetAmount, htmlAttributes: new { @class = "control-label" })
@@ -325,7 +327,7 @@
                             @Html.EditorFor(model => model.SalesOrderDetail.NetAmount, new { htmlAttributes = new { @class = "form-control text-right", @disabled = "disabled" } })
                         </div>
                     </div>
-                
+
                 </div>
             </div>
             <div class="modal-footer" style="height: 50px;padding: 7px;">
