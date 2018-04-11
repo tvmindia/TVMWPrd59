@@ -83,7 +83,8 @@
                 <div class="col-md-12">
                     <div class="col-md-12">
                         <div id="divUnitDropdown">
-                            @{Html.RenderAction("UnitDropdown", "Unit", Model.Unit);}
+                            @Html.DropDownListFor(model => model.UnitCode, Model.Unit.UnitSelectList, "--- Select Unit ---", new { @class = "form-control", @style = "width:100%" })
+                            @*@{Html.RenderAction("UnitDropdown", "Unit", Model.Unit);}*@
                         </div>
                         @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
                     </div>
@@ -100,7 +101,8 @@
                 <div class="col-md-12">
                     <div class="col-md-12">
                         <div id="divProductCategoryDropdown">
-                            @Html.Action("ProductCategorySelectList", "ProductCategory", new { required = "required" })
+                            @Html.DropDownListFor(model => model.ProductCategoryCode, Model.ProductCategory.ProductCategorySelectList, "--- Select Product Category ---", new { @class = "form-control", @style = "width:100%" })
+                            @*@Html.Action("ProductCategorySelectList", "ProductCategory", new { required = "required" })*@
                         </div>
                         @Html.HiddenFor(model => model.ProductCategoryCode, htmlAttributes: new { @class = "", @id = "hdnProductCategoryCode" })
                     </div>
@@ -138,7 +140,7 @@
                                 dropdownList.Add(new SelectListItem
                                 { Text = "Component", Value = "COM" });
                                 }
-                                @Html.DropDownListFor(model => model.Type, dropdownList, "---Select Type---",new { @class = "form-control BlockEnter", style = "padding:4px 12px;" })
+                                @Html.DropDownListFor(model => model.Type, dropdownList, "---Select Type---",new { @class = "form-control BlockEnter", style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -259,5 +261,14 @@
     <script>
             $(document).ready(function () {
                 $.validator.unobtrusive.parse("#FormProduct");
+                $('#UnitCode').select2({
+                    dropdownParent: $("#FormProduct")
+                });
+                $("#ProductCategoryCode").select2({
+                    dropdownParent: $("#FormProduct")
+                }); $("#Type").select2({
+                    dropdownParent: $("#FormProduct")
+                });
             });
     </script>
+

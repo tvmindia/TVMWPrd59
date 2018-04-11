@@ -385,7 +385,6 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion DeleteProduct
 
-
         #region Get FG Summary
         /// <summary>
         /// To Get List of All Product
@@ -437,6 +436,70 @@ namespace ProductionApp.RepositoryServices.Services
             return FinishedGoodSummaryList;
         }
         #endregion  Get FG Summary
+
+        #region GetProductListForBillOfMaterial
+        public List<Product> GetProductListForBillOfMaterial(string componentIDs)
+        {
+            List<Product> productList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetProductListForBillOfMaterial]";
+                        cmd.Parameters.Add("@ComponentIDs", SqlDbType.NVarChar).Value = componentIDs;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                productList = new List<Product>();
+                                while (sdr.Read())
+                                {
+                                    Product product = new Product();
+                                    {
+                                        product.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : product.ID);
+                                        product.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : product.Code);
+                                        product.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : product.Name);
+                                        product.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : product.Description);
+                                        product.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : product.UnitCode);
+                                        product.Unit = new Unit();
+                                        product.Unit.Description = (sdr["UnitDescrption"].ToString() != "" ? sdr["UnitDescrption"].ToString() : product.Unit.Description);
+                                        product.ProductCategoryCode = (sdr["ProductCategoryCode"].ToString() != "" ? sdr["ProductCategoryCode"].ToString() : product.ProductCategoryCode);
+                                        product.ProductCategory = new ProductCategory();
+                                        product.ProductCategory.Description = (sdr["ProductCategoryDescription"].ToString() != "" ? sdr["ProductCategoryDescription"].ToString() : product.ProductCategoryCode);
+                                        product.ReorderQty = (sdr["ReorderQty"].ToString() != "" ? decimal.Parse(sdr["ReorderQty"].ToString()) : product.ReorderQty);
+                                        product.OpeningStock = (sdr["OpeningStock"].ToString() != "" ? decimal.Parse(sdr["OpeningStock"].ToString()) : product.OpeningStock);
+                                        product.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : product.CurrentStock);
+                                        product.HSNNo = (sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : product.HSNNo);
+                                        product.WeightInKG = (sdr["WeightInKG"].ToString() != "" ? decimal.Parse(sdr["WeightInKG"].ToString()) : product.WeightInKG);
+                                        product.CostPrice = (sdr["CostPrice"].ToString() != "" ? decimal.Parse(sdr["CostPrice"].ToString()) : product.CostPrice);
+                                        //product.SellingPrice = (sdr["SellingPrice"].ToString() != "" ? decimal.Parse(sdr["SellingPrice"].ToString()) : product.SellingPrice);
+                                        product.SellingPriceInKG = (sdr["SellingPriceInKG"].ToString() != "" ? decimal.Parse(sdr["SellingPriceInKG"].ToString()) : product.SellingPriceInKG);
+                                        product.SellingPricePerPiece = (sdr["SellingPricePerPiece"].ToString() != "" ? decimal.Parse(sdr["SellingPricePerPiece"].ToString()) : product.SellingPricePerPiece);
+                                        product.IsInvoiceInKG = (sdr["IsInvoiceInKG"].ToString() != "" ? bool.Parse(sdr["IsInvoiceInKG"].ToString()) : product.IsInvoiceInKG);
+                                        product.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : product.Type);
+                                    }
+                                    productList.Add(product);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return productList;
+        }
+        #endregion GetProductListForBillOfMaterial
 
     }
 }

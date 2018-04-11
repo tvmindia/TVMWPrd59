@@ -22,6 +22,10 @@ $(document).ready(function () {
     catch (e) {
         console.log(e.message);
     }
+    $("#Unit_Code").select2({
+    });
+    $("#MaterialType_Code").select2({
+    });
 });
 
 //--function bind the Raw Material list checking search and filter--//
@@ -38,8 +42,8 @@ function BindOrReloadMaterialTable(action) {
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
-                $('#MaterialType_Code').val('');
-                $('#Unit_Code').val('');
+                $('#MaterialType_Code').val('').select2();
+                $('#Unit_Code').val('').select2();
                 break;
             case 'Init':
                 break;

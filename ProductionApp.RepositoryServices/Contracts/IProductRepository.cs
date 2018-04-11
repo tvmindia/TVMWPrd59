@@ -16,6 +16,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         Product GetProduct(Guid id);
         object DeleteProduct(Guid id);
         List<FinishedGoodSummary> GetFinishGoodsSummary();
-
+        List<Product> GetProductListForBillOfMaterial(string componentIDs);
     }
 }
