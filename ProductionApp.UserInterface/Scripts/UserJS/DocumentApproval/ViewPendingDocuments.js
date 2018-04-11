@@ -5,7 +5,7 @@ $(document).ready(function () {
     debugger;
     try {
        
-        BindOrReloadDocumetApprovals('Init');
+        BindOrReloadDocumentApprovals('Init');
         $('#tblPendingDocuments tbody').on('dblclick', 'td', function () {
             Edit(this);
         });
@@ -22,7 +22,7 @@ function Edit(curObj) {
 }
 
 //bind Pending list
-function BindOrReloadDocumetApprovals(action) {
+function BindOrReloadDocumentApprovals(action) {
     try {
         //creating advancesearch object
         debugger;
@@ -120,9 +120,9 @@ function BindOrReloadDocumetApprovals(action) {
 
 
 function ResetPendingDocList() {
-    BindOrReloadDocumetApprovals('Reset');
+    BindOrReloadDocumentApprovals('Reset');
 }
 //function export data to excel
 function ExportPendingDocs() {
-    BindOrReloadDocumetApprovals('Export');
+    BindOrReloadDocumentApprovals('Export');
 }
