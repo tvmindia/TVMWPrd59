@@ -784,7 +784,7 @@ function BindPurchaseOrder(ID) {
             $('#ShippingAddress').val(result.ShippingAddress);
             $('#PurchaseOrderTitle').val(result.PurchaseOrderTitle);
             $('#Discount').val(roundoff(result.Discount));
-            $('#lblReqNo').text("PO# :" + result.PurchaseOrderNo);
+            $('#lblReqNo').text("PO Number# :" + result.PurchaseOrderNo);
             $("#lblEmailStatus").text(result.EmailSentYN == "True" ? 'YES' : 'NO');
             $("#PurchaseOrderMailPreview_SentToEmails").val(result.SubscriberEmail);
             $('#lblApprovalStatus').text(result.ApprovalStatus);

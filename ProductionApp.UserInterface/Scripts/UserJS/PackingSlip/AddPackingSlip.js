@@ -801,3 +801,6 @@ function DeletePackingSlip() {
         return 0;
     }
 }
+function Reset() {
+    BindPkgSlip($("#ID").val());
+}

@@ -237,8 +237,8 @@ function BindReturnFromProductionByID() {
     $('#ID').val(result.ID);
     $('#ReturnNo').val(result.ReturnNo);
     $('#ReturnDateFormatted').val(result.ReturnDateFormatted);
-    $('#ReceivedBy').val(result.ReturnBy).select2();
-    $('#ReturnBy').val(result.ReceivedBy).select2();
+    $('#ReceivedBy').val(result.ReceivedBy).select2();
+    $('#ReturnBy').val(result.ReturnBy).select2();
     $('#GeneralNotes').val(result.GeneralNotes);
     $('#lblReturnNo').text('Receive From Production# : ' + result.ReturnNo);
     BindMaterialReturnDetailTable(ID);
