@@ -52,6 +52,7 @@
     <Compile Include="Contracts\ICustomerBusiness.cs" />
     <Compile Include="Contracts\ICustomerInvoiceBusiness.cs" />
     <Compile Include="Contracts\ICustomerPaymentBusiness.cs" />
+    <Compile Include="Contracts\IDepartmentBusiness.cs" />
     <Compile Include="Contracts\IDocumentApprovalBusiness.cs" />
     <Compile Include="Contracts\IDocumentTypeBusiness.cs" />
     <Compile Include="Contracts\IDynamicUIBusiness.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Services\CustomerBusiness.cs" />
     <Compile Include="Services\CustomerInvoiceBusiness.cs" />
     <Compile Include="Services\CustomerPaymentBusiness.cs" />
+    <Compile Include="Services\DepartmentBusiness.cs" />
     <Compile Include="Services\DocumentApprovalBusiness.cs" />
     <Compile Include="Services\DocumentTypeBusiness.cs" />
     <Compile Include="Services\DynamicUIBusiness.cs" />
