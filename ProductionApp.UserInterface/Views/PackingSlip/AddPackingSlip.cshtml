@@ -37,7 +37,7 @@
         </div>
     </div>
     <div class="row tableContainer">
-        <div class="col-md-12 figuresummary" @*style="background-color: lightpink"*@><h4> Packing Section</h4></div>
+        <div class="col-md-12 figuresummary" style="margin-top:1%;margin-bottom:1%"><h4> Packing Section</h4></div>
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
         <div class="col-md-12"></div>
         @using (Ajax.BeginForm("InsertUpdatePackingSlip", "PackingSlip", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessReturnFromProduction", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "AddPackingSlipForm" }))
@@ -122,6 +122,10 @@
                 </div>
                 
                 <div class="form-group col-md-4">
+                    <div class="col-md-12">
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                    </div>
                     <div class="form-group col-md-12 box-header figuresummary rounded">
                         <div class="form-group col-md-12">
                             <div class="rightAmtCaption">Order For:</div>
@@ -163,7 +167,7 @@
                         </table>
                     </div>
                     <div class="col-md-12">&nbsp;</div>
-                    <div class="col-md-12 figuresummary"@*style="background-color: lightblue"*@><h4> Dispatch Section</h4></div>
+                    <div class="col-md-12 figuresummary" style="margin-bottom:1%"><h4> Dispatch Section</h4></div>
                     <div class="col-md-12"></div>
                     <div class="col-md-12" id="divDespatch">
                         <div class="form-group col-md-12">
@@ -261,7 +265,7 @@
 
 <!--ItemAdd Popup-->
 <div class="modal fade bs-example-modal-lg" id="PackingSlipModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document" style="min-width:1000px !important;">
+    <div class="modal-dialog modal-lg" role="document" style="min-width:900px !important;">
         <div class="modal-content" style="margin-top:4%;">
             <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
                 <div class="container-fluid" style="padding-right: 0px;">
@@ -310,13 +314,13 @@
 </div>
 <!--PackingSlip Edit-->
 <div class="modal fade bs-example-modal-lg" id="EditPkgSlipDetailsModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document" style="min-width:1000px !important;">
+    <div class="modal-dialog modal-lg" role="document" style="min-width:900px !important;">
         <div class="modal-content" style="margin-top:4%;">
             <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
                 <div class="container-fluid" style="padding-right: 0px;">
                     <div class="col-md-9">
                         <div class="col-md-12 modelIcon">
-                            <h3 class="modal-title" id="modelContextLabel">Edit PackingSlip Details</h3>
+                            <h3 class="modal-title" id="modelContextLabel">Edit Packing Slip Details</h3>
                         </div>
                     </div>
                     <div class="col-md-3" style="padding-right: 4px;">

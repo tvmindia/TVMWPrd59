@@ -130,6 +130,10 @@
                     </div>
                 </div>
                 <div class="form-group col-md-4">
+                    <div class="col-md-12">
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                    </div>
                     <div class="form-group col-md-12 box-header figuresummary rounded">
                         <div class="form-group col-md-12">
                             <div class="rightAmtCaption">PurchaseOrder Status</div>
@@ -183,79 +187,69 @@
             </table>
         </div>
 
-        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Commercial</div>
-        <div class="form-group col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.CGSTTotal, htmlAttributes: new { @class = "control-label" })
-            </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.CGSTTotal, new { htmlattributes = new { @class = "form-control HeaderBox Amount", @disabled = "true" } })
-                @Html.ValidationMessageFor(model => model.CGSTTotal, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.SGSTTotal, htmlAttributes: new { @class = "control-label" })
-            </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.SGSTTotal, new { htmlattributes = new { @class = "form-control HeaderBox Amount", @disabled = "true" } })
-                @Html.ValidationMessageFor(model => model.SGSTTotal, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.TaxTotal, htmlAttributes: new { @class = "control-label" })
-            </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.TaxTotal, new { htmlattributes = new { @class = "form-control HeaderBox Amount", @disabled = "true" } })
-                @Html.ValidationMessageFor(model => model.TaxTotal, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group col-md-12"></div>
-
-        <div class="form-group col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.ItemTotal, htmlAttributes: new { @class = "control-label" })
-            </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.ItemTotal, new { htmlattributes = new { @class = "form-control HeaderBox Amount", @disabled = "true" } })
-                @Html.ValidationMessageFor(model => model.ItemTotal, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.GrossAmount, htmlAttributes: new { @class = "control-label" })
-            </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.GrossAmount, new { htmlattributes = new { @class = "form-control HeaderBox Amount", @disabled = "true" } })
-                @Html.ValidationMessageFor(model => model.GrossAmount, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group col-md-4">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label" })
-            </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.Discount, new { htmlattributes = new { @class = "form-control HeaderBox Amount" } })
-                @Html.ValidationMessageFor(model => model.TaxTotal, "", new { @class = "text-danger" })
+        <div class="col-md-12">
+            <div class="col-md-7"></div>
+            <div class="col-md-5">
+                <table class="table table-striped table-bordered table-hover customgrd dataTable no-footer">
+                    <tbody>
+                       <tr>
+                           <td style="text-align: right">
+                               @Html.LabelFor(model => model.TaxTotal, htmlAttributes: new { @class = "control-label" })
+                            </td>
+                           <td style="text-align: right">
+                                @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "TaxTotal" })
+                       </tr>
+                       <tr>
+                           <td style="text-align: right">
+                               @Html.LabelFor(model => model.ItemTotal, htmlAttributes: new { @class = "control-label" })
+                           </td>
+                           <td style="text-align: right">
+                               @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "ItemTotal" })
+                           </td>
+                       </tr>
+                       <tr>
+                           <td style="text-align: right">
+                               @Html.LabelFor(model => model.GrossAmount, htmlAttributes: new { @class = "control-label" })
+                           </td>
+                           <td style="text-align: right">
+                               @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "GrossAmount" })
+                           </td>
+                       </tr>
+                       <tr>
+                           <td style="text-align: right">
+                               @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label " })
+                           </td>
+                           <td style="text-align: right">
+                               @Html.EditorFor(model => model.Discount, new { htmlattributes = new { @class = "form-control HeaderBox Amount" } })
+                           </td>
+                       </tr>
+                       <tr>
+                            <td style="text-align: right">
+                                @Html.Label("Grand Total", htmlAttributes: new { @class = "control-label " })
+                            </td>
+                            <td style="text-align: right">
+                                @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblGrandTotal", style = "font-weight: bold !important;" })
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-
-        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General Notes</div>
-        <div class="form-group col-md-8">
-            <div class="col-md-12">
-                @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label " })
+            <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General Notes</div>
+            <div class="form-group col-md-8">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label " })
+                </div>
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.GeneralNotes, new { htmlAttributes = new { @class = "form-control HeaderBox", @rows = 5 } })
+                </div>
             </div>
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.GeneralNotes, new { htmlAttributes = new { @class = "form-control HeaderBox", @rows = 5 } })
+            <div>
+                @Html.Partial("_Fileupload")
             </div>
+            <div class="col-md-12  ">&nbsp;</div>
+            <div class="col-md-12  ">&nbsp;</div>
         </div>
-        <div>
-            @Html.Partial("_Fileupload")
-        </div>
-        <div class="col-md-12  ">&nbsp;</div>
-        <div class="col-md-12  ">&nbsp;</div>
-    </div>
 </section>
 
 
@@ -384,18 +378,16 @@
 </div>
 <!--Email Preview model-->
 <div class="modal fade" id="MailPreviewModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document" style="min-width:1000px !important;">
+    <div class="modal-dialog" role="document" style="min-width:900px !important;">
         <div class="modal-content" style="margin-top:4%;">
             <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
                 <div class="container-fluid" style="padding-right: 0px;">
-                    <div class="col-md-4">
-                        <h3 class="modal-title SCHeader" id="modelContextLabel"></h3>
-                        <div class="col-md-12">
-                            <span style="font-weight: 600;font-size: 20px;" id="AddOrEditSpan">Add Mail</span>
+                    <div class="col-md-9 ">
+                        <div class="col-md-12 modelIcon">
+                            <h3 class="modal-title SCHeader" id="modelContextLabel">Add Mail</h3>
                         </div>
-                    </div>
-                    <div class="col-md-8" style="padding-right: 4px;">
-
+                    </div> 
+                    <div class="col-md-3" style="padding-right: 4px;">
                         <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
                     </div>
                 </div>
@@ -415,22 +407,22 @@
                     <div class="form-group col-md-12" hidden="hidden">
                         @Html.HiddenFor(model => model.PurchaseOrderMailPreview.MailBody, htmlAttributes: new { @class = "", Value = "", @id = "mailBodyText" })
                     </div>
-                    <div class="col-md-10">
+                    @*<div class="col-md-10">*@
                         <div class="form-group col-md-12">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.PurchaseOrderMailPreview.SentToEmails, htmlAttributes: new { @class = "control-label" })
                             </div>
                             <div class="col-md-12">
-                                <div class="col-md-12">
+                                @*<div class="col-md-12">*@
                                     @Html.EditorFor(model => model.PurchaseOrderMailPreview.SentToEmails, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
                                     @Html.ValidationMessageFor(model => model.PurchaseOrderMailPreview.SentToEmails, "", new { @class = "text-danger" })
-                                </div>
+                                @*</div>*@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-1"></div>
                             </div>
 
                         </div>
-                    </div>
+                    @*</div>*@
                     <div class="form-group" style="display:none;">
                         <div class="col-md-offset-2 col-md-10">
                             <input id="btnFormSendMail" type="submit" value="Create" class="btn btn-default" />
@@ -438,7 +430,7 @@
                     </div>
                     }
                 </div>
-                <div class="col-md-12" id="mailmodelcontent">
+                <div class="col-md-12" style="margin-top:1%" id="mailmodelcontent">
                 </div>
             </div>
             <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">

@@ -9,8 +9,8 @@
 //******************************************************************************
 
 //--Global Declaration--//
-var DataTables = {};
-var EmptyGuid = "00000000-0000-0000-0000-000000000000";
+var _dataTable = {};
+var _emptyGuid = "00000000-0000-0000-0000-000000000000";
 var _SlNo = 1;
 var _MaterialReturnDetail = [];
 var _MaterialReturnDetailList = [];
@@ -26,7 +26,7 @@ $(document).ready(function () {
             BindRawMaterialDetails(this.value)
         });
 
-        DataTables.MaterialReturnToSupplierDetailTable = $('#tblReturnToSupplierDetail').DataTable(
+        _dataTable.MaterialReturnToSupplierDetailTable = $('#tblReturnToSupplierDetail').DataTable(
      {
          dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
          ordering: false,
@@ -61,8 +61,8 @@ $(document).ready(function () {
              { className: "text-center", "targets": [12] },
              { "targets": [2], "width": "2%", },
              { "targets": [3], "width": "5%" },
-             { "targets": [4], "width": "36%" },
-             { "targets": [12], "width": "4%" },
+             { "targets": [4], "width": "40%" },
+             { "targets": [12], "width": "7%" },
              { "targets": [6], "width": "8%" },
              { "targets": [7], "width": "6%" },
              { "targets": [8], "width": "6%" },
@@ -205,7 +205,7 @@ function AddReturnToSupplierItem()
 
         if (_MaterialReturnDetail != null) {
             
-            var materialReturnDetailList = DataTables.MaterialReturnToSupplierDetailTable.rows().data();
+            var materialReturnDetailList = _dataTable.MaterialReturnToSupplierDetailTable.rows().data();
             if (materialReturnDetailList.length > 0) {
                 var checkPoint = 0;
                 for (var i = 0; i < materialReturnDetailList.length; i++) {
@@ -225,15 +225,15 @@ function AddReturnToSupplierItem()
                 }
                 if (!checkPoint) {
                     
-                    DataTables.MaterialReturnToSupplierDetailTable.rows.add(_MaterialReturnDetail).draw(false);
+                    _dataTable.MaterialReturnToSupplierDetailTable.rows.add(_MaterialReturnDetail).draw(false);
                 }
                 else {
-                    DataTables.MaterialReturnToSupplierDetailTable.clear().rows.add(materialReturnDetailList).draw(false);
+                    _dataTable.MaterialReturnToSupplierDetailTable.clear().rows.add(materialReturnDetailList).draw(false);
                 }
             }
             else {
                
-                DataTables.MaterialReturnToSupplierDetailTable.rows.add(_MaterialReturnDetail).draw(false);
+                _dataTable.MaterialReturnToSupplierDetailTable.rows.add(_MaterialReturnDetail).draw(false);
             }
         }
         $('#AddReturnToSupplierItemModal').modal('hide');
@@ -248,7 +248,7 @@ function catlculateTotal() {
     var total = 0;
     var taxableAmt = 0;
     var materialReturnDetailVM = new Object();
-    materialReturnDetailVM=DataTables.MaterialReturnToSupplierDetailTable.rows().data();
+    materialReturnDetailVM=_dataTable.MaterialReturnToSupplierDetailTable.rows().data();
     for (var i = 0; i < materialReturnDetailVM.length; i++) {
         materialReturnDetailVM[i].Amount = materialReturnDetailVM[i].Qty * materialReturnDetailVM[i].Rate;
         taxableAmt = materialReturnDetailVM[i].Qty * materialReturnDetailVM[i].Rate;
@@ -261,7 +261,7 @@ function MaterialEdit(curObj) {
     debugger;
     $('#AddReturnToSupplierItemModal').modal('show');
 
-    var materialReturnDetailVM = DataTables.MaterialReturnToSupplierDetailTable.row($(curObj).parents('tr')).data();
+    var materialReturnDetailVM = _dataTable.MaterialReturnToSupplierDetailTable.row($(curObj).parents('tr')).data();
     _SlNo = 1;
     if ((materialReturnDetailVM != null) && (materialReturnDetailVM.MaterialID != null)) {
         $("#MaterialID").val(materialReturnDetailVM.MaterialID).select2();
@@ -293,7 +293,7 @@ function Save() {
 }
 function AddMaterialReturnDetailList() {
     debugger;
-    var data = DataTables.MaterialReturnToSupplierDetailTable.rows().data();
+    var data = _dataTable.MaterialReturnToSupplierDetailTable.rows().data();
     for (var r = 0; r < data.length; r++) {
         MaterialReturnDetail = new Object();
         MaterialReturnDetail.ID = data[r].ID;
@@ -386,7 +386,7 @@ function BindMaterialReturnDetailTable(ID) {
     {
 
     }
-    DataTables.MaterialReturnToSupplierDetailTable.clear().rows.add(GetReturnToSupplierDetail(ID)).draw(true);
+    _dataTable.MaterialReturnToSupplierDetailTable.clear().rows.add(GetReturnToSupplierDetail(ID)).draw(true);
 }
 
 function GetReturnToSupplierDetail(ID) {
@@ -427,8 +427,8 @@ function GetReturnToSupplierDetail(ID) {
 }
 function Delete(curObj) {
     debugger;
-    var materialReturnDetailVM = DataTables.MaterialReturnToSupplierDetailTable.row($(curObj).parents('tr')).data();
-    var materialReturnDetailVMIndex = DataTables.MaterialReturnToSupplierDetailTable.row($(curObj).parents('tr')).index();
+    var materialReturnDetailVM = _dataTable.MaterialReturnToSupplierDetailTable.row($(curObj).parents('tr')).data();
+    var materialReturnDetailVMIndex = _dataTable.MaterialReturnToSupplierDetailTable.row($(curObj).parents('tr')).index();
 
     if ((materialReturnDetailVM != null) && (materialReturnDetailVM.ID != null)) {
         notyConfirm('Are you sure to delete?', 'DeleteItem("' + materialReturnDetailVM.ID + '")');
@@ -441,10 +441,10 @@ function Delete(curObj) {
 
 function DeleteTempItem(materialReturnDetailVMIndex) {
     debugger;
-    var Itemtabledata = DataTables.MaterialReturnToSupplierDetailTable.rows().data();
+    var Itemtabledata = _dataTable.MaterialReturnToSupplierDetailTable.rows().data();
     Itemtabledata.splice(materialReturnDetailVMIndex, 1);
     _SlNo = 1;
-    DataTables.MaterialReturnToSupplierDetailTable.clear().rows.add(Itemtabledata).draw(false);
+    _dataTable.MaterialReturnToSupplierDetailTable.clear().rows.add(Itemtabledata).draw(false);
     notyAlert('success', 'Deleted Successfully');
 }
 //-------------for delete from details table which saved in db-------

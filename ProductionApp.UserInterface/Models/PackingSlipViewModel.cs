@@ -33,9 +33,9 @@ namespace ProductionApp.UserInterface.Models
         public string DriverName { get; set; }
         [Display(Name = "Checked Package Weight(KGs)")]
         public decimal? CheckedPackageWeight { get; set; }
-        [Display(Name = "Received By")]
+        [Display(Name = "Received By (At Customer End)")]
         public string ReceivedBy { get; set; }
-        [Display(Name = "Received Date")]
+        [Display(Name = "Received Date (At Customer End)")]
         public DateTime? ReceivedDate { get; set; }
         [Display(Name = "Remarks By Packing Section (If Any)")]
         [DataType(DataType.MultilineText)]

@@ -63,13 +63,13 @@ namespace ProductionApp.UserInterface.Models
             public PurchaseOrderDetailViewModel PurchaseOrderDetail { get; set; }
             [Display(Name = "Gross Amount")]
             public decimal GrossAmount { get; set; }
-            [Display(Name = "Item Total")]
+            [Display(Name = "Total Taxable Amount")]
             public decimal ItemTotal { get; set; }
-            [Display(Name = "CGST")]
+            [Display(Name = "Total CGST Amount")]
             public decimal CGSTTotal { get; set; }
-            [Display(Name = "SGST")]
+            [Display(Name = "Total SGST Amount")]
             public decimal SGSTTotal { get; set; }
-            [Display(Name = "Total Tax")]
+            [Display(Name = "Total Tax Amount")]
             public decimal TaxTotal { get; set; }
             public List<SelectListItem> SelectList { get; set; }
             public List<PurchaseOrderDetailViewModel> PODDetail { get; set; }

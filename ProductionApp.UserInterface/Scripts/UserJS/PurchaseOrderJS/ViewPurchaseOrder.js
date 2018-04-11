@@ -48,7 +48,7 @@ function BindOrReloadPurchaseOrderTable(action) {
             $('#FromDate').val('');
             $('#ToDate').val('');
             $('#SupplierID').val('').select2();
-            $('#Status').val('').select2();
+            $('#Status').val('');
             break;
         case 'Init':
             break;

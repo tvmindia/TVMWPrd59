@@ -28,6 +28,7 @@ namespace ProductionApp.UserInterface.Models
         //Additional properties
         public CommonViewModel Common { get; set; }
         [Display(Name = "Return Date")]
+        [Required(ErrorMessage = "Return Date is required")]
         public string ReturnDateFormatted { get; set; }
         public string ReturnByEmployeeName { get; set; }
         public string SupplierName { get; set; }

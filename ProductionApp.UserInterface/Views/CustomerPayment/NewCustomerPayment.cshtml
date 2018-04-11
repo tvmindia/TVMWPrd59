@@ -166,6 +166,10 @@
                         
                 </div>
                 <div class="form-group col-md-4">
+                    <div class="col-md-12">
+                        <div class="col-md-12  ">&nbsp;</div>
+                        <div class="col-md-12  ">&nbsp;</div>
+                    </div>
                      <div class="form-group col-md-12 box-header figuresummary rounded">
 
                           <div class="form-group col-md-12 ">
@@ -218,34 +222,40 @@
              </div>
 
             <div class="col-md-12">
-                <div class="col-md-8"></div>
-                <div class="col-md-4">
-                    <div class="form-group col-md-12">
-                        <div class="col-md-8" style="text-align: right">
-                           @Html.Label("Total Amount Received:", htmlAttributes: new { @class = "control-label ", @id = "lblTotalRecdAmtCptn" })
-                        </div>
-                        <div class="col-md-4" style="text-align: right">
-                          @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblTotalRecdAmt" })
-                        </div>
-                     </div>
-                     <div class="form-group col-md-12">
-                        <div class="col-md-8" style="text-align: right">
-                            @Html.Label("Payment Applied:", htmlAttributes: new { @class = "control-label ", @id = "lblPaymentAppliedCptn" })
-                        </div>
-                        <div class="col-md-4" style="text-align: right">
-                            @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblPaymentApplied" })
-                       </div>
-                     </div>
-                    <div class="form-group col-md-12">
-                        <div class="col-md-8" style="text-align: right">
-                          @Html.Label("Credit Received:", htmlAttributes: new { @class = "control-label ", @id = "lblCreditCptn" })
-                        </div>
-                       <div class="col-md-4" style="text-align: right">
-                         @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblCredit" })
-                       </div>
-                    </div>
-                </div>
-           </div>
+                <div class="col-md-7"></div>
+                <div class="col-md-5">
+                    <table class="table table-striped table-bordered table-hover customgrd dataTable no-footer">
+                        <tbody>
+                            <tr>
+                                <td style="width:50%; text-align: right">
+                                    @Html.Label("Total Amount Received", htmlAttributes: new { @class = "control-label ", @id = "lblTotalRecdAmtCptn" })
+                                </td>
+                                <td style="width:50%; text-align: right">
+                                    @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblTotalRecdAmt" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:50%; text-align: right">
+                                    @Html.Label("Payment Applied", htmlAttributes: new { @class = "control-label ", @id = "lblPaymentAppliedCptn" })
+                                </td>
+                                <td style="width:50%; text-align: right">
+                                    @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblPaymentApplied" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:50%; text-align: right">
+                                    @Html.Label("Credit Received", htmlAttributes: new { @class = "control-label ", @id = "lblCreditCptn" })
+                                </td>
+                                <td style="width:50%; text-align: right">
+                                    @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblCredit" })
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                 </div>
+
+            </div>
+           
 
             <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General Notes</div>
             <div class="col-md-12">

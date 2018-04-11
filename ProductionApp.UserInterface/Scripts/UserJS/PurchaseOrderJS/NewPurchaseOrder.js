@@ -128,7 +128,7 @@ $(document).ready(function () {
                       "data": "", render: function (data, type, row) {
                           debugger;
                           return _SlNo++
-                      }, "defaultContent": "<i></i>"
+                      }, "defaultContent": "<i></i>", "width": "3%"
                   },
                   { "data": "MaterialCode", "defaultContent": "<i>-</i>", "width": "5%" },
                   { "data": "MaterialDesc", "defaultContent": "<i>-</i>" },
@@ -181,13 +181,13 @@ $(document).ready(function () {
                           return roundoff(Desc,1);
                       }, "width": "10%"
                   },
-                { "data": null, "orderable": false, "width": "6%", "defaultContent": '<a href="#" class="ItemEditlink" onclick="EditPurchaseOrderDetailTable(this)"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>',"width" :"7%" }
+                { "data": null, "orderable": false, "width": "7%", "defaultContent": '<a href="#" class="ItemEditlink" onclick="EditPurchaseOrderDetailTable(this)"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                     { "targets": [1], "width": "2%", },
-                     { className: "text-right", "targets": [6, 7, 8,9,10,11] },
-                      { className: "text-left", "targets": [3, 4, 5] },
-                { className: "text-center", "targets": [9] }
+                     { className: "text-right", "targets": [5,6,7, 8,9,10,11] },
+                      { className: "text-left", "targets": [3,4] },
+                { className: "text-center", "targets": [9,12] }
 
                 ]
             });
@@ -233,9 +233,11 @@ $(document).ready(function () {
                                }
                            },
                          {
-                           "data": "Discount", "defaultContent": "<i>-</i>",
-                           'render': function (data, type, row) {
-                               return '<input class="form-control description text-right" name="Markup" value="' + roundoff(data, 1) + '" type="text" onchange="EdittextBoxValue(this,3);"style="width:100%">';
+                             "data": "Discount", "defaultContent": "<i>-</i>",
+                             'render': function (data, type, row) {
+                                 if (data!=0)
+                                     data = roundoff(data, 1);
+                                 return '<input class="form-control description text-right" name="Markup" value="' + data + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" onchange="EdittextBoxValue(this,3);"style="width:100%">';
                           }
                           },
                           { "data": "RequisitionDetail.RequestedQty", "defaultContent": "<i>-</i>", "width": "10%"},
@@ -302,6 +304,10 @@ $(document).ready(function () {
           $('#btnSendDownload').hide();
           $("#SupplierID").change(function () {
               SupplierDetails();
+          });
+          $("#Discount").change(function () {
+              debugger;
+              CalculateGrossAmount();
           });
         }
         
@@ -657,11 +663,13 @@ function CalculateGrossAmount() {
         GrossAmount = GrossAmount + ((parseFloat(purchaseOrderVM[i].Qty) * parseFloat(purchaseOrderVM[i].Rate) - parseFloat(purchaseOrderVM[i].Discount)) + parseFloat(purchaseOrderVM[i].CGSTAmt) + parseFloat(purchaseOrderVM[i].SGSTAmt))
     }
     TotalTax = CGSTTotal + SGSTTotal
-    $('#GrossAmount').val(roundoff(GrossAmount));
-    $('#ItemTotal').val(roundoff(ItemTotal));
-    $('#CGSTTotal').val(roundoff(CGSTTotal));
-    $('#SGSTTotal').val(roundoff(SGSTTotal));
-    $('#TaxTotal').val(roundoff(TotalTax));
+    $('#GrossAmount').text(roundoff(GrossAmount));
+    $('#ItemTotal').text(roundoff(ItemTotal));
+    $('#CGSTTotal').text(roundoff(CGSTTotal));
+    $('#SGSTTotal').text(roundoff(SGSTTotal));
+    $('#TaxTotal').text(roundoff(TotalTax));
+    if($('#Discount').val()!=0)
+        $('#lblGrandTotal').text(roundoff(GrossAmount - $('#Discount').val()));
 }
 function OrderStatusChange() {
     if ($("#PurchaseOrderStatus").val() != "")
@@ -775,7 +783,7 @@ function BindPurchaseOrder(ID) {
             $('#MailingAddress').val(result.MailingAddress);
             $('#ShippingAddress').val(result.ShippingAddress);
             $('#PurchaseOrderTitle').val(result.PurchaseOrderTitle);
-            $('#Discount').val(result.Discount);
+            $('#Discount').val(roundoff(result.Discount));
             $('#lblReqNo').text("PO# :" + result.PurchaseOrderNo);
             $("#lblEmailStatus").text(result.EmailSentYN == "True" ? 'YES' : 'NO');
             $("#PurchaseOrderMailPreview_SentToEmails").val(result.SubscriberEmail);
