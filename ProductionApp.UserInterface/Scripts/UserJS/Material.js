@@ -38,8 +38,8 @@ function BindOrReloadMaterialTable(action) {
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
-                $('#MaterialTypeCode').val('');
-                $('#UnitCode').val('');
+                $('#MaterialType_Code').val('');
+                $('#Unit_Code').val('');
                 break;
             case 'Init':
                 break;
