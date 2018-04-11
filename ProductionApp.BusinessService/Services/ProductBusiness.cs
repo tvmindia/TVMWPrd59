@@ -95,5 +95,13 @@ namespace ProductionApp.BusinessService.Services
             }
             return result;
         }
+
+
+        #region GetProductListForBillOfMaterial
+        public List<Product> GetProductListForBillOfMaterial(string componentIDs)
+        {
+            return _productRepository.GetProductListForBillOfMaterial(componentIDs);
+        }
+        #endregion GetProductListForBillOfMaterial
     }
 }

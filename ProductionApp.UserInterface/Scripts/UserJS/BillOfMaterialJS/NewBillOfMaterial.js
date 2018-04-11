@@ -100,38 +100,24 @@ function BindProductList() {
     try {
         debugger;
 
-        ProductAdvanceSearchViewModel = new Object();
-        DataTablePagingViewModel = new Object();
-        UnitViewModel = new Object();
-        DataTablePagingViewModel.Length = 10;
-        UnitViewModel.Code = null;
-
-        ProductAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
-        ProductAdvanceSearchViewModel.Unit = UnitViewModel;
-
         DataTables.ProductList = $('#tblProductList').DataTable({
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
-            ordering: false,
+            order: [],
             searching: true,
             paging: true,
-            lengthChange: true,
-            processing: true,
+            //pageLength: 10,
+            data: GetProductListForBillOfMaterial(),
             language: {
-                "processing": "<div class='spinner'><div class='bounce1'></div><div class='bounce2'></div><div class='bounce3'></div></div>"
+                search: "_INPUT_",
+                searchPlaceholder: "Search"
             },
-            serverSide: true,
-            ajax: {
-                url: "GetAllComponent/",
-                data: { "productAdvanceSearchVM": ProductAdvanceSearchViewModel },
-                type: 'POST'
-            },
-            pageLength: 10,
             columns: [
             { "data": "ID", "defaultContent": "<i>-</i>" },
             { "data": "Checkbox", "defaultContent": "" },
             { "data": "Name", "defaultContent": "<i>-</i>" },
             { "data": "Description", "defaultContent": "<i>-<i>" },
-            { "data": "Unit.Description", "defaultContent": "<i>-<i>" }
+            { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
+            { "data": "Type", "defaultContent": "<i>-<i>" }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { orderable: false, className: 'select-checkbox', "targets": 1 },
@@ -146,6 +132,44 @@ function BindProductList() {
         console.log(ex.message);
     }
 
+}
+//------------------------GetProductListForBillOfMaterial------------------------------//
+function GetProductListForBillOfMaterial() {
+    try{
+        debugger;
+        var IDs = [];
+        for (var i = 0; i < DataTables.ComponentList.rows().data().length; i++) {
+            IDs.push(DataTables.ComponentList.rows().data()[i].ComponentID);
+        }
+        var data = { "componentIDs": String(IDs) };
+
+        var result = "";
+        var message = "";
+        productList = [];
+
+        var jsonData = GetDataFromServer("BillOfMaterial/GetProductListForBillOfMaterial/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            productList = jsonData.Records;
+        }
+
+        switch (result) {
+            case "OK":
+                return productList;
+                break;
+            case "ERROR":
+                notyAlert('error', message);
+                break;
+            default:
+                break;
+        }
+        return productList;
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
 }
 
 //------------------------Add Product and BOM Component as Detail---------------------//

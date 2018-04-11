@@ -53,30 +53,6 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion NewBillOfMaterial
 
-        #region GetAllComponents
-        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "R")]
-        public ActionResult GetAllComponent(DataTableAjaxPostModel model, ProductAdvanceSearchViewModel productAdvanceSearchVM)
-        {
-            productAdvanceSearchVM.DataTablePaging.Start = model.start;
-            productAdvanceSearchVM.DataTablePaging.Length = (productAdvanceSearchVM.DataTablePaging.Length == 0) ? model.length : productAdvanceSearchVM.DataTablePaging.Length;
-            
-            List<ProductViewModel> productVMList = Mapper.Map<List<Product>, List<ProductViewModel>>(_productBusiness.GetAllProduct(Mapper.Map<ProductAdvanceSearchViewModel, ProductAdvanceSearch>(productAdvanceSearchVM)));
-            
-            var settings = new JsonSerializerSettings
-            {
-                Formatting = Formatting.None
-            };
-            return Json(new
-            {
-                // this is what datatables wants sending back
-                draw = model.draw,
-                recordsTotal = productVMList.Count != 0 ? productVMList[0].TotalCount : 0,
-                recordsFiltered = productVMList.Count != 0 ? productVMList[0].FilteredCount : 0,
-                data = productVMList
-            });
-        }
-        #endregion GetAllComponents
-        
         #region GetAllBillOfMaterial
         [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "R")]
         public ActionResult GetAllBillOfMaterial(DataTableAjaxPostModel model, BillOfMaterialAdvanceSearchViewModel billOfMaterialAdvanceSearchVM)
@@ -118,6 +94,23 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion GetAllBillOfMaterial
+
+        #region GetProductListForBillOfMaterial
+        [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "R")]
+        public string GetProductListForBillOfMaterial(string componentIDs)
+        {
+            try
+            {
+                List<ProductViewModel> productList = Mapper.Map<List<Product>, List<ProductViewModel>>(_productBusiness.GetProductListForBillOfMaterial(componentIDs));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = productList, Message ="Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+        }
+        #endregion GetProductListForBillOfMaterial
 
         #region InsertUpdateBillOfMaterial
         [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "W")]
