@@ -11,7 +11,7 @@ namespace ProductionApp.BusinessService.Contracts
     {
         List<Material> GetMaterialForSelectList();
         List<Material> GetAllMaterial(MaterialAdvanceSearch materialAdvanceSearch);
-        bool CheckMaterialCodeExist(string materialCode);
+        bool CheckMaterialCodeExist(Material material);
         object InsertUpdateMaterial(Material material);
         Material GetMaterial(Guid id);
         object DeleteMaterial(Guid id);

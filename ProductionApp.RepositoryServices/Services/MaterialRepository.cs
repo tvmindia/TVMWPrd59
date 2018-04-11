@@ -158,9 +158,9 @@ namespace ProductionApp.RepositoryServices.Services
         /// <summary>
         /// To Check whether MaterialCode Existing or not
         /// </summary>
-        /// <param name="materialCode"></param>
+        /// <param name="material"></param>
         /// <returns>bool</returns>
-        public bool CheckMaterialCodeExist(string materialCode)
+        public bool CheckMaterialCodeExist(Material material)
        {
             try
             {
@@ -174,7 +174,8 @@ namespace ProductionApp.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[CheckMaterialCodeExist]";
-                        cmd.Parameters.Add("@MaterialCode", SqlDbType.VarChar).Value = materialCode;
+                        cmd.Parameters.Add("@MaterialCode", SqlDbType.VarChar,50).Value = material.MaterialCode;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = material.ID;
                         cmd.CommandType = CommandType.StoredProcedure;
                         Object res = cmd.ExecuteScalar();
                         return (res.ToString() == "Exists" ? true : false);
