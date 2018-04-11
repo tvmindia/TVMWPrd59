@@ -233,14 +233,19 @@ function Save() {
     try{
         debugger;
         var check = 0;
+
+        if ($('#PurchaseOrderID').val() === "") {
+            $('#msgPurchase').show();
+            check = 1;
+        } else if ($('#PurchaseOrderNo').val() !== "") {
+            check = 0;
+        }
+
         if ($('#SupplierID').val() === "") {
             $('#msgSupplier').show();
             check = 1;
         }
-        if ($('#PurchaseOrderID').val() === "") {
-            $('#msgPurchase').show();
-            check = 1;
-        }
+
         $("#DetailJSON").val('');
         _MaterialReceiptDetailList = [];
         AddMaterialReceiptDetailList();
@@ -262,26 +267,30 @@ function Save() {
 
 function SaveSuccess(data, status) {
     debugger;
-    var JsonResult = JSON.parse(data)
-    var result = JsonResult.Result;
-    var message = JsonResult.Message;
-    var materialReceiptVM = new Object();
-    materialReceiptVM = JsonResult.Records;
-    switch (result) {
-        case "OK":
-            $('#IsUpdate').val('True');
-            $('#ID').val(JsonResult.Records.ID)
-            message = JsonResult.Records.Message;
-            notyAlert("success", message)
-            ChangeButtonPatchView('MaterialReceipt', 'divButtonPatch', 'Edit');//divbuttonPatchAddMaterialReceipt
-            BindMaterialReceiptDetailTable($('#ID').val());
-            break;
-        case "ERROR":
-            notyAlert("danger", message)
-            break;
-        default:
-            notyAlert("danger", message)
-            break;
+    try{
+        var JsonResult = JSON.parse(data)
+        var result = JsonResult.Result;
+        var message = JsonResult.Message;
+        var materialReceiptVM = new Object();
+        materialReceiptVM = JsonResult.Records;
+        switch (result) {
+            case "OK":
+                $('#IsUpdate').val('True');
+                $('#ID').val(JsonResult.Records.ID)
+                message = JsonResult.Records.Message;
+                notyAlert("success", message);
+                ChangeButtonPatchView('MaterialReceipt', 'divButtonPatch', 'Edit');//divbuttonPatchAddMaterialReceipt
+                BindMaterialReceiptDetailTable($('#ID').val());
+                break;
+            case "ERROR":
+                notyAlert("error", message);
+                break;
+            default:
+                notyAlert("error", message);
+                break;
+        }
+    } catch (ex) {
+        notyAlert("error", ex.message);
     }
 }
 
