@@ -29,7 +29,7 @@ namespace ProductionApp.BusinessService.Services
                 {
                     selectListItem.Add(new SelectListItem
                     {
-                        Text = product.Code+" | " +product.Name,
+                        Text = product.Code+" - " +product.Name,
                         Value = product.ID.ToString(),
                         Selected = false
                     });
@@ -44,9 +44,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _productRepository.InsertUpdateProduct(product);
         }
-        public bool CheckProductCodeExist(string productCode)
+        public bool CheckProductCodeExist(Product product)
         {
-            return _productRepository.CheckProductCodeExist(productCode);
+            return _productRepository.CheckProductCodeExist(product);
         }
         public Product GetProduct(Guid id)
         {

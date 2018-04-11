@@ -3,7 +3,7 @@
 @{
     if (Model.IsUpdate)
     {
-        ViewBag.Title = "View Customer Payment";
+        ViewBag.Title = "Edit Customer Payment";
     }
     else
     {
@@ -264,7 +264,7 @@
                       @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label " })
                     </div>
                     <div class="col-md-12">
-                      @Html.EditorFor(model => model.GeneralNotes, new { htmlAttributes = new { @class = "form-control HeaderBox", @rows = 5 } })
+                      @Html.EditorFor(model => model.GeneralNotes, new { htmlAttributes = new { @class = "form-control HeaderBox", @rows = 5, style = "max-width:100%; min-width:100%; max-height:100%; min-height:100%;" } })
                     </div>
                </div>
             </div>

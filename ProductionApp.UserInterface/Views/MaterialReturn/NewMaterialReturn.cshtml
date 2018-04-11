@@ -87,7 +87,7 @@
                                 @Html.LabelFor(model => model.BillAddress, htmlAttributes: new { @class = "control-label" })
                             </div>
                             <div class="col-md-12">
-                                @Html.EditorFor(model => model.BillAddress, new { htmlAttributes = new { @class = "form-control", @rows = 5 } })
+                                @Html.EditorFor(model => model.BillAddress, new { htmlAttributes = new { @class = "form-control", @rows = 5, style = "max-width:100%; min-width:100%; max-height:100%; min-height:100%;" } })
                             </div>
                         </div>
                         <div class="form-group col-md-6">
@@ -95,7 +95,7 @@
                                 @Html.LabelFor(model => model.ShippingAddress, htmlAttributes: new { @class = "control-label" })
                             </div>
                             <div class="col-md-12">
-                                @Html.EditorFor(model => model.ShippingAddress, new { htmlAttributes = new { @class = "form-control", @rows = 5 } })
+                                @Html.EditorFor(model => model.ShippingAddress, new { htmlAttributes = new { @class = "form-control", @rows = 5, style = "max-width:100%; min-width:100%; max-height:100%; min-height:100%;" } })
                             </div>
                         </div>
 
@@ -311,7 +311,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="height: 50px;padding: 7px;">
-                <a class="btn btn-primary" onclick="AddReturnToSupplierItem()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
+                <a class="btn btn-info" onclick="AddReturnToSupplierItem()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
             </div>
         </div>
     </div>

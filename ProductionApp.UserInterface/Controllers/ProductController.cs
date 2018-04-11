@@ -17,11 +17,15 @@ namespace ProductionApp.UserInterface.Controllers
         AppConst _appConst = new AppConst();
         private Common _common = new Common();
         private IProductBusiness _productBusiness;
+        private IUnitBusiness _unitBusiness;
+        private IProductCategoryBusiness _productCategoryBusiness;
 
         #region Constructor Injection
-        public ProductController(IProductBusiness productBusiness)
+        public ProductController(IProductBusiness productBusiness, IUnitBusiness unitBusiness, IProductCategoryBusiness productCategoryBusiness)
         {
             _productBusiness = productBusiness;
+            _unitBusiness = unitBusiness;
+            _productCategoryBusiness = productCategoryBusiness;
         }
         #endregion Constructor Injection
 
@@ -31,6 +35,8 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ViewBag.SysModuleCode = code;
             ProductAdvanceSearchViewModel productAdvanceSearchVM = new ProductAdvanceSearchViewModel();
+            productAdvanceSearchVM.Unit = new UnitViewModel();
+            productAdvanceSearchVM.Unit.UnitSelectList = _unitBusiness.GetUnitForSelectList();
             return View(productAdvanceSearchVM);
         }
         #endregion Index
@@ -77,26 +83,39 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetAllProduct
 
         #region CheckProductCodeExist
-        [AcceptVerbs("Get", "Post")]
-        public ActionResult CheckProductCodeExist(Product productVM)
+        public ActionResult CheckProductCodeExist(ProductViewModel productVM)
         {
-            try
+            bool exists = _productBusiness.CheckProductCodeExist(Mapper.Map<ProductViewModel, Product>(productVM));
+            if (exists)
             {
-                bool exists = productVM.IsUpdate ? false : _productBusiness.CheckProductCodeExist(productVM.Code);
-                if (exists)
-                {
-                    return Json("<p><span style='vertical-align: 2px'>Product code already in use </span> <i class='fa fa-close' style='font-size:19px; color: red'></i></p>", JsonRequestBehavior.AllowGet);
-                }
-                //var result = new { success = true, message = "Success" };
-                return Json(true, JsonRequestBehavior.AllowGet);
+                return Json("<p><span style='vertical-align: 2px'>Product code is in use </span> <i class='fa fa-close' style='font-size:19px; color: red'></i></p>", JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
-            {
-                AppConstMessage cm = _appConst.GetMessage(ex.Message);
-                return Json(new { Result = "ERROR", Message = cm.Message });
-            }
+            //var result = new { success = true, message = "Success" };
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
         #endregion CheckProductCodeExist
+
+        //#region CheckProductCodeExist
+        //[AcceptVerbs("Get", "Post")]
+        //public ActionResult CheckProductCodeExist(Product productVM)
+        //{
+        //    try
+        //    {
+        //        bool exists = productVM.IsUpdate ? false : _productBusiness.CheckProductCodeExist(Mapper.Map<ProductViewModel, Product>(productVM));
+        //        if (exists)
+        //        {
+        //            return Json("<p><span style='vertical-align: 2px'>Product code already in use </span> <i class='fa fa-close' style='font-size:19px; color: red'></i></p>", JsonRequestBehavior.AllowGet);
+        //        }
+        //        //var result = new { success = true, message = "Success" };
+        //        return Json(true, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        AppConstMessage cm = _appConst.GetMessage(ex.Message);
+        //        return Json(new { Result = "ERROR", Message = cm.Message });
+        //    }
+        //}
+        //#endregion CheckProductCodeExist
 
         #region InsertUpdateProduct
         [HttpPost]
@@ -132,6 +151,10 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ProductViewModel productVM = string.IsNullOrEmpty(masterCode) ? new ProductViewModel() : Mapper.Map<Product, ProductViewModel>(_productBusiness.GetProduct(Guid.Parse(masterCode)));
             productVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
+            productVM.ProductCategory = new ProductCategoryViewModel();
+            productVM.ProductCategory.ProductCategorySelectList = _productCategoryBusiness.GetProductCategoryForSelectList();
+            productVM.Unit = new UnitViewModel();
+            productVM.Unit.UnitSelectList = _unitBusiness.GetUnitForSelectList();
             return PartialView("_AddProductPartial", productVM);
         }
         #endregion MasterPartial

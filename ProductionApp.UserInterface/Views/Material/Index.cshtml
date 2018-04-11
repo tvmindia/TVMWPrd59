@@ -8,7 +8,8 @@
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
-}
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")
+    }
 <div style="width:100%;">
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-cogs"></i> Masters</a></li>
@@ -63,7 +64,7 @@
                                 @Html.LabelFor(model => model.Unit.Code, htmlAttributes: new { @class = "control-label" })
                             </div>
                             <div class="col-md-12">
-                                @Html.DropDownListFor(model => model.Unit.Code, Model.Unit.UnitSelectList, "--Select Unit--" ,new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.Unit.Code, Model.Unit.UnitSelectList, "--Select Unit--" ,new { @class = "form-control",style="width:100%" })
                             </div>
                                 @*<div class="col-md-12">
                                     @Html.Action("UnitDropdown", "Unit")
@@ -74,7 +75,7 @@
                                 @Html.LabelFor(model => model.MaterialType.Code, htmlAttributes: new { @class = "control-label" })
                             </div>
                                 <div class="col-md-12">
-                                    @Html.DropDownListFor(model=>model.MaterialType.Code,Model.MaterialType.MaterialTypeSelectList, "--Select Material Type--", new { @class = "form-control" })
+                                    @Html.DropDownListFor(model=>model.MaterialType.Code,Model.MaterialType.MaterialTypeSelectList, "--Select Material Type--", new { @class = "form-control", style = "width:100%" })
                                 </div>
                            
                         </div>
@@ -118,6 +119,7 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/Material")
 }

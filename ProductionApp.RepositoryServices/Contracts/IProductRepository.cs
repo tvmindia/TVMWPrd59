@@ -11,7 +11,7 @@ namespace ProductionApp.RepositoryServices.Contracts
     {
         List<Product> GetProductForSelectList();
         List<Product> GetAllProduct(ProductAdvanceSearch productAdvanceSearch);
-        bool CheckProductCodeExist(string productCode);
+        bool CheckProductCodeExist(Product product);
         object InsertUpdateProduct(Product product);
         Product GetProduct(Guid id);
         object DeleteProduct(Guid id);

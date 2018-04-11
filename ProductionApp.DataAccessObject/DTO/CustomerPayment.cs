@@ -54,5 +54,6 @@ namespace ProductionApp.DataAccessObject.DTO
         public string ToDate { get; set; }
         public Guid CustomerID { get; set; }
         public string PaymentMode { get; set; }
+        public Customer Customer { get; set; }
     }
 }

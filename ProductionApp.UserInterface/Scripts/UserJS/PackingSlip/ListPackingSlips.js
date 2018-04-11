@@ -143,9 +143,9 @@ function BindOrReloadPackingSlipTable(action)
                     }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                            { className: "text-left", "targets": [1, 3,4,7, 8] },
+                            { className: "text-left", "targets": [1, 3,4,7] },
                             { className: "text-right", "targets": [5] },
-                            { className: "text-center", "targets": [2] }],
+                            { className: "text-center", "targets": [2,8] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {

@@ -238,7 +238,7 @@ namespace ProductionApp.RepositoryServices.Services
         /// </summary>
         /// <param name="productCode"></param>
         /// <returns>bool</returns>
-        public bool CheckProductCodeExist(string productCode)
+        public bool CheckProductCodeExist(Product product)
         {
             try
             {
@@ -252,7 +252,8 @@ namespace ProductionApp.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[CheckProductCodeExist]";
-                        cmd.Parameters.Add("@ProductCode", SqlDbType.VarChar).Value = productCode;
+                        cmd.Parameters.Add("@ProductCode", SqlDbType.VarChar).Value = product.Code;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = product.ID;
                         cmd.CommandType = CommandType.StoredProcedure;
                         Object res = cmd.ExecuteScalar();
                         return (res.ToString() == "Exists" ? true : false);

@@ -119,6 +119,7 @@ namespace ProductionApp.UserInterface.Models
             [Display(Name = "ToDate")]
             public string ToDate { get; set; }
             [Display(Name = "Supplier")]
+            public Guid SupplierID { get; set; }
             public SupplierViewModel Supplier { get; set; }
             [Display(Name = "Status")]
             public string Status { get; set; }

@@ -65,7 +65,8 @@ height:150px;*/
                 <div class="col-md-12">
                     <div class="col-md-12">
                         <div id="divMaterialTypeDropdown">
-                            @Html.Action("MaterialTypeSelectList", "MaterialType", new { required = "required" })
+                            @Html.DropDownListFor(model => model.MaterialTypeCode, Model.MaterialType.MaterialTypeSelectList, "--- Select Material Type ---", new { @class = "form-control", @style = "width:100%" })
+                            @*@Html.Action("MaterialTypeSelectList", "MaterialType", new { required = "required" })*@
                         </div>
                         @Html.HiddenFor(model => model.MaterialTypeCode, htmlAttributes: new { @class = "", @id ="hdnMaterialTypeCode" })
                     </div>
@@ -95,7 +96,8 @@ height:150px;*/
                 <div class="col-md-12">
                     <div class="col-md-12">
                         <div id="divUnitDropdown">
-                            @{Html.RenderAction("UnitDropdown", "Unit", Model.Unit);}
+                            @Html.DropDownListFor(model => model.UnitCode, Model.Unit.UnitSelectList, "--- Select Unit ---", new { @class = "form-control", @style = "width:100%" })
+                            @*@{Html.RenderAction("UnitDropdown", "Unit", Model.Unit);}*@
                         </div>
                         @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
                     </div>
@@ -205,5 +207,11 @@ height:150px;*/
         <script>
             $(document).ready(function () {
                 $.validator.unobtrusive.parse("#FormMaterial");
+                $('#UnitCode').select2({
+                    dropdownParent: $("#FormMaterial")
+                });
+                $("#MaterialTypeCode").select2({
+                    dropdownParent: $("#FormMaterial")
+                });
             });
         </script>

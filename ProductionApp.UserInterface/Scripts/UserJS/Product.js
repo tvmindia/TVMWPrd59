@@ -22,6 +22,8 @@ $(document).ready(function () {
     catch (e) {
         console.log(e.message);
     }
+    $("#Unit_Code").select2({
+    });
 });
 
 //--function bind the Product list checking search and filter--//
@@ -37,7 +39,7 @@ function BindOrReloadProductTable(action) {
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
-                $('#UnitCode').val('');
+                $('#Unit_Code').val('').select2();
                 break;
             case 'Init':
                 break;
@@ -50,7 +52,7 @@ function BindOrReloadProductTable(action) {
                 break;
         }
         ProductAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
-        UnitViewModel.Code = $('#UnitCode').val();
+        UnitViewModel.Code = $("#Unit_Code").val();
         ProductAdvanceSearchViewModel.Unit = UnitViewModel;
         ProductAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
         debugger;

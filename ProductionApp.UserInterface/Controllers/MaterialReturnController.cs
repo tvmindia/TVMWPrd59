@@ -50,6 +50,24 @@ namespace ProductionApp.UserInterface.Controllers
                 }
             }
             materialReturnAdvanceSearchVM.Employee.SelectList = selectListItem;
+            selectListItem = new List<SelectListItem>();
+            materialReturnAdvanceSearchVM.Supplier = new SupplierViewModel();
+            materialReturnAdvanceSearchVM.Supplier.SelectList = new List<SelectListItem>();
+            List<SupplierViewModel> supplierList = Mapper.Map<List<Supplier>, List<SupplierViewModel>>(_supplierBusiness.GetSupplierForSelectList());
+            if (employeeList != null)
+            {
+                foreach (SupplierViewModel supplier in supplierList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = supplier.CompanyName,
+                        Value = supplier.ID.ToString(),
+                        Selected = false,
+                    });
+
+                }
+            }
+            materialReturnAdvanceSearchVM.Supplier.SelectList = selectListItem;
             return View(materialReturnAdvanceSearchVM);
         }
 

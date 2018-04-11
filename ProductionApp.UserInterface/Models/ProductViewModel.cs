@@ -12,7 +12,7 @@ namespace ProductionApp.UserInterface.Models
     {
         [Display(Name = "Product")]
         public Guid ID { get; set; }
-        [Remote(action: "CheckProductCodeExist", controller: "Product", AdditionalFields = nameof(IsUpdate))]
+        [Remote(action: "CheckProductCodeExist", controller: "Product", AdditionalFields = "IsUpdate,ID")]
         [Required(ErrorMessage = "Product Code is missing")]
         public string Code { get; set; }
         [Required(ErrorMessage = "Product Name is missing")]
