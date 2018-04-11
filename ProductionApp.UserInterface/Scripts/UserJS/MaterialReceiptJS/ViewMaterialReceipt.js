@@ -17,6 +17,7 @@ $(document).ready(function () {
     try {
         $("#SupplierID,#PurchaseOrderID").select2({});
         BindOrReloadMaterialReceiptTable('Init');
+        AddOnRemove();
     }
     catch (e) {
         console.log(e.message);
@@ -143,4 +144,19 @@ function Edit(curobj) {
     debugger;
     var MaterialReceiptViewModel = DataTables.MaterialReceiptList.row($(curobj).parents('tr')).data();
     window.location.replace("/MaterialReceipt/NewMaterialReceipt?code=STR&id=" + MaterialReceiptViewModel.ID);
+}
+
+//Remove input addon for supplier insert
+function AddOnRemove() {
+    try{
+        debugger;
+
+        $('.input-group-addon').each(function () {
+            $(this).parent().css("width", "100%");
+            $(this).remove();
+        });
+
+    } catch (ex) {
+        console.log(ex.message)
+    }
 }
