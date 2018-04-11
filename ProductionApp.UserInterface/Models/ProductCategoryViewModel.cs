@@ -9,8 +9,9 @@ namespace ProductionApp.UserInterface.Models
 {
     public class ProductCategoryViewModel
     {
-        [Required(ErrorMessage = "Product Category is missing")]
+        [Required(ErrorMessage = "Product Category Code is missing")]
         public string Code { get; set; }
+        [Required(ErrorMessage = "Product Description is missing")]
         public string Description { get; set; }
         [Required(ErrorMessage = "Product Category is missing")]
         public string ProductCategoryCode { get; set; }
