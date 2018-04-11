@@ -29,7 +29,7 @@
 <section class="content">
     <div class="row" id="OverlayHeader">
         <div class="col-md-6" style="text-align:left">
-            <span id="lblReqNo" class="SCHeader">PO# : New</span>
+            <span id="lblReqNo" class="SCHeader">PO Number# : New</span>
         </div>
         <div class="col-md-6" id="divbuttonPatchAddPurchaseOrder" style="min-height:25px">
 
@@ -325,9 +325,9 @@
                 </div>
             </div>
             <div class="modal-footer" style="height: 50px;padding: 7px;">
-                <a id="btnBackward" class="btn btn-primary" onclick="ViewRequisitionList(1)"><i class="glyphicon glyphicon-step-backward">Back </i></a>
-                <a id="btnForward" class="btn btn-primary" onclick="ViewRequisitionDetails(1)">Next <i class="glyphicon glyphicon-step-forward"></i></a>
-                <a id="btnAddPODetails" class="btn btn-primary" onclick="AddPODetails()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
+                <a id="btnBackward" class="btn btn-info" onclick="ViewRequisitionList(1)"><i class="glyphicon glyphicon-step-backward">Back </i></a>
+                <a id="btnForward" class="btn btn-info" onclick="ViewRequisitionDetails(1)">Next <i class="glyphicon glyphicon-step-forward"></i></a>
+                <a id="btnAddPODetails" class="btn btn-info" onclick="AddPODetails()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
             </div>
         </div>
     </div>
@@ -371,7 +371,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="height: 50px;padding: 7px;">
-                <a class="btn btn-primary" onclick="EditPODetails()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
+                <a class="btn btn-info" onclick="EditPODetails()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
             </div>
         </div>
     </div>
@@ -434,9 +434,9 @@
                 </div>
             </div>
             <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
-                <a class="btn btn-primary" onclick="SendMailPreview()" id="btnMail"><i class="glyphicon glyphicon-floppy-disk"></i> Next</a>
-                <a class="btn btn-primary" onclick="DownloadPDF()" id="btnSend"><i class="glyphicon glyphicon-download-alt"></i> Download</a>
-                <a class="btn btn-primary" onclick="SendMailClick()" id="btnMailSend"><i class="glyphicon glyphicon-floppy-disk"></i> Send Mail</a>
+                <a class="btn btn-info" onclick="SendMailPreview()" id="btnMail"><i class="glyphicon glyphicon-floppy-disk"></i> Next</a>
+                <a class="btn btn-info" onclick="DownloadPDF()" id="btnSend"><i class="glyphicon glyphicon-download-alt"></i> Download</a>
+                <a class="btn btn-info" onclick="SendMailClick()" id="btnMailSend"><i class="glyphicon glyphicon-floppy-disk"></i> Send Mail</a>
 
                 @using (Html.BeginForm("Download", "PDFGenerator", new { HttpMethod = "POST", @class = "form-horizontal", role = "form", @id = "PDFForm" }))
                 {
@@ -479,7 +479,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="height: 50px;padding: 7px;">
-                <a class="btn btn-primary" onclick="SendForApproval('PO')"><i class="glyphicon glyphicon-floppy-disk"></i> Send For Approval</a>
+                <a class="btn btn-info" onclick="SendForApproval('PO')"><i class="glyphicon glyphicon-floppy-disk"></i> Send For Approval</a>
             </div>
         </div>
     </div>
