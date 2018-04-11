@@ -53,6 +53,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string ReturnedByEmployeeName { get; set; }
         public string SupplierName { get; set; }
         public Employee Employee { get; set; }
+        public Supplier Supplier { get; set; }
         public Guid SupplierID { get; set; }
     }
 }

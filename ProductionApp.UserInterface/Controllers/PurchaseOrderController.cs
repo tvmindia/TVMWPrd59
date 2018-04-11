@@ -34,7 +34,26 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ViewPurchaseOrder(string code)
         {
             ViewBag.SysModuleCode = code;
-            return View();
+            PurchaseOrderAdvanceSearchViewModel purchaseOrderAdvanceSearchVM = new PurchaseOrderAdvanceSearchViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            purchaseOrderAdvanceSearchVM.Supplier = new SupplierViewModel();
+            purchaseOrderAdvanceSearchVM.Supplier.SelectList = new List<SelectListItem>();
+            List<SupplierViewModel> supplierList = Mapper.Map<List<Supplier>, List<SupplierViewModel>>(_supplierBusiness.GetSupplierForSelectList());
+            if (supplierList != null)
+            {
+                foreach (SupplierViewModel supplier in supplierList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = supplier.CompanyName,
+                        Value = supplier.ID.ToString(),
+                        Selected = false,
+                    });
+
+                }
+            }
+            purchaseOrderAdvanceSearchVM.Supplier.SelectList = selectListItem;
+            return View(purchaseOrderAdvanceSearchVM);
         }
 
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
@@ -42,7 +61,6 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ViewBag.SysModuleCode = code;
             PurchaseOrderViewModel purchaseOrderVM = new PurchaseOrderViewModel();
-
             purchaseOrderVM.ID = id == null ? Guid.Empty : (Guid)id;
                 
             return View(purchaseOrderVM);

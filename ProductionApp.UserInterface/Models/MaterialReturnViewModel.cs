@@ -73,6 +73,6 @@ namespace ProductionApp.UserInterface.Models
         public EmployeeViewModel Employee { get; set; }
         [Display(Name = "Supplier")]
         public Guid SupplierID { get; set; }
-        public string SupplierName { get; set; }
+        public SupplierViewModel Supplier { get; set; }
     }
 }
