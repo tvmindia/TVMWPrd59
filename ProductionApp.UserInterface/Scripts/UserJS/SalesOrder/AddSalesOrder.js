@@ -23,11 +23,8 @@ $(document).ready(function () {
     debugger;
     try {
         $("#divCustomerDropdown").load('/Customer/CustomerDropdown')
-        $("#divEmployeeDropdown").load('/Employee/EmployeeDropdown', function () {
-            $("#EmployeeID").select2({
-            });
-        });
-       // $("#divProductDropdown").load('/Product/ProductDropdown')
+        $("#divEmployeeDropdown").load('/Employee/EmployeeDropdown')
+        // $("#divProductDropdown").load('/Product/ProductDropdown')
       
         $('#btnUpload').click(function () {
             debugger;
@@ -443,8 +440,8 @@ function BindSalesOrderByID()
     $('#OrderNo').val(salesOrderVM.OrderNo);
     $('#OrderDateFormatted').val(salesOrderVM.OrderDateFormatted);
     $('#ExpectedDeliveryDateFormatted').val(salesOrderVM.ExpectedDeliveryDateFormatted);
-    $('#EmployeeID').val(salesOrderVM.SalesPerson).select2();
-    $('#CustomerID').val(salesOrderVM.CustomerID).select2();
+    $('#hdnEmployeeID').val(salesOrderVM.SalesPerson);
+    $('#hdnCustomerID').val(salesOrderVM.CustomerID);
     $('#Remarks').val(salesOrderVM.Remarks);
     $('#BillingAddress').val(salesOrderVM.BillingAddress);
     $('#ShippingAddress').val(salesOrderVM.ShippingAddress);
