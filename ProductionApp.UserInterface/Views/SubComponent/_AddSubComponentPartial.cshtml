@@ -60,7 +60,8 @@
             <div class="col-md-12">
                 <div class="col-md-12">
                     <div id="divUnitDropdown">
-                        @{Html.RenderAction("UnitDropdown", "Unit", Model.Unit);}
+                        @Html.DropDownListFor(model => model.UnitCode, Model.Unit.UnitSelectList, "--- Select Unit ---", new { @class = "form-control", @style = "width:100%" })
+                        @*@{Html.RenderAction("UnitDropdown", "Unit", Model.Unit);}*@
                     </div>
                     @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
                 </div>
@@ -107,5 +108,8 @@
 <script>
     $(document).ready(function () {
         $.validator.unobtrusive.parse("#FormSubComponent");
+        $('#UnitCode').select2({
+            dropdownParent: $("#FormSubComponent")
+        });
     });
 </script>

@@ -23,6 +23,9 @@ $(document).ready(function () {
     catch (e) {
         console.log(e.message);
     }
+    $("#DocumentType_Code").select2({
+    });
+    
 });
 
 
@@ -40,7 +43,7 @@ function BindOrReloadApproverTable(action) {
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
-                $('#DocumentTypeCode').val('');
+                $('#DocumentType_Code').val('').select2();
                 break;
             case 'Init':
                 break;
@@ -55,7 +58,7 @@ function BindOrReloadApproverTable(action) {
                 break;
         }
         ApproverAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
-        DocumentTypeViewModel.Code = $('#DocumentTypeCode').val();
+        DocumentTypeViewModel.Code = $('#DocumentType_Code').val();
         ApproverAdvanceSearchViewModel.DocumentType = DocumentTypeViewModel;
        // ApproverViewModel.Level = $('#Approver_Level').val();
        // ApproverAdvanceSearchViewModel.Approver = ApproverViewModel();

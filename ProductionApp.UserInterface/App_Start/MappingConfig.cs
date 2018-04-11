@@ -65,6 +65,7 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<RequisitionDetailViewModel, RequisitionDetail>().ReverseMap();
                 config.CreateMap<RequisitionAdvanceSearchViewModel, RequisitionAdvanceSearch>().ReverseMap();
                 config.CreateMap<EmployeeViewModel, Employee>().ReverseMap();
+                config.CreateMap<EmployeeAdvanceSearchViewModel, EmployeeAdvanceSearch>().ReverseMap();
                 config.CreateMap<MaterialStockAdjViewModel, MaterialStockAdj>().ReverseMap();
                 config.CreateMap<MaterialStockAdjAdvanceSearchViewModel, MaterialStockAdjAdvanceSearch>().ReverseMap();
                 config.CreateMap<MaterialReceiptViewModel, MaterialReceipt>().ReverseMap();
@@ -101,8 +102,9 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<MaterialReturnDetailViewModel, MaterialReturnDetail>().ReverseMap(); 
                 config.CreateMap<MaterialReturnAdvanceSearchViewModel, MaterialReturnAdvanceSearch>().ReverseMap();
                 config.CreateMap<CustomerPaymentViewModel, CustomerPayment>().ReverseMap();
-                config.CreateMap<CustomerPaymentDetailViewModel, CustomerPaymentDetail>().ReverseMap();
+                config.CreateMap<CustomerPaymentDetailViewModel, CustomerPaymentDetail>().ReverseMap(); 
                 config.CreateMap<CustomerPaymentAdvanceSearchViewModel, CustomerPaymentAdvanceSearch>().ReverseMap();
+                config.CreateMap<DepartmentViewModel, Department>().ReverseMap();
                 //CustomerInvoice 
                 config.CreateMap<CustomerInvoiceViewModel,CustomerInvoice>().ReverseMap();
                 config.CreateMap<CustomerInvoiceDetailViewModel, CustomerInvoiceDetail>().ReverseMap();

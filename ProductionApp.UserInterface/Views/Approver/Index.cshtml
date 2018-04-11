@@ -9,6 +9,7 @@
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
@@ -62,7 +63,8 @@
                         <div class="col-md-5">
                             @Html.LabelFor(model => model.DocumentType, htmlAttributes: new { @class = "control-label" })
                             @*<div class="col-md-12">*@
-                                @Html.Action("DocumentTypeDropdown", "DocumentType")
+                            @Html.DropDownListFor(model => model.DocumentType.Code, Model.DocumentType.SelectList, "--Select Document Type--", new { @class = "form-control", style = "width:100%" })
+                                @*@Html.Action("DocumentTypeDropdown", "DocumentType")*@
                             @*</div>*@
                         </div>
                         <div class="col-md-5">
@@ -102,6 +104,7 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/Approver")
 }

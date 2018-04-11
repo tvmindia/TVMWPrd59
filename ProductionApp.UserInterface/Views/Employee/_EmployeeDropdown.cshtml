@@ -1,6 +1,27 @@
 ﻿@model ProductionApp.UserInterface.Models.EmployeeViewModel
-<div class="input-group">
-    @Html.DropDownList("EmployeeID", Model.SelectList, "--Select Employee--", new { @class = "form-control" ,@style = "width:100%" })
-    <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick=""><i class="fa fa-plus-square-o"></i></span>
-</div>
+
+
+@if (@ViewBag.IsRequired == "required")
+{ 
+    <div class="input-group">
+        @Html.DropDownList("EmployeeID", Model.SelectList, "--Select Employee--", new { @class = "form-control", @required = "", @title = "The Employee is missing", @style = "width:100%", @onchange = "$('#hdnEmployeeID').val(this.value)" })
+        <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick=""><i class="fa fa-plus-square-o"></i></span>
+    </div>
+}
+else
+{
+    <div class="input-group">
+        @Html.DropDownList("EmployeeID", Model.SelectList, "--Select Employee--", new { @class = "form-control", @style = "width:100%", @onchange = "$('#hdnEmployeeID').val(this.value)" })
+        <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick=""><i class="fa fa-plus-square-o"></i></span>
+    </div>
+}
 @Html.ValidationMessage("EmployeeID", "", new { @class = "text-danger" })
+
+<script>
+    $(document).ready(function () {
+        debugger;
+        $("#EmployeeID").select2({
+        });
+        $('#EmployeeID').val($('#hdnEmployeeID').val()).select2();
+    });
+</script>

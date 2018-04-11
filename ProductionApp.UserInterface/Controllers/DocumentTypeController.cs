@@ -31,22 +31,8 @@ namespace ProductionApp.UserInterface.Controllers
         #region DocumentTypeDropdown
         public ActionResult DocumentTypeDropdown(DocumentTypeViewModel documentTypeVM)
         {
-            //UnitViewModel unitVM = new UnitViewModel();
             documentTypeVM.DocumentTypeCode = documentTypeVM.Code;
-            List<SelectListItem> selectListItem = new List<SelectListItem>();
-            documentTypeVM.SelectList = new List<SelectListItem>();
-            List<DocumentTypeViewModel> documentTypeList = Mapper.Map<List<DocumentType>, List<DocumentTypeViewModel>>(_documentTypeBusiness.GetDocumentTypeForSelectList());
-            if (documentTypeList != null)
-                foreach (DocumentTypeViewModel documentType in documentTypeList)
-                {
-                    selectListItem.Add(new SelectListItem
-                    {
-                        Text = documentType.Description,
-                        Value = documentType.Code,
-                        Selected = false
-                    });
-                }
-            documentTypeVM.SelectList = selectListItem;
+            documentTypeVM.SelectList = _documentTypeBusiness.GetDocumentTypeForSelectList();
             return PartialView("_DocumentTypeDropdown", documentTypeVM);
         }
         #endregion DocumentTypeDropdown

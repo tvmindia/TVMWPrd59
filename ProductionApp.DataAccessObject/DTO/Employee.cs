@@ -22,4 +22,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public bool IsActive { get; set; }
         public Common Common { get; set; }
     }
+    public class EmployeeAdvanceSearch
+    {
+        
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+    }
 }

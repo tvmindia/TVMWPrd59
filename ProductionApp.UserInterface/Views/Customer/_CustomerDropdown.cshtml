@@ -2,14 +2,14 @@
 @if (@ViewBag.IsRequired == "required")
 {
     <div class="input-group">
-        @Html.DropDownList("CustomerID", Model.SelectList, "--Select Customer--", new { @class = "form-control newinput", @required = "", @title = "The Customer is missing", @style = "width:100%" })
+        @Html.DropDownList("CustomerID", Model.SelectList, "--Select Customer--", new { @class = "form-control newinput", @required = "", @title = "The Customer is missing", @style = "width:100%", @onchange = "$('#hdnCustomerID').val(this.value)" })
         <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddCustomerMaster('OTR')"><i class="fa fa-plus-square-o"></i></span> 
     </div>
 }
 else
 {
 <div class="input-group">
-    @Html.DropDownList("CustomerID", Model.SelectList, "--Select Customer--", new { @class = "form-control", @style = "width:100%" })
+    @Html.DropDownList("CustomerID", Model.SelectList, "--Select Customer--", new { @class = "form-control", @style = "width:100%", @onchange = "$('#hdnCustomerID').val(this.value)" })
     <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddCustomerMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
 </div>
 }
@@ -18,5 +18,15 @@ else
     $(document).ready(function () {
         $("#CustomerID").select2({
         });
+        $('#CustomerID').val($('#hdnCustomerID').val()).select2();
+        try {
+            $("#CustomerID").change(function () {
+                if ($('#BillingAddress').val() != undefined)
+                    BindCustomerDetails(this.value);
+            });
+        }
+        catch (e) {
+            console.log(e.message);
+        }      
     });
 </script>
