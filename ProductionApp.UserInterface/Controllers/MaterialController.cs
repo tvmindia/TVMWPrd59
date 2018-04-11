@@ -187,6 +187,10 @@ namespace ProductionApp.UserInterface.Controllers
         {
             MaterialViewModel materialVM = string.IsNullOrEmpty(masterCode) ? new MaterialViewModel() : Mapper.Map<Material, MaterialViewModel>(_materialBusiness.GetMaterial(Guid.Parse(masterCode)));
             materialVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
+            materialVM.MaterialType = new MaterialTypeViewModel();
+            materialVM.MaterialType.MaterialTypeSelectList = _materialTypeBusiness.GetMaterialTypeForSelectList();
+            materialVM.Unit = new UnitViewModel();
+            materialVM.Unit.UnitSelectList = _unitBusiness.GetUnitForSelectList();
             return PartialView("_AddMaterialPartial", materialVM);
         }
         #endregion MasterPartial

@@ -17,11 +17,15 @@ namespace ProductionApp.UserInterface.Controllers
         AppConst _appConst = new AppConst();
         private Common _common = new Common();
         private IProductBusiness _productBusiness;
+        private IUnitBusiness _unitBusiness;
+        private IProductCategoryBusiness _productCategoryBusiness;
 
         #region Constructor Injection
-        public ProductController(IProductBusiness productBusiness)
+        public ProductController(IProductBusiness productBusiness, IUnitBusiness unitBusiness, IProductCategoryBusiness productCategoryBusiness)
         {
             _productBusiness = productBusiness;
+            _unitBusiness = unitBusiness;
+            _productCategoryBusiness = productCategoryBusiness;
         }
         #endregion Constructor Injection
 
@@ -31,6 +35,8 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ViewBag.SysModuleCode = code;
             ProductAdvanceSearchViewModel productAdvanceSearchVM = new ProductAdvanceSearchViewModel();
+            productAdvanceSearchVM.Unit = new UnitViewModel();
+            productAdvanceSearchVM.Unit.UnitSelectList = _unitBusiness.GetUnitForSelectList();
             return View(productAdvanceSearchVM);
         }
         #endregion Index
@@ -145,6 +151,10 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ProductViewModel productVM = string.IsNullOrEmpty(masterCode) ? new ProductViewModel() : Mapper.Map<Product, ProductViewModel>(_productBusiness.GetProduct(Guid.Parse(masterCode)));
             productVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
+            productVM.ProductCategory = new ProductCategoryViewModel();
+            productVM.ProductCategory.ProductCategorySelectList = _productCategoryBusiness.GetProductCategoryForSelectList();
+            productVM.Unit = new UnitViewModel();
+            productVM.Unit.UnitSelectList = _unitBusiness.GetUnitForSelectList();
             return PartialView("_AddProductPartial", productVM);
         }
         #endregion MasterPartial
