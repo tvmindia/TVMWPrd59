@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -23,5 +24,11 @@ namespace ProductionApp.UserInterface.Models
         public CommonViewModel Common { get; set; }
         public List<SelectListItem> SelectList { get; set; }
 
+    }
+    public class EmployeeAdvanceSearchViewModel
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
     }
 }

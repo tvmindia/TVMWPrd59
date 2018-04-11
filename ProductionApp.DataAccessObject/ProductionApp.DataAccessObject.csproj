@@ -81,6 +81,7 @@
     <Compile Include="DTO\CustomerInvoice.cs" />
     <Compile Include="DTO\CustomerPayment.cs" />
     <Compile Include="DTO\DataTablePaging.cs" />
+    <Compile Include="DTO\Department.cs" />
     <Compile Include="DTO\DocumentApproval.cs" />
     <Compile Include="DTO\DocumentType.cs" />
     <Compile Include="DTO\Employee.cs" />
