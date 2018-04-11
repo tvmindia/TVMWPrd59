@@ -17,12 +17,15 @@ namespace ProductionApp.UserInterface.Controllers
         // GET: SalesOrder
         private ISalesOrderBusiness _salesOrderBusiness;
         private ICustomerBusiness _customerBusiness;
+        private IEmployeeBusiness _employeeBusiness;
         Common _common = new Common();
         AppConst _appConst = new AppConst();
-        public SalesOrderController(ISalesOrderBusiness salesOrderBusiness,ICustomerBusiness customerBusiness)
+        public SalesOrderController(ISalesOrderBusiness salesOrderBusiness,ICustomerBusiness customerBusiness,IEmployeeBusiness employeeBusiness)
+
         {
             _salesOrderBusiness = salesOrderBusiness;
             _customerBusiness = customerBusiness;
+            _employeeBusiness = employeeBusiness;
         }
         public ActionResult AddSalesOrder(string code, Guid? id)
         {
@@ -39,7 +42,42 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ViewBag.SysModuleCode = code;
 
-            return View();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            SalesOrderAdvanceSearchViewModel salesOrderAdvanceSearchVM = new SalesOrderAdvanceSearchViewModel();
+
+            salesOrderAdvanceSearchVM.Customer = new CustomerViewModel();
+            salesOrderAdvanceSearchVM.Customer.SelectList = new List<SelectListItem>();
+            List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetCustomerForSelectList());
+            if (customerList != null)
+                foreach (CustomerViewModel customer in customerList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = customer.CompanyName,
+                        Value = customer.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            salesOrderAdvanceSearchVM.Customer.SelectList = selectListItem;
+
+            selectListItem = new List<SelectListItem>();
+            salesOrderAdvanceSearchVM.Employee = new EmployeeViewModel();
+            salesOrderAdvanceSearchVM.Employee.SelectList = new List<SelectListItem>();
+            List<EmployeeViewModel> employeeList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_employeeBusiness.GetEmployeeForSelectList());
+            if (customerList != null)
+                foreach (EmployeeViewModel employee in employeeList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = employee.Name,
+                        Value = employee.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            salesOrderAdvanceSearchVM.Employee.SelectList = selectListItem;
+
+
+            return View(salesOrderAdvanceSearchVM);
         }
 
         /// <summary>

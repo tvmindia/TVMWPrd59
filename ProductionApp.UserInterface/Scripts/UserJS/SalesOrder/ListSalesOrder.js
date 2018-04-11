@@ -14,6 +14,11 @@ $(document).ready(function () {
     debugger;
     try {
         
+        $("#EmployeeID").select2({
+        });
+        $("#CustomerID").select2({
+        });
+
         BindOrReloadSalesOrderTable('Init');
         BindOrReloadSalesOrderDetailTable('Init');
         $('#tblSalesOrderSummaryView tbody').on('dblclick', 'td', function () {
