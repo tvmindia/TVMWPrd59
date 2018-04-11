@@ -272,10 +272,10 @@ function SaveSuccess(data, status) {
             //BindBillOfMaterial();
             break;
         case "ERROR":
-            notyAlert("danger", message)
+            notyAlert('error', message)
             break;
         default:
-            notyAlert("danger", message)
+            notyAlert('error', message)
             break;
     }
 }
@@ -833,10 +833,10 @@ function SaveLineSuccess(data, status) {
                 //BindBillOfMaterial();
                 break;
             case "ERROR":
-                notyAlert("danger", message)
+                notyAlert('error', message)
                 break;
             default:
-                notyAlert("danger", message)
+                notyAlert('error', message)
                 break;
         }
         $('#BOMComponentLine_LineName').val(LineName)
@@ -1217,10 +1217,10 @@ function SaveDetailSuccess(data, status) {
                 ClearStageDetail();
                 break;
             case "ERROR":
-                notyAlert("danger", message)
+                notyAlert('error', message)
                 break;
             default:
-                notyAlert("danger", message)
+                notyAlert('error', message)
                 break;
         }
     }
