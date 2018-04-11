@@ -17,7 +17,8 @@
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @{Html.RenderAction("DocumentTypeDropdown", "DocumentType", Model.DocumentType);}
+                        @Html.DropDownListFor(model => model.DocumentTypeCode, Model.DocumentType.SelectList, "--- Select Document Type ---", new { @class = "form-control", @style = "width:100%" })
+                        @*@{Html.RenderAction("DocumentTypeDropdown", "DocumentType", Model.DocumentType);}*@
                         @*@Html.EditorFor(model => model.DocType, new { htmlAttributes = new { @class = "form-control" } })*@
                         @Html.ValidationMessageFor(model => model.DocumentTypeCode, "", new { @class = "text-danger" })
                     </div>
@@ -105,6 +106,12 @@
         <script>
             $(document).ready(function () {
                 $.validator.unobtrusive.parse("#FormApprover");
+                $('#DocumentTypeCode').select2({
+                    dropdownParent: $("#FormApprover")
+                });
+                $('#UserID').select2({
+                    dropdownParent: $("#FormApprover")
+                });
                 $('#UserID').change(function () {
                     debugger;
                     GetEmailId(this.value)
