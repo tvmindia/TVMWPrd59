@@ -37,7 +37,7 @@ namespace ProductionApp.UserInterface.Models
         public string SearchTerm { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
         [Display(Name = "Department")]
-        public string Code { get; set; }
+        public string DepartmentCode { get; set; }
         public DepartmentViewModel Department { get; set; }
     }
 }

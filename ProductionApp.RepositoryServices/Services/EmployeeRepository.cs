@@ -50,8 +50,8 @@ namespace ProductionApp.RepositoryServices.Services
                                         employee.Address = (sdr["Address"].ToString() != "" ? sdr["Address"].ToString() : employee.Address);
                                         employee.ImageURL = (sdr["ImageURL"].ToString() != "" ? sdr["ImageURL"].ToString() : employee.ImageURL);
                                         employee.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : employee.GeneralNotes);
-                                        employee.DepartmentCode = (sdr["Department"].ToString() != "" ? sdr["Department"].ToString() : employee.DepartmentCode);
-                                        employee.EmployeeCategoryCode = (sdr["EmployeeCategory"].ToString() != "" ? sdr["EmployeeCategory"].ToString() : employee.EmployeeCategoryCode);
+                                        employee.DepartmentCode = (sdr["DepartmentCode"].ToString() != "" ? sdr["DepartmentCode"].ToString() : employee.DepartmentCode);
+                                        employee.EmployeeCategoryCode = (sdr["EmployeeCategoryCode"].ToString() != "" ? sdr["EmployeeCategoryCode"].ToString() : employee.EmployeeCategoryCode);
                                         employee.IsActive = (sdr["GeneralNotes"].ToString() != "" ? bool.Parse(sdr["GeneralNotes"].ToString()) : employee.IsActive);
                                     }
                                     employeeList.Add(employee);

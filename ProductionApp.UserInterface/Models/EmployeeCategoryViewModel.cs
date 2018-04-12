@@ -12,6 +12,6 @@ namespace ProductionApp.UserInterface.Models
         public string Name { get; set; }
         //Additional Fields
         public CommonViewModel Common { get; set; }
-        public List<SelectListItem> SelectList { get; set; }
+        public List<SelectListItem> employeeCategorySelectList { get; set; }
     }
 }

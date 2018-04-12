@@ -32,7 +32,7 @@ namespace ProductionApp.DataAccessObject.DTO
     {
         public string SearchTerm { get; set; }
         public DataTablePaging DataTablePaging { get; set; }
-        public string Code { get; set; }
+        public string DepartmentCode { get; set; }
         public Department Department { get; set; }
     }
 }

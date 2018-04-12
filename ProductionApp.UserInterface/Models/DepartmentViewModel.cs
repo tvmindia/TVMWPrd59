@@ -10,6 +10,6 @@ namespace ProductionApp.UserInterface.Models
     {
         public string Code { get; set; }
         public string Name { get; set; }
-        public List<SelectListItem> SelectList { get; set; }
+        public List<SelectListItem> departmentSelectList { get; set; }
     }
 }
