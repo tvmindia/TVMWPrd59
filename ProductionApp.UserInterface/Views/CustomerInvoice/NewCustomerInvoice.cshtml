@@ -101,8 +101,8 @@
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.BillingAddress, htmlAttributes: new { @class = "control-label" })
                         </div>
-                        <div class="col-md-12">
-                            @Html.TextAreaFor(model => model.BillingAddress, new { @class = "form-control HeaderBox", rows = "3" })
+                        <div class="col-md-12"  style = "width:95% !important">
+                            @Html.TextAreaFor(model => model.BillingAddress, new { @class = "form-control HeaderBox textareafix", rows = "3" })
                         </div>
                     </div>
                    
@@ -171,15 +171,15 @@
                 </table>
             </div>
             <div class="col-md-12">
-                <div class="col-md-7"></div>
-                <div class="col-md-5">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
                     <table class="table table-striped table-bordered table-hover customgrd dataTable no-footer">
                         <tbody>
                             <tr>
-                                <td style="text-align: right">
+                                <td style="text-align: right;width:50%">
                                     @Html.LabelFor(model => model.TotalTaxableAmount, htmlAttributes: new { @class = "control-label" })
                                 </td>
-                                <td style="text-align: right">
+                                <td style="text-align: right;width:50%">
                                     @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "lblTotalTaxableAmount" })
                                 </td>
                             </tr>
@@ -220,7 +220,7 @@
                         @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-md-12">
-                        @Html.TextAreaFor(model => model.GeneralNotes, new { @class = "form-control HeaderBox", rows = "8" })
+                        @Html.TextAreaFor(model => model.GeneralNotes, new { @class = "form-control HeaderBox textareafix", rows = "8" })
                     </div>
                 </div>
             </div>
@@ -299,10 +299,7 @@
                     <div class="col-md-12">
                     </div>
                 </div>
-            </div>
-            @*<div hidden="hidden" id="TaxTypeDropdowndiv">
-                @Html.Action("TaxTypeDropdown", "TaxType")
-            </div>*@
+            </div> 
             <div class="modal-footer" style="height: 50px;padding: 7px;">
                 <a id="btnBackward" class="btn btn-primary" onclick="ViewPackingSlipList(1)"><i class="glyphicon glyphicon-step-backward">Back </i></a>
                 <a id="btnForward" class="btn btn-primary" onclick="ViewPackingSlipListDetails(1)">Next <i class="glyphicon glyphicon-step-forward"></i></a>

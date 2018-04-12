@@ -14,13 +14,21 @@ namespace ProductionApp.UserInterface.Controllers
     {
         // GET: Employee
         private IEmployeeBusiness _employeeBusiness;
-        public EmployeeController(IEmployeeBusiness employeeBusiness)
+        private IDepartmentBusiness _departmentBusiness;
+        private IEmployeeCategoryBusiness _employeeCategoryBusiness;
+        public EmployeeController(IEmployeeBusiness employeeBusiness, IDepartmentBusiness departmentBusiness, IEmployeeCategoryBusiness employeeCategoryBusiness)
         {
             _employeeBusiness = employeeBusiness;
+            _departmentBusiness = departmentBusiness;
+            _employeeCategoryBusiness = employeeCategoryBusiness;
         }
-        public ActionResult Employee()
+        public ActionResult Index(string code)
         {
-            return View();
+            ViewBag.SysModuleCode = code;
+            EmployeeAdvanceSearchViewModel employeeSearchVM = new EmployeeAdvanceSearchViewModel();
+            employeeSearchVM.Department = new DepartmentViewModel();
+            employeeSearchVM.Department.departmentSelectList = _departmentBusiness.GetDepartmentForSelectList();
+            return View(employeeSearchVM);
         }
         public ActionResult EmployeeDropdown()
         {
@@ -40,5 +48,38 @@ namespace ProductionApp.UserInterface.Controllers
             return PartialView("_EmployeeDropdown", employeeVM);
 
         }
+        #region ButtonStyling
+        [HttpGet]
+        //[AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        public ActionResult ChangeButtonStyle(string actionType)
+        {
+            ToolboxViewModel toolboxVM = new ToolboxViewModel();
+            switch (actionType)
+            {
+                case "List":
+                    toolboxVM.addbtn.Visible = true;
+                    toolboxVM.addbtn.Text = "Add";
+                    toolboxVM.addbtn.Title = "Add New";
+                    toolboxVM.addbtn.Event = "AddEmployeeMaster('MSTR')";
+                    //----added for reset button---------------
+                    toolboxVM.resetbtn.Visible = true;
+                    toolboxVM.resetbtn.Text = "Reset";
+                    toolboxVM.resetbtn.Title = "Reset All";
+                    toolboxVM.resetbtn.Event = "ResetEmployeeList();";
+                    //----added for export button--------------
+                    toolboxVM.PrintBtn.Visible = true;
+                    toolboxVM.PrintBtn.Text = "Export";
+                    toolboxVM.PrintBtn.Title = "Export";
+                    toolboxVM.PrintBtn.Event = "ImportEmployeeData();";
+                    //---------------------------------------
+                    break;
+
+                default:
+                    return Content("Nochange");
+            }
+            return PartialView("ToolboxView", toolboxVM);
+        }
+
+        #endregion
     }
 }
