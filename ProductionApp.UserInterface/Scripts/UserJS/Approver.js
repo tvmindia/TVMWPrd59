@@ -75,7 +75,7 @@ function BindOrReloadApproverTable(action) {
                                  columns: [0,1, 2,3, 4]
                              }
             }],
-            order: false,
+            ordering: false,
             searching: false,
             paging: true,
             lengthChange: false,
