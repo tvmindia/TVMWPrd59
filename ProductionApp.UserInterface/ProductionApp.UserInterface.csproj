@@ -981,6 +981,7 @@
     <Content Include="Views\ProductCategory\_ProductCategoryDropdown.cshtml" />
     <Content Include="Views\ProductCategory\Index.cshtml" />
     <Content Include="Views\ProductCategory\_AddProductCategoryPartial.cshtml" />
+    <Content Include="Views\ProductionTracking\ViewProductionTracking.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
