@@ -82,6 +82,10 @@ function Save() {
     $('#btnSave').trigger('click');
 }
 
+//--Function To Reset --//
+function Reset(){
+    BindCustomer();
+}
 //--Function on Save Success--//
 function SaveSuccessCustomer(data, status) {
     try {
