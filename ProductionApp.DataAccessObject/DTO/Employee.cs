@@ -17,15 +17,22 @@ namespace ProductionApp.DataAccessObject.DTO
         public string ImageURL { get; set; }
         public string CompanyID { get; set; }
         public string GeneralNotes { get; set; }
-        public string Department { get; set; }
-        public string EmployeeCategory { get; set; }
+        public string DepartmentCode { get; set; }
+        public string EmployeeCategoryCode { get; set; }
         public bool IsActive { get; set; }
+        //additional fields 
+        public bool IsUpdate { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
         public Common Common { get; set; }
+        public Department Department { get; set; }
+        public EmployeeCategory EmployeeCategory { get; set; }
     }
     public class EmployeeAdvanceSearch
     {
-        
         public string SearchTerm { get; set; }
         public DataTablePaging DataTablePaging { get; set; }
+        public string Code { get; set; }
+        public Department Department { get; set; }
     }
 }

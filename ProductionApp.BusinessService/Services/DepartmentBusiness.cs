@@ -1,4 +1,5 @@
 ﻿using ProductionApp.BusinessService.Contracts;
+using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.RepositoryServices.Contracts;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,10 @@ namespace ProductionApp.BusinessService.Services
         {
             _commonBusiness = commonBusiness;
             _departmentRepository = departmentRepository;
+        }
+        public List<Department> GetDepartmentForSelectList()
+        {
+            return _departmentRepository.GetDepartmentForSelectList();
         }
     }
 }
