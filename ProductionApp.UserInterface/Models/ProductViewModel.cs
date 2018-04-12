@@ -22,8 +22,8 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Description is missing")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
-        [Required(ErrorMessage = "Unit Code is missing")]
-        [Display(Name = "Unit Code")]
+        [Required(ErrorMessage = "Unit is missing")]
+        [Display(Name = "Unit")]
         public string UnitCode { get; set; }
         [Display(Name = "Product Category")]
         [Required(ErrorMessage = "Category is missing")]
