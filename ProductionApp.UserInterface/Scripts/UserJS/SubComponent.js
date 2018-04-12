@@ -59,7 +59,7 @@ function BindOrReloadSubComponentTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [1, 2, 3, 4, 5, 6]
+                                 columns: [0,1, 2, 3, 4, 5]
                              }
             }],
             ordering: false,
@@ -79,19 +79,19 @@ function BindOrReloadSubComponentTable(action) {
             },
             pageLength: 10,
             columns: [
-            { "data": "ID", "defaultContent": "<i>-</i>" },
-            { "data": "Code", "defaultContent": "<i>-</i>" },
-            { "data": "Description", "defaultContent": "<i>-<i>" },
-            { "data": "OpeningQty", "defaultContent": "<i>-<i>" },
-            { "data": "CurrentQty", "defaultContent": "<i>-<i>" },
-            { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
-            { "data": "WeightInKG", "defaultContent": "<i>-<i>" },
+            //{ "data": "ID", "defaultContent": "<i>-</i>", "width": "10%" },
+            { "data": "Code", "defaultContent": "<i>-</i>", "width": "10%" },
+            { "data": "Description", "defaultContent": "<i>-<i>", "width": "10%" },
+            { "data": "Unit.Description", "defaultContent": "<i>-<i>", "width": "5%" },
+            { "data": "OpeningQty", "defaultContent": "<i>-<i>", "width": "10%" },
+            { "data": "CurrentQty", "defaultContent": "<i>-<i>", "width": "10%" },
+            { "data": "WeightInKG", "defaultContent": "<i>-<i>", "width": "10%" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteSubComponentMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditSubComponentMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
             ],
-            columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [3,4,6] },
-                { className: "text-left", "targets": [1, 2, 3, 5] },
-                { className: "text-center", "targets": [] }],
+            columnDefs: [{ "targets": [], "visible": false, "searchable": false },
+                { className: "text-right", "targets": [3,4,5] },
+                { className: "text-left", "targets": [0,1, 2] },
+                { className: "text-center", "targets": [6] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {
