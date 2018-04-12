@@ -84,11 +84,11 @@ function BindOrReloadCustomerTable(action) {
             },
             pageLength: 10,
             columns: [
-            { "data": "CompanyName", "defaultContent": "<i>-</i>" },
-            { "data": "ContactPerson", "defaultContent": "<i>-<i>" },
-            { "data": "Mobile", "defaultContent": "<i>-<i>" },
-            { "data": "TaxRegNo", "defaultContent": "<i>-<i>" },
-            { "data": "PANNo", "defaultContent": "<i>-<i>", "width": "7%" },
+            { "data": "CompanyName", "defaultContent": "<i>-</i>", "width": "10%" },
+            { "data": "ContactPerson", "defaultContent": "<i>-<i>", "width": "10%" },
+            { "data": "Mobile", "defaultContent": "<i>-<i>", "width": "10%" },
+            { "data": "TaxRegNo", "defaultContent": "<i>-<i>", "width": "10%" },
+            { "data": "PANNo", "defaultContent": "<i>-<i>", "width": "10%" },
              {
                  "data": "ID", "orderable": false, render: function (data, type, row) {
                      return '<a href="/Customer/NewCustomer?code=MSTR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
@@ -97,8 +97,8 @@ function BindOrReloadCustomerTable(action) {
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [] },
-                { className: "text-left", "targets": [0,1, 2, 3, 4, 5] },
-                { className: "text-center", "targets": [] }],
+                { className: "text-left", "targets": [0,1, 2, 3, 4] },
+                { className: "text-center", "targets": [5] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {

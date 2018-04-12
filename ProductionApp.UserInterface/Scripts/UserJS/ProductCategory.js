@@ -80,14 +80,14 @@ function BindOrReloadProductCategoryTable(action) {
             },
             pageLength: 10,
             columns: [
-            { "data": "Code", "defaultContent": "<i>-</i>" },
-            { "data": "Description", "defaultContent": "<i>-<i>"},
+            { "data": "Code", "defaultContent": "<i>-</i>", "width": "10%" },
+            { "data": "Description", "defaultContent": "<i>-<i>", "width": "10%" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteProductCategoryMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditProductCategoryMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [2] },
+                { className: "text-right", "targets": [] },
                 { className: "text-left", "targets": [0, 1] },
-                { className: "text-center", "targets": [] }],
+                { className: "text-center", "targets": [2] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {
