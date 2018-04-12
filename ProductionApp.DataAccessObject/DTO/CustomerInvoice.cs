@@ -89,6 +89,6 @@ namespace ProductionApp.DataAccessObject.DTO
         public DataTablePaging DataTablePaging { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
-
+        public Guid CustomerID { get; set; }
     }
 }

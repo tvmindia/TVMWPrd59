@@ -32,11 +32,29 @@ namespace ProductionApp.UserInterface.Controllers
             _paymentTermBusiness = paymentTermBusiness;
         }
         // GET: CustomerInvoice
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
         public ActionResult ViewCustomerInvoice(string code)
         {
             ViewBag.SysModuleCode = code;
-            return View();
+            CustomerInvoiceAdvanceSearchViewModel customerInvoiceAdvanceSearchVM = new CustomerInvoiceAdvanceSearchViewModel();
+
+            CustomerViewModel customerVM = new CustomerViewModel();
+            customerVM.SelectList = new List<SelectListItem>();
+            List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetCustomerForSelectList());
+            if (customerList != null)
+                foreach (CustomerViewModel customer in customerList)
+                {
+                    customerVM.SelectList.Add(new SelectListItem
+                    {
+                        Text = customer.CompanyName,
+                        Value = customer.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            customerInvoiceAdvanceSearchVM.Customer = customerVM;
+            return View(customerInvoiceAdvanceSearchVM);
         }
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
         public ActionResult NewCustomerInvoice(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
@@ -268,6 +286,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetCustomerInvoiceDetailLinkForEdit
 
         #region UpdateCustomerInvoiceDetail
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
         public string UpdateCustomerInvoiceDetail(CustomerInvoiceViewModel customerInvoiceVM)
         {
             try
@@ -291,9 +310,9 @@ namespace ProductionApp.UserInterface.Controllers
 
 
         #endregion UpdateCustomerInvoiceDetail
-
-
+        
         #region DeleteCustomerInvoice
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "D")]
         public string DeleteCustomerInvoice(string ID)
         {
             object result = null;
@@ -315,6 +334,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion DeleteCustomerInvoice
 
         #region DeleteCustomerInvoiceDetail
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "D")]
         public string DeleteCustomerInvoiceDetail(string ID)
         {
             object result = null;
@@ -352,12 +372,12 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset All";
-                    toolboxVM.resetbtn.Event = "ResetCustomerInvoiceList();";
+                    toolboxVM.resetbtn.Event = "BindOrReloadCustomerInvoiceTable('Reset');";
                     //----added for export button--------------
                     toolboxVM.PrintBtn.Visible = true;
                     toolboxVM.PrintBtn.Text = "Export";
                     toolboxVM.PrintBtn.Title = "Export";
-                    toolboxVM.PrintBtn.Event = "ImportCustomerInvoiceData();";
+                    toolboxVM.PrintBtn.Event = "BindOrReloadCustomerInvoiceTable('Export');";
                     //---------------------------------------
 
                     break;

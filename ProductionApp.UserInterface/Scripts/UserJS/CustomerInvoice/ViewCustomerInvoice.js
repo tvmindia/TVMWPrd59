@@ -6,40 +6,43 @@
 //FileName: ViewCustomerInvoice.js
 //Description: Client side coding for View Customer Invoice
 //******************************************************************************
+// ##1--Global Declaration
+// ##2--Document Ready function
+// ##3--Edit Click Redirection
+// ##4--Bind Customer Invoice Table List
+// 
 //******************************************************************************
 
-//--Global Declaration--//
-var _DataTables = {};
-var _EmptyGuid = "00000000-0000-0000-0000-000000000000";
+
+//##1--Global Declaration---------------------------------------------##1 
+var _dataTables = {};
+var _emptyGuid = "00000000-0000-0000-0000-000000000000";
 
 
-
+//##2--Document Ready function-----------------------------------------##2  
 $(document).ready(function () {
     debugger;
     try {
-
+        $("#CustomerID").select2({});
         BindOrReloadCustomerInvoiceTable('Init');
-       
         $('#tblCustomerInvoiceView tbody').on('dblclick', 'td', function () {
             Edit(this);
         });
-       
     }
     catch (e) {
         console.log(e.message);
     }
 });
 
-
+//##3--Edit Click Redirection-----------------------------------------##3  
 function Edit(curObj) {
     debugger;
-    var rowData = _DataTables.CustomerInvoiceTable.row($(curObj).parents('tr')).data();
+    var rowData = _dataTables.CustomerInvoiceTable.row($(curObj).parents('tr')).data();
     window.location.replace("NewCustomerInvoice?code=ACC&ID=" + rowData.ID);
 }
 
 
-
-//bind sales order list
+//##4--Bind Customer Invoice Table List-------------------------------------------##4
 function BindOrReloadCustomerInvoiceTable(action) {
     try {
         //creating advancesearch object
@@ -53,16 +56,14 @@ function BindOrReloadCustomerInvoiceTable(action) {
                 $('#SearchTerm').val('');
                 $('#FromDate').val('');
                 $('#ToDate').val('');
-                //$('#CustomerID').val('').select2();
-                //$('#EmployeeID').val('').select2();
+                $('#CustomerID').val('').select2();
                 break;
             case 'Init':
                 break;
             case 'Search': 
                 CustomerInvoiceAdvanceSearchViewModel.FromDate = $('#FromDate').val();
                 CustomerInvoiceAdvanceSearchViewModel.ToDate = $('#ToDate').val();
-              //  CustomerInvoiceAdvanceSearchViewModel.CustomerID = $('#CustomerID').val();
-              //  CustomerInvoiceAdvanceSearchViewModel.EmployeeID = $('#EmployeeID').val();
+                CustomerInvoiceAdvanceSearchViewModel.CustomerID = $('#CustomerID').val();
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
@@ -72,7 +73,7 @@ function BindOrReloadCustomerInvoiceTable(action) {
         }
         CustomerInvoiceAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
         CustomerInvoiceAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
-        _DataTables.CustomerInvoiceTable = $('#tblCustomerInvoiceView').DataTable(
+        _dataTables.CustomerInvoiceTable = $('#tblCustomerInvoiceView').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
                 buttons: [{
@@ -131,10 +132,4 @@ function BindOrReloadCustomerInvoiceTable(action) {
     catch (e) {
         console.log(e.message);
     }
-}
-
-
-function ResetCustomerInvoiceList()
-{
-
-}
+} 

@@ -34,7 +34,7 @@
                     <div class="input-group">
                         @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
                         <div class="input-group-btn">
-                            <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadTables('Search')"><i class="glyphicon glyphicon-search"></i></button>
+                            <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadCustomerInvoiceTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
                         </div>
                     </div>
                 </div>
@@ -69,8 +69,11 @@
             </div>
             <div class="col-md-5">
                 <div class="col-md-12">
+                    @Html.LabelFor(model => model.CustomerID, htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.CustomerID, Model.Customer.SelectList, "--Select Customer--", new { @class = "form-control BlockEnter", @style = "width:100%" })
+                    @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-md-5">
@@ -80,7 +83,7 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadTables('Search')">Apply</a>
+                <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadCustomerInvoiceTable('Search')">Apply</a>
             </div>
         </div>
     </div> 
