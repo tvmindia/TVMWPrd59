@@ -19,5 +19,14 @@ else
         $("#CustomerID").select2({
         });
         $('#CustomerID').val($('#hdnCustomerID').val()).select2();
+        try {
+            $("#CustomerID").change(function () {
+                if ($('#BillingAddress').val() != undefined)
+                    BindCustomerDetails(this.value);
+            });
+        }
+        catch (e) {
+            console.log(e.message);
+        }      
     });
 </script>

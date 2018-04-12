@@ -70,7 +70,7 @@ function BindOrReloadMaterialTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [ 1,2,3,4,5,6,7,8,9,10,11]
+                                 columns: [ 0,1,2,3,4,5,6,7,8,9,10]
                              }
             }],
             ordering: false,
@@ -90,39 +90,39 @@ function BindOrReloadMaterialTable(action) {
             },
             pageLength: 10,
             columns: [
-            { "data": "ID", "defaultContent": "<i>-</i>" },
-            { "data": "MaterialCode", "defaultContent": "<i>-</i>" },
-            { "data": "MaterialType.Description", "defaultContent": "<i>-<i>" },
-            { "data": "Description", "defaultContent": "<i>-<i>","width":"15%" },
-            { "data": "HSNNo", "defaultContent": "<i>-<i>" },
-            { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
+            //{ "data": "ID", "defaultContent": "<i>-</i>" },
+            { "data": "MaterialCode", "defaultContent": "<i>-</i>", "width": "5%" },
+            { "data": "MaterialType.Description", "defaultContent": "<i>-<i>", "width": "10%" },
+            { "data": "Description", "defaultContent": "<i>-<i>","width":"10%" },
+            { "data": "HSNNo", "defaultContent": "<i>-<i>", "width": "10%" },
+            { "data": "Unit.Description", "defaultContent": "<i>-<i>", "width": "5%" },
             {
                 "data": "Rate", render: function (data, type, row) {
                     if (data == 0)
                         return '-'
                     else
                         return roundoff(data, 1);
-                }, "defaultContent": "<i>-</i>"
+                }, "defaultContent": "<i>-</i>", "width": "10%"
             },
-            { "data": "ReorderQty", "defaultContent": "<i>-<i>" },
-            { "data": "OpeningStock", "defaultContent": "<i>-<i>" },
-            { "data": "CurrentStock", "defaultContent": "<i>-<i>" },
-            { "data": "WeightInKG", "defaultContent": "<i>-<i>" },
+            { "data": "ReorderQty", "defaultContent": "<i>-<i>", "width": "5%" },
+            { "data": "OpeningStock", "defaultContent": "<i>-<i>", "width": "10%" },
+            { "data": "CurrentStock", "defaultContent": "<i>-<i>", "width": "10%" },
+            { "data": "WeightInKG", "defaultContent": "<i>-<i>", "width": "10%" },
             {
                 "data": "CostPrice", render: function (data, type, row) {
                      if (data == 0)
                          return '-'
                      else
                          return roundoff(data, 1);
-                 }, "defaultContent": "<i>-</i>"
+                }, "defaultContent": "<i>-</i>", "width": "10%"
             },
             //{ "data": "CostPrice", "defaultContent": "<i>-<i>" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteMaterialMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
             ],
-            columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [6,7,8,9,10,11] },
-                { className: "text-left", "targets": [1,2, 3,4,5] },
-                { className: "text-center", "targets": [] }],
+            columnDefs: [{ "targets": [], "visible": false, "searchable": false },
+                { className: "text-right", "targets": [5,6,7,8,9,10] },
+                { className: "text-left", "targets": [0,1,2, 3,4] },
+                { className: "text-center", "targets": [11] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {
