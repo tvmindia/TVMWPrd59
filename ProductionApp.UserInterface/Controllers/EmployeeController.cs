@@ -15,30 +15,19 @@ namespace ProductionApp.UserInterface.Controllers
         // GET: Employee
         private IEmployeeBusiness _employeeBusiness;
         private IDepartmentBusiness _departmentBusiness;
-        public EmployeeController(IEmployeeBusiness employeeBusiness, IDepartmentBusiness departmentBusiness)
+        private IEmployeeCategoryBusiness _employeeCategoryBusiness;
+        public EmployeeController(IEmployeeBusiness employeeBusiness, IDepartmentBusiness departmentBusiness, IEmployeeCategoryBusiness employeeCategoryBusiness)
         {
             _employeeBusiness = employeeBusiness;
             _departmentBusiness = departmentBusiness;
+            _employeeCategoryBusiness = employeeCategoryBusiness;
         }
         public ActionResult Index(string code)
         {
             ViewBag.SysModuleCode = code;
             EmployeeAdvanceSearchViewModel employeeSearchVM = new EmployeeAdvanceSearchViewModel();
-            List<SelectListItem> selectListItem = new List<SelectListItem>();
             employeeSearchVM.Department = new DepartmentViewModel();
-            employeeSearchVM.Department.SelectList = new List<SelectListItem>();
-            List<DepartmentViewModel> departmentList= Mapper.Map<List<Department>, List<DepartmentViewModel>>(_departmentBusiness.GetDepartmentForSelectList());
-            if(departmentList != null)
-                foreach(DepartmentViewModel department in departmentList)
-                {
-                    selectListItem.Add(new SelectListItem
-                    { 
-                        Text=department.Name,
-                        Value=department.Code,
-                        Selected = false
-                    });
-                }
-            employeeSearchVM.Department.SelectList = selectListItem;
+            employeeSearchVM.Department.departmentSelectList = _departmentBusiness.GetDepartmentForSelectList();
             return View(employeeSearchVM);
         }
         public ActionResult EmployeeDropdown()

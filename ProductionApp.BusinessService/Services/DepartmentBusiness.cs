@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace ProductionApp.BusinessService.Services
 {
@@ -18,9 +19,21 @@ namespace ProductionApp.BusinessService.Services
             _commonBusiness = commonBusiness;
             _departmentRepository = departmentRepository;
         }
-        public List<Department> GetDepartmentForSelectList()
+        public List<SelectListItem> GetDepartmentForSelectList()
         {
-            return _departmentRepository.GetDepartmentForSelectList();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            List<Department> departmentList = _departmentRepository.GetDepartmentForSelectList();
+            if (departmentList != null)
+                foreach (Department department in departmentList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = department.Name,
+                        Value = department.Code,
+                        Selected = false
+                    });
+                }
+            return selectListItem;
         }
     }
 }
