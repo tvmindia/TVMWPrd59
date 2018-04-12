@@ -63,15 +63,41 @@ $(document).ready(function () {
             console.log(ex.message);
         }
 
-        //In case of Update
-        if ($('#IsUpdateBOM').val() === 'True' && $('#IDBillOfMaterial') !== EmptyGuid) {
-            BindBillOfMaterial();
-            ChangeButtonPatchView('BillOfMaterial', 'divButtonPatch', 'Edit');
+        //unobstrusive parse
+        try {
+            $.validator.unobtrusive.parse("#BillOfMaterialForm");
+        } catch (ex) {
+            console.log(ex.message);
         }
-        DescriptionOnChange();//On change for description property
 
-        $('#hdnMasterCall').val("OTR");//for dynamic add in #ProductID dropdown
-        $('.close').click(AddProduct);// on click on Add new Component Pop up for DataTable add
+        //In case of Update
+        try {
+            if ($('#IsUpdateBOM').val() === 'True' && $('#IDBillOfMaterial') !== EmptyGuid) {
+                BindBillOfMaterial();
+                ChangeButtonPatchView('BillOfMaterial', 'divButtonPatch', 'Edit');
+            }
+            DescriptionOnChange();//On change for description property
+
+            $('#hdnMasterCall').val("OTR");//for dynamic add in #ProductID dropdown
+            $('.close').click(AddProduct);// on click on Add new Component Pop up for DataTable add
+        } catch (ex) {
+            console.log(ex.message);
+        }
+
+        //ProductId on change
+        try {
+            $("#ProductID").change(function () {
+                debugger;
+                $('#Description').val('BOM for ' + "").trigger('keyup');
+            });
+            //$('#hdnProductID').change(function () {
+            //    debugger;
+            //    $('#Description').val('BOM for ' + "$(this).val()").trigger('keyup');
+            //});
+        } catch (ex) {
+            console.log(ex.message);
+        }
+
 
     }
     catch (ex) {
@@ -91,8 +117,13 @@ function DescriptionOnChange(currObj) {
 
 //-----------------------Product List Pop Up---------------------------//
 function LoadComponents() {
-    $('#ProductListModal').modal('show');
-    BindProductList();
+    //Bind ProductList Table
+    try {
+        $('#ProductListModal').modal('show');
+        BindProductList();
+    } catch (ex) {
+        console.log(ex.message);
+    }
 }
 
 //Bind Values into Product List DataTable for Pop Up
@@ -287,7 +318,7 @@ function SaveSuccess(data, status) {
     BillOfMaterialViewModel = JsonResult.Records;
     switch (result) {
         case "OK":
-            //$('#IsUpdateBOM').val('True');
+            $('#IsUpdateBOM').val('True');
             $('#IDBillOfMaterial').val(BillOfMaterialViewModel.ID)
             message = BillOfMaterialViewModel.Message;
             //notyAlert("success", message)
@@ -1377,6 +1408,7 @@ function ClearStageDetail() {
 //-------------------------Return to ProductionLine----------------------------//
 function GoBack() {
     try {
+        OnServerCallBegin();
         debugger;
         $('#step3').removeClass('active').addClass('disabled');
         $('#step2').removeClass('disabled').addClass('active');

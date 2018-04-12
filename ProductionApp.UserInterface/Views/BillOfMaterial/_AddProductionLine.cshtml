@@ -131,23 +131,41 @@
 
 <script>
             $(document).ready(function () {
-                $.validator.unobtrusive.parse("#BOMComponentLineForm");
+                try{
+                    $.validator.unobtrusive.parse("#BOMComponentLineForm");
+                    LoadLineStageTable();
+                }catch(ex){
+                    console.log(ex.message)
+                }
 
-                LoadLineStageTable();
+                try{
+                    $('#BOMComponentLine_ComponentID').change(function () {
+                        if ($(this).val() !== "" && $(this).val()!==(@Guid.Empty) )
+                        {
+                            ComponentIDOnChange();
+                            $('#BOMComponentLine_LineName').val("Line For " + $('#BOMComponentLine_ComponentID option:selected').text());
+                            $('#lblComponent').text(" Component Line for"+$('#BOMComponentLine_ComponentID option:selected').text());
+                        }
+                        else
+                            $('#BOMComponentLine_LineName').val("");
+                    }).trigger('change');
+                }catch(ex){
+                    console.log(ex.message)
+                }
+                
+                try{
+                    LoadPartialListAllStage();
+                }catch(ex){
+                    console.log(ex.message)
+                }
+                
+                try{
+                    $("#selectable").selectable();
+                    $("#selected").selectable();
+                    OnServerCallComplete();
+                }catch(ex){
+                    console.log(ex.message)
+                }
 
-                $('#BOMComponentLine_ComponentID').change(function () {
-                    if ($(this).val() !== "" && $(this).val()!==(@Guid.Empty) )
-                    {
-                        ComponentIDOnChange();
-                        $('#BOMComponentLine_LineName').val("Line For " + $('#BOMComponentLine_ComponentID option:selected').text());
-                        $('#lblComponent').text(" Component Line for"+$('#BOMComponentLine_ComponentID option:selected').text());
-                    }
-                    else
-                        $('#BOMComponentLine_LineName').val("");
-                }).trigger('change');
-
-                $("#selectable").selectable();
-                $("#selected").selectable();
-                LoadPartialListAllStage();
             });
 </script>
