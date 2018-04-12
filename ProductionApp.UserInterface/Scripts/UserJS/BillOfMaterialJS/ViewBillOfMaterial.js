@@ -109,6 +109,9 @@ function BindOrReloadBOMTable(action) {
             }
         });
         $(".buttons-excel").hide();
+        $('#tblBillOfMaterial tbody').on('dblclick', 'td', function () {
+            EditBillOfMaterialMaster(this);
+        });
     }
     catch (e) {
         console.log(e.message);

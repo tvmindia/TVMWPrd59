@@ -101,6 +101,7 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
+                componentIDs = (componentIDs != "" ? componentIDs : null);
                 List<ProductViewModel> productList = Mapper.Map<List<Product>, List<ProductViewModel>>(_productBusiness.GetProductListForBillOfMaterial(componentIDs));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = productList, Message ="Success" });
             }
