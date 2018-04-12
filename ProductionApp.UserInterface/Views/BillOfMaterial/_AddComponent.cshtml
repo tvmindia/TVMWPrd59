@@ -122,22 +122,8 @@
 </div>
 
 <script>
-    $(document).ready(function () {
+    $("#ProductID").change(function () {
         debugger;
-        try{
-            $.validator.unobtrusive.parse("#BillOfMaterialForm");
-        } catch (ex) {
-            console.log(ex.message);
-        }
-
-        try {
-            $('#hdnProductID').change(function () {
-                debugger;
-                $('#Description').val('BOM for ' + "$(this).val()").trigger('keyup');
-            });
-        } catch (ex) {
-            console.log(ex.message);
-        }
-        
+        $('#Description').val('BOM for ' + "").trigger('keyup');
     });
 </script>
