@@ -1204,3 +1204,7 @@ select{
     min-height:100% !important;
     min-width:100% !important;
 }
+
+.form-horizontal .form-group{
+    margin-left: -0.6%;
+}

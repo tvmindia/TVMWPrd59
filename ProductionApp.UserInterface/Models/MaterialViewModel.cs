@@ -23,6 +23,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Material Type")]
         public string MaterialTypeCode { get; set; }
         [Required(ErrorMessage = "Description is missing")]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         [Display(Name = "HSN No.")]
         public string HSNNo { get; set; }

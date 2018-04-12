@@ -69,7 +69,8 @@
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.TextAreaFor(model => model.Description, 4, 80, new { @class = "form-control HeaderBox textareafix" })
+                         @*@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })*@
                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -90,8 +91,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="form-group col-md-12">
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -107,7 +106,10 @@
                         @Html.HiddenFor(model => model.ProductCategoryCode, htmlAttributes: new { @class = "", @id = "hdnProductCategoryCode" })
                     </div>
                 </div>
-            </div>
+            </div> 
+        </div>
+        <div class="form-group col-md-12">
+         
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -116,13 +118,11 @@
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.ReorderQty, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.ReorderQty, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumber(event)" } })
                         @Html.ValidationMessageFor(model => model.ReorderQty, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="form-group col-md-12">
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -132,19 +132,23 @@
                 <div class="col-md-12">
                     <div class="col-md-12">
                         @{
-                        List<SelectListItem>
-                            dropdownList = new List<SelectListItem>
-                                ();
-                                dropdownList.Add(new SelectListItem
-                                { Text = "Product", Value = "PRO"});
-                                dropdownList.Add(new SelectListItem
-                                { Text = "Component", Value = "COM" });
-                                }
-                                @Html.DropDownListFor(model => model.Type, dropdownList, "---Select Type---",new { @class = "form-control BlockEnter", style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                            List<SelectListItem>
+                                dropdownList = new List<SelectListItem>
+                                    ();
+                            dropdownList.Add(new SelectListItem
+                            { Text = "Product", Value = "PRO" });
+                            dropdownList.Add(new SelectListItem
+                            { Text = "Component", Value = "COM" });
+                        }
+                        @Html.DropDownListFor(model => model.Type, dropdownList, "---Select Type---", new { @class = "form-control BlockEnter", style = "width:100%" })
+                        @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
+
+        </div>
+        <div class="form-group col-md-12">
+   
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -158,6 +162,19 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.SellingPricePerPiece, htmlAttributes: new { @class = "control-label " })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.SellingPricePerPiece, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency", @onkeypress = "return isNumber(event)" } })
+                        @Html.ValidationMessageFor(model => model.SellingPricePerPiece, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="form-group col-md-12">
             <div class="col-md-6">
@@ -168,7 +185,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.WeightInKG, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.WeightInKG, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumber(event)" } })
                         @Html.ValidationMessageFor(model => model.WeightInKG, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -181,7 +198,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency" } })
+                        @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency", @onkeypress = "return isNumber(event)" } })
                         @Html.ValidationMessageFor(model => model.CostPrice, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -201,6 +218,24 @@
                     </div>
                 </div>
             </div>*@
+        
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                    @*@Html.LabelFor(model => model.IsInvoiceInKG, htmlAttributes: new { @class = "control-label "})*@
+                </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.IsInvoiceInKG, new { htmlAttributes = new { @class = "" } })
+                        @Html.LabelFor(model => model.IsInvoiceInKG, htmlAttributes: new { @class = "control-label ", @style = "vertical-align: 2.5px;" })
+                        @Html.ValidationMessageFor(model => model.IsInvoiceInKG, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-12" style="margin-left: 10%;font-size: 11px;font-weight: 300;color: #984848;">
+                    <i>[Product will be invoiced based on weight]</i>
+                </div>
+            </div>
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -209,49 +244,18 @@
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.SellingPriceInKG, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency" } })
+                        @Html.EditorFor(model => model.SellingPriceInKG, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency", @onkeypress = "return isNumber(event)" } })
                         @Html.ValidationMessageFor(model => model.SellingPriceInKG, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="col-md-12">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.SellingPricePerPiece, htmlAttributes: new { @class = "control-label " })
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-12">
-                        @Html.EditorFor(model => model.SellingPricePerPiece, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency" } })
-                        @Html.ValidationMessageFor(model => model.SellingPricePerPiece, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-group col-md-12">
            
-            <div class="col-md-6">
-                <div class="col-md-12">
-                    @*<div class="col-md-12">
-                        @Html.LabelFor(model => model.IsInvoiceInKG, htmlAttributes: new { @class = "control-label "})
-                    </div>*@
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-12">
-                        @Html.EditorFor(model => model.IsInvoiceInKG, new { htmlAttributes = new { @class = "" } })
-                        @Html.LabelFor(model => model.IsInvoiceInKG, htmlAttributes: new { @class = "control-label " ,@style= "vertical-align: 2.5px;" })
-                        @Html.ValidationMessageFor(model => model.IsInvoiceInKG, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="col-md-12" style="margin-left: 10%;font-size: 11px;font-weight: 300;color: #984848;">
-                    <i>[Product will be invoiced based on weight]</i>
-                </div>
-                </div>
         </div>
+        
         <div class="form-group">
             <div class="col-md-12">
                 <div class="col-md-11" style="margin-bottom: 2%;">
-                    <button type="submit" id="btnSaveMaster" class="btn btn-info pull-right">Save Changes <i class="fa fa-spinner fa-spin" id="imgMasterLoading" style="display:none"></i></button>
+                    <button type="submit" id="btnSaveMaster" class="btn btn-info pull-right"style="margin-right:-9px;">Save Changes <i class="fa fa-spinner fa-spin" id="imgMasterLoading" style="display:none"></i></button>
                 </div>
             </div>
         </div>

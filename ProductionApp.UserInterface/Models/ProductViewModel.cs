@@ -20,6 +20,7 @@ namespace ProductionApp.UserInterface.Models
         public string Name { get; set; }
         [Display(Name = "Specification")]
         [Required(ErrorMessage = "Description is missing")]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         [Required(ErrorMessage = "Unit Code is missing")]
         [Display(Name = "Unit Code")]
@@ -49,7 +50,7 @@ namespace ProductionApp.UserInterface.Models
         public decimal? SellingPricePerPiece { get; set; }
         [Display(Name = "Is Invoice In KG")]
         public bool IsInvoiceInKG { get; set; }
-        [Required(ErrorMessage = "Please Select Type")]
+        [Required(ErrorMessage = "Type is missing")]
         public string Type { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }
