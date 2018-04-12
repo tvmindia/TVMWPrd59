@@ -15,7 +15,7 @@
             </div>
             <div class="col-md-12">
                 @Html.Action("ProductDropdown", "Product")
-                @Html.HiddenFor(model => model.ProductID, new { htmlAttributes = new { @id = "ProID", @value = Guid.Empty } })
+                @Html.HiddenFor(model => model.ProductID, htmlAttributes : new { @id= "hdnProductID", @value = Guid.Empty })
                 @Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -123,6 +123,21 @@
 
 <script>
     $(document).ready(function () {
-        $.validator.unobtrusive.parse("#BillOfMaterialForm");
+        debugger;
+        try{
+            $.validator.unobtrusive.parse("#BillOfMaterialForm");
+        } catch (ex) {
+            console.log(ex.message);
+        }
+
+        try {
+            $('#hdnProductID').change(function () {
+                debugger;
+                $('#Description').val('BOM for ' + "$(this).val()").trigger('keyup');
+            });
+        } catch (ex) {
+            console.log(ex.message);
+        }
+        
     });
 </script>
