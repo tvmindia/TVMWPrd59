@@ -18,9 +18,15 @@ namespace ProductionApp.UserInterface.Models
         public string ImageURL { get; set; }
         public string CompanyID { get; set; }
         public string GeneralNotes { get; set; }
-        public string Department { get; set; }
-        public string EmployeeCategory { get; set; }
+        public string DepartmentCode { get; set; }
+        public string EmployeeCategoryCode { get; set; }
         public bool IsActive { get; set; }
+        //additional fields 
+        public bool IsUpdate { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public DepartmentViewModel Department { get; set; }
+        public EmployeeCategoryViewModel EmployeeCategory { get; set; }
         public CommonViewModel Common { get; set; }
         public List<SelectListItem> SelectList { get; set; }
 
@@ -30,5 +36,8 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
+        [Display(Name = "Department")]
+        public string DepartmentCode { get; set; }
+        public DepartmentViewModel Department { get; set; }
     }
 }

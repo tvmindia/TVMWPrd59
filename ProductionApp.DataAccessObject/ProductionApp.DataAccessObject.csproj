@@ -85,6 +85,7 @@
     <Compile Include="DTO\DocumentApproval.cs" />
     <Compile Include="DTO\DocumentType.cs" />
     <Compile Include="DTO\Employee.cs" />
+    <Compile Include="DTO\EmployeeCategory.cs" />
     <Compile Include="DTO\FinishedGoodStockAdj.cs" />
     <Compile Include="DTO\Mail.cs" />
     <Compile Include="DTO\MaterialIssue.cs" />

@@ -53,6 +53,7 @@
     <Compile Include="Contracts\IDocumentApprovalRepository.cs" />
     <Compile Include="Contracts\IDocumentTypeRepository.cs" />
     <Compile Include="Contracts\IDynamicUIRepository.cs" />
+    <Compile Include="Contracts\IEmployeeCategoryRepository.cs" />
     <Compile Include="Contracts\IEmployeeRepository.cs" />
     <Compile Include="Contracts\IFileUploadRepository.cs" />
     <Compile Include="Contracts\IFinishedGoodStockAdjRepository.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Services\DocumentApprovalRepository.cs" />
     <Compile Include="Services\DocumentTypeRepository.cs" />
     <Compile Include="Services\DynamicUIRepository.cs" />
+    <Compile Include="Services\EmployeeCategoryRepository.cs" />
     <Compile Include="Services\EmployeeRepository.cs" />
     <Compile Include="Services\FileUploadRepository.cs" />
     <Compile Include="Services\FinishedGoodStockAdjRepository.cs" />

@@ -72,7 +72,7 @@ function BindOrReloadApproverTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [1, 2, 4, 5, 6]
+                                 columns: [0,1, 2,3, 4]
                              }
             }],
             order: false,
@@ -92,19 +92,19 @@ function BindOrReloadApproverTable(action) {
             },
             pageLength: 10,
             columns: [
-            { "data": "ID", "defaultContent": "<i>-</i>" },
-            { "data": "DocumentType.Description", "defaultContent": "<i>-</i>" },
-            { "data": "Level", "defaultContent": "<i>-</i>" },
-            { "data": "UserID", "defaultContent": "<i>-<i>" },
-            { "data": "User.LoginName", "defaultContent": "<i>-<i>" },
-            { "data": "IsDefault", "defaultContent": "<i>-<i>" },
-            { "data": "IsActive", "defaultContent": "<i>-<i>" },
+            //{ "data": "ID", "defaultContent": "<i>-</i>" },
+            { "data": "DocumentType.Description", "defaultContent": "<i>-</i>", "width": "10%" },
+            { "data": "Level", "defaultContent": "<i>-</i>", "width": "10%" },
+            //{ "data": "UserID", "defaultContent": "<i>-<i>", "width": "10%" },
+            { "data": "User.LoginName", "defaultContent": "<i>-<i>", "width": "10%" },
+            { "data": "IsDefault", "defaultContent": "<i>-<i>", "width": "10%" },
+            { "data": "IsActive", "defaultContent": "<i>-<i>", "width": "10%" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteApproverMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditApproverMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>',"width":"4%" }
             ],
-            columnDefs: [{ "targets": [0,3], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [ 7] },
-                { className: "text-left", "targets": [1, 2, 4, 5, 6] },
-                { className: "text-center", "targets": [] }],
+            columnDefs: [{ "targets": [], "visible": false, "searchable": false },
+                { className: "text-right", "targets": [ ] },
+                { className: "text-left", "targets": [0,1, 2,3, 4] },
+                { className: "text-center", "targets": [5] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {

@@ -57,6 +57,7 @@
     <Compile Include="Contracts\IDocumentTypeBusiness.cs" />
     <Compile Include="Contracts\IDynamicUIBusiness.cs" />
     <Compile Include="Contracts\IEmployeeBusiness.cs" />
+    <Compile Include="Contracts\IEmployeeCategoryBusiness.cs" />
     <Compile Include="Contracts\IFileUploadBusiness.cs" />
     <Compile Include="Contracts\IFinishedGoodStockAdjBusiness.cs" />
     <Compile Include="Contracts\IIssueToProductionBusiness.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Services\DocumentTypeBusiness.cs" />
     <Compile Include="Services\DynamicUIBusiness.cs" />
     <Compile Include="Services\EmployeeBusiness.cs" />
+    <Compile Include="Services\EmployeeCategoryBusiness.cs" />
     <Compile Include="Services\FileUploadBusiness.cs" />
     <Compile Include="Services\FinishedGoodStockAdjBusiness.cs" />
     <Compile Include="Services\IssueToProductionBusiness.cs" />

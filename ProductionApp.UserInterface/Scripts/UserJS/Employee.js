@@ -6,8 +6,10 @@
 //FileName: Employee.js
 //Description: Client side coding for Employee
 //******************************************************************************
+// ##1--Global Declaration
+// ##2--Document Ready function
 //******************************************************************************
 
-//--Global Declaration--//
-var DataTables = {};
-var EmptyGuid = "00000000-0000-0000-0000-000000000000";
+//##1--Global Declaration---------------------------------------------##1 
+var _dataTables = {};
+var _emptyGuid = "00000000-0000-0000-0000-000000000000";

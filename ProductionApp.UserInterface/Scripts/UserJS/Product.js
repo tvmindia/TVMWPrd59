@@ -106,7 +106,8 @@ function BindOrReloadProductTable(action) {
                          return data + '</br>(<b>Product</b>)'
                      }
                  }
-        }},
+                }, "width": "10%"
+            },
             { "data": "Description", "defaultContent": "<i>-<i>", "width": "10%" },
             { "data": "Unit.Description", "defaultContent": "<i>-<i>", "width": "5%" },
             { "data": "ProductCategory.Description", "defaultContent": "<i>-<i>", "width": "5%" },
@@ -146,9 +147,9 @@ function BindOrReloadProductTable(action) {
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteProductMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [5,6,8,9,10,11,12] },
+                { className: "text-right", "targets": [5,6,8,9,10,11] },
                 { className: "text-left", "targets": [0,1,2, 3, 4,7] },
-                { className: "text-center", "targets": [] }],
+                { className: "text-center", "targets": [12] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {
