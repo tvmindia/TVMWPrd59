@@ -93,7 +93,7 @@ $(document).ready(function () {
             { "data": "TaxableAmount", "defaultContent": "<i>-</i>", "width": "9%" },
             { "data": "TaxTypeDescription", "defaultContent": "<i>-</i>", "width": "9%" },
             { "data": "Total", "defaultContent": "<i>-</i>", "width": "9%" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ItemDetailsEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="DeleteDetail(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "7%" }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ItemDetailsEdit(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>     <a href="#" class="DeleteLink"  onclick="DeleteDetail(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "7%" }
 
           ],
           columnDefs: [{ "targets": [0], "visible": false, searchable: false },
@@ -297,7 +297,9 @@ $(document).ready(function () {
 function BindCustomerDetails(customerId) {
     if (customerId != "") {
         var customerVM = GetCustomerDetails(customerId)
-        $('#BillingAddress').val(customerVM.BillingAddress);
+        $('#BillingAddress').val(customerVM.BillingAddress)
+        $('#PaymentTermCode').val(customerVM.PaymentTermCode)
+        GetDueDate( $('#PaymentTermCode').val());
     }
     else   {
         $('#BillingAddress').val('');

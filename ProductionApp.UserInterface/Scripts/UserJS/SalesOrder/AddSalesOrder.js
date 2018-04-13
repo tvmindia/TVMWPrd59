@@ -25,7 +25,8 @@ $(document).ready(function () {
         $("#divCustomerDropdown").load('/Customer/CustomerDropdown')
         $("#divEmployeeDropdown").load('/Employee/EmployeeDropdown')
         // $("#divProductDropdown").load('/Product/ProductDropdown')
-      
+        $("#ReferenceCustomer").select2({});
+
         $('#btnUpload').click(function () {
             debugger;
             //Pass the controller name
@@ -442,6 +443,7 @@ function BindSalesOrderByID()
     $('#ExpectedDeliveryDateFormatted').val(salesOrderVM.ExpectedDeliveryDateFormatted);
     $('#hdnEmployeeID').val(salesOrderVM.SalesPerson);
     $('#hdnCustomerID').val(salesOrderVM.CustomerID);
+    $('#ReferenceCustomer').val(salesOrderVM.ReferenceCustomer).select2();
     $('#Remarks').val(salesOrderVM.Remarks);
     $('#BillingAddress').val(salesOrderVM.BillingAddress);
     $('#ShippingAddress').val(salesOrderVM.ShippingAddress);

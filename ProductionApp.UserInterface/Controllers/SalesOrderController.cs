@@ -44,7 +44,23 @@ namespace ProductionApp.UserInterface.Controllers
             salesOrderVM.SalesOrderDetail = new SalesOrderDetailViewModel();
             salesOrderVM.SalesOrderDetail.Product = new ProductViewModel();
             salesOrderVM.SalesOrderDetail.Product.ProductSelectList=_productBusiness.GetProductForSelectList();
-            
+            salesOrderVM.Customer = new CustomerViewModel();
+
+            CustomerViewModel customerVM = new CustomerViewModel();
+            customerVM.SelectList = new List<SelectListItem>();
+            List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetCustomerForSelectList());
+            if (customerList != null)
+                foreach (CustomerViewModel customer in customerList)
+                {
+                    customerVM.SelectList.Add(new SelectListItem
+                    {
+                        Text = customer.CompanyName,
+                        Value = customer.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            salesOrderVM.Customer = customerVM;
+
             return View(salesOrderVM);
         }
 

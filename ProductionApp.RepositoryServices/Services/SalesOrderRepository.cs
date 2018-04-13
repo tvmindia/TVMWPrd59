@@ -180,6 +180,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@FileDupID", SqlDbType.UniqueIdentifier).Value = salesOrder.hdnFileID;
                         cmd.Parameters.Add("@OrderDate", SqlDbType.DateTime).Value = salesOrder.OrderDateFormatted;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = salesOrder.CustomerID;
+                        cmd.Parameters.Add("@ReferenceCustomer", SqlDbType.UniqueIdentifier).Value = salesOrder.ReferenceCustomer;
                         cmd.Parameters.Add("@SalesPerson", SqlDbType.UniqueIdentifier).Value = salesOrder.SalesPerson;
 
                         cmd.Parameters.Add("@BillingAddress", SqlDbType.VarChar, -1).Value = salesOrder.BillingAddress;
@@ -395,6 +396,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     salesOrder.ExpectedDeliveryDateFormatted = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()).ToString(settings.DateFormat) : salesOrder.ExpectedDeliveryDateFormatted);
                                     salesOrder.SalesPerson = (sdr["SalesPerson"].ToString() != "" ? Guid.Parse(sdr["SalesPerson"].ToString()) : salesOrder.SalesPerson);
                                     salesOrder.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : salesOrder.CustomerID);
+                                    salesOrder.ReferenceCustomer = (sdr["ReferenceCustomer"].ToString() != "" ? Guid.Parse(sdr["ReferenceCustomer"].ToString()) : salesOrder.ReferenceCustomer);
                                     salesOrder.Remarks = (sdr["Remarks"].ToString() != "" ? sdr["Remarks"].ToString() : salesOrder.Remarks);
                                     salesOrder.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : salesOrder.BillingAddress);
                                     salesOrder.ShippingAddress = (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : salesOrder.ShippingAddress);

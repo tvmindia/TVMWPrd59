@@ -47,6 +47,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Expected Delivery Date")]
         [Required(ErrorMessage = "Expected Delivery Date required")]
         public string ExpectedDeliveryDateFormatted { get; set; }
+        public CustomerViewModel Customer { get; set; }
         public CommonViewModel Common { get; set; }
         public List<SalesOrderDetailViewModel> SalesOrderDetailList { get; set; }
         public SalesOrderDetailViewModel SalesOrderDetail { get; set; }
