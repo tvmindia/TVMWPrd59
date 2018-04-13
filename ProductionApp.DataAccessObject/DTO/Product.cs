@@ -22,7 +22,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string HSNNo { get; set; }
         public decimal? WeightInKG { get; set; }
         public decimal? CostPrice { get; set; }
-        //public decimal SellingPrice { get; set; }
+        public decimal? CostPricePerPiece { get; set; }
         public decimal? SellingPriceInKG { get; set; }
         public decimal? SellingPricePerPiece { get; set; }
         public bool IsInvoiceInKG { get; set; }

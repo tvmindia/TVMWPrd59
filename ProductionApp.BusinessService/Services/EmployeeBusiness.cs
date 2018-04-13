@@ -20,5 +20,25 @@ namespace ProductionApp.BusinessService.Services
         {
             return _employeeRepository.GetEmployeeForSelectList();
         }
+        public List<Employee> GetAllEmployee(EmployeeAdvanceSearch employeeAdvanceSearch)
+        {
+            return _employeeRepository.GetAllEmployee(employeeAdvanceSearch);
+        }
+        public object InsertUpdateEmployee(Employee employee)
+        {
+            return _employeeRepository.InsertUpdateEmployee(employee);
+        }
+        public Employee GetEmployee(Guid id)
+        {
+            return _employeeRepository.GetEmployee(id);
+        }
+        public object DeleteEmployee(Guid id)
+        {
+            return _employeeRepository.DeleteEmployee(id);
+        }
+        public bool CheckEmployeeCodeExist(Employee employee)
+        {
+            return _employeeRepository.CheckEmployeeCodeExist(employee);
+        }
     }
 }

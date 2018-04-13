@@ -131,7 +131,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         product.HSNNo = (sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : product.HSNNo);
                                         product.WeightInKG = (sdr["WeightInKG"].ToString() != "" ? decimal.Parse(sdr["WeightInKG"].ToString()) : product.WeightInKG);
                                         product.CostPrice = (sdr["CostPrice"].ToString() != "" ? decimal.Parse(sdr["CostPrice"].ToString()) : product.CostPrice);
-                                        //product.SellingPrice = (sdr["SellingPrice"].ToString() != "" ? decimal.Parse(sdr["SellingPrice"].ToString()) : product.SellingPrice);
+                                        product.CostPricePerPiece = (sdr["CostPricePerPiece"].ToString() != "" ? decimal.Parse(sdr["CostPricePerPiece"].ToString()) : product.CostPricePerPiece);
                                         product.SellingPriceInKG = (sdr["SellingPriceInKG"].ToString() != "" ? decimal.Parse(sdr["SellingPriceInKG"].ToString()) : product.SellingPriceInKG);
                                         product.SellingPricePerPiece = (sdr["SellingPricePerPiece"].ToString() != "" ? decimal.Parse(sdr["SellingPricePerPiece"].ToString()) : product.SellingPricePerPiece);
                                         product.IsInvoiceInKG= (sdr["IsInvoiceInKG"].ToString() != "" ? bool.Parse(sdr["IsInvoiceInKG"].ToString()) : product.IsInvoiceInKG);
@@ -189,7 +189,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@HSNNo", SqlDbType.NVarChar,30).Value = product.HSNNo;
                         cmd.Parameters.Add("@WeightInKG", SqlDbType.Decimal).Value = product.WeightInKG;
                         cmd.Parameters.Add("@CostPrice", SqlDbType.Decimal).Value = product.CostPrice;
-                        //cmd.Parameters.Add("@SellingPrice", SqlDbType.Decimal).Value = product.SellingPrice;
+                        cmd.Parameters.Add("@CostPricePerPiece", SqlDbType.Decimal).Value = product.CostPricePerPiece;
                         cmd.Parameters.Add("@SellingPriceInKG", SqlDbType.Decimal).Value = product.SellingPriceInKG;
                         cmd.Parameters.Add("@SellingPricePerPiece", SqlDbType.Decimal).Value = product.SellingPricePerPiece;
                         cmd.Parameters.Add("@IsInvoiceInKG", SqlDbType.Bit).Value = product.IsInvoiceInKG;
@@ -313,7 +313,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     product.CurrentStock = sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : product.CurrentStock;
                                     product.WeightInKG = sdr["WeightInKG"].ToString() != "" ? decimal.Parse(sdr["WeightInKG"].ToString()) : product.WeightInKG;
                                     product.CostPrice = sdr["CostPrice"].ToString() != "" ? decimal.Parse(sdr["CostPrice"].ToString()) : product.CostPrice;
-                                    //product.SellingPrice = sdr["SellingPrice"].ToString() != "" ? decimal.Parse(sdr["SellingPrice"].ToString()) : product.SellingPrice;
+                                    product.CostPricePerPiece = sdr["CostPricePerPiece"].ToString() != "" ? decimal.Parse(sdr["CostPricePerPiece"].ToString()) : product.CostPricePerPiece;
                                     product.SellingPriceInKG = sdr["SellingPriceInKG"].ToString() != "" ? decimal.Parse(sdr["SellingPriceInKG"].ToString()) : product.SellingPriceInKG;
                                     product.SellingPricePerPiece = sdr["SellingPricePerPiece"].ToString() != "" ? decimal.Parse(sdr["SellingPricePerPiece"].ToString()) : product.SellingPricePerPiece;
                                     product.IsInvoiceInKG = sdr["IsInvoiceInKG"].ToString() != "" ? bool.Parse(sdr["IsInvoiceInKG"].ToString()) : product.IsInvoiceInKG;
