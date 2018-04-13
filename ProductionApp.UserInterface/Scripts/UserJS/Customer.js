@@ -97,7 +97,7 @@ function BindOrReloadCustomerTable(action) {
             { "data": "BillingAddress", "defaultContent": "<i>-<i>" },
             { "data": "ShippingAddress", "defaultContent": "<i>-<i>" },
             { "data": "PANNo", "defaultContent": "<i>-<i>" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteCustomerMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditCustomerMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteCustomerMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditCustomerMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": "4%" }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [] },
