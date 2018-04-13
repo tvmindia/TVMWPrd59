@@ -1,11 +1,6 @@
 ﻿@using ProductionApp.UserInterface.App_Start
 @model ProductionApp.UserInterface.Models.BillOfMaterialViewModel
 
-@section styles {
-    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/UserCSS/BillOfMaterial")
-    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/jquery-ui")
-}
-
 @using (Ajax.BeginForm("InsertUpdateBOMComponentLine", "BillOfMaterial", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveLineSuccess", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "OnServerCallBegin", OnComplete = "OnServerCallComplete" }, new { @class = "form-horizontal", role = "form", @id = "BOMComponentLineForm" }))
 {
     @Html.HiddenFor(model => model.BOMComponentLine.ID)

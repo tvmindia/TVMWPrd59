@@ -84,6 +84,11 @@ function Save() {
     $('#btnSave').trigger('click');
 }
 
+//--Function To Reset --//
+function Reset() {
+    BindSupplier();
+}
+
 //--Function on Save Success--//
 function SaveSuccessSupplier(data, status) {
     try {

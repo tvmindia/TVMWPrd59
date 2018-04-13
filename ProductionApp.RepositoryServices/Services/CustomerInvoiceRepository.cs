@@ -315,16 +315,16 @@ namespace ProductionApp.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetAllCustomerInvocie]";
-                        //cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(customerInvoiceAdvanceSearch.SearchTerm) ? "" : customerInvoiceAdvanceSearch.SearchTerm;
-                        //cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = customerInvoiceAdvanceSearch.DataTablePaging.Start;
-                        //if (customerInvoiceAdvanceSearch.DataTablePaging.Length == -1)
-                        //    cmd.Parameters.AddWithValue("@Length", DBNull.Value);
-                        //else
-                        //    cmd.Parameters.Add("@Length", SqlDbType.Int).Value = customerInvoiceAdvanceSearch.DataTablePaging.Length;
-                        //cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = customerInvoiceAdvanceSearch.FromDate;
-                        //cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = customerInvoiceAdvanceSearch.ToDate;
-                        //if (customerInvoiceAdvanceSearch.CustomerID != Guid.Empty)
-                        //    cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = salesOrderAdvanceSearch.CustomerID;
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(customerInvoiceAdvanceSearch.SearchTerm) ? "" : customerInvoiceAdvanceSearch.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = customerInvoiceAdvanceSearch.DataTablePaging.Start;
+                        if (customerInvoiceAdvanceSearch.DataTablePaging.Length == -1)
+                            cmd.Parameters.AddWithValue("@Length", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@Length", SqlDbType.Int).Value = customerInvoiceAdvanceSearch.DataTablePaging.Length;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = customerInvoiceAdvanceSearch.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = customerInvoiceAdvanceSearch.ToDate;
+                        if (customerInvoiceAdvanceSearch.CustomerID != Guid.Empty)
+                            cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = customerInvoiceAdvanceSearch.CustomerID;
                         //if (customerInvoiceAdvanceSearch.EmployeeID != Guid.Empty)
                         //    cmd.Parameters.Add("@EmployeeID", SqlDbType.UniqueIdentifier).Value = salesOrderAdvanceSearch.EmployeeID;
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -344,8 +344,8 @@ namespace ProductionApp.RepositoryServices.Services
                                         customerInvoice.Customer = new Customer();
                                         customerInvoice.Customer.CompanyName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : customerInvoice.Customer.CompanyName);
                                         customerInvoice.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : customerInvoice.InvoiceAmount);
-                                      //  customerInvoice.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : customerInvoice.TotalCount);
-                                      //  customerInvoice.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : customerInvoice.FilteredCount);
+                                        customerInvoice.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : customerInvoice.TotalCount);
+                                        customerInvoice.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : customerInvoice.FilteredCount);
                                     }
                                     CustomerInvoiceList.Add(customerInvoice);
                                 }
