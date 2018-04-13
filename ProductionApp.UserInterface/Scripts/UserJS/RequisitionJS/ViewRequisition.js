@@ -91,7 +91,7 @@ function BindOrReloadRequisitionTable(action) {
                     { "data": "ApprovalStatus", "defaultContent": "<i>-</i>" },
                      {
                          "data": "ID", "orderable": false, render: function (data, type, row) {
-                             return '<a href="/Requisition/NewRequisition?code=PURCH&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                             return '<a href="/Requisition/NewRequisition?code=PURCH&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-edit" aria-hidden="true"></i></a>'
                          }, "defaultContent": "<i>-</i>","width":"3%"
                      }
                 ],
