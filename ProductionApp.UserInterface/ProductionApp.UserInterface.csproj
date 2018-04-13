@@ -982,6 +982,7 @@
     <Content Include="Views\ProductCategory\Index.cshtml" />
     <Content Include="Views\ProductCategory\_AddProductCategoryPartial.cshtml" />
     <Content Include="Views\ProductionTracking\ViewProductionTracking.cshtml" />
+    <Content Include="Views\Employee\_AddEmployeePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
