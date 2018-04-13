@@ -42,9 +42,9 @@ namespace ProductionApp.UserInterface.Models
         public decimal? WeightInKG { get; set; }
         [Display(Name = "Cost Price")]
         public decimal? CostPrice { get; set; }
-        //[Display(Name = "Selling Price")]
-        //public decimal? SellingPrice { get; set; }
-        [Display(Name = "Selling Price In KG")]
+        [Display(Name = "Cost Price Per Piece")]
+        public decimal? CostPricePerPiece { get; set; }
+        [Display(Name = "Selling Price Per KG")]
         public decimal? SellingPriceInKG { get; set; }
         [Display(Name = "Selling Price Per Piece")]
         public decimal? SellingPricePerPiece { get; set; }
