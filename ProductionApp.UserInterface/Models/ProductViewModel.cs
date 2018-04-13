@@ -20,9 +20,10 @@ namespace ProductionApp.UserInterface.Models
         public string Name { get; set; }
         [Display(Name = "Specification")]
         [Required(ErrorMessage = "Description is missing")]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
-        [Required(ErrorMessage = "Unit Code is missing")]
-        [Display(Name = "Unit Code")]
+        [Required(ErrorMessage = "Unit is missing")]
+        [Display(Name = "Unit")]
         public string UnitCode { get; set; }
         [Display(Name = "Product Category")]
         [Required(ErrorMessage = "Category is missing")]
@@ -41,15 +42,15 @@ namespace ProductionApp.UserInterface.Models
         public decimal? WeightInKG { get; set; }
         [Display(Name = "Cost Price")]
         public decimal? CostPrice { get; set; }
-        //[Display(Name = "Selling Price")]
-        //public decimal? SellingPrice { get; set; }
-        [Display(Name = "Selling Price In KG")]
+        [Display(Name = "Cost Price Per Piece")]
+        public decimal? CostPricePerPiece { get; set; }
+        [Display(Name = "Selling Price Per KG")]
         public decimal? SellingPriceInKG { get; set; }
         [Display(Name = "Selling Price Per Piece")]
         public decimal? SellingPricePerPiece { get; set; }
         [Display(Name = "Is Invoice In KG")]
         public bool IsInvoiceInKG { get; set; }
-        [Required(ErrorMessage = "Please Select Type")]
+        [Required(ErrorMessage = "Type is missing")]
         public string Type { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }

@@ -10,6 +10,10 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface IEmployeeRepository
     {
         List<Employee> GetEmployeeForSelectList();
-
+        List<Employee> GetAllEmployee(EmployeeAdvanceSearch employeeAdvanceSearch);
+        object InsertUpdateEmployee(Employee employee);
+        Employee GetEmployee(Guid id);
+        object DeleteEmployee(Guid id);
+        bool CheckEmployeeCodeExist(Employee employee);
     }
 }

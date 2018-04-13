@@ -1198,9 +1198,13 @@ select{
     z-index:initial!important;
 }
 
-.textareafix{
+textarea{
     /*max-height:100% !important;*/
     max-width:100% !important;
-    min-height:100% !important;
+    /*min-height:100% !important;*/
     min-width:100% !important;
+}
+
+.form-horizontal .form-group{
+    margin-left: -0.6%;
 }

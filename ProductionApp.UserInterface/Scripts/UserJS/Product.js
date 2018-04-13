@@ -65,7 +65,7 @@ function BindOrReloadProductTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [0,1, 2, 3, 4, 5,6,7,8,9,10,11]
+                                 columns: [0,1, 2, 3, 4, 5,6,7,8,9,10,11,12]
                              }
             }],
             ordering: false,
@@ -122,12 +122,12 @@ function BindOrReloadProductTable(action) {
                 else
                     return roundoff(data, 1);
             }, "defaultContent": "<i>-<i>", "width": "5%" },
-            //{ "data": "SellingPrice" , render: function (data, type, row) {
-            //    if (data == 0)
-            //        return '-'
-            //    else
-            //        return roundoff(data, 1);
-            //}, "defaultContent": "<i>-<i>", "width": "5%" },
+            { "data": "CostPricePerPiece" , render: function (data, type, row) {
+                if (data == 0)
+                    return '-'
+                else
+                    return roundoff(data, 1);
+            }, "defaultContent": "<i>-<i>", "width": "5%" },
             {
                 "data": "SellingPriceInKG", render: function (data, type, row) {
                     if (data == 0)
@@ -144,12 +144,12 @@ function BindOrReloadProductTable(action) {
                         return roundoff(data, 1);
                 }, "defaultContent": "<i>-<i>", "width": "5%"
             },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteProductMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "4%" }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteProductMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": "4%" }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [5,6,8,9,10,11] },
+                { className: "text-right", "targets": [5,6,8,9,10,11,12] },
                 { className: "text-left", "targets": [0,1,2, 3, 4,7] },
-                { className: "text-center", "targets": [12] }],
+                { className: "text-center", "targets": [13] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {

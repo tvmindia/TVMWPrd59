@@ -12,7 +12,8 @@
     }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i> Masters</a></li>
+        <li><a href="@Url.Action("UnderConstruction", "DynamicUI", new { Code = "MSTR" })"><i class="fa fa-cogs"></i> Masters</a></li>
+        @*<li><a href="#"><i class="fa fa-cogs"></i> Masters</a></li>*@
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -105,7 +106,7 @@
                             <th>Opening Stock</th>
                             <th>Current Stock</th>
                             <th>Weight In KG</th>
-                            <th>Cost Price</th>
+                            @*<th>Cost Price</th>*@
                             <th>...</th>
                         </tr>
                     </thead>
