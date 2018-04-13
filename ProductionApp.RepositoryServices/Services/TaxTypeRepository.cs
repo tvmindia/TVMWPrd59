@@ -45,6 +45,9 @@ namespace ProductionApp.RepositoryServices.Services
                                     {
                                         taxType.Code = (sdr["Code"].ToString() != "" ? sdr["Code"].ToString() : taxType.Code);
                                         taxType.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : taxType.Description);
+                                        taxType.IGSTPercentage = (sdr["IGSTPercentage"].ToString() != "" ? decimal.Parse(sdr["IGSTPercentage"].ToString()) : taxType.IGSTPercentage);
+                                        taxType.SGSTPercentage = (sdr["SGSTPercentage"].ToString() != "" ? decimal.Parse(sdr["SGSTPercentage"].ToString()) : taxType.SGSTPercentage);
+                                        taxType.CGSTPercentage = (sdr["CGSTPercentage"].ToString() != "" ? decimal.Parse(sdr["CGSTPercentage"].ToString()) : taxType.CGSTPercentage);
                                     }
                                     taxTypeList.Add(taxType);
                                 }

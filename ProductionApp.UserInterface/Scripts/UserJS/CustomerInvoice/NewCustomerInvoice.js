@@ -61,8 +61,7 @@ $(document).ready(function () {
             UploadFile(FileObject);
         });
 
-        _DataTables.CustomerInvoiceDetailTable = $('#tblCustomerInvoiceDetail').DataTable(
-      {
+        _DataTables.CustomerInvoiceDetailTable = $('#tblCustomerInvoiceDetail').DataTable({
           dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
           ordering: false,
           searching: false,
@@ -103,7 +102,6 @@ $(document).ready(function () {
               { className: "text-left", "targets": [4, 6] }
           ]
       }); 
-     
         _DataTables.PackingSlipListTable = $('#tblPackingSlipList').DataTable({
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
             ordering: false,
@@ -162,13 +160,15 @@ $(document).ready(function () {
                     {
                         "data": "Quantity", "defaultContent": "<i>-</i>", "width": "11%",
                         'render': function (data, type, row) {
-                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,1);"style="width:100%">';
+                          //  return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,1);"style="width:100%">';
+                            return data;
                         }
                     },
                     {
                         "data": "Weight", "defaultContent": "<i>-</i>", "width": "11%",
                         'render': function (data, type, row) {
-                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,2);"style="width:100%">';
+                          //  return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,2);"style="width:100%">';
+                            return data;
                         }
                     },
                     {
@@ -206,9 +206,7 @@ $(document).ready(function () {
             select: { style: 'multi', selector: 'td:first-child' },
             destroy: true
         });
-
-        _DataTables.EditPackingSlipListDetailTable = $('#tblPackingSlipListDetailEdit').DataTable(
-  {
+        _DataTables.EditPackingSlipListDetailTable = $('#tblPackingSlipListDetailEdit').DataTable( {
       dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
       ordering: false,
       searching: false,
@@ -230,12 +228,14 @@ $(document).ready(function () {
                   { "data": "SlipNo", "defaultContent": "<i></i>", "width": "10%" },
                   { "data": "Quantity", "defaultContent": "<i>-</i>", "width": "11%",
                       'render': function (data, type, row) {
-                          return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EditLinkTableTextBoxValue(this,1);"style="width:100%">';
+                        //  return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EditLinkTableTextBoxValue(this,1);"style="width:100%">';
+                          return data;
                       }
                   },
                   { "data": "Weight", "defaultContent": "<i>-</i>", "width": "11%",
                       'render': function (data, type, row) {
-                          return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EditLinkTableTextBoxValue(this,2);"style="width:100%">';
+                        //  return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EditLinkTableTextBoxValue(this,2);"style="width:100%">';
+                          return data;
                       }
                   },
                   { "data": "Rate", "defaultContent": "<i>-</i>", "width": "11%",
@@ -269,6 +269,7 @@ $(document).ready(function () {
   });
 
 //------------------------------------------------------------------------------------------------//
+
         //$("#PackingSlipID").change(function () {
         //    BindPackingSlipDetails(this.value);
         //});
@@ -507,7 +508,17 @@ function EdittextBoxValue(thisObj, textBoxCode)
             if (textBoxCode == 4)
                 customerInvoiceDetailVM[i].TradeDiscountAmount = thisObj.value;
             if (textBoxCode == 5)
+                var taxTypeVM = GetTaxtypeDropdown();
                 customerInvoiceDetailVM[i].TaxTypeCode = thisObj.value;
+                for (j = 0; j < taxTypeVM.length; j++)
+                {
+                    if (taxTypeVM[j].Code == thisObj.value)
+                    {
+                        customerInvoiceDetailVM[i].IGSTPerc = taxTypeVM[j].IGSTPercentage;
+                        customerInvoiceDetailVM[i].SGSTPerc = taxTypeVM[j].SGSTPercentage;
+                        customerInvoiceDetailVM[i].CGSTPerc = taxTypeVM[j].CGSTPercentage;
+                    }
+                }
         }
     }
     _DataTables.PackingSlipListDetailTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
@@ -763,7 +774,16 @@ function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
             if (textBoxCode == 4)
                 customerInvoiceDetailVM[i].TradeDiscountAmount = thisObj.value;
             if (textBoxCode == 5)
+                debugger;
+                var taxTypeVM = GetTaxtypeDropdown();
                 customerInvoiceDetailVM[i].TaxTypeCode = thisObj.value;
+                for (j = 0; j < taxTypeVM.length; j++) {
+                    if (taxTypeVM[j].Code == thisObj.value) {
+                        customerInvoiceDetailVM[i].IGSTPerc = taxTypeVM[j].IGSTPercentage;
+                        customerInvoiceDetailVM[i].SGSTPerc = taxTypeVM[j].SGSTPercentage;
+                        customerInvoiceDetailVM[i].CGSTPerc = taxTypeVM[j].CGSTPercentage;
+                    }
+                }
         }
     }
     _DataTables.EditPackingSlipListDetailTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
@@ -808,6 +828,9 @@ function UpdateCustomerInvoiceDetailLinkVM(CustomerInvoiceDetailLinkVM) {
         CustomerInvoiceDetail.Quantity = CustomerInvoiceDetailLinkVM[r].Quantity;
         CustomerInvoiceDetail.Weight = CustomerInvoiceDetailLinkVM[r].Weight;
         CustomerInvoiceDetail.Rate = CustomerInvoiceDetailLinkVM[r].Rate;
+        CustomerInvoiceDetail.IGSTPerc = CustomerInvoiceDetailLinkVM[r].IGSTPerc;
+        CustomerInvoiceDetail.SGSTPerc = CustomerInvoiceDetailLinkVM[r].SGSTPerc;
+        CustomerInvoiceDetail.CGSTPerc = CustomerInvoiceDetailLinkVM[r].CGSTPerc;
         CustomerInvoiceDetail.TaxTypeCode = CustomerInvoiceDetailLinkVM[r].TaxTypeCode == "" ? null : CustomerInvoiceDetailLinkVM[r].TaxTypeCode;
         CustomerInvoiceDetail.TradeDiscountPerc = CustomerInvoiceDetailLinkVM[r].TradeDiscountPerc;
         CustomerInvoiceDetail.TradeDiscountAmount = CustomerInvoiceDetailLinkVM[r].TradeDiscountAmount;

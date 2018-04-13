@@ -18,7 +18,7 @@ $(document).ready(function () {
 function Edit(curObj) {
     debugger;
     var rowData = DataTables.PurchaseOrderList.row($(curObj).parents('tr')).data();
-    window.location.replace("ApproveDocument?code=APR&ID=" + rowData.ID+ '&DocType=' + rowData.DocumentTypeCode + '&DocID=' + rowData.DocumentID );
+    window.location.replace("ApproveDocument?code=APR&ID=" + rowData.ApprovalLogID + '&DocType=' + rowData.DocumentTypeCode + '&DocID=' + rowData.DocumentID);
 }
 
 //bind Pending list
