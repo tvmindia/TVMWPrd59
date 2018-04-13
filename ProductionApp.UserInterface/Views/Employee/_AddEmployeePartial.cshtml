@@ -1,0 +1,179 @@
+﻿@model ProductionApp.UserInterface.Models.EmployeeViewModel
+
+<style>
+    /*To Set Only Vertical Scrollbar*/
+    .verticalscroll {
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 550px;
+        border-top: 30px;
+        /*background-color:#2d80e8;
+    width:350px;
+    height:150px;*/
+    }
+
+    #divFooter {
+        position: fixed;
+        bottom: 2px;
+    }
+
+    .modal-dialog {
+        min-width: 700px !important;
+        max-width: 900px !important;
+    }
+</style>
+
+@using (Ajax.BeginForm("InsertUpdateEmployee", "Employee", null, new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessEmployee", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "OnMasterBegin", OnComplete = "OnMasterComplete" }, new { @class = "form-horizontal", role = "form", id = "FormEmployee" }))
+{
+    @Html.AntiForgeryToken()
+    @*<div class="verticalscroll">*@
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
+        @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group col-md-12">
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label lblrequired" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12" style="margin-top:10%">
+                        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label " })
+                        @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "" } })
+                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label lblrequired" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "control-label " })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="form-group col-md-12">
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.DepartmentCode, htmlAttributes: new { @class = "control-label " })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <div id="divMaterialTypeDropdown">
+                            @Html.DropDownListFor(model => model.DepartmentCode, Model.Department.departmentSelectList, "--- Select Department ---", new { @class = "form-control", @style = "width:100%" })
+                            @Html.ValidationMessageFor(model => model.DepartmentCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.EmployeeCategoryCode, htmlAttributes: new { @class = "control-label " })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <div id="divUnitDropdown">
+                            @Html.DropDownListFor(model => model.EmployeeCategoryCode, Model.EmployeeCategory.employeeCategorySelectList, "--- Select Category ---", new { @class = "form-control", @style = "width:100%" })
+                            @Html.ValidationMessageFor(model => model.EmployeeCategory, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control textareafix", rows = "5" } })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.GeneralNotes, new { htmlAttributes = new { @class = "form-control textareafix", rows = "5" } })
+                        @Html.ValidationMessageFor(model => model.GeneralNotes, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="col-md-11" style="margin-bottom: 2%;margin-top: 10px;">
+                    <button type="submit" id="btnSaveMaster" class="btn btn-info pull-right" style="margin-right:-5px;">Save Changes <i class="fa fa-spinner fa-spin" id="imgMasterLoading" style="display:none;"></i></button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+}
+<script>
+$(document).ready(function () {
+
+    $('#DepartmentCode').select2({
+      dropdownParent: $("#FormEmployee")
+   });
+  $("#EmployeeCategoryCode").select2({
+      dropdownParent: $("#FormEmployee")
+  });
+  $.validator.unobtrusive.parse("#FormEmployee");
+   });
+</script>
