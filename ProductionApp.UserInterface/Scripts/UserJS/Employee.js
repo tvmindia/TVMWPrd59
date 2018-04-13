@@ -29,6 +29,8 @@ $(document).ready(function () {
     }
     $("#Department_Code").select2({
     });
+    $("#EmployeeCategory_Code").select2({
+    });
 });
 
 //##3--Product List Binding Function-----------------------------------##3
@@ -39,12 +41,14 @@ function BindOrReloadEmployeeTable(action) {
         EmployeeAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DepartmentViewModel = new Object();
+        EmployeeCategoryViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
         //switch case to check the operation
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
                 $('#Department_Code').val('').select2();
+                $('#EmployeeCategory_Code').val('').select2();
                 break;
             case 'Init':
                 break;
@@ -59,6 +63,8 @@ function BindOrReloadEmployeeTable(action) {
         EmployeeAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
         DepartmentViewModel.Code = $("#Department_Code").val();
         EmployeeAdvanceSearchViewModel.Department = DepartmentViewModel;
+        EmployeeCategoryViewModel.Code = $("#EmployeeCategory_Code").val();
+        EmployeeAdvanceSearchViewModel.EmployeeCategory = EmployeeCategoryViewModel;
         EmployeeAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
         debugger;
         //apply datatable plugin on Raw Material table
@@ -98,7 +104,7 @@ function BindOrReloadEmployeeTable(action) {
             { "data": "EmployeeCategory.Name", "defaultContent": "<i>-<i>", "width": "15%" },
             { "data": "MobileNo", "defaultContent": "<i>-<i>", "width": "15%" },
             { "data": "Address", "defaultContent": "<i>-<i>", "width": "20%" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteEmployeeMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditEmployeeMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": "5%" }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteEmployeeMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditEmployeeMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": "5%" }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [] },

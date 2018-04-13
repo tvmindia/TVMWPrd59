@@ -70,41 +70,6 @@ namespace ProductionApp.RepositoryServices.Services
             return employeeList;
         }
 
-        #region CheckEmployeeCodeExist
-        /// <summary>
-        /// To Check whether Employee Code Existing or not
-        /// </summary>
-        /// <param name="employeeCode"></param>
-        /// <returns>bool</returns>
-        public bool CheckEmployeeCodeExist(Employee employee)
-        {
-            try
-            {
-                using (SqlConnection con = _databaseFactory.GetDBConnection())
-                {
-                    using (SqlCommand cmd = new SqlCommand())
-                    {
-                        if (con.State == ConnectionState.Closed)
-                        {
-                            con.Open();
-                        }
-                        cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[CheckEmployeeCodeExist]";
-                        cmd.Parameters.Add("@EmployeeCode", SqlDbType.VarChar).Value = employee.Code;
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = employee.ID;
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        Object res = cmd.ExecuteScalar();
-                        return (res.ToString() == "Exists" ? true : false);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        #endregion CheckEmployeeCodeExist
-
         #region GetAllEmployee
         public List<Employee> GetAllEmployee(EmployeeAdvanceSearch employeeAdvanceSearch)
         {
@@ -127,7 +92,8 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.AddWithValue("@Length", DBNull.Value);
                         else
                             cmd.Parameters.Add("@Length", SqlDbType.Int).Value = employeeAdvanceSearch.DataTablePaging.Length;
-                        cmd.Parameters.Add("@Department", SqlDbType.VarChar, 15).Value = employeeAdvanceSearch.Department.Code;
+                        cmd.Parameters.Add("@Department", SqlDbType.VarChar, 15).Value = employeeAdvanceSearch.Department.Code; 
+                            cmd.Parameters.Add("@EmployeeCategory", SqlDbType.VarChar, 15).Value = employeeAdvanceSearch.EmployeeCategory.Code;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -150,7 +116,8 @@ namespace ProductionApp.RepositoryServices.Services
                                         employee.Department.Name = (sdr["Department"].ToString() != "" ? sdr["Department"].ToString() : employee.Department.Name);
                                         employee.EmployeeCategory = new EmployeeCategory();
                                         employee.EmployeeCategory.Name = (sdr["Category"].ToString() != "" ? sdr["Category"].ToString() : employee.EmployeeCategory.Name);
-                                        //employee.IsActive = (sdr["GeneralNotes"].ToString() != "" ? bool.Parse(sdr["GeneralNotes"].ToString()) : employee.IsActive);
+                                        employee.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : employee.FilteredCount);
+                                        employee.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : employee.TotalCount);
                                     }
                                     employeeList.Add(employee);
                                 }
@@ -167,6 +134,41 @@ namespace ProductionApp.RepositoryServices.Services
             return employeeList;
         }
         #endregion GetAllEmployee
+
+        //#region CheckEmployeeCodeExist
+        ///// <summary>
+        ///// To Check whether Employee Code Existing or not
+        ///// </summary>
+        ///// <param name="employeeCode"></param>
+        ///// <returns>bool</returns>
+        //public bool CheckEmployeeCodeExist(Employee employee)
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection con = _databaseFactory.GetDBConnection())
+        //        {
+        //            using (SqlCommand cmd = new SqlCommand())
+        //            {
+        //                if (con.State == ConnectionState.Closed)
+        //                {
+        //                    con.Open();
+        //                }
+        //                cmd.Connection = con;
+        //                cmd.CommandText = "[AMC].[CheckEmployeeCodeExist]";
+        //                cmd.Parameters.Add("@EmployeeCode", SqlDbType.VarChar).Value = employee.Code;
+        //                cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = employee.ID;
+        //                cmd.CommandType = CommandType.StoredProcedure;
+        //                Object res = cmd.ExecuteScalar();
+        //                return (res.ToString() == "Exists" ? true : false);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        //#endregion CheckEmployeeCodeExist
 
         #region GetEmployee
         /// <summary>
@@ -231,7 +233,7 @@ namespace ProductionApp.RepositoryServices.Services
         /// <returns>object</returns>
         public object InsertUpdateEmployee(Employee employee)
         {
-            SqlParameter outputStatus, OutputID;
+            SqlParameter outputStatus, OutputID,OutputCode;
             try
             {
                 using (SqlConnection con = _databaseFactory.GetDBConnection())
@@ -247,7 +249,6 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = employee.IsUpdate;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = employee.ID;
-                        cmd.Parameters.Add("@Code", SqlDbType.VarChar).Value = employee.Code;
                         cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = employee.Name;
                         cmd.Parameters.Add("@MobileNo", SqlDbType.VarChar).Value = employee.MobileNo;
                         cmd.Parameters.Add("@Address", SqlDbType.VarChar).Value = employee.Address;
@@ -264,6 +265,8 @@ namespace ProductionApp.RepositoryServices.Services
                         outputStatus.Direction = ParameterDirection.Output;
                         OutputID = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier);
                         OutputID.Direction = ParameterDirection.Output;
+                        OutputCode = cmd.Parameters.Add("@CodeOut", SqlDbType.VarChar,10);
+                        OutputCode.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -277,6 +280,7 @@ namespace ProductionApp.RepositoryServices.Services
                         {
                             ID = Guid.Parse(OutputID.Value.ToString()),
                             Status = outputStatus.Value.ToString(),
+                            Code= OutputCode.Value.ToString(),
                             Message = employee.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
                         };
                 }
@@ -289,6 +293,7 @@ namespace ProductionApp.RepositoryServices.Services
             {
                 ID = Guid.Parse(OutputID.Value.ToString()),
                 Status = outputStatus.Value.ToString(),
+                Code = OutputCode.Value.ToString(),
                 Message = employee.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
             };
         }

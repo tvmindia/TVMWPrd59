@@ -36,9 +36,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _employeeRepository.DeleteEmployee(id);
         }
-        public bool CheckEmployeeCodeExist(Employee employee)
-        {
-            return _employeeRepository.CheckEmployeeCodeExist(employee);
-        }
+        //public bool CheckEmployeeCodeExist(Employee employee)
+        //{
+        //    return _employeeRepository.CheckEmployeeCodeExist(employee);
+        //}
     }
 }

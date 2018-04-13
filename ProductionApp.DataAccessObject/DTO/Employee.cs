@@ -34,5 +34,6 @@ namespace ProductionApp.DataAccessObject.DTO
         public DataTablePaging DataTablePaging { get; set; }
         public string DepartmentCode { get; set; }
         public Department Department { get; set; }
+        public EmployeeCategory EmployeeCategory { get; set; }
     }
 }

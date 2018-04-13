@@ -322,7 +322,7 @@ function SaveSuccessProductCategory(data, status) {
     }
 }
 
-//-- add  Product Category--//
+//-- add  Employee--//
 function AddEmployeeMaster(flag) {
     debugger;
     GetMasterPartial("Employee", "");
@@ -330,7 +330,7 @@ function AddEmployeeMaster(flag) {
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val(flag);
 }
-//-- Function After Save ProductCategory--//
+//-- Function After Save Employee--//
 function SaveSuccessEmployee(data, status) {
     debugger;
     var JsonResult = JSON.parse(data)
@@ -338,12 +338,10 @@ function SaveSuccessEmployee(data, status) {
         case "OK":
             if ($('#hdnMasterCall').val() == "MSTR") {
                 $('#IsUpdate').val('True');
-                // $('#ID').val(JsonResult.Records.ID);
+                $('#ID').val(JsonResult.Record.ID);
+                $('#Code').val(JsonResult.Record.Code);
                 BindOrReloadEmployeeTable('Reset');
             }
-            //else if ($('#hdnMasterCall').val() == "OTR") {
-            //    $('#divProductCategoryDropdown').load('/ProductCategory/ProductCategoryDropdown');
-            //}
             MasterAlert("success", JsonResult.Record.Message)
             break;
         case "ERROR":

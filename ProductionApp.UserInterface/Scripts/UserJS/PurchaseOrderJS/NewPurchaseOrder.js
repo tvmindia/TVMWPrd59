@@ -181,7 +181,7 @@ $(document).ready(function () {
                           return roundoff(Desc,1);
                       }, "width": "10%"
                   },
-                { "data": null, "orderable": false, "width": "7%", "defaultContent": '<a href="#" class="ItemEditlink" onclick="EditPurchaseOrderDetailTable(this)"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' }
+                { "data": null, "orderable": false, "width": "7%", "defaultContent": '<a href="#" class="ItemEditlink" onclick="EditPurchaseOrderDetailTable(this)"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink" onclick="Delete(this)"><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                     { "targets": [1], "width": "2%", },

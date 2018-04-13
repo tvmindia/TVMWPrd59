@@ -14,6 +14,7 @@ namespace ProductionApp.UserInterface.Models
         [Remote(action: "CheckEmployeeCodeExist", controller: "Employee", AdditionalFields = "IsUpdate,ID")]
         [Required(ErrorMessage = "Employee Code is missing")]
         public string Code { get; set; }
+        [Required(ErrorMessage = "Name is missing")]
         public string Name { get; set; }
         [Display(Name = "Mobile")]
         [RegularExpression(@"^((\+91-?)|0)?[0-9]{10}$", ErrorMessage = "Entered phone format is not valid.")]
@@ -31,6 +32,7 @@ namespace ProductionApp.UserInterface.Models
         public string DepartmentCode { get; set; }
         [Display(Name = "Category")]
         public string EmployeeCategoryCode { get; set; }
+        [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }
@@ -48,5 +50,6 @@ namespace ProductionApp.UserInterface.Models
         public string SearchTerm { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
         public DepartmentViewModel Department { get; set; }
+        public EmployeeCategoryViewModel EmployeeCategory { get; set; }
     }
 }

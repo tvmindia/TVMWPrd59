@@ -138,7 +138,7 @@ function BindOrReloadPackingSlipTable(action)
                     },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
-                            return '<a href="/PackingSlip/AddPackingSlip?code=SALE&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                            return '<a href="/PackingSlip/AddPackingSlip?code=SALE&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
                         }, "defaultContent": "<i>-</i>", "width": "3%"
                     }
                 ],

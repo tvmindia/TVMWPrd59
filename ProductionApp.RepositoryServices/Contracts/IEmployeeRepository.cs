@@ -14,6 +14,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         object InsertUpdateEmployee(Employee employee);
         Employee GetEmployee(Guid id);
         object DeleteEmployee(Guid id);
-        bool CheckEmployeeCodeExist(Employee employee);
+        //bool CheckEmployeeCodeExist(Employee employee);
     }
 }

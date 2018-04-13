@@ -31,6 +31,8 @@ namespace ProductionApp.UserInterface.Controllers
             EmployeeAdvanceSearchViewModel employeeSearchVM = new EmployeeAdvanceSearchViewModel();
             employeeSearchVM.Department = new DepartmentViewModel();
             employeeSearchVM.Department.departmentSelectList = _departmentBusiness.GetDepartmentForSelectList();
+            employeeSearchVM.EmployeeCategory = new EmployeeCategoryViewModel();
+            employeeSearchVM.EmployeeCategory.employeeCategorySelectList = _employeeCategoryBusiness.GetEmployeeCategoryForSelectList();
             return View(employeeSearchVM);
         }
         #region GetAllEmployee
@@ -73,18 +75,18 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetAllEmployee
 
-        #region CheckEmployeeCodeExist
-        public ActionResult CheckEmployeeCodeExist(EmployeeViewModel employeeVM)
-        {
-            bool exists = _employeeBusiness.CheckEmployeeCodeExist(Mapper.Map<EmployeeViewModel, Employee>(employeeVM));
-            if (exists)
-            {
-                return Json("<p><span style='vertical-align: 2px'>Employee code is in use </span> <i class='fa fa-close' style='font-size:19px; color: red'></i></p>", JsonRequestBehavior.AllowGet);
-            }
-            //var result = new { success = true, message = "Success" };
-            return Json(true, JsonRequestBehavior.AllowGet);
-        }
-        #endregion CheckProductCodeExist
+        //#region CheckEmployeeCodeExist
+        //public ActionResult CheckEmployeeCodeExist(EmployeeViewModel employeeVM)
+        //{
+        //    bool exists = _employeeBusiness.CheckEmployeeCodeExist(Mapper.Map<EmployeeViewModel, Employee>(employeeVM));
+        //    if (exists)
+        //    {
+        //        return Json("<p><span style='vertical-align: 2px'>Employee code is in use </span> <i class='fa fa-close' style='font-size:19px; color: red'></i></p>", JsonRequestBehavior.AllowGet);
+        //    }
+        //    //var result = new { success = true, message = "Success" };
+        //    return Json(true, JsonRequestBehavior.AllowGet);
+        //}
+        //#endregion CheckEmployeeCodeExist
 
         #region GetEmployee
         public string GetEmployee(string ID)

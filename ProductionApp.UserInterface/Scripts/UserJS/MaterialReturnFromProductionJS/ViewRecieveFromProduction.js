@@ -103,7 +103,7 @@ function BindOrReloadReturnFromProductionTable(action)
                         { "data": "RecievedByEmployeeName", "defaultContent": "<i>-</i>", "width": "39%" },
                         {
                             "data": "ID", "orderable": false, render: function (data, type, row) {
-                                return '<a href="/MaterialReturnFromProduction/NewRecieveFromProduction?code=STR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                                return '<a href="/MaterialReturnFromProduction/NewRecieveFromProduction?code=STR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
                             }, "defaultContent": "<i>-</i>", "width": "3%"
                         }
                     ],
