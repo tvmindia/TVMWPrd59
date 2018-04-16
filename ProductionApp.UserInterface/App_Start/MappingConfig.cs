@@ -118,6 +118,10 @@ namespace ProductionApp.UserInterface.App_Start
                 //ProductionTracking
                 config.CreateMap<ProductionTrackingViewModel, ProductionTracking>().ReverseMap();
                 config.CreateMap<ProductionTrackingAdvanceSearchViewModel, ProductionTrackingAdvanceSearch>().ReverseMap();
+                //Supplier Invoice 
+                config.CreateMap<SupplierInvoiceViewModel, SupplierInvoice>().ReverseMap();
+                config.CreateMap<SupplierInvoiceDetailViewModel, SupplierInvoiceDetail>().ReverseMap();
+                config.CreateMap<SupplierInvoiceAdvanceSearchViewModel, SupplierInvoiceAdvanceSearch>().ReverseMap();
             });
         }
     }

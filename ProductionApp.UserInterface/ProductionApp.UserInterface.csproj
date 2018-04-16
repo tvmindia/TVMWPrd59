@@ -728,6 +728,8 @@
     <Content Include="Scripts\UserJS\SalesOrder\ListSalesOrder.js" />
     <Content Include="Scripts\UserJS\Stage.js" />
     <Content Include="Scripts\UserJS\SubComponent.js" />
+    <Content Include="Scripts\UserJS\SupplierInvoice\NewSupplierInvoice.js" />
+    <Content Include="Scripts\UserJS\SupplierInvoice\ViewSupplierInvoice.js" />
     <Content Include="Scripts\UserJS\SupplierJS\NewSupplier.js" />
     <Content Include="Scripts\UserJS\SupplierJS\ViewSupplier.js" />
     <Content Include="Scripts\UserJS\User.js" />
@@ -790,6 +792,7 @@
     <Compile Include="Controllers\StageController.cs" />
     <Compile Include="Controllers\SubComponentController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\SupplierInvoiceController.cs" />
     <Compile Include="Controllers\TaxTypeController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -843,6 +846,7 @@
     <Compile Include="Models\SalesOrderViewModel.cs" />
     <Compile Include="Models\StageViewModel.cs" />
     <Compile Include="Models\SubComponentViewModel.cs" />
+    <Compile Include="Models\SupplierInvoiceViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
     <Compile Include="Models\TaxTypeViewModel.cs" />
     <Compile Include="Models\ToolboxViewModel.cs" />
@@ -986,6 +990,8 @@
     <Content Include="Views\ProductCategory\_AddProductCategoryPartial.cshtml" />
     <Content Include="Views\ProductionTracking\ViewProductionTracking.cshtml" />
     <Content Include="Views\Employee\_AddEmployeePartial.cshtml" />
+    <Content Include="Views\SupplierInvoice\ViewSupplierInvoice.cshtml" />
+    <Content Include="Views\SupplierInvoice\NewSupplierInvoice.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -111,6 +111,9 @@ namespace ProductionApp.UserInterface.App_Start
             //ProductionTracking
             bundles.Add(new ScriptBundle("~/bundles/UserJs/ProductionTracking/NewProductionTracking").Include("~/Scripts/UserJS/ProductionTracking/NewProductionTracking.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/ProductionTracking/ViewProductionTracking").Include("~/Scripts/UserJS/ProductionTracking/ViewProductionTracking.js"));
+            //SupplierInvoice 
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/SupplierInvoice/NewSupplierInvoice").Include("~/Scripts/UserJS/SupplierInvoice/NewSupplierInvoice.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/SupplierInvoice/ViewSupplierInvoice").Include("~/Scripts/UserJS/SupplierInvoice/ViewSupplierInvoice.js"));
 
         }
     }

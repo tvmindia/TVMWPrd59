@@ -82,6 +82,7 @@
     <Compile Include="Contracts\IStageBusiness.cs" />
     <Compile Include="Contracts\ISubComponentBusiness.cs" />
     <Compile Include="Contracts\ISupplierBusiness.cs" />
+    <Compile Include="Contracts\ISupplierInvoiceBusiness.cs" />
     <Compile Include="Contracts\ITaxTypeBusiness.cs" />
     <Compile Include="Contracts\IUnitBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Services\StageBusiness.cs" />
     <Compile Include="Services\SubComponentBusiness.cs" />
     <Compile Include="Services\SupplierBusiness.cs" />
+    <Compile Include="Services\SupplierInvoiceBusiness.cs" />
     <Compile Include="Services\TaxTypeBusiness.cs" />
     <Compile Include="Services\UnitBusiness.cs" />
   </ItemGroup>
