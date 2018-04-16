@@ -7,8 +7,8 @@
 <script>
     $(document).ready(function () {
         try{
-            $("#MaterialID").select2({
-            });
+            //$("#MaterialID").select2({
+            //});
         }
         catch(e)
         {
@@ -17,7 +17,12 @@
         try{
             $("#MaterialID").change(function () {
                 debugger;
-                BindRawMaterialDetails(this.value)
+                try{
+                    BindRawMaterialDetails(this.value)
+                }
+                catch (e) {
+                    console.log(e.message);
+                }
             });
         }
         catch (e) {

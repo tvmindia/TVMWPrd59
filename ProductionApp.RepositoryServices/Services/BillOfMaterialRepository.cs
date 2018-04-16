@@ -308,6 +308,38 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion DeleteBillOfMaterialDetail
 
+
+        #region CheckLineNameExist
+        public bool CheckLineNameExist(string lineName)
+        {
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[CheckLineNameExist]";
+                        cmd.Parameters.Add("@LineName", SqlDbType.NVarChar,250).Value = lineName;
+                        //cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = bOMComponentLine.ID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        Object res = cmd.ExecuteScalar();
+                        return (res.ToString() == "Exists" ? true : false);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion CheckLineNameExist
+
+
         #region InsertUpdateBOMComponentLine
         public object InsertUpdateBOMComponentLine(BOMComponentLine bOMComponentLine)
         {

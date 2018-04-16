@@ -79,6 +79,13 @@ namespace ProductionApp.BusinessService.Services
         }
         #endregion DeleteBillOfMaterialDetail
 
+        #region CheckLineNameExist
+        public bool CheckLineNameExist(string lineName)
+        {
+            return _billOfMaterialRepository.CheckLineNameExist(lineName);
+        }
+        #endregion
+
         #region InsertUpdateBOMComponentLine
         public object InsertUpdateBOMComponentLine(BOMComponentLine bOMComponentLine)
         {
