@@ -23,14 +23,32 @@ namespace ProductionApp.DataAccessObject.DTO
         //Additional
         public bool IsUpdate { get; set; }
         public string EntryDateFormatted { get; set; }
+        public string SearchDetail { get; set; }
+
         public Product Product { get; set; }
         public SubComponent SubComponent { get; set; }
-        public string SearchDetail { get; set; }
+        public Product OutputComponent { get; set; }
+        public Stage Stage { get; set; }
+        public Product Component { get; set; }
+        public Employee Employee { get; set; }
         public BOMComponentLineStageDetail BOMComponentLineStageDetail { get; set; }
+
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
     }
 
     public class ProductionTrackingAdvanceSearch
     {
+        public string SearchTerm { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public Product Product { get; set; }
+        public Employee Employee { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
 
+        //public SubComponent SubComponent { get; set; }
+        //public Product OutputComponent { get; set; }
+        //public Stage Stage { get; set; }
+        //public Product Component { get; set; }
     }
 }

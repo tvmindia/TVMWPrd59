@@ -9,7 +9,10 @@ namespace ProductionApp.RepositoryServices.Contracts
 {
     public interface IProductionTrackingRepository
     {
+        List<ProductionTracking> GetAllProductionTracking(ProductionTrackingAdvanceSearch productionTrackingAdvanceSearch);
         List<ProductionTracking> GetProductionTrackingSearchList(string searchTerm);
         object InsertUpdateProductionTracking(ProductionTracking productionTracking);
+        object DeleteProductionTracking(Guid id);
+        ProductionTracking GetProductionTracking(Guid id);
     }
 }

@@ -34,21 +34,48 @@ namespace ProductionApp.UserInterface.Models
         //Additional
         public bool IsUpdate { get; set; }
         public string EntryDateFormatted { get; set; }
+        public string SearchDetail { get; set; }
+
         [Display(Name = "Product")]
         public ProductViewModel Product { get; set; }
-        //[Display(Name = "Component Line")]
-        //public BOMComponentLineViewModel BOMComponentLine { get; set; }
-        //[Display(Name = "Stage")]
-        //public StageViewModel Stage { get; set; }
-        //[Display(Name = "Output")]
+        [Display(Name = "Component")]
+        public ProductViewModel Component { get; set; }
+        [Display(Name = "Stage")]
+        public StageViewModel Stage { get; set; }
+        [Display(Name = "Output")]
+        public ProductViewModel OutputComponent { get; set; }
+        [Display(Name = "SubComponent")]
         public SubComponentViewModel SubComponent { get; set; }
-        public string SearchDetail { get; set; }
+        [Display(Name = "Done By")]
+        public EmployeeViewModel Employee { get; set; }
         public BOMComponentLineStageDetailViewModel BOMComponentLineStageDetail { get; set; }
+
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
     }
 
     public class ProductionTrackingAdvanceSearchViewModel
     {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
+        [Display(Name = "From Date")]
+        public string FromDate { get; set; }
+        [Display(Name = "To Date")]
+        public string ToDate { get; set; }
+        [Display(Name = "Product")]
+        public ProductViewModel Product { get; set; }
+        [Display(Name = "Done By")]
+        public EmployeeViewModel Employee { get; set; }
 
+        //[Display(Name = "Stage")]
+        //public StageViewModel Stage { get; set; }
+        //[Display(Name = "Output")]
+        //public SubComponentViewModel SubComponent { get; set; }
+        //public ProductViewModel OutputComponent { get; set; }
+
+        //[Display(Name = "Component")]
+        //public ProductViewModel Component { get; set; }
     }
-    
+
 }

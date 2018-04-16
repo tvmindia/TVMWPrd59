@@ -13,11 +13,19 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 var _ProductionTracking = {};
 
 $(document).ready(function () {
-    try{
+    try {
         debugger;
         LoadProductionTrackingSearchTable();
-        ProductionTrackingInit();
         $('#EmployeeID').select2();
+        ProductionTrackingInit();
+        try {
+            if ($('#IsUpdate').val() === "True") {
+                BindProductionTracking();
+                ChangeButtonPatchView('ProductionTracking', 'divButtonPatch', 'Edit');
+            }
+        } catch (ex) {
+            console.log(ex.message);
+        }
     } catch (ex) {
         console.log(ex.message);
     }
@@ -31,11 +39,10 @@ function ProductionTrackingInit() {
             $(this).remove();
         });
 
-        $('#ProductionTrackingSearch').keypress(function (keyEvent) {
-            debugger;
-            if (keyEvent.which === 13) {
+        $('#ProductionTrackingSearch').keydown(function (event) {
+            if (event.which === 13) {
                 debugger;
-                keyEevent.preventDefault();
+                event.preventDefault();
                 ProductionTrackingSearch();
 
             }
@@ -182,5 +189,104 @@ function SaveSuccess(data, status) {
         default:
             notyAlert("danger", message)
             break;
+    }
+}
+
+function DeleteClick() {
+    try{
+        debugger;
+        var id = $('#ID').val();
+        if (id !== EmptyGuid)
+            notyConfirm('Are you sure to delete?', 'DeleteProductionTracking("' + id + '")');
+        else
+            notyAlert('error', "Cannot Delete");
+    } catch (ex) {
+        console.log(ex.message);
+    }
+}
+
+function DeleteProductionTracking(id) {
+    try{
+        debugger;
+        var data = { "id": id };
+        var result = "";
+        var message = "";
+        var ProductionTrackingViewModel = new Object();
+        var jsonData = GetDataFromServer("ProductionTracking/DeleteProductionTracking/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            ProductionTrackingViewModel = jsonData.Record;
+        }
+        switch (result) {
+            case "OK":
+                notyAlert('success', message);
+                window.location.replace("NewProductionTracking?code=PROD");
+                break;
+            case "ERROR":
+                notyAlert('error', message);
+                break;
+            default:
+                break;
+        }
+        return ProductionTrackingViewModel;
+    } catch (ex) {
+        console.log(ex.message);
+    }
+}
+
+function GetProductionTracking() {
+    try{
+        debugger;
+        var id = $('#ID').val();
+        var data = { "id": id };
+        var result = "";
+        var message = "";
+        var ProductionTrackingViewModel = new Object();
+        var jsonData = GetDataFromServer("ProductionTracking/GetProductionTracking/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            ProductionTrackingViewModel = jsonData.Record;
+        }
+        switch (result) {
+            case "OK":
+                //notyAlert('success', message);
+                break;
+            case "ERROR":
+                notyAlert('error', message);
+                break;
+            default:
+                break;
+        }
+        return ProductionTrackingViewModel;
+    } catch (ex) {
+        console.log(ex.message);
+    }
+}
+
+function BindProductionTracking() {
+    try {
+        debugger;
+        _ProductionTracking = new Object();
+        _ProductionTracking = GetProductionTracking();
+        $('#EntryDateFormatted').val(_ProductionTracking.EntryDateFormatted);
+        $('#EmployeeID').val(_ProductionTracking.ForemanID).select2();
+        $('#ProductionRefNo').val(_ProductionTracking.ProductionRefNo);
+        $('#AcceptedQty').val(_ProductionTracking.AcceptedQty);
+        $('#AcceptedWt').val(_ProductionTracking.AcceptedWt);
+        $('#DamagedQty').val(_ProductionTracking.DamagedQty);
+        $('#DamagedWt').val(_ProductionTracking.DamagedWt);
+        $('#Remarks').val(_ProductionTracking.Remarks);
+        $('#lblProduct').text(_ProductionTracking.Product.Name);
+        $('#lblComponent').text(_ProductionTracking.Component.Name);
+        $('#lblStage').text(_ProductionTracking.Stage.Description);
+        $('#lblSubComponent').text(_ProductionTracking.SubComponent.Description === null ? _ProductionTracking.SubComponent.Description : _ProductionTracking.OutputComponent.Name);
+        $('#ProductID').val(_ProductionTracking.ProductID)
+        $('#LineStageDetailID').val(_ProductionTracking.LineStageDetailID)
+    } catch (ex) {
+        console.log(ex.message);
     }
 }

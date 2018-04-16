@@ -234,12 +234,13 @@ function Save() {
         debugger;
         var check = 0;
 
-        if ($('#PurchaseOrderID').val() === "") {
+        if ($('#PurchaseOrderNo').val() === "") {
             $('#msgPurchase').show();
             check = 1;
-        } else if ($('#PurchaseOrderNo').val() !== "") {
-            check = 0;
         }
+        //else if ($('#PurchaseOrderNo').val() === "") {
+        //    check = 0;
+        //}
 
         if ($('#SupplierID').val() === "") {
             $('#msgSupplier').show();

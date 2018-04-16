@@ -19,6 +19,11 @@ namespace ProductionApp.BusinessService.Services
         }
         #endregion ConstructorInjection
 
+        public List<ProductionTracking> GetAllProductionTracking(ProductionTrackingAdvanceSearch productionTrackingAdvanceSearch)
+        {
+            return _ProductionTrackingRepository.GetAllProductionTracking(productionTrackingAdvanceSearch);
+        }
+
         public List<ProductionTracking> GetProductionTrackingSearchList(string searchTerm)
         {
             return _ProductionTrackingRepository.GetProductionTrackingSearchList(searchTerm);
@@ -28,5 +33,17 @@ namespace ProductionApp.BusinessService.Services
         {
             return _ProductionTrackingRepository.InsertUpdateProductionTracking(productionTracking);
         }
+
+        public object DeleteProductionTracking(Guid id)
+        {
+            return _ProductionTrackingRepository.DeleteProductionTracking(id);
+        }
+
+        public ProductionTracking GetProductionTracking(Guid id)
+        {
+            return _ProductionTrackingRepository.GetProductionTracking(id);
+        }
+
+
     }
 }

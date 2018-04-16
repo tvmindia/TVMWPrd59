@@ -33,16 +33,64 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ViewBag.SysModuleCode = code;
 
-            ProductionTrackingViewModel ProductionTracking = new ProductionTrackingViewModel
+            ProductionTrackingViewModel productionTrackingVM = new ProductionTrackingViewModel
             {
                 ID = id == null ? Guid.Empty : Guid.Parse(id),
                 IsUpdate = id == null ? false : true,
                 EntryDateFormatted = _common.GetCurrentDateTime().ToString(settings.DateFormat),
                 SubComponent = new SubComponentViewModel()
             };
-            return View(ProductionTracking);
+            return View(productionTrackingVM);
         }
         #endregion NewProductionTracking
+
+        #region ViewProductionTracking
+        [AuthSecurityFilter(ProjectObject = "ProductionTracking", Mode = "R")]
+        public ActionResult ViewProductionTracking(string code)
+        {
+            ViewBag.SysModuleCode = code;
+            return View();
+        }
+        #endregion ViewProductionTracking
+
+        #region GetAllProductionTracking
+        [AuthSecurityFilter(ProjectObject = "ProductionTracking", Mode = "R")]
+        public ActionResult GetAllProductionTracking(DataTableAjaxPostModel model, ProductionTrackingAdvanceSearchViewModel productionTrackingAdvanceSearchVM)
+        {
+            try
+            {
+                productionTrackingAdvanceSearchVM.DataTablePaging.Start = model.start;
+                productionTrackingAdvanceSearchVM.DataTablePaging.Length = (productionTrackingAdvanceSearchVM.DataTablePaging.Length == 0) ? model.length : productionTrackingAdvanceSearchVM.DataTablePaging.Length;
+                List<ProductionTrackingViewModel> productionTrackingList = Mapper.Map<List<ProductionTracking>, List<ProductionTrackingViewModel>>(_ProductionTrackingBusiness.GetAllProductionTracking(Mapper.Map<ProductionTrackingAdvanceSearchViewModel, ProductionTrackingAdvanceSearch>(productionTrackingAdvanceSearchVM)));
+                if (productionTrackingAdvanceSearchVM.DataTablePaging.Length == -1)
+                {
+                    int totalResult = productionTrackingList.Count != 0 ? productionTrackingList[0].TotalCount : 0;
+                    int filteredResult = productionTrackingList.Count != 0 ? productionTrackingList[0].FilteredCount : 0;
+                    productionTrackingList = productionTrackingList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+                }
+                var settings = new JsonSerializerSettings
+                {
+                    //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    Formatting = Formatting.None
+                };
+
+                return Json(new
+                {
+                    draw = model.draw,
+                    recordsTotal = productionTrackingList.Count != 0 ? productionTrackingList[0].TotalCount : 0,
+                    recordsFiltered = productionTrackingList.Count != 0 ? productionTrackingList[0].FilteredCount : 0,
+                    data = productionTrackingList
+                });
+            }
+            catch(Exception ex)
+            {
+                return Json(new
+                {
+                    message = ex.Message
+                });
+            }
+        }
+        #endregion GetAllProductionTracking
 
         #region GetProductionTrackingSearchList
         public string GetProductionTrackingSearchList(string searchTerm)
@@ -86,6 +134,39 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion InsertUpdateProductionTracking
 
+        #region DeleteProductionTracking
+        public string DeleteProductionTracking(string id)
+        {
+            try
+            {
+                object result = _ProductionTrackingBusiness.DeleteProductionTracking(Guid.Parse(id));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+
+        #endregion DeleteProductionTracking
+
+        #region GetProductionTracking
+        public string GetProductionTracking(string id)
+        {
+            try
+            {
+                ProductionTracking productionTracking = _ProductionTrackingBusiness.GetProductionTracking(Guid.Parse(id));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = productionTracking, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+        #endregion
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "ProductionTracking", Mode = "R")]
@@ -98,25 +179,25 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    //toolboxVM.addbtn.Href = Url.Action("NewMaterialReceipt", "MaterialReceipt", new { code = "PROD" });
+                    toolboxVM.addbtn.Href = Url.Action("NewProductionTracking", "ProductionTracking", new { code = "PROD" });
                     toolboxVM.addbtn.Event = "";
 
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset All";
-                    toolboxVM.resetbtn.Event = "ResetMaterialReceipt();";
+                    toolboxVM.resetbtn.Event = "Reset();";
 
                     toolboxVM.PrintBtn.Visible = true;
                     toolboxVM.PrintBtn.Text = "Export";
                     toolboxVM.PrintBtn.Title = "Export";
-                    toolboxVM.PrintBtn.Event = "ImportMaterialReceipt();";
+                    toolboxVM.PrintBtn.Event = "Export();";
 
                     break;
                 case "Edit":
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    //toolboxVM.addbtn.Href = Url.Action("NewMaterialReceipt", "MaterialReceipt", new { code = "PROD" });
+                    toolboxVM.addbtn.Href = Url.Action("NewProductionTracking", "ProductionTracking", new { code = "PROD" });
                     toolboxVM.addbtn.Event = "";
 
                     toolboxVM.resetbtn.Visible = true;
@@ -127,7 +208,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    //toolboxVM.ListBtn.Href = Url.Action("ViewMaterialReceipt", "MaterialReceipt", new { code = "PROD" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewProductionTracking", "ProductionTracking", new { code = "PROD" });
                     toolboxVM.ListBtn.Event = "";
 
                     toolboxVM.savebtn.Visible = true;
@@ -144,7 +225,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    //toolboxVM.ListBtn.Href = Url.Action("ViewMaterialReceipt", "MaterialReceipt", new { code = "PROD" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewProductionTracking", "ProductionTracking", new { code = "PROD" });
                     toolboxVM.ListBtn.Event = "";
 
                     toolboxVM.savebtn.Visible = true;
