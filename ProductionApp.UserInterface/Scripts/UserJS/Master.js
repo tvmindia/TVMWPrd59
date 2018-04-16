@@ -353,3 +353,35 @@ function SaveSuccessEmployee(data, status) {
     }
 }
 
+//-- add  ChartOfAccount--//
+function AddChartOfAccountMaster(flag) {
+    debugger;
+    GetMasterPartial("ChartOfAccount", "");
+    $('#h3ModelMasterContextLabel').text('Add Chart Of Account')
+    $('#divModelMasterPopUp').modal('show');
+    $('#hdnMasterCall').val(flag);
+}
+//-- Function After Save ChartOfAccount--//
+function SaveSuccessChartOfAccount(data, status) {
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Status) {
+        case "OK":
+            if ($('#hdnMasterCall').val() == "MSTR") {
+                $('#IsUpdate').val('True');
+                // $('#ID').val(JsonResult.Records.ID);
+                BindOrReloadChartOfAccountTable('Reset');
+            }
+            else if ($('#hdnMasterCall').val() == "OTR") {
+                $('#divChartOfAccountDropdown').load('/ChartOfAccount/ChartOfAccountDropdown');
+            }
+            MasterAlert("success", JsonResult.Record.Message)
+            break;
+        case "ERROR":
+            MasterAlert("danger", JsonResult.Message)
+            break;
+        default:
+            MasterAlert("danger", JsonResult.Message)
+            break;
+    }
+}

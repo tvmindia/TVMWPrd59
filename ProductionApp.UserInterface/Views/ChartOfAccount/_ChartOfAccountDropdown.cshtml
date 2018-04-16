@@ -1,0 +1,38 @@
+﻿@model ProductionApp.UserInterface.Models.ChartOfAccountViewModel
+@if (@ViewBag.IsRequired == "required")
+{
+    <div class="input-group">
+        @Html.DropDownList("ChartOfAccountCode", Model.ChartOfAccountSelectList, "--Select Code--", new { @class = "form-control", @required = "", @title = "The ChartOfAccountCode is missing", @style = "width:100%", @onchange = "$('#hdnChartOfAccountCode').val(this.value)" })
+        <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddChartOfAccountMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
+
+    </div>
+}
+else
+{
+    <div class="input-group">
+        @Html.DropDownList("ChartOfAccountCode", Model.ChartOfAccountSelectList, "--Select Code--", new { @class = "form-control", @style = "width:100%", @onchange = "$('#hdnChartOfAccountCode').val(this.value)" })
+        <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddChartOfAccountMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
+    </div>
+}
+
+@Html.ValidationMessage("ChartOfAccountCode", "", new { @class = "text-danger" })
+
+<script>
+    $(document).ready(function () {
+        try{
+            $('#ChartOfAccountCode').select2({});
+            $('#ChartOfAccountCode').val($('#hdnChartOfAccountCode').val());
+        }
+        catch (e) {
+            console.log(e.message);
+        }
+        try{
+            $("#ChartOfAccountCode").change(function () {
+                BindFinishedGoodStockAdjDetails(this.value)
+            });
+        }
+        catch (e) {
+            console.log(e.message);
+        }
+        });
+</script>
