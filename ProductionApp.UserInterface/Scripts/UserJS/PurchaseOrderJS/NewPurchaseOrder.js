@@ -668,6 +668,7 @@ function CalculateGrossAmount() {
     $('#CGSTTotal').text(roundoff(CGSTTotal));
     $('#SGSTTotal').text(roundoff(SGSTTotal));
     $('#TaxTotal').text(roundoff(TotalTax));
+    $('#lblGrandTotal').text(roundoff(GrossAmount));
     if($('#Discount').val()!=0)
         $('#lblGrandTotal').text(roundoff(GrossAmount - $('#Discount').val()));
 }
