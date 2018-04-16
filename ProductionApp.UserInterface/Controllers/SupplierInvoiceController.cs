@@ -16,14 +16,16 @@ namespace ProductionApp.UserInterface.Controllers
       
         private ISupplierInvoiceBusiness _supplierInvoiceBusiness;
         private ISupplierBusiness _supplierBusiness;
+        private IChartOfAccountBusiness _chartOfAccountBusiness;
 
         Common _common = new Common();
         AppConst _appConst = new AppConst();
 
-        public SupplierInvoiceController(ISupplierInvoiceBusiness supplierInvoiceBusiness, ISupplierBusiness supplierBusiness)
+        public SupplierInvoiceController(ISupplierInvoiceBusiness supplierInvoiceBusiness, ISupplierBusiness supplierBusiness, IChartOfAccountBusiness chartOfAccountBusiness)
         {
             _supplierInvoiceBusiness = supplierInvoiceBusiness;
             _supplierBusiness = supplierBusiness;
+            _chartOfAccountBusiness = chartOfAccountBusiness;
         }
         // GET: SupplierInvoice
 
@@ -74,6 +76,11 @@ namespace ProductionApp.UserInterface.Controllers
                     });
                 }
             supplierInvoiceVM.Supplier.SelectList = selectListItem;
+
+            supplierInvoiceVM.chartOfAccount = new ChartOfAccountViewModel()
+            {
+                ChartOfAccountSelectList = _chartOfAccountBusiness.GetChartOfAccountForSelectList()
+            };
             return View(supplierInvoiceVM);
         }
 

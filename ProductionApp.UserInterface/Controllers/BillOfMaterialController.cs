@@ -262,6 +262,29 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion PartialViews
 
+        #region CheckLineNameExist
+        public string CheckLineNameExist(string lineName)
+        {
+            try
+            {
+                bool result = _billOfMaterialBusiness.CheckLineNameExist(lineName);
+                if (!result)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = "Line Name Does not exists" });
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject(new { Result = "WARNING", Message = "Line Name Exists" });
+                }
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion CheckLineNameExist
+
         #region InsertUpdateBOMComponentLine
         [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "W")]
         public string InsertUpdateBOMComponentLine(BillOfMaterialViewModel billOfMaterialVM)

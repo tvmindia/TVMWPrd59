@@ -102,17 +102,17 @@
         <div class="form-group col-md-6">
             <div class="col-md-12">
                 @Html.LabelFor(model => model.BOMComponentLineStageDetail.PartID, htmlAttributes: new { @class = "control-label lblrequired" })
+                @Html.HiddenFor(model => model.BOMComponentLineStageDetail.PartID, new { @value = -1 })
             </div>
-            <div class="col-md-12" id="divItemSelector">
-                <div id="divMaterial">
+            <div class="" id="divItemSelector">
+                <div class="col-md-12" id="divMaterial">
                     @{Html.RenderAction("MaterialDropdown", "Material", Model.BOMComponentLineStageDetail.Material); }
                 </div>
-                <div id="divSubComponent">
+                <div class="col-md-12" id="divSubComponent">
                     @{Html.RenderAction("SubComponentDropdown", "SubComponent", Model.BOMComponentLineStageDetail.SubComponent); }
                 </div>
-                <div id="divComponent">
-                    @Html.DropDownListFor(model => model.BOMComponentLineStageDetail.PartID, Model.BOMComponentLineStageDetail.Product.ProductSelectList, "--Select product--", new { @class = "form-control", @required = "", @title = "The Product is missing", @style = "width:100%!important", @id = "ProductID" })
-                    @Html.HiddenFor(model => model.BOMComponentLineStageDetail.PartID, new { @value = -1 })
+                <div class="col-md-12" id="divComponent">
+                    @Html.DropDownListFor(model => model.BOMComponentLineStageDetail.Product.ID, Model.BOMComponentLineStageDetail.Product.ProductSelectList, "--Select product--", new { @class = "form-control", @required = "", @title = "The Product is missing", @style = "width:100%!important", @id = "ProductID" })
                     @Html.ValidationMessageFor(model => model.BOMComponentLineStageDetail.PartID, "", new { @class = "text-danger" })
                     @*@{Html.RenderAction("ProductDropdown", "Product", Model.BOMComponentLineStageDetail.Product); }*@
                 </div>
@@ -135,7 +135,7 @@
         <div hidden="hidden">
             <input type="submit" id="btnSave" value="Create" class="btn btn-default" />
         </div>
-        <div class="col-md-4">
+        <div class="col-md-12">
             <a class="btn btn-openid" onclick="SaveDetail()" style="color:white;font-weight:bold;float:right;margin-top:88px;">&nbsp;&nbsp; Save &nbsp;&nbsp;<i class="fa fa-save"></i>&nbsp;&nbsp; </a>@*//margin-left:20px;*@
         </div>
     </div>
@@ -168,7 +168,7 @@
         <a class="btn btn-openid" onclick="GoBack()" style="color:white;font-weight:bold;">&nbsp;&nbsp;<i class="fa fa-angle-double-left"></i>&nbsp; Back&nbsp;&nbsp; </a>@*//margin-left:20px;*@
     </div>
     <div class="col-md-3">
-        <a class="btn btn-openid" onclick="Reset()" style="color:white;font-weight:bold;float:right;">Go To Component <i class="fa fa-backward"></i> </a>@*//margin-left:20px;*@
+        <a class="btn btn-openid" onclick="LoadPartialAddComponent()" style="color:white;font-weight:bold;float:right;">Go To Component <i class="fa fa-backward"></i> </a>@*//margin-left:20px;*@
     </div>
 
 </div>
@@ -198,7 +198,11 @@
             $('#BOMComponentLineStageDetail_PartID').val($(this).val());
         });
 
-        $('#MaterialID,#ProductID,#SubComponentID').select2({});
+        $('#MaterialID').select2({
+            dropdownParent: $("#divMaterial")
+        });
+
+        $('#ProductID,#SubComponentID').select2({});
 
         $('#lblPartID,#lblQty').hide();
 

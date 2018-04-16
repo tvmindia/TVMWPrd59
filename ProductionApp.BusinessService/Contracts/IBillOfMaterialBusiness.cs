@@ -22,5 +22,6 @@ namespace ProductionApp.BusinessService.Contracts
         object InsertUpdateBOMComponentLineStageDetail(BOMComponentLineStageDetail bOMComponentLineStageDetail);
         object DeleteBOMComponentLineStageDetail(Guid id);
         List<BOMComponentLineStageDetail> GetBOMComponentLineStageDetail(Guid id);
+        bool CheckLineNameExist(string lineName);
     }
 }
