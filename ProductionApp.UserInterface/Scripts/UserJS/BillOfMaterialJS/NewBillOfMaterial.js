@@ -22,6 +22,18 @@ var _BOMComponentLineStageDetailList = [];
 $(document).ready(function () {
     try {
         debugger;
+        LoadPartialAddComponent();
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+});
+
+//Add component Init
+function AddComponentInit() {
+    try {
+        debugger;
+
         $('#ProductID').select2({});
         //DataTable for List of BillOfMaterialDetail
         try {
@@ -88,22 +100,35 @@ $(document).ready(function () {
         try {
             $("#ProductID").change(function () {
                 debugger;
-                $('#Description').val('BOM for ' + "").trigger('keyup');
+                $('#DescriptionBOM').val('BOM for ' + "").trigger('keyup');
             });
-            //$('#hdnProductID').change(function () {
-            //    debugger;
-            //    $('#Description').val('BOM for ' + "$(this).val()").trigger('keyup');
-            //});
         } catch (ex) {
             console.log(ex.message);
         }
 
+        OnServerCallComplete();
 
     }
     catch (ex) {
         console.log(ex.message);
     }
-});
+}
+
+//Load AddComponent Partial
+function LoadPartialAddComponent() {
+    try{
+        debugger;
+        OnServerCallBegin();
+        var ID = $('#IDBillOfMaterial').val();
+
+        var data = { "id": ID }
+        $('#divPartial').load("AddComponent", data);
+
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
 
 //-----------------Onchange for description for Dynamic ability------------------//
 function DescriptionOnChange(currObj) {
@@ -830,37 +855,75 @@ function SaveLine() {
         ////var BOMComponentLineList = [];
         ////var BOMComponentLineVM = new Object();
         ////BOMComponentLineVM.BOMComponentLineStageList = [];
-        var BOMComponentLineStageList = [];
-        var order = 1;
-        $("#selected li.ui-selectee").each(function () {
-            debugger;
-            var BOMComponentLineStage = new Object();
-            BOMComponentLineStage.Stage = new Object();
-            BOMComponentLineStage.ID = EmptyGuid;
-            BOMComponentLineStage.StageID = BOMComponentLineStage.Stage.ID = $(this).attr('value');
-            BOMComponentLineStage.Stage.Description = $(this).text();
-            BOMComponentLineStage.StageOrder = order++;
-            BOMComponentLineStageList.push(BOMComponentLineStage);
-        });
-        //if ($('#BOMComponentLine_IsUpdate').val() === "true")
-        //{
-        //    //if ($('#BOMComponentLine_StageJSON').val() !== null && $('#BOMComponentLine_StageJSON').val() !== "")
-        //    JSON.parse(jsonData)
-        //}
-        ////debugger;
-        ////BOMComponentLineVM.LineName = $('#BOMComponentLine_LineName').val();
-        ////BOMComponentLineVM.ComponentID = $('#BOMComponentLine_ComponentID').val();
-        ////BOMComponentLineVM.BOMComponentLineStageList = BOMComponentLineStageList;
-        ////BOMComponentLineList.push(BOMComponentLineVM);
-        ////DataTables.LineStageList.rows.add(BOMComponentLineList).draw(true);
-        if (BOMComponentLineStageList.length === 0) {
-            notyAlert('warning',"No Stages Selected")
+        var isExisting = true;
+        isExisting = CheckLineNameExist();
+        if (!isExisting) {
+            var BOMComponentLineStageList = [];
+            var order = 1;
+            $("#selected li.ui-selectee").each(function () {
+                debugger;
+                var BOMComponentLineStage = new Object();
+                BOMComponentLineStage.Stage = new Object();
+                BOMComponentLineStage.ID = EmptyGuid;
+                BOMComponentLineStage.StageID = BOMComponentLineStage.Stage.ID = $(this).attr('value');
+                BOMComponentLineStage.Stage.Description = $(this).text();
+                BOMComponentLineStage.StageOrder = order++;
+                BOMComponentLineStageList.push(BOMComponentLineStage);
+            });
+            //if ($('#BOMComponentLine_IsUpdate').val() === "true")
+            //{
+            //    //if ($('#BOMComponentLine_StageJSON').val() !== null && $('#BOMComponentLine_StageJSON').val() !== "")
+            //    JSON.parse(jsonData)
+            //}
+            ////debugger;
+            ////BOMComponentLineVM.LineName = $('#BOMComponentLine_LineName').val();
+            ////BOMComponentLineVM.ComponentID = $('#BOMComponentLine_ComponentID').val();
+            ////BOMComponentLineVM.BOMComponentLineStageList = BOMComponentLineStageList;
+            ////BOMComponentLineList.push(BOMComponentLineVM);
+            ////DataTables.LineStageList.rows.add(BOMComponentLineList).draw(true);
+            if (BOMComponentLineStageList.length === 0) {
+                notyAlert('warning', "No Stages Selected")
+            }
+            else {
+                $('#BOMComponentLine_StageJSON').val("");
+                $('#BOMComponentLine_StageJSON').val(JSON.stringify(BOMComponentLineStageList));
+                $("#btnSave").click();
+            }
         }
-        else {
-            $('#BOMComponentLine_StageJSON').val("");
-            $('#BOMComponentLine_StageJSON').val(JSON.stringify(BOMComponentLineStageList));
-            $("#btnSave").click();
+
+    } catch (ex) {
+        console.log(ex.message);
+    }
+}
+
+//Check If LineName Exists
+function CheckLineNameExist() {
+    try{
+        debugger;
+        var LineName = $('#BOMComponentLine_LineName').val();
+        var data = { "lineName": LineName };
+        var result = "";
+        var message = "";
+        var jsonData = GetDataFromServer("BillOfMaterial/CheckLineNameExist/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
         }
+        switch (result) {
+            case "OK":
+                return false;
+                break;
+            case "ERROR":
+                notyAlert('error', message);
+                break;
+            case "WARNING":
+                notyAlert('warning', message);
+                break;
+            default:
+                break;
+        }
+        return true;
 
     } catch (ex) {
         console.log(ex.message);
@@ -1392,7 +1455,7 @@ function ClearStageDetail() {
 
         $('#BOMComponentLineStageDetail_ID').val(EmptyGuid);
         $('#BOMComponentLineStageDetail_IsUpdate').val('false');
-        $('#StageID').val("").trigger('change');
+        //$('#StageID').val("").trigger('change');
         $('#BOMComponentLineStageDetail_EntryType').val("Input").trigger('change');
         $('#BOMComponentLineStageDetail_PartType').val("RAW").trigger('change');
         $('#MaterialID').val("").select2().trigger('change');

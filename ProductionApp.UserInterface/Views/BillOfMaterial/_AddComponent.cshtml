@@ -122,8 +122,25 @@
 </div>
 
 <script>
-    $("#ProductID").change(function () {
-        debugger;
-        $('#Description').val('BOM for ' + "").trigger('keyup');
+
+    $(document).ready(function () {
+        //ProductId on change
+        try {
+            $("#ProductID").change(function () {
+                debugger;
+                $('#DescriptionBOM').val('BOM for ' + $($('#ProductID')).children("option[value='" + $('#ProductID').val() + "']").first().html() ).trigger('keyup');
+            });
+            //$('#hdnProductID').change(function () {
+            //    debugger;
+            //    $('#Description').val('BOM for ' + "$(this).val()").trigger('keyup');
+            //});
+            try {
+                AddComponentInit();
+            } catch (ex) {
+                console.log(ex.message);
+            }
+        } catch (ex) {
+            console.log(ex.message);
+        }
     });
 </script>

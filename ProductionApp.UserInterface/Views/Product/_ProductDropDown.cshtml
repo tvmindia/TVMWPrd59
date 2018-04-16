@@ -28,7 +28,12 @@ else
         }
         try{
             $("#ProductID").change(function () {
-                BindFinishedGoodStockAdjDetails(this.value)
+                try{
+                    BindFinishedGoodStockAdjDetails(this.value)
+                }
+                catch (e) {
+                    console.log(e.message);
+                }
             });
         }
         catch (e) {
