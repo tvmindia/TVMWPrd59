@@ -1,4 +1,7 @@
-﻿using ProductionApp.UserInterface.Models;
+﻿using AutoMapper;
+using ProductionApp.BusinessService.Contracts;
+using ProductionApp.DataAccessObject.DTO;
+using ProductionApp.UserInterface.Models;
 using ProductionApp.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
@@ -10,12 +13,42 @@ namespace ProductionApp.UserInterface.Controllers
 {
     public class SupplierInvoiceController : Controller
     {
+      
+        private ISupplierInvoiceBusiness _supplierInvoiceBusiness;
+        private ISupplierBusiness _supplierBusiness;
+
+        Common _common = new Common();
+        AppConst _appConst = new AppConst();
+
+        public SupplierInvoiceController(ISupplierInvoiceBusiness supplierInvoiceBusiness, ISupplierBusiness supplierBusiness)
+        {
+            _supplierInvoiceBusiness = supplierInvoiceBusiness;
+            _supplierBusiness = supplierBusiness;
+        }
         // GET: SupplierInvoice
+
+
         [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
         public ActionResult ViewSupplierInvoice(string code)
         {
             ViewBag.SysModuleCode = code;
-            return View();
+            SupplierInvoiceAdvanceSearchViewModel supplierInvoiceAdvanceSearchVM = new SupplierInvoiceAdvanceSearchViewModel();
+            supplierInvoiceAdvanceSearchVM.Supplier = new SupplierViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            supplierInvoiceAdvanceSearchVM.Supplier.SelectList = new List<SelectListItem>();
+            List<SupplierViewModel> supplierList = Mapper.Map<List<Supplier>, List<SupplierViewModel>>(_supplierBusiness.GetSupplierForSelectList());
+            if (supplierList != null)
+                foreach (SupplierViewModel supplier in supplierList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = supplier.CompanyName,
+                        Value = supplier.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            supplierInvoiceAdvanceSearchVM.Supplier.SelectList= selectListItem;
+            return View(supplierInvoiceAdvanceSearchVM);
         }
         [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
         public ActionResult NewSupplierInvoice(string code, Guid? id)
@@ -26,6 +59,21 @@ namespace ProductionApp.UserInterface.Controllers
                 ID = id == null ? Guid.Empty : (Guid)id,
                 IsUpdate = id == null ? false : true,
             };
+            supplierInvoiceVM.Supplier = new SupplierViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            supplierInvoiceVM.Supplier.SelectList = new List<SelectListItem>();
+            List<SupplierViewModel> supplierList = Mapper.Map<List<Supplier>, List<SupplierViewModel>>(_supplierBusiness.GetSupplierForSelectList());
+            if (supplierList != null)
+                foreach (SupplierViewModel supplier in supplierList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = supplier.CompanyName,
+                        Value = supplier.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            supplierInvoiceVM.Supplier.SelectList = selectListItem;
             return View(supplierInvoiceVM);
         }
 

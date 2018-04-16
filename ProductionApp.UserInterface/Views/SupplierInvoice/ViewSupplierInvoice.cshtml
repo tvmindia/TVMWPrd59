@@ -72,7 +72,7 @@
                     @Html.LabelFor(model => model.SupplierID, htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="col-md-12">
-                  @*  @Html.DropDownListFor(model => model.SupplierID, Model.Supplier.SelectList, "--Select Supplier--", new { @class = "form-control BlockEnter", @style = "width:100%" })*@
+                    @Html.DropDownListFor(model => model.SupplierID, Model.Supplier.SelectList, "--Select Supplier--", new { @class = "form-control BlockEnter", @style = "width:100%" })
                     @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
                 </div>
             </div>
