@@ -237,7 +237,7 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return new
             {
-                ID = Guid.Parse(outputCode.Value.ToString()),
+                Code = productCategory.Code,
                 Status = outputStatus.Value.ToString(),
                 Message = productCategory.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
             };

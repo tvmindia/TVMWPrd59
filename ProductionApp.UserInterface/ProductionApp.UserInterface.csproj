@@ -514,7 +514,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
-    <Content Include="Scripts\ChartOfAccount.js" />
     <Content Include="Scripts\Custom.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -676,6 +675,7 @@
     <Content Include="Scripts\UserJS\Bank.js" />
     <Content Include="Scripts\UserJS\BillOfMaterialJS\NewBillOfMaterial.js" />
     <Content Include="Scripts\UserJS\BillOfMaterialJS\ViewBillOfMaterial.js" />
+    <Content Include="Scripts\UserJS\ChartOfAccount.js" />
     <Content Include="Scripts\UserJS\Customer.js" />
     <Content Include="Scripts\UserJS\CustomerInvoice\NewCustomerInvoice.js" />
     <Content Include="Scripts\UserJS\CustomerInvoice\ViewCustomerInvoice.js" />
@@ -992,6 +992,9 @@
     <Content Include="Views\Employee\_AddEmployeePartial.cshtml" />
     <Content Include="Views\SupplierInvoice\ViewSupplierInvoice.cshtml" />
     <Content Include="Views\SupplierInvoice\NewSupplierInvoice.cshtml" />
+    <Content Include="Views\ChartOfAccount\_AddChartOfAccountPartial.cshtml" />
+    <Content Include="Views\ChartOfAccount\_ChartOfAccountDropdown.cshtml" />
+    <Content Include="Views\ChartOfAccount\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1002,7 +1005,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\" />
-    <Folder Include="Views\ChartOfAccount\" />
     <Folder Include="Views\Department\" />
     <Folder Include="Views\FileUpload\" />
     <Folder Include="Views\RecieveFromProduction\" />

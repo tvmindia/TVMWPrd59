@@ -104,8 +104,20 @@ function BindOrReloadCustomerPaymentTable(action)
                     { "data": "PaymentMode", "defaultContent": "<i>-</i>", "width": "10%" },
                     { "data": "Type", "defaultContent": "<i>-</i>", "width": "7%" },
                     { "data": "CreditNo", "defaultContent": "<i>-</i>", "width": "10%" },
-                    { "data": "TotalRecievedAmt", "defaultContent": "<i>-</i>", "width": "11%" },
-                    { "data": "AdvanceAmount", "defaultContent": "<i>-</i>", "width": "12%" },
+                    {
+                        "data": "TotalRecievedAmt", "defaultContent": "<i>-</i>",
+                        'render': function (data, type, row) {
+                            return roundoff(data, 1);
+                        }, "width": "11%"
+                    },
+                    {
+                        "data": "AdvanceAmount", "defaultContent": "<i>-</i>", 'render': function (data, type, row) {
+                            if (data == 0)
+                                return '0.00'
+                            else
+                                return roundoff(data, 1);
+                        }, "width": "12%"
+                    },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
                             return '<a href="/CustomerPayment/NewCustomerPayment?code=ACC&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'

@@ -1,0 +1,113 @@
+﻿@using ProductionApp.UserInterface.App_Start
+@model ProductionApp.UserInterface.Models.ChartOfAccountAdvanceSearchViewModel
+@{
+    ViewBag.Title = "Chart Of Account";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@section styles {
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")
+}
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("UnderConstruction", "DynamicUI", new { Code = "MSTR" })"><i class="fa fa-cogs"></i> Masters</a></li>
+        @*<li><a href="#"><i class="fa fa-cogs"></i> Masters</a></li>*@
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+
+<section class="content">
+    <div class="row">
+        <div class="" id="" style="min-height:25px">
+
+            @{
+                var data = new { actionType = "List" };
+                @Html.Action("ChangeButtonStyle", "ChartOfAccount", data);
+            }
+        </div>
+    </div>
+    <div class="row summaryboxes">
+
+        <div class="clearfix visible-sm-block"></div>
+
+    </div>
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row tableContainer">
+        <div class="form-group col-md-6">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.SearchTerm, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-12">
+                <div class="input-group">
+                    @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" type="submit" style="height:28px" onclick="BindOrReloadChartOfAccountTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*Advance Filter *@
+        @*<div class="col-md-12">
+            <div class="row">
+                &nbsp;
+                <p id="filter" style="float:right;font-size:small"><i class="fa fa-filter advanceFilterLink" aria-hidden="true"></i>&nbsp;<a href="#demo" class="accordion" data-toggle="collapse" aria-expanded="false" aria-controls="demo">Advanced Filter</a></p>
+                <div id="demo" class="collapse" style="border-top:1px solid #d9d9d9">
+                    <div class="col-md-12 no-left-padding">
+                        <div class="col-md-5">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.Unit.Code, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(model => model.Unit.Code, Model.Unit.UnitSelectList, "--Select Unit--", new { @class = "form-control", style = "width:100%" })
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.MaterialType.Code, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(model => model.MaterialType.Code, Model.MaterialType.MaterialTypeSelectList, "--Select Material Type--", new { @class = "form-control", style = "width:100%" })
+                            </div>
+
+                        </div>
+                        <div class="col-md-2">
+                            <div class="col-md-12"></div>
+                            <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadMaterialTable('Search')">Apply</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+        &nbsp;
+        <div class="col-md-12">
+        </div>
+        <div class="col-md-12" style="margin-top: 1%;">
+            <table id="tblChartOfAccount" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                <thead>
+                    <tr class="text-center TableHead">
+                        <th style="width:10%">Code </th>
+                        <th style="width:10%">Type</th>
+                        <th style="width:10%">Description</th>
+                        <th style="width:10%">Is SubHead Applicable</th>
+                        <th style="width:4%">...</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/ChartOfAccount")
+}

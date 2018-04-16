@@ -23,6 +23,8 @@ $(document).ready(function () {
         //});
         $("#BankCode").select2({
         });
+        $('#advAmt').hide();
+        $('#lblAdvAmt').hide();
         $('#btnUpload').click(function () {
             debugger;
             //Pass the controller name
@@ -78,7 +80,7 @@ $(document).ready(function () {
                  {
                      "data": "CustomerPayment.CustomerPaymentDetail.PaidAmount", 'render': function (data, type, row) {
                          index = index + 1
-                         return '<input class="form-control text-right paymentAmount" name="Markup" value="' + roundoff(data) + '" onfocus="paymentAmountFocus(this);" onchange="PaymentAmountChanged(this);" id="PaymentValue_' + index + '" type="text">';
+                         return '<input class="form-control text-right paymentAmount" name="Markup" value="' + roundoff(data) + '" onfocus="paymentAmountFocus(this);" onchange="PaymentAmountChanged(this);" onkeypress = "return isNumber(event)" id="PaymentValue_' + index + '" type="text">';
                      }, "width": "15%"
                  },
                  {
@@ -467,6 +469,15 @@ function BindCustomerPayment() {
     $('#Type').val(thisitem.Type);
     $('#hdfType').val(thisitem.Type);
     $('#Type').prop('disabled', true);
+    if (thisitem.AdvanceAmount == 0) {
+        $('#advAmt').hide();
+        $('#lblAdvAmt').hide();
+    }
+    else {
+        $('#advAmt').show();
+        $('#lblAdvAmt').show();
+        $('#advAmt').text( "₹" + roundoff(thisitem.AdvanceAmount));
+    }
     BindOutstandingAmount();
 
     if ($('#Type').val() == 'C') {
@@ -510,9 +521,8 @@ function BindCustomerPayment() {
     for (var i = 0; i < allData.length; i++) {
         sum = sum + parseFloat(allData[i].CustomerPayment.CustomerPaymentDetail.PaidAmount);
     }
-    $('#lblPaymentApplied').text(roundoff(sum));
     $('#lblCredit').text(roundoff(AmountReceived - sum));
-    $('#lblPaymentApplied').text(roundoff(thisitem.TotalRecievedAmt));
+    $('#lblPaymentApplied').text(roundoff(sum));
     Selectcheckbox();
     clearUploadControl();
     PaintImages(PaymentID);

@@ -27,6 +27,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public int TotalCount { get; set; }
         public string DetailJSON { get; set; }
         public int FilteredCount { get; set; }
+        public decimal TotalTaxableAmount { get; set; }
+        public decimal TotalTaxAmount { get; set; }
+        public decimal InvoiceAmount { get; set; }
         public Common Common { get; set; }
     }
     public class SupplierInvoiceDetail 
