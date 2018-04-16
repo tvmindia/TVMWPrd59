@@ -137,23 +137,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion MasterPartial
 
-        #region GetChartOfAccount
-        [AuthSecurityFilter(ProjectObject = "ChartOfAccount", Mode = "R")]
-        public string GetChartOfAccount(string code)
-        {
-            try
-            {
-                ChartOfAccountViewModel chartOfAccountVM = new ChartOfAccountViewModel();
-                chartOfAccountVM = Mapper.Map<ChartOfAccount, ChartOfAccountViewModel>(_chartOfAccountBusiness.GetChartOfAccount(code));
-                return JsonConvert.SerializeObject(new { Result = "OK", Records = chartOfAccountVM });
-            }
-            catch (Exception ex)
-            {
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
-            }
-        }
-
-        #endregion GetChartOfAccount
+       
 
         #region ChartOfAccountDropdown
         public ActionResult ChartOfAccountDropdown(string required)
