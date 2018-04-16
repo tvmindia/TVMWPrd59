@@ -74,6 +74,7 @@
     <Compile Include="DTO\Approver.cs" />
     <Compile Include="DTO\Bank.cs" />
     <Compile Include="DTO\BillOfMaterial.cs" />
+    <Compile Include="DTO\ChartOfAccount.cs" />
     <Compile Include="DTO\Common.cs" />
     <Compile Include="DTO\AMCSysModule.cs" />
     <Compile Include="DTO\AMCSysMenu.cs" />

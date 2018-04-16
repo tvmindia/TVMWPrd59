@@ -61,6 +61,7 @@ namespace ProductionApp.UserInterface.App_Start
 
             //---------------------------------
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Material").Include("~/Scripts/UserJS/Material.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/ChartOfAccount").Include("~/Scripts/UserJS/ChartOfAccount.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/ProductCategory").Include("~/Scripts/UserJS/ProductCategory.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Product").Include("~/Scripts/UserJS/Product.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Customer").Include("~/Scripts/UserJS/Customer.js"));

@@ -514,6 +514,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
+    <Content Include="Scripts\ChartOfAccount.js" />
     <Content Include="Scripts\Custom.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -746,6 +747,7 @@
     <Compile Include="Controllers\ApproverController.cs" />
     <Compile Include="Controllers\BankController.cs" />
     <Compile Include="Controllers\BillOfMaterialController.cs" />
+    <Compile Include="Controllers\ChartOfAccountController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\CustomerInvoiceController.cs" />
     <Compile Include="Controllers\CustomerPaymentController.cs" />
@@ -801,6 +803,7 @@
     <Compile Include="Models\ApproverViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
     <Compile Include="Models\BillOfMaterialViewModel.cs" />
+    <Compile Include="Models\ChartOfAccountViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
     <Compile Include="Models\CustomerInvoiceViewModel.cs" />
     <Compile Include="Models\CustomerPaymentViewModel.cs" />
@@ -993,6 +996,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\" />
+    <Folder Include="Views\ChartOfAccount\" />
     <Folder Include="Views\Department\" />
     <Folder Include="Views\FileUpload\" />
     <Folder Include="Views\RecieveFromProduction\" />
