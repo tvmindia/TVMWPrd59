@@ -384,7 +384,6 @@ namespace ProductionApp.RepositoryServices.Services
 
                                     customerInvoice.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : customerInvoice.CustomerID);
                                     customerInvoice.InvoiceAmount = (sdr["OutstandingAmount"].ToString() != "" ? Decimal.Parse(sdr["OutstandingAmount"].ToString()) : customerInvoice.InvoiceAmount);
-                                    
                                 }
                             }
                         }

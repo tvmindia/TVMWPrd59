@@ -9,15 +9,24 @@ namespace ProductionApp.UserInterface.Models
     public class SupplierInvoiceViewModel
     {
         public Guid ID { get; set; }
+        [Display(Name = "Invoice No")]
         public string InvoiceNo { get; set; }
+        [Display(Name = "Supplier")]
         public Guid SupplierID { get; set; }
+        [Display(Name = "Payment Term")]
         public string PaymentTermCode { get; set; }
+        [Display(Name = "Invoice Date")]
         public string InvoiceDateFormatted { get; set; }
+        [Display(Name = "Payment Due Date")]
         public string PaymentDueDateFormatted { get; set; }
+        [Display(Name = "Billing Address")]
         public string BillingAddress { get; set; }
+        [Display(Name = "Shipping Address")]
         public string ShippingAddress { get; set; }
         public decimal Discount { get; set; }
+        [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
+        [Display(Name = "Account Head")]
         public string AccountCode { get; set; }
 
         //Additional Reference
@@ -26,7 +35,12 @@ namespace ProductionApp.UserInterface.Models
         public int TotalCount { get; set; }
         public string DetailJSON { get; set; }
         public int FilteredCount { get; set; }
+
+        public decimal TotalTaxableAmount { get; set; }
+        public decimal TotalTaxAmount { get; set; }
+        public decimal InvoiceAmount { get; set; }
         public CommonViewModel Common { get; set; }
+        public SupplierViewModel Supplier { get; set; }
     }
     public class SupplierInvoiceDetailViewModel
     {
