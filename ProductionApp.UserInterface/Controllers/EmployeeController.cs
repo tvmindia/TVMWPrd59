@@ -130,7 +130,6 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateEmployee
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
         public string InsertUpdateEmployee(EmployeeViewModel employeeVM)
         {
