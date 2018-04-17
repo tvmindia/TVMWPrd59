@@ -235,5 +235,41 @@ namespace ProductionApp.RepositoryServices.Services
 
             return result;
         }
+
+        #region GetModuleName
+        /// <summary>
+        /// To Get Module Name Corresponding To Module Code
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns>string</returns>
+        public string GetModuleName(string code)
+        {
+            string moduleName = "";
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetModuleName]";
+                        cmd.Parameters.Add("@Code", SqlDbType.VarChar).Value = code;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        Object res = cmd.ExecuteScalar();
+                        return moduleName=res.ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion GetModuleName
+
     }
 }

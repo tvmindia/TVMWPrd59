@@ -10,9 +10,9 @@
 // ##2--Document Ready function
 // ##3--On Change Supplier : Bind Supplier Details
 // ##4--Bind Payment due date, based on Payment date
-// ##5-- 
-// ##6-- 
-// ##7-- 
+// ##5--From Purchase Order Changed 
+// ##6--Show Supplier Invoice Details Modal
+// ##7--Show Load PO Detail Modal
 // ##8-- 
 // ##9-- 
 // ##10-- 
@@ -43,7 +43,8 @@ $(document).ready(function () {
         //------select2 fields-------// 
         $("#SupplierID").select2({});
         $("#AccountCode").select2({});
- 
+        $("#PurchaseOrderID").select2({});
+
         $('#btnUpload').click(function () {
             debugger;
             //Pass the controller name
@@ -100,7 +101,37 @@ $(document).ready(function () {
                 { className: "text-left", "targets": [4, 6] }
             ]
         });
-    
+      
+        _DataTables.PurchaseOrderDetailTable = $('#tblPurchaseOrderDetail').DataTable({
+                dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+                order: [],
+                searching: true,
+                paging: true,
+                data: null,
+                pageLength: 5,
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search"
+                },
+                columns: [
+                  { "data": "Checkbox", "defaultContent": "" },
+                  { "data": "MaterialID", "defaultContent": "<i>-</i>" },
+                  { "data": "MaterialCode", "defaultContent": "<i>-</i>" },
+                  { "data": "MaterialDesc", "defaultContent": "<i>-</i>" },
+                  { "data": "Qty", "defaultContent": "<i>-</i>" },
+                  { "data": "UnitCode", "defaultContent": "<i>-</i>" },
+                ],
+                columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 0 },
+                    { "targets": [], "visible": false, "searchable": false },
+                    { className: "text-right", "targets": [4] },
+                    { className: "text-left", "targets": [2,3, 5] },
+                    { className: "text-center", "targets": [0] },
+                    { "targets": [1,3,2,4,5], "bSortable": false }
+                ],
+                select: { style: 'multi', selector: 'td:first-child' },
+                destroy: true
+            });
+      
         //------------------------------------------------------------------------------------------------//
   
         $("#SupplierID").change(function () {
@@ -116,6 +147,7 @@ $(document).ready(function () {
         else {
             $('#lblSupplierInvoiceNo').text('Supplier Invoice# : New');
         }
+        IsFromPurchaseOrderChanged();
     }
     catch (e) {
         console.log(e.message);
@@ -180,6 +212,147 @@ function GetPaymentTermDetails(Code) {
         }
         if (ds.Result == "ERROR") {
             alert(ds.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+//##5--From Purchase Order Changed -----------------------------##5
+function IsFromPurchaseOrderChanged() {
+    debugger;
+    if ($('#IsFromPurchaseOrder').val() == "True") {
+        $('#divPONo').hide();
+        $('#divPOID').show();
+    } else {
+        $('#divPONo').show();
+        $('#PurchaseOrderID').val('').select2();
+        $('#divPOID').hide();
+    }
+}
+
+//##6--Show Supplier Invoice Detail Modal ---------------------------##6
+function ShowSupplierInvoiceDetailModal()
+{
+    debugger;
+    $('#SupplierInvoiceDetailModal').modal('show');
+}
+
+
+
+
+//##7--Show Load PO Detail Modal ---------------------------##7
+function LoadPODetailModal() {
+    debugger;
+    if ($('#PurchaseOrderID').val() !== "") {
+        $('#PurchaseOrderDetailModal').modal('show');
+        var id = $('#PurchaseOrderID').val();
+        BindPurchaseOrderDetailTable(id);
+    } else {
+        notyAlert('warning', 'Purchase Order Not selcted!');
+    }
+} 
+function BindPurchaseOrderDetailTable(id) {
+    debugger;
+    _DataTables.PurchaseOrderDetailTable.clear().rows.add(GetPurchaseOrderItem(id)).select().draw(false);
+}
+function GetPurchaseOrderItem(id) {
+    try {
+        debugger;
+        var data = { "id": id };
+        var purchaseOrderDetailList = []; 
+        _jsonData = GetDataFromServer("SupplierInvoice/GetAllPurchaseOrderItem/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+            _result = _jsonData.Result;
+            _message = _jsonData.Message;
+            purchaseOrderDetailList = _jsonData.Records;
+        }
+        if (_result == "OK") {
+            return purchaseOrderDetailList;
+        }
+        if (_result == "ERROR") {
+            notyAlert('error', _message);
+        }
+    }
+    catch (e) {
+        console.log(e.message);
+    }
+} 
+ 
+
+
+
+
+
+
+
+
+//##11--Save  Supplier Invoice----------------------------##11
+function Save() {
+    debugger;
+    _SlNo = 1;
+    $('#btnSave').trigger('click');
+}
+
+//##12--Save Success Supplier Invoice----------------------------##12
+function SaveSuccessSupplierInvoice(data, status) {
+    _jsonData = JSON.parse(data)
+    switch (_jsonData.Result) {
+        case "OK":
+            $('#IsUpdate').val('True');
+            $('#ID').val(_jsonData.Records.ID)
+            _SupplierInvoiceDetail = [];
+            BindSupplierInvoiceByID();
+            notyAlert("success", _jsonData.Records.Message)
+            break;
+        case "ERROR":
+            notyAlert("danger", _jsonData.Message)
+            break;
+        default:
+            notyAlert("danger", _jsonData.Message)
+            break;
+    }
+}
+//##13--Bind Supplier Invoice By ID----------------------------##13
+function BindSupplierInvoiceByID() {
+    debugger;
+    ChangeButtonPatchView('SupplierInvoice', 'divbuttonPatchAddSupplierInvoice', 'Edit');
+    var ID = $('#ID').val();
+    _SlNo = 1;
+    var SupplierInvoiceVM = GetSupplierInvoiceByID(ID);
+    $('#lblSupplierInvoiceNo').text('Supplier Invoice# :' + SupplierInvoiceVM.InvoiceNo);
+    $('#InvoiceNo').val(SupplierInvoiceVM.InvoiceNo);
+    $('#InvoiceDateFormatted').val(SupplierInvoiceVM.InvoiceDateFormatted);
+    $('#PaymentTermCode').val(SupplierInvoiceVM.PaymentTermCode);
+    $('#PaymentDueDateFormatted').val(SupplierInvoiceVM.PaymentDueDateFormatted);
+    $('#SupplierID').val(SupplierInvoiceVM.SupplierID).select2();
+    $('#GeneralNotes').val(SupplierInvoiceVM.GeneralNotes);
+    $('#BillingAddress').val(SupplierInvoiceVM.BillingAddress);
+    $('#ShippingAddress').val(SupplierInvoiceVM.ShippingAddress);
+    $('#Discount').val(roundoff(SupplierInvoiceVM.Discount));
+    $('#lblTotalTaxableAmount').text(roundoff(SupplierInvoiceVM.TotalTaxableAmount));
+    $('#lblTotalTaxAmount').text(roundoff(SupplierInvoiceVM.TotalTaxAmount));
+    $('#lblInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount));
+    $('#lblStatusInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount));
+
+    //detail Table values binding with header id
+   // BindSupplierInvoiceDetailTable(ID);
+    PaintImages(ID);//bind attachments written in custom js
+}
+function GetSupplierInvoiceByID(ID) {
+    try {
+        var data = { "ID": ID };
+        _jsonData = GetDataFromServer("SupplierInvoice/GetSupplierInvoice/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+        }
+        if (_jsonData.Result == "OK") {
+            return _jsonData.Records;
+        }
+        if (_jsonData.Result == "ERROR") {
+            alert(_jsonData.Message);
         }
     }
     catch (e) {

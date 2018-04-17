@@ -20,6 +20,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal Discount { get; set; }
         public string GeneralNotes { get; set; }
         public string AccountCode { get; set; }
+        public Guid PurchaseOrderID { get; set; }
+        public string PurchaseOrderNo { get; set; }
 
         //Additional Reference
         public bool IsUpdate { get; set; }
@@ -32,6 +34,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal InvoiceAmount { get; set; }
         public Common Common { get; set; }
         public Supplier Supplier { get; set; }
+        public SupplierInvoiceDetail SupplierInvoiceDetail { get; set; }
     }
     public class SupplierInvoiceDetail 
     {

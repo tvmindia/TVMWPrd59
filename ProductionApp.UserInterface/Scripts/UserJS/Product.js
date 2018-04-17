@@ -121,7 +121,7 @@ function BindOrReloadProductTable(action) {
                     return '-'
                 else
                     return roundoff(data, 1);
-            }, "defaultContent": "<i>-<i>", "width": "5%" },
+            }, "defaultContent": "<i>-<i>", "width": "7%" },
             { "data": "CostPricePerPiece" , render: function (data, type, row) {
                 if (data == 0)
                     return '-'

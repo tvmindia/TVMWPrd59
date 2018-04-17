@@ -87,8 +87,8 @@ function BindOrReloadChartOfAccountTable(action) {
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [] },
-                { className: "text-left", "targets": [0,1, 2] },
-                { className: "text-center", "targets": [3] }],
+                { className: "text-left", "targets": [0,1, 2,3] },
+                { className: "text-center", "targets": [4] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {
