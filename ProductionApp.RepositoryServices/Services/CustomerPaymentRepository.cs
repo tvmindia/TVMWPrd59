@@ -69,6 +69,8 @@ namespace ProductionApp.RepositoryServices.Services
                                         customerPayment.Type = (sdr["TypeDesc"].ToString() != "" ? sdr["TypeDesc"].ToString() : customerPayment.Type);
                                         customerPayment.CustomerName = (sdr["Customer"].ToString() != "" ? sdr["Customer"].ToString() : customerPayment.CustomerName);
                                         customerPayment.CreditNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : customerPayment.CreditNo);
+                                        customerPayment.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : customerPayment.TotalCount);
+                                        customerPayment.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : customerPayment.FilteredCount);
                                     }
                                     customerPaymentList.Add(customerPayment);
                                 }

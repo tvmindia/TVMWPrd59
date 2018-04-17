@@ -107,7 +107,9 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<CustomerPaymentDetailViewModel, CustomerPaymentDetail>().ReverseMap(); 
                 config.CreateMap<CustomerPaymentAdvanceSearchViewModel, CustomerPaymentAdvanceSearch>().ReverseMap();
                 config.CreateMap<DepartmentViewModel, Department>().ReverseMap(); 
-                config.CreateMap<EmployeeCategoryViewModel, EmployeeCategory>().ReverseMap();
+                config.CreateMap<EmployeeCategoryViewModel, EmployeeCategory>().ReverseMap(); 
+                config.CreateMap<AssemblyViewModel, Assembly>().ReverseMap();
+                config.CreateMap<AssemblyAdvanceSearchViewModel, AssemblyAdvanceSearch>().ReverseMap();
                 //CustomerInvoice 
                 config.CreateMap<CustomerInvoiceViewModel,CustomerInvoice>().ReverseMap();
                 config.CreateMap<CustomerInvoiceDetailViewModel, CustomerInvoiceDetail>().ReverseMap();

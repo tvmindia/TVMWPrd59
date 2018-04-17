@@ -41,6 +41,7 @@ namespace ProductionApp.UserInterface.Models
         public decimal InvoiceAmount { get; set; }
         public CommonViewModel Common { get; set; }
         public SupplierViewModel Supplier { get; set; }
+        public ChartOfAccountViewModel chartOfAccount { get; set; }
     }
     public class SupplierInvoiceDetailViewModel
     {

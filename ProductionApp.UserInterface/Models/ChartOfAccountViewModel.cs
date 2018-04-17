@@ -10,11 +10,14 @@ namespace ProductionApp.UserInterface.Models
     public class ChartOfAccountViewModel
     {
         //[Remote(action: "CheckChartOfAccountTypeExist", controller: "ChartOfAccount", AdditionalFields =nameof(IsUpdate))]
+        [Required(ErrorMessage = "Code is missing")]
         public string Code { get; set; }
+        [Required(ErrorMessage = "Type is missing")]
         public string Type { get; set; }
         [Display(Name = "Type Description")]
         public string TypeDesc { get; set; }
         [Display(Name = "Is Sub Head")]
+        [Required(ErrorMessage = "Is SubHead Applicable is missing")]
         public bool IsSubHeadApplicable { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }

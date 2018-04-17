@@ -672,6 +672,8 @@
     <Content Include="Scripts\UserJS\AppObject.js" />
     <Content Include="Scripts\UserJS\Approver.js" />
     <Content Include="Scripts\UserJS\AppSubobject.js" />
+    <Content Include="Scripts\UserJS\Assembly\NewAssembly.js" />
+    <Content Include="Scripts\UserJS\Assembly\ViewAssembly.js" />
     <Content Include="Scripts\UserJS\Bank.js" />
     <Content Include="Scripts\UserJS\BillOfMaterialJS\NewBillOfMaterial.js" />
     <Content Include="Scripts\UserJS\BillOfMaterialJS\ViewBillOfMaterial.js" />
@@ -747,6 +749,7 @@
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\AppObjectController.cs" />
     <Compile Include="Controllers\ApproverController.cs" />
+    <Compile Include="Controllers\AssemblyController.cs" />
     <Compile Include="Controllers\BankController.cs" />
     <Compile Include="Controllers\BillOfMaterialController.cs" />
     <Compile Include="Controllers\ChartOfAccountController.cs" />
@@ -804,6 +807,7 @@
     <Compile Include="Models\ApprovalLogViewModel.cs" />
     <Compile Include="Models\ApprovalStatusViewModel.cs" />
     <Compile Include="Models\ApproverViewModel.cs" />
+    <Compile Include="Models\AssemblyViewModel.cs" />
     <Compile Include="Models\BankViewModel.cs" />
     <Compile Include="Models\BillOfMaterialViewModel.cs" />
     <Compile Include="Models\ChartOfAccountViewModel.cs" />
@@ -995,6 +999,8 @@
     <Content Include="Views\ChartOfAccount\_AddChartOfAccountPartial.cshtml" />
     <Content Include="Views\ChartOfAccount\_ChartOfAccountDropdown.cshtml" />
     <Content Include="Views\ChartOfAccount\Index.cshtml" />
+    <Content Include="Views\Assembly\ViewAssembly.cshtml" />
+    <Content Include="Views\Assembly\NewAssembly.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.BusinessService.Contracts
 {
-    public interface ISupplierInvoiceBusiness
+    public interface IAssemblyBusiness
     {
-        List<SupplierInvoice> GetAllSupplierInvoice(SupplierInvoiceAdvanceSearch supplierInvoiceAdvanceSearch);
-
+        List<Assembly> GetAllAssembly(AssemblyAdvanceSearch assemblyAdvanceSearch);
     }
 }

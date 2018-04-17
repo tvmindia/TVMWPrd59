@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
@@ -16,17 +17,20 @@ namespace ProductionApp.UserInterface.Controllers
       
         private ISupplierInvoiceBusiness _supplierInvoiceBusiness;
         private ISupplierBusiness _supplierBusiness;
+        private IChartOfAccountBusiness _chartOfAccountBusiness;
+        private IPaymentTermBusiness _paymentTermBusiness;
 
         Common _common = new Common();
         AppConst _appConst = new AppConst();
 
-        public SupplierInvoiceController(ISupplierInvoiceBusiness supplierInvoiceBusiness, ISupplierBusiness supplierBusiness)
+        public SupplierInvoiceController(ISupplierInvoiceBusiness supplierInvoiceBusiness, ISupplierBusiness supplierBusiness, IChartOfAccountBusiness chartOfAccountBusiness, IPaymentTermBusiness paymentTermBusiness)
         {
             _supplierInvoiceBusiness = supplierInvoiceBusiness;
             _supplierBusiness = supplierBusiness;
+            _chartOfAccountBusiness = chartOfAccountBusiness;
+            _paymentTermBusiness = paymentTermBusiness;
         }
         // GET: SupplierInvoice
-
 
         [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
         public ActionResult ViewSupplierInvoice(string code)
@@ -74,8 +78,75 @@ namespace ProductionApp.UserInterface.Controllers
                     });
                 }
             supplierInvoiceVM.Supplier.SelectList = selectListItem;
+
+            supplierInvoiceVM.chartOfAccount = new ChartOfAccountViewModel()
+            {
+                ChartOfAccountSelectList = _chartOfAccountBusiness.GetChartOfAccountForSelectList()
+            };
             return View(supplierInvoiceVM);
         }
+
+
+        #region GetAllSupplierInvoice
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
+        public JsonResult GetAllSupplierInvoice(DataTableAjaxPostModel model, SupplierInvoiceAdvanceSearchViewModel supplierInvoiceAdvanceSearchVM)
+        {
+            supplierInvoiceAdvanceSearchVM.DataTablePaging.Start = model.start;
+            supplierInvoiceAdvanceSearchVM.DataTablePaging.Length = (supplierInvoiceAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : supplierInvoiceAdvanceSearchVM.DataTablePaging.Length);
+            List<SupplierInvoiceViewModel> supplierInvoiceList = Mapper.Map<List<SupplierInvoice>, List<SupplierInvoiceViewModel>>(_supplierInvoiceBusiness.GetAllSupplierInvoice(Mapper.Map<SupplierInvoiceAdvanceSearchViewModel, SupplierInvoiceAdvanceSearch>(supplierInvoiceAdvanceSearchVM)));
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = supplierInvoiceList.Count != 0 ? supplierInvoiceList[0].TotalCount : 0,
+                recordsFiltered = supplierInvoiceList.Count != 0 ? supplierInvoiceList[0].FilteredCount : 0,
+                data = supplierInvoiceList
+            });
+        }
+        #endregion GetAllSupplierInvoice
+
+        #region GetDueDate
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
+        public string GetDueDate(string Code, string InvoiceDate = "")
+        {
+            try
+            {
+                string PaymentDueDate;
+                DateTime Datenow = _common.GetCurrentDateTime();
+                PaymentTermViewModel payTermsObj = Mapper.Map<PaymentTerm, PaymentTermViewModel>(_paymentTermBusiness.GetPaymentTermDetails(Code));
+                if (InvoiceDate == "")
+                {
+                    PaymentDueDate = Datenow.AddDays(payTermsObj.NoOfDays).ToString("dd-MMM-yyyy");
+                }
+                else
+                {
+                    PaymentDueDate = Convert.ToDateTime(InvoiceDate).AddDays(payTermsObj.NoOfDays).ToString("dd-MMM-yyyy");
+                }
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = PaymentDueDate });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion GetDueDate
+
+        #region GetCustomerDetails
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
+        public string GetSupplierDetails(string supplierId)
+        {
+            try
+            {
+                SupplierViewModel supplierVM = Mapper.Map<Supplier, SupplierViewModel>(_supplierBusiness.GetSupplier(Guid.Parse(supplierId)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetCustomerDetails
 
         #region ButtonStyling
         [HttpGet]
