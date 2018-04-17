@@ -85,7 +85,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region InsertUpdateCustomerPayment
-       // [AuthSecurityFilter(ProjectObject = "CustomerPayment", Mode = "R")]
+       [AuthSecurityFilter(ProjectObject = "CustomerPayment", Mode = "R")]
         [HttpPost]
         public string InsertUpdateCustomerPayment(CustomerPaymentViewModel customerPaymentVM)
         {
