@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
@@ -17,15 +18,17 @@ namespace ProductionApp.UserInterface.Controllers
         private ISupplierInvoiceBusiness _supplierInvoiceBusiness;
         private ISupplierBusiness _supplierBusiness;
         private IChartOfAccountBusiness _chartOfAccountBusiness;
+        private IPaymentTermBusiness _paymentTermBusiness;
 
         Common _common = new Common();
         AppConst _appConst = new AppConst();
 
-        public SupplierInvoiceController(ISupplierInvoiceBusiness supplierInvoiceBusiness, ISupplierBusiness supplierBusiness, IChartOfAccountBusiness chartOfAccountBusiness)
+        public SupplierInvoiceController(ISupplierInvoiceBusiness supplierInvoiceBusiness, ISupplierBusiness supplierBusiness, IChartOfAccountBusiness chartOfAccountBusiness, IPaymentTermBusiness paymentTermBusiness)
         {
             _supplierInvoiceBusiness = supplierInvoiceBusiness;
             _supplierBusiness = supplierBusiness;
             _chartOfAccountBusiness = chartOfAccountBusiness;
+            _paymentTermBusiness = paymentTermBusiness;
         }
         // GET: SupplierInvoice
 
@@ -101,6 +104,49 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetAllSupplierInvoice
 
+        #region GetDueDate
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
+        public string GetDueDate(string Code, string InvoiceDate = "")
+        {
+            try
+            {
+                string PaymentDueDate;
+                DateTime Datenow = _common.GetCurrentDateTime();
+                PaymentTermViewModel payTermsObj = Mapper.Map<PaymentTerm, PaymentTermViewModel>(_paymentTermBusiness.GetPaymentTermDetails(Code));
+                if (InvoiceDate == "")
+                {
+                    PaymentDueDate = Datenow.AddDays(payTermsObj.NoOfDays).ToString("dd-MMM-yyyy");
+                }
+                else
+                {
+                    PaymentDueDate = Convert.ToDateTime(InvoiceDate).AddDays(payTermsObj.NoOfDays).ToString("dd-MMM-yyyy");
+                }
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = PaymentDueDate });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion GetDueDate
+
+        #region GetCustomerDetails
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
+        public string GetSupplierDetails(string supplierId)
+        {
+            try
+            {
+                SupplierViewModel supplierVM = Mapper.Map<Supplier, SupplierViewModel>(_supplierBusiness.GetSupplier(Guid.Parse(supplierId)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetCustomerDetails
 
         #region ButtonStyling
         [HttpGet]
