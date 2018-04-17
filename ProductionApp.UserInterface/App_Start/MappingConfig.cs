@@ -124,6 +124,10 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<SupplierInvoiceViewModel, SupplierInvoice>().ReverseMap();
                 config.CreateMap<SupplierInvoiceDetailViewModel, SupplierInvoiceDetail>().ReverseMap();
                 config.CreateMap<SupplierInvoiceAdvanceSearchViewModel, SupplierInvoiceAdvanceSearch>().ReverseMap();
+                //Supplier Payment
+                config.CreateMap<SupplierPaymentViewModel, SupplierPayment>().ReverseMap();
+                config.CreateMap<SupplierPaymentDetailViewModel, SupplierPaymentDetail>().ReverseMap();
+                config.CreateMap<SupplierPaymentAdvanceSearchViewModel, SupplierPaymentAdvanceSearch>().ReverseMap();
             });
         }
     }
