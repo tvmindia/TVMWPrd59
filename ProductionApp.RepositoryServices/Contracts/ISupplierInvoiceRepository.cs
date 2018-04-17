@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProductionApp.DataAccessObject.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace ProductionApp.RepositoryServices.Contracts
 {
     public interface ISupplierInvoiceRepository
     {
+        List<SupplierInvoice> GetAllSupplierInvoice(SupplierInvoiceAdvanceSearch supplierInvoiceAdvanceSearch);
 
     }
 }

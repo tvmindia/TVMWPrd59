@@ -2,7 +2,7 @@
 //*****************************************************************************
 //Author: Gibin Jacob
 //CreatedDate: 20-Mar-2018 
-//LastModified:  
+//LastModified:  17-APR-2018 
 //FileName: ViewCustomerInvoice.js
 //Description: Client side coding for View Customer Invoice
 //******************************************************************************
@@ -132,4 +132,8 @@ function BindOrReloadCustomerInvoiceTable(action) {
     catch (e) {
         console.log(e.message);
     }
-} 
+}
+
+function ResetCustomerInvoiceList() {
+    BindOrReloadCustomerInvoiceTable('Reset');
+}

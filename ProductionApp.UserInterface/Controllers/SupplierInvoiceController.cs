@@ -29,7 +29,6 @@ namespace ProductionApp.UserInterface.Controllers
         }
         // GET: SupplierInvoice
 
-
         [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
         public ActionResult ViewSupplierInvoice(string code)
         {
@@ -83,6 +82,25 @@ namespace ProductionApp.UserInterface.Controllers
             };
             return View(supplierInvoiceVM);
         }
+
+
+        #region GetAllSupplierInvoice
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
+        public JsonResult GetAllSupplierInvoice(DataTableAjaxPostModel model, SupplierInvoiceAdvanceSearchViewModel supplierInvoiceAdvanceSearchVM)
+        {
+            supplierInvoiceAdvanceSearchVM.DataTablePaging.Start = model.start;
+            supplierInvoiceAdvanceSearchVM.DataTablePaging.Length = (supplierInvoiceAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : supplierInvoiceAdvanceSearchVM.DataTablePaging.Length);
+            List<SupplierInvoiceViewModel> supplierInvoiceList = Mapper.Map<List<SupplierInvoice>, List<SupplierInvoiceViewModel>>(_supplierInvoiceBusiness.GetAllSupplierInvoice(Mapper.Map<SupplierInvoiceAdvanceSearchViewModel, SupplierInvoiceAdvanceSearch>(supplierInvoiceAdvanceSearchVM)));
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = supplierInvoiceList.Count != 0 ? supplierInvoiceList[0].TotalCount : 0,
+                recordsFiltered = supplierInvoiceList.Count != 0 ? supplierInvoiceList[0].FilteredCount : 0,
+                data = supplierInvoiceList
+            });
+        }
+        #endregion GetAllSupplierInvoice
+
 
         #region ButtonStyling
         [HttpGet]

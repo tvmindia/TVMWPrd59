@@ -87,13 +87,13 @@ namespace ProductionApp.UserInterface.Controllers
         {
             customerInvoiceAdvanceSearchVM.DataTablePaging.Start = model.start;
             customerInvoiceAdvanceSearchVM.DataTablePaging.Length = (customerInvoiceAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : customerInvoiceAdvanceSearchVM.DataTablePaging.Length);
-            List<CustomerInvoiceViewModel> salesOrderList = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoiceViewModel>>(_customerInvoiceBusiness.GetAllCustomerInvoice(Mapper.Map<CustomerInvoiceAdvanceSearchViewModel, CustomerInvoiceAdvanceSearch>(customerInvoiceAdvanceSearchVM)));
+            List<CustomerInvoiceViewModel> customerInvoiceList = Mapper.Map<List<CustomerInvoice>, List<CustomerInvoiceViewModel>>(_customerInvoiceBusiness.GetAllCustomerInvoice(Mapper.Map<CustomerInvoiceAdvanceSearchViewModel, CustomerInvoiceAdvanceSearch>(customerInvoiceAdvanceSearchVM)));
             return Json(new
             {
                 draw = model.draw,
-                recordsTotal = salesOrderList.Count != 0 ? salesOrderList[0].TotalCount : 0,
-                recordsFiltered = salesOrderList.Count != 0 ? salesOrderList[0].FilteredCount : 0,
-                data = salesOrderList
+                recordsTotal = customerInvoiceList.Count != 0 ? customerInvoiceList[0].TotalCount : 0,
+                recordsFiltered = customerInvoiceList.Count != 0 ? customerInvoiceList[0].FilteredCount : 0,
+                data = customerInvoiceList
             });
         }
         #endregion GetAllCustomerInvoice

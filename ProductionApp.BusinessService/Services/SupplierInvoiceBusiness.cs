@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProductionApp.DataAccessObject.DTO;
 
 namespace ProductionApp.BusinessService.Services
 {
@@ -16,6 +17,11 @@ namespace ProductionApp.BusinessService.Services
         {
             _supplierInvoiceRepository = supplierInvoiceRepository;
             _commonBusiness = commonBusiness;
+        }
+
+        public List<SupplierInvoice> GetAllSupplierInvoice(SupplierInvoiceAdvanceSearch supplierInvoiceAdvanceSearch)
+        {
+            return _supplierInvoiceRepository.GetAllSupplierInvoice(supplierInvoiceAdvanceSearch);
         }
     }
 }
