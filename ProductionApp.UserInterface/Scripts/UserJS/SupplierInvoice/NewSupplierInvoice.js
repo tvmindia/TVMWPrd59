@@ -114,12 +114,45 @@ $(document).ready(function () {
                     searchPlaceholder: "Search"
                 },
                 columns: [
-                  { "data": "Checkbox", "defaultContent": "" },
-                  { "data": "MaterialID", "defaultContent": "<i>-</i>" },
-                  { "data": "MaterialCode", "defaultContent": "<i>-</i>" },
-                  { "data": "MaterialDesc", "defaultContent": "<i>-</i>" },
-                  { "data": "Qty", "defaultContent": "<i>-</i>" },
-                  { "data": "UnitCode", "defaultContent": "<i>-</i>" },
+                  { "data": "Checkbox", "defaultContent": "", "width": "" },
+                  {
+                      "data": "MaterialDesc", "defaultContent": "<i>-</i>", "width": "",
+                       'render': function (data, type, row) {
+                            return data;
+                       }
+                  },
+                   {
+                       "data": "Qty", "defaultContent": "<i>-</i>", "width": "",
+                       'render': function (data, type, row) {
+                             return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,1);"style="width:100%">';
+                           //return data;
+                       }
+                   },
+                    {
+                        "data": "Rate", "defaultContent": "<i>-</i>", "width": "",
+                        'render': function (data, type, row) {
+                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,2);"style="width:100%">';
+                        }
+                    },
+                    {
+                        "data": "Discount", "defaultContent": "<i>-</i>", "width": "",
+                        'render': function (data, type, row) {
+                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,3);" style="width:100%">';
+                        }
+                    },
+                    {
+                        "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "",
+                        'render': function (data, type, row) {
+                            if (data != null) {
+                                var first = _taxDropdownScript.slice(0, _taxDropdownScript.indexOf('value="' + data + '"'));
+                                var second = _taxDropdownScript.slice(_taxDropdownScript.indexOf('value="' + data + '"'), _taxDropdownScript.length);
+                                return '<select class="form-control" onchange="EdittextBoxValue(this,4);" >' + first + ' selected="selected" ' + second + '</select>';
+                            }
+                            else {
+                                return '<select class="form-control" onchange="EdittextBoxValue(this,4);" >' + _taxDropdownScript + '</select>';
+                            }
+                        }
+                    }
                 ],
                 columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 0 },
                     { "targets": [], "visible": false, "searchable": false },
@@ -148,6 +181,7 @@ $(document).ready(function () {
             $('#lblSupplierInvoiceNo').text('Supplier Invoice# : New');
         }
         IsFromPurchaseOrderChanged();
+
     }
     catch (e) {
         console.log(e.message);
@@ -236,6 +270,7 @@ function IsFromPurchaseOrderChanged() {
 function ShowSupplierInvoiceDetailModal()
 {
     debugger;
+  
     $('#SupplierInvoiceDetailModal').modal('show');
 }
 
@@ -246,6 +281,7 @@ function ShowSupplierInvoiceDetailModal()
 function LoadPODetailModal() {
     debugger;
     if ($('#PurchaseOrderID').val() !== "") {
+        TaxtypeDropdown();
         $('#PurchaseOrderDetailModal').modal('show');
         var id = $('#PurchaseOrderID').val();
         BindPurchaseOrderDetailTable(id);
@@ -281,9 +317,90 @@ function GetPurchaseOrderItem(id) {
     }
 } 
  
+//##8-- popup DataTable: Dropdown,TextBoxes,CheckBox Binding-----------------##8
+function TaxtypeDropdown() {
+    var taxTypeVM = GetTaxtypeDropdown()
+    _taxDropdownScript = "<option value=" + '' + ">-Select-</option>";
+    for (i = 0; i < taxTypeVM.length; i++) {
+        _taxDropdownScript = _taxDropdownScript + '<option value="' + taxTypeVM[i].Code + '">' + taxTypeVM[i].Description + '</option>'
+    }
+}
+function GetTaxtypeDropdown() {
+    try {
+        var data = {};
+        var taxTypeVM = new Object();
+        jsonData = GetDataFromServer("CustomerInvoice/GetTaxTypeForSelectList/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            taxTypeVM = jsonData.Records;
+        }
+        if (result == "OK") {
+            return taxTypeVM;
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
+    }
 
-
-
+}
+function EdittextBoxValue(thisObj, textBoxCode) {
+    debugger;
+    var IDs = selectedRowIDs();//identify the selected rows 
+    var purchaseOrderDetailVM = _DataTables.PurchaseOrderDetailTable.rows().data();
+    var rowtable = _DataTables.PurchaseOrderDetailTable.row($(thisObj).parents('tr')).data();
+    for (var i = 0; i < purchaseOrderDetailVM.length; i++) {
+        if (purchaseOrderDetailVM[i].MaterialID == rowtable.MaterialID) {
+            if (textBoxCode == 1) 
+                    purchaseOrderDetailVM[i].Quantity = thisObj.value;  
+            if (textBoxCode == 2)
+                purchaseOrderDetailVM[i].Rate = thisObj.value;
+            if (textBoxCode == 3)
+                purchaseOrderDetailVM[i].TradeDiscountAmount = thisObj.value;
+            if (textBoxCode == 4)
+            {
+                var taxTypeVM = GetTaxtypeDropdown();
+                purchaseOrderDetailVM[i].TaxTypeCode = thisObj.value;
+                for (j = 0; j < taxTypeVM.length; j++) {
+                    if (taxTypeVM[j].Code == thisObj.value) {
+                        purchaseOrderDetailVM[i].IGSTPerc = taxTypeVM[j].IGSTPercentage;
+                        purchaseOrderDetailVM[i].SGSTPerc = taxTypeVM[j].SGSTPercentage;
+                        purchaseOrderDetailVM[i].CGSTPerc = taxTypeVM[j].CGSTPercentage;
+                    }
+                }
+            }
+        }
+    }
+    _DataTables.PurchaseOrderDetailTable.clear().rows.add(purchaseOrderDetailVM).draw(false);
+    selectCheckbox(IDs); //Selecting the checked rows with their ids taken 
+}
+function selectedRowIDs() {
+    var allData = _DataTables.PurchaseOrderDetailTable.rows(".selected").data();
+    var arrIDs = "";
+    for (var r = 0; r < allData.length; r++) {
+        if (r == 0)
+            arrIDs = allData[r].MaterialID;
+        else
+            arrIDs = arrIDs + ',' + allData[r].MaterialID;
+    }
+    return arrIDs;
+}
+function selectCheckbox(IDs) {
+    var purchaseOrderDetailVM = _DataTables.PurchaseOrderDetailTable.rows().data()
+    for (var i = 0; i < purchaseOrderDetailVM.length; i++) {
+        if (IDs.includes(purchaseOrderDetailVM[i].MaterialID)) {
+            _DataTables.PurchaseOrderDetailTable.rows(i).select();
+        }
+        else {
+            _DataTables.PurchaseOrderDetailTable.rows(i).deselect();
+        }
+    }
+}
 
 
 

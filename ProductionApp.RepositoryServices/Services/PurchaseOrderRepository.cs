@@ -575,11 +575,14 @@ namespace ProductionApp.RepositoryServices.Services
                                         purchaseOrderDetail.MaterialID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : purchaseOrderDetail.MaterialID);
                                         purchaseOrderDetail.MaterialDesc = (sdr["MaterialDesc"].ToString() != "" ? sdr["MaterialDesc"].ToString() : purchaseOrderDetail.MaterialDesc);
                                         purchaseOrderDetail.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : purchaseOrderDetail.MaterialCode);
+                                        //material type
                                         purchaseOrderDetail.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : purchaseOrderDetail.UnitCode);
                                         purchaseOrderDetail.Qty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : purchaseOrderDetail.Qty);
                                         purchaseOrderDetail.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : purchaseOrderDetail.Rate);
                                         purchaseOrderDetail.CGSTAmt = (sdr["CGSTAmt"].ToString() != "" ? decimal.Parse(sdr["CGSTAmt"].ToString()) : purchaseOrderDetail.CGSTAmt);
                                         purchaseOrderDetail.SGSTAmt= (sdr["SGSTAmt"].ToString() != "" ? decimal.Parse(sdr["SGSTAmt"].ToString()) : purchaseOrderDetail.SGSTAmt);
+                                        purchaseOrderDetail.IGSTAmt= (sdr["IGSTAmt"].ToString() != "" ? decimal.Parse(sdr["IGSTAmt"].ToString()) : purchaseOrderDetail.IGSTAmt);
+                                        purchaseOrderDetail.TaxTypeCode= (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : purchaseOrderDetail.TaxTypeCode);
                                         purchaseOrderDetail.Discount = (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseOrderDetail.Discount);
                                         purchaseOrderDetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : purchaseOrderDetail.Amount);
                                     }
