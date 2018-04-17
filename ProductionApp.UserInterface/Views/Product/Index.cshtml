@@ -71,7 +71,12 @@
                                 </div>
                             </div>
                         <div class="col-md-5">
-
+                            <div class="col-md-12">
+                                @Html.Label("Product Category", htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(model => model.ProductCategory.Code, Model.ProductCategory.ProductCategorySelectList, "--Select Product Category--", new { @class = "form-control", style = "width:100%" })
+                            </div>
                         </div>
                         <div class="col-md-2">
                             <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadProductTable('Search')">Apply</a>

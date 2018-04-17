@@ -24,6 +24,9 @@ $(document).ready(function () {
     }
     $("#Unit_Code").select2({
     });
+    $("#ProductCategory_Code").select2({
+    });
+    
 });
 
 //--function bind the Product list checking search and filter--//
@@ -34,12 +37,14 @@ function BindOrReloadProductTable(action) {
         ProductAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
         UnitViewModel = new Object();
+        ProductCategoryViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
         //switch case to check the operation
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
                 $('#Unit_Code').val('').select2();
+                $('#ProductCategory_Code').val('').select2();
                 break;
             case 'Init':
                 break;
@@ -54,6 +59,8 @@ function BindOrReloadProductTable(action) {
         ProductAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
         UnitViewModel.Code = $("#Unit_Code").val();
         ProductAdvanceSearchViewModel.Unit = UnitViewModel;
+        ProductCategoryViewModel.Code = $("#ProductCategory_Code").val();
+        ProductAdvanceSearchViewModel.ProductCategory = ProductCategoryViewModel;
         ProductAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
         debugger;
         //apply datatable plugin on Raw Material table
