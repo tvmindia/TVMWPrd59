@@ -96,16 +96,6 @@ function AddComponentInit() {
             console.log(ex.message);
         }
 
-        //ProductId on change
-        try {
-            $("#ProductID").change(function () {
-                debugger;
-                $('#DescriptionBOM').val('BOM for ' + "").trigger('keyup');
-            });
-        } catch (ex) {
-            console.log(ex.message);
-        }
-
         OnServerCallComplete();
 
     }
@@ -322,6 +312,7 @@ function SaveComponentDetail() {
         if (_BillOfMaterialDetailList.length > 0) {
             var result = JSON.stringify(_BillOfMaterialDetailList);
             $("#DetailJSON").val(result);
+            $('#HdfIsUpdate').val($('#IsUpdateBOM').val());
             $('#btnSave').trigger('click');
         }
         else {
@@ -802,7 +793,7 @@ function NewLine() {
         debugger;
         //$('#BOMComponentLine_ComponentID').val("");
         $('#BOMComponentLine_ID').val(""+EmptyGuid);
-        $('#BOMComponentLine_IsUpdate').val("false");
+        $('#BOMComponentLine_IsUpdate').val("False");
         $('#BOMComponentLine_LineName').val("");
         $("#selected li.ui-selectee").each(function () {
             debugger;
@@ -828,7 +819,7 @@ function EditLine(curobj) {
 
         BOMComponentLineViewModel = DataTables.LineStageList.row($(curobj).parents('tr')).data();
         $('#BOMComponentLine_ID').val(BOMComponentLineViewModel.ID);
-        $('#BOMComponentLine_IsUpdate').val('true');
+        $('#BOMComponentLine_IsUpdate').val('True');
         $('#BOMComponentLine_StageJSON').val(JSON.stringify(BOMComponentLineViewModel.BOMComponentLineStageList));
         $('#BOMComponentLine_LineName').val(BOMComponentLineViewModel.LineName);
 
@@ -856,7 +847,12 @@ function SaveLine() {
         ////var BOMComponentLineVM = new Object();
         ////BOMComponentLineVM.BOMComponentLineStageList = [];
         var isExisting = true;
-        isExisting = CheckLineNameExist();
+        if ($('#BOMComponentLine_IsUpdate').val() === "True") {
+            isExisting = false;
+        }
+        else {
+            isExisting = CheckLineNameExist();
+        }
         if (!isExisting) {
             var BOMComponentLineStageList = [];
             var order = 1;
@@ -1454,7 +1450,7 @@ function ClearStageDetail() {
         debugger;
 
         $('#BOMComponentLineStageDetail_ID').val(EmptyGuid);
-        $('#BOMComponentLineStageDetail_IsUpdate').val('false');
+        $('#BOMComponentLineStageDetail_IsUpdate').val('False');
         //$('#StageID').val("").trigger('change');
         $('#BOMComponentLineStageDetail_EntryType').val("Input").trigger('change');
         $('#BOMComponentLineStageDetail_PartType').val("RAW").trigger('change');
@@ -1557,7 +1553,7 @@ function EditStageDetail(thisObj) {
         debugger;
         var BOMComponentLineStageDetail = DataTables.StageDetailTable.row($(thisObj).parents('tr')).data();
         $('#BOMComponentLineStageDetail_ID').val(BOMComponentLineStageDetail.ID);
-        $('#BOMComponentLineStageDetail_IsUpdate').val('true');
+        $('#BOMComponentLineStageDetail_IsUpdate').val('True');
         $('#BOMComponentLineStageDetail_ComponentLineID').val(BOMComponentLineStageDetail.ComponentLineID);//.trigger('change');
         LoadPartialStageDropdownForLine(BOMComponentLineStageDetail.StageID);
         $('#StageID').val(BOMComponentLineStageDetail.StageID).trigger('change');
