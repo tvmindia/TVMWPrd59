@@ -12,7 +12,7 @@ namespace ProductionApp.BusinessService.Contracts
         List<ProductionTracking> GetAllProductionTracking(ProductionTrackingAdvanceSearch productionTrackingAdvanceSearch);
         List<ProductionTracking> GetProductionTrackingSearchList(string searchTerm);
         object InsertUpdateProductionTracking(ProductionTracking productionTracking);
-        object DeleteProductionTracking(Guid id);
+        object DeleteProductionTracking(ProductionTracking productionTracking);
         ProductionTracking GetProductionTracking(Guid id);
     }
 }

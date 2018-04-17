@@ -38,7 +38,11 @@ namespace ProductionApp.UserInterface.Controllers
                 ID = id == null ? Guid.Empty : Guid.Parse(id),
                 IsUpdate = id == null ? false : true,
                 EntryDateFormatted = _common.GetCurrentDateTime().ToString(settings.DateFormat),
-                SubComponent = new SubComponentViewModel()
+                SubComponent = new SubComponentViewModel(),
+                AcceptedQty = 0,
+                AcceptedWt = 0,
+                DamagedQty = 0,
+                DamagedWt = 0
             };
             return View(productionTrackingVM);
         }
@@ -119,7 +123,7 @@ namespace ProductionApp.UserInterface.Controllers
                     CreatedBy = appUA.UserName,
                     CreatedDate = _common.GetCurrentDateTime(),
                     UpdatedBy = appUA.UserName,
-                    UpdatedDate = _common.GetCurrentDateTime(),
+                    UpdatedDate = _common.GetCurrentDateTime()
                 };
 
 
@@ -135,11 +139,24 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion InsertUpdateProductionTracking
 
         #region DeleteProductionTracking
-        public string DeleteProductionTracking(string id)
+        public string DeleteProductionTracking(string id, string lineStageID)
         {
             try
             {
-                object result = _ProductionTrackingBusiness.DeleteProductionTracking(Guid.Parse(id));
+                AppUA appUA = Session["AppUA"] as AppUA;
+                ProductionTrackingViewModel productionTrackingVM = new ProductionTrackingViewModel()
+                {
+                    ID = Guid.Parse(id),
+                    LineStageDetailID = Guid.Parse(lineStageID)
+                };
+                productionTrackingVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime()
+                };
+                object result = _ProductionTrackingBusiness.DeleteProductionTracking(Mapper.Map<ProductionTrackingViewModel, ProductionTracking>(productionTrackingVM));
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)
