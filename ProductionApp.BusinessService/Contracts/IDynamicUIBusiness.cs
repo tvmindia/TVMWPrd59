@@ -13,6 +13,6 @@ namespace ProductionApp.BusinessService.Contracts
         List<AMCSysMenu> GetAllMenu(string code);
         List<IncomeExpenseSummary> GetIncomeExpenseSummary();
         List<ProductionSummary> GetProductionSummary();
-
+        string GetModuleName(string code);
     }
 }

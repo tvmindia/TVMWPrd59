@@ -74,6 +74,7 @@ $(document).ready(function () {
             $("#divStatus").show();
         }
     });
+    GetModuleName();
     //GetUndepositedChequeBubbleCount();
     $('input.datepicker').datepicker({
         format: "dd-M-yyyy",//",
@@ -135,6 +136,47 @@ $(document).ready(function () {
     });
    
 });
+
+// To Get Module Name 
+function GetModuleName() {
+    var vars=GetUrlVars()
+    var moduleCode = vars.code;
+    if (moduleCode) {
+        var data = { "code": moduleCode };
+        var jsonData = {};
+        var message = "";
+        var status = "";
+        var result = "";
+        jsonData = GetDataFromServer("DynamicUI/GetModuleName", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            message = jsonData.Message;
+            status = jsonData.Status;
+            result = jsonData.Record;
+        }
+        switch (status) {
+            case "OK":
+                $('#spanModuleName').text(" " + result);
+                break;
+        }
+    }
+    else {
+        $('#spanModuleName').text(" " + vars.Name);
+    }
+}
+
+// Read a page's GET URL variables and return them as an associative array.
+function GetUrlVars() {
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
 //for showing loading while saving data
 function OnMasterBegin() {
     debugger;

@@ -43,5 +43,10 @@ namespace ProductionApp.BusinessService.Services
         public List<ProductionSummary> GetProductionSummary() {
             return _dynamicUIRepository.GetProductionSummary();
         }
+        public string GetModuleName(string code)
+        {
+            return _dynamicUIRepository.GetModuleName(code);
+        }
+
     }
 }

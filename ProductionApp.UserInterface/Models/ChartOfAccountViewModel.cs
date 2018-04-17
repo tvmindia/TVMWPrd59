@@ -16,7 +16,7 @@ namespace ProductionApp.UserInterface.Models
         public string Type { get; set; }
         [Display(Name = "Type Description")]
         public string TypeDesc { get; set; }
-        [Display(Name = "Is Sub Head")]
+        [Display(Name = "Is Sub Head Applicable")]
         [Required(ErrorMessage = "Is SubHead Applicable is missing")]
         public bool IsSubHeadApplicable { get; set; }
         //additional fields 

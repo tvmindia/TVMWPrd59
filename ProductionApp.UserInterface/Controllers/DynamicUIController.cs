@@ -4,6 +4,8 @@ using AutoMapper;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
+using System;
+using Newtonsoft.Json;
 
 namespace ProductionApp.UserInterface.Controllers
 {
@@ -35,6 +37,20 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult UnderConstruction(string code) {
             ViewBag.SysModuleCode = code;
             return View();
+        }
+
+        [HttpGet]
+        public string GetModuleName(string code)
+        {
+            try
+            {
+                var result = _dynamicUIBusiness.GetModuleName(code);
+                return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Status = "ERROR", Record = "", Message = "" });
+            }
         }
     }
 }
