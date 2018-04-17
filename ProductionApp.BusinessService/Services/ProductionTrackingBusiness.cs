@@ -34,9 +34,9 @@ namespace ProductionApp.BusinessService.Services
             return _ProductionTrackingRepository.InsertUpdateProductionTracking(productionTracking);
         }
 
-        public object DeleteProductionTracking(Guid id)
+        public object DeleteProductionTracking(ProductionTracking productionTracking)
         {
-            return _ProductionTrackingRepository.DeleteProductionTracking(id);
+            return _ProductionTrackingRepository.DeleteProductionTracking(productionTracking);
         }
 
         public ProductionTracking GetProductionTracking(Guid id)

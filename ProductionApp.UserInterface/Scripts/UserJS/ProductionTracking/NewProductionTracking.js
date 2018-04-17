@@ -208,7 +208,8 @@ function DeleteClick() {
 function DeleteProductionTracking(id) {
     try{
         debugger;
-        var data = { "id": id };
+        var LineStageID = $('#LineStageDetailID').val();
+        var data = { "id": id, "lineStageID": LineStageID };
         var result = "";
         var message = "";
         var ProductionTrackingViewModel = new Object();

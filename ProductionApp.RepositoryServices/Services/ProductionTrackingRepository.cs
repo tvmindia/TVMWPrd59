@@ -231,7 +231,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion InsertUpdateProductionTracking
 
         #region DeleteProductionTracking
-        public object DeleteProductionTracking(Guid id)
+        public object DeleteProductionTracking(ProductionTracking productionTracking)
         {
             SqlParameter outputStatus = null;
             try
@@ -247,7 +247,10 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[DeleteProductionTracking]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = productionTracking.ID;
+                        cmd.Parameters.Add("@DeletedDate", SqlDbType.DateTime).Value = productionTracking.Common.CreatedDate;
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.VarChar, 50).Value = productionTracking.Common.CreatedBy;
+                        cmd.Parameters.Add("@LineStageDetailID", SqlDbType.UniqueIdentifier).Value = productionTracking.LineStageDetailID;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
