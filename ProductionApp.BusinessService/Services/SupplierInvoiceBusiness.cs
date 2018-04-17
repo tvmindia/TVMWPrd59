@@ -23,5 +23,25 @@ namespace ProductionApp.BusinessService.Services
         {
             return _supplierInvoiceRepository.GetAllSupplierInvoice(supplierInvoiceAdvanceSearch);
         }
+
+        public SupplierInvoice GetSupplierInvoice(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object InsertUpdateSupplierInvoice(SupplierInvoice SupplierInvoice)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object DeleteSupplierInvoice(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object DeleteSupplierInvoiceDetail(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

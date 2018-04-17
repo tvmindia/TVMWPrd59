@@ -28,6 +28,9 @@ namespace ProductionApp.UserInterface.Models
         public string GeneralNotes { get; set; }
         [Display(Name = "Account Head")]
         public string AccountCode { get; set; }
+        [Display(Name = "Purchase Order")]
+        public Guid PurchaseOrderID { get; set; }
+        public string PurchaseOrderNo { get; set; }
 
         //Additional Reference
         public bool IsUpdate { get; set; }
@@ -42,6 +45,7 @@ namespace ProductionApp.UserInterface.Models
         public CommonViewModel Common { get; set; }
         public SupplierViewModel Supplier { get; set; }
         public ChartOfAccountViewModel chartOfAccount { get; set; }
+        public SupplierInvoiceDetailViewModel SupplierInvoiceDetail { get; set; }
     }
     public class SupplierInvoiceDetailViewModel
     {

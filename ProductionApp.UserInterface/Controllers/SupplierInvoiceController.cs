@@ -19,16 +19,18 @@ namespace ProductionApp.UserInterface.Controllers
         private ISupplierBusiness _supplierBusiness;
         private IChartOfAccountBusiness _chartOfAccountBusiness;
         private IPaymentTermBusiness _paymentTermBusiness;
+        private IPurchaseOrderBusiness _purchaseOrderBusiness;
 
         Common _common = new Common();
         AppConst _appConst = new AppConst();
 
-        public SupplierInvoiceController(ISupplierInvoiceBusiness supplierInvoiceBusiness, ISupplierBusiness supplierBusiness, IChartOfAccountBusiness chartOfAccountBusiness, IPaymentTermBusiness paymentTermBusiness)
+        public SupplierInvoiceController(ISupplierInvoiceBusiness supplierInvoiceBusiness, ISupplierBusiness supplierBusiness, IChartOfAccountBusiness chartOfAccountBusiness, IPaymentTermBusiness paymentTermBusiness, IPurchaseOrderBusiness purchaseOrderBusiness)
         {
             _supplierInvoiceBusiness = supplierInvoiceBusiness;
             _supplierBusiness = supplierBusiness;
             _chartOfAccountBusiness = chartOfAccountBusiness;
             _paymentTermBusiness = paymentTermBusiness;
+            _purchaseOrderBusiness = purchaseOrderBusiness;
         }
         // GET: SupplierInvoice
 
@@ -147,6 +149,39 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion GetCustomerDetails
+
+        #region GetSupplierInvoice
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
+        public string GetSupplierInvoice(string ID)
+        {
+            try
+            {
+                SupplierInvoiceViewModel supplierInvoiceVM = Mapper.Map<SupplierInvoice, SupplierInvoiceViewModel>(_supplierInvoiceBusiness.GetSupplierInvoice(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierInvoiceVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetSupplierInvoice
+
+        #region GetAllPurchaseOrderItem
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
+        public string GetAllPurchaseOrderItem(string id)
+        {
+            try
+            {
+                PurchaseOrderViewModel purchaseOrderVM = new PurchaseOrderViewModel();
+                purchaseOrderVM.PODDetail = Mapper.Map<List<PurchaseOrderDetail>, List<PurchaseOrderDetailViewModel>>(_purchaseOrderBusiness.GetPurchaseOrderDetail(Guid.Parse(id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = purchaseOrderVM.PODDetail, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex });
+            }
+        }
+        #endregion GetAllPurchaseOrderItem
 
         #region ButtonStyling
         [HttpGet]
