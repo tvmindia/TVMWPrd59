@@ -67,13 +67,13 @@ namespace ProductionApp.UserInterface.Models
         public ProductViewModel Product { get; set; }
         [Display(Name = "Done By")]
         public EmployeeViewModel Employee { get; set; }
+        [Display(Name = "Stage")]
+        public StageViewModel Stage { get; set; }
+        public List<SelectListItem> StageSelectList { get; set; }
 
-        //[Display(Name = "Stage")]
-        //public StageViewModel Stage { get; set; }
         //[Display(Name = "Output")]
         //public SubComponentViewModel SubComponent { get; set; }
         //public ProductViewModel OutputComponent { get; set; }
-
         //[Display(Name = "Component")]
         //public ProductViewModel Component { get; set; }
     }

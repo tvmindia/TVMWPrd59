@@ -20,9 +20,11 @@ namespace ProductionApp.UserInterface.Controllers
         Common _common = new Common();
         AppConst _appConst = new AppConst();
         private IProductionTrackingBusiness _ProductionTrackingBusiness;
-        public ProductionTrackingController(IProductionTrackingBusiness ProductionTrackingBusiness)
+        private IStageBusiness _StageBusiness;
+        public ProductionTrackingController(IProductionTrackingBusiness ProductionTrackingBusiness,IStageBusiness StageBusiness)
         {
             _ProductionTrackingBusiness = ProductionTrackingBusiness;
+            _StageBusiness = StageBusiness;
         }
         #endregion Constructor Injection
 
@@ -53,7 +55,22 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ViewProductionTracking(string code)
         {
             ViewBag.SysModuleCode = code;
-            return View();
+            List<StageViewModel> stageList = Mapper.Map<List<Stage>, List<StageViewModel>>(_StageBusiness.GetStageForSelectList());
+            List<SelectListItem> selectList = new List<SelectListItem>();
+            foreach(StageViewModel stage in stageList)
+            {
+                selectList.Add(new SelectListItem
+                {
+                    Text = stage.Description,
+                    Value = stage.ID.ToString(),
+                    Selected = false
+                });
+            }
+            ProductionTrackingAdvanceSearchViewModel productionTrackingAdvanceSearchVM = new ProductionTrackingAdvanceSearchViewModel()
+            {
+                StageSelectList = selectList
+            };
+            return View(productionTrackingAdvanceSearchVM);
         }
         #endregion ViewProductionTracking
 

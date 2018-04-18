@@ -54,6 +54,10 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.AddWithValue("@EmployeeID", DBNull.Value);
                         else
                             cmd.Parameters.Add("@EmployeeID", SqlDbType.UniqueIdentifier).Value = productionTrackingAdvanceSearch.Employee.ID;
+                        if (productionTrackingAdvanceSearch.Stage.ID == Guid.Empty)
+                            cmd.Parameters.AddWithValue("@StageID", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@StageID", SqlDbType.UniqueIdentifier).Value = productionTrackingAdvanceSearch.Stage.ID;
                         cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(productionTrackingAdvanceSearch.SearchTerm) ? "" : productionTrackingAdvanceSearch.SearchTerm;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
