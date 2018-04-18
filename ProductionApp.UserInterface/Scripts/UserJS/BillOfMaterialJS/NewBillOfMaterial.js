@@ -240,6 +240,12 @@ function AddProduct() {
         }
         _IsInput = false;
         $('#hdnMasterCall').val("OTR");
+        if ($('#MaterialID').val() !== undefined) {
+            $('#MaterialID').change(function () {
+                $('#BOMComponentLineStageDetail_PartID').val($(this).val());
+            });
+            $('#MaterialID').select2();
+        }
     }
     catch (ex) {
         console.log(ex.message);
