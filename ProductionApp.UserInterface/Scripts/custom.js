@@ -139,7 +139,9 @@ $(document).ready(function () {
 
 // To Get Module Name 
 function GetModuleName() {
-    var vars=GetUrlVars()
+    var vars = GetUrlVars()
+    var moduleName = vars.Name;
+    moduleName = moduleName.replace("%20", " ");
     var moduleCode = vars.code;
     if (moduleCode) {
         var data = { "code": moduleCode };
@@ -161,7 +163,7 @@ function GetModuleName() {
         }
     }
     else {
-        $('#spanModuleName').text(" " + vars.Name);
+        $('#spanModuleName').text(" " + moduleName);
     }
 }
 
