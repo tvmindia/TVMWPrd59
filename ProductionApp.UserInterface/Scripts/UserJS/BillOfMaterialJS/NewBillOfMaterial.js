@@ -34,7 +34,7 @@ function AddComponentInit() {
     try {
         debugger;
 
-        $('#ProductID').select2({});
+        //$('#ProductID').select2({});
         //DataTable for List of BillOfMaterialDetail
         try {
             DataTables.ComponentList = $('#tblBOMComponentDetail').DataTable({
@@ -1220,10 +1220,10 @@ function EntryTypeOnChange(value) {
         switch (value) {
             case "Input":
                 $('#BOMComponentLineStageDetail_PartType').find('option').prop("disabled", false);
-                $('#BOMComponentLineStageDetail_PartType').find('option[value="COM"]').prop("disabled", true);
-                if ($('#BOMComponentLineStageDetail_PartType').val() === "COM") {
-                    $('#BOMComponentLineStageDetail_PartType').val("SUB").trigger('change');
-                }
+                //$('#BOMComponentLineStageDetail_PartType').find('option[value="COM"]').prop("disabled", true);
+                //if ($('#BOMComponentLineStageDetail_PartType').val() === "COM") {
+                //    $('#BOMComponentLineStageDetail_PartType').val("SUB").trigger('change');
+                //}
                 break;
             case "Output":
                 $('#BOMComponentLineStageDetail_PartType').find('option').prop("disabled", false);
@@ -1249,19 +1249,19 @@ function PartTypeOnChange(value) {
         switch (value) {
             case "RAW":
                 $("#divItemSelector").children().hide();
-                $("#divMaterial").show();
+                $("#divRawMaterialDropdown").show();
                 break;
             case "SUB":
                 $("#divItemSelector").children().hide();
-                $("#divSubComponent").show();
+                $("#divSubComponentDropdown").show();
                 break;
             case "COM":
                 $("#divItemSelector").children().hide();
-                $("#divComponent").show();
+                $("#divProductDropdown").show();
                 break;
             default:
                 $("#divItemSelector").children().hide();
-                $("#divMaterial").show();
+                $("#divRawMaterialDropdown").show();
                 break;
         }
     }

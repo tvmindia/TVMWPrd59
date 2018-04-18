@@ -105,18 +105,18 @@
                 @Html.HiddenFor(model => model.BOMComponentLineStageDetail.PartID, new { @value = -1 })
             </div>
             <div class="" id="divItemSelector">
-                <div class="col-md-12" id="divMaterial">
+                <div class="col-md-12" id="divRawMaterialDropdown">
                     @{Html.RenderAction("MaterialDropdown", "Material", Model.BOMComponentLineStageDetail.Material); }
                 </div>
-                <div class="col-md-12" id="divSubComponent">
+                <div class="col-md-12" id="divSubComponentDropdown">
                     @{Html.RenderAction("SubComponentDropdown", "SubComponent", Model.BOMComponentLineStageDetail.SubComponent); }
                 </div>
-                <div class="col-md-12" id="divComponent">
-                    @Html.DropDownListFor(model => model.BOMComponentLineStageDetail.Product.ID, Model.BOMComponentLineStageDetail.Product.ProductSelectList, "--Select product--", new { @class = "form-control", @required = "", @title = "The Product is missing", @style = "width:100%!important", @id = "ProductID" })
-                    @Html.ValidationMessageFor(model => model.BOMComponentLineStageDetail.PartID, "", new { @class = "text-danger" })
-                    @*@{Html.RenderAction("ProductDropdown", "Product", Model.BOMComponentLineStageDetail.Product); }*@
+                <div class="col-md-12" id="divProductDropdown">
+                    @*@Html.DropDownListFor(model => model.BOMComponentLineStageDetail.Product.ID, Model.BOMComponentLineStageDetail.Product.ProductSelectList, "--Select product--", new { @class = "form-control", @required = "", @title = "The Product is missing", @style = "width:100%!important", @id = "ProductID" })*@
+                    @{Html.RenderAction("ProductDropdown", "Product", new { required = "" }); }
                 </div>
-
+                @Html.ValidationMessageFor(model => model.BOMComponentLineStageDetail.PartID, "", new { @class = "text-danger" })
+                
                 <span id="lblPartID" class="text-danger">Item Required</span>
             </div>
         </div>
@@ -199,10 +199,10 @@
         });
 
         $('#MaterialID').select2({
-            dropdownParent: $("#divMaterial")
+            dropdownParent: $("#divRawMaterialDropdown")
         });
 
-        $('#ProductID,#SubComponentID').select2({});
+        //$('#ProductID,#SubComponentID').select2({});
 
         $('#lblPartID,#lblQty').hide();
 
