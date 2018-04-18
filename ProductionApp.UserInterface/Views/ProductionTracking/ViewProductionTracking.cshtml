@@ -77,7 +77,7 @@
                     @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3" } })
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-10">
                 <div class="col-md-12">
                     @Html.LabelFor(model => model.Product, htmlAttributes: new { @class = "control-label" })
                 </div>
@@ -94,6 +94,14 @@
                 </div>
             </div>
 
+            <div class="col-md-5">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.Stage, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.Stage.ID, Model.StageSelectList, "--Select Stage--", new { @class = "form-control", @required = "", @title = "The Stage is missing", @style = "width:100%!important", @id = "StageID" })
+                </div>
+            </div>
             @*<div class="col-md-5">
                 <div class="col-md-12">
                     @Html.LabelFor(model => model.Employee, htmlAttributes: new { @class = "control-label" })

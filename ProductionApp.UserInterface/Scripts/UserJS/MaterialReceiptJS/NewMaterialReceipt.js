@@ -136,7 +136,7 @@ function AddMaterialReceiptDetail() {
     $('#MaterialReceiptDetail_Qty').val('');
     $('#MaterialReceiptDetail_MaterialDesc').val('');
     $('#MaterialReceiptDetail_UnitCode').val('');
-    $("#MaterialID").val('').select2();
+    //$("#MaterialID").val('').select2();
     $('#MaterialReceiptDetailModal').modal('show');
 }
 
