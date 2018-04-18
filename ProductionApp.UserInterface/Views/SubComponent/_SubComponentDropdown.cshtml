@@ -6,7 +6,21 @@
 
     <script>
         $(document).ready(function () {
-            $('#SubComponentID').select2({});
-            $('#SubComponentID').val($('#hdnSubComponentID').val()).select2();
-        })
+            try {
+                $('#SubComponentID').select2({});
+                $('#SubComponentID').val($('#hdnSubComponentID').val()).select2();
+            }
+            catch (ex) {
+                console.log(ex.message);
+            }
+            try {
+                $('#SubComponentID').change(function () {
+                    $('#BOMComponentLineStageDetail_PartID').val($(this).val());
+                });
+            }
+            catch (ex) {
+                console.log(ex.message);
+            }
+        });
+
     </script>
