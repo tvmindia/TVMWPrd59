@@ -1,6 +1,26 @@
 ﻿@model ProductionApp.UserInterface.Models.SubComponentViewModel
-
-<div class="input-group" id="divSubComponentDropdown">
+<div class="input-group">
     @Html.DropDownListFor(model => model.SubComponentID, Model.SelectList, "---Select SubComponent---", new { @class = "form-control", @style = "width:100%" })
     <span class="input-group-addon" style="cursor:pointer;color:#015E9A" onclick="AddSubComponentMaster('OTR')"><i class="fa fa-plus-square-o"></i></span>
 </div>
+
+    <script>
+        $(document).ready(function () {
+            try {
+                $('#SubComponentID').select2({});
+                $('#SubComponentID').val($('#hdnSubComponentID').val()).select2();
+            }
+            catch (ex) {
+                console.log(ex.message);
+            }
+            try {
+                $('#SubComponentID').change(function () {
+                    $('#BOMComponentLineStageDetail_PartID').val($(this).val());
+                });
+            }
+            catch (ex) {
+                console.log(ex.message);
+            }
+        });
+
+    </script>

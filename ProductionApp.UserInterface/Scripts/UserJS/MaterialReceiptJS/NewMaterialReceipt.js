@@ -117,7 +117,7 @@ $(document).ready(function () {
     }
 });
 
-function OnCheckChanged() {
+function ExistingPurchaseOrderOnCheckChanged() {
     debugger;
     if ($('#IsExisting:checked').val() === "true") {
         $('#divPONo').hide();
