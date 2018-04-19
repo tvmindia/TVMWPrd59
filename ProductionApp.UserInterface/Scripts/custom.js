@@ -74,7 +74,6 @@ $(document).ready(function () {
             $("#divStatus").show();
         }
     });
-    GetModuleName();
     //GetUndepositedChequeBubbleCount();
     $('input.datepicker').datepicker({
         format: "dd-M-yyyy",//",
@@ -134,6 +133,14 @@ $(document).ready(function () {
         }
 
     });
+
+    try{
+        GetModuleName();
+
+    } catch (e) {
+
+    }
+
    
 });
 
