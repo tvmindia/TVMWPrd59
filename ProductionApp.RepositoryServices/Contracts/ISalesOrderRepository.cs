@@ -19,5 +19,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         object DeleteSalesOrderDetail(Guid id);
         object DeleteSalesOrder(Guid id);
         SalesOrder GetCustomerOfSalesOrderForPackingSlip(Guid salesOrderId);
+        List<SalesOrder> GetRecentSalesOrder();
     }
 }

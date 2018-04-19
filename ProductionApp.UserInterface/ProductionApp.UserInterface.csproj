@@ -1009,6 +1009,8 @@
     <Content Include="Views\SupplierPayment\NewSupplierPayment.cshtml" />
     <Content Include="Views\DashboardPurchase\_RecentRequisitions.cshtml" />
     <Content Include="Views\DashboardPurchase\_PurchaseOrderSummary.cshtml" />
+    <Content Include="Views\DashboardSale\_RecentSalesOrder.cshtml" />
+    <Content Include="Views\DashboardSale\_RecentPackingSlip.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

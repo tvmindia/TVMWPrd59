@@ -41,6 +41,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public string DispatchedByEmployeeName { get; set; }
         public bool IsUpdate { get; set; }
         public string DetailJSON { get; set; }
+        public List<PackingSlip> PackingSlipList { get; set; }
+        public string BaseURL { get; set; }        
     }
 
     public class PackingSlipDetail

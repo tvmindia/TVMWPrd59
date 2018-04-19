@@ -473,5 +473,50 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion GetPackingSlipForSelectList
 
       
+        #region GetRecentPackingSlip
+        public List<PackingSlip> GetRecentPackingSlip()
+        {
+            List<PackingSlip> packingSlipList = new List<PackingSlip>();
+            PackingSlip packingSlip = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRecentPackingSlip]"; 
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    packingSlip = new PackingSlip();                                   
+                                    packingSlip.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    packingSlip.SlipNo = (sdr["SlipNo"].ToString() != "" ? sdr["SlipNo"].ToString() : packingSlip.SlipNo);
+                                    packingSlip.DateFormatted = (sdr["PackingDate"].ToString() != "" ? DateTime.Parse(sdr["PackingDate"].ToString()).ToString(settings.DateFormat) : packingSlip.DateFormatted);                                   
+                                    packingSlip.SalesOrder = new SalesOrder();
+                                    packingSlip.SalesOrder.CustomerName = (sdr["Customer"].ToString() != "" ? sdr["Customer"].ToString() : packingSlip.SalesOrder.CustomerName);
+                                    packingSlip.DispatchedDateFormatted= (sdr["DispatchedDate"].ToString() != "" ? DateTime.Parse(sdr["DispatchedDate"].ToString()).ToString(settings.DateFormat) : packingSlip.DispatchedDateFormatted);
+                                    packingSlipList.Add(packingSlip);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return packingSlipList;
+        }
+        #endregion GetRecentPackingSlip
     }
 }

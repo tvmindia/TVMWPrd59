@@ -34,7 +34,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public Common Common { get; set; }
         public List<SalesOrderDetail> SalesOrderDetailList { get; set; }
         public SalesOrderDetail SalesOrderDetail { get; set; }
-
+        public List<SalesOrder> SalesOrderList { get; set; }
+        public string BaseURL { get; set; }
 
     }
     public class SalesOrderDetail
