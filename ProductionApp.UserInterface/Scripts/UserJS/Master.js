@@ -342,6 +342,10 @@ function SaveSuccessEmployee(data, status) {
                 $('#Code').val(JsonResult.Record.Code);
                 BindOrReloadEmployeeTable('Reset');
             }
+            else if ($('#hdnMasterCall').val() == "OTR") {
+                $('#divAssemblyDropdown').load('/Employee/AssembleDropdown');
+                $('#divEmployeeDropdown').load('/Employee/EmployeeDropdown');
+            }
             MasterAlert("success", JsonResult.Record.Message)
             break;
         case "ERROR":

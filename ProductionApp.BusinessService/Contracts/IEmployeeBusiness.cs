@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProductionApp.DataAccessObject.DTO;
+using System.Web.Mvc;
 
 namespace ProductionApp.BusinessService.Contracts
 {
     public interface IEmployeeBusiness
     {
+        List<SelectListItem> GetEmployeeSelectList();
         List<Employee> GetEmployeeForSelectList();
         List<Employee> GetAllEmployee(EmployeeAdvanceSearch employeeAdvanceSearch);
         object InsertUpdateEmployee(Employee employee);
