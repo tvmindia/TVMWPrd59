@@ -17,6 +17,9 @@ namespace ProductionApp.UserInterface.Controllers
         private IEmployeeBusiness _employeeBusiness;
         private IProductBusiness _productBusiness;
         private IAssemblyBusiness _assemblyBusiness;
+        private Common _common = new Common();
+        AppConst _appConst = new AppConst();
+        Settings settings = new Settings();
         // GET: Assembly
         public AssemblyController(IEmployeeBusiness employeeBusiness, IProductBusiness productBusiness, IAssemblyBusiness assemblyBusiness)
         {
@@ -30,6 +33,10 @@ namespace ProductionApp.UserInterface.Controllers
             ViewBag.SysModuleCode = code;
             AssemblyViewModel assemblyVM = new AssemblyViewModel();
             assemblyVM.ID = id == null ? Guid.Empty : (Guid)id;
+            assemblyVM.IsUpdate = id == null ? false : true;
+            assemblyVM.AssemblyDateFormatted = _common.GetCurrentDateTime().ToString(settings.DateFormat);
+            assemblyVM.Product = new ProductViewModel();
+            assemblyVM.Product.ProductSelectList = _productBusiness.GetProductForSelectList();
             return View(assemblyVM);
         }
         [AuthSecurityFilter(ProjectObject = "Assembly", Mode = "R")]
@@ -40,23 +47,7 @@ namespace ProductionApp.UserInterface.Controllers
             AssemblyAdvanceSearchVM.Product = new ProductViewModel();
             AssemblyAdvanceSearchVM.Product.ProductSelectList = _productBusiness.GetProductForSelectList();
             AssemblyAdvanceSearchVM.Employee = new EmployeeViewModel();
-            List<SelectListItem> selectListItem = new List<SelectListItem>();
-            AssemblyAdvanceSearchVM.Employee.SelectList = new List<SelectListItem>();
-            List<EmployeeViewModel> employeeList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_employeeBusiness.GetEmployeeForSelectList());
-            if (employeeList != null)
-            {
-                foreach (EmployeeViewModel Emp in employeeList)
-                {
-                    selectListItem.Add(new SelectListItem
-                    {
-                        Text = Emp.Name,
-                        Value = Emp.ID.ToString(),
-                        Selected = false,
-                    });
-
-                }
-            }
-            AssemblyAdvanceSearchVM.Employee.SelectList = selectListItem;
+            AssemblyAdvanceSearchVM.Employee.SelectList = _employeeBusiness.GetEmployeeSelectList();
             return View(AssemblyAdvanceSearchVM);
         }
 
@@ -83,6 +74,86 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetAllAssembly
 
+        #region GetProductComponentList
+        [AuthSecurityFilter(ProjectObject = "Assembly", Mode = "R")]
+        public string GetProductComponentList(string id,decimal qty, string assemblyId)
+        {
+            try
+            {
+                List<AssemblyViewModel> assemblyList = Mapper.Map<List<Assembly>, List<AssemblyViewModel>>(_assemblyBusiness.GetProductComponentList(Guid.Parse(id),qty,Guid.Parse(assemblyId)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = assemblyList, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetProductComponentList
+
+        #region InsertUpdateAssembly
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "Assembly", Mode = "R")]
+        public string InsertUpdateAssembly(AssemblyViewModel assemblyVM)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                assemblyVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                var result = _assemblyBusiness.InsertUpdateAssembly(Mapper.Map<AssemblyViewModel, Assembly>(assemblyVM));
+                return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Status = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+        #endregion InsertUpdateAssembly
+
+        #region GetAssembly
+        [AuthSecurityFilter(ProjectObject = "Assembly", Mode = "R")]
+        public string GetAssembly(string id)
+        {
+            try
+            {
+                AssemblyViewModel assemblyVM = new AssemblyViewModel();
+                assemblyVM = Mapper.Map<Assembly, AssemblyViewModel>(_assemblyBusiness.GetAssembly(Guid.Parse(id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = assemblyVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+
+        #endregion GetAssembly
+
+        #region DeleteAssembly
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "Assembly", Mode = "R")]
+        public string DeleteAssembly(Guid id)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                var result = _assemblyBusiness.DeleteAssembly(id, appUA.UserName);
+                return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Status = "ERROR", Record = "", Message = cm.Message });
+            }
+
+        }
+        #endregion DeleteAssembly
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Assembly", Mode = "")]
@@ -95,17 +166,17 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewAssembly", "Assembly", new { Code = "PROD" });
+                    toolboxVM.addbtn.Href = Url.Action("NewAssembly", "Assembly", new { code = "PROD" });
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset All";
-                    toolboxVM.resetbtn.Event = "Reset();";
+                    toolboxVM.resetbtn.Event = "BindOrReloadAssembleTable('Reset');";
                     //----added for export button--------------
                     toolboxVM.PrintBtn.Visible = true;
                     toolboxVM.PrintBtn.Text = "Export";
                     toolboxVM.PrintBtn.Title = "Export";
-                    toolboxVM.PrintBtn.Event = "Import();";
+                    toolboxVM.PrintBtn.Event = "BindOrReloadAssembleTable('Export');";
                     //---------------------------------------
 
                     break;
@@ -114,7 +185,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewAssembly", "Assembly", new { Code = "PROD" });
+                    toolboxVM.addbtn.Href = Url.Action("NewAssembly", "Assembly", new { code = "PROD" });
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
@@ -131,15 +202,10 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Title = "Reset";
                     toolboxVM.resetbtn.Event = "Reset();";
 
-                    toolboxVM.SendForApprovalBtn.Visible = true;
-                    toolboxVM.SendForApprovalBtn.Text = "Send";
-                    toolboxVM.SendForApprovalBtn.Title = "Send For Approval";
-                    toolboxVM.SendForApprovalBtn.Event = "ShowSendForApproval('REQ');";
-
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewAssembly", "Assembly", new { Code = "PROD" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewAssembly", "Assembly", new { code = "PROD" });
 
                     break;
 
@@ -148,12 +214,12 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewAssembly", "Assembly", new { Code = "PROD" });
+                    toolboxVM.addbtn.Href = Url.Action("NewAssembly", "Assembly", new { code = "PROD" });
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewAssembly", "Assembly", new { Code = "PROD" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewAssembly", "Assembly", new { code = "PROD" });
 
                     break;
                 case "Add":
@@ -166,7 +232,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewAssembly", "Assembly", new { Code = "PROD" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewAssembly", "Assembly", new { code = "PROD" });
                     break;
                 default:
                     return Content("Nochange");

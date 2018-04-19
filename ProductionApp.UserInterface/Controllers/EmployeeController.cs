@@ -176,19 +176,15 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult EmployeeDropdown()
         {
             EmployeeViewModel employeeVM = new EmployeeViewModel();
-            employeeVM.SelectList = new List<SelectListItem>();
-            List<EmployeeViewModel> employeeList = Mapper.Map<List<Employee>, List<EmployeeViewModel>>(_employeeBusiness.GetEmployeeForSelectList());
-            if (employeeList != null)
-                foreach (EmployeeViewModel employee in employeeList)
-                {
-                    employeeVM.SelectList.Add(new SelectListItem
-                    {
-                        Text = employee.Name,
-                        Value = employee.ID.ToString(),
-                        Selected = false
-                    });
-                }
+            employeeVM.SelectList = _employeeBusiness.GetEmployeeSelectList();
             return PartialView("_EmployeeDropdown", employeeVM);
+
+        }
+        public ActionResult AssembleDropdown()
+        {
+            EmployeeViewModel employeeVM = new EmployeeViewModel();
+            employeeVM.SelectList = _employeeBusiness.GetEmployeeSelectList();
+            return PartialView("_AssembleDropdown", employeeVM);
 
         }
         #region ButtonStyling

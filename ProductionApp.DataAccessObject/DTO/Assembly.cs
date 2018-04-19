@@ -19,6 +19,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public string AssemblyDateFormatted { get; set; }
         public Employee Employee { get; set; }
         public Product Product { get; set; }
+        public decimal BOMQty { get; set; }
+        public decimal ReaquiredQty { get; set; }
+        public decimal Stock { get; set; }
+        public decimal Balance { get; set; }
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }

@@ -102,7 +102,7 @@ function BindOrReloadProductionTrackingTable(action) {
             pageLength: 10,
             columns: [
             { "data": "ID", "defaultContent": "<i>-</i>" },
-            { "data": "EntryDateFormatted", "defaultContent": "<i>-</i>" },//1
+            { "data": "EntryDateFormatted", "defaultContent": "<i>-</i>", "width": '7.5%' },//1
             { "data": "Product.Name", "defaultContent": "<i>-</i>" },
             { "data": "Component.Name", "defaultContent": "<i>-</i>" },//3
             { "data": "Stage.Description", "defaultContent": "<i>-</i>" },
@@ -116,19 +116,19 @@ function BindOrReloadProductionTrackingTable(action) {
                 }, "defaultContent": "<i>-</i>"
             },//5
             { "data": "Employee.Name", "defaultContent": "<i>-</i>" },
-            { "data": "AcceptedQty", "defaultContent": "<i>-</i>" },
+            { "data": "AcceptedQty", "defaultContent": "<i>-</i>" },//7
             { "data": "AcceptedWt", "defaultContent": "<i>-</i>" },
-            { "data": "DamagedQty", "defaultContent": "<i>-</i>" },
+            { "data": "DamagedQty", "defaultContent": "<i>-</i>" },//9
             { "data": "DamagedWt", "defaultContent": "<i>-</i>" },
-            { "data": "ProductionRefNo", "defaultContent": "<i>-</i>" },
-            { "data": "Remarks", "defaultContent": "<i>-</i>" },
+            { "data": "ProductionRefNo", "defaultContent": "<i>-</i>", "width": '6%' },//11
+            { "data": "Remarks", "defaultContent": "<i>-</i>", "width": '8%' },
             
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="Edit(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' ,"width":'3%'}
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-left", "targets": [3], "width": "55%" },
-                { className: "text-left", "targets": [2, 1], "width": '15%' },
-                { className: "text-center", "targets": [4] }],
+                { className: "text-left", "targets": [7, 8, 9, 10], "width": '5%' },
+                { className: "text-right", "targets": [2, 3, 4, 5, 6, 11, 12]},
+                { className: "text-center", "targets": [1, 13] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {

@@ -22,5 +22,21 @@ namespace ProductionApp.BusinessService.Services
         {
             return _assemblyRepository.GetAllAssembly(assemblyAdvanceSearch);
         }
+        public List<Assembly> GetProductComponentList(Guid id, decimal qty, Guid assemblyId)
+        {
+            return _assemblyRepository.GetProductComponentList(id, qty, assemblyId);
+        }
+        public object InsertUpdateAssembly(Assembly assembly)
+        {
+            return _assemblyRepository.InsertUpdateAssembly(assembly);
+        }
+        public Assembly GetAssembly(Guid id)
+        {
+            return _assemblyRepository.GetAssembly(id);
+        }
+        public object DeleteAssembly(Guid id, string createdBy)
+        {
+            return _assemblyRepository.DeleteAssembly(id, createdBy);
+        }
     }
 }

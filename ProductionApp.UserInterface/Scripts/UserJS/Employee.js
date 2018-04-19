@@ -99,17 +99,18 @@ function BindOrReloadEmployeeTable(action) {
             pageLength: 10,
             columns: [
             { "data": "Code", "defaultContent": "<i>-</i>", "width": "5%" },
-            { "data": "Name", "defaultContent": "<i>-<i>", "width": "20%" },
-            { "data": "Department.Name", "defaultContent": "<i>-<i>", "width": "20%" },
-            { "data": "EmployeeCategory.Name", "defaultContent": "<i>-<i>", "width": "15%" },
+            { "data": "Name", "defaultContent": "<i>-<i>", "width": "18%" },
+            { "data": "Department.Name", "defaultContent": "<i>-<i>", "width": "18%" },
+            { "data": "EmployeeCategory.Name", "defaultContent": "<i>-<i>", "width": "14%" },
             { "data": "MobileNo", "defaultContent": "<i>-<i>", "width": "15%" },
-            { "data": "Address", "defaultContent": "<i>-<i>", "width": "20%" },
+            { "data": "Address", "defaultContent": "<i>-<i>", "width": "18%" },
+            { "data": "IsActive", "defaultContent": "<i>-<i>", "width": "7%" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteEmployeeMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditEmployeeMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": "5%" }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [] },
-                { className: "text-left", "targets": [0, 1, 2, 3, 4, 5] },
-                { className: "text-center", "targets": [6] }],
+                { className: "text-left", "targets": [0, 1, 2, 3, 4, 5,6] },
+                { className: "text-center", "targets": [7] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {

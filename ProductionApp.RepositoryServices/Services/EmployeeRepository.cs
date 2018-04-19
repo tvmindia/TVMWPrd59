@@ -112,6 +112,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         employee.Address = (sdr["Address"].ToString() != "" ? sdr["Address"].ToString() : employee.Address);
                                         //employee.ImageURL = (sdr["ImageURL"].ToString() != "" ? sdr["ImageURL"].ToString() : employee.ImageURL);
                                         employee.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : employee.GeneralNotes);
+                                        employee.IsActive = (sdr["IsActive"].ToString() != "" ? bool.Parse(sdr["IsActive"].ToString()) : employee.IsActive);
                                         employee.Department = new Department();
                                         employee.Department.Name = (sdr["Department"].ToString() != "" ? sdr["Department"].ToString() : employee.Department.Name);
                                         employee.EmployeeCategory = new EmployeeCategory();
