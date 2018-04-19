@@ -11,12 +11,13 @@
 var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 var _ProductionTracking = {};
-
+var _Today = '';
 $(document).ready(function () {
     try {
         debugger;
         LoadProductionTrackingSearchTable();
         $('#EmployeeID').select2();
+        _Today = $('#EntryDate').val();
         ProductionTrackingInit();
         try {
             if ($('#IsUpdate').val() === "True") {
@@ -181,7 +182,8 @@ function SaveSuccess(data, status) {
             $('#ID').val(productionTrackingVM.ID)
             message = productionTrackingVM.Message;
             //notyAlert("success", message);
-            Reset(1);
+            //Reset(1);
+            NewTracking();
             //ChangeButtonPatchView('ProductionTracking', 'divButtonPatch', 'Edit');
             break;
         case "ERROR":
@@ -314,7 +316,6 @@ function BindOrReloadProductionTrackingTable() {
         ProductionTrackingAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
-        //switch case to check the operation
         ProductionTrackingAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
         ProductionTrackingAdvanceSearchViewModel.Product = new Object();
         ProductionTrackingAdvanceSearchViewModel.Product.ID = null;
@@ -343,7 +344,7 @@ function BindOrReloadProductionTrackingTable() {
             pageLength: 10,
             columns: [
             { "data": "ID", "defaultContent": "<i>-</i>" },
-            { "data": "EntryDateFormatted", "defaultContent": "<i>-</i>" },//1
+            { "data": "EntryDateFormatted", "defaultContent": "<i>-</i>", "width": '22%' },//1
             //{ "data": "Product.Name", "defaultContent": "<i>-</i>" },
             //{ "data": "Component.Name", "defaultContent": "<i>-</i>" },//3
             //{ "data": "Stage.Description", "defaultContent": "<i>-</i>" },
@@ -384,6 +385,7 @@ function Edit(curObj) {
         OnServerCallBegin();
         var ProductionTrackingViewModel = DataTables.ProductionTrackingList.row($(curObj).parents('tr')).data();
         $('#ID').val(ProductionTrackingViewModel.ID);
+        $('#IsUpdate').val('True');
         BindProductionTracking();
         ChangeButtonPatchView('ProductionTracking', 'divButtonPatch', 'Edit');
         BindOrReloadProductionTrackingTable();
@@ -394,4 +396,23 @@ function Edit(curObj) {
     catch (e) {
         console.log(e.message);
     }
+}
+
+function NewTracking() {
+    debugger;
+    $('#EntryDate').val(_Today);
+    $('#ID').val(EmptyGuid);
+    $('#IsUpdate').val('False');
+    $('#EmployeeID').val("").trigger('change');
+    $('#ProductionRefNo').val("");
+    $('#ProductionTrackingSearch').val("");
+    $('#lblSubComponent').text("N/A");
+    $('#lblProduct').text("N/A");
+    $('#lblStage').text("N/A");
+    $('#lblComponent').text("N/A");
+    $('#AcceptedQty').val(0);
+    $('#AcceptedWt').val(0);
+    $('#DamagedQty').val(0);
+    $('#DamagedWt').val(0);
+    $('#Remarks').val("");
 }
