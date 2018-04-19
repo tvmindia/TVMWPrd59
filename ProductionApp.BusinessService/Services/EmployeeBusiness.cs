@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.RepositoryServices.Contracts;
 using ProductionApp.DataAccessObject.DTO;
+using System.Web.Mvc;
 
 namespace ProductionApp.BusinessService.Services
 {
@@ -15,6 +16,22 @@ namespace ProductionApp.BusinessService.Services
         public EmployeeBusiness(IEmployeeRepository employeeRepository)
         {
             _employeeRepository = employeeRepository;
+        }
+        public List<SelectListItem> GetEmployeeSelectList()
+        {
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            List<Employee> employeeList = _employeeRepository.GetEmployeeForSelectList();
+            if (employeeList != null)
+                foreach (Employee employee in employeeList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = employee.Name,
+                        Value = employee.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            return selectListItem;
         }
         public List<Employee> GetEmployeeForSelectList()
         {

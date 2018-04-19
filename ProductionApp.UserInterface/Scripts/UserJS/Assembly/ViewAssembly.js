@@ -8,6 +8,7 @@
 //******************************************************************************
 // ##1--Global Declaration
 // ##2--Document Ready Function
+// ##3--Assembly Table Binding Function
 //******************************************************************************
 //##1--Global Declaration---------------------------------------------##1 
 var _dataTable = {};
@@ -26,7 +27,7 @@ $(document).ready(function () {
         console.log(e.message);
     }
 });
-
+//##3--Assembly Table Binding Function-------------------------------------##3
 function BindOrReloadAssembleTable(action) {
     try {
         debugger;
@@ -90,34 +91,35 @@ function BindOrReloadAssembleTable(action) {
                 },
                 pageLength: 10,
                 columns: [
-                    { "data": "AssemblyDateFormatted", "defaultContent": "<i>-</i>", "width": "20%" },
+                    { "data": "EntryNo", "defaultContent": "<i>-</i>", "width": "7%" },
+                    { "data": "AssemblyDateFormatted", "defaultContent": "<i>-</i>", "width": "13%" },
                     { "data": "Product.Name", "defaultContent": "<i>-</i>", "width": "37%" },
                     { "data": "Employee.Name", "defaultContent": "<i>-</i>", "width": "30%" },
                     { "data": "Qty", "defaultContent": "<i>-</i>", "width": "10%" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
-                            return '<a href="/Assemble/NewAssemble?code=PROD&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
+                            return '<a href="/Assembly/NewAssembly?code=PROD&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
                         }, "defaultContent": "<i>-</i>", "width": "3%"
                     }
                 ],
                 columnDefs: [
-                            { className: "text-left", "targets": [1, 2, ] },
-                            { className: "text-right", "targets": [3] },
-                            { className: "text-center", "targets": [0,4] }],
+                            { className: "text-left", "targets": [2, 3,0 ] },
+                            { className: "text-right", "targets": [4] },
+                            { className: "text-center", "targets": [1,5] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
-                //initComplete: function (settings, json) {
-                //    if (action === 'Export') {
-                //        debugger;
-                //        if (json.data[0].length > 0) {
-                //            if (json.data[0].TotalCount > 10000) {
-                //                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                //            }
-                //        }
-                //        $(".buttons-excel").trigger('click');
-                //        BindOrReloadReturnToSupplierTable('Search');
-                //    }
-                //}
+                initComplete: function (settings, json) {
+                    if (action === 'Export') {
+                        debugger;
+                        if (json.data[0].length > 0) {
+                            if (json.data[0].TotalCount > 10000) {
+                                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
+                            }
+                        }
+                        $(".buttons-excel").trigger('click');
+                        BindOrReloadAssembleTable('Search');
+                    }
+                }
             });
         $(".buttons-excel").hide();
     }

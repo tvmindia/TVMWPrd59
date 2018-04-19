@@ -52,6 +52,8 @@ namespace ProductionApp.UserInterface.Models
         public List<SalesOrderDetailViewModel> SalesOrderDetailList { get; set; }
         public SalesOrderDetailViewModel SalesOrderDetail { get; set; }
         public List<SelectListItem> SelectList { get; set; }
+        public List<SalesOrderViewModel> SalesOrderList { get; set; }
+        public string BaseURL { get; set; }
 
 
     }

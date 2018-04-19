@@ -12,9 +12,9 @@
 // ##4--Bind Payment due date, based on Payment date
 // ##5--From Purchase Order Changed 
 // ##6--Show Supplier Invoice Details Modal
-// ##7--Show Load PO Detail Modal
-// ##8-- 
-// ##9-- 
+// ##7--
+// ##8-- Show Load PO Detail Modal
+// ##9-- popup DataTable: Dropdown,TextBoxes,CheckBox Binding
 // ##10-- 
 // ##11--Save  Supplier Invoice 
 // ##12--Save Success Supplier Invoice
@@ -27,7 +27,7 @@
 //******************************************************************************
 
 //##1--Global Declaration---------------------------------------------##1 
-var _DataTables = {};
+var _dataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 var _SlNo = 1;
 var _result = "";
@@ -61,7 +61,7 @@ $(document).ready(function () {
             UploadFile(FileObject);
         });
 
-        _DataTables.SupplierInvoiceDetailTable = $('#tblSupplierInvoiceDetail').DataTable({
+        _dataTables.SupplierInvoiceDetailTable = $('#tblSupplierInvoiceDetail').DataTable({
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
             ordering: false,
             searching: false,
@@ -71,23 +71,18 @@ $(document).ready(function () {
             autoWidth: false,
             columns: [
 
-              { "data": "ID", "defaultContent": "<i>-</i>", },
               {
                   "data": "", render: function (data, type, row) {
                       return _SlNo++
                   }, "width": "5%"
               },
               {
-                  "data": "ProductName", "defaultContent": "<i>-</i>", "width": "25%",
+                  "data": "MaterialDesc", "defaultContent": "<i>-</i>", "width": "25%",
                   'render': function (data, type, row) {
-                      if (row.IsInvoiceInKG)
-                          return data + '</br>(<b>Invoice in Kg </b>)'
-                      else
-                          return data
+                      return data + '</br><b>Code :</b>' + row.MaterialCode + '</br><b>Type :</b>' + row.MaterialTypeDesc
                   }
               },
               { "data": "Quantity", "defaultContent": "<i>-</i>", "width": "9%" },
-              { "data": "Weight", "defaultContent": "<i>-</i>", "width": "9%" },
               { "data": "Rate", "defaultContent": "<i>-</i>", "width": "9%" },
               { "data": "TradeDiscountAmount", "defaultContent": "<i>-</i>", "width": "9%" },
               { "data": "TaxableAmount", "defaultContent": "<i>-</i>", "width": "9%" },
@@ -96,14 +91,14 @@ $(document).ready(function () {
               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ItemDetailsEdit(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>     <a href="#" class="DeleteLink"  onclick="DeleteDetail(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "7%" }
 
             ],
-            columnDefs: [{ "targets": [0], "visible": false, searchable: false },
-                { className: "text-center", "targets": [10] },
-                { className: "text-right", "targets": [7, 8, 9] },
-                { className: "text-left", "targets": [4, 6] }
+            columnDefs: [{ "targets": [], "visible": false, searchable: false },
+                { className: "text-center", "targets": [8] },
+                { className: "text-right", "targets": [2,3,4,5,7] },
+                { className: "text-left", "targets": [1,6] }
             ]
         });
       
-        _DataTables.PurchaseOrderDetailTable = $('#tblPurchaseOrderDetail').DataTable({
+        _dataTables.PurchaseOrderDetailTable = $('#tblPurchaseOrderDetail').DataTable({
                 dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
                 order: [],
                 searching: true,
@@ -276,13 +271,9 @@ function IsFromPurchaseOrderChanged() {
 
 //##6--Show Supplier Invoice Detail Modal ---------------------------##6
 function ShowSupplierInvoiceDetailModal()
-{
-    debugger;
-  
+{ 
     $('#SupplierInvoiceDetailModal').modal('show');
-}
-
- 
+} 
 function BindRawMaterialDetails(id) {
     try {
         debugger;
@@ -323,7 +314,6 @@ function GetMaterial(ID) {
         notyAlert('error', e.message);
     }
 }
-
 function ValueCalculation() {
     var material, rate, qty, discpercent, disc = 0, taxTypeCode, taxableAmt = 0, taxAmt = 0, netAmt = 0, GrossAmt = 0
     material = $('#MaterialID').val();
@@ -372,8 +362,8 @@ function ValueCalculation() {
         $('#SupplierInvoiceDetail_NetAmount').val(roundoff(netAmt));
     }
 }
-
-function ClearDiscountPercentage() {
+function ClearDiscountPercentage()
+{
     $('#SupplierInvoiceDetail_TradeDiscountPerc').val(0);
     ValueCalculation();
 }
@@ -399,11 +389,40 @@ function GetTaxTypeByCode(Code) {
         notyAlert('error', e.message);
 }
 }
+  
+//##7--Add button click :Load PO Detail Modal ---------------------------##7
+function AddSupplierInvoiceDetails() {
+    debugger;
+    var rate = $('#SupplierInvoiceDetail_Rate').val();
+    var qty = $('#SupplierInvoiceDetail_Quantity').val();
+    var productId = $('#MaterialID').val();
+
+    if (rate != "" && qty != "" && productId != "") {
+        _SupplierInvoiceDetail = [];
+        SupplierInvoiceDetailVM = new Object();
+        SupplierInvoiceDetailVM.MaterialID = $("#MaterialID").val(); 
+        SupplierInvoiceDetailVM.UnitCode = $('#SupplierInvoiceDetail_UnitCode').val();
+        SupplierInvoiceDetailVM.Quantity = $('#SupplierInvoiceDetail_Quantity').val();
+        SupplierInvoiceDetailVM.Rate = $('#SupplierInvoiceDetail_Rate').val();
+        //SupplierInvoiceDetailVM.GrossAmount = $('#SupplierInvoiceDetail_GrossAmount').val();
+        SupplierInvoiceDetailVM.TradeDiscountAmount = $('#SupplierInvoiceDetail_TradeDiscountAmount').val();
+        SupplierInvoiceDetailVM.DiscountPercent = $('#SupplierInvoiceDetail_DiscountPercent').val();
+        //SupplierInvoiceDetailVM.TaxAmount = $('#SupplierInvoiceDetail_TaxAmount').val();
+       // SupplierInvoiceDetailVM.NetAmount = $('#SupplierInvoiceDetail_NetAmount').val();
+        SupplierInvoiceDetailVM.TaxTypeCode = $('#TaxTypeCode').val();
+        //if (SupplierInvoiceDetailVM.TaxTypeCode != "")
+        //    SupplierInvoiceDetailVM.TaxTypeDescription = $('#TaxTypeCode option:selected').text();
+        _SupplierInvoiceDetail.push(SupplierInvoiceDetailVM);
+        $('#SupplierInvoiceDetailModal').modal('hide');
+    }
+    else {
+        notyAlert('warning', "Please check the Required Fields");
+    }
+}
 
 
 
-
-//##7--Show Load PO Detail Modal ---------------------------##7
+//##8--Show Load PO Detail Modal ---------------------------##8
 function LoadPODetailModal() {
     debugger;
     if ($('#PurchaseOrderID').val() !== "") {
@@ -417,7 +436,7 @@ function LoadPODetailModal() {
 } 
 function BindPurchaseOrderDetailTable(id) {
     debugger;
-    _DataTables.PurchaseOrderDetailTable.clear().rows.add(GetPurchaseOrderItem(id)).select().draw(false);
+    _dataTables.PurchaseOrderDetailTable.clear().rows.add(GetPurchaseOrderItem(id)).select().draw(false);
 }
 function GetPurchaseOrderItem(id) {
     try {
@@ -443,7 +462,7 @@ function GetPurchaseOrderItem(id) {
     }
 } 
  
-//##8-- popup DataTable: Dropdown,TextBoxes,CheckBox Binding-----------------##8
+//##9-- popup DataTable: Dropdown,TextBoxes,CheckBox Binding-----------------##9
 function TaxtypeDropdown() {
     var taxTypeVM = GetTaxtypeDropdown()
     _taxDropdownScript = "<option value=" + '' + ">-Select-</option>";
@@ -478,8 +497,8 @@ function GetTaxtypeDropdown() {
 function EdittextBoxValue(thisObj, textBoxCode) {
     debugger;
     var IDs = selectedRowIDs();//identify the selected rows 
-    var purchaseOrderDetailVM = _DataTables.PurchaseOrderDetailTable.rows().data();
-    var rowtable = _DataTables.PurchaseOrderDetailTable.row($(thisObj).parents('tr')).data();
+    var purchaseOrderDetailVM = _dataTables.PurchaseOrderDetailTable.rows().data();
+    var rowtable = _dataTables.PurchaseOrderDetailTable.row($(thisObj).parents('tr')).data();
     for (var i = 0; i < purchaseOrderDetailVM.length; i++) {
         if (purchaseOrderDetailVM[i].MaterialID == rowtable.MaterialID) {
             if (textBoxCode == 1) 
@@ -502,11 +521,11 @@ function EdittextBoxValue(thisObj, textBoxCode) {
             }
         }
     }
-    _DataTables.PurchaseOrderDetailTable.clear().rows.add(purchaseOrderDetailVM).draw(false);
+    _dataTables.PurchaseOrderDetailTable.clear().rows.add(purchaseOrderDetailVM).draw(false);
     selectCheckbox(IDs); //Selecting the checked rows with their ids taken 
 }
 function selectedRowIDs() {
-    var allData = _DataTables.PurchaseOrderDetailTable.rows(".selected").data();
+    var allData = _dataTables.PurchaseOrderDetailTable.rows(".selected").data();
     var arrIDs = "";
     for (var r = 0; r < allData.length; r++) {
         if (r == 0)
@@ -517,13 +536,13 @@ function selectedRowIDs() {
     return arrIDs;
 }
 function selectCheckbox(IDs) {
-    var purchaseOrderDetailVM = _DataTables.PurchaseOrderDetailTable.rows().data()
+    var purchaseOrderDetailVM = _dataTables.PurchaseOrderDetailTable.rows().data()
     for (var i = 0; i < purchaseOrderDetailVM.length; i++) {
         if (IDs.includes(purchaseOrderDetailVM[i].MaterialID)) {
-            _DataTables.PurchaseOrderDetailTable.rows(i).select();
+            _dataTables.PurchaseOrderDetailTable.rows(i).select();
         }
         else {
-            _DataTables.PurchaseOrderDetailTable.rows(i).deselect();
+            _dataTables.PurchaseOrderDetailTable.rows(i).deselect();
         }
     }
 }

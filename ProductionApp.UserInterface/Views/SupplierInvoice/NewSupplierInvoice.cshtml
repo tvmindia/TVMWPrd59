@@ -89,6 +89,35 @@
                     <div class="col-md-12"></div>
                     <div class="form-group col-md-6">
                         <div class="col-md-12">
+                            @Html.Label("From Existing Purchase Order", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @{
+                                List<SelectListItem> RequisitionStatus = new List<SelectListItem>();
+                                RequisitionStatus.Add(new SelectListItem
+                                { Text = "Yes", Value = "True", Selected = true });
+                                RequisitionStatus.Add(new SelectListItem
+                                { Text = "No", Value = "False" });
+                            }
+                            @Html.DropDownList("IsFromPurchaseOrder", RequisitionStatus, new { @class = "form-control", style = "padding:4px 12px;", @onchange = "IsFromPurchaseOrderChanged();" })
+
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.PurchaseOrderID, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-12" id="divPOID">
+                            @Html.Action("PurchaseOrderDropdown", "PurchaseOrder")
+                        </div>
+                        <div class="col-md-12" id="divPONo">
+                            @Html.EditorFor(model => model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                        </div>
+                        @*<span class="text-danger" id="msgPurchase">* Purchase Order not Selected / Entered</span>*@
+                    </div>
+                    <div class="col-md-12"></div>
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
                             @Html.LabelFor(model => model.PaymentTermCode, htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="col-md-12">
@@ -122,36 +151,7 @@
                             @Html.TextAreaFor(model => model.ShippingAddress, new { @class = "form-control HeaderBox textareafix", rows = "3" })
                         </div>
                     </div>
-                    <div class="col-md-12"></div>
-                    <div class="form-group col-md-6">
-                        <div class="col-md-12">
-                            @Html.Label("From Existing Purchase Order", htmlAttributes: new { @class = "control-label" })
-                        </div>
-                        <div class="col-md-12">
-                            @{
-                                List<SelectListItem> RequisitionStatus = new List<SelectListItem>();
-                                RequisitionStatus.Add(new SelectListItem
-                                { Text = "Yes", Value ="True", Selected = true });
-                                RequisitionStatus.Add(new SelectListItem
-                                { Text = "No", Value = "False" });
-                            }
-                            @Html.DropDownList("IsFromPurchaseOrder", RequisitionStatus, new { @class = "form-control", style = "padding:4px 12px;", @onchange = "IsFromPurchaseOrderChanged();" })
-                             
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.PurchaseOrderID, htmlAttributes: new { @class = "control-label lblrequired" })
-                        </div>
-                        <div class="col-md-12" id="divPOID">
-                            @Html.Action("PurchaseOrderDropdown", "PurchaseOrder")
-                        </div>
-                        <div class="col-md-12" id="divPONo">
-                            @Html.EditorFor(model => model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
-                        </div>
-                        @*<span class="text-danger" id="msgPurchase">* Purchase Order not Selected / Entered</span>*@
-                    </div>
-
+                  
 
                 </div>
                 <div class="form-group col-md-4">
@@ -204,11 +204,9 @@
                 <table id="tblSupplierInvoiceDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" style="width:100%">
                     <thead>
                         <tr class="text-center TableHead">
-                            <th>ID</th>
                             <th>Sl. No</th>
                             <th>Material</th>
                             <th>Quantity</th>
-                            <th>Weight</th>
                             <th>Rate</th>
                             <th>Trade Discount</th>
                             <th>Taxable Amount</th>
