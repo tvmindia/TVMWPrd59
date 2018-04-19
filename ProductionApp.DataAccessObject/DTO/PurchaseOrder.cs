@@ -63,6 +63,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal Discount { get; set; }
         //additional prop
         public string MaterialCode { get; set; }
+        public string MaterialTypeDesc { get; set; }
         public decimal Amount { get; set; }
         public RequisitionDetail RequisitionDetail { get; set; }
     }
