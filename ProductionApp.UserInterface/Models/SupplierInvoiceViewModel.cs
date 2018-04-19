@@ -52,6 +52,7 @@ namespace ProductionApp.UserInterface.Models
         public Guid ID { get; set; }
         public Guid SupplierInvoiceID { get; set; }
         public Guid MaterialID { get; set; }
+        public decimal Rate { get; set; }
         public decimal Quantity { get; set; }
         public string UnitCode { get; set; }
         public decimal TradeDiscountPerc { get; set; }
@@ -60,8 +61,10 @@ namespace ProductionApp.UserInterface.Models
         public decimal CGSTPerc { get; set; }
         public decimal SGSTPerc { get; set; }
         public decimal IGSTPerc { get; set; }
- 
+
         //Additional Reference
+        public string MaterialCode { get; set; }
+        public string MaterialTypeDesc { get; set; }
         public CommonViewModel Common { get; set; }
     }
 

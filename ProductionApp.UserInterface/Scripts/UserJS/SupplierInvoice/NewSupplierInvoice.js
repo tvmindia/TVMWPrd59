@@ -114,34 +114,34 @@ $(document).ready(function () {
                     searchPlaceholder: "Search"
                 },
                 columns: [
-                  { "data": "Checkbox", "defaultContent": "", "width": "" },
+                  { "data": "Checkbox", "defaultContent": "", "width": "7%" },
                   {
-                      "data": "MaterialDesc", "defaultContent": "<i>-</i>", "width": "",
+                      "data": "MaterialDesc", "defaultContent": "<i>-</i>", "width": "45%",
                        'render': function (data, type, row) {
-                            return data;
+                           return data + '</br><b>Code :</b>' + row.MaterialCode + '</br><b>Type :</b>' + row.MaterialTypeDesc
                        }
                   },
                    {
-                       "data": "Qty", "defaultContent": "<i>-</i>", "width": "",
+                       "data": "Qty", "defaultContent": "<i>-</i>", "width": "12%",
                        'render': function (data, type, row) {
-                             return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,1);"style="width:100%">';
+                             return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,1);">';
                            //return data;
                        }
                    },
                     {
-                        "data": "Rate", "defaultContent": "<i>-</i>", "width": "",
+                        "data": "Rate", "defaultContent": "<i>-</i>", "width": "12%",
                         'render': function (data, type, row) {
-                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,2);"style="width:100%">';
+                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,2);">';
                         }
                     },
                     {
-                        "data": "Discount", "defaultContent": "<i>-</i>", "width": "",
+                        "data": "Discount", "defaultContent": "<i>-</i>", "width": "12%",
                         'render': function (data, type, row) {
-                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,3);" style="width:100%">';
+                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,3);">';
                         }
                     },
                     {
-                        "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "",
+                        "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "12%",
                         'render': function (data, type, row) {
                             if (data != null) {
                                 var first = _taxDropdownScript.slice(0, _taxDropdownScript.indexOf('value="' + data + '"'));
