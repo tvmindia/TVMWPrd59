@@ -539,5 +539,50 @@ namespace ProductionApp.RepositoryServices.Services
                 Status = outputStatus.Value.ToString(),
             };
         }
+
+        #region GetRecentSalesOrder
+        public List<SalesOrder> GetRecentSalesOrder()
+        {
+            List<SalesOrder> salesOrderList = new List<SalesOrder>();
+            SalesOrder salesOrder = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRecentSalesOrder]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    salesOrder = new SalesOrder();
+                                    salesOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    salesOrder.OrderNo = (sdr["OrderNo"].ToString() != "" ? sdr["OrderNo"].ToString() : salesOrder.OrderNo);
+                                    salesOrder.CustomerName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : salesOrder.CustomerName);
+                                    salesOrder.ReferenceCustomerName = (sdr["ReferenceCustomer"].ToString() != "" ? sdr["ReferenceCustomer"].ToString() : salesOrder.ReferenceCustomerName);
+                                    salesOrder.ExpectedDeliveryDateFormatted = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()).ToString(settings.DateFormat) : salesOrder.ExpectedDeliveryDateFormatted);
+                                    salesOrderList.Add(salesOrder);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return salesOrderList;
+        }
+        #endregion GetRecentSalesOrder
     }
 }

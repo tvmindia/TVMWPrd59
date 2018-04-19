@@ -66,6 +66,8 @@ namespace ProductionApp.UserInterface.Models
         public bool ShowDispatcherSec { get; set; }
         public string DetailXML { get; set; }
         public string DetailJSON { get; set; }
+        public List<PackingSlipViewModel> PackingSlipList { get; set; }
+        public string BaseURL { get; set; }        
     }
     public class PackingSlipDetailViewModel
     {

@@ -74,5 +74,10 @@ namespace ProductionApp.BusinessService.Services
             return _packingSlipRepository.GetPackingSlipForSelectList();
         }
 
+        public List<PackingSlip>GetRecentPackingSlip(string BaseURL)
+        {
+            return _packingSlipRepository.GetRecentPackingSlip();
+        }
+
     }
 }

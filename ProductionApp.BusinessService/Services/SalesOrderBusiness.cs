@@ -83,5 +83,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _salesOrderRepository.GetCustomerOfSalesOrderForPackingSlip(salesOrderId);
         }
+
+        public List<SalesOrder> GetRecentSalesOrder(string BaseURL)
+        {
+            return _salesOrderRepository.GetRecentSalesOrder();
+        }
     }
 }

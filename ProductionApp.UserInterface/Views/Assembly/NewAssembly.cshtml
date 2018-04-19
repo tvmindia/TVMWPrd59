@@ -69,7 +69,7 @@
                             @Html.LabelFor(model => model.AssembleBy, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12"id="divAssemblyDropdown">
-                            @Html.Action("AssembleDropdown", "Employee")
+                            @Html.Action("AssembleDropdown", "Employee", new { required = "" })
                         </div>
                     </div>
                     <div class="col-md-12"></div>
