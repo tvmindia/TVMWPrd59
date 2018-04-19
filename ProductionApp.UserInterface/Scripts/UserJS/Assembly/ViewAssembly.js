@@ -91,7 +91,8 @@ function BindOrReloadAssembleTable(action) {
                 },
                 pageLength: 10,
                 columns: [
-                    { "data": "AssemblyDateFormatted", "defaultContent": "<i>-</i>", "width": "20%" },
+                    { "data": "EntryNo", "defaultContent": "<i>-</i>", "width": "7%" },
+                    { "data": "AssemblyDateFormatted", "defaultContent": "<i>-</i>", "width": "13%" },
                     { "data": "Product.Name", "defaultContent": "<i>-</i>", "width": "37%" },
                     { "data": "Employee.Name", "defaultContent": "<i>-</i>", "width": "30%" },
                     { "data": "Qty", "defaultContent": "<i>-</i>", "width": "10%" },
@@ -102,9 +103,9 @@ function BindOrReloadAssembleTable(action) {
                     }
                 ],
                 columnDefs: [
-                            { className: "text-left", "targets": [1, 2, ] },
-                            { className: "text-right", "targets": [3] },
-                            { className: "text-center", "targets": [0,4] }],
+                            { className: "text-left", "targets": [2, 3,0 ] },
+                            { className: "text-right", "targets": [4] },
+                            { className: "text-center", "targets": [1,5] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
