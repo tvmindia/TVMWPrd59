@@ -37,6 +37,8 @@ namespace ProductionApp.UserInterface.Controllers
             ProductAdvanceSearchViewModel productAdvanceSearchVM = new ProductAdvanceSearchViewModel();
             productAdvanceSearchVM.Unit = new UnitViewModel();
             productAdvanceSearchVM.Unit.UnitSelectList = _unitBusiness.GetUnitForSelectList();
+            productAdvanceSearchVM.ProductCategory = new ProductCategoryViewModel();
+            productAdvanceSearchVM.ProductCategory.ProductCategorySelectList = _productCategoryBusiness.GetProductCategoryForSelectList();
             return View(productAdvanceSearchVM);
         }
         #endregion Index

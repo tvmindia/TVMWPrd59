@@ -40,7 +40,7 @@ namespace ProductionApp.UserInterface.Models
         public string HSNNo { get; set; }
         [Display(Name = "Weight In KG")]
         public decimal? WeightInKG { get; set; }
-        [Display(Name = "Cost Price")]
+        [Display(Name = "Cost Price Per KG")]
         public decimal? CostPrice { get; set; }
         [Display(Name = "Cost Price Per Piece")]
         public decimal? CostPricePerPiece { get; set; }
@@ -68,6 +68,7 @@ namespace ProductionApp.UserInterface.Models
         public string SearchTerm { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
         public UnitViewModel Unit { get; set; }
+        public ProductCategoryViewModel ProductCategory { get; set; }
     }
 
 

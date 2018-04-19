@@ -510,17 +510,17 @@ function EdittextBoxValue(thisObj, textBoxCode)
             if (textBoxCode == 4)
                 customerInvoiceDetailVM[i].TradeDiscountAmount = thisObj.value;
             if (textBoxCode == 5)
+            {
                 var taxTypeVM = GetTaxtypeDropdown();
                 customerInvoiceDetailVM[i].TaxTypeCode = thisObj.value;
-                for (j = 0; j < taxTypeVM.length; j++)
-                {
-                    if (taxTypeVM[j].Code == thisObj.value)
-                    {
+                for (j = 0; j < taxTypeVM.length; j++) {
+                    if (taxTypeVM[j].Code == thisObj.value) {
                         customerInvoiceDetailVM[i].IGSTPerc = taxTypeVM[j].IGSTPercentage;
                         customerInvoiceDetailVM[i].SGSTPerc = taxTypeVM[j].SGSTPercentage;
                         customerInvoiceDetailVM[i].CGSTPerc = taxTypeVM[j].CGSTPercentage;
                     }
                 }
+            }
         }
     }
     _DataTables.PackingSlipListDetailTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
@@ -638,6 +638,7 @@ function SaveSuccessCustomerInvoice(data, status)
             $('#IsUpdate').val('True');
             $('#ID').val(_jsonData.Records.ID)
             _CustomerInvoiceDetail = [];
+            $("#DetailJSON").val('');
             BindCustomerInvoiceByID();
             notyAlert("success", _jsonData.Records.Message)
             break;
@@ -671,6 +672,7 @@ function BindCustomerInvoiceByID()
     $('#lblTotalTaxAmount').text(roundoff(customerInvoiceVM.TotalTaxAmount));
     $('#lblInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount));
     $('#lblStatusInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount));
+    $('#InvoiceAmount').val(roundoff(customerInvoiceVM.InvoiceAmount));
     
     //detail Table values binding with header id
     BindCustomerInvoiceDetailTable(ID);
@@ -775,8 +777,8 @@ function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
                 customerInvoiceDetailVM[i].Rate = thisObj.value;
             if (textBoxCode == 4)
                 customerInvoiceDetailVM[i].TradeDiscountAmount = thisObj.value;
-            if (textBoxCode == 5)
-                debugger;
+            if (textBoxCode == 5) 
+            {
                 var taxTypeVM = GetTaxtypeDropdown();
                 customerInvoiceDetailVM[i].TaxTypeCode = thisObj.value;
                 for (j = 0; j < taxTypeVM.length; j++) {
@@ -786,6 +788,7 @@ function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
                         customerInvoiceDetailVM[i].CGSTPerc = taxTypeVM[j].CGSTPercentage;
                     }
                 }
+            }
         }
     }
     _DataTables.EditPackingSlipListDetailTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
@@ -860,7 +863,7 @@ function DeleteCustomerInvoice() {
             }
             if (_result == "OK") {
                 notyAlert('success', _message);
-                window.location.replace("NewCustomerInvoice?code=SALE");
+                window.location.replace("NewCustomerInvoice?code=ACC");
             }
             if (_result == "ERROR") {
                 notyAlert('error', _message);
@@ -905,4 +908,21 @@ function DeleteCustomerInvoiceDetail(id) {
         notyAlert('error', e.message);
         return 0;
     }
+}
+
+//##18--Discount Amount Changed -------------------------------------------------------##18
+function DiscountAmountChanged(thisObj)
+{
+    if (thisObj.value!="")
+    {
+            var InvoiceAmount = $('#InvoiceAmount').val();
+            var calculatedAmount = parseFloat(InvoiceAmount) - parseFloat(thisObj.value);
+            $('#lblInvoiceAmount').text(roundoff(calculatedAmount));
+            $('#lblStatusInvoiceAmount').text(roundoff(calculatedAmount));
+    }
+    else
+    {
+        $('#Discount').val(roundoff(0));
+    }
+   
 }

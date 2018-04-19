@@ -1,31 +1,49 @@
 ﻿//*****************************************************************************
 //*****************************************************************************
 //Author: Gibin Jacob
-//CreatedDate: 20-Mar-2018 
-//LastModified:  17-APR-2018 
-//FileName: ViewCustomerInvoice.js
-//Description: Client side coding for View Customer Invoice
+//CreatedDate: 18-Apr-2018 
+//LastModified:  18-Apr-2018 
+//FileName: NewSupplierPayment.js
+//Description: Client side coding for New/Edit Supplier Payment
 //******************************************************************************
 // ##1--Global Declaration
 // ##2--Document Ready function
-// ##3--Edit Click Redirection
-// ##4--Bind Customer Invoice Table List
+// ##3-- 
+// ##4-- 
+// ##5-- 
+// ##6-- 
+// ##7-- 
+// ##8-- 
+// ##9-- 
+// ##10-- 
+// ##11--Save  Supplier Payment 
+// ##12--Save Success Supplier Payment
+// ##13--Bind Supplier Payment By ID
+// ##14--Reset Button Click
+// ##15-- 
+// ##16--DELETE Supplier Payment 
+// ##17--DELETE Supplier Payment Details 
 // 
 //******************************************************************************
-
 
 //##1--Global Declaration---------------------------------------------##1 
 var _dataTables = {};
 var _emptyGuid = "00000000-0000-0000-0000-000000000000";
+var _SlNo = 1;
+var _result = "";
+var _message = "";
+var _jsonData = {};
+
+
 
 
 //##2--Document Ready function-----------------------------------------##2  
 $(document).ready(function () {
     debugger;
     try {
-        $("#CustomerID").select2({});
-        BindOrReloadCustomerInvoiceTable('Init');
-        $('#tblCustomerInvoiceView tbody').on('dblclick', 'td', function () {
+        $("#SupplierID").select2({});
+        BindOrReloadSupplierPaymentTable('Init');
+        $('#tblSupplierPaymentView tbody').on('dblclick', 'td', function () {
             Edit(this);
         });
     }
@@ -37,17 +55,17 @@ $(document).ready(function () {
 //##3--Edit Click Redirection-----------------------------------------##3  
 function Edit(curObj) {
     debugger;
-    var rowData = _dataTables.CustomerInvoiceTable.row($(curObj).parents('tr')).data();
-    window.location.replace("NewCustomerInvoice?code=ACC&ID=" + rowData.ID);
+    var rowData = _dataTables.SupplierPaymentTable.row($(curObj).parents('tr')).data();
+    window.location.replace("NewSupplierPayment?code=ACC&ID=" + rowData.ID);
 }
 
 
-//##4--Bind Customer Invoice Table List-------------------------------------------##4
-function BindOrReloadCustomerInvoiceTable(action) {
+//##4--Bind Supplier Invoice Table List-------------------------------------------##4
+function BindOrReloadSupplierPaymentTable(action) {
     try {
         //creating advancesearch object
         debugger;
-        CustomerInvoiceAdvanceSearchViewModel = new Object();
+        SupplierPaymentAdvanceSearchViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
         //switch case to check the operation
@@ -56,14 +74,14 @@ function BindOrReloadCustomerInvoiceTable(action) {
                 $('#SearchTerm').val('');
                 $('#FromDate').val('');
                 $('#ToDate').val('');
-                $('#CustomerID').val('').select2();
+                $('#SupplierID').val('').select2();
                 break;
             case 'Init':
                 break;
-            case 'Search': 
-                CustomerInvoiceAdvanceSearchViewModel.FromDate = $('#FromDate').val();
-                CustomerInvoiceAdvanceSearchViewModel.ToDate = $('#ToDate').val();
-                CustomerInvoiceAdvanceSearchViewModel.CustomerID = $('#CustomerID').val();
+            case 'Search':
+                SupplierPaymentAdvanceSearchViewModel.FromDate = $('#FromDate').val();
+                SupplierPaymentAdvanceSearchViewModel.ToDate = $('#ToDate').val();
+                SupplierPaymentAdvanceSearchViewModel.SupplierID = $('#SupplierID').val();
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
@@ -71,9 +89,9 @@ function BindOrReloadCustomerInvoiceTable(action) {
             default:
                 break;
         }
-        CustomerInvoiceAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
-        CustomerInvoiceAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
-        _dataTables.CustomerInvoiceTable = $('#tblCustomerInvoiceView').DataTable(
+        SupplierPaymentAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
+        SupplierPaymentAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+        _dataTables.SupplierPaymentTable = $('#tblSupplierPaymentView').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
                 buttons: [{
@@ -91,39 +109,39 @@ function BindOrReloadCustomerInvoiceTable(action) {
                 proccessing: true,
                 serverSide: true,
                 ajax: {
-                    url: "GetAllCustomerInvoice/",
-                    data: { "customerInvoiceAdvanceSearchVM": CustomerInvoiceAdvanceSearchViewModel },
+                    url: "GetAllSupplierPayment/",
+                    data: { "supplierPaymentAdvanceSearchVM": SupplierPaymentAdvanceSearchViewModel },
                     type: 'POST'
                 },
                 pageLength: 10,
                 columns: [
                     { "data": "ID", "defaultContent": "<i>-</i>" },
                     { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
-                    { "data": "Customer.CompanyName", "defaultContent": "<i>-</i>" },
+                    { "data": "Supplier.CompanyName", "defaultContent": "<i>-</i>" },
                     { "data": "InvoiceDateFormatted", "defaultContent": "<i>-</i>" },
                     { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>" },
                     {
                         "data": "InvoiceAmount", "defaultContent": "<i>-</i>",
                         'render': function (data, type, row) {
-                                return roundoff(data)
+                            return roundoff(data)
                         }
                     },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
-                            return '<a href="/CustomerInvoice/NewCustomerInvoice?code=ACC&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
+                            return '<a href="/SupplierPayment/NewSupplierPayment?code=ACC&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
                         }, "defaultContent": "<i>-</i>", "width": "3%"
                     }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1, 2,] },
+                    { className: "text-left", "targets": [1, 2, ] },
                     { className: "text-right", "targets": [5] },
-                    { className: "text-center", "targets": [3,4,6] }],
+                    { className: "text-center", "targets": [3, 4, 6] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
                     if (action === 'Export') {
                         $(".buttons-excel").trigger('click');
-                        ResetCustomerInvoiceList();
+                        ResetSupplierPaymentList();
                     }
                 }
             });
@@ -134,6 +152,6 @@ function BindOrReloadCustomerInvoiceTable(action) {
     }
 }
 
-function ResetCustomerInvoiceList() {
-    BindOrReloadCustomerInvoiceTable('Reset');
+function ResetSupplierPaymentList() {
+    BindOrReloadSupplierPaymentTable('Reset');
 }

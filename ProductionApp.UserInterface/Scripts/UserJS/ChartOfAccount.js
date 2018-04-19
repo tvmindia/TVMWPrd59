@@ -80,15 +80,30 @@ function BindOrReloadChartOfAccountTable(action) {
             pageLength: 10,
             columns: [
             { "data": "Code", "defaultContent": "<i>-</i>", "width": "10%" },
-            { "data": "Type", "defaultContent": "<i>-</i>", "width": "10%" },
+            {
+                "data": "Type", render: function (data, type, row) {
+                    debugger;
+                    if (data == 'INC')
+                        return 'Income'
+                    else
+                        return 'Expense';
+                }, "defaultContent": "<i>-</i>", "width": "10%"
+            },
             { "data": "TypeDesc", "defaultContent": "<i>-<i>", "width": "10%" },
-            { "data": "IsSubHeadApplicable", "defaultContent": "<i>-<i>", "width": "10%" },
+            {
+                "data": "IsSubHeadApplicable", render: function (data, type, row) {
+                    debugger;
+                    if (data == true)
+                        return 'Yes'
+                    else
+                        return 'No';
+                }, "defaultContent": "<i>-<i>", "width": "10%" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteChartOfAccountMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditChartOfAccountMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": "4%" }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [] },
-                { className: "text-left", "targets": [0,1, 2] },
-                { className: "text-center", "targets": [3] }],
+                { className: "text-left", "targets": [0,1, 2,3] },
+                { className: "text-center", "targets": [4] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {

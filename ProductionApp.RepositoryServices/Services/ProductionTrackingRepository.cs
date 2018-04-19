@@ -54,6 +54,10 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.AddWithValue("@EmployeeID", DBNull.Value);
                         else
                             cmd.Parameters.Add("@EmployeeID", SqlDbType.UniqueIdentifier).Value = productionTrackingAdvanceSearch.Employee.ID;
+                        if (productionTrackingAdvanceSearch.Stage.ID == Guid.Empty)
+                            cmd.Parameters.AddWithValue("@StageID", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@StageID", SqlDbType.UniqueIdentifier).Value = productionTrackingAdvanceSearch.Stage.ID;
                         cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(productionTrackingAdvanceSearch.SearchTerm) ? "" : productionTrackingAdvanceSearch.SearchTerm;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -231,7 +235,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion InsertUpdateProductionTracking
 
         #region DeleteProductionTracking
-        public object DeleteProductionTracking(Guid id)
+        public object DeleteProductionTracking(ProductionTracking productionTracking)
         {
             SqlParameter outputStatus = null;
             try
@@ -247,7 +251,10 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[DeleteProductionTracking]";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = productionTracking.ID;
+                        cmd.Parameters.Add("@DeletedDate", SqlDbType.DateTime).Value = productionTracking.Common.CreatedDate;
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.VarChar, 50).Value = productionTracking.Common.CreatedBy;
+                        cmd.Parameters.Add("@LineStageDetailID", SqlDbType.UniqueIdentifier).Value = productionTracking.LineStageDetailID;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

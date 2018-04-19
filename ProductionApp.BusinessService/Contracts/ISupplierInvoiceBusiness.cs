@@ -10,6 +10,9 @@ namespace ProductionApp.BusinessService.Contracts
     public interface ISupplierInvoiceBusiness
     {
         List<SupplierInvoice> GetAllSupplierInvoice(SupplierInvoiceAdvanceSearch supplierInvoiceAdvanceSearch);
-
+        SupplierInvoice GetSupplierInvoice(Guid id);
+        object InsertUpdateSupplierInvoice(SupplierInvoice SupplierInvoice);
+        object DeleteSupplierInvoice(Guid id);
+        object DeleteSupplierInvoiceDetail(Guid id);
     }
 }

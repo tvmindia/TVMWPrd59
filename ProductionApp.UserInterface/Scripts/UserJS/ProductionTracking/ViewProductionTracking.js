@@ -14,7 +14,7 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     try {
         BindOrReloadProductionTrackingTable('Init');
-        $('#ProductID,#EmployeeID').select2({});
+        $('#ProductID,#EmployeeID,#StageID').select2({});
         AddOnRemove();
     }
     catch (ex) {
@@ -54,7 +54,7 @@ function BindOrReloadProductionTrackingTable(action) {
                 break;
             case 'Init':
                 break;
-            case 'Search':
+            case 'Apply':
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
@@ -70,6 +70,8 @@ function BindOrReloadProductionTrackingTable(action) {
         ProductionTrackingAdvanceSearchViewModel.Product.ID = $('#ProductID').val();
         ProductionTrackingAdvanceSearchViewModel.Employee = new Object();
         ProductionTrackingAdvanceSearchViewModel.Employee.ID = $('#EmployeeID').val();
+        ProductionTrackingAdvanceSearchViewModel.Stage = new Object();
+        ProductionTrackingAdvanceSearchViewModel.Stage.ID = $('#StageID').val();
 
         //apply datatable plugin on ProductionTracking table
         DataTables.ProductionTrackingList = $('#tblProductionTracking').DataTable(

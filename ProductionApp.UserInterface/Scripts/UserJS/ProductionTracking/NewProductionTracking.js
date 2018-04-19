@@ -180,8 +180,9 @@ function SaveSuccess(data, status) {
             $('#IsUpdate').val('True');
             $('#ID').val(productionTrackingVM.ID)
             message = productionTrackingVM.Message;
-            notyAlert("success", message)
-            ChangeButtonPatchView('ProductionTracking', 'divButtonPatch', 'Edit');
+            notyAlert("success", message);
+            Reset(1);
+            //ChangeButtonPatchView('ProductionTracking', 'divButtonPatch', 'Edit');
             break;
         case "ERROR":
             notyAlert("danger", message)
@@ -208,7 +209,8 @@ function DeleteClick() {
 function DeleteProductionTracking(id) {
     try{
         debugger;
-        var data = { "id": id };
+        var LineStageID = $('#LineStageDetailID').val();
+        var data = { "id": id, "lineStageID": LineStageID };
         var result = "";
         var message = "";
         var ProductionTrackingViewModel = new Object();
@@ -286,6 +288,31 @@ function BindProductionTracking() {
         $('#lblSubComponent').text(_ProductionTracking.SubComponent.Description === null ? _ProductionTracking.SubComponent.Description : _ProductionTracking.OutputComponent.Name);
         $('#ProductID').val(_ProductionTracking.ProductID)
         $('#LineStageDetailID').val(_ProductionTracking.LineStageDetailID)
+    } catch (ex) {
+        console.log(ex.message);
+    }
+}
+
+function Reset(check) {
+    try {
+        debugger;
+        switch (check) {
+            case 0:
+                if ($('#IsUpdate').val() === "True") {
+                    var id = $('#ID').val();
+                    window.location.replace("NewProductionTracking?code=PROD&id=" + id + "");
+                } else {
+                    window.location.replace("NewProductionTracking?code=PROD");
+                }
+                break;
+            case 1:
+                window.location.replace("NewProductionTracking?code=PROD");
+                break;
+            default:
+                window.location.replace("NewProductionTracking?code=PROD");
+                break;
+        }
+        
     } catch (ex) {
         console.log(ex.message);
     }

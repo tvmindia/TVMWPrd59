@@ -122,6 +122,35 @@
                             @Html.TextAreaFor(model => model.ShippingAddress, new { @class = "form-control HeaderBox textareafix", rows = "3" })
                         </div>
                     </div>
+                    <div class="col-md-12"></div>
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.Label("From Existing Purchase Order", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @{
+                                List<SelectListItem> RequisitionStatus = new List<SelectListItem>();
+                                RequisitionStatus.Add(new SelectListItem
+                                { Text = "Yes", Value ="True", Selected = true });
+                                RequisitionStatus.Add(new SelectListItem
+                                { Text = "No", Value = "False" });
+                            }
+                            @Html.DropDownList("IsFromPurchaseOrder", RequisitionStatus, new { @class = "form-control", style = "padding:4px 12px;", @onchange = "IsFromPurchaseOrderChanged();" })
+                             
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.PurchaseOrderID, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-12" id="divPOID">
+                            @Html.Action("PurchaseOrderDropdown", "PurchaseOrder")
+                        </div>
+                        <div class="col-md-12" id="divPONo">
+                            @Html.EditorFor(model => model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                        </div>
+                        @*<span class="text-danger" id="msgPurchase">* Purchase Order not Selected / Entered</span>*@
+                    </div>
 
 
                 </div>
@@ -162,19 +191,22 @@
 
             <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
             <div class="col-md-12" style="padding-bottom:3px">
-                <div class="col-md-8">
+                <div class="col-md-6">
                 </div>
-                <div class="col-md-4">
-                    <a class="btn btn-openid" onclick="ShowSupplierInvoiceDetailsModal()" id="btnAddSupplierInvoiceItems" style="color:white;font-weight:bold;float:right"><i class="glyphicon glyphicon-plus"></i> Add </a>
+                <div class="col-md-3">
+                    <a class="btn btn-openid" onclick="LoadPODetailModal()" style="color:white;font-weight:bold;float:right;"><i class="glyphicon glyphicon-arrow-down"></i> Load PO Items</a> 
                 </div>
-            </div>
+                <div class="col-md-3">
+                    <a class="btn btn-openid" onclick="ShowSupplierInvoiceDetailModal()" id="btnAddSupplierInvoiceItems" style="color:white;font-weight:bold;float:right"><i class="glyphicon glyphicon-plus"></i> Add New Item </a>
+                </div>
+            </div> 
             <div class="col-md-12">
                 <table id="tblSupplierInvoiceDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" style="width:100%">
                     <thead>
                         <tr class="text-center TableHead">
                             <th>ID</th>
                             <th>Sl. No</th>
-                            <th>Product</th>
+                            <th>Material</th>
                             <th>Quantity</th>
                             <th>Weight</th>
                             <th>Rate</th>
@@ -250,5 +282,94 @@
         }
     </div>
 </section>
+
+<div class="modal fade bs-example-modal-lg" id="SupplierInvoiceDetailModal" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="min-width:900px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-9">
+                        <div class="col-md-12 modelIcon">
+                            <h3 class="modal-title" id="modelContextLabel">Add Supplier Invoice Details</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SupplierInvoiceDetail.MaterialID, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-12">
+                            <div id="divRawMaterialDropdown">
+                              @*  @{Html.RenderAction("MaterialDropdown", "Material", Model.SupplierInvoiceDetail.MaterialID); }*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 headSeperator"></div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer" style="height: 50px;padding: 7px;">
+               <a id="btnAdd" class="btn btn-primary" onclick="AddSupplierInvoiceDetails()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*  *@
+<div class="modal fade bs-example-modal-lg" id="PurchaseOrderDetailModal" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="min-width:900px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-9">
+                        <div class="col-md-12 modelIcon">
+                            <h3 class="modal-title" id="modelContextLabel">Add Supplier Invoice Details</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid"> 
+                    <table id="tblPurchaseOrderDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                        <thead>
+                            <tr class="text-center">
+                                <th></th>
+                                <th>Material</th> 
+                                <th>Quantity</th>
+                                <th>Rate</th>
+                                <th>Discount</th>
+                                <th>GST %</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer" style="height: 50px;padding: 7px;">
+                <a id="btnAdd" class="btn btn-primary" onclick="AddPOItems()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/selectmin")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/SupplierInvoice/NewSupplierInvoice")
+}
 
 

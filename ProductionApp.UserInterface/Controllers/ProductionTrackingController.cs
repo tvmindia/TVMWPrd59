@@ -20,9 +20,11 @@ namespace ProductionApp.UserInterface.Controllers
         Common _common = new Common();
         AppConst _appConst = new AppConst();
         private IProductionTrackingBusiness _ProductionTrackingBusiness;
-        public ProductionTrackingController(IProductionTrackingBusiness ProductionTrackingBusiness)
+        private IStageBusiness _StageBusiness;
+        public ProductionTrackingController(IProductionTrackingBusiness ProductionTrackingBusiness,IStageBusiness StageBusiness)
         {
             _ProductionTrackingBusiness = ProductionTrackingBusiness;
+            _StageBusiness = StageBusiness;
         }
         #endregion Constructor Injection
 
@@ -38,7 +40,11 @@ namespace ProductionApp.UserInterface.Controllers
                 ID = id == null ? Guid.Empty : Guid.Parse(id),
                 IsUpdate = id == null ? false : true,
                 EntryDateFormatted = _common.GetCurrentDateTime().ToString(settings.DateFormat),
-                SubComponent = new SubComponentViewModel()
+                SubComponent = new SubComponentViewModel(),
+                AcceptedQty = 0,
+                AcceptedWt = 0,
+                DamagedQty = 0,
+                DamagedWt = 0
             };
             return View(productionTrackingVM);
         }
@@ -49,7 +55,22 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ViewProductionTracking(string code)
         {
             ViewBag.SysModuleCode = code;
-            return View();
+            List<StageViewModel> stageList = Mapper.Map<List<Stage>, List<StageViewModel>>(_StageBusiness.GetStageForSelectList());
+            List<SelectListItem> selectList = new List<SelectListItem>();
+            foreach(StageViewModel stage in stageList)
+            {
+                selectList.Add(new SelectListItem
+                {
+                    Text = stage.Description,
+                    Value = stage.ID.ToString(),
+                    Selected = false
+                });
+            }
+            ProductionTrackingAdvanceSearchViewModel productionTrackingAdvanceSearchVM = new ProductionTrackingAdvanceSearchViewModel()
+            {
+                StageSelectList = selectList
+            };
+            return View(productionTrackingAdvanceSearchVM);
         }
         #endregion ViewProductionTracking
 
@@ -119,7 +140,7 @@ namespace ProductionApp.UserInterface.Controllers
                     CreatedBy = appUA.UserName,
                     CreatedDate = _common.GetCurrentDateTime(),
                     UpdatedBy = appUA.UserName,
-                    UpdatedDate = _common.GetCurrentDateTime(),
+                    UpdatedDate = _common.GetCurrentDateTime()
                 };
 
 
@@ -135,11 +156,24 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion InsertUpdateProductionTracking
 
         #region DeleteProductionTracking
-        public string DeleteProductionTracking(string id)
+        public string DeleteProductionTracking(string id, string lineStageID)
         {
             try
             {
-                object result = _ProductionTrackingBusiness.DeleteProductionTracking(Guid.Parse(id));
+                AppUA appUA = Session["AppUA"] as AppUA;
+                ProductionTrackingViewModel productionTrackingVM = new ProductionTrackingViewModel()
+                {
+                    ID = Guid.Parse(id),
+                    LineStageDetailID = Guid.Parse(lineStageID)
+                };
+                productionTrackingVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime()
+                };
+                object result = _ProductionTrackingBusiness.DeleteProductionTracking(Mapper.Map<ProductionTrackingViewModel, ProductionTracking>(productionTrackingVM));
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)
@@ -203,7 +237,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset All";
-                    toolboxVM.resetbtn.Event = "Reset();";
+                    toolboxVM.resetbtn.Event = "Reset(0);";
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";

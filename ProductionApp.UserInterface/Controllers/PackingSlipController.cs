@@ -95,6 +95,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion AddPackingSlip
 
         #region ListPackingSlips
+        [AuthSecurityFilter(ProjectObject = "PackingSlip", Mode = "R")]
         public ActionResult ListPackingSlips(string code)
         {
             ViewBag.SysModuleCode = code;

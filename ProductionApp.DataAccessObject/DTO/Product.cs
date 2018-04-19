@@ -41,6 +41,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string SearchTerm { get; set; }
         public DataTablePaging DataTablePaging { get; set; }
         public Unit Unit { get; set; }
+        public ProductCategory ProductCategory { get; set; }
     }
 
 

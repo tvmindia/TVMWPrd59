@@ -80,7 +80,69 @@ namespace ProductionApp.RepositoryServices.Services
             return supplierInvoiceList;
         }
 
+        public SupplierInvoice GetSupplierInvoice(Guid id)
+        {
+            SupplierInvoice supplierInvoice = new SupplierInvoice();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetSupplierInvoice]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    supplierInvoice.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : supplierInvoice.InvoiceNo);
+                                    supplierInvoice.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString(settings.DateFormat) : supplierInvoice.InvoiceDateFormatted);
+                                    supplierInvoice.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.DateFormat) : supplierInvoice.PaymentDueDateFormatted);
+                                    supplierInvoice.SupplierID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : supplierInvoice.SupplierID);
+                                    supplierInvoice.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : supplierInvoice.GeneralNotes);
+                                    supplierInvoice.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : supplierInvoice.BillingAddress);
+                                    supplierInvoice.ShippingAddress = (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : supplierInvoice.ShippingAddress);
+                                    supplierInvoice.PaymentTermCode = (sdr["PaymentTermCode"].ToString() != "" ? sdr["PaymentTermCode"].ToString() : supplierInvoice.PaymentTermCode);
+                                    supplierInvoice.Discount = (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : supplierInvoice.Discount);
+                                    supplierInvoice.TotalTaxableAmount = (sdr["TaxableAmount"].ToString() != "" ? decimal.Parse(sdr["TaxableAmount"].ToString()) : supplierInvoice.TotalTaxableAmount);
+                                    supplierInvoice.TotalTaxAmount = (sdr["TaxAmount"].ToString() != "" ? decimal.Parse(sdr["TaxAmount"].ToString()) : supplierInvoice.TotalTaxAmount);
+                                    supplierInvoice.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : supplierInvoice.InvoiceAmount);
 
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return supplierInvoice;
+        
+    }
 
+        public object InsertUpdateSupplierInvoice(SupplierInvoice SupplierInvoice)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object DeleteSupplierInvoice(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object DeleteSupplierInvoiceDetail(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
