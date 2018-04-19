@@ -1,0 +1,78 @@
+﻿@model ProductionApp.UserInterface.Models.RequisitionViewModel
+
+<div class="col-md-12">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Recent Requisitions</h3>
+        </div>
+
+        <div class="with-border bg-green" style="height:2px!important"></div>
+        <div class="box-body">
+            <div class="table-responsive">
+                <table class="table no-margin">
+                    <thead style="display:table;width:100%;">
+                        <tr>
+                            <th>Req No.</th>
+                            <th style="width:15%">Date</th>
+                            <th>Status</th>
+                            <th>Req By</th>
+                            <th>Approval Status</th>
+                        </tr>
+                    </thead>
+                    <tbody style="height:400px;max-height:500px;overflow-y:scroll;display:block;width:100%;">
+                        @if (Model.RequisitionList != null)
+                        {
+                            for (int i = 0; i < Model.RequisitionList.Count; i++)
+                            {
+                                <tr>
+                                    <td><a href="Requisition/NewRequisition?code=PURCH&id=@Model.RequisitionList[i].ID">@Model.RequisitionList[i].ReqNo</a></td>
+                                    <td style="width:25%">@Model.RequisitionList[i].ReqDateFormatted</td>
+                                    <td><span class="label label-info bg-green ">@Model.RequisitionList[i].ReqStatus</span></td>
+                                    <td style="width:20%">@Model.RequisitionList[i].RequisitionBy</td>
+                                    <td>@Model.RequisitionList[i].ApprovalStatus</td>
+                                </tr>
+                            }
+
+                            for (int i = (Model.RequisitionList == null ? 0 : Model.RequisitionList.Count); i < 10; i++)
+                            {
+                                <tr>
+                                    <th>-</th>
+                                    <th>-</th>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td><span class="label label-info bg-green ">-</span></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < 10; i++)
+                            {
+                                <tr>
+                                    <th>-</th>
+                                    <th>-</th>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td><span class="label label-info bg-green ">-</span></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="box-footer clearfix">
+
+        <a href="@Model.BaseURL" class="label bg-green">View All</a>
+
+
+    </div>
+
+
+
+</div>

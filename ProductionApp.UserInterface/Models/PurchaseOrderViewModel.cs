@@ -78,6 +78,8 @@ namespace ProductionApp.UserInterface.Models
             public string PODDetailXML { get; set; }
             public string PODDetailLinkXML { get; set; }
             public PDFTools PDFTools { get; set; }
+            public List<PurchaseOrderViewModel> PurchaseOrderList { get; set; }
+            public string BaseURL { get; set; }
     }
         public class PurchaseOrderDetailViewModel
         {
@@ -94,6 +96,7 @@ namespace ProductionApp.UserInterface.Models
             public decimal IGSTAmt { get; set; }
             public decimal Discount { get; set; }
             //additional prop
+            public string MaterialTypeDesc { get; set; }
             public string MaterialCode { get; set; }
             public decimal Amount { get; set; }
             public RequisitionDetailViewModel RequisitionDetail { get; set; }

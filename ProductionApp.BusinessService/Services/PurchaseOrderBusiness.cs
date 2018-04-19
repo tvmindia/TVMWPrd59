@@ -157,5 +157,9 @@ namespace ProductionApp.BusinessService.Services
             return result;
         }
 
+        public List<PurchaseOrder> RecentPurchaseOrder(string BaseURL)
+        {
+            return _purchaseOrderRepository.RecentPurchaseOrder();
+        }
     }
 }

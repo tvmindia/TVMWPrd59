@@ -955,6 +955,13 @@ margin:20px;
          border-radius: 10px;
     }
 
+ .figuresummaryGray
+    {
+        border:1px solid rgba(157, 163, 165, 0.2);
+         background-color:   rgba(157, 163, 165, 0.14);
+         border-radius: 10px;
+    }
+     
 
 .border-bottom {
     border-bottom:1px solid #f4f4f4;

@@ -41,6 +41,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid ID { get; set; }
         public Guid SupplierInvoiceID { get; set; }
         public Guid MaterialID { get; set; }
+        public decimal Rate { get; set; }
         public decimal Quantity { get; set; }
         public string UnitCode { get; set; }
         public decimal TradeDiscountPerc { get; set; }
@@ -51,6 +52,12 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal IGSTPerc { get; set; }
 
         //Additional Reference
+        public decimal TaxAmount { get; set; }
+        public decimal TaxableAmount { get; set; }
+        public decimal NetAmount { get; set; }
+        public decimal GrossAmount { get; set; }
+        public string MaterialCode { get; set; }
+        public string MaterialTypeDesc { get; set; }
         public Common  Common { get; set; }
     }
 

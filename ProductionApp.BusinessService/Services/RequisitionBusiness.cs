@@ -70,5 +70,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _requisitionRepository.DeleteRequisition(ID);
         }
+
+        public List<Requisition> GetRecentRequisition(string BaseURL)
+        {           
+            return _requisitionRepository.GetRecentRequisition();          
+        }
     }
 }

@@ -283,6 +283,7 @@
     </div>
 </section>
 
+@*Supplier Invoice Detail Modal*@
 <div class="modal fade bs-example-modal-lg" id="SupplierInvoiceDetailModal" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document" style="min-width:900px !important;">
         <div class="modal-content" style="margin-top:4%;">
@@ -306,12 +307,106 @@
                         </div>
                         <div class="col-md-12">
                             <div id="divRawMaterialDropdown">
-                              @*  @{Html.RenderAction("MaterialDropdown", "Material", Model.SupplierInvoiceDetail.MaterialID); }*@
+                                @* dropdown bind in javascript document ready *@
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12 headSeperator"></div>
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SupplierInvoiceDetail.MaterialCode, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SupplierInvoiceDetail.MaterialCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SupplierInvoiceDetail.MaterialTypeDesc, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SupplierInvoiceDetail.MaterialTypeDesc, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SupplierInvoiceDetail.UnitCode, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SupplierInvoiceDetail.UnitCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.SupplierInvoiceDetail.Rate, htmlAttributes: new { @class = "control-label lblrequired " })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.SupplierInvoiceDetail.Quantity, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div> <div class="col-md-6">
+                            @Html.EditorFor(model => model.SupplierInvoiceDetail.Rate, new { htmlAttributes = new { @class = "form-control HeaderBox text-right Calculation", onkeypress = "return isNumber(event)", onfocus = "SelectAllValue(this);" } })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.SupplierInvoiceDetail.Quantity, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)", onfocus = "SelectAllValue(this);" } })
+                        </div>
+                    </div>  
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SupplierInvoiceDetail.GrossAmount, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SupplierInvoiceDetail.GrossAmount, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                     <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SupplierInvoiceDetail.TradeDiscountPerc, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SupplierInvoiceDetail.TradeDiscountPerc, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)", onfocus = "SelectAllValue(this);" } })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SupplierInvoiceDetail.TradeDiscountAmount, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SupplierInvoiceDetail.TradeDiscountAmount, new { htmlAttributes = new { @class = "form-control text-right", onkeypress = "return isNumber(event)", onkeyup = "ClearDiscountPercentage();", onfocus = "SelectAllValue(this);" } })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SupplierInvoiceDetail.TaxableAmount, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SupplierInvoiceDetail.TaxableAmount, new { htmlAttributes = new { @class = "form-control text-right", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SupplierInvoiceDetail.TaxTypeCode, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.Action("TaxTypeDropdown", "TaxType")
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SupplierInvoiceDetail.TaxAmount, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SupplierInvoiceDetail.TaxAmount, new { htmlAttributes = new { @class = "form-control HeaderBox text-right", @disabled = "disabled" } })
+                        </div>
+                    </div>
 
+
+                    <div class="col-md-4">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.SupplierInvoiceDetail.NetAmount, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.SupplierInvoiceDetail.NetAmount, new { htmlAttributes = new { @class = "form-control text-right", @disabled = "disabled" } })
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -322,7 +417,7 @@
     </div>
 </div>
 
-@*  *@
+@* Purchase Order Detail Modal *@
 <div class="modal fade bs-example-modal-lg" id="PurchaseOrderDetailModal" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document" style="min-width:900px !important;">
         <div class="modal-content" style="margin-top:4%;">
@@ -340,9 +435,9 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid"> 
-                    <table id="tblPurchaseOrderDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                    <table id="tblPurchaseOrderDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" style="width:100%">
                         <thead>
-                            <tr class="text-center">
+                            <tr class="text-center TableHead"> 
                                 <th></th>
                                 <th>Material</th> 
                                 <th>Quantity</th>

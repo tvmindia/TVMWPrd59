@@ -26,6 +26,7 @@ $(document).ready(function () {
         } catch (ex) {
             console.log(ex.message);
         }
+        BindOrReloadProductionTrackingTable();
     } catch (ex) {
         console.log(ex.message);
     }
@@ -44,7 +45,6 @@ function ProductionTrackingInit() {
                 debugger;
                 event.preventDefault();
                 ProductionTrackingSearch();
-
             }
         });
 
@@ -177,11 +177,12 @@ function SaveSuccess(data, status) {
     productionTrackingVM = JsonResult.Records;
     switch (result) {
         case "OK":
-            $('#IsUpdate').val('True');
+            //$('#IsUpdate').val('True');
             $('#ID').val(productionTrackingVM.ID)
             message = productionTrackingVM.Message;
-            notyAlert("success", message)
-            ChangeButtonPatchView('ProductionTracking', 'divButtonPatch', 'Edit');
+            //notyAlert("success", message);
+            Reset(1);
+            //ChangeButtonPatchView('ProductionTracking', 'divButtonPatch', 'Edit');
             break;
         case "ERROR":
             notyAlert("danger", message)
@@ -284,10 +285,113 @@ function BindProductionTracking() {
         $('#lblProduct').text(_ProductionTracking.Product.Name);
         $('#lblComponent').text(_ProductionTracking.Component.Name);
         $('#lblStage').text(_ProductionTracking.Stage.Description);
-        $('#lblSubComponent').text(_ProductionTracking.SubComponent.Description === null ? _ProductionTracking.SubComponent.Description : _ProductionTracking.OutputComponent.Name);
+        $('#lblSubComponent').text(_ProductionTracking.SubComponent.Description === null ? _ProductionTracking.OutputComponent.Name : _ProductionTracking.SubComponent.Description);
         $('#ProductID').val(_ProductionTracking.ProductID)
         $('#LineStageDetailID').val(_ProductionTracking.LineStageDetailID)
     } catch (ex) {
         console.log(ex.message);
+    }
+}
+
+function Reset() {
+    try {
+        debugger;
+        if ($('#IsUpdate').val() === "True") {
+            var id = $('#ID').val();
+            window.location.replace("NewProductionTracking?code=PROD&id=" + id + "");
+        } else {
+            window.location.replace("NewProductionTracking?code=PROD");
+        }
+        
+    } catch (ex) {
+        console.log(ex.message);
+    }
+}
+
+function BindOrReloadProductionTrackingTable() {
+    try {
+        debugger;
+        ProductionTrackingAdvanceSearchViewModel = new Object();
+        DataTablePagingViewModel = new Object();
+        DataTablePagingViewModel.Length = 0;
+        //switch case to check the operation
+        ProductionTrackingAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
+        ProductionTrackingAdvanceSearchViewModel.Product = new Object();
+        ProductionTrackingAdvanceSearchViewModel.Product.ID = null;
+        ProductionTrackingAdvanceSearchViewModel.Employee = new Object();
+        ProductionTrackingAdvanceSearchViewModel.Employee.ID = null;
+        ProductionTrackingAdvanceSearchViewModel.Stage = new Object();
+        ProductionTrackingAdvanceSearchViewModel.Stage.ID = null;
+        //apply datatable plugin on ProductionTracking table
+        DataTables.ProductionTrackingList = $('#tblProductionTracking').DataTable(
+        {
+            dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+            ordering: false,
+            searching: false,
+            paging: true,
+            processing: true,
+            language: {
+
+                "processing": "<div class='spinner'><div class='bounce1'></div><div class='bounce2'></div><div class='bounce3'></div></div>"
+            },
+            serverSide: true,
+            ajax: {
+                url: "GetAllProductionTracking/",
+                data: { "productionTrackingAdvanceSearchVM": ProductionTrackingAdvanceSearchViewModel },
+                type: 'POST'
+            },
+            pageLength: 10,
+            columns: [
+            { "data": "ID", "defaultContent": "<i>-</i>" },
+            { "data": "EntryDateFormatted", "defaultContent": "<i>-</i>" },//1
+            //{ "data": "Product.Name", "defaultContent": "<i>-</i>" },
+            //{ "data": "Component.Name", "defaultContent": "<i>-</i>" },//3
+            //{ "data": "Stage.Description", "defaultContent": "<i>-</i>" },
+            {
+                "data": null, render: function (data, type, row) {
+                    if (row.SubComponent.Description !== null) {
+                        return row.SubComponent.Description
+                    } else {
+                        return row.OutputComponent.Name
+                    }
+                }, "defaultContent": "<i>-</i>"
+            },//5
+            //{ "data": "Employee.Name", "defaultContent": "<i>-</i>" },
+            { "data": "AcceptedQty", "defaultContent": "<i>-</i>" },
+            { "data": "DamagedQty", "defaultContent": "<i>-</i>" },
+
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="Edit(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>', "width": '3%' }
+            ],
+            columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
+                { className: "text-left", "targets": [2] },
+                { className: "text-center", "targets": [1, 5] },
+                { className: "text-right", "targets": [3, 4] }],
+            destroy: true
+        });
+
+        $('#tblProductionTracking tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
+
+    } catch (ex) {
+        console.log(e.message);
+    }
+}
+
+function Edit(curObj) {
+    try {
+        debugger;
+        OnServerCallBegin();
+        var ProductionTrackingViewModel = DataTables.ProductionTrackingList.row($(curObj).parents('tr')).data();
+        $('#ID').val(ProductionTrackingViewModel.ID);
+        BindProductionTracking();
+        ChangeButtonPatchView('ProductionTracking', 'divButtonPatch', 'Edit');
+        BindOrReloadProductionTrackingTable();
+        CancelSearch();
+        //window.location.replace("/ProductionTracking/NewProductionTracking?code=PROD&id=" + ProductionTrackingViewModel.ID);
+        OnServerCallComplete();
+    }
+    catch (e) {
+        console.log(e.message);
     }
 }

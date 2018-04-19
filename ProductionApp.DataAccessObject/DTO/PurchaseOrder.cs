@@ -45,6 +45,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public PurchaseOrderMailPreview PurchaseOrderMailPreview { get; set; }
         public string PODDetailXML { get; set; }
         public string PODDetailLinkXML { get; set; }
+        public List<PurchaseOrder> PurchaseOrderList { get; set; }
+        public string BaseURL { get; set; }
 
     }
     public class PurchaseOrderDetail
@@ -63,6 +65,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal Discount { get; set; }
         //additional prop
         public string MaterialCode { get; set; }
+        public string MaterialTypeDesc { get; set; }
         public decimal Amount { get; set; }
         public RequisitionDetail RequisitionDetail { get; set; }
     }
