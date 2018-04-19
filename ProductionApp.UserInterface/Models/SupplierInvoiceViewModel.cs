@@ -51,19 +51,34 @@ namespace ProductionApp.UserInterface.Models
     {
         public Guid ID { get; set; }
         public Guid SupplierInvoiceID { get; set; }
+        [Display(Name = "Material")]
         public Guid MaterialID { get; set; }
         public decimal Rate { get; set; }
         public decimal Quantity { get; set; }
+        [Display(Name = "Unit Code")]
         public string UnitCode { get; set; }
+        [Display(Name = "Discount %")]
         public decimal TradeDiscountPerc { get; set; }
+        [Display(Name = "Discount Amount")]
         public decimal TradeDiscountAmount { get; set; }
+        [Display(Name = "Tax %")]
         public string TaxTypeCode { get; set; }
         public decimal CGSTPerc { get; set; }
         public decimal SGSTPerc { get; set; }
         public decimal IGSTPerc { get; set; }
 
         //Additional Reference
+        [Display(Name = "Tax Amount")]
+        public decimal TaxAmount { get; set; }
+        [Display(Name = "Taxable Amount")]
+        public decimal TaxableAmount { get; set; }
+        [Display(Name = "Net Amount")]
+        public decimal NetAmount { get; set; }
+        [Display(Name = "Gross Amount")]
+        public decimal GrossAmount { get; set; }
+        [Display(Name = "Material Code")]
         public string MaterialCode { get; set; }
+        [Display(Name = "Material Type")]
         public string MaterialTypeDesc { get; set; }
         public CommonViewModel Common { get; set; }
     }

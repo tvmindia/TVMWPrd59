@@ -52,6 +52,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal IGSTPerc { get; set; }
 
         //Additional Reference
+        public decimal TaxAmount { get; set; }
+        public decimal TaxableAmount { get; set; }
+        public decimal NetAmount { get; set; }
+        public decimal GrossAmount { get; set; }
         public string MaterialCode { get; set; }
         public string MaterialTypeDesc { get; set; }
         public Common  Common { get; set; }

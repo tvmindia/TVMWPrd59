@@ -44,6 +44,7 @@ $(document).ready(function () {
         $("#SupplierID").select2({});
         $("#AccountCode").select2({});
         $("#PurchaseOrderID").select2({});
+        $("#divRawMaterialDropdown").load('/Material/MaterialDropdown')
 
         $('#btnUpload').click(function () {
             debugger;
@@ -180,8 +181,15 @@ $(document).ready(function () {
         else {
             $('#lblSupplierInvoiceNo').text('Supplier Invoice# : New');
         }
+
         IsFromPurchaseOrderChanged();
 
+        $(".Calculation").change(function () {
+            ValueCalculation();
+        });
+        $("#TaxTypeCode").change(function () {
+            ValueCalculation();
+        });
     }
     catch (e) {
         console.log(e.message);
@@ -272,6 +280,124 @@ function ShowSupplierInvoiceDetailModal()
     debugger;
   
     $('#SupplierInvoiceDetailModal').modal('show');
+}
+
+ 
+function BindRawMaterialDetails(id) {
+    try {
+        debugger;
+        var result = GetMaterial(id);
+        _SlNo = 1;
+        $('#SupplierInvoiceDetail_MaterialCode').val(result.MaterialCode);
+        $('#SupplierInvoiceDetail_MaterialTypeDesc').val(result.MaterialType.Description);
+        $('#SupplierInvoiceDetail_UnitCode').val(result.UnitCode);
+        ValueCalculation();
+    }
+    catch (e) {
+        console.log(e.message);
+    }
+}
+function GetMaterial(ID) {
+    try {
+        debugger;
+        var data = { "id": ID };
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var materialViewModel = new Object();
+        jsonData = GetDataFromServer("IssueToProduction/GetMaterial/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            materialViewModel = jsonData.Records;
+            message = jsonData.Message;
+        }
+        if (result == "OK") {
+            return materialViewModel;
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function ValueCalculation() {
+    var material, rate, qty, discpercent, disc = 0, taxTypeCode, taxableAmt = 0, taxAmt = 0, netAmt = 0, GrossAmt = 0
+    material = $('#MaterialID').val();
+    rate = $('#SupplierInvoiceDetail_Rate').val();
+    qty = $('#SupplierInvoiceDetail_Quantity').val();
+
+    if (rate != "" && qty != "" && material != "") {
+        //--------------------Gross Amount-----------------------//
+        GrossAmt = rate * qty;
+        $('#SupplierInvoiceDetail_GrossAmount').val(roundoff(GrossAmt));
+
+        //--------------------Discount Amount--------------------//
+        discpercent = $('#SupplierInvoiceDetail_TradeDiscountPerc').val();
+        if (discpercent > 100)//if greater than 100% set percentage to 0%
+        {
+            $('#SupplierInvoiceDetail_TradeDiscountPerc').val(0);
+            discpercent = 0;
+        }
+        if (discpercent != "" && discpercent != 0) {
+            disc = GrossAmt * (discpercent / 100);
+            $('#SupplierInvoiceDetail_TradeDiscountAmount').val(roundoff(disc));
+        }
+        else {
+            disc = $('#SupplierInvoiceDetail_TradeDiscountAmount').val() == "" ? 0 : $('#SupplierInvoiceDetail_TradeDiscountAmount').val();
+            if (GrossAmt < disc) {
+                $('#SupplierInvoiceDetail_TradeDiscountAmount').val(roundoff(0));
+                disc = 0;
+            }
+        }
+        //--------------------Taxable Amount---------------------//
+        taxableAmt = roundoff(parseFloat(GrossAmt) - parseFloat(disc));
+        $('#SupplierInvoiceDetail_TaxableAmount').val(taxableAmt);
+
+        //--------------------Tax Amount------------------------//
+        taxTypeCode = $('#TaxTypeCode').val();
+        if (taxTypeCode != "") {
+            var taxTypeVM = GetTaxTypeByCode(taxTypeCode);
+            var CGSTAmt = parseFloat(taxableAmt) * parseFloat(parseFloat(taxTypeVM.CGSTPercentage) / 100);
+            var SGSTAmt = parseFloat(taxableAmt) * parseFloat(parseFloat(taxTypeVM.SGSTPercentage) / 100);
+            var IGSTAmt = parseFloat(taxableAmt) * parseFloat(parseFloat(taxTypeVM.IGSTPercentage) / 100);
+            taxAmt = CGSTAmt + SGSTAmt + IGSTAmt;
+            $('#SupplierInvoiceDetail_TaxAmount').val(roundoff(taxAmt));
+        }
+        //----------------------Net Amount---------------------//
+        netAmt = parseFloat(taxableAmt) + parseFloat(taxAmt);
+        $('#SupplierInvoiceDetail_NetAmount').val(roundoff(netAmt));
+    }
+}
+
+function ClearDiscountPercentage() {
+    $('#SupplierInvoiceDetail_TradeDiscountPerc').val(0);
+    ValueCalculation();
+}
+function GetTaxTypeByCode(Code) {
+    try {
+        var data = {"Code": Code};
+        var taxTypeVM = new Object();
+        _jsonData = GetDataFromServer("TaxType/GetTaxtype/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+            result = _jsonData.Result;
+            message = _jsonData.Message;
+            taxTypeVM = _jsonData.Records;
+            }
+        if (result == "OK") {
+            return taxTypeVM;
+        }
+        if (result == "ERROR") {
+            alert(Message);
+        }
+        }
+    catch (e) {
+        notyAlert('error', e.message);
+}
 }
 
 
