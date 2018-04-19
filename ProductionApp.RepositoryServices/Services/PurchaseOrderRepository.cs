@@ -749,5 +749,53 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
         #endregion DeletePurchaseOrderDetail
+
+        #region RecentPurchaseOrder
+        public List<PurchaseOrder> RecentPurchaseOrder()
+        {
+            List<PurchaseOrder> purchaseOrderList = new List<PurchaseOrder>();
+            PurchaseOrder purchaseOrder = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetPurchaseOrderSummary]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    purchaseOrder = new PurchaseOrder();
+                                    purchaseOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    purchaseOrder.PurchaseOrderNo = (sdr["PurchaseOrderNo"].ToString() != "" ? sdr["PurchaseOrderNo"].ToString() : purchaseOrder.PurchaseOrderNo);
+                                    purchaseOrder.PurchaseOrderDateFormatted = (sdr["PurchaseOrderDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderDate"].ToString()).ToString(settings.DateFormat) : purchaseOrder.PurchaseOrderDateFormatted);
+                                    purchaseOrder.PurchaseOrderStatus = (sdr["PurchaseOrderStatus"].ToString() != "" ? sdr["PurchaseOrderStatus"].ToString() : purchaseOrder.PurchaseOrderStatus);
+                                    purchaseOrder.PurchaseOrderIssuedDateFormatted = (sdr["PurchaseOrderIssuedDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderDate"].ToString()).ToString(settings.DateFormat) : purchaseOrder.PurchaseOrderIssuedDateFormatted);
+                                    purchaseOrder.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? sdr["ApprovalStatus"].ToString() : purchaseOrder.ApprovalStatus);
+                                    purchaseOrderList.Add(purchaseOrder);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return purchaseOrderList;
+        }
+
+        #endregion RecentPurchaseOrder
+
     }
 }

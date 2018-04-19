@@ -1001,6 +1001,8 @@
     <Content Include="Views\ChartOfAccount\Index.cshtml" />
     <Content Include="Views\Assembly\ViewAssembly.cshtml" />
     <Content Include="Views\Assembly\NewAssembly.cshtml" />
+    <Content Include="Views\DashboardPurchase\_RecentRequisitions.cshtml" />
+    <Content Include="Views\DashboardPurchase\_PurchaseOrderSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

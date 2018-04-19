@@ -21,5 +21,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         object UpdatePurchaseOrderDetailLink(PurchaseOrder purchaseOrder);
         object UpdatePOMailDetails(PurchaseOrder purchaseOrder);
         object UpdatePurchaseOrderMailStatus(PurchaseOrder purchaseOrder);
+        List<PurchaseOrder> RecentPurchaseOrder();
     }
 }

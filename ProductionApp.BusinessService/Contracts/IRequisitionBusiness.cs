@@ -17,5 +17,6 @@ namespace ProductionApp.BusinessService.Contracts
         List<RequisitionDetail> GetRequisitionDetailsByIDs(string IDs, string POID);
         object DeleteRequisitionDetail(Guid ID);
         object DeleteRequisition(Guid ID);
+        List<Requisition> GetRecentRequisition(string BaseURL);       
     }
 }
