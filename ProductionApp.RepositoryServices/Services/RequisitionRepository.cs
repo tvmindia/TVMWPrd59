@@ -432,5 +432,51 @@ namespace ProductionApp.RepositoryServices.Services
                 Status = outputStatus.Value.ToString(),
             };
         }
+
+        #region GetRecentRequisition
+        public List<Requisition> GetRecentRequisition()
+        {
+            List<Requisition> requisitionList = new List<Requisition>();
+            Requisition requisition = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRecentRequisition]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    requisition = new Requisition();
+                                    requisition.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    requisition.ReqNo = (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : requisition.ReqNo);
+                                    requisition.ReqDateFormatted = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()).ToString(settings.DateFormat) : requisition.ReqDateFormatted);                                   
+                                    requisition.ReqStatus = (sdr["ReqStatus"].ToString() != "" ? (sdr["ReqStatus"].ToString()) : requisition.ReqStatus);
+                                    requisition.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? (sdr["RequisitionBy"].ToString()) : requisition.RequisitionBy);
+                                    requisition.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? (sdr["ApprovalStatus"].ToString()) : requisition.ApprovalStatus);
+                                    requisitionList.Add(requisition);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return requisitionList;
+        }
+        #endregion GetRecentRequisition
     }
 }

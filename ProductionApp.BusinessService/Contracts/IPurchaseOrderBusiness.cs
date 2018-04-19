@@ -23,5 +23,6 @@ namespace ProductionApp.BusinessService.Contracts
         object DeletePurchaseOrderDetail(Guid ID);
         object UpdatePurchaseOrderMailStatus(PurchaseOrder purchaseOrder);
         Task<bool> QuoteEmailPush(PurchaseOrder purchaseOrder);
+        List<PurchaseOrder> RecentPurchaseOrder(string BaseURL);
     }
 }

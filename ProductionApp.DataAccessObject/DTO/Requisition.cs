@@ -31,6 +31,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public Common Common { get; set; }
         public RequisitionDetail RequisitionDetail { get; set; }
         public List<RequisitionDetail> RequisitionDetailList { get; set; }
+        public List<Requisition> RequisitionList { get; set; }
+        public string BaseURL { get; set; }       
 
     }
 
@@ -47,7 +49,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string OrderedQty { get; set; }
         public string ReqNo { get; set; }
         public Common Common { get; set; }
-        public Material Material { get; set; }
+        public Material Material { get; set; }       
     }
 
     public class RequisitionAdvanceSearch

@@ -78,6 +78,8 @@ namespace ProductionApp.UserInterface.Models
             public string PODDetailXML { get; set; }
             public string PODDetailLinkXML { get; set; }
             public PDFTools PDFTools { get; set; }
+            public List<PurchaseOrderViewModel> PurchaseOrderList { get; set; }
+            public string BaseURL { get; set; }
     }
         public class PurchaseOrderDetailViewModel
         {

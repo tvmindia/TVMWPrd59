@@ -41,6 +41,8 @@ namespace ProductionApp.UserInterface.Models
         public CommonViewModel Common { get; set; }
         public RequisitionDetailViewModel RequisitionDetail { get; set; }
         public List<RequisitionDetailViewModel> RequisitionDetailList { get; set; }
+        public List<RequisitionViewModel> RequisitionList { get; set; }
+        public string BaseURL { get; set; }       
     }
 
     public class RequisitionDetailViewModel 
@@ -61,7 +63,7 @@ namespace ProductionApp.UserInterface.Models
         public string OrderedQty { get; set; }
         public string ReqNo { get; set; }
         public MaterialViewModel Material { get; set; }
-        public CommonViewModel Common { get; set; }
+        public CommonViewModel Common { get; set; }       
     }
 
     public class RequisitionAdvanceSearchViewModel
