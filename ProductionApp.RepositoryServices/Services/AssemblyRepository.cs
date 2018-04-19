@@ -67,6 +67,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         assembly.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : assembly.ID);
                                         assembly.AssemblyDateFormatted = (sdr["AssemblyDate"].ToString() != "" ? DateTime.Parse(sdr["AssemblyDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : assembly.AssemblyDateFormatted);
                                         assembly.AssemblyDate = (sdr["AssemblyDate"].ToString() != "" ? DateTime.Parse(sdr["AssemblyDate"].ToString()) : assembly.AssemblyDate);
+                                        assembly.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : assembly.EntryNo);
                                         assembly.Product = new Product();
                                         assembly.Product.Name = (sdr["Product"].ToString() != "" ? sdr["Product"].ToString() : assembly.Product.Name);
                                         assembly.Employee = new Employee();
