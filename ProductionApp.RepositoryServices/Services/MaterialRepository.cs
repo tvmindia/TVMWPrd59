@@ -132,7 +132,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         material.Unit = new Unit();
                                         material.Unit.Description= (sdr["UnitDescription"].ToString() != "" ? sdr["UnitDescription"].ToString() : material.UnitCode);
                                         material.ReorderQty = (sdr["ReorderQty"].ToString() != "" ? decimal.Parse(sdr["ReorderQty"].ToString()) : material.ReorderQty);
-                                        material.OpeningStock= (sdr["OpeningStock"].ToString() != "" ? decimal.Parse(sdr["OpeningStock"].ToString()) : material.ReorderQty);
+                                        material.OpeningStock= (sdr["OpeningStock"].ToString() != "" ? decimal.Parse(sdr["OpeningStock"].ToString()) : material.OpeningStock);
                                         material.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : material.CurrentStock);
                                         material.WeightInKG = (sdr["WeightInKG"].ToString() != "" ? decimal.Parse(sdr["WeightInKG"].ToString()) : material.WeightInKG);
                                         material.CostPrice = (sdr["CostPrice"].ToString() != "" ? decimal.Parse(sdr["CostPrice"].ToString()) : material.CostPrice);
@@ -220,8 +220,8 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@HSNNo", SqlDbType.NVarChar,30).Value = material.HSNNo;
                         cmd.Parameters.Add("@UnitCode", SqlDbType.VarChar,15).Value = material.UnitCode;
                         cmd.Parameters.Add("@ReorderQty", SqlDbType.Decimal).Value = material.ReorderQty;
-                        cmd.Parameters.Add("@OpeningStock", SqlDbType.Decimal).Value = material.OpeningStock;
-                        cmd.Parameters.Add("@CurrentStock", SqlDbType.Decimal).Value = material.CurrentStock;
+                       // cmd.Parameters.Add("@OpeningStock", SqlDbType.Decimal).Value = material.OpeningStock;
+                       // cmd.Parameters.Add("@CurrentStock", SqlDbType.Decimal).Value = material.CurrentStock;
                         cmd.Parameters.Add("@WeightInKG", SqlDbType.Decimal).Value = material.WeightInKG;
                         cmd.Parameters.Add("@CostPrice", SqlDbType.Decimal).Value = material.CostPrice;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar,50).Value = material.Common.CreatedBy;
