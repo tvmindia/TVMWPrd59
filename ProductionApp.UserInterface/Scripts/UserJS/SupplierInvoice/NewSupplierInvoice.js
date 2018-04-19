@@ -395,7 +395,7 @@ function AddSupplierInvoiceDetails() {
     debugger;
     var rate = $('#SupplierInvoiceDetail_Rate').val();
     var qty = $('#SupplierInvoiceDetail_Quantity').val();
-    var productId = $('#ProductID').val();
+    var productId = $('#MaterialID').val();
 
     if (rate != "" && qty != "" && productId != "") {
         _SupplierInvoiceDetail = [];
@@ -412,11 +412,8 @@ function AddSupplierInvoiceDetails() {
         SupplierInvoiceDetailVM.TaxTypeCode = $('#TaxTypeCode').val();
         //if (SupplierInvoiceDetailVM.TaxTypeCode != "")
         //    SupplierInvoiceDetailVM.TaxTypeDescription = $('#TaxTypeCode option:selected').text();
-
         _SupplierInvoiceDetail.push(SupplierInvoiceDetailVM);
-
-      
-        $('#SupplierInvoiceDetailsModal').modal('hide');
+        $('#SupplierInvoiceDetailModal').modal('hide');
     }
     else {
         notyAlert('warning', "Please check the Required Fields");
