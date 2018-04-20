@@ -8,12 +8,12 @@
 //******************************************************************************
 // ##1--Global Declaration
 // ##2--Document Ready function
-// ##3--On Change Supplier : Bind Supplier Details
+// ##3--On Change Supplier : Bind Supplier Details & PurchaseOrder Dropdown By Supplier
 // ##4--Bind Payment due date, based on Payment date
 // ##5--From Purchase Order Changed 
 // ##6--Show Supplier Invoice Details Modal
-// ##7-- Add button click :Load PO Detail Modal 
-// ##8-- Show Load PO Detail Modal
+// ##7-- Add button click :Supplier Invoice Detail Modal 
+// ##8-- Show Load PO Detail Modal,Add button click 
 // ##9-- popup DataTable: Dropdown,TextBoxes,CheckBox Binding
 // ##10--Load Purchase Order Dropdown By Supplier
 // ##11--Save  Supplier Invoice 
@@ -193,7 +193,7 @@ $(document).ready(function () {
 });
 
 
-//##3--On Change Supplier : Bind Supplier Details----------------------##3
+//##3--On Change Supplier : Bind Supplier Details & PurchaseOrder Dropdown By Supplier-----##3
 function BindSupplierDetails(SupplierId) {
     if (SupplierId != "") {
         var SupplierVM = GetSupplierDetails(SupplierId)
@@ -222,6 +222,21 @@ function GetSupplierDetails(SupplierId) {
     }
     catch (e) {
         notyAlert('error', e.message);
+    }
+}
+function LoadPurchaseOrderDropdownBySupplier() {
+    try {
+        debugger;
+        if($('#SupplierID').val()!="")
+        $("#divPOID").load('/PurchaseOrder/PurchaseOrderDropdown?SupplierID='+$('#SupplierID').val())
+        else
+        {
+            $("#divPOID").empty();
+            $("#divPOID").append('<input class="form-control HeaderBox text-box single-line" disabled="disabled" id="PurchaseOrderNo" name="PurchaseOrderNo" type="text" value="">');
+        }
+    }
+    catch (ex) {
+        console.log(ex.message);
     }
 }
 
@@ -391,7 +406,8 @@ function GetTaxTypeByCode(Code) {
 }
 }
   
-//##7--Add button click :Load PO Detail Modal ---------------------------##7
+
+//##7--Add button click :Supplier Invoice Detail Modal ---------------------------##7
 function AddSupplierInvoiceDetails() {
     debugger;
     var rate = $('#SupplierInvoiceDetail_Rate').val();
@@ -407,13 +423,20 @@ function AddSupplierInvoiceDetails() {
         SupplierInvoiceDetailVM.Rate = $('#SupplierInvoiceDetail_Rate').val();
         //SupplierInvoiceDetailVM.GrossAmount = $('#SupplierInvoiceDetail_GrossAmount').val();
         SupplierInvoiceDetailVM.TradeDiscountAmount = $('#SupplierInvoiceDetail_TradeDiscountAmount').val();
-        SupplierInvoiceDetailVM.DiscountPercent = $('#SupplierInvoiceDetail_DiscountPercent').val();
+        SupplierInvoiceDetailVM.DiscountPercent = $('#SupplierInvoiceDetail_TradeDiscountPerc').val();
         //SupplierInvoiceDetailVM.TaxAmount = $('#SupplierInvoiceDetail_TaxAmount').val();
        // SupplierInvoiceDetailVM.NetAmount = $('#SupplierInvoiceDetail_NetAmount').val();
         SupplierInvoiceDetailVM.TaxTypeCode = $('#TaxTypeCode').val();
         //if (SupplierInvoiceDetailVM.TaxTypeCode != "")
         //    SupplierInvoiceDetailVM.TaxTypeDescription = $('#TaxTypeCode option:selected').text();
         _SupplierInvoiceDetail.push(SupplierInvoiceDetailVM);
+        
+        if (_SupplierInvoiceDetail.length > 0)
+        {
+            var result = JSON.stringify(_SupplierInvoiceDetail);
+            $("#DetailJSON").val(result);
+           // Save();
+        }
         $('#SupplierInvoiceDetailModal').modal('hide');
     }
     else {
@@ -461,7 +484,8 @@ function GetPurchaseOrderItem(id) {
     catch (e) {
         console.log(e.message);
     }
-} 
+}
+
  
 //##9-- popup DataTable: Dropdown,TextBoxes,CheckBox Binding-----------------##9
 function TaxtypeDropdown() {
@@ -549,18 +573,30 @@ function selectCheckbox(IDs) {
 }
 
 
-//##10--Load Purchase Order Dropdown By Supplier ----------------------------##11
+//##10--Button Click: Add PO Items 
+function AddPOItems() {
+    debugger;
+    var purchaseOrderItemList = _dataTables.PurchaseOrderDetailTable.rows(".selected").data();
+    _SupplierInvoiceDetail =[];
+    for(i = 0; i < purchaseOrderItemList.length(); i++)
+    {
+        SupplierInvoiceDetailVM = new Object();
+        SupplierInvoiceDetailVM.MaterialID = $("#MaterialID").val();
+        SupplierInvoiceDetailVM.UnitCode = $('#SupplierInvoiceDetail_UnitCode').val();
+        SupplierInvoiceDetailVM.Quantity = $('#SupplierInvoiceDetail_Quantity').val();
+        SupplierInvoiceDetailVM.Rate = $('#SupplierInvoiceDetail_Rate').val();
+        //SupplierInvoiceDetailVM.GrossAmount = $('#SupplierInvoiceDetail_GrossAmount').val();
+        SupplierInvoiceDetailVM.TradeDiscountAmount = $('#SupplierInvoiceDetail_TradeDiscountAmount').val();
+        SupplierInvoiceDetailVM.DiscountPercent = $('#SupplierInvoiceDetail_TradeDiscountPerc').val();
+        //SupplierInvoiceDetailVM.TaxAmount = $('#SupplierInvoiceDetail_TaxAmount').val();
+        // SupplierInvoiceDetailVM.NetAmount = $('#SupplierInvoiceDetail_NetAmount').val();
+        SupplierInvoiceDetailVM.TaxTypeCode = $('#TaxTypeCode').val();
+        //if (SupplierInvoiceDetailVM.TaxTypeCode != "")
+        //    SupplierInvoiceDetailVM.TaxTypeDescription = $('#TaxTypeCode option:selected').text();
+        _SupplierInvoiceDetail.push(SupplierInvoiceDetailVM);
+    }
 
-function LoadPurchaseOrderDropdownBySupplier() {
-    try {
-        debugger; 
-        $("#divPOID").load('/PurchaseOrder/PurchaseOrderDropdown?SupplierID='+$('#SupplierID').val())
-    }
-    catch (ex) {
-        console.log(ex.message);
-    }
 }
-
 
 
 //##11--Save  Supplier Invoice----------------------------##11

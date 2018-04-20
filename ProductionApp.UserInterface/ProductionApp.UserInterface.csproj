@@ -595,7 +595,6 @@
     <Content Include="Content\AdminLTE\css\adminlte.min.css.map" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\editableGrid.js" />
-    <Content Include="Scripts\Employee.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
     <Content Include="Scripts\i18n\az.js" />
@@ -1012,8 +1011,6 @@
     <Content Include="Views\Employee\_AssembleDropdown.cshtml" />
     <Content Include="Views\DashboardSale\_RecentSalesOrder.cshtml" />
     <Content Include="Views\DashboardSale\_RecentPackingSlip.cshtml" />
-    <Content Include="Views\Employee\_ReceivedByDropdown.cshtml" />
-    <Content Include="Views\Employee\_ReturnByDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
