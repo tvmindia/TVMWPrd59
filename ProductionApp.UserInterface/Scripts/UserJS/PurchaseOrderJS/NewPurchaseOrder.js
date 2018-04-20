@@ -828,7 +828,7 @@ function EnableDisableFields(value) {
     $('#ShippingAddress').attr("disabled", value);
     $('#SupplierID').attr("disabled", value);
     $('#PurchaseOrderStatus').attr("disabled", value);
-    DataTables.PurchaseOrderDetailTable.column(11).visible(!value);
+    DataTables.PurchaseOrderDetailTable.column(12).visible(!value);
     $('#Discount').attr("disabled", value);
     $('#GeneralNotes').attr("disabled", value);
 }

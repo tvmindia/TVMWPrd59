@@ -61,7 +61,7 @@ $(document).ready(function () {
           { "data": "Material.CurrentStock", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
           { "data": "RequestedQty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
           { "data": "ApproximateRate", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>" },
-          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
+          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
           ],
           columnDefs: [{ "targets": [0,1], "visible": false, searchable: false },
               { className: "text-center", "targets": [8], "width": "7%" },
@@ -303,7 +303,7 @@ function EnableDisableFields(value)
     $('#ReqDateFormatted').attr("disabled", value);
     $('#EmployeeID').attr("disabled", value);
     $('#ReqStatus').attr("disabled", value);
-    DataTables.RequisitionDetailTable.column(7).visible(!value);
+    DataTables.RequisitionDetailTable.column(8).visible(!value);
 }
 
 function GetRequisitionByID(ID)

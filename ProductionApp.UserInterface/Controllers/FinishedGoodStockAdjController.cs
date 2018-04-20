@@ -17,14 +17,16 @@ namespace ProductionApp.UserInterface.Controllers
         private IProductBusiness _productBusiness;
         private IFinishedGoodStockAdjBusiness _finishedGoodStockAdjBusiness;
         private IDocumentApprovalBusiness _documentApprovalBusiness;
+        private IEmployeeBusiness _employeeBusiness;
         Common _common = new Common();
         AppConst _appConst = new AppConst();
 
-        public FinishedGoodStockAdjController(IProductBusiness productBusiness,IFinishedGoodStockAdjBusiness finishedGoodStockAdjBusiness, IDocumentApprovalBusiness documentApprovalBusiness)
+        public FinishedGoodStockAdjController(IProductBusiness productBusiness,IFinishedGoodStockAdjBusiness finishedGoodStockAdjBusiness, IDocumentApprovalBusiness documentApprovalBusiness, IEmployeeBusiness employeeBusiness)
         {
             _productBusiness = productBusiness;
             _finishedGoodStockAdjBusiness = finishedGoodStockAdjBusiness;
             _documentApprovalBusiness = documentApprovalBusiness;
+            _employeeBusiness = employeeBusiness;
         }
 
         public ActionResult Index()
@@ -36,7 +38,10 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ViewFinishedGoodStockAdj(string code)
         {
             ViewBag.SysModuleCode = code;
-            return View();
+            FinishedGoodStockAdjAdvanceSearchViewModel finishGoodAdjAdvanceSearchVM = new FinishedGoodStockAdjAdvanceSearchViewModel();
+            finishGoodAdjAdvanceSearchVM.Employee = new EmployeeViewModel();
+            finishGoodAdjAdvanceSearchVM.Employee.SelectList = _employeeBusiness.GetEmployeeSelectList();
+            return View(finishGoodAdjAdvanceSearchVM);
         }
         #endregion
 
