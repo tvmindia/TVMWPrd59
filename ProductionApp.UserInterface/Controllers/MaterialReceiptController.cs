@@ -49,7 +49,8 @@ namespace ProductionApp.UserInterface.Controllers
                 IsUpdate = id == null ? false : true,
                 MaterialReceiptDetail = new MaterialReceiptDetailViewModel
                 {
-                    Material = new MaterialViewModel()
+                    Material = new MaterialViewModel(),
+                    Qty = 0
                 }
             };
             return View(materialReceiptVM);

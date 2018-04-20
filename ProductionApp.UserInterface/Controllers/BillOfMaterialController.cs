@@ -113,6 +113,29 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetProductListForBillOfMaterial
 
+        #region CheckBillOfMaterialExist
+        public string CheckBillOfMaterialExist(string productID)
+        {
+            try
+            {
+                bool result = _billOfMaterialBusiness.CheckBillOfMaterialExist(Guid.Parse(productID));
+                if (!result)
+                {
+                    return JsonConvert.SerializeObject(new { Result = "OK", Message = "BOM Does not exists" });
+                }
+                else
+                {
+                    return JsonConvert.SerializeObject(new { Result = "WARNING", Message = "BOM Already Exists for the Product" });
+                }
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion CheckBillOfMaterialExist
+
         #region InsertUpdateBillOfMaterial
         [AuthSecurityFilter(ProjectObject = "BillOfMaterial", Mode = "W")]
         public string InsertUpdateBillOfMaterial(BillOfMaterialViewModel billOfMaterialVM)

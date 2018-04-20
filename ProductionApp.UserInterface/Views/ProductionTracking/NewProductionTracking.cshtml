@@ -54,7 +54,7 @@
                             @Html.LabelFor(model => model.EntryDate, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.EntryDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @value = ViewBag.CurrentDate } })
+                            @Html.EditorFor(model => model.EntryDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @value = ViewBag.CurrentDate, @id = "EntryDate" } })
                             @Html.ValidationMessageFor(model => model.EntryDateFormatted, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -248,8 +248,8 @@
                             <th>Stage</th>*@
                             <th>SubComponent/Output</th>
                             @*<th>Done By</th>*@
-                            <th>Accepted Qty</th>
-                            <th>Damaged Qty</th>
+                            <th>Acc. Qty</th>
+                            <th>Dam. Qty</th>
                             <th>...</th>
                         </tr>
                     </thead>

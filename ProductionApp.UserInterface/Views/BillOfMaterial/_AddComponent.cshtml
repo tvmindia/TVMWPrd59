@@ -130,7 +130,8 @@
         try {
             $("#ProductID").change(function () {
                 debugger;
-                $('#DescriptionBOM').val('BOM for ' + $($('#ProductID')).children("option[value='" + $('#ProductID').val() + "']").first().html() ).trigger('keyup');
+                CheckBillOfMaterialExist();
+                //$('#DescriptionBOM').val('BOM for ' + $($('#ProductID')).children("option[value='" + $('#ProductID').val() + "']").first().html() ).trigger('keyup');
             });
             //$('#hdnProductID').change(function () {
             //    debugger;

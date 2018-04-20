@@ -65,8 +65,12 @@ namespace ProductionApp.RepositoryServices.Services
                         else
                         {
                             cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = materialReceiptAdvanceSearch.SearchTerm;
-
                         }
+                        if (materialReceiptAdvanceSearch.DataTablePaging.Length == -1)
+                            cmd.Parameters.AddWithValue("@Length", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@Length", SqlDbType.Int).Value = materialReceiptAdvanceSearch.DataTablePaging.Length;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = materialReceiptAdvanceSearch.DataTablePaging.Start;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))

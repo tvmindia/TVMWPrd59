@@ -23,5 +23,6 @@ namespace ProductionApp.BusinessService.Contracts
         object DeleteBOMComponentLineStageDetail(Guid id);
         List<BOMComponentLineStageDetail> GetBOMComponentLineStageDetail(Guid id);
         bool CheckLineNameExist(string lineName);
+        bool CheckBillOfMaterialExist(Guid productID);
     }
 }
