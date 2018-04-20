@@ -3,7 +3,7 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
-        $("#EmployeeID").select2({
+        $("#RequisitionBy").select2({
         });
         BindOrReloadRequisitionTable('Init');
 
@@ -38,7 +38,7 @@ function BindOrReloadRequisitionTable(action) {
                 $('#FromDate').val('');
                 $('#ToDate').val('');
                 $('#ReqStatus').val('');
-                $("#EmployeeID").val('').select2();
+                $("#RequisitionBy").val('').select2();
                 break;
             case 'Init':
                 break;
@@ -48,7 +48,7 @@ function BindOrReloadRequisitionTable(action) {
                 RequisitionAdvanceSearchViewModel.FromDate = $('#FromDate').val();
                 RequisitionAdvanceSearchViewModel.ToDate = $('#ToDate').val();
                 RequisitionAdvanceSearchViewModel.ReqStatus = $('#ReqStatus').val();
-                RequisitionAdvanceSearchViewModel.EmployeeID = $('#EmployeeID').val();
+                RequisitionAdvanceSearchViewModel.EmployeeID = $('#RequisitionBy').val();
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;

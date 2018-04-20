@@ -595,7 +595,6 @@
     <Content Include="Content\AdminLTE\css\adminlte.min.css.map" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\editableGrid.js" />
-    <Content Include="Scripts\Employee.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
     <Content Include="Scripts\i18n\az.js" />

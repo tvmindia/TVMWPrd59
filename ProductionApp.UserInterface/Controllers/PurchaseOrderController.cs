@@ -390,10 +390,10 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion UpdatePOMailDetails
 
         #region PurchaseOrderDropdown
-        public ActionResult PurchaseOrderDropdown(Guid SupplierID)
+        public ActionResult PurchaseOrderDropdown(Guid? SupplierID)
         {
             PurchaseOrderViewModel purchaseOrderVM = new PurchaseOrderViewModel();
-            purchaseOrderVM.SelectList = _purchaseOrderBusiness.PurchaseOrderDropdownList(SupplierID);
+            purchaseOrderVM.SelectList = _purchaseOrderBusiness.PurchaseOrderDropdownList(SupplierID==null?Guid.Empty:(Guid)SupplierID);
             return PartialView("_PurchaseOrderDropdown", purchaseOrderVM);
         }
         #endregion PurchaseOrderDropdown

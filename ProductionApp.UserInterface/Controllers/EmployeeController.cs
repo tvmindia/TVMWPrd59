@@ -187,6 +187,20 @@ namespace ProductionApp.UserInterface.Controllers
             return PartialView("_AssembleDropdown", employeeVM);
 
         }
+        public ActionResult ReturnByDropdown(string required)
+        {
+            EmployeeViewModel employeeVM = new EmployeeViewModel();
+            ViewBag.IsRequired = required;
+            employeeVM.SelectList = _employeeBusiness.GetEmployeeSelectList();
+            return PartialView("_ReturnByDropdown", employeeVM);
+        }
+        public ActionResult ReceivedByDropdown(string required)
+        {
+            EmployeeViewModel employeeVM = new EmployeeViewModel();
+            ViewBag.IsRequired = required;
+            employeeVM.SelectList = _employeeBusiness.GetEmployeeSelectList();
+            return PartialView("_ReceivedByDropdown", employeeVM);
+        }
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
