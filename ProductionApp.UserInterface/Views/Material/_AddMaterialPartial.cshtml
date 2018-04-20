@@ -59,8 +59,17 @@ height:150px;*/
                     </div>
                     <div class="col-md-12">
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.MaterialCode, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.MaterialCode, "", new { @class = "text-danger" })
+                            @if (Model.IsUpdate)
+                            {
+                                @Html.EditorFor(model => model.MaterialCode, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                @Html.ValidationMessageFor(model => model.MaterialCode, "", new { @class = "text-danger" })
+                            }
+                            else
+                            {
+                                @Html.EditorFor(model => model.MaterialCode, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.MaterialCode, "", new { @class = "text-danger" })
+                            }
+                         
                         </div>
                     </div>
                 </div>

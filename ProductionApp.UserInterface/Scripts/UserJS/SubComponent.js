@@ -86,7 +86,7 @@ function BindOrReloadSubComponentTable(action) {
             { "data": "OpeningQty", "defaultContent": "<i>-<i>", "width": "10%" },
             { "data": "CurrentQty", "defaultContent": "<i>-<i>", "width": "10%" },
             { "data": "WeightInKG", "defaultContent": "<i>-<i>", "width": "10%" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteSubComponentMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditSubComponentMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": "4%" }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditSubComponentMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> <a href="#" onclick="DeleteSubComponentMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  ', "width": "4%" }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [3,4,5] },

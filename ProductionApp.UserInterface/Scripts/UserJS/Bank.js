@@ -95,7 +95,8 @@ function BindOrReloadBankTable(action) {
             //            return formattToCurrency(roundoff(data, 1),"₹");
             //    }, "defaultContent": "<i>-</i>"
             //},
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteBankMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditBankMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>' }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditBankMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> <a href="#" onclick="DeleteBankMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>'
+            }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [] },
