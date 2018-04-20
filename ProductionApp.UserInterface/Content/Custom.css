@@ -1215,3 +1215,192 @@ textarea{
 .form-horizontal .form-group{
     margin-left: -0.6%;
 }
+/*wizard*/
+.wizard {
+    margin: 0px auto;
+    background: #fff;
+    text-align: center;
+
+}
+
+    .wizard .nav-tabs {
+        position: relative;
+        margin: 0px auto;
+        margin-bottom: 0;
+        /*border-bottom-color: #e0e0e0;*/
+    }
+
+    .wizard > div.wizard-inner {
+        position: relative;
+    }
+
+.connecting-line {
+    height: 2px;
+    background: #e0e0e0;
+    position: absolute;
+    width: 65%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 40%;
+    z-index: 1;
+}
+
+.wizard .nav-tabs > li.active > a, .wizard .nav-tabs > li.active > a:hover, .wizard .nav-tabs > li.active > a:focus {
+    color: #555555;
+    cursor: default;
+    border: 0;
+    border-bottom-color: transparent;
+}
+
+span.round-tab {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    display: inline-block;
+    border-radius: 100px;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    text-align: center;
+    font-size: 35px;
+}
+span.round-tab i{
+    color:#555555;
+}
+.wizard li.active span.round-tab {
+    background: #fff;
+    border: 2px solid #5bc0de;
+    
+}
+.wizard li.active span.round-tab i{
+    color: #5bc0de;
+}
+
+span.round-tab:hover {
+    color: #333;
+    border: 2px solid #333;
+}
+
+.wizard .nav-tabs > li {
+    width: 33%;
+}
+
+.wizard .nav-tabs > li.disabled {
+    pointer-events: none;
+}
+
+.wizard li:after {
+    content: " ";
+    position: absolute;
+    left: 46%;
+    opacity: 0;
+    margin: 0 auto;
+    bottom: 20px;
+    border: 5px solid transparent;
+    border-bottom-color: #5bc0de;
+    transition: 0.1s ease-in-out;
+}
+
+.wizard .nav-tabs > li a {
+    width: 70px;
+    height: 70px;
+    margin: 0px auto;
+    border-radius: 100%;
+    padding: 0;
+}
+.wizard .nav-tabs > li b {
+    top:30%;
+    margin: 10px auto;
+}
+
+.wizard .nav-tabs > li.active b {
+    top:30%;
+    background-color: white;
+    border:1.5px solid #5bc0de;
+    border-radius: 8%;
+    color: #5bc0de;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.wizard .nav-tabs > li a:hover {
+    background: transparent;
+}
+
+.wizard .tab-pane {
+    position: relative;
+    padding-top: 50px;
+}
+
+.wizard h3 {
+    margin-top: 0;
+}
+
+@media( max-width : 585px ) {
+
+    .wizard {
+        width: 90%;
+        height: auto !important;
+    }
+
+    span.round-tab {
+        font-size: 16px;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .wizard .nav-tabs > li a {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .wizard li.active:after {
+        content: " ";
+        position: absolute;
+        left: 35%;
+    }
+}
+
+/*selectable*/
+.selectable .ui-selecting {
+    background: #3c8dbc;
+}
+
+.selectable .ui-selected {
+    background: #0babe4;
+    color: white;
+}
+
+.selectable {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.ui-selectable {
+	-ms-touch-action: none;
+	touch-action: none;
+}
+
+.selectable li {
+    margin: 3px;
+    /*padding: 0.4em;*/
+    font-size: 1em;
+    height: 18px;
+}
+
+.selectable-list{
+    border:1px solid silver;
+    border-radius: 10px;
+    background-color:white;
+    overflow-y:scroll;
+    max-height:180px;
+    height:180px;
+    margin-bottom:3px;
+}
