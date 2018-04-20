@@ -87,7 +87,14 @@ $(document).ready(function () {
             dropdownParent: $("#MaterialReceiptDetailModal")
         });
 
-        $('#PurchaseOrderID,#SupplierID').select2({});
+        $('#SupplierID').select2({});
+        PurchaseOrderOnChange();
+
+        $("#SupplierID").change(function () {
+            LoadPurchaseOrderDropdownBySupplier();
+            PurchaseOrderOnChange();
+        });
+
         if ($('#ID').val !== EmptyGuid && $('#IsUpdate').val() === 'True') {
             BindMaterialReceipt();//Get MaterialReceipt By ID
             $('#lblReceiptNo').text('MRN#: ' + $('#ReceiptNo').val());
@@ -100,10 +107,7 @@ $(document).ready(function () {
         }
 
         $('#divPONo,#msgSupplier,#msgPurchase').hide();
-        $("#PurchaseOrderID").change(function () {
-            $("#PurchaseOrderNo").val($('#PurchaseOrderID').find('option:selected').text());
-            $('#msgPurchase').hide();
-        });
+
         $("#MaterialID").change(function () {
             BindMaterialDetails(this.value)
         });
@@ -124,7 +128,7 @@ function ExistingPurchaseOrderOnCheckChanged() {
         $('#divPOID').show();
     } else {
         $('#divPONo').show();
-        $('#PurchaseOrderID').val('').select2();
+        $('#PurchaseOrderID').val("").trigger('change');
         $('#divPOID').hide();
     }
 }
@@ -234,16 +238,19 @@ function Save() {
         debugger;
         var check = 0;
 
-        if ($('#PurchaseOrderNo').val() === "") {
+        if ($('#PurchaseOrderNo').val() === "" && ($('#PurchaseOrderID').val() === "" || $('#PurchaseOrderID').val() === undefined)) {
             $('#msgPurchase').show();
+            $('#PurchaseOrderNo,#PurchaseOrderID').change(function () {
+                $('#msgPurchase').hide();
+            });
             check = 1;
         }
-        //else if ($('#PurchaseOrderNo').val() === "") {
-        //    check = 0;
-        //}
 
         if ($('#SupplierID').val() === "") {
             $('#msgSupplier').show();
+            $('#SupplierID').change(function () {
+                $('#msgSupplier').hide();
+            });
             check = 1;
         }
 
@@ -654,5 +661,35 @@ function ReceiptNoOnChange(curObj) {
     }
     else {
         $('#lblReceiptNo').text('MRN#: New');
+    }
+}
+
+function LoadPurchaseOrderDropdownBySupplier() {
+    try {
+        debugger;
+        if ($('#SupplierID').val() != ""){
+            $("#divPOID").load('/PurchaseOrder/PurchaseOrderDropdown?SupplierID=' + $('#SupplierID').val());
+        }
+        else {
+            $("#divPOID").empty();
+            $("#divPOID").append('<input class="form-control HeaderBox text-box single-line" disabled="disabled" id="PurchaseOrderNo" name="PurchaseOrderNo" type="text" value="">');
+        }
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+
+function PurchaseOrderOnChange() {
+    try{
+        debugger;
+        $("#PurchaseOrderID").change(function () {
+            $("#PurchaseOrderNo").val($('#PurchaseOrderID').find('option:selected').text());
+            $('#msgPurchase').hide();
+        });
+
+    }
+    catch (ex) {
+        console.log(ex.message);
     }
 }
