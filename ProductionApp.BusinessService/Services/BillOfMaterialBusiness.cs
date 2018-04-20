@@ -28,6 +28,13 @@ namespace ProductionApp.BusinessService.Services
         }
         #endregion GetAllBillOfMaterial
 
+        #region CheckBillOfMaterialExist
+        public bool CheckBillOfMaterialExist(Guid productID)
+        {
+            return _billOfMaterialRepository.CheckBillOfMaterialExist(productID);
+        }
+        #endregion CheckBillOfMaterialExist
+
         #region InsertUpdateBillOfMaterial
         public object InsertUpdateBillOfMaterial(BillOfMaterial billOfMaterial)
         {
