@@ -78,29 +78,30 @@ function BindOrReloadBankTable(action) {
             columns: [
             { "data": "Code", "defaultContent": "<i>-</i>" },
             { "data": "Name", "defaultContent": "<i>-</i>" },
-            {
-                "data": "ActualODLimit", render: function (data, type, row) {
-                    if (data == 0)
-                        return '-'
-                    else
-                        return formattToCurrency(roundoff(data, 1),"₹");
-                },
-                "defaultContent": "<i>-</i>"
-            },
-            {
-                "data": "DisplayODLimit", render: function (data, type, row) {
-                    if (data == 0)
-                        return '-'
-                    else
-                        return formattToCurrency(roundoff(data, 1),"₹");
-                }, "defaultContent": "<i>-</i>"
-            },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteBankMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditBankMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>' }
+            //{
+            //    "data": "ActualODLimit", render: function (data, type, row) {
+            //        if (data == 0)
+            //            return '-'
+            //        else
+            //            return formattToCurrency(roundoff(data, 1),"₹");
+            //    },
+            //    "defaultContent": "<i>-</i>"
+            //},
+            //{
+            //    "data": "DisplayODLimit", render: function (data, type, row) {
+            //        if (data == 0)
+            //            return '-'
+            //        else
+            //            return formattToCurrency(roundoff(data, 1),"₹");
+            //    }, "defaultContent": "<i>-</i>"
+            //},
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditBankMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> <a href="#" onclick="DeleteBankMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>'
+            }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [2, 3] },
-                { className: "text-left", "targets": [1] },
-                { className: "text-center", "targets": [0,4] }],           
+                { className: "text-right", "targets": [] },
+                { className: "text-left", "targets": [0,1] },
+                { className: "text-center", "targets": [2] }],           
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {

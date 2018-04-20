@@ -28,7 +28,7 @@ debugger;
          { "data": "Product.UnitCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "Qty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "Remarks", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
-         { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ProductEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
+         { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ProductEdit(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
         ],
         columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false },
         { "targets": [7], "width": "30%" },

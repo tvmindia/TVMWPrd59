@@ -151,7 +151,7 @@ function BindOrReloadProductTable(action) {
                         return roundoff(data, 1);
                 }, "defaultContent": "<i>-<i>", "width": "5%"
             },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteProductMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": "4%" }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditProductMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> <a href="#" onclick="DeleteProductMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  ', "width": "4%" }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [5,6,8,9,10,11,12] },
@@ -191,7 +191,7 @@ function ImportProductData() {
 function EditProductMaster(this_obj) {
     ProductViewModel = _dataTable.productList.row($(this_obj).parents('tr')).data();
     GetMasterPartial("Product", ProductViewModel.ID);
-    $('#h3ModelMasterContextLabel').text('Edit Product')
+    $('#h3ModelMasterContextLabel').text('Edit Product/Component')
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val('MSTR');
 }

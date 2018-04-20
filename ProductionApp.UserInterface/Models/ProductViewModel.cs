@@ -38,7 +38,7 @@ namespace ProductionApp.UserInterface.Models
         public decimal? CurrentStock { get; set; }
         [Display(Name = "HSN No.")]
         public string HSNNo { get; set; }
-        [Display(Name = "Weight In KG")]
+        [Display(Name = "Product Weight In KG")]
         public decimal? WeightInKG { get; set; }
         [Display(Name = "Cost Price Per KG")]
         public decimal? CostPrice { get; set; }

@@ -118,7 +118,7 @@ function BindOrReloadMaterialTable(action) {
             //},
             //{ "data": "CostPrice", "defaultContent": "<i>-<i>" },
 
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteMaterialMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditMaterialMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": "4%" }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditMaterialMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> <a href="#" onclick="DeleteMaterialMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "4%" }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [5,6,7,8,9] },
