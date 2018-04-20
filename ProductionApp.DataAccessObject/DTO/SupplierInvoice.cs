@@ -28,6 +28,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
         public string DetailJSON { get; set; }
+        public string DetailXML { get; set; }
         public int FilteredCount { get; set; }
         public decimal TotalTaxableAmount { get; set; }
         public decimal TotalTaxAmount { get; set; }
@@ -36,6 +37,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Supplier Supplier { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }
         public SupplierInvoiceDetail SupplierInvoiceDetail { get; set; }
+        public List<SupplierInvoiceDetail> SupplierInvoiceDetailList { get; set; }
     }
     public class SupplierInvoiceDetail 
     {

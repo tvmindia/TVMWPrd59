@@ -130,9 +130,76 @@ namespace ProductionApp.RepositoryServices.Services
         
     }
 
-        public object InsertUpdateSupplierInvoice(SupplierInvoice SupplierInvoice)
+        public object InsertUpdateSupplierInvoice(SupplierInvoice supplierInvoice)
         {
-            throw new NotImplementedException();
+            SqlParameter outputStatus, IDOut = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[InsertUpdateSupplierInvoice]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = supplierInvoice.IsUpdate;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = supplierInvoice.ID;
+                        cmd.Parameters.Add("@FileDupID", SqlDbType.UniqueIdentifier).Value = supplierInvoice.hdnFileID;
+                        cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar,20).Value = supplierInvoice.InvoiceNo;
+                        cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = supplierInvoice.InvoiceDateFormatted;
+                        cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = supplierInvoice.SupplierID;
+                        cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar,10).Value = supplierInvoice.AccountCode;
+                        cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = supplierInvoice.PurchaseOrderID;
+                        cmd.Parameters.Add("@PurchaseOrderNo", SqlDbType.VarChar, 20).Value = supplierInvoice.PurchaseOrderNo;
+                        cmd.Parameters.Add("@PaymentDueDate", SqlDbType.DateTime).Value = supplierInvoice.PaymentDueDateFormatted;
+                        cmd.Parameters.Add("@Discount", SqlDbType.Decimal).Value = supplierInvoice.Discount;
+                        cmd.Parameters.Add("@BillingAddress", SqlDbType.VarChar, -1).Value = supplierInvoice.BillingAddress;
+                        cmd.Parameters.Add("@ShippingAddress", SqlDbType.VarChar, -1).Value = supplierInvoice.ShippingAddress;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.VarChar, -1).Value = supplierInvoice.GeneralNotes;
+                        cmd.Parameters.Add("@DetailXML", SqlDbType.VarChar, -1).Value = supplierInvoice.DetailXML;
+
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = supplierInvoice.Common.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = supplierInvoice.Common.CreatedDate;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = supplierInvoice.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = supplierInvoice.Common.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        IDOut = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier);
+                        IDOut.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(supplierInvoice.IsUpdate ? _appConst.UpdateFailure : _appConst.InsertFailure);
+                    case "1":
+                        //  requisition.ID = Guid.Parse(IDOut.Value.ToString());
+                        return new
+                        {
+                            ID = IDOut.Value.ToString(),
+                            Status = outputStatus.Value.ToString(),
+                            Message = supplierInvoice.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+                        };
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Code = IDOut.Value.ToString(),
+                Status = outputStatus.Value.ToString(),
+                Message = supplierInvoice.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+            };
+
         }
 
         public object DeleteSupplierInvoice(Guid id)
