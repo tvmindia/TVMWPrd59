@@ -153,7 +153,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = supplierInvoice.InvoiceDateFormatted;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = supplierInvoice.SupplierID;
                         cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar,10).Value = supplierInvoice.AccountCode;
-                        cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = supplierInvoice.PurchaseOrderID;
+                        cmd.Parameters.Add("@PurchaseOrderID", SqlDbType.UniqueIdentifier).Value = supplierInvoice.PurchaseOrderID;
                         cmd.Parameters.Add("@PurchaseOrderNo", SqlDbType.VarChar, 20).Value = supplierInvoice.PurchaseOrderNo;
                         cmd.Parameters.Add("@PaymentDueDate", SqlDbType.DateTime).Value = supplierInvoice.PaymentDueDateFormatted;
                         cmd.Parameters.Add("@Discount", SqlDbType.Decimal).Value = supplierInvoice.Discount;
