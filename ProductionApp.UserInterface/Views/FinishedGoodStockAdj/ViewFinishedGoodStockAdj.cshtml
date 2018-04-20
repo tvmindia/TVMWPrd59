@@ -60,7 +60,7 @@
                     @Html.LabelFor(model => model.AdjustedBy, htmlAttributes: new { @class = "control-label " })
                 </div>
                 <div class="col-md-12">
-                    @Html.Action("EmployeeDropdown", "Employee")
+                    @Html.DropDownListFor(model => model.AdjustedBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", style = "width:100%" })
                 </div>
             </div>
 

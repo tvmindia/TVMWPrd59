@@ -47,7 +47,6 @@
                 </div>
                 @Html.HiddenFor(model => model.ID)
                 @Html.HiddenFor(model => model.IsUpdate)
-                @Html.HiddenFor(model => model.ForemanID)
                 <div class="col-md-12">
                     <div class="form-group col-md-6">
                         <div class="col-md-12">
@@ -55,7 +54,8 @@
                         </div>
                         <div class="col-md-12">
                             @Html.EditorFor(model => model.EntryDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @value = ViewBag.CurrentDate, @id = "EntryDate" } })
-                            @Html.ValidationMessageFor(model => model.EntryDateFormatted, "", new { @class = "text-danger" })
+                            @*@Html.ValidationMessageFor(model => model.EntryDateFormatted, "", new { @class = "text-danger" })*@
+                            <span class = "text-danger" id="msgEntryDate" style="display:none;">Entry Date Required</span>
                         </div>
                     </div>
 
@@ -65,7 +65,8 @@
                         </div>
                         <div class="col-md-12">
                             @Html.Action("EmployeeDropdown", "Employee", Model.ForemanID)
-                            @Html.ValidationMessageFor(model => model.ForemanID, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.ForemanID, htmlAttributes: new { @value = Guid.Empty })
+                            <span class = "text-danger"  id="msgForemanID" style="display:none;">Employee Required</span>
                         </div>
                     </div>
 
@@ -80,31 +81,32 @@
                     </div>
                 </div>
 
+                <div class="col-md-12">
+                    <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Selected Product/Component/Stage Details</div>
+                </div>
+
+
+
+                <div class="form-group col-md-12">
                     <div class="col-md-12">
-                        <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Selected Product/Component/Stage Details</div>
-                    </div>
-
-
-
-                    <div class="form-group col-md-12">
                         <div class="col-md-12">
-                            <div class="col-md-12">
-                                @Html.Label("Search", htmlAttributes: new { @class = "control-label lblrequired" })
-                            </div>
-                            <div class="col-md-12">
-                                <div class="input-group">
-                                    @Html.Editor("ProductionTrackingSearch", new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "ProductionTrackingSearch", placeholder = "Search" } })@*, @onkeypress = "ProductionTrackingSearchOnKeyPress(this)"*@
-                                    <div class="input-group-btn">
-                                        <a class="btn btn-primary" style="height:27.5px" onclick="ProductionTrackingSearch()"><i class="glyphicon glyphicon-search"></i></a> @*type="submit"*@
-                                    </div>
+                            @Html.Label("ProductionTrackingSearch", "Search", htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                @Html.Editor("ProductionTrackingSearch", new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "ProductionTrackingSearch", placeholder = "Search" } })@*, @onkeypress = "ProductionTrackingSearchOnKeyPress(this)"*@
+                                <div class="input-group-btn">
+                                    <a class="btn btn-primary" style="height:27.5px" onclick="ProductionTrackingSearch()"><i class="glyphicon glyphicon-search"></i></a> @*type="submit"*@
                                 </div>
                             </div>
+                            <span class = "text-danger"  id="msgSearch" style="display:none;">Select an option after search</span>
                         </div>
                     </div>
+                </div>
 
-
-                    <div class="col-md-12">
-                        <div id="TrackingDetailSearchDiv" class="addEmp" style="display:none">@*style="width:92.5%;margin-left:2%;display:none"*@
+                <div class="col-md-12">
+                    <div id="TrackingDetailSearchDiv" class="addEmp" style="display:none">
+                            @*style="width:92.5%;margin-left:2%;display:none"*@
                             <div class="col-md-11"></div>
                             <div class="col-md-1">
                                 <a class="close" onclick="CancelSearch();" style="padding-top:5px" aria-label="Close"><i style="font-size: 22px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
@@ -169,65 +171,64 @@
 
 
 
-                        <div class="col-md-12 headSeperator" style="border-right:25px solid #f8f8f8"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Quantity Details</div>
-                        <div class="col-md-12">
-                            <div class="col-md-6">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.AcceptedQty, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-12">
-                                    @Html.EditorFor(model => model.AcceptedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
-                                    @Html.ValidationMessageFor(model => model.AcceptedQty, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.DamagedQty, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-12">
-                                    @Html.EditorFor(model => model.DamagedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
-                                    @Html.ValidationMessageFor(model => model.DamagedQty, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-6">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.AcceptedWt, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-12">
-                                    @Html.EditorFor(model => model.AcceptedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
-                                    @Html.ValidationMessageFor(model => model.AcceptedWt, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.DamagedWt, htmlAttributes: new { @class = "control-label " })
-                                </div>
-                                <div class="col-md-12">
-                                    @Html.EditorFor(model => model.DamagedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
-                                    @Html.ValidationMessageFor(model => model.DamagedWt, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
+                    <div class="col-md-12 headSeperator" style="border-right:25px solid #f8f8f8"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Quantity Details</div>
+                    <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="col-md-12">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-md-12">
-                                    @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control HeaderBox", @rows = 5 } })
-                                    @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
-                                </div>
+                                @Html.LabelFor(model => model.AcceptedQty, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.AcceptedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                                @Html.ValidationMessageFor(model => model.AcceptedQty, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
-                        <div class="form-group" hidden="hidden">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.DamagedQty, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.DamagedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                                @Html.ValidationMessageFor(model => model.DamagedQty, "", new { @class = "text-danger" })
                             </div>
                         </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.AcceptedWt, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.AcceptedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                                @Html.ValidationMessageFor(model => model.AcceptedWt, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.DamagedWt, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.DamagedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                                @Html.ValidationMessageFor(model => model.DamagedWt, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control HeaderBox", @rows = 5 } })
+                                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="form-group" hidden="hidden">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
 
             }
         </div>
@@ -244,8 +245,8 @@
                             <th>ID</th>
                             <th>Entry Date</th>
                             @*<th>Product</th>
-                            <th>Component</th>
-                            <th>Stage</th>*@
+                                <th>Component</th>
+                                <th>Stage</th>*@
                             <th>SubComponent/Output</th>
                             @*<th>Done By</th>*@
                             <th>Acc. Qty</th>
