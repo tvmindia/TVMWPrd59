@@ -36,8 +36,9 @@
     <div class="row">
         &nbsp;
     </div>
+
     <div class="row tableContainer">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-8">
             <div class="col-md-12">
                 @Html.LabelFor(model => model.SearchTerm, htmlAttributes: new { @class = "control-label" })
             </div>
@@ -50,40 +51,13 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        @*Advance Filter *@
-        @*<div class="col-md-12">
-            <div class="row">
-                &nbsp;
-                <p id="filter" style="float:right;font-size:small"><i class="fa fa-filter advanceFilterLink" aria-hidden="true"></i>&nbsp;<a href="#demo" class="accordion" data-toggle="collapse" aria-expanded="false" aria-controls="demo">Advanced Filter</a></p>
-                <div id="demo" class="collapse" style="border-top:1px solid #d9d9d9">
-                    <div class="col-md-12 no-left-padding">
-                        <div class="col-md-5">
-                            <div class="col-md-12">
-                                @Html.LabelFor(model => model.Unit.Code, htmlAttributes: new { @class = "control-label" })
-                            </div>
-                            <div class="col-md-12">
-                                @Html.DropDownListFor(model => model.Unit.Code, Model.Unit.UnitSelectList, "--Select Unit--", new { @class = "form-control", style = "width:100%" })
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="col-md-12">
-                                @Html.LabelFor(model => model.MaterialType.Code, htmlAttributes: new { @class = "control-label" })
-                            </div>
-                            <div class="col-md-12">
-                                @Html.DropDownListFor(model => model.MaterialType.Code, Model.MaterialType.MaterialTypeSelectList, "--Select Material Type--", new { @class = "form-control", style = "width:100%" })
-                            </div>
 
-                        </div>
-                        <div class="col-md-2">
-                            <div class="col-md-12"></div>
-                            <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadMaterialTable('Search')">Apply</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>*@
+
+    <div class="row tableContainer">
         &nbsp;
+     
         <div class="col-md-12">
         </div>
         <div class="col-md-12" style="margin-top: 1%;">

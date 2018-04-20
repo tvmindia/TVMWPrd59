@@ -97,8 +97,24 @@ function BindOrReloadApproverTable(action) {
             { "data": "Level", "defaultContent": "<i>-</i>", "width": "10%" },
             //{ "data": "UserID", "defaultContent": "<i>-<i>", "width": "10%" },
             { "data": "User.LoginName", "defaultContent": "<i>-<i>", "width": "10%" },
-            { "data": "IsDefault", "defaultContent": "<i>-<i>", "width": "10%" },
-            { "data": "IsActive", "defaultContent": "<i>-<i>", "width": "10%" },
+            {
+                "data": "IsDefault", "defaultContent": "<i>-<i>", render: function (data, type, row) {
+                    debugger;
+                    if (data == true)
+                        return 'Yes'
+                    else
+                        return 'No';
+                }, "width": "10%"
+            },
+            {
+                "data": "IsActive", "defaultContent": "<i>-<i>", render: function (data, type, row) {
+                    debugger;
+                    if (data == true)
+                        return 'Yes'
+                    else
+                        return 'No';
+                }, "width": "10%"
+            },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteApproverMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditApproverMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": "4%" }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },

@@ -191,7 +191,7 @@ function ImportProductData() {
 function EditProductMaster(this_obj) {
     ProductViewModel = _dataTable.productList.row($(this_obj).parents('tr')).data();
     GetMasterPartial("Product", ProductViewModel.ID);
-    $('#h3ModelMasterContextLabel').text('Edit Product')
+    $('#h3ModelMasterContextLabel').text('Edit Product/Component')
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val('MSTR');
 }

@@ -149,7 +149,9 @@ function GetModuleName() {
     debugger;
     var vars = GetUrlVars()
     var moduleCode = vars.code;
-    if (moduleCode) {
+    if (moduleCode != undefined) {
+          
+            moduleCode = moduleCode.replace("#", "");
         var data = { "code": moduleCode };
         var jsonData = {};
         var message = "";
