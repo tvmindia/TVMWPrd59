@@ -64,7 +64,7 @@ function SaveSuccessMaterial(data, status) {
 //-- add Product--//
 function AddProductMaster(flag) {
     GetMasterPartial("Product", "");
-    $('#h3ModelMasterContextLabel').text('Add Product')
+    $('#h3ModelMasterContextLabel').text('Add Product/Component')
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val(flag);
 }

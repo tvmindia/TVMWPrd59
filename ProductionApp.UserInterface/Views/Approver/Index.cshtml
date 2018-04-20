@@ -37,9 +37,8 @@
     <div class="row">
         &nbsp;
     </div>
-    <div class="row tableContainer">
-        @*//<input type="text" id="txtsearch" />*@
-        <div class="form-group col-md-6">
+    <div class="row tableContainer" style="vertical-align:bottom">
+        <div class="form-group col-md-8">
             <div class="col-md-12">
                 @Html.LabelFor(model => model.SearchTerm, htmlAttributes: new { @class = "control-label" })
             </div>
@@ -47,48 +46,48 @@
                 <div class="input-group">
                     @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
                     <div class="input-group-btn">
-                        <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadApproverTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
+                        <button class="btn btn-primary" type="submit" style="height:28px" onclick="BindOrReloadApproverTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
                     </div>
                 </div>
             </div>
         </div>
-        @*Advance Filter *@
-        <div class="col-md-12">
-            <div class="row">
-                &nbsp;
+        <div class="form-group col-md-4" style="padding-top:50px;">
+            @*Advance Filter *@
+            <div class="col-md-12">
                 <p id="filter" style="float:right;font-size:small"><i class="fa fa-filter advanceFilterLink" aria-hidden="true"></i>&nbsp;<a href="#demo" class="accordion" data-toggle="collapse" aria-expanded="false" aria-controls="demo">Advanced Filter</a></p>
-                @*<p id="filter" style="float:right;font-size:small"><i class="fa fa-filter" aria-hidden="true" style="color:purple"></i><a href="#" class="accordion" data-toggle="collapse" data-target="#demo">Advanced Filter</a></p>*@
+            </div>
+        </div>
+    </div>
 
-                <div id="demo" class="collapse" style="border-top:1px solid #d9d9d9">
-                    <div class="col-md-12">
-                        <div class="col-md-5">
-                            @Html.LabelFor(model => model.DocumentType, htmlAttributes: new { @class = "control-label" })
-                            @*<div class="col-md-12">*@
-                            @Html.DropDownListFor(model => model.DocumentType.Code, Model.DocumentType.SelectList, "--Select Document Type--", new { @class = "form-control", style = "width:100%" })
-                                @*@Html.Action("DocumentTypeDropdown", "DocumentType")*@
-                            @*</div>*@
-                        </div>
-                        <div class="col-md-5">
-                            @*@Html.LabelFor(model => model.Approver.Level, htmlAttributes: new { @class = "control-label " })
-                            @Html.EditorFor(model => model.Approver.Level, new { htmlAttributes = new { @class = "form-control", @min = "1", @max = "5" } })*@
-                        </div>
+    <div class="row tableContainer">
+        <div class="form-group col-md-12 collapse" id="demo">
+            <div style="border-top:1px solid #d9d9d9;margin-left: 15px;" class="form-group col-md-12"></div>
 
-                            <div class="col-md-2">
-                                <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadApproverTable('Apply')">Apply</a>
-                            </div>
-                        </div>
+            <div class="col-md-12 no-left-padding">
+                <div class="col-md-5 ">
+                    @Html.Label("Document Type", htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.DocumentType.Code, Model.DocumentType.SelectList, "--Select Document Type--", new { @class = "form-control", style = "width:100%" })
+                </div>
+                <div class="col-md-5">
+                </div>
+                <div class="col-md-2">
+                    <div class="col-md-12"></div>
+                    <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadApproverTable('Search')">Apply</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-12"style="margin-top: 1%;">
+        &nbsp;
+        <div class="col-md-12">
+        </div>
+
+       
+        <div class="col-md-12" style="margin-top: 1%;">
             <table id="tblApprover" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center TableHead">
-                        @*<th>ID</th>*@
                         <th>Document Type</th>
                         <th>Level</th>
-                        @*<th>UserId</th>*@
                         <th>Approver</th>
                         <th>Is Default</th>
                         <th>Is Active</th>
