@@ -183,6 +183,37 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetAllPurchaseOrderItem
 
+        //InsertUpdateSupplierInvoice
+        #region InsertUpdateSupplierInvoice
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
+        public string InsertUpdateSupplierInvoice(SupplierInvoiceViewModel supplierInvoiceVM)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                supplierInvoiceVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                }; 
+                //Deserialize items
+                object ResultFromJS = JsonConvert.DeserializeObject(supplierInvoiceVM.DetailJSON);
+                string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                supplierInvoiceVM.SupplierInvoiceDetailList= JsonConvert.DeserializeObject<List<SupplierInvoiceDetailViewModel>>(ReadableFormat);
+                var result = _supplierInvoiceBusiness.InsertUpdateSupplierInvoice(Mapper.Map<SupplierInvoiceViewModel, SupplierInvoice>(supplierInvoiceVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+
+        }
+        #endregion InsertUpdateSupplierInvoice
         #region ButtonStyling
         [HttpGet]
         //[AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]

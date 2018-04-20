@@ -105,7 +105,7 @@ function BindOrReloadEmployeeTable(action) {
             { "data": "MobileNo", "defaultContent": "<i>-<i>", "width": "15%" },
             { "data": "Address", "defaultContent": "<i>-<i>", "width": "18%" },
             { "data": "IsActive", "defaultContent": "<i>-<i>", "width": "7%" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteEmployeeMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditEmployeeMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": "5%" }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditEmployeeMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> <a href="#" onclick="DeleteEmployeeMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "5%" }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [] },

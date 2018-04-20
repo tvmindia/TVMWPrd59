@@ -98,7 +98,7 @@ function BindOrReloadChartOfAccountTable(action) {
                     else
                         return 'No';
                 }, "defaultContent": "<i>-<i>", "width": "10%" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteChartOfAccountMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditChartOfAccountMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": "4%" }
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditChartOfAccountMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> <a href="#" onclick="DeleteChartOfAccountMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "4%" }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [] },

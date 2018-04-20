@@ -423,7 +423,7 @@ function AddSupplierInvoiceDetails() {
         SupplierInvoiceDetailVM.Rate = $('#SupplierInvoiceDetail_Rate').val();
         //SupplierInvoiceDetailVM.GrossAmount = $('#SupplierInvoiceDetail_GrossAmount').val();
         SupplierInvoiceDetailVM.TradeDiscountAmount = $('#SupplierInvoiceDetail_TradeDiscountAmount').val();
-        SupplierInvoiceDetailVM.DiscountPercent = $('#SupplierInvoiceDetail_TradeDiscountPerc').val();
+        SupplierInvoiceDetailVM.TradeDiscountPercent = $('#SupplierInvoiceDetail_TradeDiscountPerc').val();
         //SupplierInvoiceDetailVM.TaxAmount = $('#SupplierInvoiceDetail_TaxAmount').val();
        // SupplierInvoiceDetailVM.NetAmount = $('#SupplierInvoiceDetail_NetAmount').val();
         SupplierInvoiceDetailVM.TaxTypeCode = $('#TaxTypeCode').val();
@@ -531,7 +531,7 @@ function EdittextBoxValue(thisObj, textBoxCode) {
             if (textBoxCode == 2)
                 purchaseOrderDetailVM[i].Rate = thisObj.value;
             if (textBoxCode == 3)
-                purchaseOrderDetailVM[i].TradeDiscountAmount = thisObj.value;
+                purchaseOrderDetailVM[i].Discount = thisObj.value;
             if (textBoxCode == 4)
             {
                 var taxTypeVM = GetTaxtypeDropdown();
@@ -578,24 +578,23 @@ function AddPOItems() {
     debugger;
     var purchaseOrderItemList = _dataTables.PurchaseOrderDetailTable.rows(".selected").data();
     _SupplierInvoiceDetail =[];
-    for(i = 0; i < purchaseOrderItemList.length(); i++)
+    for(i = 0; i < purchaseOrderItemList.length; i++)
     {
         SupplierInvoiceDetailVM = new Object();
-        SupplierInvoiceDetailVM.MaterialID = $("#MaterialID").val();
-        SupplierInvoiceDetailVM.UnitCode = $('#SupplierInvoiceDetail_UnitCode').val();
-        SupplierInvoiceDetailVM.Quantity = $('#SupplierInvoiceDetail_Quantity').val();
-        SupplierInvoiceDetailVM.Rate = $('#SupplierInvoiceDetail_Rate').val();
-        //SupplierInvoiceDetailVM.GrossAmount = $('#SupplierInvoiceDetail_GrossAmount').val();
-        SupplierInvoiceDetailVM.TradeDiscountAmount = $('#SupplierInvoiceDetail_TradeDiscountAmount').val();
-        SupplierInvoiceDetailVM.DiscountPercent = $('#SupplierInvoiceDetail_TradeDiscountPerc').val();
-        //SupplierInvoiceDetailVM.TaxAmount = $('#SupplierInvoiceDetail_TaxAmount').val();
-        // SupplierInvoiceDetailVM.NetAmount = $('#SupplierInvoiceDetail_NetAmount').val();
-        SupplierInvoiceDetailVM.TaxTypeCode = $('#TaxTypeCode').val();
-        //if (SupplierInvoiceDetailVM.TaxTypeCode != "")
-        //    SupplierInvoiceDetailVM.TaxTypeDescription = $('#TaxTypeCode option:selected').text();
+        SupplierInvoiceDetailVM.MaterialID = purchaseOrderItemList[i].MaterialID;
+        SupplierInvoiceDetailVM.Quantity = purchaseOrderItemList[i].Qty;
+        SupplierInvoiceDetailVM.Rate = purchaseOrderItemList[i].Rate;
+        SupplierInvoiceDetailVM.TradeDiscountAmount = purchaseOrderItemList[i].Discount;
+        //SupplierInvoiceDetailVM.DiscountPercent = purchaseOrderItemList[i].DiscountPercent;
+        SupplierInvoiceDetailVM.TaxTypeCode = purchaseOrderItemList[i].TaxTypeCode;
         _SupplierInvoiceDetail.push(SupplierInvoiceDetailVM);
     }
-
+    if (_SupplierInvoiceDetail.length > 0) {
+        var result = JSON.stringify(_SupplierInvoiceDetail);
+        $("#DetailJSON").val(result);
+        Save();
+         $('#PurchaseOrderDetailModal').modal('hide');
+    }
 }
 
 
