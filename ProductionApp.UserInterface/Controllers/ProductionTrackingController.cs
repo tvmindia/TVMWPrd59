@@ -41,6 +41,7 @@ namespace ProductionApp.UserInterface.Controllers
                 IsUpdate = id == null ? false : true,
                 EntryDateFormatted = _common.GetCurrentDateTime().ToString(settings.DateFormat),
                 SubComponent = new SubComponentViewModel(),
+                ForemanID = Guid.Empty,
                 AcceptedQty = 0,
                 AcceptedWt = 0,
                 DamagedQty = 0,
