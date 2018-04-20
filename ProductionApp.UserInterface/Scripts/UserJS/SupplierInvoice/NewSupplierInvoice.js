@@ -12,10 +12,10 @@
 // ##4--Bind Payment due date, based on Payment date
 // ##5--From Purchase Order Changed 
 // ##6--Show Supplier Invoice Details Modal
-// ##7--
+// ##7-- Add button click :Load PO Detail Modal 
 // ##8-- Show Load PO Detail Modal
 // ##9-- popup DataTable: Dropdown,TextBoxes,CheckBox Binding
-// ##10-- 
+// ##10--Load Purchase Order Dropdown By Supplier
 // ##11--Save  Supplier Invoice 
 // ##12--Save Success Supplier Invoice
 // ##13--Bind Supplier Invoice By ID
@@ -165,6 +165,7 @@ $(document).ready(function () {
   
         $("#SupplierID").change(function () {
             BindSupplierDetails(this.value);
+            LoadPurchaseOrderDropdownBySupplier();
         });
         $("#PaymentTermCode").change(function () {
             GetDueDate(this.value);
@@ -548,6 +549,17 @@ function selectCheckbox(IDs) {
 }
 
 
+//##10--Load Purchase Order Dropdown By Supplier ----------------------------##11
+
+function LoadPurchaseOrderDropdownBySupplier() {
+    try {
+        debugger; 
+        $("#divPOID").load('/PurchaseOrder/PurchaseOrderDropdown?SupplierID='+$('#SupplierID').val())
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
 
 
 

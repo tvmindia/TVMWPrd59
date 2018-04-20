@@ -10,7 +10,7 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface IPurchaseOrderRepository
     {
         List<PurchaseOrder> GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch);
-        List<PurchaseOrder> GetAllPurchaseOrderForSelectList();
+        List<PurchaseOrder> PurchaseOrderDropdownList(Guid supplierID);
         object InsertPurchaseOrder(PurchaseOrder purchaseOrder);
         object UpdatePurchaseOrder(PurchaseOrder purchaseOrder);
         PurchaseOrder GetPurchaseOrder(Guid ID);

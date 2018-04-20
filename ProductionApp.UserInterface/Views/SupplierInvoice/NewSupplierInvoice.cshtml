@@ -108,9 +108,9 @@
                             @Html.LabelFor(model => model.PurchaseOrderID, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
                         <div class="col-md-12" id="divPOID">
-                            @Html.Action("PurchaseOrderDropdown", "PurchaseOrder")
+                            @Html.EditorFor(model => model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
                         </div>
-                        <div class="col-md-12" id="divPONo">
+                        <div class="col-md-12" id="divPONo"  style="display: none;">
                             @Html.EditorFor(model => model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
                         </div>
                         @*<span class="text-danger" id="msgPurchase">* Purchase Order not Selected / Entered</span>*@

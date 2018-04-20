@@ -389,27 +389,14 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion UpdatePOMailDetails
 
-        #region PurchaseOrder Dropdown
-        public ActionResult PurchaseOrderDropdown()
+        #region PurchaseOrderDropdown
+        public ActionResult PurchaseOrderDropdown(Guid SupplierID)
         {
             PurchaseOrderViewModel purchaseOrderVM = new PurchaseOrderViewModel();
-            List<SelectListItem> selectListItem = new List<SelectListItem>();
-            purchaseOrderVM.SelectList=new List<SelectListItem>();
-            List<PurchaseOrderViewModel> purchaseOrderList = Mapper.Map<List<PurchaseOrder>, List<PurchaseOrderViewModel>>(_purchaseOrderBusiness.GetAllPurchaseOrderForSelectList());
-            if (purchaseOrderList != null)
-                foreach (PurchaseOrderViewModel purchaseOrder in purchaseOrderList)
-                {
-                    selectListItem.Add(new SelectListItem
-                    {
-                        Text = purchaseOrder.PurchaseOrderNo,
-                        Value = purchaseOrder.ID.ToString(),
-                        Selected = false
-                    });
-                }
-            purchaseOrderVM.SelectList = selectListItem;
+            purchaseOrderVM.SelectList = _purchaseOrderBusiness.PurchaseOrderDropdownList(SupplierID);
             return PartialView("_PurchaseOrderDropdown", purchaseOrderVM);
         }
-        #endregion
+        #endregion PurchaseOrderDropdown
 
         #region GetSupplierDetails
         [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
