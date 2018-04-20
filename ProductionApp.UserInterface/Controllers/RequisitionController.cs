@@ -18,23 +18,25 @@ namespace ProductionApp.UserInterface.Controllers
         // GET: Requisitions
         private IRequisitionBusiness _requisitionBusiness;
         private IMaterialBusiness _materialBusiness;
-        
+        private IEmployeeBusiness _employeeBusiness;
         Common _common = new Common();
         AppConst _appConst = new AppConst();
 
-        public RequisitionController(IRequisitionBusiness requisitionBusiness,IMaterialBusiness materialBusiness)
+        public RequisitionController(IRequisitionBusiness requisitionBusiness,IMaterialBusiness materialBusiness, IEmployeeBusiness employeeBusiness)
         {
             _requisitionBusiness = requisitionBusiness;
             _materialBusiness = materialBusiness;
-          
+            _employeeBusiness = employeeBusiness;
 
         }
         [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]
         public ActionResult ViewRequisition(string code)
         {
             ViewBag.SysModuleCode = code;
-         
-            return View();
+            RequisitionAdvanceSearchViewModel requisitionSearchVM = new RequisitionAdvanceSearchViewModel();
+            requisitionSearchVM.Employee = new EmployeeViewModel();
+            requisitionSearchVM.Employee.SelectList = _employeeBusiness.GetEmployeeSelectList();
+            return View(requisitionSearchVM);
         }
 
         [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]

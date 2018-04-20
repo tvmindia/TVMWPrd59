@@ -82,6 +82,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Requisition By")]
         public string RequisitionBy { get; set; }
         public Guid EmployeeID { get; set; }
+        public EmployeeViewModel Employee { get; set; }
 
     }
 }

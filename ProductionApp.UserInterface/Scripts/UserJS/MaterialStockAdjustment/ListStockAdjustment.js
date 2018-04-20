@@ -3,7 +3,7 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
-        $("#EmployeeID").select2({
+        $("#AdjustedBy").select2({
         });
         BindOrReloadStockAdjustmentTable('Init');
         $('#tblMaterialStockAdjustment tbody').on('dblclick', 'td', function () {
@@ -39,7 +39,7 @@ function BindOrReloadStockAdjustmentTable(action) {
                 $('#SearchTerm').val('');
                 $('#FromDate').val('');
                 $('#ToDate').val('');
-                $('#EmployeeID').val('').select2();
+                $('#AdjustedBy').val('').select2();
                 break;
             case 'Init':
                 break;
@@ -48,7 +48,7 @@ function BindOrReloadStockAdjustmentTable(action) {
             case 'Apply':
                 MaterialStockAdjAdvanceSearchViewModel.FromDate = $('#FromDate').val();
                 MaterialStockAdjAdvanceSearchViewModel.ToDate = $('#ToDate').val();
-                MaterialStockAdjAdvanceSearchViewModel.AdjustedBy = $('#EmployeeID').val();
+                MaterialStockAdjAdvanceSearchViewModel.AdjustedBy = $('#AdjustedBy').val();
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
@@ -60,7 +60,7 @@ function BindOrReloadStockAdjustmentTable(action) {
         MaterialStockAdjAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
         MaterialStockAdjAdvanceSearchViewModel.FromDate = $('#FromDate').val();
         MaterialStockAdjAdvanceSearchViewModel.ToDate = $('#ToDate').val();
-        MaterialStockAdjAdvanceSearchViewModel.AdjustedBy = $('#EmployeeID').val();
+        MaterialStockAdjAdvanceSearchViewModel.AdjustedBy = $('#AdjustedBy').val();
         DataTables.MaterialStockAdjustmentList = $('#tblMaterialStockAdjustment').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',

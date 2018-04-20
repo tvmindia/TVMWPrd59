@@ -1012,6 +1012,8 @@
     <Content Include="Views\Employee\_AssembleDropdown.cshtml" />
     <Content Include="Views\DashboardSale\_RecentSalesOrder.cshtml" />
     <Content Include="Views\DashboardSale\_RecentPackingSlip.cshtml" />
+    <Content Include="Views\Employee\_ReceivedByDropdown.cshtml" />
+    <Content Include="Views\Employee\_ReturnByDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

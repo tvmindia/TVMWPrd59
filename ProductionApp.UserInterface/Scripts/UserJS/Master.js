@@ -343,8 +343,14 @@ function SaveSuccessEmployee(data, status) {
                 BindOrReloadEmployeeTable('Reset');
             }
             else if ($('#hdnMasterCall').val() == "OTR") {
+                $('#IsUpdate').val('True');
+                $('#ID').val(JsonResult.Record.ID);
+                $('#Code').val(JsonResult.Record.Code);
                 $('#divAssemblyDropdown').load('/Employee/AssembleDropdown');
                 $('#divEmployeeDropdown').load('/Employee/EmployeeDropdown');
+                $('#divEmployeeDropdown').load('/Employee/EmployeeDropdown');
+                $('#divReturnByDropdown').load('/Employee/ReturnByDropdown');
+                $('#divReceivedByDropdown').load('/Employee/ReceivedByDropdown');
             }
             MasterAlert("success", JsonResult.Record.Message)
             break;

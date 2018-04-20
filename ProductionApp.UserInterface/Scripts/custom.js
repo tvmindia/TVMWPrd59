@@ -146,6 +146,7 @@ $(document).ready(function () {
 
 // To Get Module Name 
 function GetModuleName() {
+    debugger;
     var vars = GetUrlVars()
     var moduleName = vars.Name;
     moduleName = moduleName.replace("%20", " ");
