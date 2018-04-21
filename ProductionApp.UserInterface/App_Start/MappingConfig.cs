@@ -128,6 +128,8 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<SupplierPaymentViewModel, SupplierPayment>().ReverseMap();
                 config.CreateMap<SupplierPaymentDetailViewModel, SupplierPaymentDetail>().ReverseMap();
                 config.CreateMap<SupplierPaymentAdvanceSearchViewModel, SupplierPaymentAdvanceSearch>().ReverseMap();
+
+                config.CreateMap<MastersCountViewModel, MastersCount>().ReverseMap();
             });
         }
     }

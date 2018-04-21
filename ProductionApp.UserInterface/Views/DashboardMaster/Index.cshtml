@@ -1,8 +1,30 @@
-﻿
+﻿@using ProductionApp.UserInterface.App_Start
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
-<h2>Index</h2>
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href=@Url.Action("Index", "Home")><i class="fa fa-home"></i> Home</a></li>
+        <li>Master</li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+<div class="col-md-12">&nbsp;</div>
+
+<div class="col-md-12">
+    <div class="col-md-2"></div>
+    <div class="col-md-6" style="height:600px;width:70%;">
+       
+            @{
+                @Html.Action("RecentMastersSummary", "DashboardMaster");
+            }
+    </div>
+    <div class="col-md-2"></div>
+    
+</div>
+
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")
+
 

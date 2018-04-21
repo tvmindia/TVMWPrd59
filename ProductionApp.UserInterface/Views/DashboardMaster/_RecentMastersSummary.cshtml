@@ -1,0 +1,159 @@
+﻿@model ProductionApp.UserInterface.Models.MastersCountViewModel
+<style>
+.box.box-primary {
+    border-top:hidden;
+}
+.text{
+    font-size:15px;
+}
+/*.label{
+    margin-left:70px;
+}*/
+    </style>
+<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">
+    <div class="box-header ui-sortable-handle" style="cursor: move;">
+        <i class="ion ion-clipboard"></i>
+       
+            <h3 class="box-title" style="font-size:22px;">Masters</h3>
+
+        </div>
+    <!-- /.box-header -->
+    <div class="with-border bg-green" style="height:2px!important;padding:1px;"></div>
+    <div class="box-body">      
+        @foreach (var item in Model.MasterCountList)
+        {
+        <ul class="todo-list ui-sortable">
+            <li>
+                <!-- drag handle -->
+                <span class="handle ui-sortable-handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </span>
+               
+              
+                <!-- todo text -->
+                <span class="text"><a href="Approver?code=MSTR">Approver</a></span>
+                <!-- Emphasis label -->
+                <small class="label label-warning">@item.Approver</small>
+        
+
+            </li>
+            <li>
+                <span class="handle ui-sortable-handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </span>
+                
+             
+                <span class="text"><a href="Bank?code=MSTR">Bank</a></span>
+                <small class="label label-success">@item.Bank</small>
+               
+            </li>
+            <li>
+                <span class="handle ui-sortable-handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </span>
+               
+                <span class="text"><a href="ChartOfAccount?code=MSTR">Chart Of Account</a></span>
+                <small class="label label-primary">@item.ChartOfAccounts</small>
+             
+            </li>
+            <li>
+                <span class="handle ui-sortable-handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </span>
+               
+                <span class="text"><a href="Customer/ViewCustomer?code=MSTR">Customer</a></span>
+                <small class="label label-warning">@item.Customer</small>
+                
+            </li>
+            <li>
+                <span class="handle ui-sortable-handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </span>
+              
+                <span class="text"><a href="Employee?code=MSTR">Employee</a></span>
+                <small class="label label-success">@item.Employee</small>
+           
+            </li>
+            <li>
+                <span class="handle ui-sortable-handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </span>
+               
+                <span class="text"><a href="Material?code=MSTR">Material</a></span>
+                <small class="label label-primary">@item.Material</small>
+               
+            </li>
+
+            <li>
+                <span class="handle ui-sortable-handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </span>
+               
+                <span class="text"><a href="Product?code=MSTR">Product</a></span>
+                <small class="label label-warning">@item.Product</small>
+      
+            </li>
+
+            <li>
+                <span class="handle ui-sortable-handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </span>
+              
+                <span class="text"><a href="ProductCategory?code=MSTR">Product Category</a></span>
+                <small class="label label-success">@item.ProductCategory</small>
+                
+            </li>
+
+
+            <li>
+                <span class="handle ui-sortable-handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </span>
+               
+                <span class="text"><a href="Stage?code=MSTR">Production Stage</a></span>
+                <small class="label label-primary">@item.ProductStage</small>
+           
+            </li>
+
+            <li>
+                <span class="handle ui-sortable-handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </span>
+              
+                <span class="text"><a href="SubComponent?code=MSTR">Sub Components</a></span>
+                <small class="label label-warning">@item.SubComponents</small>
+              
+            </li>
+
+            <li>
+                <span class="handle ui-sortable-handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </span>
+         
+                <span class="text"><a href="Supplier/ViewSupplier?code=MSTR">Supplier</a></span>
+                <small class="label label-success">@item.Supplier</small>
+         
+            </li>
+
+
+
+
+        </ul>
+        }
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix no-border">
+        
+    </div>
+</div>

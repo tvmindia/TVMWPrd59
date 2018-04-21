@@ -830,6 +830,7 @@
     <Compile Include="Models\AMCSysModuleViewModel.cs" />
     <Compile Include="Models\ManageAccessViewModel.cs" />
     <Compile Include="Models\AMCSysMenuViewModel.cs" />
+    <Compile Include="Models\MastersCountViewModel.cs" />
     <Compile Include="Models\MaterialIssueViewModel.cs" />
     <Compile Include="Models\MaterialReceiptViewModel.cs" />
     <Compile Include="Models\MaterialReturnFromProductionViewModel.cs" />
@@ -1011,6 +1012,7 @@
     <Content Include="Views\Employee\_AssembleDropdown.cshtml" />
     <Content Include="Views\DashboardSale\_RecentSalesOrder.cshtml" />
     <Content Include="Views\DashboardSale\_RecentPackingSlip.cshtml" />
+    <Content Include="Views\DashboardMaster\_RecentMastersSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
