@@ -19,14 +19,16 @@ namespace ProductionApp.UserInterface.Controllers
         private IMaterialBusiness _materialBusiness;
         private IMaterialStockAdjBusiness _materialStockAdjBusiness;
         private IDocumentApprovalBusiness _documentApprovalBusiness;
+        private IEmployeeBusiness _employeeBusiness;
         //private IEmployeeBusiness _employeeBusiness;
         Common _common = new Common();
         AppConst _appConst = new AppConst();
-        public MaterialStockAdjController(IMaterialStockAdjBusiness materialStockAdjBusiness, IMaterialBusiness materialBusiness, IDocumentApprovalBusiness documentApprovalBusiness)
+        public MaterialStockAdjController(IMaterialStockAdjBusiness materialStockAdjBusiness, IMaterialBusiness materialBusiness, IDocumentApprovalBusiness documentApprovalBusiness, IEmployeeBusiness employeeBusiness)
         {
             _materialStockAdjBusiness = materialStockAdjBusiness;
             _materialBusiness = materialBusiness;
             _documentApprovalBusiness = documentApprovalBusiness;
+            _employeeBusiness = employeeBusiness;
         }
         public ActionResult Index()
         {
@@ -37,8 +39,11 @@ namespace ProductionApp.UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject ="MaterialStockAdjustment",Mode ="R")]
         public ActionResult ListStockAdjustment(string code)
         {
-            ViewBag.SysModuleCode = code;            
-            return View();
+            ViewBag.SysModuleCode = code;
+            MaterialStockAdjAdvanceSearchViewModel materialStockAdjVM = new MaterialStockAdjAdvanceSearchViewModel();
+            materialStockAdjVM.Employee = new EmployeeViewModel();
+            materialStockAdjVM.Employee.SelectList = _employeeBusiness.GetEmployeeSelectList();
+            return View(materialStockAdjVM);
 
         }
         #endregion 

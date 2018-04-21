@@ -77,6 +77,35 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetAllBillOfMaterial
 
+        #region CheckBillOfMaterialExist
+        public bool CheckBillOfMaterialExist(Guid productID)
+        {
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[CheckBillOfMaterialExist]";
+                        cmd.Parameters.Add("@ProductID", SqlDbType.UniqueIdentifier).Value = productID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        Object res = cmd.ExecuteScalar();
+                        return (res.ToString() == "Exists" ? true : false);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion CheckBillOfMaterialExist
+
         #region InsertUpdateBillOfMaterial
         public object InsertUpdateBillOfMaterial(BillOfMaterial billOfMaterial)
         {

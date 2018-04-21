@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace ProductionApp.BusinessService.Services
 {
@@ -24,10 +25,7 @@ namespace ProductionApp.BusinessService.Services
         {
             return _purchaseOrderRepository.GetAllPurchaseOrder(purchaseOrderAdvanceSearch);
         }
-        public List<PurchaseOrder> GetAllPurchaseOrderForSelectList()
-        {
-            return _purchaseOrderRepository.GetAllPurchaseOrderForSelectList();
-        }
+      
         public object InsertPurchaseOrder(PurchaseOrder purchaseOrder)
         {
             DetailsXMl(purchaseOrder);
@@ -160,6 +158,23 @@ namespace ProductionApp.BusinessService.Services
         public List<PurchaseOrder> RecentPurchaseOrder(string BaseURL)
         {
             return _purchaseOrderRepository.RecentPurchaseOrder();
+        }
+
+        public List<SelectListItem> PurchaseOrderDropdownList(Guid supplierID)
+        {
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            List<PurchaseOrder> purchaseOrderList = _purchaseOrderRepository.PurchaseOrderDropdownList(supplierID);
+            if (purchaseOrderList != null)
+                foreach (PurchaseOrder purchaseOrder in purchaseOrderList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = purchaseOrder.PurchaseOrderNo,
+                        Value = purchaseOrder.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            return selectListItem;
         }
     }
 }

@@ -85,8 +85,9 @@ namespace ProductionApp.RepositoryServices.Services
 
             return purchaseOrderList;
         }
+
         #region PurchaseOrder Dropdown
-        public List<PurchaseOrder> GetAllPurchaseOrderForSelectList()
+        public List<PurchaseOrder> PurchaseOrderDropdownList(Guid supplierID)
         {
             List<PurchaseOrder> purchaseOrderList = null;
             try
@@ -101,7 +102,8 @@ namespace ProductionApp.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetPurchaseOrderForSelectList]";
-                        
+                        if (supplierID != Guid.Empty)
+                            cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = supplierID;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -799,6 +801,6 @@ namespace ProductionApp.RepositoryServices.Services
         }
 
         #endregion RecentPurchaseOrder
-
+             
     }
 }

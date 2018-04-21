@@ -82,7 +82,7 @@ function BindOrReloadProductCategoryTable(action) {
             columns: [
             { "data": "Code", "defaultContent": "<i>-</i>", "width": "10%" },
             { "data": "Description", "defaultContent": "<i>-<i>", "width": "10%" },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="DeleteProductCategoryMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  <a href="#" onclick="EditProductCategoryMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": "4%" }
+            { "data": null, "orderable": false, "defaultContent": '</a>  <a href="#" onclick="EditProductCategoryMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> <a href="#" onclick="DeleteProductCategoryMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>', "width": "4%" }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [] },

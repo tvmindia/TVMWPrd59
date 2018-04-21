@@ -68,8 +68,9 @@
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.ReturnBy, htmlAttributes: new { @class = "control-label lblrequired" })
                             </div>
-                            <div class="col-md-12">
-                                @Html.DropDownListFor(model => model.ReturnBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", @Style = "width:100%" })
+                            <div class="col-md-12" id="divReturnByDropdown">
+                                @*@Html.DropDownListFor(model => model.ReturnBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", @Style = "width:100%" })*@
+                                @Html.Action("ReturnByDropdown", "Employee", new { required = "required" })
                                 @Html.ValidationMessageFor(model => model.ReturnBy, "", new { @class = "text-danger" })
                             </div>
                         </div>

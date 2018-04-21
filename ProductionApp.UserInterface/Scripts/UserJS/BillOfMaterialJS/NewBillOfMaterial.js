@@ -17,7 +17,7 @@ var _BillOfMaterialDetail = {};
 var _BOMComponentLineList = [];
 var _BOMComponentLine = {};
 var _BOMComponentLineStageDetailList = [];
-//-------------------------------------------------------------
+//------------------------------------------------------------------------------------
 
 $(document).ready(function () {
     try {
@@ -28,7 +28,7 @@ $(document).ready(function () {
         console.log(ex.message);
     }
 });
-
+//**********************************Add Component***********************************//
 //Add component Init
 function AddComponentInit() {
     try {
@@ -120,7 +120,7 @@ function LoadPartialAddComponent() {
     }
 }
 
-//-----------------Onchange for description for Dynamic ability------------------//
+//-----------------Onchange for description for Dynamic ability---------------------//
 function DescriptionOnChange(currObj) {
     if ($('#DescriptionBOM').val() !== "") {
         $('#lblDescription').text($('#DescriptionBOM').val());
@@ -130,7 +130,7 @@ function DescriptionOnChange(currObj) {
     }
 }
 
-//-----------------------Product List Pop Up---------------------------//
+//------------------------------Product List Pop Up---------------------------------//
 function LoadComponents() {
     //Bind ProductList Table
     try {
@@ -179,7 +179,8 @@ function BindProductList() {
     }
 
 }
-//------------------------GetProductListForBillOfMaterial------------------------------//
+
+//---------------------GetProductListForBillOfMaterial------------------------------//
 function GetProductListForBillOfMaterial() {
     try{
         debugger;
@@ -218,7 +219,7 @@ function GetProductListForBillOfMaterial() {
     }
 }
 
-//------------------------Add Product and BOM Component as Detail---------------------//
+//----------------------Add Product and BOM Component as Detail---------------------//
 //Add Product
 function AddComponent() {
     try {
@@ -245,6 +246,12 @@ function AddProduct() {
                 $('#BOMComponentLineStageDetail_PartID').val($(this).val());
             });
             $('#MaterialID').select2();
+        }
+        if ($('#ProductID').val() !== undefined) {
+            $('#ProductID').change(function () {
+                $('#BOMComponentLineStageDetail_PartID').val($(this).val());
+                });
+            //$('#ProductID').select2();
         }
     }
     catch (ex) {
@@ -273,7 +280,7 @@ function AddNewComponent() {
     }
 }
 
-//---------------Load selected Product from List DataTable into Deatails DataTable--------------//
+//--------Load selected Product from List DataTable into Deatails DataTable--------//
 function BindComponentToTable() {
     try {
         debugger;
@@ -308,7 +315,45 @@ function RebindComponentList(_BillOfMaterialDetailList) {
     }
 }
 
-//--------------------------------Save BillOfMaterials and BOMDetails---------------------//
+//--------------------------CheckBillOfMaterialExist-------------------------------//
+function CheckBillOfMaterialExist() {
+    try {
+        debugger;
+        var productID = $('#ProductID').val();
+        if ($('#ProductID').val() !== null && $('#ProductID').val() !== '') {
+            var data = { "productID": productID };
+            var result = "";
+            var message = "";
+            var jsonData = GetDataFromServer("BillOfMaterial/CheckBillOfMaterialExist/", data);
+            if (jsonData != '') {
+                jsonData = JSON.parse(jsonData);
+                result = jsonData.Result;
+                message = jsonData.Message;
+            }
+            switch (result) {
+                case "OK":
+                    $('#DescriptionBOM').val('BOM for ' + $($('#ProductID')).children("option[value='" + $('#ProductID').val() + "']").first().html()).trigger('keyup');
+                    return false;
+                    break;
+                case "ERROR":
+                    notyAlert('error', message);
+                    break;
+                case "WARNING":
+                    notyAlert('warning', message);
+                    break;
+                default:
+                    break;
+            }
+            $('#DescriptionBOM').val('');
+            $('#ProductID').val('').trigger('change')
+            return true;
+        }
+
+    } catch (ex) {
+        console.log(ex.message);
+    }
+}
+//------------------------Save BillOfMaterials and BOMDetails----------------------//
 function SaveComponentDetail() {
     try {
         debugger;
@@ -375,7 +420,7 @@ function GetDetailsFromTable() {
     }
 }
 
-//----------------------------Bind Details values into property boxes--------------------//
+//----------------------Bind Details values into property boxes--------------------//
 function BindBillOfMaterial() {
     try {
         debugger;
@@ -390,7 +435,7 @@ function BindBillOfMaterial() {
     }
 }
 
-//-------------------------Get Details of BillOfMaterial and BOMDetail------------------------//
+//-----------------Get Details of BillOfMaterial and BOMDetail---------------------//
 function GetBillOfMaterial(id) {
     try {
         debugger;
@@ -452,7 +497,7 @@ function GetBillOfMaterialDetail(id) {
     }
 }
 
-//---------------Load Qty value change into corresponding Object---------------------//
+//--------------Load Qty value change into corresponding Object--------------------//
 function TextBoxValueChanged(thisObj) {
     try {
         debugger;
@@ -470,7 +515,7 @@ function TextBoxValueChanged(thisObj) {
     }
 }
 
-//------------------------------Delete BillOfMaterial-------------------------//
+//---------------------------------Delete BillOfMaterial---------------------------//
 function DeleteClick() {
     try {
         debugger;
@@ -592,9 +637,9 @@ function Reset() {
     }
 }
 
- //_________________________________________________________________________________//
-//*****************************Production Line*************************************//
-
+ //________________________________________________________________________________//
+//*****************************Production Line************************************//
+//Load AddProductionLine Partial View
 function LoadPartialAddProductionLine(curobj) {
     try {
         debugger;
@@ -688,7 +733,7 @@ function ResetListAllStage() {
     }
 }
 
-//--------------------Load LineStage table as DataTable-------------------//(called in the PartialView-script)
+//------Load LineStage table as DataTable (called in the PartialView-script)------//
 function LoadLineStageTable() {
     try {
         DataTables.LineStageList = $('#tblBOMLineStageList').DataTable({
@@ -748,7 +793,7 @@ function LoadLineStageTable() {
     }
 }
 
-//------------------------------ComponentID on change---------------------------------//
+//------------------------------ComponentID on change-----------------------------//
 function ComponentIDOnChange() {
     try {
         debugger;
@@ -762,7 +807,7 @@ function ComponentIDOnChange() {
     }
 }
 
-//--------------------------Get BOMComponentLine Details------------------------------//
+//------------------------Get BOMComponentLine Details----------------------------//
 function GetBOMComponentLine(id) {
     try {
         debugger;
@@ -793,7 +838,7 @@ function GetBOMComponentLine(id) {
     }
 }
 
-//--------------------Refresh Properties for newLine for the component------------------//
+//----------------Refresh Properties for newLine for the component----------------//
 function NewLine() {
     try {
         debugger;
@@ -812,7 +857,7 @@ function NewLine() {
     }
 }
 
-//-----------------------------------------Edit Line--------------------------------------------//
+//-----------------------------------Edit Line------------------------------------//
 function EditLine(curobj) {
     try {
         //NewLine();
@@ -845,7 +890,7 @@ function EditLine(curobj) {
     }
 }
 
-//----------------------Load ComponentLine to DataTable-----------------------------------//
+//-----------------------Load ComponentLine to DataTable--------------------------//
 function SaveLine() {
     try {
         debugger;
@@ -979,7 +1024,7 @@ function SaveLineSuccess(data, status) {
 //    }
 //}
 
-//-------------------------Delete BOMComponentLine-------------------------------//
+//-------------------------Delete BOMComponentLine------------------------------//
 function DeleteLine(curobj) {
     try {
         debugger;
@@ -1039,7 +1084,7 @@ function DeleteBOMComponentLine(id, rowindex) {
     }
 }
 
-//-------------------Save the BOMComponentLine details and forwards to next Page----------------// 
+//--------Save the BOMComponentLine details and forwards to next Page-----------// 
 function SaveAndProceed() {
     try {
         debugger;
@@ -1109,8 +1154,9 @@ function BindComponentLineStageDetail(curobj) {
     }
 }
 
- //________________________________________________________________________________//
-//-----------------------Return to Production Line page---------------------------//
+ //_______________________________________________________________________________//
+//*********************************Stage Detail**********************************//
+//StageDetail DataTable Loading 
 function LoadStageDetailTable() {
     try {
         debugger;
@@ -1188,7 +1234,7 @@ function ComponentLineOnChange(id) {
     }
 }
 
-//---------------------------Get BOMComponentLineSageDetail----------------------//
+//---------------------------Get BOMComponentLineSageDetail-----------------------//
 function GetBOMComponentLineStageDetail(id) {
     try {
         debugger;
@@ -1219,7 +1265,7 @@ function GetBOMComponentLineStageDetail(id) {
     }
 }
 
-//----------------------------Entry Type On Change-------------------------------//
+//----------------------------Entry Type On Change--------------------------------//
 function EntryTypeOnChange(value) {
     try {
         debugger;
@@ -1276,7 +1322,7 @@ function PartTypeOnChange(value) {
     }
 }
 
-//----------------------LoadPartialStageDropdownForLine---------------------//
+//----------------------LoadPartialStageDropdownForLine---------------------------//
 function LoadPartialStageDropdownForLine(StageID) {
     try {
         debugger;
@@ -1293,7 +1339,7 @@ function LoadPartialStageDropdownForLine(StageID) {
     }
 }
 
-//---------------------------Save BOMComponentLineStageDetail---------------------------//
+//------------------------Save BOMComponentLineStageDetail------------------------//
 function SaveDetail() {
     try {
         debugger;
@@ -1470,7 +1516,7 @@ function ClearStageDetail() {
     }
 }
 
-//-------------------------Return to ProductionLine----------------------------//
+//--------------------------Return to ProductionLine-----------------------------//
 function GoBack() {
     try {
         OnServerCallBegin();
@@ -1553,7 +1599,7 @@ function DeleteBOMComponentLineStageDetail(id, rowindex) {
     }
 }
 
-//----------------------------Edit StageDetail--------------------------------//
+//-----------------------------Edit StageDetail---------------------------------//
 function EditStageDetail(thisObj) {
     try {
         debugger;

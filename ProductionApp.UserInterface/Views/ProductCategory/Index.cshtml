@@ -11,7 +11,7 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="@Url.Action("UnderConstruction", "DynamicUI", new { Code = "MSTR" })"><i class="fa fa-cogs"></i> Masters</a></li>
+        <li><a href="@Url.Action("UnderConstruction", "DynamicUI", new { code = "MSTR" })"><i class="fa fa-cogs"></i> Masters</a></li>
         @*<li><a href="#"><i class="fa fa-cogs"></i> Masters</a></li>*@
         <li class="active">@ViewBag.Title</li>
     </ol>
@@ -36,8 +36,10 @@
     <div class="row">
         &nbsp;
     </div>
-    <div class="row tableContainer">
-        <div class="form-group col-md-6">
+
+
+    <div class="row tableContainer" style="vertical-align:bottom">
+        <div class="form-group col-md-8">
             <div class="col-md-12">
                 @Html.LabelFor(model => model.SearchTerm, htmlAttributes: new { @class = "control-label" })
             </div>
@@ -50,7 +52,12 @@
                 </div>
             </div>
         </div>
+    </div>
 
+
+    <div class="row tableContainer">
+        
+        &nbsp;
         <div class="col-md-12">
             <table id="tblProductCategory" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
                 <thead>

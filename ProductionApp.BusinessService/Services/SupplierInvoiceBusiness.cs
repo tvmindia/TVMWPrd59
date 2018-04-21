@@ -29,11 +29,23 @@ namespace ProductionApp.BusinessService.Services
             throw new NotImplementedException();
         }
 
-        public object InsertUpdateSupplierInvoice(SupplierInvoice SupplierInvoice)
+        public object InsertUpdateSupplierInvoice(SupplierInvoice supplierInvoice)
         {
-            throw new NotImplementedException();
+            DetailsXMl(supplierInvoice);
+            return _supplierInvoiceRepository.InsertUpdateSupplierInvoice(supplierInvoice);
         }
+        public void DetailsXMl(SupplierInvoice salesOrder)
+        {
+            string result = "<Details>";
+            int totalRows = 0;
+            foreach (object some_object in salesOrder.SupplierInvoiceDetailList)
+            {
+                _commonBusiness.XML(some_object, ref result, ref totalRows);
+            }
+            result = result + "</Details>";
 
+            salesOrder.DetailXML = result;
+        }
         public object DeleteSupplierInvoice(Guid id)
         {
             throw new NotImplementedException();

@@ -180,14 +180,13 @@
                         <th>Taxable Amount</th>
                         <th>CGST Amount</th>
                         <th>SGST Amount</th>
-
-                        <th>Net Amount</th>
+                        <th>Total</th>
                         <th>......</th>
                 </thead>
             </table>
         </div>
 
-        <div class="col-md-12">
+       
             <div class="col-md-8"></div>
             <div class="col-md-4">
                 <table class="table table-striped table-bordered table-hover customgrd dataTable no-footer">
@@ -234,7 +233,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        
             <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General Notes</div>
             <div class="form-group col-md-8">
                 <div class="col-md-12">
@@ -435,6 +434,7 @@
             </div>
             <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
                 <a class="btn btn-info" onclick="SendMailPreview()" id="btnMail"><i class="glyphicon glyphicon-floppy-disk"></i> Next</a>
+                <a class="btn btn-info" onclick="EmailPreview(1)" id="btnMailBackward"><i class="glyphicon glyphicon-step-backward"></i> Back</a>
                 <a class="btn btn-info" onclick="DownloadPDF()" id="btnSend"><i class="glyphicon glyphicon-download-alt"></i> Download</a>
                 <a class="btn btn-info" onclick="SendMailClick()" id="btnMailSend"><i class="glyphicon glyphicon-floppy-disk"></i> Send Mail</a>
 

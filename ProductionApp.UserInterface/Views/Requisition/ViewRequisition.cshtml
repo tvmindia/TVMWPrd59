@@ -74,7 +74,7 @@
                         @Html.LabelFor(model => model.RequisitionBy, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-md-12">
-                        @Html.Action("EmployeeDropdown", "Employee")
+                        @Html.DropDownListFor(model => model.RequisitionBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", style = "width:100%" })
                     </div>
                 </div>
                 <div class="col-md-5">

@@ -828,7 +828,7 @@ function EnableDisableFields(value) {
     $('#ShippingAddress').attr("disabled", value);
     $('#SupplierID').attr("disabled", value);
     $('#PurchaseOrderStatus').attr("disabled", value);
-    DataTables.PurchaseOrderDetailTable.column(11).visible(!value);
+    DataTables.PurchaseOrderDetailTable.column(12).visible(!value);
     $('#Discount').attr("disabled", value);
     $('#GeneralNotes').attr("disabled", value);
 }
@@ -1182,9 +1182,10 @@ function EmailPreview(flag) {
             GetMailPreview(QHID, flag);
 
             $("#MailPreviewModel").modal('show');
-            $('#btnMail').show();
+            $('#btnMail').show(); 
             $('#btnMailSend').hide();
             $('#btnSend').hide();
+            $('#btnMailBackward').hide();
         }
     }
     catch (e) {
@@ -1219,10 +1220,12 @@ function SendMailPreview() {
     if ($('#LatestApprovalStatus').val() == 4) {
         $('#btnMailSend').show();
         $('#btnSend').show();
+        $('#btnMailBackward').show();
         $('#btnMail').hide();
     }
     else {
         $('#btnMailSend').show();
+        $('#btnMailBackward').show();
         $('#btnSend').show();
         $('#btnMail').hide();
         $("#btnMailSend").attr("disabled", true);

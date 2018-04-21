@@ -1,2 +1,8 @@
 ﻿@model ProductionApp.UserInterface.Models.PurchaseOrderViewModel
 @Html.DropDownList("PurchaseOrderID", Model.SelectList, "---Select PurchaseOrder NO---", new { @class = "form-control", @style = "width:100%" })
+
+<script>
+    $(document).ready(function () {
+        $("#PurchaseOrderID").select2({});
+    });
+</script>

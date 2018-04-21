@@ -3,7 +3,7 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
-        $("#EmployeeID").select2({
+        $("#AdjustedBy").select2({
         });
         BindOrReloadFGStockAdjustmentTable('init');
         $('#tblFinishedGoodStockAdjustment tbody').on('dblclick', 'td', function () {
@@ -40,7 +40,7 @@ function BindOrReloadFGStockAdjustmentTable(action) {
                 $('#SearchTerm').val('');
                 $('#FromDate').val('');
                 $('#ToDate').val('');
-                $('#EmployeeID').val('').select2();
+                $('#AdjustedBy').val('').select2();
                 break;
             case 'init':
                 break;
@@ -49,7 +49,7 @@ function BindOrReloadFGStockAdjustmentTable(action) {
             case 'Apply':
                 FinishedGoodStockAdjAdvanceSearchViewModel.FromDate = $('#FromDate').val();
                 FinishedGoodStockAdjAdvanceSearchViewModel.ToDate = $('#ToDate').val();
-                FinishedGoodStockAdjAdvanceSearchViewModel.AdjustedBy = $('#EmployeeID').val();
+                FinishedGoodStockAdjAdvanceSearchViewModel.AdjustedBy = $('#AdjustedBy').val();
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
                 break;
@@ -60,7 +60,7 @@ function BindOrReloadFGStockAdjustmentTable(action) {
         FinishedGoodStockAdjAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
         FinishedGoodStockAdjAdvanceSearchViewModel.FromDate = $('#FromDate').val();
         FinishedGoodStockAdjAdvanceSearchViewModel.ToDate = $('#ToDate').val();
-        FinishedGoodStockAdjAdvanceSearchViewModel.AdjustedBy = $('#EmployeeID').val();
+        FinishedGoodStockAdjAdvanceSearchViewModel.AdjustedBy = $('#AdjustedBy').val();
         DataTables.FinishedGoodStockAdjustmentList = $('#tblFinishedGoodStockAdjustment').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
@@ -93,7 +93,7 @@ function BindOrReloadFGStockAdjustmentTable(action) {
                     { "data": "ApprovalStatus", "defaultContent": "<i>-</i>" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
-                            return '<a href="/FinishedGoodStockAdj/NewFinishedGoodStockAdj?code=STR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                            return '<a href="/FinishedGoodStockAdj/NewFinishedGoodStockAdj?code=STR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
                         }, "defaultContent": "<i>-</i>", "width": "3%"
                     }
                 ],

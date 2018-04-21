@@ -26,6 +26,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Damaged Weight")]
         public decimal? DamagedWt { get; set; }
         [Display(Name = "Employee")]
+        [Required(ErrorMessage = "Employee required")]
         public Guid ForemanID { get; set; }
         [Display(Name = "Remarks")]
         [DataType(DataType.MultilineText)]
@@ -33,6 +34,7 @@ namespace ProductionApp.UserInterface.Models
         public CommonViewModel Common { get; set; }
         //Additional
         public bool IsUpdate { get; set; }
+        [Required(ErrorMessage = "EntryDate required")]
         public string EntryDateFormatted { get; set; }
         public string SearchDetail { get; set; }
 

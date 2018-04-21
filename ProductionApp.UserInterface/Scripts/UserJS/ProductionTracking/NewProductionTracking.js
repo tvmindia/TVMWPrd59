@@ -98,6 +98,7 @@ function LoadProductionTrackingSearchTable() {
 function ProductionTrackingSearch() {
     try{
         debugger;
+        $('#msgSearch').hide();
         $("#TrackingDetailSearchDiv").show();
         var search = $('#ProductionTrackingSearch').val();
         DataTables.ProductionTrackingSearchTable.clear().rows.add(GetProductionTrackingSearchList(search)).draw(false);
@@ -159,15 +160,40 @@ function SelectDetail(curObj){
 function Save() {
     try{
         debugger;
-        $('#ForemanID').val($('#EmployeeID').val());
+        var isInput = true;
+        if ($('#EmployeeID').val() !== "") {
+            $('#ForemanID').val($('#EmployeeID').val());
+        }
+        else {
+            $('#ForemanID').val(EmptyGuid);
+            isInput = false;
+            $('#msgForemanID').show();
+            $('#EmployeeID').change(function () {
+                $('#msgForemanID').hide();
+            });
 
-        $('#btnSave').trigger('click');
+        }
+        if ($('#EntryDate').val() === "") {
+            isInput = false;
+            $('#msgEntryDate').show();
+            $('#EntryDate').change(function () {
+                $('#msgEntryDate').hide();
+            });
+
+        }
+        if ($('#ProductID').val() === "" || $('#LineStageDetailID').val() === "" || $('#ProductID').val() === EmptyGuid || $('#LineStageDetailID').val() === EmptyGuid) {
+            isInput = false;
+            $('#msgSearch').show();
+
+        }
+        if (isInput) {
+            $('#btnSave').trigger('click');
+        }
 
     } catch (ex) {
         console.log(ex.message);
     }
 }
-
 
 function SaveSuccess(data, status) {
     debugger;
@@ -184,6 +210,7 @@ function SaveSuccess(data, status) {
             //notyAlert("success", message);
             //Reset(1);
             NewTracking();
+            BindOrReloadProductionTrackingTable();
             //ChangeButtonPatchView('ProductionTracking', 'divButtonPatch', 'Edit');
             break;
         case "ERROR":

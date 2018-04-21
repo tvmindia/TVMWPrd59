@@ -62,6 +62,7 @@
                         <div class="col-md-12">
                             @Html.EditorFor(model => model.ReturnDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker" } })
                             @Html.ValidationMessageFor(model => model.ReturnDateFormatted, "", new { @class = "text-danger" })
+                            
                         </div>
                     </div>
 
@@ -69,8 +70,9 @@
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.ReceivedBy, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
-                        <div class="col-md-12">
-                            @Html.DropDownListFor(model => model.ReceivedBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", @Style = "width:100%" })
+                        <div class="col-md-12" id="divReceivedByDropdown">
+                            @*@Html.DropDownListFor(model => model.ReceivedBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", @Style = "width:100%" })*@
+                            @Html.Action("ReceivedByDropdown", "Employee", new { required = "required" })
                             @Html.ValidationMessageFor(model => model.ReceivedBy, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -78,8 +80,9 @@
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.ReturnBy, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
-                        <div class="col-md-12">
-                            @Html.DropDownListFor(model => model.ReturnBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", @style = "width:100%" })
+                        <div class="col-md-12" id="divReturnByDropdown">
+                            @*@Html.DropDownListFor(model => model.ReturnBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", @style = "width:100%" })*@
+                            @Html.Action("ReturnByDropdown", "Employee", new { required = "required" })
                             @Html.ValidationMessageFor(model => model.ReturnBy, "", new { @class = "text-danger" })
                         </div>
                     </div>

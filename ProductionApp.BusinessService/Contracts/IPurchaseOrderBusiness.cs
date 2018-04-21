@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace ProductionApp.BusinessService.Contracts
 {
     public interface IPurchaseOrderBusiness
     {
         List<PurchaseOrder> GetAllPurchaseOrder(PurchaseOrderAdvanceSearch purchaseOrderAdvanceSearch);
-        List<PurchaseOrder> GetAllPurchaseOrderForSelectList();
+        List<SelectListItem> PurchaseOrderDropdownList(Guid supplierID);
         object InsertPurchaseOrder(PurchaseOrder purchaseOrder);
         object UpdatePurchaseOrder(PurchaseOrder purchaseOrder);
         object UpdatePurchaseOrderDetailLink(PurchaseOrder purchaseOrder);

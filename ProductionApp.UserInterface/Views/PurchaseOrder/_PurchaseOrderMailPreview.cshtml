@@ -29,7 +29,7 @@
             </tr>
         </table>
         <br />
-        @{ decimal itemTotal = 0, CGSTTotal = 0, SGSTTotal = 0, grossAmt = 0, total = 0;}
+        @{ decimal itemTotal = 0, taxableTotal=0, CGSTTotal = 0, SGSTTotal = 0, grossAmt = 0, total = 0;}
         <table>
             <tr style="width:100%;">
                 <td><b>From</b></td>
@@ -100,6 +100,7 @@
                     foreach (var mp in Model.PurchaseOrder.PODDetail)
                     {
                         itemTotal = Math.Round(itemTotal + (mp.Qty * mp.Rate) - mp.Discount, 2);
+                        taxableTotal= Math.Round((mp.Qty * mp.Rate) - mp.Discount + mp.CGSTAmt + mp.SGSTAmt, 2);
                         <tr style="text-align: right;padding: 8px;border-bottom-style: solid;border-bottom-width: 2px;border-bottom-color: #eee;">
 
                             <td style="text-align: center;padding: 8px;font-size:10px;">@slno</td>
@@ -109,13 +110,14 @@
                             <td style="width:8%; text-align: center;padding: 8px;font-size:10px;">@mp.Qty</td>
                             <td style="width:10%; text-align: center;padding: 8px;font-size:10px;">@mp.Rate</td>
                             <td style="width:9%; text-align: center;padding: 8px;font-size:10px;">@mp.Discount</td>
-                            <td style="width:10%; text-align: center;padding: 8px;font-size:10px;">@itemTotal</td>
+                            <td style="width:10%; text-align: center;padding: 8px;font-size:10px;">@mp.Amount</td>
                             <td style="width:10%; text-align: center;padding: 8px;font-size:10px;">@mp.CGSTAmt</td>
                             <td style="width:10%; text-align: center;padding: 8px;font-size:10px;">@mp.SGSTAmt</td>
-                            <td style="width:10%; text-align: right;padding: 8px;font-size:10px;">@mp.Amount</td>
+                            <td style="width:10%; text-align: right;padding: 8px;font-size:10px;">@taxableTotal</td>
 
                         </tr>
                         slno = slno + 1;
+                        taxableTotal = 0;
                         CGSTTotal = CGSTTotal + mp.CGSTAmt;
                         SGSTTotal = SGSTTotal + mp.SGSTAmt;
 

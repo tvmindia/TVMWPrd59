@@ -146,11 +146,12 @@ $(document).ready(function () {
 
 // To Get Module Name 
 function GetModuleName() {
+    debugger;
     var vars = GetUrlVars()
-    var moduleName = vars.Name;
-    moduleName = moduleName.replace("%20", " ");
     var moduleCode = vars.code;
-    if (moduleCode) {
+    if (moduleCode != undefined) {
+          
+            moduleCode = moduleCode.replace("#", "");
         var data = { "code": moduleCode };
         var jsonData = {};
         var message = "";
@@ -170,6 +171,8 @@ function GetModuleName() {
         }
     }
     else {
+        var moduleName = vars.Name;
+        moduleName = moduleName.replace("%20", " ");
         $('#spanModuleName').text(" " + moduleName);
     }
 }
