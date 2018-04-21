@@ -60,6 +60,7 @@
     <Compile Include="Contracts\IFileUploadRepository.cs" />
     <Compile Include="Contracts\IFinishedGoodStockAdjRepository.cs" />
     <Compile Include="Contracts\IIssueToProductionRepository.cs" />
+    <Compile Include="Contracts\IMastersCountRepository.cs" />
     <Compile Include="Contracts\IMaterialReceiptRepository.cs" />
     <Compile Include="Contracts\IMaterialReturnFromProductionRepository.cs" />
     <Compile Include="Contracts\IMaterialReturnRepository.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Services\EmployeeRepository.cs" />
     <Compile Include="Services\FileUploadRepository.cs" />
     <Compile Include="Services\FinishedGoodStockAdjRepository.cs" />
+    <Compile Include="Services\MastersCountRepository.cs" />
     <Compile Include="Services\ProductCategoryRepository.cs" />
     <Compile Include="Services\ProductionTrackingRepository.cs" />
     <Compile Include="Services\IssueToProductionRepository.cs" />

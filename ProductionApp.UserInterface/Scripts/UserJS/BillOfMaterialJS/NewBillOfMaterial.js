@@ -1,11 +1,11 @@
-﻿//*****************************************************************************
-//*****************************************************************************
+﻿//*************************************************************************************
+//*************************************************************************************
 //Author: Arul
 //CreatedDate: 09-Mar-2018 
 //FileName: ViewBillOfMaterial.js
 //Description: Client side coding for Listing BillOfMaterials
-//******************************************************************************
-//******************************************************************************
+//*************************************************************************************
+//*************************************************************************************
 
 //--Global Declaration--//
 var DataTables = {};
@@ -135,17 +135,17 @@ function LoadComponents() {
     //Bind ProductList Table
     try {
         $('#ProductListModal').modal('show');
-        BindProductList();
+        BindOrReloadProductTable();
     } catch (ex) {
         console.log(ex.message);
     }
 }
 
 //Bind Values into Product List DataTable for Pop Up
-function BindProductList() {
+function BindOrReloadProductTable() {//BindOrReloadProductTable('Reset')BindProductList
     try {
         debugger;
-
+        try {
         DataTables.ProductList = $('#tblProductList').DataTable({
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
             order: [],
@@ -173,6 +173,14 @@ function BindProductList() {
             select: { style: 'multi', selector: 'td:first-child' },
             destroy: true
         });
+        }
+        catch (ex) {
+            console.log(ex.message);
+        }
+        if (_IsInput === true) {
+            $(".close").click();
+            //AddProduct()
+        }
     }
     catch (ex) {
         console.log(ex.message);
@@ -180,7 +188,7 @@ function BindProductList() {
 
 }
 
-//---------------------GetProductListForBillOfMaterial------------------------------//
+//---------------------Get ProductList For BillOfMaterial---------------------------//
 function GetProductListForBillOfMaterial() {
     try{
         debugger;
@@ -239,18 +247,25 @@ function AddProduct() {
         if (_IsInput === true) {
             AddNewComponent();
         }
+        else {
+            $("#BillOfMaterialForm #ProductID").change(function () {
+                CheckBillOfMaterialExist();
+            });
+        }
+
         _IsInput = false;
         $('#hdnMasterCall').val("OTR");
+
         if ($('#MaterialID').val() !== undefined) {
             $('#MaterialID').change(function () {
                 $('#BOMComponentLineStageDetail_PartID').val($(this).val());
             });
             $('#MaterialID').select2();
         }
-        if ($('#ProductID').val() !== undefined) {
+        if ($('#divItemSelector #ProductID').val() !== undefined) {
             $('#ProductID').change(function () {
                 $('#BOMComponentLineStageDetail_PartID').val($(this).val());
-                });
+            });
             //$('#ProductID').select2();
         }
     }
@@ -353,6 +368,7 @@ function CheckBillOfMaterialExist() {
         console.log(ex.message);
     }
 }
+
 //------------------------Save BillOfMaterials and BOMDetails----------------------//
 function SaveComponentDetail() {
     try {
@@ -637,7 +653,7 @@ function Reset() {
     }
 }
 
- //________________________________________________________________________________//
+///________________________________________________________________________________//
 //*****************************Production Line************************************//
 //Load AddProductionLine Partial View
 function LoadPartialAddProductionLine(curobj) {
@@ -1154,7 +1170,7 @@ function BindComponentLineStageDetail(curobj) {
     }
 }
 
- //_______________________________________________________________________________//
+///_______________________________________________________________________________//
 //*********************************Stage Detail**********************************//
 //StageDetail DataTable Loading 
 function LoadStageDetailTable() {
@@ -1632,5 +1648,5 @@ function EditStageDetail(thisObj) {
     }
 }
 
- //__________________________________________End_______________________________________________//
-////////////////////////////////////////////////////////////////////////////////////////////////
+///___________________________________End______________________________________//
+////////////////////////////////////////////////////////////////////////////////
