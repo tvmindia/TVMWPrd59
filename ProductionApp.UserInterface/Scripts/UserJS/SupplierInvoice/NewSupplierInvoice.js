@@ -421,14 +421,9 @@ function AddSupplierInvoiceDetails() {
         SupplierInvoiceDetailVM.UnitCode = $('#SupplierInvoiceDetail_UnitCode').val();
         SupplierInvoiceDetailVM.Quantity = $('#SupplierInvoiceDetail_Quantity').val();
         SupplierInvoiceDetailVM.Rate = $('#SupplierInvoiceDetail_Rate').val();
-        //SupplierInvoiceDetailVM.GrossAmount = $('#SupplierInvoiceDetail_GrossAmount').val();
         SupplierInvoiceDetailVM.TradeDiscountAmount = $('#SupplierInvoiceDetail_TradeDiscountAmount').val();
         SupplierInvoiceDetailVM.TradeDiscountPercent = $('#SupplierInvoiceDetail_TradeDiscountPerc').val();
-        //SupplierInvoiceDetailVM.TaxAmount = $('#SupplierInvoiceDetail_TaxAmount').val();
-       // SupplierInvoiceDetailVM.NetAmount = $('#SupplierInvoiceDetail_NetAmount').val();
         SupplierInvoiceDetailVM.TaxTypeCode = $('#TaxTypeCode').val();
-        //if (SupplierInvoiceDetailVM.TaxTypeCode != "")
-        //    SupplierInvoiceDetailVM.TaxTypeDescription = $('#TaxTypeCode option:selected').text();
         _SupplierInvoiceDetail.push(SupplierInvoiceDetailVM);
         
         if (_SupplierInvoiceDetail.length > 0)
@@ -587,6 +582,10 @@ function AddPOItems() {
         SupplierInvoiceDetailVM.TradeDiscountAmount = purchaseOrderItemList[i].Discount;
         //SupplierInvoiceDetailVM.DiscountPercent = purchaseOrderItemList[i].DiscountPercent;
         SupplierInvoiceDetailVM.TaxTypeCode = purchaseOrderItemList[i].TaxTypeCode;
+        SupplierInvoiceDetailVM.UnitCode = purchaseOrderItemList[i].UnitCode
+        SupplierInvoiceDetailVM.IGSTPerc = purchaseOrderItemList[i].IGSTPerc
+        SupplierInvoiceDetailVM.SGSTPerc = purchaseOrderItemList[i].SGSTPerc
+        SupplierInvoiceDetailVM.CGSTPerc = purchaseOrderItemList[i].CGSTPerc
         _SupplierInvoiceDetail.push(SupplierInvoiceDetailVM);
     }
     if (_SupplierInvoiceDetail.length > 0) {
