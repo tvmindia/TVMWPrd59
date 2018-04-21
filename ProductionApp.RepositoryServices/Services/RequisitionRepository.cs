@@ -247,7 +247,11 @@ namespace ProductionApp.RepositoryServices.Services
                                         requisition.Material = new Material();
                                         requisition.Material.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : requisition.Material.MaterialCode);
                                         requisition.Material.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : requisition.Material.UnitCode);
-                                        requisition.POQty = (decimal.Parse(requisition.RequestedQty) - decimal.Parse(requisition.OrderedQty)).ToString();
+                                        //requisition.POQty = (decimal.Parse(requisition.RequestedQty) - decimal.Parse(requisition.OrderedQty)).ToString();
+                                        if ((decimal.Parse(requisition.RequestedQty) - decimal.Parse(requisition.OrderedQty)) > 0)
+                                            requisition.POQty = (decimal.Parse(requisition.RequestedQty) - decimal.Parse(requisition.OrderedQty)).ToString();
+                                        else
+                                            requisition.POQty = "0";
                                     }
                                     requisitionList.Add(requisition);
                                 }

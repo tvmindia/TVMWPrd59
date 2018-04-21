@@ -191,13 +191,7 @@
             <div class="col-md-4">
                 <table class="table table-striped table-bordered table-hover customgrd dataTable no-footer">
                     <tbody>
-                       <tr>
-                           <td style="text-align: right">
-                               @Html.LabelFor(model => model.TaxTotal, htmlAttributes: new { @class = "control-label" })
-                            </td>
-                           <td style="text-align: right">
-                                @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "TaxTotal" })
-                       </tr>
+                       
                        <tr>
                            <td style="text-align: right">
                                @Html.LabelFor(model => model.ItemTotal, htmlAttributes: new { @class = "control-label" })
@@ -206,6 +200,13 @@
                                @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "ItemTotal" })
                            </td>
                        </tr>
+                        <tr>
+                            <td style="text-align: right">
+                                @Html.LabelFor(model => model.TaxTotal, htmlAttributes: new { @class = "control-label" })
+                            </td>
+                            <td style="text-align: right">
+                                @Html.Label("0", htmlAttributes: new { @class = "control-label ", @id = "TaxTotal" })
+                        </tr>
                        <tr>
                            <td style="text-align: right">
                                @Html.LabelFor(model => model.GrossAmount, htmlAttributes: new { @class = "control-label" })
@@ -379,7 +380,7 @@
 <div class="modal fade" id="MailPreviewModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document" style="min-width:900px !important;">
         <div class="modal-content" style="margin-top:4%;">
-            <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
                 <div class="container-fluid" style="padding-right: 0px;">
                     <div class="col-md-9 ">
                         <div class="col-md-12 modelIcon">
@@ -432,7 +433,7 @@
                 <div class="col-md-12" style="margin-top:1%" id="mailmodelcontent">
                 </div>
             </div>
-            <div class="modal-footer" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 50px;padding: 7px;">
+            <div class="modal-footer" style="background-image: url('');background-repeat: repeat;height: 50px;padding: 7px;">
                 <a class="btn btn-info" onclick="SendMailPreview()" id="btnMail"><i class="glyphicon glyphicon-floppy-disk"></i> Next</a>
                 <a class="btn btn-info" onclick="EmailPreview(1)" id="btnMailBackward"><i class="glyphicon glyphicon-step-backward"></i> Back</a>
                 <a class="btn btn-info" onclick="DownloadPDF()" id="btnSend"><i class="glyphicon glyphicon-download-alt"></i> Download</a>
