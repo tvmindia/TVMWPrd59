@@ -59,6 +59,7 @@ namespace ProductionApp.UserInterface.Models
        // public string MaterialCode { get; set; }
         [Display(Name = "Approximate Rate")]
         public string ApproximateRate { get; set; }
+        public Decimal Discount { get; set; }
         public string POQty { get; set; }
         public string OrderedQty { get; set; }
         public string ReqNo { get; set; }

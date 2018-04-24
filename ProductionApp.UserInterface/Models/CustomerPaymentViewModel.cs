@@ -54,6 +54,9 @@ namespace ProductionApp.UserInterface.Models
         public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
+        public List<CustomerPaymentViewModel> CustomerPaymentList { get; set; }
+        public string BaseURL { get; set; }
+        public Customer Customer { get; set; }
     }
     public class CustomerPaymentDetailViewModel
     {

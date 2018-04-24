@@ -341,5 +341,61 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetBOMComponentLineStage
 
+        #region GetRecentProductionTracking
+        public List<ProductionTracking> GetRecentProductionTracking()
+        {
+            List<ProductionTracking> productionTrackingList = new List<ProductionTracking>();
+            ProductionTracking productionTracking = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRecentProductionTracking]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    productionTracking = new ProductionTracking();
+                                    productionTracking.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);                                    
+                                    productionTracking.EntryDateFormatted = (sdr["EntryDate"].ToString() != "" ? DateTime.Parse(sdr["EntryDate"].ToString()).ToString(settings.DateFormat) : productionTracking.EntryDateFormatted);
+                                    productionTracking.Product = new Product();
+                                    productionTracking.Product.Name = (sdr["Product"].ToString() != "" ? sdr["Product"].ToString() : productionTracking.Product.Name);
+                                    productionTracking.Stage = new Stage();
+                                    productionTracking.Stage.Description = (sdr["Stage"].ToString() != "" ? sdr["Stage"].ToString() : productionTracking.Stage.Description);
+                                    productionTracking.Employee = new Employee();
+                                    productionTracking.Employee.Name = (sdr["EmployeeName"].ToString() != "" ? sdr["EmployeeName"].ToString() :productionTracking.Employee.Name);
+                                    productionTracking.AcceptedQty = (sdr["AcceptedQty"].ToString() != "" ? int.Parse(sdr["AcceptedQty"].ToString()) : productionTracking.AcceptedQty);
+                                    productionTracking.DamagedQty = (sdr["DamagedQty"].ToString() != "" ? int.Parse(sdr["DamagedQty"].ToString()) : productionTracking.DamagedQty);
+                                    productionTracking.SubComponent = new SubComponent();
+                                    productionTracking.SubComponent.Description = (sdr["SubComponent"].ToString() != "" ? sdr["SubComponent"].ToString() : productionTracking.SubComponent.Description);
+                                    productionTracking.Component = new Product();
+                                    productionTracking.Component.Name = (sdr["Component"].ToString() != "" ? sdr["Component"].ToString() : productionTracking.Component.Description);
+                                    productionTracking.OutputComponent = new Product();
+                                    productionTracking.OutputComponent.Name = (sdr["Output"].ToString() != "" ? sdr["Output"].ToString() : productionTracking.OutputComponent.Description);
+                                    productionTrackingList.Add(productionTracking);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return productionTrackingList;
+        }
+        #endregion GetRecentProductionTracking
+
     }
 }

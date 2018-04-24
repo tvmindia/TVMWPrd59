@@ -555,5 +555,54 @@ namespace ProductionApp.RepositoryServices.Services
                 Message = _appConst.DeleteSuccess
             };
         }
+
+
+        #region GetRecentCustomerInvoice
+        public List<CustomerInvoice> GetRecentCustomerInvoice()
+        {
+            List<CustomerInvoice> customerInvoiceList = new List<CustomerInvoice>();
+            CustomerInvoice customerInvoice = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRecentCustomerInvoice]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    customerInvoice = new CustomerInvoice();
+                                    customerInvoice.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    customerInvoice.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : customerInvoice.InvoiceNo);
+                                    customerInvoice.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString(settings.DateFormat) : customerInvoice.InvoiceDateFormatted);
+
+                                    customerInvoice.Customer = new Customer();
+                                    customerInvoice.Customer.CompanyName = (sdr["Customer"].ToString() != "" ? sdr["Customer"].ToString() : customerInvoice.Customer.CompanyName);                                   
+                                    customerInvoiceList.Add(customerInvoice);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return customerInvoiceList;
+        }
+        #endregion GetRecentCustomerInvoice
+
+
     }
 }

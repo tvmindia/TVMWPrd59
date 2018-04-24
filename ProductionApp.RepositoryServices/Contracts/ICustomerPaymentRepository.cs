@@ -16,5 +16,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         CustomerPayment GetCustomerPayment(string Id);
         object DeleteCustomerPayment(Guid id);
         object ValidateCustomerPayment(Guid id, string paymentrefNo);
+        List<CustomerPayment>GetRecentCustomerPayment();
     }
 }

@@ -34,6 +34,8 @@ namespace ProductionApp.UserInterface.Models
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
+        public List<AssemblyViewModel> AssemblyList { get; set; }
+        public string BaseURL { get; set; }
     }
     public class AssemblyAdvanceSearchViewModel
     {

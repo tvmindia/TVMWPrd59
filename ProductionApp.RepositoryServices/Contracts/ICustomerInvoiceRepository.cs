@@ -19,5 +19,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         object UpdateCustomerInvoiceDetail(CustomerInvoice customerInvoice);
         object DeleteCustomerInvoice(Guid id);
         object DeleteCustomerInvoiceDetail(Guid id);
+        List<CustomerInvoice> GetRecentCustomerInvoice();
     }
 }
