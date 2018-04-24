@@ -48,9 +48,9 @@ $(window).bind("load", function () {
     $(".spn_hol").fadeOut(1000);
 });
 $(document).ready(function () {
-    debugger;
+    
     $("input.Amount").on('click',function () {
-        debugger;
+        
         $(this).select();
     });
     $('#ahrefHome').on('click',function () {
@@ -84,14 +84,14 @@ $(document).ready(function () {
         todayHighlight: true
     });
    
-    $('input').keydown(function (e) {
-        var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
-        if (key == 13) {
-            e.preventDefault();
-            var inputs = $(this).closest('form').find(':input');
-            inputs.eq(inputs.index(this) + 1).focus();
-        }
-    });
+    //$('input').keydown(function (e) {
+    //    var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+    //    if (key == 13) {
+    //        e.preventDefault();
+    //        var inputs = $(this).closest('form').find(':input');
+    //        inputs.eq(inputs.index(this) + 1).focus();
+    //    }
+    //});
 
     $('input,textarea').attr('autocomplete', 'off');
    
@@ -146,7 +146,7 @@ $(document).ready(function () {
 
 // To Get Module Name 
 function GetModuleName() {
-    debugger;
+    
     var vars = GetUrlVars()
     var moduleCode = vars.code;
     if (moduleCode != undefined) {
@@ -191,7 +191,7 @@ function GetUrlVars() {
 
 //for showing loading while saving data
 function OnMasterBegin() {
-    debugger;
+    
     $('#btnSaveMaster').prop('disabled', true);
     $('#imgMasterLoading').show()    
 }
@@ -261,7 +261,7 @@ function SelectAllValue(e) {
 }
 function PostDataToServer(page, formData, callback)
 {
-    debugger;
+    
    $.ajax({
         type: "POST",
         url: appAddress+page,
@@ -553,14 +553,23 @@ $('.EntryForms').scroll(function () {
         $("#OverlayHeader").removeClass("OverlayHeader");
     }
 });
+
+//--To Search on enterkey press--//
+function SearchOnkeyPress(e ,this_obj) {
+    var unicode = e.charCode ? e.charCode : e.keyCode
+    if (unicode === 13) {
+        $(this_obj).closest('.input-group').find('button').trigger('click');
+    }
+}
+
 function UploadFile(FileObject)
 {
-    debugger;
+    
    // $('#btnUpload').click(function () {
 
         // Checking whether FormData is available in browser  
         if (window.FormData !== undefined) {
-            debugger;
+            
             var fileUpload = $("#FileUpload1").get(0);
             var files = fileUpload.files;
             if (files.length > 0)
@@ -570,7 +579,7 @@ function UploadFile(FileObject)
 
                 // Looping over all files and add it to FormData object  
                 for (var i = 0; i < files.length; i++) {
-                    debugger;
+                    
                     fileData.append(files[i].name, files[i]);
                     var filesize = (parseInt($('#hdnFileSizebytes').val())) + files[i].size;
                     $('#hdnFileSizebytes').val(filesize);
@@ -617,7 +626,7 @@ function UploadFile(FileObject)
 
 function DeleteFile(this_Obj)
 {
-    debugger;
+    
     try
     {
 
@@ -655,7 +664,7 @@ function DeleteNow(this_Obj)
 function PaintImages(ID)
 {
     try {
-        debugger;
+        
         var data = { "ID": ID };
         var ds = {};
         ds = GetDataFromServer("FileUpload/GetAttachments/", data);
@@ -664,7 +673,7 @@ function PaintImages(ID)
         }
         if (ds.Result == "OK") {
             //ds.Records
-            debugger;
+            
             if (ds.Records != null)
             {
                 $('#ExistingPreview').empty();
@@ -719,7 +728,7 @@ function clearUploadControl()
     $('#ExistingPreview').empty();
 }
 function validateType(ext) {
-    debugger;
+    
     if (ext.match(/(doc|docx)$/i)) {
         //doc
         return '<i class="fa fa-file-word-o text-primary"></i>';
@@ -764,7 +773,7 @@ function validateType(ext) {
     }
 }
 function bytesToSize(bytes) {
-    debugger;
+    
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes == 0) return '0 Byte';
     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
@@ -793,7 +802,7 @@ function AppendToFileList(list) {
     }
 }
 function Attachment_FindRow(element) {
-    debugger;
+    
     while (true) {
         if (element.nodeName == "A")
             return element;
@@ -802,7 +811,7 @@ function Attachment_FindRow(element) {
 }
 
 function Attachment_Remove(link) {
-    debugger;
+    
     return;
     var row = Attachment_FindRow(link);
     if (!confirm("Are you sure you want to delete '" + row.getAttribute("filename") + "'?"))
@@ -964,7 +973,7 @@ function clearCookie(cname) {
 
 function SendDocForApproval(documentID,documentTypeCode,approvers)
 {
-    debugger;
+    
 
     try {
         var data = { "documentID": documentID, "documentTypeCode": documentTypeCode, "approvers": approvers };
@@ -991,7 +1000,7 @@ function SendDocForApproval(documentID,documentTypeCode,approvers)
 
 }
 function ReSendDocForApproval(documentID, documentTypeCode, latestApprovalID) {
-    debugger;
+    
     try {
         var data = { "documentID": documentID, "documentTypeCode": documentTypeCode, "latestApprovalID": latestApprovalID };
         var result = "";
