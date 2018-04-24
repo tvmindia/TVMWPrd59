@@ -26,7 +26,7 @@ namespace ProductionApp.BusinessService.Services
 
         public SupplierInvoice GetSupplierInvoice(Guid id)
         {
-            throw new NotImplementedException();
+            return _supplierInvoiceRepository.GetSupplierInvoice(id);
         }
 
         public object InsertUpdateSupplierInvoice(SupplierInvoice supplierInvoice)
@@ -48,12 +48,17 @@ namespace ProductionApp.BusinessService.Services
         }
         public object DeleteSupplierInvoice(Guid id)
         {
-            throw new NotImplementedException();
+            return _supplierInvoiceRepository.DeleteSupplierInvoice(id);
         }
 
         public object DeleteSupplierInvoiceDetail(Guid id)
         {
-            throw new NotImplementedException();
+            return _supplierInvoiceRepository.DeleteSupplierInvoiceDetail(id);
+        }
+
+        public List<SupplierInvoiceDetail> GetSupplierInvoiceDetail(Guid id)
+        {
+            return _supplierInvoiceRepository.GetSupplierInvoiceDetail(id);
         }
     }
 }

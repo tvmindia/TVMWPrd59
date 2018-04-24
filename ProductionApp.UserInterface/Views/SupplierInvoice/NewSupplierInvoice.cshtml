@@ -44,6 +44,7 @@
             @Html.AntiForgeryToken()
             @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
             @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
+            @Html.HiddenFor(model => model.InvoiceAmount, htmlAttributes: new { @class = "" })
             @Html.HiddenFor(model => model.hdnFileID, htmlAttributes: new { @class = "", @id = "hdnFileDupID", @value = Guid.Empty })
             <div class="col-md-12">
                 <div class="form-group col-md-8">
@@ -106,6 +107,7 @@
                     <div class="form-group col-md-6">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.PurchaseOrderID, htmlAttributes: new { @class = "control-label lblrequired" })
+                            @Html.Hidden("hdnPurchaseOrderID","", htmlAttributes: new { @class = "" })
                         </div>
                         <div class="col-md-12" id="divPOID">
                             @Html.EditorFor(model => model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox" ,@disabled="disabled"} })
@@ -243,7 +245,7 @@
                                     @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label" })
                                 </td>
                                 <td style="text-align: right">
-                                    @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount pull-right", onkeypress = "return isNumber(event)" } })
+                                    @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control HeaderBox Amount pull-right", onkeypress = "return isNumber(event)", onkeyup = "DiscountAmountChanged(this)" } })
                                 </td>
                             </tr>
                             <tr>

@@ -82,6 +82,9 @@ namespace ProductionApp.UserInterface.Models
         public string MaterialCode { get; set; }
         [Display(Name = "Material Type")]
         public string MaterialTypeDesc { get; set; }
+        public string MaterialDesc { get; set; }
+        public string TaxTypeDescription { get; set; }
+        public decimal Total { get; set; }
         public CommonViewModel Common { get; set; }
     }
 

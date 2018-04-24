@@ -134,7 +134,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetDueDate
 
-        #region GetCustomerDetails
+        #region GetSupplierDetails
         [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
         public string GetSupplierDetails(string supplierId)
         {
@@ -148,7 +148,7 @@ namespace ProductionApp.UserInterface.Controllers
                 return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
             }
         }
-        #endregion GetCustomerDetails
+        #endregion GetSupplierDetails
 
         #region GetSupplierInvoice
         [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
@@ -183,7 +183,6 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetAllPurchaseOrderItem
 
-        //InsertUpdateSupplierInvoice
         #region InsertUpdateSupplierInvoice
         [HttpPost]
         [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
@@ -200,9 +199,12 @@ namespace ProductionApp.UserInterface.Controllers
                     UpdatedDate = _common.GetCurrentDateTime(),
                 }; 
                 //Deserialize items
-                object ResultFromJS = JsonConvert.DeserializeObject(supplierInvoiceVM.DetailJSON);
-                string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
-                supplierInvoiceVM.SupplierInvoiceDetailList= JsonConvert.DeserializeObject<List<SupplierInvoiceDetailViewModel>>(ReadableFormat);
+                if (supplierInvoiceVM.DetailJSON != null)
+                {
+                    object ResultFromJS = JsonConvert.DeserializeObject(supplierInvoiceVM.DetailJSON);
+                    string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                    supplierInvoiceVM.SupplierInvoiceDetailList = JsonConvert.DeserializeObject<List<SupplierInvoiceDetailViewModel>>(ReadableFormat);
+                }
                 var result = _supplierInvoiceBusiness.InsertUpdateSupplierInvoice(Mapper.Map<SupplierInvoiceViewModel, SupplierInvoice>(supplierInvoiceVM));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
@@ -214,6 +216,70 @@ namespace ProductionApp.UserInterface.Controllers
 
         }
         #endregion InsertUpdateSupplierInvoice
+
+        #region GetSupplierInvoiceDetail
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
+        public string GetSupplierInvoiceDetail(string ID)
+        {
+            try
+            {
+                List<SupplierInvoiceDetailViewModel> supplierInvoiceDetailVM = new List<SupplierInvoiceDetailViewModel>();
+                supplierInvoiceDetailVM = Mapper.Map<List<SupplierInvoiceDetail>, List<SupplierInvoiceDetailViewModel>>(_supplierInvoiceBusiness.GetSupplierInvoiceDetail(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierInvoiceDetailVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+
+
+        #endregion GetSupplierInvoiceDetail
+
+        #region DeleteSupplierInvoice
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "D")]
+        public string DeleteSupplierInvoice(string ID)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _supplierInvoiceBusiness.DeleteSupplierInvoice(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+        #endregion DeleteSupplierInvoice
+
+        #region DeleteSupplierInvoiceDetail
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "D")]
+        public string DeleteSupplierInvoiceDetail(string ID)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID Missing");
+                }
+                result = _supplierInvoiceBusiness.DeleteSupplierInvoiceDetail(Guid.Parse(ID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion DeleteSupplierInvoiceDetail
+
         #region ButtonStyling
         [HttpGet]
         //[AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]

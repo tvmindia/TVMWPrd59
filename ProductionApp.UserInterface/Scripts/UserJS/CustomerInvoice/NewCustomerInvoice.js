@@ -670,8 +670,8 @@ function BindCustomerInvoiceByID()
     $('#Discount').val(roundoff(customerInvoiceVM.Discount));
     $('#lblTotalTaxableAmount').text(roundoff(customerInvoiceVM.TotalTaxableAmount));
     $('#lblTotalTaxAmount').text(roundoff(customerInvoiceVM.TotalTaxAmount));
-    $('#lblInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount));
-    $('#lblStatusInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount));
+    $('#lblInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount-customerInvoiceVM.Discount));
+    $('#lblStatusInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount-customerInvoiceVM.Discount));
     $('#InvoiceAmount').val(roundoff(customerInvoiceVM.InvoiceAmount));
     
     //detail Table values binding with header id
@@ -913,6 +913,7 @@ function DeleteCustomerInvoiceDetail(id) {
 //##18--Discount Amount Changed -------------------------------------------------------##18
 function DiscountAmountChanged(thisObj)
 {
+    debugger;
     if (thisObj.value!="")
     {
             var InvoiceAmount = $('#InvoiceAmount').val();
