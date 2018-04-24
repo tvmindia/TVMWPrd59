@@ -25,7 +25,7 @@
                             for (int i = 0; i < Model.PurchaseOrderList.Count; i++)
                             {
                                 <tr>
-                                    <td><a href="PurchaseOrder/NewPurchaseOrder?code=PURCH&id=@Model.PurchaseOrderList[i].ID">@Model.PurchaseOrderList[i].PurchaseOrderNo</a></td>
+                                    <td><a href="/PurchaseOrder/NewPurchaseOrder?code=PURCH&id=@Model.PurchaseOrderList[i].ID">@Model.PurchaseOrderList[i].PurchaseOrderNo</a></td>
                                     <td style="width:25%">@Model.PurchaseOrderList[i].PurchaseOrderDateFormatted</td>
                                     <td><span class="label label-info bg-orange ">@Model.PurchaseOrderList[i].PurchaseOrderStatus</span></td>
                                     <td  style="width:25%">@Model.PurchaseOrderList[i].PurchaseOrderIssuedDateFormatted</td>
@@ -36,11 +36,11 @@
                             for (int i = (Model.PurchaseOrderList == null ? 0 : Model.PurchaseOrderList.Count); i < 10; i++)
                             {
                                 <tr>
-                                    <th>-</th>
-                                    <th>-</th>
                                     <td>-</td>
-                                    <td>-</td>
+                                    <td style="width:25%">-</td>
                                     <td><span class="label label-info bg-orange ">-</span></td>
+                                    <td style="width:25%">-</td>
+                                    <td>-</td>
                                 </tr>
                             }
                         }
@@ -49,11 +49,11 @@
                             for (int i = 0; i < 10; i++)
                             {
                                 <tr>
-                                    <th>-</th>
-                                    <th>-</th>
                                     <td>-</td>
-                                    <td>-</td>
+                                    <td style="width:25%">-</td>
                                     <td><span class="label label-info bg-orange ">-</span></td>
+                                    <td style="width:25%">-</td>
+                                    <td>-</td>
                                 </tr>
                             }
                         }

@@ -44,6 +44,10 @@ namespace ProductionApp.BusinessService.Services
             return _ProductionTrackingRepository.GetProductionTracking(id);
         }
 
+        public List<ProductionTracking> GetRecentProductionTracking(string BaseURL)
+        {
+            return _ProductionTrackingRepository.GetRecentProductionTracking();
+        }
 
     }
 }

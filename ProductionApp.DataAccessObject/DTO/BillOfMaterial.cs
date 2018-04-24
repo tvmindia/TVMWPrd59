@@ -23,6 +23,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public List<BOMComponentLine> BOMComponentLineList { get; set; }
         public BOMComponentLineStageDetail BOMComponentLineStageDetail { get; set; }
         public BOMComponentLineStage BOMComponentLineStage { get; set; }
+        public List<BillOfMaterial> BillOfMaterialList { get; set; }
+        public string BaseURL { get; set; }
     }
     public class BillOfMaterialAdvanceSearch
     {

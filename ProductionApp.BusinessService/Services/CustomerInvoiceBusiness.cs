@@ -84,5 +84,10 @@ namespace ProductionApp.BusinessService.Services
             return _customerInvoiceRepository.DeleteCustomerInvoiceDetail(id);
 
         }
+
+        public List<CustomerInvoice> GetRecentCustomerInvoice(string BaseURL)
+        {
+            return _customerInvoiceRepository.GetRecentCustomerInvoice();
+        }
     }
 }

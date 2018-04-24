@@ -27,6 +27,8 @@ namespace ProductionApp.UserInterface.Models
         public List<BOMComponentLineViewModel> BOMComponentLineList { get; set; }
         public BOMComponentLineStageDetailViewModel BOMComponentLineStageDetail { get; set; }
         public BOMComponentLineStageViewModel BOMComponentLineStage { get; set; }
+        public List<BillOfMaterialViewModel> BillOfMaterialList { get; set; }
+        public string BaseURL { get; set; }
     }
     public class BillOfMaterialAdvanceSearchViewModel
     {

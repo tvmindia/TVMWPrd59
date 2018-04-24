@@ -62,5 +62,11 @@ namespace ProductionApp.BusinessService.Services
         {
             return _customerPaymentRepository.ValidateCustomerPayment(id, paymentrefNo);
         }
+
+
+        public List<CustomerPayment>GetRecentCustomerPayment(string BaseURL)
+        {
+            return _customerPaymentRepository.GetRecentCustomerPayment();
+        }
     }
 }

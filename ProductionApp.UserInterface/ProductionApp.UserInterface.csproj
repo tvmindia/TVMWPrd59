@@ -1013,6 +1013,12 @@
     <Content Include="Views\DashboardSale\_RecentSalesOrder.cshtml" />
     <Content Include="Views\DashboardSale\_RecentPackingSlip.cshtml" />
     <Content Include="Views\DashboardMaster\_RecentMastersSummary.cshtml" />
+    <Content Include="Views\DashboardProduction\_RecentBillOfMaterials.cshtml" />
+    <Content Include="Views\DashboardProduction\_RecentProductionTracking.cshtml" />
+    <Content Include="Views\DashboardProduction\_RecentAssemblyProduct.cshtml" />
+    <Content Include="Views\DashboardAccount\_RecentCustomerInvoice.cshtml" />
+    <Content Include="Views\DashboardAccount\Index.cshtml" />
+    <Content Include="Views\DashboardAccount\_RecentCustomerPayment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

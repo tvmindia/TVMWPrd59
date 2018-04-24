@@ -35,6 +35,8 @@ namespace ProductionApp.DataAccessObject.DTO
 
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
+        public List<ProductionTracking> ProductionTrackingList { get; set; }
+        public string BaseURL { get; set; }
     }
 
     public class ProductionTrackingAdvanceSearch

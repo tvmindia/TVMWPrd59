@@ -1,16 +1,15 @@
 ﻿@model ProductionApp.UserInterface.Models.MaterialReceiptViewModel
 
-<div class="col-md-12" style="height:500px">
-    <div class="box box-info">
+<div class="col-md-12">
+    <div class="box">
         <div class="box-header with-border">
             <h3 class="box-title">Receipt Summary</h3>
         </div>
-
         <div class="with-border bg-purple " style="height:2px!important"></div>
         <div class="box-body">
             <div class="table-responsive">
-                <table class="table no-margin" style="display:table;width:100%;">
-                    <thead style="display: table;width:100%;">@*display:table;width:100%;table-layout:fixed;position:fixed;*@
+                <table class="table no-margin"> @*style="display:table;width:100%;"> *@ 
+                    <thead style="display: table;width:100%;table-layout:fixed;">@*display:table;width:100%;table-layout:fixed;position:fixed;*@
                         <tr>
                             <th>Receipt No</th>
                             <th>Title</th>
@@ -18,46 +17,45 @@
                             <th>Receipt Date</th>
                         </tr>
                     </thead>
-                    <tbody style="overflow-y:scroll;height:475px;display: block;width:100%;">@* display:table;table-layout:auto; *@
+                    @*<tbody style="overflow-y:scroll;height:180px;display: block;width:100%;">@* display:table;table-layout:auto; *@
+                    <tbody style="height:180px;max-height:500px;display:block;overflow-y:scroll;width:100%;">
                         @if (Model.MaterialReceiptList != null)
                         {
                             for (int i = 0; i < Model.MaterialReceiptList.Count; i++)
                             {
                                 <tr>
-                                    <th><a href="MaterialReceipt/NewMaterialReceipt?code=STR&id=@Model.MaterialReceiptList[i].ID">@Model.MaterialReceiptList[i].ReceiptNo</a></th>
-                                    <td>@Model.MaterialReceiptList[i].PurchaseOrderNo</td>
-                                    <td>@Model.MaterialReceiptList[i].Supplier.CompanyName</td>
-                                    <td><span class="label label-info  bg-purple">@Model.MaterialReceiptList[i].ReceiptDateFormatted</span></td>
+                                    <td><a href="/MaterialReceipt/NewMaterialReceipt?code=STR&id=@Model.MaterialReceiptList[i].ID">@Model.MaterialReceiptList[i].ReceiptNo</a></td>
+                                    <td style="width:25%;">@Model.MaterialReceiptList[i].PurchaseOrderNo</td>
+                                    <td style="width:25%;">@Model.MaterialReceiptList[i].Supplier.CompanyName</td>
+                                    <td style="width:25%;"><span class="label label-info  bg-purple">@Model.MaterialReceiptList[i].ReceiptDateFormatted</span></td>
                                 </tr>
                             }
 
-                            for (int i = (Model.MaterialReceiptList == null ? 0 : Model.MaterialReceiptList.Count); i < 10; i++)
+                            for (int i = (Model.MaterialReceiptList == null ? 0 : Model.MaterialReceiptList.Count); i < 5; i++)
                             {
                                 <tr>
-                                    <th>-</th>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td><span class="label label-info  bg-purple">-</span></td>
+                                    <td style="width:30%;">-</td>
+                                    <td style="width:30%;">-</td>
+                                    <td style="width:40%;">-</td>
+                                    <td style="width:40%;"><span class="label label-info  bg-purple">-</span></td>
                                 </tr>
                             }
                         }
                         else
                         {
-                            for (int i = 0; i < 10; i++)
+                            for (int i = 0; i < 5; i++)
                             {
                                 <tr>
-                                    <th>-</th>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td><span class="label label-info bg bg-purple">-</span></td>
-                                </tr>
+                                    <td style="width:30%;">-</td>
+                                    <td style="width:30%;">-</td>
+                                    <td style="width:40%;">-</td>
+                                    <td style="width:40%;"><span class="label label-info bg bg-purple">-</span></td>
+                                </tr>                            
                             }
                         }
                     </tbody>
                 </table>
             </div>
-
         </div>
-
     </div>
 </div>

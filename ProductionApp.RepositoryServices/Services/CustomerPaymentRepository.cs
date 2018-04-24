@@ -400,6 +400,51 @@ namespace ProductionApp.RepositoryServices.Services
 
             return customerInvoice;
         }
-        #endregion 
+        #endregion GetOutstandingAmount
+
+        #region GetRecentCustomerPayment
+        public List<CustomerPayment> GetRecentCustomerPayment()
+        {
+            List<CustomerPayment> customerPaymentList = new List<CustomerPayment>();
+            CustomerPayment customerPayment = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRecentCustomerPayment]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    customerPayment = new CustomerPayment();
+                                    customerPayment.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    customerPayment.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : customerPayment.EntryNo);
+                                    customerPayment.PaymentDateFormatted = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()).ToString(settings.DateFormat) : customerPayment.PaymentDateFormatted);
+                                    customerPayment.Customer = new Customer();
+                                    customerPayment.Customer.CompanyName = (sdr["Customer"].ToString() != "" ? sdr["Customer"].ToString() : customerPayment.Customer.CompanyName);
+                                    customerPaymentList.Add(customerPayment);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return customerPaymentList;
+        }
+        #endregion GetRecentCustomerPayment
     }
 }

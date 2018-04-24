@@ -54,7 +54,8 @@ namespace ProductionApp.UserInterface.Models
         public PackingSlipViewModel PackingSlip { get; set; }
         public List<CustomerInvoiceDetailViewModel> CustomerInvoiceDetailList { get; set; }
         public CustomerPaymentViewModel CustomerPayment { get; set; }
-
+        public List<CustomerInvoiceViewModel> CustomerInvoiceList { get; set; }
+        public string BaseURL { get; set; }
 
     }
     public class CustomerInvoiceDetailViewModel

@@ -13,7 +13,7 @@
 </div> 
 <div class="col-md-12">&nbsp;</div>
 <div class="col-md-12">
-    <div class="col-md-4" style="height:600px">
+    <div class="col-md-6" style="height:600px">
         <div class="col-md-12" style="width:100%;">
             @{
                 @Html.Action("MyApprovals", "DashboardStore");
@@ -25,16 +25,18 @@
             }
         </div>
     </div>
-    <div class="col-md-4" style="height:600px;">
-        @{ 
-            @Html.Action("ReceiptSummary", "DashboardStore");
-        }
+    <div class="col-md-6" style="height:600px">
+        <div class="col-md-12" style="width:100%;">
+            @{
+                @Html.Action("ReceiptSummary", "DashboardStore");
+            }
+        </div>
+        <div class="col-md-12" style="width:100%;">
+            @{
+                @Html.Action("ReOrderAlert", "DashboardStore");
+            }
+        </div>
+        </div>
     </div>
-    <div class="col-md-4" style="height:600px;">
-        @{ 
-            @Html.Action("ReOrderAlert", "DashboardStore");
-        }
-    </div>
-</div>
 
 @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jquery")

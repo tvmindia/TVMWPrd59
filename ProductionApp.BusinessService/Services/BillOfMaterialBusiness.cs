@@ -157,5 +157,13 @@ namespace ProductionApp.BusinessService.Services
             return _billOfMaterialRepository.GetBOMComponentLineStageDetail(id);
         }
         #endregion GetBOMComponentLineStageDetail
+
+
+        #region GetRecentBillOfMaterial
+        public List<BillOfMaterial> GetRecentBillOfMaterial(string BaseURL)
+        {
+            return _billOfMaterialRepository.GetRecentBillOfMaterial();
+        }
+        #endregion GetRecentBillOfMaterial
     }
 }
