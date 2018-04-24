@@ -612,6 +612,7 @@ function SaveSuccessSupplierInvoice(data, status) {
             $('#IsUpdate').val('True');
             $('#ID').val(_jsonData.Records.ID)
             _SupplierInvoiceDetail = [];
+            $("#DetailJSON").val('');
             BindSupplierInvoiceByID();
             notyAlert("success", _jsonData.Records.Message)
             break;
@@ -642,11 +643,31 @@ function BindSupplierInvoiceByID() {
     $('#Discount').val(roundoff(SupplierInvoiceVM.Discount));
     $('#lblTotalTaxableAmount').text(roundoff(SupplierInvoiceVM.TotalTaxableAmount));
     $('#lblTotalTaxAmount').text(roundoff(SupplierInvoiceVM.TotalTaxAmount));
-    $('#lblInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount));
-    $('#lblStatusInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount));
+    $('#InvoiceAmount').val(SupplierInvoiceVM.InvoiceAmount);
+    debugger;
+    $('#lblInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount-SupplierInvoiceVM.Discount));
+    $('#lblStatusInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount-SupplierInvoiceVM.Discount));
+    $('#AccountCode').val(SupplierInvoiceVM.AccountCode).select2();
+    debugger;
+    LoadPurchaseOrderDropdownBySupplier();
+    if (SupplierInvoiceVM.PurchaseOrderID)
+    {
+        $('#hdnPurchaseOrderID').val(SupplierInvoiceVM.PurchaseOrderID);
+        $('#IsFromPurchaseOrder').val('True');
+    }
+    else
+    {
+        $('#PurchaseOrderNo').val(SupplierInvoiceVM.PurchaseOrderNo);
+        $('#IsFromPurchaseOrder').val('False');
+    }
+    IsFromPurchaseOrderChanged();
+    $('#IsFromPurchaseOrder').attr('disabled', 'true');
+    $('#SupplierID').attr('disabled', 'true');
+    $('#PurchaseOrderID').attr('disabled', 'true');
+
 
     //detail Table values binding with header id
-   // BindSupplierInvoiceDetailTable(ID);
+    BindSupplierInvoiceDetailTable(ID);
     PaintImages(ID);//bind attachments written in custom js
 }
 function GetSupplierInvoiceByID(ID) {
@@ -666,4 +687,228 @@ function GetSupplierInvoiceByID(ID) {
     catch (e) {
         notyAlert('error', e.message);
     }
+}
+function BindSupplierInvoiceDetailTable(id)
+{
+    _dataTables.SupplierInvoiceDetailTable.clear().rows.add(GetSupplierInvoiceDetail(id)).draw(false);
+}
+function GetSupplierInvoiceDetail(id) {
+    try {
+        debugger;
+        var data = { "ID": id };
+        _jsonData = GetDataFromServer("SupplierInvoice/GetSupplierInvoiceDetail/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+        }
+        if (_jsonData.Result == "OK") {
+            return _jsonData.Records;
+        }
+        if (_jsonData.Result == "ERROR") {
+            alert(_jsonData.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+
+
+//##14--Reset Button Click-----------------------------------------------------##14
+function Reset() {
+    BindSupplierInvoiceByID();
+}
+
+////##15--Edit Popup Modal Update Supplier Invoice Details----------------------------##15
+//function ItemDetailsEdit(thisObj) {
+//    debugger;
+
+//    var rowData = _dataTables.SupplierInvoiceDetailTable.row($(thisObj).parents('tr')).data();
+//    TaxtypeDropdown(); //##8
+//    _dataTables.EditPackingSlipListDetailTable.clear().rows.add(GetSupplierInvoiceDetailLinkForEdit(rowData.ID)).draw(false);
+
+//    $('#EditSupplierInvoiceDetailModal').modal('show');
+
+//}
+//function GetSupplierInvoiceDetailLinkForEdit(id) {
+//    try {
+//        debugger;
+//        var data = { "id": id };
+//        _jsonData = GetDataFromServer("SupplierInvoice/GetSupplierInvoiceDetailLinkForEdit/", data);
+//        if (_jsonData != '') {
+//            _jsonData = JSON.parse(_jsonData);
+//        }
+//        if (_jsonData.Result == "OK") {
+//            return _jsonData.Records;
+//        }
+//        if (_jsonData.Result == "ERROR") {
+//            alert(_jsonData.Message);
+//        }
+//    }
+//    catch (e) {
+//        notyAlert('error', e.message);
+//    }
+//}
+//function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
+//    debugger;
+//    var SupplierInvoiceDetailVM = _dataTables.EditPackingSlipListDetailTable.rows().data();
+//    var rowtable = _dataTables.EditPackingSlipListDetailTable.row($(thisObj).parents('tr')).data();
+//    for (var i = 0; i < SupplierInvoiceDetailVM.length; i++) {
+//        if (SupplierInvoiceDetailVM[i].ProductID == rowtable.ProductID && SupplierInvoiceDetailVM[i].SlipNo == rowtable.SlipNo) {
+//            if (textBoxCode == 1)
+//                if (thisObj.value <= SupplierInvoiceDetailVM[i].QuantityCheck)
+//                    SupplierInvoiceDetailVM[i].Quantity = thisObj.value;
+//                else
+//                    SupplierInvoiceDetailVM[i].Quantity = SupplierInvoiceDetailVM[i].QuantityCheck;
+//            if (textBoxCode == 2)
+//                if (thisObj.value <= SupplierInvoiceDetailVM[i].WeightCheck)
+//                    SupplierInvoiceDetailVM[i].Weight = thisObj.value;
+//                else
+//                    SupplierInvoiceDetailVM[i].Weight = SupplierInvoiceDetailVM[i].WeightCheck;
+//            if (textBoxCode == 3)
+//                SupplierInvoiceDetailVM[i].Rate = thisObj.value;
+//            if (textBoxCode == 4)
+//                SupplierInvoiceDetailVM[i].TradeDiscountAmount = thisObj.value;
+//            if (textBoxCode == 5) {
+//                var taxTypeVM = GetTaxtypeDropdown();
+//                SupplierInvoiceDetailVM[i].TaxTypeCode = thisObj.value;
+//                for (j = 0; j < taxTypeVM.length; j++) {
+//                    if (taxTypeVM[j].Code == thisObj.value) {
+//                        SupplierInvoiceDetailVM[i].IGSTPerc = taxTypeVM[j].IGSTPercentage;
+//                        SupplierInvoiceDetailVM[i].SGSTPerc = taxTypeVM[j].SGSTPercentage;
+//                        SupplierInvoiceDetailVM[i].CGSTPerc = taxTypeVM[j].CGSTPercentage;
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    _DataTables.EditPackingSlipListDetailTable.clear().rows.add(SupplierInvoiceDetailVM).draw(false);
+//}
+//function UpdateSupplierInvoiceDetails() {
+//    debugger;
+//    var SupplierInvoiceDetailVM = _DataTables.EditPackingSlipListDetailTable.rows().data();
+//    _SupplierInvoiceDetailLink = [];
+//    UpdateSupplierInvoiceDetailLinkVM(SupplierInvoiceDetailVM)
+//    SupplierInvoiceVM = new Object();
+//    SupplierInvoiceVM.SupplierInvoiceDetailList = new Object();
+//    SupplierInvoiceVM.SupplierInvoiceDetailList = _SupplierInvoiceDetailLink;
+//    var data = "{'SupplierInvoiceVM':" + JSON.stringify(SupplierInvoiceVM) + "}";
+
+//    PostDataToServer("SupplierInvoice/UpdateSupplierInvoiceDetail/", data, function (JsonResult) {
+
+//        debugger;
+//        switch (JsonResult.Result) {
+//            case "OK":
+//                notyAlert('success', JsonResult.Records.Message);
+//                BindSupplierInvoiceByID()
+//                break;
+//            case "Error":
+//                notyAlert('error', JsonResult.Message);
+//                break;
+//            case "ERROR":
+//                notyAlert('error', JsonResult.Message);
+//                break;
+//            default:
+//                break;
+//        }
+//    })
+//    $('#EditSupplierInvoiceDetailModal').modal('hide');
+//}
+//function UpdateSupplierInvoiceDetailLinkVM(SupplierInvoiceDetailLinkVM) {
+//    debugger;
+//    for (var r = 0; r < SupplierInvoiceDetailLinkVM.length; r++) {
+//        SupplierInvoiceDetail = new Object();
+//        SupplierInvoiceDetail.ID = SupplierInvoiceDetailLinkVM[r].ID;
+//        SupplierInvoiceDetail.SupplierInvoiceDetailLinkID = SupplierInvoiceDetailLinkVM[r].SupplierInvoiceDetailLinkID;
+//        SupplierInvoiceDetail.Quantity = SupplierInvoiceDetailLinkVM[r].Quantity;
+//        SupplierInvoiceDetail.Weight = SupplierInvoiceDetailLinkVM[r].Weight;
+//        SupplierInvoiceDetail.Rate = SupplierInvoiceDetailLinkVM[r].Rate;
+//        SupplierInvoiceDetail.IGSTPerc = SupplierInvoiceDetailLinkVM[r].IGSTPerc;
+//        SupplierInvoiceDetail.SGSTPerc = SupplierInvoiceDetailLinkVM[r].SGSTPerc;
+//        SupplierInvoiceDetail.CGSTPerc = SupplierInvoiceDetailLinkVM[r].CGSTPerc;
+//        SupplierInvoiceDetail.TaxTypeCode = SupplierInvoiceDetailLinkVM[r].TaxTypeCode == "" ? null : SupplierInvoiceDetailLinkVM[r].TaxTypeCode;
+//        SupplierInvoiceDetail.TradeDiscountPerc = SupplierInvoiceDetailLinkVM[r].TradeDiscountPerc;
+//        SupplierInvoiceDetail.TradeDiscountAmount = SupplierInvoiceDetailLinkVM[r].TradeDiscountAmount;
+//        _SupplierInvoiceDetailLink.push(SupplierInvoiceDetail);
+//    }
+//}
+
+
+//##16--DELETE Supplier Invoice -----------------------------------------------------##16
+function DeleteClick() {
+    notyConfirm('Are you sure to delete?', 'DeleteSupplierInvoice()');
+}
+function DeleteSupplierInvoice() {
+    try {
+        debugger;
+        var id = $('#ID').val();
+        if (id != '' && id != null) {
+            var data = { "id": id };
+            _jsonData = GetDataFromServer("SupplierInvoice/DeleteSupplierInvoice/", data);
+            if (_jsonData != '') {
+                _jsonData = JSON.parse(_jsonData);
+                _result = _jsonData.Result;
+                _message = _jsonData.Message;
+            }
+            if (_result == "OK") {
+                notyAlert('success', _message);
+                window.location.replace("NewSupplierInvoice?code=ACC");
+            }
+            if (_result == "ERROR") {
+                notyAlert('error', _message);
+            }
+            return 1;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
+    }
+}
+
+//##17--DELETE Supplier Invoice Details------------------------------------------------##17
+function DeleteDetail(curobj) {
+    var rowData = _dataTables.SupplierInvoiceDetailTable.row($(curobj).parents('tr')).data();
+    notyConfirm('Are you sure to delete?', 'DeleteSupplierInvoiceDetail("' + rowData.ID + '")');
+}
+function DeleteSupplierInvoiceDetail(id) {
+    try {
+        debugger;
+        if (id != '' && id != null) {
+            var data = { "id": id };
+            _jsonData = GetDataFromServer("SupplierInvoice/DeleteSupplierInvoiceDetail/", data);
+            if (_jsonData != '') {
+                _jsonData = JSON.parse(_jsonData);
+                _result = _jsonData.Result;
+                _message = _jsonData.Message;
+            }
+            if (_result == "OK") {
+                notyAlert('success', _message);
+                BindSupplierInvoiceByID();
+            }
+            if (_result == "ERROR") {
+                notyAlert('error', _message);
+            }
+            return 1;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+        return 0;
+    }
+}
+
+//##18--Discount Amount Changed -------------------------------------------------------##18
+function DiscountAmountChanged(thisObj) {
+    debugger;
+    if (thisObj.value != "") {
+        var InvoiceAmount = $('#InvoiceAmount').val();
+        var calculatedAmount = parseFloat(InvoiceAmount) - parseFloat(thisObj.value);
+        $('#lblInvoiceAmount').text(roundoff(calculatedAmount));
+        $('#lblStatusInvoiceAmount').text(roundoff(calculatedAmount));
+    }
+    else {
+        $('#Discount').val(roundoff(0));
+    }
+
 }

@@ -61,6 +61,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal GrossAmount { get; set; }
         public string MaterialCode { get; set; }
         public string MaterialTypeDesc { get; set; }
+        public string MaterialDesc { get; set; }
+        public string TaxTypeDescription { get; set; }
+        public decimal Total { get; set; }
         public Common  Common { get; set; }
     }
 

@@ -19,7 +19,6 @@ namespace ProductionApp.RepositoryServices.Services
         {
             _databaseFactory = databaseFactory;
         }
-
         public List<SupplierInvoice> GetAllSupplierInvoice(SupplierInvoiceAdvanceSearch supplierInvoiceAdvanceSearch)
         {
             List<SupplierInvoice> supplierInvoiceList = null;
@@ -60,7 +59,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         supplierInvoice.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString(settings.DateFormat) : supplierInvoice.InvoiceDateFormatted);
                                         supplierInvoice.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.DateFormat) : supplierInvoice.PaymentDueDateFormatted);
                                         supplierInvoice.Supplier = new Supplier();
-                                        supplierInvoice.Supplier.CompanyName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : supplierInvoice.Supplier.CompanyName);
+                                        supplierInvoice.Supplier.CompanyName = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : supplierInvoice.Supplier.CompanyName);
                                         supplierInvoice.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : supplierInvoice.InvoiceAmount);
                                         supplierInvoice.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : supplierInvoice.TotalCount);
                                         supplierInvoice.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : supplierInvoice.FilteredCount);
@@ -79,7 +78,6 @@ namespace ProductionApp.RepositoryServices.Services
 
             return supplierInvoiceList;
         }
-
         public SupplierInvoice GetSupplierInvoice(Guid id)
         {
             SupplierInvoice supplierInvoice = new SupplierInvoice();
@@ -106,14 +104,17 @@ namespace ProductionApp.RepositoryServices.Services
                                     supplierInvoice.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : supplierInvoice.InvoiceNo);
                                     supplierInvoice.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString(settings.DateFormat) : supplierInvoice.InvoiceDateFormatted);
                                     supplierInvoice.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.DateFormat) : supplierInvoice.PaymentDueDateFormatted);
-                                    supplierInvoice.SupplierID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : supplierInvoice.SupplierID);
+                                    supplierInvoice.SupplierID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : supplierInvoice.SupplierID);
                                     supplierInvoice.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : supplierInvoice.GeneralNotes);
                                     supplierInvoice.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : supplierInvoice.BillingAddress);
                                     supplierInvoice.ShippingAddress = (sdr["ShippingAddress"].ToString() != "" ? sdr["ShippingAddress"].ToString() : supplierInvoice.ShippingAddress);
                                     supplierInvoice.PaymentTermCode = (sdr["PaymentTermCode"].ToString() != "" ? sdr["PaymentTermCode"].ToString() : supplierInvoice.PaymentTermCode);
                                     supplierInvoice.Discount = (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : supplierInvoice.Discount);
-                                    supplierInvoice.TotalTaxableAmount = (sdr["TaxableAmount"].ToString() != "" ? decimal.Parse(sdr["TaxableAmount"].ToString()) : supplierInvoice.TotalTaxableAmount);
-                                    supplierInvoice.TotalTaxAmount = (sdr["TaxAmount"].ToString() != "" ? decimal.Parse(sdr["TaxAmount"].ToString()) : supplierInvoice.TotalTaxAmount);
+                                    supplierInvoice.AccountCode = (sdr["AccountCode"].ToString() != "" ? sdr["AccountCode"].ToString() : supplierInvoice.AccountCode);
+                                    supplierInvoice.PurchaseOrderNo = (sdr["PurchaseOrderNo"].ToString() != "" ? sdr["PurchaseOrderNo"].ToString() : supplierInvoice.PurchaseOrderNo);
+                                    supplierInvoice.PurchaseOrderID = (sdr["PurchaseOrderID"].ToString() != "" ? Guid.Parse(sdr["PurchaseOrderID"].ToString()) : supplierInvoice.PurchaseOrderID);
+                                    supplierInvoice.TotalTaxableAmount = (sdr["TotalTaxableAmount"].ToString() != "" ? decimal.Parse(sdr["TotalTaxableAmount"].ToString()) : supplierInvoice.TotalTaxableAmount);
+                                    supplierInvoice.TotalTaxAmount = (sdr["TotalTaxAmount"].ToString() != "" ? decimal.Parse(sdr["TotalTaxAmount"].ToString()) : supplierInvoice.TotalTaxAmount);
                                     supplierInvoice.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : supplierInvoice.InvoiceAmount);
 
                                 }
@@ -129,7 +130,6 @@ namespace ProductionApp.RepositoryServices.Services
             return supplierInvoice;
         
     }
-
         public object InsertUpdateSupplierInvoice(SupplierInvoice supplierInvoice)
         {
             SqlParameter outputStatus, IDOut = null;
@@ -153,6 +153,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = supplierInvoice.InvoiceDateFormatted;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = supplierInvoice.SupplierID;
                         cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar,10).Value = supplierInvoice.AccountCode;
+                        cmd.Parameters.Add("@PaymentTermCode", SqlDbType.VarChar,20).Value = supplierInvoice.PaymentTermCode;
                         cmd.Parameters.Add("@PurchaseOrderID", SqlDbType.UniqueIdentifier).Value = supplierInvoice.PurchaseOrderID;
                         cmd.Parameters.Add("@PurchaseOrderNo", SqlDbType.VarChar, 20).Value = supplierInvoice.PurchaseOrderNo;
                         cmd.Parameters.Add("@PaymentDueDate", SqlDbType.DateTime).Value = supplierInvoice.PaymentDueDateFormatted;
@@ -201,15 +202,143 @@ namespace ProductionApp.RepositoryServices.Services
             };
 
         }
-
         public object DeleteSupplierInvoice(Guid id)
         {
-            throw new NotImplementedException();
-        }
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeleteSupplierInvoice]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
 
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(_appConst.DeleteFailure);
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = _appConst.DeleteSuccess
+            };
+        }
         public object DeleteSupplierInvoiceDetail(Guid id)
         {
-            throw new NotImplementedException();
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeleteSupplierInvoiceDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(_appConst.DeleteFailure);
+                    default:
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = _appConst.DeleteSuccess
+            };
+        }
+        public List<SupplierInvoiceDetail> GetSupplierInvoiceDetail(Guid id)
+        {
+            List<SupplierInvoiceDetail> supplierInvoiceDetailList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetSupplierInvoiceDetail]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@supplierInvoiceId", SqlDbType.UniqueIdentifier).Value = id;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                supplierInvoiceDetailList = new List<SupplierInvoiceDetail>();
+                                while (sdr.Read())
+                                {
+                                    SupplierInvoiceDetail supplierInvoiceDetail = new SupplierInvoiceDetail();
+                                    {
+                                        supplierInvoiceDetail.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : supplierInvoiceDetail.ID);
+                                        supplierInvoiceDetail.MaterialID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : supplierInvoiceDetail.MaterialID);
+                                        supplierInvoiceDetail.MaterialDesc = (sdr["MaterialDesc"].ToString() != "" ? sdr["MaterialDesc"].ToString() : supplierInvoiceDetail.MaterialDesc);
+                                        supplierInvoiceDetail.MaterialTypeDesc = (sdr["MaterialTypeDesc"].ToString() != "" ? sdr["MaterialTypeDesc"].ToString() : supplierInvoiceDetail.MaterialTypeDesc);
+                                        supplierInvoiceDetail.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : supplierInvoiceDetail.MaterialCode);
+                                        supplierInvoiceDetail.TaxTypeCode = (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : supplierInvoiceDetail.TaxTypeCode);
+                                        supplierInvoiceDetail.TaxTypeDescription = (sdr["TaxTypeDescription"].ToString() != "" ? sdr["TaxTypeDescription"].ToString() : supplierInvoiceDetail.TaxTypeDescription);
+                                        supplierInvoiceDetail.Quantity = (sdr["Quantity"].ToString() != "" ? decimal.Parse(sdr["Quantity"].ToString()) : supplierInvoiceDetail.Quantity);
+                                        supplierInvoiceDetail.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : supplierInvoiceDetail.Rate);
+                                        supplierInvoiceDetail.TradeDiscountAmount = (sdr["TradeDiscountAmount"].ToString() != "" ? decimal.Parse(sdr["TradeDiscountAmount"].ToString()) : supplierInvoiceDetail.TradeDiscountAmount);
+                                        supplierInvoiceDetail.Total = (sdr["Total"].ToString() != "" ? decimal.Parse(sdr["Total"].ToString()) : supplierInvoiceDetail.Total);
+                                        supplierInvoiceDetail.TaxableAmount = (sdr["TaxableAmount"].ToString() != "" ? decimal.Parse(sdr["TaxableAmount"].ToString()) : supplierInvoiceDetail.TaxableAmount);
+
+                                    }
+                                    supplierInvoiceDetailList.Add(supplierInvoiceDetail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return supplierInvoiceDetailList;
         }
     }
 }
