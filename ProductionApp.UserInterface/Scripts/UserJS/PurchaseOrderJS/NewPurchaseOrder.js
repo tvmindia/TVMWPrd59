@@ -71,7 +71,7 @@ $(document).ready(function () {
                  },
                  {
                      "data": "ApproximateRate", "defaultContent": "<i>-</i>", "width": "20%", 'render': function (data, type, row) {
-                         return '<input class="form-control text-right " name="Markup" value="' + row.ApproximateRate + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="textBoxValueChanged(this,2);"style="width:100%">';
+                         return '<input class="form-control text-right " name="Markup" value="' + roundoff(row.ApproximateRate) + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="textBoxValueChanged(this,2);"style="width:100%">';
                      }
                  },
                  {
@@ -98,7 +98,7 @@ $(document).ready(function () {
                  {
                      "data": "POQty", "defaultContent": "<i>-</i>", "width": "20%",
                      'render': function (data, type, row) {
-                         return '<input class="form-control text-right " name="Markup" type="text"  value="' + data + '"  onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="textBoxValueChanged(this,4);"style="width:100%">';
+                         return '<input class="form-control text-right " name="Markup" type="text"  value="' + roundoff(data) + '"  onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="textBoxValueChanged(this,4);"style="width:100%">';
                      }
                  },
                  { "data": "RawMaterial.UnitCode", "defaultContent": "<i>-</i>" }
@@ -219,7 +219,7 @@ $(document).ready(function () {
                         },
                         {
                           "data": "Rate", "defaultContent": "<i>-</i>", "width": "10%", 'render': function (data, type, row) {
-                              return '<input class="form-control text-right " name="Markup" value="' + roundoff(data, 1) + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="EdittextBoxValue(this,2);"style="width:100%">';
+                              return '<input class="form-control text-right " name="Markup" value="' + roundoff(data) + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="EdittextBoxValue(this,2);"style="width:100%">';
                         }
                         },
                         {
@@ -238,9 +238,7 @@ $(document).ready(function () {
                          {
                              "data": "Discount", "defaultContent": "<i>-</i>",
                              'render': function (data, type, row) {
-                                 if (data!=0)
-                                     data = roundoff(data, 1);
-                                 return '<input class="form-control description text-right" name="Markup" value="' + data + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" onchange="EdittextBoxValue(this,3);"style="width:100%">';
+                                 return '<input class="form-control description text-right" name="Markup" value="' + roundoff(data) + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" onchange="EdittextBoxValue(this,3);"style="width:100%">';
                           }
                           },
                           { "data": "RequisitionDetail.RequestedQty", "defaultContent": "<i>-</i>", "width": "10%"},
@@ -248,7 +246,7 @@ $(document).ready(function () {
                           {
                             "data": "Qty", "defaultContent": "<i>-</i>", "width": "10px",
                             'render': function (data, type, row) {
-                                return '<input class="form-control text-right " name="Markup" type="text"  value="' + data + '"  onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="EdittextBoxValue(this,6);"style="width:100%">';
+                                return '<input class="form-control text-right " name="Markup" type="text"  value="' + roundoff(data) + '"  onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="EdittextBoxValue(this,6);"style="width:100%">';
                            }
                            }
                                
@@ -606,7 +604,7 @@ function AddPODetails()
             {
                 Particulars = Particulars + "," + requistionDetailsVM[j].ReqNo;
                 requistionDetailsVM[r].POQty = parseFloat(requistionDetailsVM[r].POQty) + parseFloat(requistionDetailsVM[j].POQty);
-                requistionDetailsVM[r].Discount = parseFloat(requistionDetailsVM[r].Discount);
+                requistionDetailsVM[r].Discount = parseFloat(requistionDetailsVM[r].Discount) + parseFloat(requistionDetailsVM[j].Discount);
                 requistionDetailsVM[r].TaxTypeCode = requistionDetailsVM[r].TaxTypeCode;
                 requistionDetailsVM.splice(j, 1);//removing duplicate after adding value 
                 j = j - 1;// for avoiding skipping row while checking
@@ -1040,7 +1038,7 @@ function EditPODetails() {
     for (var r = 0; r < purchaseOrderVM.length; r++) {
         for (var j = r + 1; j < purchaseOrderVM.length; j++) {
             purchaseOrderVM[r].Qty = parseFloat(purchaseOrderVM[r].Qty) + parseFloat(purchaseOrderVM[j].Qty);
-            purchaseOrderVM[r].Discount = parseFloat(purchaseOrderVM[r].Discount);
+            purchaseOrderVM[r].Discount = parseFloat(purchaseOrderVM[r].Discount) + parseFloat(purchaseOrderVM[j].Discount);
             purchaseOrderVM[r].TaxTypeCode = purchaseOrderVM[r].TaxTypeCode;
             purchaseOrderVM.splice(j, 1);//removing duplicate after adding value 
             j = j - 1;// for avoiding skipping row while checking
