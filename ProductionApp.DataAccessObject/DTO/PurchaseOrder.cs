@@ -63,6 +63,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal SGSTAmt { get; set; }
         public decimal IGSTAmt { get; set;  }
         public decimal Discount { get; set; }
+        public decimal CGSTPerc { get; set; }
+        public decimal IGSTPerc { get; set; }
+        public decimal SGSTPerc { get; set; }
         //additional prop
         public string MaterialCode { get; set; }
         public string MaterialTypeDesc { get; set; }

@@ -689,11 +689,14 @@ function AddRequsitionDetail(mergedRows) {
                 var taxTypeVM = GetTaxTypeByCode(PODetailViewModel.TaxTypeCode);
                 PODetailViewModel.CGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(taxTypeVM.CGSTPercentage) / 100);
                 PODetailViewModel.SGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(taxTypeVM.SGSTPercentage) / 100);
-                
+                PODetailViewModel.CGSTPerc = parseFloat(taxTypeVM.CGSTPercentage);
+                PODetailViewModel.SGSTPerc = parseFloat(taxTypeVM.SGSTPercentage);
             }
             else {
                 PODetailViewModel.CGSTAmt = 0;
                 PODetailViewModel.SGSTAmt = 0;
+                PODetailViewModel.CGSTPerc = 0;
+                PODetailViewModel.SGSTPerc = 0;
             }
             PODetailViewModel.Total = parseFloat(PODetailViewModel.Tax) + parseFloat(PODetailViewModel.CGSTAmt) + parseFloat(PODetailViewModel.SGSTAmt);
             PODDetail.push(PODetailViewModel);
@@ -1071,11 +1074,14 @@ function EditPODetails() {
                 var taxTypeVM = GetTaxTypeByCode(PODetailViewModel.TaxTypeCode);
                 PODetailViewModel.CGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(taxTypeVM.CGSTPercentage) / 100);
                 PODetailViewModel.SGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(taxTypeVM.SGSTPercentage) / 100);
-
+                PODetailViewModel.CGSTPerc = parseFloat(taxTypeVM.CGSTPercentage);
+                PODetailViewModel.SGSTPerc = parseFloat(taxTypeVM.SGSTPercentage);
             }
             else {
                 PODetailViewModel.CGSTAmt = 0;
                 PODetailViewModel.SGSTAmt = 0;
+                PODetailViewModel.CGSTPerc = 0;
+                PODetailViewModel.SGSTPerc = 0;
             }
             PODetailViewModel.Total = parseFloat(PODetailViewModel.Tax) + parseFloat(PODetailViewModel.CGSTAmt) + parseFloat(PODetailViewModel.SGSTAmt);
             PODDetail.push(PODetailViewModel);

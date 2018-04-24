@@ -95,10 +95,14 @@ namespace ProductionApp.UserInterface.Models
             public decimal SGSTAmt { get; set; }
             public decimal IGSTAmt { get; set; }
             public decimal Discount { get; set; }
+            public decimal CGSTPerc { get; set; }
+            public decimal IGSTPerc { get; set; }
+            public decimal SGSTPerc { get; set; }
             //additional prop
             public string MaterialTypeDesc { get; set; }
             public string MaterialCode { get; set; }
             public decimal Amount { get; set; }
+            public decimal PrevRcvQty { get; set; }
             public RequisitionDetailViewModel RequisitionDetail { get; set; }
     }
         public class PurchaseOrderOtherChargesViewModel
