@@ -1,5 +1,6 @@
 ﻿using ProductionApp.BusinessService.Contracts;
 using ProductionApp.UserInterface.Models;
+using ProductionApp.UserInterface.SecurityFilter;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -24,12 +25,15 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion Constructor Injection
 
         // GET: PurchaseDashboard
+        [AuthSecurityFilter(ProjectObject = "DashboardPurchase", Mode = "R")]
         public ActionResult Index(string Code)
         {
             ViewBag.SysModuleCode = Code;
             return View();
         }
 
+        #region RecentRequisition
+        [AuthSecurityFilter(ProjectObject = "DashboardPurchase", Mode = "R")]
         public ActionResult RecentRequisition()
         {       
             RequisitionViewModel Requisition = new RequisitionViewModel();
@@ -37,7 +41,10 @@ namespace ProductionApp.UserInterface.Controllers
             Requisition.RequisitionList = Mapper.Map<List<Requisition>, List<RequisitionViewModel>>(_requisitionBusiness.GetRecentRequisition(Requisition.BaseURL));
             return PartialView("_RecentRequisitions", Requisition);
         }
+        #endregion RecentRequisition
 
+        #region RecentPurchaseOrder
+        [AuthSecurityFilter(ProjectObject = "DashboardPurchase", Mode = "R")]
         public ActionResult RecentPurchaseOrder()
         {
             PurchaseOrderViewModel PurchaseOrder = new PurchaseOrderViewModel();
@@ -45,5 +52,6 @@ namespace ProductionApp.UserInterface.Controllers
             PurchaseOrder.PurchaseOrderList = Mapper.Map<List<PurchaseOrder>, List<PurchaseOrderViewModel>>(_purchaseOrderBusiness.RecentPurchaseOrder(PurchaseOrder.BaseURL));
             return PartialView("_PurchaseOrderSummary", PurchaseOrder);
         }
+        #endregion RecentPurchaseOrder
     }
 }

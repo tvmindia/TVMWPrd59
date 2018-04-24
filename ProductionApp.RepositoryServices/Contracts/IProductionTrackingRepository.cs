@@ -14,5 +14,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         object InsertUpdateProductionTracking(ProductionTracking productionTracking);
         object DeleteProductionTracking(ProductionTracking productionTracking);
         ProductionTracking GetProductionTracking(Guid id);
+        List<ProductionTracking> GetRecentProductionTracking();
     }
 }

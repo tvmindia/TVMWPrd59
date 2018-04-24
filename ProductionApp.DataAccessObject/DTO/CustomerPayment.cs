@@ -38,6 +38,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
+        public List<CustomerPayment> CustomerPaymentList { get; set; }
+        public string BaseURL { get; set; }
+        public Customer Customer { get; set; }
     }
     public class CustomerPaymentDetail
     {

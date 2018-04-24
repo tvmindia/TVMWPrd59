@@ -38,5 +38,11 @@ namespace ProductionApp.BusinessService.Services
         {
             return _assemblyRepository.DeleteAssembly(id, createdBy);
         }
+
+
+        public List<Assembly> GetRecentAssemblyProduct(string BaseURL)
+        {
+            return _assemblyRepository.GetRecentAssemblyProduct();
+        }
     }
 }

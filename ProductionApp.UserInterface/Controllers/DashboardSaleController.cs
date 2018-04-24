@@ -1,5 +1,6 @@
 ﻿using ProductionApp.BusinessService.Contracts;
 using ProductionApp.UserInterface.Models;
+using ProductionApp.UserInterface.SecurityFilter;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,15 @@ namespace ProductionApp.UserInterface.Controllers
 
 
         // GET: DashboardSales
+        [AuthSecurityFilter(ProjectObject = "DashboardSale", Mode = "R")]
         public ActionResult Index(string Code)
         {
             ViewBag.SysModuleCode = Code;
             return View();
         }
+
+        #region RecentSalesOrder
+        [AuthSecurityFilter(ProjectObject = "DashboardSale", Mode = "R")]
         public ActionResult RecentSalesOrder()
         {
             SalesOrderViewModel SalesOrder = new SalesOrderViewModel();
@@ -35,7 +40,10 @@ namespace ProductionApp.UserInterface.Controllers
             SalesOrder.SalesOrderList = Mapper.Map<List<SalesOrder>, List<SalesOrderViewModel>>(_salesOrderBusiness.GetRecentSalesOrder(SalesOrder.BaseURL));
             return PartialView("_RecentSalesOrder", SalesOrder);
         }
+        #endregion RecentSalesOrder
 
+        #region RecentPackingSlip
+        [AuthSecurityFilter(ProjectObject = "DashboardSale", Mode = "R")]
         public ActionResult RecentPackingSlip()
         {
             PackingSlipViewModel PackingSlip = new PackingSlipViewModel();
@@ -43,5 +51,6 @@ namespace ProductionApp.UserInterface.Controllers
             PackingSlip.PackingSlipList = Mapper.Map<List<PackingSlip>, List<PackingSlipViewModel>>(_packingSlipBusiness.GetRecentPackingSlip(PackingSlip.BaseURL));
             return PartialView("_RecentPackingSlip", PackingSlip);
         }
+        #endregion RecentPackingSlip
     }
 }

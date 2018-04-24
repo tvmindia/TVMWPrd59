@@ -40,6 +40,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public PackingSlip PackingSlip { get; set; }
         public List<CustomerInvoiceDetail> CustomerInvoiceDetailList { get; set; }
         public CustomerPayment CustomerPayment { get; set; }
+        public List<CustomerInvoice> CustomerInvoiceList { get; set; }
+        public string BaseURL { get; set; }
 
     }
     public class CustomerInvoiceDetail

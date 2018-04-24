@@ -24,5 +24,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<BOMComponentLineStageDetail> GetBOMComponentLineStageDetail(Guid id);
         bool CheckLineNameExist(string lineName);
         bool CheckBillOfMaterialExist(Guid productID);
+        List<BillOfMaterial> GetRecentBillOfMaterial();
     }
 }

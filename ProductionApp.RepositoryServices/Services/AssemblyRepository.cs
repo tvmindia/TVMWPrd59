@@ -14,7 +14,7 @@ namespace ProductionApp.RepositoryServices.Services
     {
         private IDatabaseFactory _databaseFactory;
         AppConst _appConst = new AppConst();
-
+        Settings settings = new Settings();
         #region Constructor Injection
         /// <summary>
         /// Constructor Injection:-Getting IDatabaseFactory implementing object
@@ -287,6 +287,53 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
         #endregion DeleteAssembly
+
+        #region GetRecentAssemblyProduct
+        public List<Assembly> GetRecentAssemblyProduct()
+        {
+            List<Assembly> assemblyList = new List<Assembly>();
+            Assembly assembly = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRecentAssemblyProduct]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    assembly = new Assembly();
+                                    assembly.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    assembly.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : assembly.EntryNo);
+                                    assembly.AssemblyDateFormatted = (sdr["AssemblyDate"].ToString() != "" ? DateTime.Parse(sdr["AssemblyDate"].ToString()).ToString(settings.DateFormat) : assembly.AssemblyDateFormatted);
+                                    assembly.Product = new Product();
+                                    assembly.Product.Name = (sdr["Product"].ToString() != "" ? sdr["Product"].ToString() : assembly.Product.Name);
+                                    assembly.Employee = new Employee();
+                                    assembly.Employee.Name = (sdr["EmployeeName"].ToString() != "" ? sdr["EmployeeName"].ToString() : assembly.Employee.Name);
+                                    assemblyList.Add(assembly);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return assemblyList;
+        }
+        #endregion GetRecentAssemblyProduct
 
     }
 }

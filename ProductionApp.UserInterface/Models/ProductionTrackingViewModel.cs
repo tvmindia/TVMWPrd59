@@ -54,6 +54,8 @@ namespace ProductionApp.UserInterface.Models
 
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
+        public List<ProductionTrackingViewModel> ProductionTrackingList { get; set; }
+        public string BaseURL { get; set; }
     }
 
     public class ProductionTrackingAdvanceSearchViewModel

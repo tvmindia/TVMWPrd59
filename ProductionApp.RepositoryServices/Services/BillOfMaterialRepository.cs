@@ -508,7 +508,8 @@ namespace ProductionApp.RepositoryServices.Services
                     }
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw ex;
             }
             return bOMComponentLineList;
@@ -737,7 +738,52 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return bOMComponentLineStageDetailList;
         }
-    }
-    #endregion GetBOMComponentLineStageDetail
+        #endregion GetBOMComponentLineStageDetail
 
+        #region GetRecentBillOfMaterial
+        public List<BillOfMaterial> GetRecentBillOfMaterial()
+        {
+            List<BillOfMaterial> billOfMaterialList = new List<BillOfMaterial>();
+            BillOfMaterial billOfMaterial = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRecentBillOfMaterial]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    billOfMaterial = new BillOfMaterial();
+                                    billOfMaterial.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    billOfMaterial.Product = new Product();
+                                    billOfMaterial.Product.Name = (sdr["Product"].ToString() != "" ? sdr["Product"].ToString() : billOfMaterial.Product.Name);
+                                    billOfMaterial.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : billOfMaterial.Description);
+                                    billOfMaterialList.Add(billOfMaterial);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return billOfMaterialList;
+        }
+        #endregion GetRecentBillOfMaterial
+    }
 }
+
+  

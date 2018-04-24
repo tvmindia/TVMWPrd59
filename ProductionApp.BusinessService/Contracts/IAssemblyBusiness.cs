@@ -14,5 +14,6 @@ namespace ProductionApp.BusinessService.Contracts
         object InsertUpdateAssembly(Assembly assembly);
         Assembly GetAssembly(Guid id);
         object DeleteAssembly(Guid id, string createdBy);
+        List<Assembly> GetRecentAssemblyProduct(string BaseURL);
     }
 }
