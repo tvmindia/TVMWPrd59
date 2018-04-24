@@ -48,7 +48,7 @@ namespace ProductionApp.BusinessService.Services
         {
             return _requisitionRepository.GetAllRequisitionForPurchaseOrder();
         }
-        public List<RequisitionDetail> GetRequisitionDetailsByIDs(string IDs, string POID)
+        public List<RequisitionDetail> GetRequisitionDetailsByIDs(string IDs, Guid POID)
         {
             return _requisitionRepository.GetRequisitionDetailsByIDs(IDs, POID);
         }

@@ -211,7 +211,7 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                List<RequisitionDetailViewModel> requisitionDetailVMList = Mapper.Map<List<RequisitionDetail>, List<RequisitionDetailViewModel>>(_requisitionBusiness.GetRequisitionDetailsByIDs(IDs, POID));
+                List<RequisitionDetailViewModel> requisitionDetailVMList = Mapper.Map<List<RequisitionDetail>, List<RequisitionDetailViewModel>>(_requisitionBusiness.GetRequisitionDetailsByIDs(IDs, Guid.Parse(POID)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = requisitionDetailVMList, Message = "Success" });
             }
             catch (Exception ex)

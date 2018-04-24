@@ -90,11 +90,7 @@ $(document).ready(function () {
                   {
                       "data": "Discount", "defaultContent": "<i>-</i>", "width": "20%",
                       'render': function (data, type, row) {
-                          if (data == undefined)
-                              data = 0.0;
-                          else
-                              data = row.Discount;
-                          return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onchange="textBoxValueChanged(this,3);"style="width:100%">';
+                          return '<input class="form-control text-right" name="Markup" value="' + roundoff(data) + '" type="text" onchange="textBoxValueChanged(this,3);"style="width:100%">';
                       }
                   },
                 { "data": "RequestedQty", "defaultContent": "<i>-</i>", "width": "5%" },
@@ -232,10 +228,10 @@ $(document).ready(function () {
                                if (data != null) {
                                    var first = _taxDropdownScript.slice(0, _taxDropdownScript.indexOf('value="' + data + '"'));
                                    var second = _taxDropdownScript.slice(_taxDropdownScript.indexOf('value="' + data + '"'), _taxDropdownScript.length);
-                                   return '<select class="form-control" onchange="textBoxValueChanged(this,5);" >' + first + ' selected="selected" ' + second + '</select>';
+                                   return '<select class="form-control" onchange="EdittextBoxValue(this,5);" >' + first + ' selected="selected" ' + second + '</select>';
                                }
                                else {
-                                   return '<select class="form-control" onchange="textBoxValueChanged(this,5);" >' + _taxDropdownScript + '</select>';
+                                   return '<select class="form-control" onchange="EdittextBoxValue(this,5);" >' + _taxDropdownScript + '</select>';
                                }
                            }
                            },
@@ -529,17 +525,23 @@ function textBoxValueChanged(thisObj, textBoxCode) {
     for (var i = 0; i < requestionDetailsVM.length; i++) {
         if (requestionDetailsVM[i].ID == rowtable.ID) {
             if (textBoxCode == 1)//textBoxCode is the code to know, which textbox changed is triggered
+            {
                 requestionDetailsVM[i].Description = thisObj.value;
-            if (textBoxCode == 2)
+            }
+            if (textBoxCode == 2) {
+                if ((thisObj.value != "") && (thisObj.value != 0))
                 requestionDetailsVM[i].ApproximateRate = parseFloat(thisObj.value);
+            }
             if (textBoxCode == 3) {
                 if (thisObj.value != "")
                     requestionDetailsVM[i].Discount = parseFloat(thisObj.value);
                 else
                     requestionDetailsVM[i].Discount = 0;
             }
-            if (textBoxCode == 4)
+            if (textBoxCode == 4) {
+                if ((thisObj.value != "") && (thisObj.value != 0))
                 requestionDetailsVM[i].POQty = parseFloat(thisObj.value);
+            }
             if (textBoxCode == 5)
             {
                 var taxTypeVM = GetTaxtypeDropdown();
@@ -991,6 +993,7 @@ function EditPurchaseOrderDetailByID(ID) {
     try {
         debugger;
         _SlNo = 1;
+        TaxtypeDropdown();
         DataTables.EditPurchaseDetailsTable.clear().rows.add(EditPurchaseOrderDetail(ID)).draw(false);
     }
     catch (e) {
@@ -1037,7 +1040,8 @@ function EditPODetails() {
     for (var r = 0; r < purchaseOrderVM.length; r++) {
         for (var j = r + 1; j < purchaseOrderVM.length; j++) {
             purchaseOrderVM[r].Qty = parseFloat(purchaseOrderVM[r].Qty) + parseFloat(purchaseOrderVM[j].Qty);
-            purchaseOrderVM[r].Discount = parseFloat(purchaseOrderVM[r].Discount) + parseFloat(purchaseOrderVM[j].Discount);
+            purchaseOrderVM[r].Discount = parseFloat(purchaseOrderVM[r].Discount);
+            purchaseOrderVM[r].TaxTypeCode = purchaseOrderVM[r].TaxTypeCode;
             purchaseOrderVM.splice(j, 1);//removing duplicate after adding value 
             j = j - 1;// for avoiding skipping row while checking
         }
@@ -1058,7 +1062,7 @@ function EditPODetails() {
             PODetailViewModel.Particulars = mergedRows[r].Particulars;
             PODetailViewModel.Discount = mergedRows[r].Discount;
             PODetailViewModel.TaxTypeCode = mergedRows[r].TaxTypeCode;
-            PODetailViewModel.Amount = parseFloat(mergedRows[r].ApproximateRate) * parseFloat(mergedRows[r].POQty);
+            PODetailViewModel.Amount = parseFloat(mergedRows[r].Rate) * parseFloat(mergedRows[r].Qty);
             if (mergedRows[r].Discount != null)
                 PODetailViewModel.Tax = parseFloat(PODetailViewModel.Amount) - parseFloat(PODetailViewModel.Discount);
             else
@@ -1096,21 +1100,30 @@ function EditRequsitionDetailLink(data) {
         PurchaseOrderDetailLink.ReqID = data[r].RequisitionDetail.ReqID;
         PurchaseOrderDetailLink.PurchaseOrderQty = data[r].Qty;
         PurchaseOrderDetailLink.Discount = data[r].Discount;
-        PurchaseOrderDetailLink.TaxTypeCode = $("#dddl" + data[r].RequisitionDetail.ID).val();
+        PurchaseOrderDetailLink.TaxTypeCode = data[r].TaxTypeCode;
         //---------------------
         PurchaseOrderDetailLink.Amount = parseFloat(data[r].Rate) * parseFloat(data[r].Qty);
-        if (PurchaseOrderDetailLink.Discount != null)
+        if (PurchaseOrderDetailLink.Discount != undefined)
             PurchaseOrderDetailLink.Tax = parseFloat(PurchaseOrderDetailLink.Amount) - parseFloat(PurchaseOrderDetailLink.Discount);
         else
             PurchaseOrderDetailLink.Tax = parseFloat(PurchaseOrderDetailLink.Amount);
         //Particulars after adding same material(item)
-        var taxTypeVM = GetTaxTypeByCode(PurchaseOrderDetailLink.TaxTypeCode);
-        PurchaseOrderDetailLink.CGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(taxTypeVM.CGSTPercentage) / 100);
-        PurchaseOrderDetailLink.SGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(taxTypeVM.SGSTPercentage) / 100);
+        if (PurchaseOrderDetailLink.TaxTypeCode != undefined && PurchaseOrderDetailLink.TaxTypeCode != "") {
+            var taxTypeVM = GetTaxTypeByCode(PurchaseOrderDetailLink.TaxTypeCode);
+            PurchaseOrderDetailLink.CGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(taxTypeVM.CGSTPercentage) / 100);
+            PurchaseOrderDetailLink.SGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(taxTypeVM.SGSTPercentage) / 100);
+
+        }
+        else {
+            PurchaseOrderDetailLink.CGSTAmt = 0;
+            PurchaseOrderDetailLink.SGSTAmt = 0;
+        }
         PurchaseOrderDetailLink.Total = parseFloat(PurchaseOrderDetailLink.Tax) + parseFloat(PurchaseOrderDetailLink.CGSTAmt) + parseFloat(PurchaseOrderDetailLink.SGSTAmt);
-        ECGST = ECGST +parseFloat( PurchaseOrderDetailLink.CGSTAmt);
-        ESGST = ESGST +parseFloat( PurchaseOrderDetailLink.SGSTAmt);
-        ETotal = ETotal +parseFloat( PurchaseOrderDetailLink.Total);
+        ECGST = ECGST + parseFloat(PurchaseOrderDetailLink.CGSTAmt);
+        PurchaseOrderDetailLink.ECGST = ECGST;
+        ESGST = ESGST + parseFloat(PurchaseOrderDetailLink.SGSTAmt);
+        PurchaseOrderDetailLink.ESGST = ESGST;
+        ETotal = ETotal + parseFloat(PurchaseOrderDetailLink.Total);
         PODDetailLink.push(PurchaseOrderDetailLink);
     }
 }
@@ -1159,11 +1172,19 @@ function EdittextBoxValue(thisObj, textBoxCode) {
     for (var i = 0; i < purchaseOrderVM.length; i++) {
         if (purchaseOrderVM[i].RequisitionDetail.ID == rowtable.RequisitionDetail.ID) {
             if (textBoxCode == 1)//textBoxCode is the code to know, which textbox changed is triggered
+            {
                 purchaseOrderVM[i].MaterialDesc = thisObj.value;
-            if (textBoxCode == 2)
+            }
+            if (textBoxCode == 2) {
+                if ((thisObj.value != "") && (thisObj.value != 0))
                 purchaseOrderVM[i].Rate = parseFloat(thisObj.value);
-            if (textBoxCode == 3)
-                purchaseOrderVM[i].Discount = parseFloat(thisObj.value);
+            }
+            if (textBoxCode == 3) {
+                if (thisObj.value != "")
+                    purchaseOrderVM[i].Discount = parseFloat(thisObj.value);
+                else
+                    purchaseOrderVM[i].Discount = 0;
+            }
             if (textBoxCode == 5)
             {
                 var taxTypeVM = GetTaxtypeDropdown();
@@ -1176,8 +1197,10 @@ function EdittextBoxValue(thisObj, textBoxCode) {
                     }
                 }
             }
-            if (textBoxCode == 6)
-                purchaseOrderVM[i].Qty = parseFloat(thisObj.value);
+            if (textBoxCode == 6) {
+                if ((thisObj.value != "") && (thisObj.value != 0))
+                    purchaseOrderVM[i].Qty = parseFloat(thisObj.value);
+            }
         }
     }
     DataTables.EditPurchaseDetailsTable.clear().rows.add(purchaseOrderVM).draw(false);
