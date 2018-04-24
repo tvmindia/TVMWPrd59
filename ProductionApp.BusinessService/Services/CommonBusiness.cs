@@ -38,7 +38,7 @@ namespace ProductionApp.BusinessService.Services
             {
                 string name = p.Name;
                 var value = p.GetValue(some_object, null);
-                result = result + " " + name + @"=""" + value + @""" ";
+                result = result + " " + name + @"=""" + (value != null ? value.ToString().Replace("\"", "&quot;").Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;") : value) + @""" ";
             }
             result = result + "></item>";
             totalRows = totalRows + 1;

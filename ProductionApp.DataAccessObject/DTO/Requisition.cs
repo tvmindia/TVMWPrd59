@@ -49,7 +49,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public string OrderedQty { get; set; }
         public string ReqNo { get; set; }
         public Common Common { get; set; }
-        public Material Material { get; set; }       
+        public Material Material { get; set; }   
+        public Decimal Discount { get; set; }    
     }
 
     public class RequisitionAdvanceSearch

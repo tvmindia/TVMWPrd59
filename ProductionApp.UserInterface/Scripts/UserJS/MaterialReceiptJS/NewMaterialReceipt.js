@@ -575,9 +575,10 @@ function BindMaterialReceipt() {
     MaterialReceiptViewModel = GetMaterialReceipt(id);
     $('#ReceiptNo').val(MaterialReceiptViewModel.ReceiptNo);
     $('#ReceiptDateFormatted').val(MaterialReceiptViewModel.ReceiptDateFormatted);
+    $('#SupplierID').val(MaterialReceiptViewModel.SupplierID).trigger('change');
     $('#PurchaseOrderNo').val(MaterialReceiptViewModel.PurchaseOrderNo);
+    $('#hdnPurchaseOrderID').val(MaterialReceiptViewModel.PurchaseOrderID);
     $('#PurchaseOrderID').val(MaterialReceiptViewModel.PurchaseOrderID).select2();
-    $('#SupplierID').val(MaterialReceiptViewModel.SupplierID).select2();
     $('#GeneralNotes').val(MaterialReceiptViewModel.GeneralNotes);
     BindMaterialReceiptDetailTable(id);//Get All MaterialReceiptDetails By HeaderID
 }
@@ -687,6 +688,7 @@ function PurchaseOrderOnChange() {
             $("#PurchaseOrderNo").val($('#PurchaseOrderID').find('option:selected').text());
             $('#msgPurchase').hide();
         });
+        $('#hdnPurchaseOrderID').val($('#PurchaseOrderID').val());
 
     }
     catch (ex) {

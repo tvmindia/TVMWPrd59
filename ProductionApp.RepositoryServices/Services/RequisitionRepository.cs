@@ -208,7 +208,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion GetAllrequisition For purchaseOrder
 
         #region GetRequisitionDetailsByID
-        public List<RequisitionDetail> GetRequisitionDetailsByIDs(string IDs, string POID)
+        public List<RequisitionDetail> GetRequisitionDetailsByIDs(string IDs, Guid POID)
         {
             List<RequisitionDetail> requisitionList = null;
             try
@@ -224,8 +224,8 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetRequisitionDetailsByIDs]";
                         cmd.Parameters.Add("@IDs", SqlDbType.NVarChar, -1).Value = IDs;
-                        if (!string.IsNullOrEmpty(POID))
-                            cmd.Parameters.Add("@POID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(POID);
+                        if (POID != Guid.Empty)
+                            cmd.Parameters.Add("@POID", SqlDbType.UniqueIdentifier).Value = POID;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -247,7 +247,12 @@ namespace ProductionApp.RepositoryServices.Services
                                         requisition.Material = new Material();
                                         requisition.Material.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : requisition.Material.MaterialCode);
                                         requisition.Material.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : requisition.Material.UnitCode);
-                                        requisition.POQty = (decimal.Parse(requisition.RequestedQty) - decimal.Parse(requisition.OrderedQty)).ToString();
+                                        requisition.Discount = 0;
+                                        //requisition.POQty = (decimal.Parse(requisition.RequestedQty) - decimal.Parse(requisition.OrderedQty)).ToString();
+                                        if ((decimal.Parse(requisition.RequestedQty) - decimal.Parse(requisition.OrderedQty)) > 0)
+                                            requisition.POQty = (decimal.Parse(requisition.RequestedQty) - decimal.Parse(requisition.OrderedQty)).ToString();
+                                        else
+                                            requisition.POQty = "0";
                                     }
                                     requisitionList.Add(requisition);
                                 }
