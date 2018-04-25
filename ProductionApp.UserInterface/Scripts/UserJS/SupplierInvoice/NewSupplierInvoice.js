@@ -289,6 +289,7 @@ function IsFromPurchaseOrderChanged() {
 function ShowSupplierInvoiceDetailModal()
 {
     $("#supplierInvoiceDetailModalLabel").text('Add Supplier Invoice Detail');
+    $("#MaterialID").prop("disabled", false);
     $("#MaterialID").val('').select2();
     $('#SupplierInvoiceDetail_UnitCode').val('');
     $('#SupplierInvoiceDetail_Quantity').val('');
@@ -744,6 +745,7 @@ function ItemDetailsEdit(thisObj) {
     var rowData = _dataTables.SupplierInvoiceDetailTable.row($(thisObj).parents('tr')).data(); 
     var supplierInvoiceDetailVM= GetSupplierInvoiceDetail(rowData.ID)
     $('#SupplierInvoiceDetail_ID').val(rowData.ID);
+    $("#MaterialID").prop("disabled", true);
     $("#MaterialID").val(supplierInvoiceDetailVM.MaterialID).select2();
     $('#SupplierInvoiceDetail_UnitCode').val(supplierInvoiceDetailVM.UnitCode);
     $('#SupplierInvoiceDetail_Quantity').val(supplierInvoiceDetailVM.Quantity);
@@ -845,7 +847,7 @@ function DeleteSupplierInvoiceDetail(id) {
 //##18--Discount Amount Changed -------------------------------------------------------##18
 function DiscountAmountChanged(thisObj) {
     debugger;
-    if (thisObj.value != "") {
+    if (thisObj.value != "" && thisObj.value!=".") {
         var InvoiceAmount = $('#InvoiceAmount').val();
         var calculatedAmount = parseFloat(InvoiceAmount) - parseFloat(thisObj.value);
         $('#lblInvoiceAmount').text(roundoff(calculatedAmount));
@@ -853,6 +855,7 @@ function DiscountAmountChanged(thisObj) {
     }
     else {
         $('#Discount').val(roundoff(0));
+        $('#Discount').select();
     }
 
 }
