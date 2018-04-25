@@ -10,14 +10,18 @@ namespace ProductionApp.UserInterface.Models
     {
         public Guid ID { get; set; }
         [Display(Name = "Invoice No")]
+        [Required(ErrorMessage = "Invoice No is missing")]
         public string InvoiceNo { get; set; }
         [Display(Name = "Supplier")]
+        [Required(ErrorMessage = "Supplier is missing")]
         public Guid SupplierID { get; set; }
         [Display(Name = "Payment Term")]
         public string PaymentTermCode { get; set; }
         [Display(Name = "Invoice Date")]
+        [Required(ErrorMessage = "Invoice Date is missing")]
         public string InvoiceDateFormatted { get; set; }
         [Display(Name = "Payment Due Date")]
+        [Required(ErrorMessage = "Payment Due Date is missing")]
         public string PaymentDueDateFormatted { get; set; }
         [Display(Name = "Billing Address")]
         public string BillingAddress { get; set; }

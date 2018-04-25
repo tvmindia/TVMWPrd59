@@ -217,14 +217,14 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion InsertUpdateSupplierInvoice
 
-        #region GetSupplierInvoiceDetail
+        #region GetAllSupplierInvoiceDetail
         [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
-        public string GetSupplierInvoiceDetail(string ID)
+        public string GetAllSupplierInvoiceDetail(string id)
         {
             try
             {
                 List<SupplierInvoiceDetailViewModel> supplierInvoiceDetailVM = new List<SupplierInvoiceDetailViewModel>();
-                supplierInvoiceDetailVM = Mapper.Map<List<SupplierInvoiceDetail>, List<SupplierInvoiceDetailViewModel>>(_supplierInvoiceBusiness.GetSupplierInvoiceDetail(Guid.Parse(ID)));
+                supplierInvoiceDetailVM = Mapper.Map<List<SupplierInvoiceDetail>, List<SupplierInvoiceDetailViewModel>>(_supplierInvoiceBusiness.GetAllSupplierInvoiceDetail(Guid.Parse(id)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierInvoiceDetailVM });
             }
             catch (Exception ex)
@@ -234,7 +234,24 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
 
-        #endregion GetSupplierInvoiceDetail
+        #endregion GetAllSupplierInvoiceDetail
+
+        #region GetSupplierInvoiceDetail
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
+        public string GetSupplierInvoiceDetail(string id)
+        {
+            try
+            {
+                SupplierInvoiceDetailViewModel supplierInvoiceDetailVM = Mapper.Map<SupplierInvoiceDetail, SupplierInvoiceDetailViewModel>(_supplierInvoiceBusiness.GetSupplierInvoiceDetail(Guid.Parse(id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierInvoiceDetailVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetSupplierInvoice
+
 
         #region DeleteSupplierInvoice
         [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "D")]

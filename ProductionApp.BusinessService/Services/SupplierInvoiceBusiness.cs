@@ -56,7 +56,11 @@ namespace ProductionApp.BusinessService.Services
             return _supplierInvoiceRepository.DeleteSupplierInvoiceDetail(id);
         }
 
-        public List<SupplierInvoiceDetail> GetSupplierInvoiceDetail(Guid id)
+        public List<SupplierInvoiceDetail> GetAllSupplierInvoiceDetail(Guid id)
+        {
+            return _supplierInvoiceRepository.GetAllSupplierInvoiceDetail(id);
+        }
+        public SupplierInvoiceDetail GetSupplierInvoiceDetail(Guid id)
         {
             return _supplierInvoiceRepository.GetSupplierInvoiceDetail(id);
         }
