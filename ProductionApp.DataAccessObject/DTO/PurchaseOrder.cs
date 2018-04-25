@@ -70,6 +70,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string MaterialCode { get; set; }
         public string MaterialTypeDesc { get; set; }
         public decimal Amount { get; set; }
+        public decimal PrevRcvQty { get; set; }
         public RequisitionDetail RequisitionDetail { get; set; }
     }
     public class PurchaseOrderOtherCharges
