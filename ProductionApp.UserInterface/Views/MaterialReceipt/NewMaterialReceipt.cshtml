@@ -71,15 +71,28 @@
                         @Html.LabelFor(model => model.Supplier, htmlAttributes: new { @class = "control-label lblrequired" })
                     </div>
                     <div class="col-md-12">
-                        @Html.Action("SupplierDropdown", "Supplier")
-                        <span class="text-danger" id="msgSupplier">* Supplier not Selected</span>
+                        @Html.HiddenFor(model => model.SupplierID, htmlAttributes: new { @id= "hdnSupplierID" })
+                        <div id="divSupplierDropdown">
+                            @Html.Action("SupplierDropdown", "Supplier")
+                        </div>
+                        <span class="text-danger" id="msgSupplier" style="display:none;">* Supplier not Selected</span>
                     </div>
                 </div>
                 <div class="form-group col-md-12">&nbsp;</div>
                 <div class="form-group col-md-4">
                     <div class="col-md-12 ">
-                        From Existing Purchase Order:
-                        @Html.CheckBox("IsExisting", htmlAttributes: new { @class = "checkbox-inline", @OnChange = "ExistingPurchaseOrderOnCheckChanged()", @checked = "checked" })
+                        @Html.Label("Load From Existing Purchase Order", htmlAttributes: new { @class = "control-label" })
+                        @*@Html.CheckBox("IsExisting", htmlAttributes: new { @class = "checkbox-inline", @OnChange = "ExistingPurchaseOrderOnCheckChanged()", @checked = "checked" })*@
+                    </div>
+                    <div class="col-md-12">
+                        @{ 
+                            List<SelectListItem> yesNoList = new List<SelectListItem>();
+                            yesNoList.Add(new SelectListItem
+                            { Text = "Yes", Value = "YES" });
+                            yesNoList.Add(new SelectListItem
+                            { Text = "No", Value = "NO" });
+                        }
+                        @Html.DropDownList("ExistingPurchaseOrder", yesNoList, htmlAttributes: new { @class = "form-control BlockEnter", @OnChange = "ExistingPurchaseOrderChanged()" })
                     </div>
                 </div>
                 <div class="form-group col-md-4">
@@ -87,13 +100,15 @@
                         @Html.LabelFor(model => model.PurchaseOrderNo, htmlAttributes: new { @class = "control-label lblrequired " })
                         @Html.HiddenFor(model => model.PurchaseOrderID, htmlAttributes: new { @id= "hdnPurchaseOrderID" })
                     </div>
-                    <div class="col-md-12" id="divPOID">
-                        @Html.EditorFor(model => model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled" } })
-                    </div>
                     <div class="col-md-12" id="divPONo">
                         @Html.EditorFor(model => model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
                     </div>
-                    <span class="text-danger" id="msgPurchase">* Purchase Order not Selected / Entered</span>
+                    <div class="col-md-12" id="divPOID">
+                        @Html.Editor("PurchaseOrderNo", Model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled" } })
+                    </div>
+                    <div class="col-md-12">
+                        <span class="text-danger" id="msgPurchase" style="display:none;">* Purchase Order not Selected / Entered</span>
+                    </div>
                 </div>
             </div>
 
@@ -102,7 +117,7 @@
             <div class="col-md-12" style="padding-bottom:3px">
                 <div class="col-md-6"></div>
                 <div class="col-md-4">
-                    <a class="btn btn-openid" onclick="LoadPODetail()" style="color:white;font-weight:bold;float:right;"><i class="fa fa-arrow-down"></i> Load PO Items</a>@*margin-left:70px;*@
+                    <a class="btn btn-openid" onclick="LoadPODetail()" id="btnLoadPO" style="color:white;font-weight:bold;float:right;"><i class="fa fa-arrow-down"></i> Load PO Items</a>@*margin-left:70px;*@
                 </div>
                 <div class="col-md-2">
                     <a class="btn btn-openid" onclick="AddMaterialReceiptDetail()" style="color:white;font-weight:bold;float:right;"><i class="fa fa-plus"></i> Add New Item</a>@*//margin-left:20px;*@
@@ -180,7 +195,7 @@
 
                     <div class="col-md-12 headSeperator"></div>
                     @Html.HiddenFor(model => model.MaterialReceiptDetail.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
-
+                    @Html.Hidden("WeightInKG", Model.MaterialReceiptDetail.Material.MaterialCode, htmlAttributes: new { @id= "WeightInKG" })
                     <div class="col-md-6">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.MaterialReceiptDetail.Material.MaterialCode, htmlAttributes: new { @class = "control-label " })
@@ -210,7 +225,7 @@
                             @Html.LabelFor(model => model.MaterialReceiptDetail.UnitCode, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.MaterialReceiptDetail.UnitCode, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.DropDownListFor(model => model.MaterialReceiptDetail.UnitCode,Model.MaterialReceiptDetail.Unit.UnitSelectList,"---Select Unit---", new { htmlAttributes = new { @class = "form-control BlockEnter" } })
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -267,8 +282,11 @@
                                         <th>MaterialID</th>
                                         <th>Material Code</th>
                                         <th>Description</th>
-                                        <th>Quantity</th>
-                                        <th>Unit</th>
+                                        <th>PO Qty</th>
+                                        <th>PO Unit</th>
+                                        <th>Prev. Recvd. Qty</th>
+                                        <th>Curr. Recvd. Qty</th>
+                                        <th>Recvd. Unit</th>
                                 </thead>
                             </table>
                         </div>

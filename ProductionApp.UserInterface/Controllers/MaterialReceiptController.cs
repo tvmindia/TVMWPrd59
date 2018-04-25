@@ -15,16 +15,18 @@ namespace ProductionApp.UserInterface.Controllers
     public class MaterialReceiptController : Controller
     {
         #region Constructor Injection
-        IMaterialReceiptBusiness _materialReceiptBusiness;
-        IMaterialBusiness _materialBusiness;
-        IPurchaseOrderBusiness _purchaseOrderBusiness;
+        private IMaterialReceiptBusiness _materialReceiptBusiness;
+        private IMaterialBusiness _materialBusiness;
+        private IPurchaseOrderBusiness _purchaseOrderBusiness;
+        private IUnitBusiness _unitBusiness;
         AppConst _appConst = new AppConst();
         Common _common = new Common();
-        public MaterialReceiptController(IMaterialReceiptBusiness materialReceiptBusiness, IMaterialBusiness materialBusiness, IPurchaseOrderBusiness purchaseOrderBusiness)
+        public MaterialReceiptController(IMaterialReceiptBusiness materialReceiptBusiness, IMaterialBusiness materialBusiness, IPurchaseOrderBusiness purchaseOrderBusiness, IUnitBusiness unitBusiness)
         {
             _materialReceiptBusiness = materialReceiptBusiness;
             _materialBusiness = materialBusiness;
             _purchaseOrderBusiness = purchaseOrderBusiness;
+            _unitBusiness = unitBusiness;
         }
         #endregion Constructor Injection
 
@@ -50,7 +52,11 @@ namespace ProductionApp.UserInterface.Controllers
                 MaterialReceiptDetail = new MaterialReceiptDetailViewModel
                 {
                     Material = new MaterialViewModel(),
-                    Qty = 0
+                    Qty = 0,
+                    Unit = new UnitViewModel()
+                    {
+                        UnitSelectList = _unitBusiness.GetUnitForSelectList()
+                    }
                 }
             };
             return View(materialReceiptVM);

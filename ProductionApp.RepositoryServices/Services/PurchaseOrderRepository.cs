@@ -587,6 +587,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         purchaseOrderDetail.TaxTypeCode= (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : purchaseOrderDetail.TaxTypeCode);
                                         purchaseOrderDetail.Discount = (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseOrderDetail.Discount);
                                         purchaseOrderDetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : purchaseOrderDetail.Amount);
+                                        purchaseOrderDetail.PrevRcvQty = (sdr["PrevRcvQty"].ToString() != "" ? decimal.Parse(sdr["PrevRcvQty"].ToString()) : purchaseOrderDetail.PrevRcvQty);
                                     }
                                     PODList.Add(purchaseOrderDetail);
                                 }
