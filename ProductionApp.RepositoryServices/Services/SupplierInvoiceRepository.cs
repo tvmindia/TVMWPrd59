@@ -154,7 +154,8 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = supplierInvoice.SupplierID;
                         cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar,10).Value = supplierInvoice.AccountCode;
                         cmd.Parameters.Add("@PaymentTermCode", SqlDbType.VarChar,20).Value = supplierInvoice.PaymentTermCode;
-                        cmd.Parameters.Add("@PurchaseOrderID", SqlDbType.UniqueIdentifier).Value = supplierInvoice.PurchaseOrderID;
+                        if(supplierInvoice.PurchaseOrderID!=Guid.Empty)
+                            cmd.Parameters.Add("@PurchaseOrderID", SqlDbType.UniqueIdentifier).Value = supplierInvoice.PurchaseOrderID;
                         cmd.Parameters.Add("@PurchaseOrderNo", SqlDbType.VarChar, 20).Value = supplierInvoice.PurchaseOrderNo;
                         cmd.Parameters.Add("@PaymentDueDate", SqlDbType.DateTime).Value = supplierInvoice.PaymentDueDateFormatted;
                         cmd.Parameters.Add("@Discount", SqlDbType.Decimal).Value = supplierInvoice.Discount;

@@ -28,7 +28,7 @@
 
 //##1--Global Declaration---------------------------------------------##1 
 var _dataTables = {};
-var EmptyGuid = "00000000-0000-0000-0000-000000000000";
+var _emptyGuid = "00000000-0000-0000-0000-000000000000";
 var _SlNo = 1;
 var _result = "";
 var _message = "";
@@ -50,11 +50,11 @@ $(document).ready(function () {
             debugger;
             //Pass the controller name
             var FileObject = new Object;
-            if ($('#hdnFileDupID').val() != EmptyGuid) {
-                FileObject.ParentID = (($('#ID').val()) != EmptyGuid ? ($('#ID').val()) : $('#hdnFileDupID').val());
+            if ($('#hdnFileDupID').val() != _emptyGuid) {
+                FileObject.ParentID = (($('#ID').val()) != _emptyGuid ? ($('#ID').val()) : $('#hdnFileDupID').val());
             }
             else {
-                FileObject.ParentID = ($('#ID').val() == EmptyGuid) ? "" : $('#ID').val();
+                FileObject.ParentID = ($('#ID').val() == _emptyGuid) ? "" : $('#ID').val();
             }
             FileObject.ParentType = "SupplierInvoice";
             FileObject.Controller = "FileUpload";
@@ -232,7 +232,7 @@ function LoadPurchaseOrderDropdownBySupplier() {
         else
         {
             $("#divPOID").empty();
-            $("#divPOID").append('<input class="form-control HeaderBox text-box single-line" disabled="disabled" id="PurchaseOrderNo" name="PurchaseOrderNo" type="text" value="">');
+            $("#divPOID").append('<input class="form-control HeaderBox text-box single-line" disabled="disabled" id="PurchaseOrderHDN" name="PurchaseOrderNo" type="text" value="">');
         }
     }
     catch (ex) {
@@ -432,20 +432,24 @@ function AddSupplierInvoiceDetails() {
     if (rate != "" && qty != "" && productId != "") {
         _SupplierInvoiceDetail = [];
         SupplierInvoiceDetailVM = new Object();
-        SupplierInvoiceDetailVM.MaterialID = $("#MaterialID").val(); 
+        SupplierInvoiceDetailVM.ID = $('#SupplierInvoiceDetail_ID').val() == "" ? _emptyGuid : $('#SupplierInvoiceDetail_ID').val();
+        SupplierInvoiceDetailVM.MaterialID = $("#MaterialID").val();
         SupplierInvoiceDetailVM.UnitCode = $('#SupplierInvoiceDetail_UnitCode').val();
         SupplierInvoiceDetailVM.Quantity = $('#SupplierInvoiceDetail_Quantity').val();
         SupplierInvoiceDetailVM.Rate = $('#SupplierInvoiceDetail_Rate').val();
         SupplierInvoiceDetailVM.TradeDiscountAmount = $('#SupplierInvoiceDetail_TradeDiscountAmount').val();
         SupplierInvoiceDetailVM.TradeDiscountPercent = $('#SupplierInvoiceDetail_TradeDiscountPerc').val();
         SupplierInvoiceDetailVM.TaxTypeCode = $('#TaxTypeCode').val();
-        _SupplierInvoiceDetail.push(SupplierInvoiceDetailVM);
-        
+        var taxTypeVM = GetTaxTypeByCode($('#TaxTypeCode').val());
+        SupplierInvoiceDetailVM.IGSTPerc =taxTypeVM.IGSTPercentage
+        SupplierInvoiceDetailVM.SGSTPerc = taxTypeVM.SGSTPercentage
+        SupplierInvoiceDetailVM.CGSTPerc = taxTypeVM.CGSTPercentage
+        _SupplierInvoiceDetail.push(SupplierInvoiceDetailVM); 
         if (_SupplierInvoiceDetail.length > 0)
         {
             var result = JSON.stringify(_SupplierInvoiceDetail);
             $("#DetailJSON").val(result);
-           // Save();
+            Save();
         }
         $('#SupplierInvoiceDetailModal').modal('hide');
     }
@@ -459,7 +463,8 @@ function AddSupplierInvoiceDetails() {
 //##8--Show Load PO Detail Modal ---------------------------##8
 function LoadPODetailModal() {
     debugger;
-    if ($('#PurchaseOrderID').val() !== "") {
+    var POID=$('#PurchaseOrderID').val();
+    if (POID !== "" && POID!=undefined) {
         TaxtypeDropdown();
         $('#PurchaseOrderDetailModal').modal('show');
         var id = $('#PurchaseOrderID').val();
@@ -595,7 +600,6 @@ function AddPOItems() {
         SupplierInvoiceDetailVM.Quantity = purchaseOrderItemList[i].Qty;
         SupplierInvoiceDetailVM.Rate = purchaseOrderItemList[i].Rate;
         SupplierInvoiceDetailVM.TradeDiscountAmount = purchaseOrderItemList[i].Discount;
-        //SupplierInvoiceDetailVM.DiscountPercent = purchaseOrderItemList[i].DiscountPercent;
         SupplierInvoiceDetailVM.TaxTypeCode = purchaseOrderItemList[i].TaxTypeCode;
         SupplierInvoiceDetailVM.UnitCode = purchaseOrderItemList[i].UnitCode
         SupplierInvoiceDetailVM.IGSTPerc = purchaseOrderItemList[i].IGSTPerc
@@ -659,14 +663,13 @@ function BindSupplierInvoiceByID() {
     $('#lblTotalTaxableAmount').text(roundoff(SupplierInvoiceVM.TotalTaxableAmount));
     $('#lblTotalTaxAmount').text(roundoff(SupplierInvoiceVM.TotalTaxAmount));
     $('#InvoiceAmount').val(SupplierInvoiceVM.InvoiceAmount);
-    debugger;
     $('#lblInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount-SupplierInvoiceVM.Discount));
     $('#lblStatusInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount-SupplierInvoiceVM.Discount));
     $('#AccountCode').val(SupplierInvoiceVM.AccountCode).select2();
     debugger;
-    LoadPurchaseOrderDropdownBySupplier();
-    if (SupplierInvoiceVM.PurchaseOrderID)
+    if (SupplierInvoiceVM.PurchaseOrderID!=_emptyGuid)
     {
+        LoadPurchaseOrderDropdownBySupplier();
         $('#hdnPurchaseOrderID').val(SupplierInvoiceVM.PurchaseOrderID);
         $('#IsFromPurchaseOrder').val('True');
     }
@@ -740,6 +743,7 @@ function ItemDetailsEdit(thisObj) {
     $("#supplierInvoiceDetailModalLabel").text('Edit Supplier Invoice Detail');
     var rowData = _dataTables.SupplierInvoiceDetailTable.row($(thisObj).parents('tr')).data(); 
     var supplierInvoiceDetailVM= GetSupplierInvoiceDetail(rowData.ID)
+    $('#SupplierInvoiceDetail_ID').val(rowData.ID);
     $("#MaterialID").val(supplierInvoiceDetailVM.MaterialID).select2();
     $('#SupplierInvoiceDetail_UnitCode').val(supplierInvoiceDetailVM.UnitCode);
     $('#SupplierInvoiceDetail_Quantity').val(supplierInvoiceDetailVM.Quantity);
