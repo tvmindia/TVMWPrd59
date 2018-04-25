@@ -287,7 +287,22 @@ function IsFromPurchaseOrderChanged() {
 
 //##6--Show Supplier Invoice Detail Modal ---------------------------##6
 function ShowSupplierInvoiceDetailModal()
-{ 
+{
+    $("#supplierInvoiceDetailModalLabel").text('Add Supplier Invoice Detail');
+    $("#MaterialID").val('').select2();
+    $('#SupplierInvoiceDetail_UnitCode').val('');
+    $('#SupplierInvoiceDetail_Quantity').val('');
+    $('#SupplierInvoiceDetail_Rate').val('');
+    $('#SupplierInvoiceDetail_TradeDiscountAmount').val('');
+    $('#SupplierInvoiceDetail_TradeDiscountPerc').val('');
+    $('#TaxTypeCode').val('');
+    $('#SupplierInvoiceDetail_MaterialCode').val('');
+    $('#SupplierInvoiceDetail_MaterialTypeDesc').val('');
+    $('#SupplierInvoiceDetail_UnitCode').val('');
+    $('#SupplierInvoiceDetail_GrossAmount').val('');
+    $('#SupplierInvoiceDetail_TaxableAmount').val('');
+    $('#SupplierInvoiceDetail_NetAmount').val('');
+    $('#SupplierInvoiceDetail_TaxAmount').val('');
     $('#SupplierInvoiceDetailModal').modal('show');
 } 
 function BindRawMaterialDetails(id) {
@@ -719,9 +734,10 @@ function Reset() {
     BindSupplierInvoiceByID();
 }
 
-////##15--Edit Popup Modal Update Supplier Invoice Details----------------------------##15
+////##15--Edit Popup Modal Update Supplier Invoice Detail----------------------------##15
 function ItemDetailsEdit(thisObj) {
     debugger;
+    $("#supplierInvoiceDetailModalLabel").text('Edit Supplier Invoice Detail');
     var rowData = _dataTables.SupplierInvoiceDetailTable.row($(thisObj).parents('tr')).data(); 
     var supplierInvoiceDetailVM= GetSupplierInvoiceDetail(rowData.ID)
     $("#MaterialID").val(supplierInvoiceDetailVM.MaterialID).select2();
