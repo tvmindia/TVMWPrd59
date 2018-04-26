@@ -12,7 +12,7 @@
                 <table class="table no-margin">
                     <thead style="display:table;width:100%;table-layout:fixed;">
                         <tr>
-                            <th style="width:10%;">Code</th>
+                            <th style="width:20%;">Code</th>
                             <th style="width:20%;">Name</th>
                             <th style="width:20%;">Type</th>
                             <th style="width:20%;">Current Stock</th>
@@ -30,22 +30,22 @@
                                     str = str.Substring(0, 15) + "...";
 
                                 <tr>
-                                    <td style="width:10%;"><a href="@Url.Action("Index","Material",new { code="MSTR", masterCode=@Model.MaterialList[i].ID })">@Model.MaterialList[i].MaterialCode</a></td>
+                                    <td style="width:20%;"><a href="@Url.Action("Index","Material",new { code="MSTR", masterCode=@Model.MaterialList[i].ID })">@Model.MaterialList[i].MaterialCode</a></td>
                                     <td style="width:20%;" title='@Model.MaterialList[i].Description'>@str</td>
                                     <td style="width:20%;">@Model.MaterialList[i].MaterialType.Description</td>
-                                    <td style="width:20%;">@Model.MaterialList[i].CurrentStock</td>
-                                    <td style="width:20%;">@Model.MaterialList[i].ReorderQty</td>
+                                    <td style="width:22%;">@Model.MaterialList[i].CurrentStock</td>
+                                    <td style="width:18%;">@Model.MaterialList[i].ReorderQty</td>
                                 </tr>
                             }
 
                             for (int i = (Model.MaterialList == null ? 0 : Model.MaterialList.Count); i < 5; i++)
                             {
                                 <tr>
-                                    <td style="width:10%;">-</td>
                                     <td style="width:20%;">-</td>
                                     <td style="width:20%;">-</td>
                                     <td style="width:20%;">-</td>
-                                    <td style="width:20%;">-</td>
+                                    <td style="width:22%;">-</td>
+                                    <td style="width:18%;">-</td>
                                 </tr>
                             }
                         }
@@ -54,11 +54,11 @@
                             for (int i = 0; i < 5; i++)
                             {
                                 <tr>
-                                    <td style="width:10%;">-</td>
                                     <td style="width:20%;">-</td>
                                     <td style="width:20%;">-</td>
                                     <td style="width:20%;">-</td>
-                                    <td style="width:20%;">-</td>
+                                    <td style="width:22%;">-</td>
+                                    <td style="width:18%;">-</td>
                                 </tr>
                             }
                         }

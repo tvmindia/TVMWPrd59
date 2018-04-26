@@ -278,10 +278,12 @@ function IsFromPurchaseOrderChanged() {
     if ($('#IsFromPurchaseOrder').val() == "True") {
         $('#divPONo').hide();
         $('#divPOID').show();
+        $('#btnLoadPODetailModal').attr('onclick', 'LoadPODetailModal()');
     } else {
         $('#divPONo').show();
         $('#PurchaseOrderID').val('').select2();
         $('#divPOID').hide();
+        $('#btnLoadPODetailModal').removeAttr('onclick');
     }
 }
 
@@ -291,19 +293,20 @@ function ShowSupplierInvoiceDetailModal()
     $("#supplierInvoiceDetailModalLabel").text('Add Supplier Invoice Detail');
     $("#MaterialID").prop("disabled", false);
     $("#MaterialID").val('').select2();
+    $('#SupplierInvoiceDetail_ID').val('');
     $('#SupplierInvoiceDetail_UnitCode').val('');
     $('#SupplierInvoiceDetail_Quantity').val('');
     $('#SupplierInvoiceDetail_Rate').val('');
-    $('#SupplierInvoiceDetail_TradeDiscountAmount').val('');
-    $('#SupplierInvoiceDetail_TradeDiscountPerc').val('');
+    $('#SupplierInvoiceDetail_TradeDiscountAmount').val(roundoff(0));
+    $('#SupplierInvoiceDetail_TradeDiscountPerc').val('0');
     $('#TaxTypeCode').val('');
     $('#SupplierInvoiceDetail_MaterialCode').val('');
     $('#SupplierInvoiceDetail_MaterialTypeDesc').val('');
     $('#SupplierInvoiceDetail_UnitCode').val('');
-    $('#SupplierInvoiceDetail_GrossAmount').val('');
-    $('#SupplierInvoiceDetail_TaxableAmount').val('');
-    $('#SupplierInvoiceDetail_NetAmount').val('');
-    $('#SupplierInvoiceDetail_TaxAmount').val('');
+    $('#SupplierInvoiceDetail_GrossAmount').val(roundoff(0));
+    $('#SupplierInvoiceDetail_TaxableAmount').val(roundoff(0));
+    $('#SupplierInvoiceDetail_NetAmount').val(roundoff(0));
+    $('#SupplierInvoiceDetail_TaxAmount').val(roundoff(0));
     $('#SupplierInvoiceDetailModal').modal('show');
 } 
 function BindRawMaterialDetails(id) {
@@ -314,6 +317,7 @@ function BindRawMaterialDetails(id) {
         $('#SupplierInvoiceDetail_MaterialCode').val(result.MaterialCode);
         $('#SupplierInvoiceDetail_MaterialTypeDesc').val(result.MaterialType.Description);
         $('#SupplierInvoiceDetail_UnitCode').val(result.UnitCode);
+        $('#SupplierInvoiceDetail_Rate').val(result.Rate);
         ValueCalculation();
     }
     catch (e) {
@@ -673,6 +677,7 @@ function BindSupplierInvoiceByID() {
         LoadPurchaseOrderDropdownBySupplier();
         $('#hdnPurchaseOrderID').val(SupplierInvoiceVM.PurchaseOrderID);
         $('#IsFromPurchaseOrder').val('True');
+        $('#PurchaseOrderID').prop("disabled", true);
     }
     else
     {
@@ -858,4 +863,8 @@ function DiscountAmountChanged(thisObj) {
         $('#Discount').select();
     }
 
+}
+function CallForSupplierInvocie() {
+    if ($("#PurchaseOrderID").val() != "" && ($("#PurchaseOrderNo").val() == "" || $("#PurchaseOrderNo").val() == undefined))
+        $('#PurchaseOrderID').prop("disabled", true);
 }
