@@ -72,6 +72,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         }
         #endregion Approvals
+
         #region GetAllDocumentApproval
         [HttpPost]
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
@@ -218,6 +219,31 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         #endregion ReSendDocForApproval
+
+        #region GetAllApprovalHistory
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public JsonResult GetAllApprovalHistory(DataTableAjaxPostModel model, DocumentApprovalAdvanceSearchViewModel documentApprovalAdvanceSearchVM)
+        {
+            AppUA appUA = Session["AppUA"] as AppUA;
+            documentApprovalAdvanceSearchVM.LoginName = appUA.UserName;
+            documentApprovalAdvanceSearchVM.DataTablePaging.Start = model.start;
+            documentApprovalAdvanceSearchVM.DataTablePaging.Length = (documentApprovalAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : documentApprovalAdvanceSearchVM.DataTablePaging.Length);
+            List<DocumentApprovalViewModel> documentApprovalList = Mapper.Map<List<DocumentApproval>, List<DocumentApprovalViewModel>>(_documentApprovalBusiness.GetAllApprovalHistory(Mapper.Map<DocumentApprovalAdvanceSearchViewModel, DocumentApprovalAdvanceSearch>(documentApprovalAdvanceSearchVM)));
+            var settings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.None
+            };
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = documentApprovalList.Count != 0 ? documentApprovalList[0].TotalCount : 0,
+                recordsFiltered = documentApprovalList.Count != 0 ? documentApprovalList[0].FilteredCount : 0,
+                data = documentApprovalList
+
+            });
+        }
+        #endregion GetAllApprovalHistory
 
         #region ButtonStyling
         [HttpGet]
