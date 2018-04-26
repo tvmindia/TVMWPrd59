@@ -119,6 +119,8 @@ namespace ProductionApp.UserInterface.App_Start
             //SupplierPayment 
             bundles.Add(new ScriptBundle("~/bundles/UserJs/SupplierPayment/NewSupplierPayment").Include("~/Scripts/UserJS/SupplierPayment/NewSupplierPayment.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/SupplierPayment/ViewSupplierPayment").Include("~/Scripts/UserJS/SupplierPayment/ViewSupplierPayment.js"));
+            //DocumentApproval-ApprovalHistory
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/DocumentApproval/ViewApprovalHistory").Include("~/Scripts/UserJS/DocumentApproval/ViewApprovalHistory.js"));
 
         }
     }
