@@ -157,7 +157,9 @@
         },
         scales: {
                     xAxes: [{
-                        stacked: true,
+                        stacked: true,                       
+                        barPercentage: 0.4,
+                        maxBarThickness: 20
                     }],
                     yAxes: [{
                         stacked: true

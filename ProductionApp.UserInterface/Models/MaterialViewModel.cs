@@ -49,6 +49,7 @@ namespace ProductionApp.UserInterface.Models
         public UnitViewModel Unit { get; set; }
         public MaterialTypeViewModel MaterialType { get; set; }
         public List<SelectListItem> SelectList { get; set; }
+        public List<MaterialViewModel> MaterialList { get; set; }
     }
 
     public class MaterialAdvanceSearchViewModel
@@ -56,12 +57,12 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
-
         [Display(Name = "Unit")]
         public UnitViewModel Unit { get; set; }
         public MaterialTypeViewModel MaterialType { get; set; }
         //[Display(Name = "Material Type ")]
         //public string MaterialType { get; set; }
+        public string ID { get; set; } //For ReorderAlert url view in StoreDashboard 
 
     }
 

@@ -16,5 +16,6 @@ namespace ProductionApp.BusinessService.Contracts
         Material GetMaterial(Guid id);
         object DeleteMaterial(Guid id);
         List<MaterialSummary>  GetMaterialSummary();
+        List<Material> GetMaterialListForReorderAlert();
     }
 }

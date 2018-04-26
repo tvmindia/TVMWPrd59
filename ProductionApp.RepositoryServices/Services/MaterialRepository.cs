@@ -428,5 +428,56 @@ namespace ProductionApp.RepositoryServices.Services
             return MaterialSummaryList;
         }
         #endregion  Get Material Summary
+
+        #region GetMaterialListForReorderAlert
+        public List<Material> GetMaterialListForReorderAlert()
+        {
+            List<Material> materialList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetMaterialListForReorderAlert]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                materialList = new List<Material>();
+                                while (sdr.Read())
+                                {
+                                    Material material = new Material();
+                                    {
+                                        material.ID = sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : material.ID;
+                                        material.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : material.MaterialCode);
+                                        material.MaterialType = new MaterialType();
+                                        material.MaterialType.Description = (sdr["MaterialType"].ToString() != "" ? sdr["MaterialType"].ToString() : material.MaterialType.Description);
+                                        material.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : material.Description);
+                                        material.ReorderQty = (sdr["ReorderQty"].ToString() != "" ? decimal.Parse(sdr["ReorderQty"].ToString()) : material.ReorderQty);
+                                        material.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : material.CurrentStock);
+                                        
+                                    }
+                                    materialList.Add(material);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return materialList;
+        }
+        #endregion GetMaterialListForReorderAlert
+
     }
 }
