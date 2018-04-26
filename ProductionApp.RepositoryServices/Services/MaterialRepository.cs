@@ -298,7 +298,8 @@ namespace ProductionApp.RepositoryServices.Services
                                     material.Rate = sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : material.Rate;
                                     material.MaterialTypeCode = sdr["MaterialTypeCode"].ToString() != "" ? sdr["MaterialTypeCode"].ToString() : material.MaterialTypeCode;
                                     material.MaterialType = new MaterialType();
-                                    material.MaterialType.Code= sdr["MaterialTypeCode"].ToString() != "" ? sdr["MaterialTypeCode"].ToString() : material.MaterialTypeCode;
+                                    material.MaterialType.Code= sdr["MaterialTypeCode"].ToString() != "" ? sdr["MaterialTypeCode"].ToString() : material.MaterialType.Code;
+                                    material.MaterialType.Description= sdr["MaterialTypeDesc"].ToString() != "" ? sdr["MaterialTypeDesc"].ToString() : material.MaterialType.Description;
                                     material.Description = sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : material.Description;
                                     material.HSNNo = sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : material.HSNNo;
                                     material.UnitCode = sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : material.UnitCode;
