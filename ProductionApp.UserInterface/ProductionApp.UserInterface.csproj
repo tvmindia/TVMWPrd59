@@ -687,6 +687,7 @@
     <Content Include="Scripts\UserJS\DocumentApproval\ApprovalHistory.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ApproveDocument.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\DocumentSummary.js" />
+    <Content Include="Scripts\UserJS\DocumentApproval\ViewApprovalHistory.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ViewPendingDocuments.js" />
     <Content Include="Scripts\UserJS\Employee.js" />
     <Content Include="Scripts\UserJS\FinishedGoodStockAdj\NewFinishedGoodStockAdj.js" />
@@ -1019,6 +1020,7 @@
     <Content Include="Views\DashboardAccount\_RecentCustomerInvoice.cshtml" />
     <Content Include="Views\DashboardAccount\Index.cshtml" />
     <Content Include="Views\DashboardAccount\_RecentCustomerPayment.cshtml" />
+    <Content Include="Views\DocumentApproval\ViewApprovalHistory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

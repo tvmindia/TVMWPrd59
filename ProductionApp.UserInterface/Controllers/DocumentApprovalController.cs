@@ -55,6 +55,13 @@ namespace ProductionApp.UserInterface.Controllers
             return PartialView("_DocumentSummary", documentSummaryVM);
         }
 
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public ActionResult ViewApprovalHistory(string code)
+        {
+            ViewBag.SysModuleCode = code;
+            return View();
+        }
+
         #region Approvals
         public ActionResult GetApprovers(DocumentApprovalViewModel documentApprovalVM)
         {
