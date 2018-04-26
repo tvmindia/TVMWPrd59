@@ -459,8 +459,6 @@ namespace ProductionApp.RepositoryServices.Services
                                         material.MaterialType = new MaterialType();
                                         material.MaterialType.Description = (sdr["MaterialType"].ToString() != "" ? sdr["MaterialType"].ToString() : material.MaterialType.Description);
                                         material.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : material.Description);
-                                        if (material.Description.Length > 15)
-                                            material.Description = material.Description.Substring(0, 15) + "...";
                                         material.ReorderQty = (sdr["ReorderQty"].ToString() != "" ? decimal.Parse(sdr["ReorderQty"].ToString()) : material.ReorderQty);
                                         material.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : material.CurrentStock);
                                         
