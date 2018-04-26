@@ -104,6 +104,22 @@
                 gridLines: {
                     offsetGridLines: true
                 }
+                 ,
+                ticks: {
+                   
+                },
+                barPercentage: 0.4,
+                maxBarThickness: 20
+            }],
+            yAxes: [{
+                gridLines: {
+                    display: false,
+                    
+
+                },
+                ticks: {
+                    beginAtZero: true
+                }
             }]
         },
         tooltips: {
