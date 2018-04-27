@@ -76,6 +76,7 @@
     <Compile Include="Contracts\IProductCategoryBusiness.cs" />
     <Compile Include="Contracts\IProductionTrackingBusiness.cs" />
     <Compile Include="Contracts\IPurchaseInvoiceBusiness.cs" />
+    <Compile Include="Contracts\IReportBusiness.cs" />
     <Compile Include="Contracts\IRequisitionBusiness.cs" />
     <Compile Include="Contracts\IPurchaseOrderBusiness.cs" />
     <Compile Include="Contracts\IMaterialBusiness.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Services\ProductionTrackingBusiness.cs" />
     <Compile Include="Services\PurchaseInvoiceBusiness.cs" />
     <Compile Include="Services\PurchaseOrderBusiness.cs" />
+    <Compile Include="Services\ReportBusiness.cs" />
     <Compile Include="Services\RequisitionBusiness.cs" />
     <Compile Include="Services\MaterialBusiness.cs" />
     <Compile Include="Services\SalesInvoieBusiness.cs" />

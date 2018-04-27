@@ -662,6 +662,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\PDF.js" />
+    <Content Include="Scripts\Report.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
@@ -719,6 +720,7 @@
     <Content Include="Scripts\UserJS\Product.js" />
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\NewRecieveFromProduction.js" />
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\ViewRecieveFromProduction.js" />
+    <Content Include="Scripts\UserJS\Report\Report.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\NewRequisition.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\RequisitionApproval.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\ViewRequisition.js" />
@@ -804,6 +806,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AMCSysReportViewModel.cs" />
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AppObjectViewModel.cs" />
     <Compile Include="Models\ApprovalLogViewModel.cs" />
@@ -1019,6 +1022,7 @@
     <Content Include="Views\DashboardAccount\_RecentCustomerInvoice.cshtml" />
     <Content Include="Views\DashboardAccount\Index.cshtml" />
     <Content Include="Views\DashboardAccount\_RecentCustomerPayment.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
