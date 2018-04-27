@@ -27,6 +27,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Common Common { get; set; }
         public Unit Unit { get; set; }
         public MaterialType MaterialType { get; set; }
+        public List<Material> MaterialList { get; set; }
     }
     public class MaterialAdvanceSearch
     {

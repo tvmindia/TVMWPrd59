@@ -1,11 +1,21 @@
-﻿var DataTables = {};
+﻿//*****************************************************************************
+//*****************************************************************************
+//Author: Arul
+//CreatedDate: 26-Apr-2018
+//LastModified: 
+//FileName: ViewApprovalHistory.js
+//Description: Client side coding for Viewing Document Approval History
+//******************************************************************************
+//******************************************************************************
+
+var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 
 $(document).ready(function () {
     debugger;
     try {
-       
-        BindOrReloadDocumentApprovals('Init');
+
+        BindOrReloadApprovalHistory('Init');
         $('#tblPendingDocuments tbody').on('dblclick', 'td', function () {
             Edit(this);
         });
@@ -22,7 +32,7 @@ function Edit(curObj) {
 }
 
 //bind Pending list
-function BindOrReloadDocumentApprovals(action) {
+function BindOrReloadApprovalHistory(action) {
     try {
         //creating advancesearch object
         debugger;
@@ -38,7 +48,7 @@ function BindOrReloadDocumentApprovals(action) {
                 $('#FromDate').val('');
                 $('#ToDate').val('');
                 $('#DocumentTypeCode').val('');
-                $('#ShowAll').val('false');
+                $('#ApprovalStatus').val('--- Show All ---');
                 break;
             case 'Init':
                 break;
@@ -50,17 +60,17 @@ function BindOrReloadDocumentApprovals(action) {
             default:
                 break;
         }
-       
+
         DocumentApprovalAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
         DocumentApprovalAdvanceSearchViewModel.FromDate = $('#FromDate').val();
         DocumentApprovalAdvanceSearchViewModel.ToDate = $('#ToDate').val();
-        DocumentTypeViewModel.Code = $('#DocumentTypeCode').val();      
-        DocumentApprovalAdvanceSearchViewModel.ShowAll = $('#ShowAll').val();
+        DocumentTypeViewModel.Code = $('#DocumentTypeCode').val();
+        DocumentApprovalAdvanceSearchViewModel.ApprovalStatus = $('#ApprovalStatus').val();
 
         DocumentApprovalAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
         DocumentApprovalAdvanceSearchViewModel.DocumentType = DocumentTypeViewModel;
 
-        DataTables.PurchaseOrderList = $('#tblPendingDocuments').DataTable(
+        DataTables.PurchaseOrderList = $('#tblApprovalHistory').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
                 buttons: [{
@@ -78,7 +88,7 @@ function BindOrReloadDocumentApprovals(action) {
                 proccessing: true,
                 serverSide: true,
                 ajax: {
-                    url: "GetAllDocumentApproval/",
+                    url: "GetAllApprovalHistory/",
                     data: { "documentApprovalAdvanceSearchVM": DocumentApprovalAdvanceSearchViewModel },
                     type: 'POST'
                 },
@@ -86,21 +96,21 @@ function BindOrReloadDocumentApprovals(action) {
                 columns: [
                     { "data": "ApprovalLogID", "defaultContent": "<i>-</i>" },
                     { "data": "DocumentTypeCode", "defaultContent": "<i>-</i>" },
-                    { "data": "DocumentDateFormatted", "defaultContent": "<i>-</i>"},
+                    { "data": "DocumentDateFormatted", "defaultContent": "<i>-</i>" },
                     { "data": "DocumentType", "defaultContent": "<i>-</i>" },
                     { "data": "DocumentNo", "defaultContent": "<i>-</i>" },
                     { "data": "ApproverLevel", "defaultContent": "<i>-</i>" },
                     { "data": "DocumentCreatedBy", "defaultContent": "<i>-</i>" },
-                    //{ "data": "DocumentCreatedDate", "defaultContent": "<i>-</i>" },
+                    { "data": "DocumentStatus", "defaultContent": "<i>-</i>" },
                     {
                         "data": "ApprovalLogID", "orderable": false, render: function (data, type, row) {
                             debugger;
-                            return '<a href="/DocumentApproval/ApproveDocument?code=APR&ID=' + data + '&DocType=' + row.DocumentTypeCode + '&DocID=' + row.DocumentID +  '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                            return '<a href="/DocumentApproval/ApproveDocument?code=APR&ID=' + data + '&DocType=' + row.DocumentTypeCode + '&DocID=' + row.DocumentID + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
                         }, "defaultContent": "<i>-</i>"
                     }
                 ],
-                columnDefs: [{ "targets": [0,1], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [4,3,6] },
+                columnDefs: [{ "targets": [0, 1], "visible": false, "searchable": false },
+                    { className: "text-left", "targets": [3, 4, 6, 7] },
                     { className: "text-center", "targets": [2, 5], "width": "10%" }],
                 destroy: true,
                 //for performing the import operation after the data loaded
@@ -120,9 +130,9 @@ function BindOrReloadDocumentApprovals(action) {
 
 
 function ResetPendingDocList() {
-    BindOrReloadDocumentApprovals('Reset');
+    BindOrReloadApprovalHistory('Reset');
 }
 //function export data to excel
 function ExportPendingDocs() {
-    BindOrReloadDocumentApprovals('Export');
+    BindOrReloadApprovalHistory('Export');
 }

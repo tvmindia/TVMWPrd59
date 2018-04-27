@@ -17,11 +17,13 @@ namespace ProductionApp.UserInterface.Controllers
         IMaterialReceiptBusiness _materialReceiptBusiness;
         IIssueToProductionBusiness _issueToProductionBusiness;
         IDocumentApprovalBusiness _documentApprovalBusiness;
-        public DashboardStoreController(IMaterialReceiptBusiness materialReceiptBusiness, IIssueToProductionBusiness issueToProductionBusiness,IDocumentApprovalBusiness documentApprovalBusiness)
+        IMaterialBusiness _materialBusiness;
+        public DashboardStoreController(IMaterialReceiptBusiness materialReceiptBusiness, IIssueToProductionBusiness issueToProductionBusiness,IDocumentApprovalBusiness documentApprovalBusiness, IMaterialBusiness materialBusiness)
         {
             _materialReceiptBusiness = materialReceiptBusiness;
             _issueToProductionBusiness = issueToProductionBusiness;
             _documentApprovalBusiness = documentApprovalBusiness;
+            _materialBusiness = materialBusiness;
         }
         #endregion Constructor Injection
 
@@ -67,10 +69,9 @@ namespace ProductionApp.UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "DashboardStore", Mode = "R")]
         public ActionResult ReOrderAlert()
         {
-            //The view model is given for temporary purpose need to be made later
-            MaterialReceiptViewModel MaterialReceipt = new MaterialReceiptViewModel();
-            MaterialReceipt.MaterialReceiptList = new List<MaterialReceiptViewModel>();
-            return PartialView("_ReOrderAlert",MaterialReceipt);
+            MaterialViewModel MaterialVM = new MaterialViewModel();
+            MaterialVM.MaterialList = Mapper.Map<List<Material>, List<MaterialViewModel>>(_materialBusiness.GetMaterialListForReorderAlert());
+            return PartialView("_ReOrderAlert", MaterialVM);
         }
         #endregion ReOrderAlert
     }

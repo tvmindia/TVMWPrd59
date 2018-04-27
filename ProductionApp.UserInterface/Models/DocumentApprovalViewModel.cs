@@ -62,8 +62,10 @@ namespace ProductionApp.UserInterface.Models
         public DocumentTypeViewModel DocumentType { get; set; }
         
         [Display(Name = "Show All Level Documents")]
-        public Boolean ShowAll { get; set; }
-        public String LoginName { get; set; }
+        public bool ShowAll { get; set; }
+        public string LoginName { get; set; }
+        [Display(Name = "Approval Status")]
+        public int? ApprovalStatus { get; set; }
 
     }
 

@@ -17,6 +17,12 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     try {
         debugger;
+        if ($('#ID').val()) {
+            GetMasterPartial("Material", $('#ID').val());
+            $('#h3ModelMasterContextLabel').text('Edit Material')
+            $('#divModelMasterPopUp').modal('show');
+            $('#hdnMasterCall').val('MSTR');
+        }
         BindOrReloadMaterialTable('Init');
     }
     catch (e) {
@@ -26,6 +32,8 @@ $(document).ready(function () {
     });
     $("#MaterialType_Code").select2({
     });
+    
+
 });
 
 //--function bind the Raw Material list checking search and filter--//

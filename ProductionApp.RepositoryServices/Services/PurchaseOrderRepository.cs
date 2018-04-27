@@ -229,7 +229,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[UpdatetPurchaseOrder]";
+                        cmd.CommandText = "[AMC].[UpdatePurchaseOrder]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = purchaseOrder.ID;
                         cmd.Parameters.Add("@PONo", SqlDbType.VarChar, 20).Value = purchaseOrder.PurchaseOrderNo;
@@ -579,7 +579,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         purchaseOrderDetail.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : purchaseOrderDetail.MaterialCode);
                                         purchaseOrderDetail.MaterialTypeDesc = (sdr["MaterialTypeDesc"].ToString() != "" ? sdr["MaterialTypeDesc"].ToString() : purchaseOrderDetail.MaterialTypeDesc);
                                         purchaseOrderDetail.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : purchaseOrderDetail.UnitCode);
-                                        purchaseOrderDetail.Qty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : purchaseOrderDetail.Qty);
+                                        purchaseOrderDetail.POQty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : purchaseOrderDetail.POQty);
                                         purchaseOrderDetail.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : purchaseOrderDetail.Rate);
                                         purchaseOrderDetail.CGSTAmt = (sdr["CGSTAmt"].ToString() != "" ? decimal.Parse(sdr["CGSTAmt"].ToString()) : purchaseOrderDetail.CGSTAmt);
                                         purchaseOrderDetail.SGSTAmt= (sdr["SGSTAmt"].ToString() != "" ? decimal.Parse(sdr["SGSTAmt"].ToString()) : purchaseOrderDetail.SGSTAmt);
@@ -587,6 +587,10 @@ namespace ProductionApp.RepositoryServices.Services
                                         purchaseOrderDetail.TaxTypeCode= (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : purchaseOrderDetail.TaxTypeCode);
                                         purchaseOrderDetail.Discount = (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseOrderDetail.Discount);
                                         purchaseOrderDetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : purchaseOrderDetail.Amount);
+                                        purchaseOrderDetail.PrevRcvQty = (sdr["PrevRcvQty"].ToString() != "" ? decimal.Parse(sdr["PrevRcvQty"].ToString()) : purchaseOrderDetail.PrevRcvQty);
+                                        purchaseOrderDetail.PrevInvQty = (sdr["PrevInvQty"].ToString() != "" ? decimal.Parse(sdr["PrevInvQty"].ToString()) : purchaseOrderDetail.PrevInvQty);
+                                        //calculation
+                                        purchaseOrderDetail.Qty = purchaseOrderDetail.POQty - purchaseOrderDetail.PrevInvQty > 0 ? purchaseOrderDetail.POQty - purchaseOrderDetail.PrevInvQty : 0;
                                     }
                                     PODList.Add(purchaseOrderDetail);
                                 }

@@ -70,6 +70,7 @@
                     </div>
                     <div class="col-md-12">
                         @Html.DropDownListFor(model => model.MaterialType.Code, Model.MaterialType.MaterialTypeSelectList, "--Select Material Type--", new { @class = "form-control", style = "width:100%" })
+                        @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
                     </div>
 
                 </div>

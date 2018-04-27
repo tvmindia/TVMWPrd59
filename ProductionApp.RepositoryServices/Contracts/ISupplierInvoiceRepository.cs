@@ -14,6 +14,8 @@ namespace ProductionApp.RepositoryServices.Contracts
         object InsertUpdateSupplierInvoice(SupplierInvoice supplierInvoice);
         object DeleteSupplierInvoice(Guid id);
         object DeleteSupplierInvoiceDetail(Guid id);
-        List<SupplierInvoiceDetail> GetSupplierInvoiceDetail(Guid id);
+        List<SupplierInvoiceDetail> GetAllSupplierInvoiceDetail(Guid id);
+        SupplierInvoiceDetail GetSupplierInvoiceDetail(Guid id);
+
     }
 }

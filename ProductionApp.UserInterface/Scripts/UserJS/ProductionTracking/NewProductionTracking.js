@@ -98,7 +98,6 @@ function LoadProductionTrackingSearchTable() {
 function ProductionTrackingSearch() {
     try{
         debugger;
-        $('#msgSearch').hide();
         $("#TrackingDetailSearchDiv").show();
         var search = $('#ProductionTrackingSearch').val();
         DataTables.ProductionTrackingSearchTable.clear().rows.add(GetProductionTrackingSearchList(search)).draw(false);
@@ -140,6 +139,7 @@ function GetProductionTrackingSearchList(search) {
 function SelectDetail(curObj){
     try{
         debugger;
+        $('#msgSearch').hide();
         _ProductionTracking = DataTables.ProductionTrackingSearchTable.row($(curObj).parents('tr')).data();
 
         $('#LineStageDetailID').val(_ProductionTracking.LineStageDetailID);
@@ -442,4 +442,6 @@ function NewTracking() {
     $('#DamagedQty').val(0);
     $('#DamagedWt').val(0);
     $('#Remarks').val("");
+    $('#ProductID').val(EmptyGuid);
+    $('#LineStageDetailID').val(EmptyGuid);
 }
