@@ -1,8 +1,132 @@
-﻿
+﻿@using ProductionApp.UserInterface.App_Start
+@using ProductionApp.UserInterface.Models;
+@model AMCSysReportViewModel
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Reports";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
+<style>
+    .todo-list {
+        margin: 5px;
+    }
 
-<h2>Index</h2>
+        .todo-list > li {
+            background: #E5E8E8;
+        }
 
+    .text {
+        font-size: 16px;
+    }
+
+    .info-box-icon {
+        width: 30px !important;
+        height: 20px !important;
+    }
+
+    .search box-body {
+        border-bottom: dashed;
+        border-bottom: hidden;
+    }
+
+    .newinput {
+        border: 0px;
+        border-radius: 0px;
+        /* box-shadow: white 1px 6px 1px; */
+        height: 30px;
+        border-bottom: 1px solid #4bd24b;
+        background-color: rgba(2, 166, 143, 0.06);
+        background-color: #E5E8E8;
+    }
+    .box.box-primary{
+        border-top-color:white;
+    }
+</style>
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href=@Url.Action("Index", "Home")><i class="fa fa-home"></i> Home</a></li>
+        <li>Report</li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+<div class="box box-primary" style="position: relative; left: 0px; top: 0px;">
+   
+    <!-- /.box-header -->
+   
+    <div class="col-md-12">&nbsp;</div>
+    <div class="col-md-12">        
+        <div class="col-md-12">
+            @Html.LabelFor(model => model.SearchTerm, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-12">
+            <div class="input-group">
+                @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox", @placeholder = "Search report here...", @onkeypress ="RedirectSearchClick(event,this)" } })
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="RefreshReportSummary()"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+    <div class="col-md-12 box-body">
+
+        <div class="col-md-12">
+            @if (Model.AMCSysReportList != null)
+            {
+                foreach (AMCSysReportViewModel avm in Model.AMCSysReportList.GroupBy(elem => elem.GroupOrder).Select(group => group.First()))
+
+                {
+                    <ul class="todo-list ui-sortable">
+
+                        @foreach (AMCSysReportViewModel subavm in Model.AMCSysReportList.Where(s => s.GroupOrder == avm.GroupOrder).OrderBy(os => os.ReportOrder))
+                        {
+                            <li>
+                               
+                            @if (subavm.GroupOrder%6 == 5)
+                            {
+                               <span class="info-box-icon bg-green"><i class="ion ion-ios-gear-outline"></i></span>
+                            }
+                            @if (subavm.GroupOrder%6  == 4)
+                            {
+                               <span class="info-box-icon bg-orange"><i class="ion ion-ios-gear-outline"></i></span>
+                            }
+                            @if(subavm.GroupOrder%6 == 3)
+                            {
+                               <span class="info-box-icon bg-blue"><i class="ion ion-ios-gear-outline"></i></span>
+                            }
+                            @if (subavm.GroupOrder %6 == 2)
+                            {
+                                <span class="info-box-icon bg-red"><i class="ion ion-ios-gear-outline"></i></span>
+                            }
+
+                             @if (subavm.GroupOrder %6 == 1)
+                             {
+                                 <span class="info-box-icon bg-teal"><i class="ion ion-ios-gear-outline"></i></span>
+                             }
+
+                             @if (subavm.GroupOrder %6 == 0)
+                             {
+                                    <span class="info-box-icon bg-yellow"><i class="ion ion-ios-gear-outline"></i></span>
+                             }
+
+                                <div class="col-md-11"><span class="text">@subavm.ReportName</span>
+                                </div>
+                                <div><a href="/@subavm.Controller/@subavm.Action">
+                                    <span class="fa fa-external-link"></span></a></div>
+
+                            </li>
+
+                        }
+                    </ul>
+                }
+            }
+        </div>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix no-border">
+
+    </div>
+
+</div>
+
+@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/Report/Report")

@@ -6,9 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ProductionApp.DataAccessObject.DTO;
 using System.Data;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Configuration;
 using System.IO;
@@ -83,6 +81,10 @@ namespace ProductionApp.BusinessService.Services
         }
 
 
+        public List<DocumentApproval> GetAllApprovalHistory(DocumentApprovalAdvanceSearch documentApprovalAdvanceSearch)
+        {
+            return _documentApprovalRepository.GetAllApprovalHistory(documentApprovalAdvanceSearch);
+        }
 
         public async Task<bool> SendApprolMails(Guid documentID, string documentType) {
             try
