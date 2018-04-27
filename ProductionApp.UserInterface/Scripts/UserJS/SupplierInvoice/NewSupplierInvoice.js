@@ -893,6 +893,7 @@ function DiscountAmountChanged(thisObj) {
     }
 
 }
+//calling from purchase order dropdown partial view
 function CallForSupplierInvocie() {
     if ($("#PurchaseOrderID").val() != "" && ($("#PurchaseOrderNo").val() == "" || $("#PurchaseOrderNo").val() == undefined))
         $('#PurchaseOrderID').prop("disabled", true);
