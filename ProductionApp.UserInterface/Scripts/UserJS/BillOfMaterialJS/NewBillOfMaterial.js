@@ -659,24 +659,28 @@ function Reset() {
 function LoadPartialAddProductionLine(curobj) {
     try {
         debugger;
-        $('#step1').removeClass('active').addClass('disabled');
-        $('#step2').removeClass('disabled').addClass('active');
-        var BillOfMaterialViewModel = new Object();
-        BillOfMaterialViewModel.ID = $('#IDBillOfMaterial').val();
-        BillOfMaterialViewModel.IsUpdate = $('#IsUpdateBOM').val();
-        BillOfMaterialViewModel.Product = new Object();
-        BillOfMaterialViewModel.ProductID = BillOfMaterialViewModel.Product.ID = $('#ProductID').val();
-        BillOfMaterialViewModel.Product.Name = $($('#ProductID')).children("option[value='" + $('#ProductID').val() + "']").first().html();
-        BillOfMaterialViewModel.BOMComponentLine = new Object();
-        if (curobj !== undefined) {
-            var billOfMaterialDetailVM = DataTables.ComponentList.row($(curobj).parents('tr')).data();
-            BillOfMaterialViewModel.BOMComponentLine.ComponentID = billOfMaterialDetailVM.ComponentID;
+        if ($('#IDBillOfMaterial').val() !== EmptyGuid && $('#IDBillOfMaterial').val() !== "") {
+            $('#step1').removeClass('active').addClass('disabled');
+            $('#step2').removeClass('disabled').addClass('active');
+            var BillOfMaterialViewModel = new Object();
+            BillOfMaterialViewModel.ID = $('#IDBillOfMaterial').val();
+            BillOfMaterialViewModel.IsUpdate = $('#IsUpdateBOM').val();
+            BillOfMaterialViewModel.Product = new Object();
+            BillOfMaterialViewModel.ProductID = BillOfMaterialViewModel.Product.ID = $('#ProductID').val();
+            BillOfMaterialViewModel.Product.Name = $($('#ProductID')).children("option[value='" + $('#ProductID').val() + "']").first().html();
+            BillOfMaterialViewModel.BOMComponentLine = new Object();
+            if (curobj !== undefined) {
+                var billOfMaterialDetailVM = DataTables.ComponentList.row($(curobj).parents('tr')).data();
+                BillOfMaterialViewModel.BOMComponentLine.ComponentID = billOfMaterialDetailVM.ComponentID;
+            }
+
+            ChangeButtonPatchView('BillOfMaterial', 'divButtonPatch', 'Add');
+
+            var data = { "billOfMaterialVM": BillOfMaterialViewModel }
+            $('#divPartial').load("AddProductionLine", data);
+        } else {
+            notyAlert('warning', "Please Save the BOM and Continue");
         }
-
-        ChangeButtonPatchView('BillOfMaterial', 'divButtonPatch', 'Add');
-
-        var data = { "billOfMaterialVM": BillOfMaterialViewModel }
-        $('#divPartial').load("AddProductionLine", data);
 
     }
     catch (ex) {
@@ -1521,7 +1525,7 @@ function ClearStageDetail() {
         $('#BOMComponentLineStageDetail_IsUpdate').val('False');
         //$('#StageID').val("").trigger('change');
         $('#BOMComponentLineStageDetail_EntryType').val("Input").trigger('change');
-        $('#BOMComponentLineStageDetail_PartType').val("RAW").trigger('change');
+        $('#BOMComponentLineStageDetail_PartType').val("SUB").trigger('change');
         $('#MaterialID').val("").select2().trigger('change');
         $('#SubComponentID').val("").select2().trigger('change');
         $('#ProductID').val("").select2().trigger('change');
