@@ -66,12 +66,14 @@
     <Compile Include="Contracts\IMaterialReturnRepository.cs" />
     <Compile Include="Contracts\IMaterialStockAdjRepository.cs" />
     <Compile Include="Contracts\IMaterialTypeRepository.cs" />
+    <Compile Include="Contracts\IOtherIncomeRepository.cs" />
     <Compile Include="Contracts\IPackingSlipRepository.cs" />
     <Compile Include="Contracts\IPaymentTermRepository.cs" />
     <Compile Include="Contracts\IProductCategoryRepository.cs" />
     <Compile Include="Contracts\IProductionTrackingRepository.cs" />
     <Compile Include="Contracts\IProductRepository.cs" />
     <Compile Include="Contracts\IPurchaseInvoiceRepository.cs" />
+    <Compile Include="Contracts\IReportRepository.cs" />
     <Compile Include="Contracts\IRequisitionRepository.cs" />
     <Compile Include="Contracts\IPurchaseOrderRepository.cs" />
     <Compile Include="Contracts\IMaterialRepository.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="Services\FileUploadRepository.cs" />
     <Compile Include="Services\FinishedGoodStockAdjRepository.cs" />
     <Compile Include="Services\MastersCountRepository.cs" />
+    <Compile Include="Services\OtherIncomeRepository.cs" />
     <Compile Include="Services\ProductCategoryRepository.cs" />
     <Compile Include="Services\ProductionTrackingRepository.cs" />
     <Compile Include="Services\IssueToProductionRepository.cs" />
@@ -115,6 +118,7 @@
     <Compile Include="Services\PaymentTermRepository.cs" />
     <Compile Include="Services\ProductRepository.cs" />
     <Compile Include="Services\PurchaseInvoiceRepository.cs" />
+    <Compile Include="Services\ReportRepository.cs" />
     <Compile Include="Services\RequisitionRepository.cs" />
     <Compile Include="Services\PurchaseOrderRepository.cs" />
     <Compile Include="Services\MaterialRepository.cs" />

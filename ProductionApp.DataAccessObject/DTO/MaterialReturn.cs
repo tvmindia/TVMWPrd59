@@ -41,7 +41,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal CGSTPerc { get; set; }
         public decimal SGSTPerc { get; set; }
         public decimal IGSTPerc { get; set; }
+        public string TaxTypeCode { get; set; }
+        //Additional properties
         public Material Material { get; set; }
+        public string TaxTypeDescription { get; set; }
     }
     public class MaterialReturnAdvanceSearch
     {

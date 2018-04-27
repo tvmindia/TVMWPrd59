@@ -97,12 +97,14 @@
     <Compile Include="DTO\MaterialReturnFromProduction.cs" />
     <Compile Include="DTO\MaterialStockAdj.cs" />
     <Compile Include="DTO\MaterialType.cs" />
+    <Compile Include="DTO\OtherIncome.cs" />
     <Compile Include="DTO\PackingSlip.cs" />
     <Compile Include="DTO\PaymentTerm.cs" />
     <Compile Include="DTO\Product.cs" />
     <Compile Include="DTO\ProductCategory.cs" />
     <Compile Include="DTO\ProductionTracking.cs" />
     <Compile Include="DTO\PurchaseInvoice.cs" />
+    <Compile Include="DTO\AMCSysReport.cs" />
     <Compile Include="DTO\Requisition.cs" />
     <Compile Include="DTO\PurchaseOrder.cs" />
     <Compile Include="DTO\Material.cs" />
