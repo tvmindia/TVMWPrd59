@@ -104,6 +104,7 @@
     <Compile Include="DTO\ProductCategory.cs" />
     <Compile Include="DTO\ProductionTracking.cs" />
     <Compile Include="DTO\PurchaseInvoice.cs" />
+    <Compile Include="DTO\AMCSysReport.cs" />
     <Compile Include="DTO\Requisition.cs" />
     <Compile Include="DTO\PurchaseOrder.cs" />
     <Compile Include="DTO\Material.cs" />
