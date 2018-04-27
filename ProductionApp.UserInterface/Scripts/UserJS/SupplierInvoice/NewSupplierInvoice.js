@@ -99,45 +99,60 @@ $(document).ready(function () {
         });
       
         _dataTables.PurchaseOrderDetailTable = $('#tblPurchaseOrderDetail').DataTable({
-                dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
-                order: [],
+                dom: '<"pull-right"f>rt<"bottom"ip><"clear">', 
+                ordering: false,
                 searching: true,
                 paging: true,
                 data: null,
                 pageLength: 5,
+                autoWidth: false,
                 language: {
                     search: "_INPUT_",
                     searchPlaceholder: "Search"
                 },
                 columns: [
-                  { "data": "Checkbox", "defaultContent": "", "width": "7%" },
+                  { "data": "Checkbox", "defaultContent": "", "width": "5%" },
                   {
-                      "data": "MaterialDesc", "defaultContent": "<i>-</i>", "width": "45%",
+                      "data": "MaterialDesc", "defaultContent": "<i>-</i>", "width": "20%",
                        'render': function (data, type, row) {
                            return data + '</br><b>Code :</b>' + row.MaterialCode + '</br><b>Type :</b>' + row.MaterialTypeDesc
                        }
                   },
+                  {
+                      "data": "POQty", "defaultContent": "<i>-</i>", "width": "10%",
+                      'render': function (data, type, row) {
+                          // return '<input class="form-control text-right" style="width: 10%;" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,1);">';
+                          return data;
+                      }
+                  },
                    {
-                       "data": "Qty", "defaultContent": "<i>-</i>", "width": "12%",
+                       "data": "PrevInvQty", "defaultContent": "<i>-</i>", "width": "10%",
                        'render': function (data, type, row) {
-                             return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,1);">';
-                           //return data;
+                           // return '<input class="form-control text-right" style="width: 10%;" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,1);">';
+                          return data;
+                       }
+                   },
+                   {
+                       "data": "Qty", "defaultContent": "<i>-</i>", "width": "15%",
+                       'render': function (data, type, row) { 
+                           return '<input class="form-control text-right" style="width: 100%;"  name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,1);">';
+                          // return data;
                        }
                    },
                     {
-                        "data": "Rate", "defaultContent": "<i>-</i>", "width": "12%",
+                        "data": "Rate", "defaultContent": "<i>-</i>", "width": "15%",
                         'render': function (data, type, row) {
-                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,2);">';
+                            return '<input class="form-control text-right" style="width: 100%;" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,2);">';
                         }
                     },
                     {
-                        "data": "Discount", "defaultContent": "<i>-</i>", "width": "12%",
+                        "data": "Discount", "defaultContent": "<i>-</i>", "width": "15%",
                         'render': function (data, type, row) {
-                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,3);">';
+                            return '<input class="form-control text-right" style="width: 100%;" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,3);">';
                         }
                     },
                     {
-                        "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "12%",
+                        "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "10%",
                         'render': function (data, type, row) {
                             if (data != null) {
                                 var first = _taxDropdownScript.slice(0, _taxDropdownScript.indexOf('value="' + data + '"'));
@@ -152,10 +167,9 @@ $(document).ready(function () {
                 ],
                 columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 0 },
                     { "targets": [], "visible": false, "searchable": false },
-                    { className: "text-right", "targets": [4] },
-                    { className: "text-left", "targets": [2,3, 5] },
-                    { className: "text-center", "targets": [0] },
-                    { "targets": [1,3,2,4,5], "bSortable": false }
+                    { className: "text-right", "targets": [] },
+                    { className: "text-left", "targets": [] },
+                    { className: "text-center", "targets": [0] }, 
                 ],
                 select: { style: 'multi', selector: 'td:first-child' },
                 destroy: true
@@ -290,24 +304,26 @@ function IsFromPurchaseOrderChanged() {
 //##6--Show Supplier Invoice Detail Modal ---------------------------##6
 function ShowSupplierInvoiceDetailModal()
 {
-    $("#supplierInvoiceDetailModalLabel").text('Add Supplier Invoice Detail');
-    $("#MaterialID").prop("disabled", false);
-    $("#MaterialID").val('').select2();
-    $('#SupplierInvoiceDetail_ID').val('');
-    $('#SupplierInvoiceDetail_UnitCode').val('');
-    $('#SupplierInvoiceDetail_Quantity').val('');
-    $('#SupplierInvoiceDetail_Rate').val('');
-    $('#SupplierInvoiceDetail_TradeDiscountAmount').val(roundoff(0));
-    $('#SupplierInvoiceDetail_TradeDiscountPerc').val('0');
-    $('#TaxTypeCode').val('');
-    $('#SupplierInvoiceDetail_MaterialCode').val('');
-    $('#SupplierInvoiceDetail_MaterialTypeDesc').val('');
-    $('#SupplierInvoiceDetail_UnitCode').val('');
-    $('#SupplierInvoiceDetail_GrossAmount').val(roundoff(0));
-    $('#SupplierInvoiceDetail_TaxableAmount').val(roundoff(0));
-    $('#SupplierInvoiceDetail_NetAmount').val(roundoff(0));
-    $('#SupplierInvoiceDetail_TaxAmount').val(roundoff(0));
-    $('#SupplierInvoiceDetailModal').modal('show');
+    if ($('#SupplierInvoiceForm').valid()) {
+        $("#supplierInvoiceDetailModalLabel").text('Add Supplier Invoice Detail');
+        $("#MaterialID").prop("disabled", false);
+        $("#MaterialID").val('').select2();
+        $('#SupplierInvoiceDetail_ID').val('');
+        $('#SupplierInvoiceDetail_UnitCode').val('');
+        $('#SupplierInvoiceDetail_Quantity').val('');
+        $('#SupplierInvoiceDetail_Rate').val('');
+        $('#SupplierInvoiceDetail_TradeDiscountAmount').val(roundoff(0));
+        $('#SupplierInvoiceDetail_TradeDiscountPerc').val('0');
+        $('#TaxTypeCode').val('');
+        $('#SupplierInvoiceDetail_MaterialCode').val('');
+        $('#SupplierInvoiceDetail_MaterialTypeDesc').val('');
+        $('#SupplierInvoiceDetail_UnitCode').val('');
+        $('#SupplierInvoiceDetail_GrossAmount').val(roundoff(0));
+        $('#SupplierInvoiceDetail_TaxableAmount').val(roundoff(0));
+        $('#SupplierInvoiceDetail_NetAmount').val(roundoff(0));
+        $('#SupplierInvoiceDetail_TaxAmount').val(roundoff(0));
+        $('#SupplierInvoiceDetailModal').modal('show');
+    }
 } 
 function BindRawMaterialDetails(id) {
     try {
@@ -468,15 +484,18 @@ function AddSupplierInvoiceDetails() {
 //##8--Show Load PO Detail Modal ---------------------------##8
 function LoadPODetailModal() {
     debugger;
-    var POID=$('#PurchaseOrderID').val();
-    if (POID !== "" && POID!=undefined) {
-        TaxtypeDropdown();
-        $('#PurchaseOrderDetailModal').modal('show');
-        var id = $('#PurchaseOrderID').val();
-        BindPurchaseOrderDetailTable(id);
-    } else {
-        notyAlert('warning', 'Purchase Order Not selcted!');
+    if ($('#SupplierInvoiceForm').valid()) {
+        var POID = $('#PurchaseOrderID').val();
+        if (POID !== "" && POID != undefined) {
+            TaxtypeDropdown();
+            $('#PurchaseOrderDetailModal').modal('show');
+            var id = $('#PurchaseOrderID').val();
+            BindPurchaseOrderDetailTable(id);
+        } else {
+            notyAlert('warning', 'Purchase Order Not selcted!');
+        }
     }
+    
 } 
 function BindPurchaseOrderDetailTable(id) {
     debugger;
@@ -547,7 +566,7 @@ function EdittextBoxValue(thisObj, textBoxCode) {
     for (var i = 0; i < purchaseOrderDetailVM.length; i++) {
         if (purchaseOrderDetailVM[i].MaterialID == rowtable.MaterialID) {
             if (textBoxCode == 1) 
-                    purchaseOrderDetailVM[i].Quantity = thisObj.value;  
+                    purchaseOrderDetailVM[i].Qty = thisObj.value;  
             if (textBoxCode == 2)
                 purchaseOrderDetailVM[i].Rate = thisObj.value;
             if (textBoxCode == 3)

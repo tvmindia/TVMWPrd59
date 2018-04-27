@@ -103,7 +103,9 @@ namespace ProductionApp.UserInterface.Models
             public string MaterialCode { get; set; }
             public decimal Amount { get; set; }
             public decimal PrevRcvQty { get; set; }
-            public RequisitionDetailViewModel RequisitionDetail { get; set; }
+            public decimal PrevInvQty { get; set; }
+            public decimal POQty { get; set; }
+        public RequisitionDetailViewModel RequisitionDetail { get; set; }
     }
         public class PurchaseOrderOtherChargesViewModel
         {
