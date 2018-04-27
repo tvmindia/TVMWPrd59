@@ -489,21 +489,31 @@ function LoadPODetailModal() {
         if (POID !== "" && POID != undefined) {
             TaxtypeDropdown();
             $('#PurchaseOrderDetailModal').modal('show');
-            var id = $('#PurchaseOrderID').val();
-            BindPurchaseOrderDetailTable(id);
+            BindPurchaseOrderDetailTable();
         } else {
             notyAlert('warning', 'Purchase Order Not selcted!');
         }
     }
     
 } 
-function BindPurchaseOrderDetailTable(id) {
+function BindPurchaseOrderDetailTable() {
     debugger;
-    _dataTables.PurchaseOrderDetailTable.clear().rows.add(GetPurchaseOrderItem(id)).select().draw(false);
+    var purchaseOrderDetailList = GetPurchaseOrderItem();
+    var supplierInvoiceDetailList = _dataTables.SupplierInvoiceDetailTable.rows().data();
+    //To exclude the materials already in Details table
+    for (j = 0; j < supplierInvoiceDetailList.length; j++) {//To remove the existing items in Details from PO items
+        for (i = 0; i < purchaseOrderDetailList.length; i++) {
+            if (purchaseOrderDetailList[i].MaterialID === supplierInvoiceDetailList[j].MaterialID) {
+                purchaseOrderDetailList.splice(i, 1);//Removes the ith element
+            }
+        }
+    }
+    _dataTables.PurchaseOrderDetailTable.clear().rows.add(purchaseOrderDetailList).select().draw(false);
 }
-function GetPurchaseOrderItem(id) {
+function GetPurchaseOrderItem() {
     try {
         debugger;
+        var id = $('#PurchaseOrderID').val();
         var data = { "id": id };
         var purchaseOrderDetailList = []; 
         _jsonData = GetDataFromServer("SupplierInvoice/GetAllPurchaseOrderItem/", data);
