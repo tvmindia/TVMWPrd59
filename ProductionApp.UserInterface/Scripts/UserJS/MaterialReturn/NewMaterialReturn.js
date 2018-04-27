@@ -49,25 +49,24 @@ $(document).ready(function () {
          { "data": "UnitCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "Rate", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "Qty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
-         { "data": "SGSTPerc", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
-         { "data": "CGSTPerc", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
-         { "data": "IGSTPerc", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
+         { "data": "TaxableAmt", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
+         { "data": "TaxTypeDescription", render: function (data, type, row) { if (row.TaxTypeDescription) { return data } else return "-" }, "defaultContent": "<i></i>" },
          { "data": "Amount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> | <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
          ],
          columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false },
-             { className: "text-left", "targets": [2, 3, 4, 5] },
-             { className: "text-right", "targets": [6,7,8,9,10,11] },
-             { className: "text-center", "targets": [12] },
+             { className: "text-left", "targets": [2, 3, 4,5,9] },
+             { className: "text-right", "targets": [6,7,8,10] },
+             { className: "text-center", "targets": [11] },
              { "targets": [2], "width": "2%", },
-             { "targets": [3], "width": "5%" },
-             { "targets": [4], "width": "40%" },
-             { "targets": [12], "width": "7%" },
+             { "targets": [3], "width": "8%" },
+             { "targets": [4], "width": "38%" },
+             { "targets": [11], "width": "7%" },
              { "targets": [6], "width": "8%" },
-             { "targets": [7], "width": "6%" },
-             { "targets": [8], "width": "6%" },
+             { "targets": [7], "width": "8%" },
+             { "targets": [8], "width": "8%" },
              { "targets": [9], "width": "6%" },
-             { "targets": [10], "width": "6%" },
+             { "targets": [10], "width": "8%" },
              { "targets": [4, 5], "width": "5%" }
          ],
 
@@ -96,9 +95,7 @@ function ShowReturnToSupplierDetailsModal()
     $('#MaterialReturnDetail_UnitCode').val('');
     $('#MaterialReturnDetail_Qty').val('');
     $('#MaterialReturnDetail_Rate').val('');
-    $('#MaterialReturnDetail_CGSTPerc').val('');
-    $('#MaterialReturnDetail_SGSTPerc').val('');
-    $('#MaterialReturnDetail_IGSTPerc').val('');
+    $('#TaxTypeCode').val('');
     $('#AddReturnToSupplierItemModal').modal('show');
 }
 function BindRawMaterialDetails(ID) {
@@ -187,20 +184,21 @@ function AddReturnToSupplierItem()
         AddMaterialReturn.UnitCode = $('#MaterialReturnDetail_UnitCode').val();
         AddMaterialReturn.Qty = $('#MaterialReturnDetail_Qty').val();
         AddMaterialReturn.Rate = $('#MaterialReturnDetail_Rate').val();
-        if ($('#MaterialReturnDetail_CGSTPerc').val() != "")
-            AddMaterialReturn.CGSTPerc = $('#MaterialReturnDetail_CGSTPerc').val();
-        else
+        AddMaterialReturn.TaxTypeCode = $('#TaxTypeCode').val();
+        if ($('#TaxTypeCode').val() != "" && $('#TaxTypeCode').val() != undefined) {
+            var taxTypeVM = GetTaxTypeByCode($('#TaxTypeCode').val());
+            AddMaterialReturn.TaxTypeDescription = (taxTypeVM.Description);
+            AddMaterialReturn.CGSTPerc = parseFloat(taxTypeVM.CGSTPercentage);
+            AddMaterialReturn.SGSTPerc = parseFloat(taxTypeVM.SGSTPercentage);
+            AddMaterialReturn.IGSTPerc = parseFloat(taxTypeVM.IGSTPercentage);
+        }
+        else {
             AddMaterialReturn.CGSTPerc = 0;
-        if ($('#MaterialReturnDetail_SGSTPerc').val() != "")
-            AddMaterialReturn.SGSTPerc = $('#MaterialReturnDetail_SGSTPerc').val();
-        else
             AddMaterialReturn.SGSTPerc = 0;
-        if ($('#MaterialReturnDetail_IGSTPerc').val() != "")
-            AddMaterialReturn.IGSTPerc = $('#MaterialReturnDetail_IGSTPerc').val();
-        else
             AddMaterialReturn.IGSTPerc = 0;
-        AddMaterialReturn.Amount = parseFloat(AddMaterialReturn.Qty) * parseFloat(AddMaterialReturn.Rate);
-        AddMaterialReturn.Amount = roundoff(parseFloat(AddMaterialReturn.Amount) + (parseFloat(AddMaterialReturn.Amount) * parseFloat(AddMaterialReturn.CGSTPerc) / 100) + (parseFloat(AddMaterialReturn.Amount) * parseFloat(AddMaterialReturn.SGSTPerc) / 100) + (parseFloat(AddMaterialReturn.Amount) * parseFloat(AddMaterialReturn.IGSTPerc) / 100));
+        }
+        AddMaterialReturn.TaxableAmt = parseFloat(AddMaterialReturn.Qty) * parseFloat(AddMaterialReturn.Rate);
+        AddMaterialReturn.Amount = roundoff(parseFloat(AddMaterialReturn.TaxableAmt) + (parseFloat(AddMaterialReturn.TaxableAmt) * parseFloat(AddMaterialReturn.CGSTPerc) / 100) + (parseFloat(AddMaterialReturn.TaxableAmt) * parseFloat(AddMaterialReturn.SGSTPerc) / 100) + (parseFloat(AddMaterialReturn.TaxableAmt) * parseFloat(AddMaterialReturn.IGSTPerc) / 100));
         _MaterialReturnDetail.push(AddMaterialReturn);
 
         if (_MaterialReturnDetail != null) {
@@ -209,16 +207,16 @@ function AddReturnToSupplierItem()
             if (materialReturnDetailList.length > 0) {
                 var checkPoint = 0;
                 for (var i = 0; i < materialReturnDetailList.length; i++) {
-                    if (materialReturnDetailList[i].MaterialID == $('#MaterialID').val()) {
+                    if (materialReturnDetailList[i].MaterialID == $('#MaterialID').val())
+                    {
                         materialReturnDetailList[i].MaterialDesc = $('#MaterialReturnDetail_MaterialDesc').val();
-                        materialReturnDetailList[i].UnitCode = $('#MaterialReturnDetail_UnitCode').val();
-                        materialReturnDetailList[i].Qty = $('#MaterialReturnDetail_Qty').val();
-                        materialReturnDetailList[i].Rate = $('#MaterialReturnDetail_Rate').val();
-                        materialReturnDetailList[i].CGSTPerc = $('#MaterialReturnDetail_CGSTPerc').val();
-                        materialReturnDetailList[i].SGSTPerc = $('#MaterialReturnDetail_SGSTPerc').val();
-                        materialReturnDetailList[i].IGSTPerc = $('#MaterialReturnDetail_IGSTPerc').val();
-                        materialReturnDetailList[i].Amount = parseFloat(materialReturnDetailList[i].Qty) * parseFloat(materialReturnDetailList[i].Rate);
-                        materialReturnDetailList[i].Amount = parseFloat(materialReturnDetailList[i].Amount) + (parseFloat(materialReturnDetailList[i].Amount) * parseFloat(materialReturnDetailList[i].CGSTPerc) / 100) + (parseFloat(materialReturnDetailList[i].Amount) * parseFloat(materialReturnDetailList[i].SGSTPerc) / 100) + (parseFloat(materialReturnDetailList[i].Amount) * parseFloat(materialReturnDetailList[i].IGSTPerc) / 100);
+                        materialReturnDetailList[i].UnitCode = AddMaterialReturn.UnitCode;
+                        materialReturnDetailList[i].Qty = AddMaterialReturn.Qty;
+                        materialReturnDetailList[i].Rate = AddMaterialReturn.Rate;
+                        materialReturnDetailList[i].TaxTypeCode = AddMaterialReturn.TaxTypeCode;
+                        materialReturnDetailList[i].TaxTypeDescription = AddMaterialReturn.TaxTypeDescription;
+                        materialReturnDetailList[i].TaxableAmt = AddMaterialReturn.TaxableAmt;
+                        materialReturnDetailList[i].Amount = AddMaterialReturn.Amount;
                         checkPoint = 1;
                         break;
                     }
@@ -247,15 +245,16 @@ function catlculateTotal() {
     debugger;
     var total = 0;
     var taxableAmt = 0;
+    var totalTax = 0;
     var materialReturnDetailVM = new Object();
     materialReturnDetailVM=_dataTable.MaterialReturnToSupplierDetailTable.rows().data();
     for (var i = 0; i < materialReturnDetailVM.length; i++) {
-        materialReturnDetailVM[i].Amount = materialReturnDetailVM[i].Qty * materialReturnDetailVM[i].Rate;
-        taxableAmt = materialReturnDetailVM[i].Qty * materialReturnDetailVM[i].Rate;
-        materialReturnDetailVM[i].Amount = roundoff(parseFloat(materialReturnDetailVM[i].Amount) + (parseFloat(materialReturnDetailVM[i].Amount) * parseFloat(materialReturnDetailVM[i].CGSTPerc) / 100) + (parseFloat(materialReturnDetailVM[i].Amount) * parseFloat(materialReturnDetailVM[i].SGSTPerc) / 100) + (parseFloat(materialReturnDetailVM[i].Amount) * parseFloat(materialReturnDetailVM[i].IGSTPerc) / 100));
-        total =total + taxableAmt + (taxableAmt * parseFloat(materialReturnDetailVM[i].CGSTPerc) / 100) + (taxableAmt * parseFloat(materialReturnDetailVM[i].SGSTPerc) / 100) + (taxableAmt * parseFloat(materialReturnDetailVM[i].IGSTPerc) / 100);
-    }
-    $('#lblTotal').text('₹ '+roundoff(total));
+        totalTax = totalTax + parseFloat(materialReturnDetailVM[i].TaxableAmt);
+        total = total + parseFloat(materialReturnDetailVM[i].Amount);
+    } 
+    $('#lblTotal').text(roundoff(total));
+    $('#lblTaxableAmt').text(roundoff(totalTax));
+    $('#lblTaxAmt').text(roundoff(parseFloat(total) - parseFloat(totalTax)));
 }
 function MaterialEdit(curObj) {
     debugger;
@@ -270,9 +269,33 @@ function MaterialEdit(curObj) {
         $('#MaterialReturnDetail_UnitCode').val(materialReturnDetailVM.UnitCode);
         $('#MaterialReturnDetail_Qty').val(materialReturnDetailVM.Qty);
         $('#MaterialReturnDetail_Rate').val(materialReturnDetailVM.Rate);
-        $('#MaterialReturnDetail_CGSTPerc').val(materialReturnDetailVM.CGSTPerc);
-        $('#MaterialReturnDetail_SGSTPerc').val(materialReturnDetailVM.SGSTPerc);
-        $('#MaterialReturnDetail_IGSTPerc').val(materialReturnDetailVM.IGSTPerc);
+        $('#TaxTypeCode').val(materialReturnDetailVM.TaxTypeCode);
+    }
+}
+function GetTaxTypeByCode(Code) {
+    try {
+        debugger;
+        var data = { "Code": Code };
+        var result = "";
+        var message = "";
+        var jsonData = {};
+        var taxTypeVM = new Object();
+        jsonData = GetDataFromServer("MaterialReturn/GetTaxtype/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            taxTypeVM = jsonData.Records;
+        }
+        if (result == "OK") {
+            return taxTypeVM;
+        }
+        if (result == "ERROR") {
+            alert(Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
     }
 }
 function Save() {
@@ -303,9 +326,18 @@ function AddMaterialReturnDetailList() {
         MaterialReturnDetail.UnitCode = data[r].UnitCode;
         MaterialReturnDetail.Qty = data[r].Qty;
         MaterialReturnDetail.Rate = data[r].Rate;
-        MaterialReturnDetail.CGSTPerc = data[r].CGSTPerc;
-        MaterialReturnDetail.SGSTPerc = data[r].SGSTPerc;
-        MaterialReturnDetail.IGSTPerc = data[r].IGSTPerc;
+        MaterialReturnDetail.TaxTypeCode = data[r].TaxTypeCode;
+        if (MaterialReturnDetail.TaxTypeCode != "" && MaterialReturnDetail.TaxTypeCode != undefined) {
+            var taxTypeVM = GetTaxTypeByCode($('#TaxTypeCode').val());
+            MaterialReturnDetail.CGSTPerc = parseFloat(taxTypeVM.CGSTPercentage);
+            MaterialReturnDetail.SGSTPerc = parseFloat(taxTypeVM.SGSTPercentage);
+            MaterialReturnDetail.IGSTPerc = parseFloat(taxTypeVM.IGSTPercentage);
+        }
+        else {
+            MaterialReturnDetail.CGSTPerc = 0;
+            MaterialReturnDetail.SGSTPerc = 0;
+            MaterialReturnDetail.IGSTPerc = 0;
+        }
         _MaterialReturnDetailList.push(MaterialReturnDetail);
     }
 }
@@ -380,13 +412,8 @@ function GetReturnToSupplier(ID) {
 
 function BindMaterialReturnDetailTable(ID) {
     debugger;
-    var MaterialReturnDetail = new Object();
-    MaterialReturnDetail = GetReturnToSupplierDetail(ID);
-    for (var i = 0; i < MaterialReturnDetail.length; i++)
-    {
-
-    }
     _dataTable.MaterialReturnToSupplierDetailTable.clear().rows.add(GetReturnToSupplierDetail(ID)).draw(true);
+    catlculateTotal();
 }
 
 function GetReturnToSupplierDetail(ID) {
@@ -409,12 +436,9 @@ function GetReturnToSupplierDetail(ID) {
         }
         if (result == "OK") {
             for (var i = 0; i < materialReturnDetailVM.length; i++) {
-                materialReturnDetailVM[i].Amount = materialReturnDetailVM[i].Qty * materialReturnDetailVM[i].Rate;
-                taxableAmt = materialReturnDetailVM[i].Qty * materialReturnDetailVM[i].Rate;
-                materialReturnDetailVM[i].Amount = roundoff(parseFloat(materialReturnDetailVM[i].Amount) + (parseFloat(materialReturnDetailVM[i].Amount) * parseFloat(materialReturnDetailVM[i].CGSTPerc) / 100) + (parseFloat(materialReturnDetailVM[i].Amount) * parseFloat(materialReturnDetailVM[i].SGSTPerc) / 100) + (parseFloat(materialReturnDetailVM[i].Amount) * parseFloat(materialReturnDetailVM[i].IGSTPerc) / 100));
-                Tot = Tot + taxableAmt + (taxableAmt * parseFloat(materialReturnDetailVM[i].CGSTPerc) / 100) + (taxableAmt * parseFloat(materialReturnDetailVM[i].SGSTPerc) / 100) + (taxableAmt * parseFloat(materialReturnDetailVM[i].IGSTPerc) / 100);
+                materialReturnDetailVM[i].TaxableAmt = materialReturnDetailVM[i].Qty * materialReturnDetailVM[i].Rate;
+                materialReturnDetailVM[i].Amount = roundoff(parseFloat(materialReturnDetailVM[i].TaxableAmt) + (parseFloat(materialReturnDetailVM[i].TaxableAmt) * parseFloat(materialReturnDetailVM[i].CGSTPerc) / 100) + (parseFloat(materialReturnDetailVM[i].TaxableAmt) * parseFloat(materialReturnDetailVM[i].SGSTPerc) / 100) + (parseFloat(materialReturnDetailVM[i].TaxableAmt) * parseFloat(materialReturnDetailVM[i].IGSTPerc) / 100));
             }
-            $('#lblTotal').text('₹ '+roundoff(Tot));
             return materialReturnDetailVM;
         }
         if (result == "ERROR") {

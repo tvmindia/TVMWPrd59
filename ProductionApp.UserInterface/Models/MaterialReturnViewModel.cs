@@ -56,7 +56,11 @@ namespace ProductionApp.UserInterface.Models
         public decimal SGSTPerc { get; set; }
         [Display(Name = "IGST %")]
         public decimal IGSTPerc { get; set; }
+        [Display(Name = "Tax Type")]
+        public string TaxTypeCode { get; set; }
+        //additional properties
         public MaterialViewModel Material { get; set; }
+        public string TaxTypeDescription { get; set; }
     }
     public class MaterialReturnAdvanceSearchViewModel
     {

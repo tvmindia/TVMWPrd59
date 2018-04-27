@@ -18,14 +18,16 @@ namespace ProductionApp.UserInterface.Controllers
         private IMaterialBusiness _rawMaterialBusiness;
         private IEmployeeBusiness _employeeBusiness;
         private ISupplierBusiness _supplierBusiness;
+        private ITaxTypeBusiness _taxTypeBusiness;
         AppConst _appConst = new AppConst();
         Common _common = new Common();
-        public MaterialReturnController(IMaterialReturnBusiness materialReturnBusiness, IEmployeeBusiness employeeBusiness, IMaterialBusiness rawMaterialBusiness, ISupplierBusiness supplierBusiness)
+        public MaterialReturnController(IMaterialReturnBusiness materialReturnBusiness, IEmployeeBusiness employeeBusiness, IMaterialBusiness rawMaterialBusiness, ISupplierBusiness supplierBusiness, ITaxTypeBusiness taxTypeBusiness)
         {
             _materialReturnBusiness = materialReturnBusiness;
             _employeeBusiness = employeeBusiness;
             _rawMaterialBusiness = rawMaterialBusiness;
             _supplierBusiness = supplierBusiness;
+            _taxTypeBusiness = taxTypeBusiness;
         }
         [AuthSecurityFilter(ProjectObject = "MaterialReturn", Mode = "R")]
         public ActionResult ViewMaterialReturn(string code)
@@ -125,6 +127,23 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         #endregion GetAllReturnToSupplier
+
+        #region TaxTypeCode
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
+        public string GetTaxtype(string Code)
+        {
+            try
+            {
+                TaxTypeViewModel taxTypeVM = new TaxTypeViewModel();
+                taxTypeVM = Mapper.Map<TaxType, TaxTypeViewModel>(_taxTypeBusiness.GetTaxTypeDetailsByCode(Code));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = taxTypeVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion TaxTypeByCode
 
         #region InsertUpdateReturnToSupplier
         [HttpPost]
