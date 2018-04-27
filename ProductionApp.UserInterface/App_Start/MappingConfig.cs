@@ -133,6 +133,9 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<SupplierPaymentAdvanceSearchViewModel, SupplierPaymentAdvanceSearch>().ReverseMap();
 
                 config.CreateMap<MastersCountViewModel, MastersCount>().ReverseMap();
+                //Other Income
+                config.CreateMap<OtherIncomeViewModel, OtherIncome>().ReverseMap();
+                config.CreateMap<OtherIncomeAdvanceSearchViewModel, OtherIncomeAdvanceSearch>().ReverseMap();
             });
         }
     }
