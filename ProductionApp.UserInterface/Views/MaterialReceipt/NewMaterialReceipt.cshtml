@@ -225,7 +225,7 @@
                             @Html.LabelFor(model => model.MaterialReceiptDetail.UnitCode, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                            @Html.DropDownListFor(model => model.MaterialReceiptDetail.UnitCode,Model.MaterialReceiptDetail.Unit.UnitSelectList,"---Select Unit---", new { htmlAttributes = new { @class = "form-control BlockEnter" } })
+                            @Html.EditorFor(model => model.MaterialReceiptDetail.UnitCode, new { htmlAttributes = new { @class = "form-control BlockEnter", @disabled = "disabled", @value = "Nos." } })
                         </div>
                     </div>
                     <div class="col-md-6">
