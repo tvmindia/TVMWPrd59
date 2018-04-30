@@ -97,6 +97,7 @@
     <Compile Include="DTO\MaterialReturnFromProduction.cs" />
     <Compile Include="DTO\MaterialStockAdj.cs" />
     <Compile Include="DTO\MaterialType.cs" />
+    <Compile Include="DTO\OtherExpense.cs" />
     <Compile Include="DTO\OtherIncome.cs" />
     <Compile Include="DTO\PackingSlip.cs" />
     <Compile Include="DTO\PaymentTerm.cs" />
