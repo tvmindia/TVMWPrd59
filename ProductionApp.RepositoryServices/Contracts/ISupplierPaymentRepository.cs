@@ -10,7 +10,7 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface ISupplierPaymentRepository
     {
         List<SupplierPayment> GetAllSupplierPayment(SupplierPaymentAdvanceSearch supplierPaymentAdvanceSearch);
-        List<SupplierInvoice> GetOutStandingInvoices(Guid PaymentID, Guid CustID);
+        List<SupplierInvoice> GetOutStandingSupplierInvoices(Guid PaymentID, Guid supplierId);
         SupplierInvoice GetOutstandingAmount(Guid Id);
         object InsertUpdateSupplierPayment(SupplierPayment supplierPayment);
         SupplierPayment GetSupplierPayment(string Id);

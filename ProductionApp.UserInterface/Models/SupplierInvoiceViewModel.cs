@@ -46,9 +46,12 @@ namespace ProductionApp.UserInterface.Models
         public decimal TotalTaxableAmount { get; set; }
         public decimal TotalTaxAmount { get; set; }
         public decimal InvoiceAmount { get; set; }
+        public decimal PaymentReceived { get; set; }
+        public decimal Balance { get; set; }
         public CommonViewModel Common { get; set; }
         public SupplierViewModel Supplier { get; set; }
         public PurchaseOrderViewModel PurchaseOrder { get; set; }
+        public SupplierPaymentViewModel SupplierPayment { get; set; }
         public ChartOfAccountViewModel chartOfAccount { get; set; }
         public SupplierInvoiceDetailViewModel SupplierInvoiceDetail { get; set; }
         public List<SupplierInvoiceDetailViewModel> SupplierInvoiceDetailList { get; set; }

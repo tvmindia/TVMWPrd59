@@ -159,39 +159,39 @@ namespace ProductionApp.UserInterface.Controllers
         //}
         //#endregion ValidateSupplierPayment
 
-        //#region GetOutStandingInvoices
-        //[AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
-        //public string GetOutStandingInvoices(string paymentId, string SupplierId)
-        //{
-        //    try
-        //    {
-        //        List<SupplierInvoiceViewModel> SupplierInvoiceVM = new List<SupplierInvoiceViewModel>();
-        //        SupplierInvoiceVM = Mapper.Map<List<SupplierInvoice>, List<SupplierInvoiceViewModel>>(_SupplierPaymentBusiness.GetOutStandingInvoices(Guid.Parse(paymentId), Guid.Parse(SupplierId)));
-        //        return JsonConvert.SerializeObject(new { Result = "OK", Records = SupplierInvoiceVM, Message = "Success" });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
-        //    }
-        //}
-        //#endregion
+        #region GetOutStandingSupplierInvoices
+        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        public string GetOutStandingSupplierInvoices(string paymentId, string supplierId)
+        {
+            try
+            {
+                List<SupplierInvoiceViewModel> SupplierInvoiceVM = new List<SupplierInvoiceViewModel>();
+                SupplierInvoiceVM = Mapper.Map<List<SupplierInvoice>, List<SupplierInvoiceViewModel>>(_supplierPaymentBusiness.GetOutStandingSupplierInvoices(Guid.Parse(paymentId), Guid.Parse(supplierId)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = SupplierInvoiceVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion
 
-        //#region GetOutStandingAmount
-        //[AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
-        //public string GetOutStandingAmount(string Id)
-        //{
-        //    try
-        //    {
-        //        SupplierInvoiceViewModel SupplierInvoiceVM = new SupplierInvoiceViewModel();
-        //        SupplierInvoiceVM = Mapper.Map<SupplierInvoice, SupplierInvoiceViewModel>(_SupplierPaymentBusiness.GetOutstandingAmount(Guid.Parse(Id)));
-        //        return JsonConvert.SerializeObject(new { Result = "OK", Records = SupplierInvoiceVM, Message = "Success" });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
-        //    }
-        //}
-        //#endregion
+        #region GetOutStandingAmount
+        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        public string GetOutStandingAmount(string Id)
+        {
+            try
+            {
+                SupplierInvoiceViewModel SupplierInvoiceVM = new SupplierInvoiceViewModel();
+                SupplierInvoiceVM = Mapper.Map<SupplierInvoice, SupplierInvoiceViewModel>(_supplierPaymentBusiness.GetOutstandingAmount(Guid.Parse(Id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = SupplierInvoiceVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion
 
         //#region GetSupplierPayment
         //[AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]

@@ -24,14 +24,14 @@ namespace ProductionApp.BusinessService.Services
             return _supplierPaymentRepository.GetAllSupplierPayment(supplierPaymentAdvanceSearch);
         }
 
-        public List<SupplierInvoice> GetOutStandingInvoices(Guid PaymentID, Guid CustID)
+        public List<SupplierInvoice> GetOutStandingSupplierInvoices(Guid PaymentID, Guid supplierId)
         {
-            throw new NotImplementedException();
+            return _supplierPaymentRepository.GetOutStandingSupplierInvoices(PaymentID, supplierId);
         }
 
         public SupplierInvoice GetOutstandingAmount(Guid Id)
         {
-            throw new NotImplementedException();
+            return _supplierPaymentRepository.GetOutstandingAmount(Id);
         }
 
         public object InsertUpdateSupplierPayment(SupplierPayment supplierPayment)

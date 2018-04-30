@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.RepositoryServices.Services
 {
-    public class SupplierPaymentRepository: ISupplierPaymentRepository
+    public class SupplierPaymentRepository : ISupplierPaymentRepository
     {
 
         private IDatabaseFactory _databaseFactory;
@@ -81,17 +81,107 @@ namespace ProductionApp.RepositoryServices.Services
             return supplierPaymentList;
         }
 
-        public List<SupplierInvoice> GetOutStandingInvoices(Guid PaymentID, Guid CustID)
+        public List<SupplierInvoice> GetOutStandingSupplierInvoices(Guid PaymentID, Guid supplierId)
         {
-            throw new NotImplementedException();
+            List<SupplierInvoice> SupplierInvoicesList = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetOutStandingSupplierInvoices]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = supplierId;
+                        cmd.Parameters.Add("@PaymentID", SqlDbType.UniqueIdentifier).Value = PaymentID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                SupplierInvoicesList = new List<SupplierInvoice>();
+                                while (sdr.Read())
+                                {
+                                    SupplierInvoice supplierInvoice = new SupplierInvoice();
+                                    {
+                                        supplierInvoice.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : supplierInvoice.ID);
+                                        supplierInvoice.InvoiceNo = sdr["InvoiceNo"].ToString();
+                                        supplierInvoice.InvoiceAmount = (sdr["TotalInvoiceAmount"].ToString() != "" ? Decimal.Parse(sdr["TotalInvoiceAmount"].ToString()) : supplierInvoice.InvoiceAmount);
+                                        supplierInvoice.Balance = (sdr["BalanceDue"].ToString() != "" ? Decimal.Parse(sdr["BalanceDue"].ToString()) : supplierInvoice.Balance);
+                                        supplierInvoice.PaymentReceived = (sdr["OtherPayments"].ToString() != "" ? Decimal.Parse(sdr["OtherPayments"].ToString()) : supplierInvoice.PaymentReceived);
+                                        // supplierInvoice.OtherPayments = (sdr["OtherPayments"].ToString() != "" ? Decimal.Parse(sdr["OtherPayments"].ToString()) : SupplierInvoice.OtherPayments);
+                                        supplierInvoice.SupplierPayment = new SupplierPayment();
+                                        supplierInvoice.SupplierPayment.SupplierPaymentDetail = new SupplierPaymentDetail();
+                                        supplierInvoice.SupplierPayment.SupplierPaymentDetail.PaidAmount = (sdr["PaidAmountEdit"].ToString() != "" ? Decimal.Parse(sdr["PaidAmountEdit"].ToString()) : supplierInvoice.SupplierPayment.SupplierPaymentDetail.PaidAmount);
+                                        supplierInvoice.SupplierPayment.SupplierPaymentDetail.ID = (sdr["PaymentDetailID"].ToString() != "" ? Guid.Parse(sdr["PaymentDetailID"].ToString()) : supplierInvoice.SupplierPayment.SupplierPaymentDetail.ID);
+                                        supplierInvoice.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : supplierInvoice.InvoiceDateFormatted);
+                                        supplierInvoice.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : supplierInvoice.PaymentDueDateFormatted);
+                                    }
+                                    SupplierInvoicesList.Add(supplierInvoice);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return SupplierInvoicesList;
         }
 
         public SupplierInvoice GetOutstandingAmount(Guid Id)
         {
-            throw new NotImplementedException();
-        }
+            SupplierInvoice supplierInvoice = null;
+            Settings settings = new Settings();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetOutstandingAmountBySupplier]";
+                        cmd.Parameters.Add("@SupplierId", SqlDbType.UniqueIdentifier).Value = Id;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                supplierInvoice = new SupplierInvoice();
+                                while (sdr.Read())
+                                {
 
-        public object InsertUpdateSupplierPayment(SupplierPayment supplierPayment)
+                                    supplierInvoice.SupplierID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : supplierInvoice.SupplierID);
+                                    supplierInvoice.InvoiceAmount = (sdr["OutstandingAmount"].ToString() != "" ? Decimal.Parse(sdr["OutstandingAmount"].ToString()) : supplierInvoice.InvoiceAmount);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return supplierInvoice;
+    }
+
+    public object InsertUpdateSupplierPayment(SupplierPayment supplierPayment)
         {
             throw new NotImplementedException();
         }

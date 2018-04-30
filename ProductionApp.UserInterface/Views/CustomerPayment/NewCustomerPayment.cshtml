@@ -262,21 +262,18 @@
                          </tr>
                      </tbody>
                  </table>
-           </div>
-
-           
-           
+           </div>                    
 
             <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General Notes</div>
             <div class="col-md-12">
                 <div class="form-group col-md-8">
                     <div class="col-md-12">
-                      @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label " })
+                        @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-md-12">
-                      @Html.EditorFor(model => model.GeneralNotes, new { htmlAttributes = new { @class = "form-control HeaderBox", @rows = 5, style = "max-width:100%; min-width:100%; max-height:100%; min-height:100%;" } })
+                        @Html.TextAreaFor(model => model.GeneralNotes, new { @class = "form-control HeaderBox textareafix", rows = "8" })
                     </div>
-               </div>
+                </div>
             </div>
 
             <div>
