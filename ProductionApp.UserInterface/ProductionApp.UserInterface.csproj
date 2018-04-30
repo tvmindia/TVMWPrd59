@@ -112,6 +112,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\SAMTool.RepositoryServices.dll</HintPath>
     </Reference>
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -710,6 +712,8 @@
     <Content Include="Scripts\UserJS\MaterialReturn\ViewMaterialReturn.js" />
     <Content Include="Scripts\UserJS\MaterialStockAdjustment\ListStockAdjustment.js" />
     <Content Include="Scripts\UserJS\MaterialStockAdjustment\NewStockAdjustment.js" />
+    <Content Include="Scripts\UserJS\OtherExpense\NewOtherExpense.js" />
+    <Content Include="Scripts\UserJS\OtherExpense\ViewOtherExpense.js" />
     <Content Include="Scripts\UserJS\OtherIncome\NewOtherIncome.js" />
     <Content Include="Scripts\UserJS\OtherIncome\ViewOtherIncome.js" />
     <Content Include="Scripts\UserJS\PackingSlip\AddPackingSlip.js" />
@@ -783,6 +787,7 @@
     <Compile Include="Controllers\MaterialReturnFromProductionController.cs" />
     <Compile Include="Controllers\MaterialStockAdjController.cs" />
     <Compile Include="Controllers\MaterialTypeController.cs" />
+    <Compile Include="Controllers\OtherExpenseController.cs" />
     <Compile Include="Controllers\OtherIncomeController.cs" />
     <Compile Include="Controllers\PackingSlipController.cs" />
     <Compile Include="Controllers\PaymentTermController.cs" />
@@ -844,6 +849,7 @@
     <Compile Include="Models\MaterialReturnViewModel.cs" />
     <Compile Include="Models\MaterialStockAdjViewModel.cs" />
     <Compile Include="Models\MaterialTypeViewModel.cs" />
+    <Compile Include="Models\OtherExpenseViewModel.cs" />
     <Compile Include="Models\OtherIncomeViewModel.cs" />
     <Compile Include="Models\PackingSlipViewModel.cs" />
     <Compile Include="Models\PaymentTermViewModel.cs" />
@@ -1031,6 +1037,8 @@
     <Content Include="Views\OtherIncome\NewOtherIncome.cshtml" />
     <Content Include="Views\OtherIncome\ViewOtherIncome.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\OtherExpense\NewOtherExpense.cshtml" />
+    <Content Include="Views\OtherExpense\ViewOtherExpense.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
