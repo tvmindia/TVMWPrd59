@@ -18,40 +18,36 @@ namespace ProductionApp.BusinessService.Services
             _supplierPaymentRepository = supplierPaymentRepository;
             _commonBusiness = commonBusiness;
         }
-
         public List<SupplierPayment> GetAllSupplierPayment(SupplierPaymentAdvanceSearch supplierPaymentAdvanceSearch)
         {
             return _supplierPaymentRepository.GetAllSupplierPayment(supplierPaymentAdvanceSearch);
         }
-
         public List<SupplierInvoice> GetOutStandingSupplierInvoices(Guid PaymentID, Guid supplierId)
         {
             return _supplierPaymentRepository.GetOutStandingSupplierInvoices(PaymentID, supplierId);
         }
-
         public SupplierInvoice GetOutstandingAmount(Guid Id)
         {
             return _supplierPaymentRepository.GetOutstandingAmount(Id);
         }
-
         public object InsertUpdateSupplierPayment(SupplierPayment supplierPayment)
         {
-            throw new NotImplementedException();
+            return _supplierPaymentRepository.InsertUpdateSupplierPayment(supplierPayment);
         }
-
         public SupplierPayment GetSupplierPayment(string Id)
         {
-            throw new NotImplementedException();
+            return _supplierPaymentRepository.GetSupplierPayment(Id);
         }
-
         public object DeleteSupplierPayment(Guid id)
         {
-            throw new NotImplementedException();
+            return _supplierPaymentRepository.DeleteSupplierPayment(id);
         }
-
         public object ValidateSupplierPayment(Guid id, string paymentrefNo)
         {
-            throw new NotImplementedException();
+            return _supplierPaymentRepository.ValidateSupplierPayment(id, paymentrefNo);
         }
+
+
+
     }
 }

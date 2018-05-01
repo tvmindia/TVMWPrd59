@@ -10,10 +10,10 @@
 // ##2--Document Ready function
 // ##3-- On Change: Payment Type,Payment Mode
 // ##4-- On Change: Supplier,Bind Outstanding Invocies and Amount
-// ##5-- 
-// ##6-- 
-// ##7-- 
-// ##8-- 
+// ##5-- Paid Amount Entry and filling Invocies
+// ##6-- Save Supplier Payment
+// ##7-- Bind Supplier Payment Header and Details
+// ##8-- Bind CreditDropDown
 // ##9-- 
 // ##10-- 
 // ##11- 
@@ -362,13 +362,12 @@ function Selectcheckbox() {
 
 
 
-// Save SupplierPayment
+// ##6-- Save Supplier Payment ----------------------------------------- ##6
 function Save() {
     debugger;
     var $form = $('#SupplierPaymentForm');
     if ($form.valid()) {
         ValidatePaymentRefNo();
-
     }
     else {
         notyAlert('warning', "Please Fill Required Fields,To Add Items ");
@@ -380,7 +379,6 @@ function ValidatePaymentRefNo() {
         var PaymentID = $('#ID').val();
         var paymentRefNo = $("#PaymentRef").val();
         var data = { "id": PaymentID, "paymentRefNo": paymentRefNo };
-
         _jsonData = GetDataFromServer("SupplierPayment/ValidateSupplierPayment/", data);
         if (_jsonData != '') {
             _jsonData = JSON.parse(_jsonData);
@@ -447,7 +445,9 @@ function SaveSuccessSupplierPayment(data, status) {
             break;
     }
 }
-//Bind Details
+
+
+// ##7-- Bind Supplier Payment Header and Details ---------------------------------------------------------##7
 function BindSupplierPayment() {
     var PaymentID = $('#ID').val();
     ChangeButtonPatchView('SupplierPayment', 'divbuttonPatchSupplierPayment', 'Edit');
@@ -566,53 +566,55 @@ function GetSupplierPayments() {
         console.log(e.message);
     }
 }
-//Bind CreditDropDown
-function BindCreditDropDown() {
-    debugger;
-    var ID = $("#SupplierID").val() == "" ? null : $("#SupplierID").val();
-    if (ID != null) {
-        var ds = GetCreditNoteBySupplier(ID);
-        if (ds.length > 0) {
-            $("#CreditID").html(""); // clear before appending new list 
-            $("#CreditID").append($('<option></option>').val(_emptyGuid).html('--Select Credit Note--'));
-            $.each(ds, function (i, credit) {
-                $("#CreditID").append(
-                    $('<option></option>').val(credit.ID).html(credit.CreditNoteNo + ' ( Credit Amt: ₹' + credit.AvailableCredit + ')'));
-            });
-        }
-        else {
-            $("#CreditID").html("");
-            $("#CreditID").append($('<option></option>').val(_emptyGuid).html('No Credit Notes Available'));
-        }
-    }
-}
-function GetCreditNoteBySupplier(ID) {
-    try {
-        debugger;
-        var data = { "Id": ID }; 
-        var SupplierCreditNoteVM = new Object();
 
-        _jsonData = GetDataFromServer("SupplierPayment/GetSupplierCreditNote/", data);
-        if (_jsonData != '') {
-            _jsonData = JSON.parse(_jsonData);
-            _result = _jsonData.Result;
-            _message = _jsonData.Message;
-            SupplierCreditNoteVM = _jsonData.Record;
-        }
-        if (_result == "OK") {
+// CURRENTLY NOT USING, UNCOMMENT THESE LINE WHILE USING CREDIT NOTE
+// ##8-- Bind CreditDropDown---------------------------------------------------------##8
 
-            return SupplierCreditNoteVM;
-        }
-        if (_result == "ERROR") {
-            notyAlert('error', _message);
-        }
-    }
-    catch (e) {
-        //this will show the error msg in the browser console(F12) 
-        console.log(e.message);
-    }
-}
-//Delete
+//function BindCreditDropDown() {
+//    debugger;
+//    var ID = $("#SupplierID").val() == "" ? null : $("#SupplierID").val();
+//    if (ID != null) {
+//        var ds = GetCreditNoteBySupplier(ID);
+//        if (ds.length > 0) {
+//            $("#CreditID").html(""); // clear before appending new list 
+//            $("#CreditID").append($('<option></option>').val(_emptyGuid).html('--Select Credit Note--'));
+//            $.each(ds, function (i, credit) {
+//                $("#CreditID").append(
+//                    $('<option></option>').val(credit.ID).html(credit.CreditNoteNo + ' ( Credit Amt: ₹' + credit.AvailableCredit + ')'));
+//            });
+//        }
+//        else {
+//            $("#CreditID").html("");
+//            $("#CreditID").append($('<option></option>').val(_emptyGuid).html('No Credit Notes Available'));
+//        }
+//    }
+//}
+//function GetCreditNoteBySupplier(ID) {
+//    try {
+//        debugger;
+//        var data = { "Id": ID }; 
+//        var SupplierCreditNoteVM = new Object();
+//        _jsonData = GetDataFromServer("SupplierPayment/GetSupplierCreditNote/", data);
+//        if (_jsonData != '') {
+//            _jsonData = JSON.parse(_jsonData);
+//            _result = _jsonData.Result;
+//            _message = _jsonData.Message;
+//            SupplierCreditNoteVM = _jsonData.Record;
+//        }
+//        if (_result == "OK") {
+//            return SupplierCreditNoteVM;
+//        }
+//        if (_result == "ERROR") {
+//            notyAlert('error', _message);
+//        }
+//    }
+//    catch (e) {
+//        //this will show the error msg in the browser console(F12) 
+//        console.log(e.message);
+//    }
+//}
+
+// ##9-- Delete Supplier Payments
 function DeleteClick() {
     notyConfirm('Are you sure to delete?', 'DeleteSupplierPayment()');
 }

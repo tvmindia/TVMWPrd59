@@ -110,54 +110,54 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion
 
-        //#region InsertUpdateSupplierPayment
-        //[AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
-        //[HttpPost]
-        //public string InsertUpdateSupplierPayment(SupplierPaymentViewModel SupplierPaymentVM)
-        //{
+        #region InsertUpdateSupplierPayment
+        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [HttpPost]
+        public string InsertUpdateSupplierPayment(SupplierPaymentViewModel SupplierPaymentVM)
+        {
 
-        //    try
-        //    {
-        //        AppUA appUA = Session["AppUA"] as AppUA;
-        //        SupplierPaymentVM.Common = new CommonViewModel
-        //        {
-        //            CreatedBy = appUA.UserName,
-        //            CreatedDate = _common.GetCurrentDateTime(),
-        //            UpdatedBy = appUA.UserName,
-        //            UpdatedDate = _common.GetCurrentDateTime(),
-        //        };
-        //        //Deserialize items
-        //        object ResultFromJS = JsonConvert.DeserializeObject(SupplierPaymentVM.DetailJSON);
-        //        string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
-        //        SupplierPaymentVM.SupplierPaymentDetailList = JsonConvert.DeserializeObject<List<SupplierPaymentDetailViewModel>>(ReadableFormat);
-        //        var result = _SupplierPaymentBusiness.InsertUpdateSupplierPayment(Mapper.Map<SupplierPaymentViewModel, SupplierPayment>(SupplierPaymentVM));
-        //        return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = "Success" });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        AppConstMessage cm = _appConst.GetMessage(ex.Message);
-        //        return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
-        //    }
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                SupplierPaymentVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                //Deserialize items
+                object ResultFromJS = JsonConvert.DeserializeObject(SupplierPaymentVM.DetailJSON);
+                string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                SupplierPaymentVM.SupplierPaymentDetailList = JsonConvert.DeserializeObject<List<SupplierPaymentDetailViewModel>>(ReadableFormat);
+                var result = _supplierPaymentBusiness.InsertUpdateSupplierPayment(Mapper.Map<SupplierPaymentViewModel, SupplierPayment>(SupplierPaymentVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
 
-        //}
-        //#endregion InsertUpdateSupplierPayment
+        }
+        #endregion InsertUpdateSupplierPayment
 
-        //#region ValidateSupplierPayment
-        //public string ValidateSupplierPayment(string id, string paymentRefNo)
-        //{
-        //    object result = null;
-        //    try
-        //    {
-        //        result = _SupplierPaymentBusiness.ValidateSupplierPayment(Guid.Parse(id), paymentRefNo);
-        //        return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = "" });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        AppConstMessage cm = _appConst.GetMessage(ex.Message);
-        //        return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
-        //    }
-        //}
-        //#endregion ValidateSupplierPayment
+        #region ValidateSupplierPayment
+        public string ValidateSupplierPayment(string id, string paymentRefNo)
+        {
+            object result = null;
+            try
+            {
+                result = _supplierPaymentBusiness.ValidateSupplierPayment(Guid.Parse(id), paymentRefNo);
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = "" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+        #endregion ValidateSupplierPayment
 
         #region GetOutStandingSupplierInvoices
         [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
@@ -193,22 +193,22 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion
 
-        //#region GetSupplierPayment
-        //[AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
-        //public string GetSupplierPayment(string Id)
-        //{
-        //    try
-        //    {
-        //        SupplierPaymentViewModel SupplierPaymentVM = new SupplierPaymentViewModel();
-        //        SupplierPaymentVM = Mapper.Map<SupplierPayment, SupplierPaymentViewModel>(_SupplierPaymentBusiness.GetSupplierPayment(Id));
-        //        return JsonConvert.SerializeObject(new { Result = "OK", Record = SupplierPaymentVM, Message = "Success" });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex });
-        //    }
-        //}
-        //#endregion GetSupplierPayment
+        #region GetSupplierPayment
+        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        public string GetSupplierPayment(string Id)
+        {
+            try
+            {
+                SupplierPaymentViewModel SupplierPaymentVM = new SupplierPaymentViewModel();
+                SupplierPaymentVM = Mapper.Map<SupplierPayment, SupplierPaymentViewModel>(_supplierPaymentBusiness.GetSupplierPayment(Id));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = SupplierPaymentVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex });
+            }
+        }
+        #endregion GetSupplierPayment
 
         //#region DeleteSupplierPayment
         //[AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]

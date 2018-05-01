@@ -34,8 +34,8 @@ namespace ProductionApp.RepositoryServices.Services
                         {
                             con.Open();
                         }
-                        cmd.Connection = con; //SP Should be renamed as GetAllSupplierPayment
-                        cmd.CommandText = "[AMC].[GetAllSupplierInvoice]";//SP Should be renamed
+                        cmd.Connection = con;  
+                        cmd.CommandText = "[AMC].[GetAllSupplierPayment]"; 
                         cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(supplierPaymentAdvanceSearch.SearchTerm) ? "" : supplierPaymentAdvanceSearch.SearchTerm;
                         cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = supplierPaymentAdvanceSearch.DataTablePaging.Start;
                         if (supplierPaymentAdvanceSearch.DataTablePaging.Length == -1)
@@ -181,14 +181,130 @@ namespace ProductionApp.RepositoryServices.Services
             return supplierInvoice;
     }
 
-    public object InsertUpdateSupplierPayment(SupplierPayment supplierPayment)
+        public object InsertUpdateSupplierPayment(SupplierPayment supplierPayment)
         {
-            throw new NotImplementedException();
+            SqlParameter outputStatus, IDOut = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[InsertUpdateSupplierPayment]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = supplierPayment.IsUpdate;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = supplierPayment.ID;
+                        cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = supplierPayment.SupplierID;
+                        cmd.Parameters.Add("@PaymentDate", SqlDbType.DateTime).Value = supplierPayment.PaymentDateFormatted;
+                        cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime).Value = supplierPayment.ChequeDateFormatted;
+                        cmd.Parameters.Add("@PaymentMode", SqlDbType.VarChar, 10).Value = supplierPayment.PaymentMode;
+                        cmd.Parameters.Add("@BankCode", SqlDbType.VarChar, 10).Value = supplierPayment.BankCode;
+                        cmd.Parameters.Add("@PaymentRef", SqlDbType.VarChar, 10).Value = supplierPayment.PaymentRef;
+                        cmd.Parameters.Add("@Refbank", SqlDbType.NVarChar, 50).Value = supplierPayment.ReferenceBank;
+                        cmd.Parameters.Add("@TotalPaidAmt", SqlDbType.Decimal).Value = supplierPayment.TotalPaidAmt;
+                        cmd.Parameters.Add("@AdvanceAmount", SqlDbType.Decimal).Value = supplierPayment.AdvanceAmount;
+                        cmd.Parameters.Add("@Type", SqlDbType.VarChar, 1).Value = supplierPayment.Type;
+                        //cmd.Parameters.Add("@CreditID", SqlDbType.UniqueIdentifier).Value = supplierPayment.CreditID;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = supplierPayment.GeneralNotes;
+                        cmd.Parameters.Add("@DepWithdID", SqlDbType.UniqueIdentifier).Value = supplierPayment.DepositWithdrawalID;
+                        cmd.Parameters.Add("@DetailXML", SqlDbType.Xml).Value = supplierPayment.DetailXML;
+
+                        cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = supplierPayment.Common.CreatedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = supplierPayment.Common.CreatedDate;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = supplierPayment.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = supplierPayment.Common.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        IDOut = cmd.Parameters.Add("@IDOut", SqlDbType.UniqueIdentifier, 5);
+                        IDOut.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                    switch (outputStatus.Value.ToString())
+                    {
+                        case "0":
+                            throw new Exception(supplierPayment.IsUpdate ? _appConst.UpdateFailure : _appConst.InsertFailure);
+                        case "1":
+                            return new
+                            {
+                                ID = IDOut.Value.ToString(),
+                                Status = outputStatus.Value.ToString(),
+                                Message = supplierPayment.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+                            };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Code = IDOut.Value.ToString(),
+                Status = outputStatus.Value.ToString(),
+                Message = supplierPayment.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
+            };
         }
 
         public SupplierPayment GetSupplierPayment(string Id)
         {
-            throw new NotImplementedException();
+            SupplierPayment supplierPayment = new SupplierPayment();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(Id);
+                        cmd.CommandText = "[AMC].[GetSupplierPayment]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    supplierPayment.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : supplierPayment.ID);
+                                    supplierPayment.PaymentDateFormatted = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : supplierPayment.PaymentDateFormatted);
+                                    supplierPayment.ChequeDateFormatted = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : supplierPayment.ChequeDateFormatted);
+                                    supplierPayment.PaymentDate = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()) : supplierPayment.PaymentDate);
+                                    supplierPayment.ChequeDate = (sdr["ChequeDate"].ToString() != "" ? DateTime.Parse(sdr["ChequeDate"].ToString()) : supplierPayment.ChequeDate);
+                                    supplierPayment.PaymentRef = (sdr["PaymentRef"].ToString() != "" ? sdr["PaymentRef"].ToString() : supplierPayment.PaymentRef);
+                                    supplierPayment.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : supplierPayment.EntryNo);
+                                    supplierPayment.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : supplierPayment.PaymentMode);
+                                    supplierPayment.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : supplierPayment.Type);
+                                    supplierPayment.ReferenceBank = (sdr["ReferenceBank"].ToString() != "" ? sdr["ReferenceBank"].ToString() : supplierPayment.ReferenceBank);
+                                    supplierPayment.CreditID = (sdr["CreditID"].ToString() != "" ? Guid.Parse(sdr["CreditID"].ToString()) : supplierPayment.CreditID);
+                                    supplierPayment.CreditNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : supplierPayment.CreditNo);
+                                    supplierPayment.TotalPaidAmt = (sdr["AmountPaid"].ToString() != "" ? Decimal.Parse(sdr["AmountPaid"].ToString()) : supplierPayment.TotalPaidAmt);
+                                    supplierPayment.AdvanceAmount = (sdr["AdvanceAmount"].ToString() != "" ? Decimal.Parse(sdr["AdvanceAmount"].ToString()) : supplierPayment.AdvanceAmount);
+                                    supplierPayment.BankCode = (sdr["BankCode"].ToString() != "" ? sdr["BankCode"].ToString() : supplierPayment.BankCode);
+                                    supplierPayment.DepositWithdrawalID = (sdr["DepositWithdrawalID"].ToString() != "" ? Guid.Parse(sdr["DepositWithdrawalID"].ToString()) : supplierPayment.DepositWithdrawalID);
+                                    supplierPayment.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : supplierPayment.GeneralNotes);
+                                    supplierPayment.SupplierID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : supplierPayment.SupplierID);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return supplierPayment;
+
+
         }
 
         public object DeleteSupplierPayment(Guid id)
@@ -198,7 +314,37 @@ namespace ProductionApp.RepositoryServices.Services
 
         public object ValidateSupplierPayment(Guid id, string paymentrefNo)
         {
-            throw new NotImplementedException();
+            SqlParameter outputStatus, message = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[ValidateSupplierPayment]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ReferenceNo", SqlDbType.VarChar, 20).Value = paymentrefNo;
+                        if (id != Guid.Empty)
+                            cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = id;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        message = cmd.Parameters.Add("@message", SqlDbType.VarChar, 100);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        message.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new { Message = ex.ToString(), Status = -1 };
+            }
+            return new { Message = message.Value.ToString(), Status = outputStatus.Value };
         }
+
     }
 }
