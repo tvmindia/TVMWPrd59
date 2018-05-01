@@ -14,7 +14,7 @@ namespace ProductionApp.RepositoryServices.Contracts
         SupplierInvoice GetOutstandingAmount(Guid Id);
         object InsertUpdateSupplierPayment(SupplierPayment supplierPayment);
         SupplierPayment GetSupplierPayment(string Id);
-        object DeleteSupplierPayment(Guid id);
+        object DeleteSupplierPayment(Guid id,string userName);
         object ValidateSupplierPayment(Guid id, string paymentrefNo);
     }
 }

@@ -307,9 +307,39 @@ namespace ProductionApp.RepositoryServices.Services
 
         }
 
-        public object DeleteSupplierPayment(Guid id)
+        public object DeleteSupplierPayment(Guid id,string userName)
         {
-            throw new NotImplementedException();
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[DeleteSupplierPayment]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add("@Username", SqlDbType.NVarChar,20).Value = userName;
+                        
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+            };
         }
 
         public object ValidateSupplierPayment(Guid id, string paymentrefNo)

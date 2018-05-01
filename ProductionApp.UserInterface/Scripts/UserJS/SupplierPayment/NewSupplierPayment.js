@@ -111,7 +111,7 @@ $(document).ready(function () {
         });
         if ($('#IsUpdate').val() == 'True') {
             debugger;
-          //  BindSupplierPayment()
+            BindSupplierPayment()
             ChangeButtonPatchView('SupplierPayment', 'divbuttonPatchSupplierPayment', 'Edit');
         }
         else {
@@ -251,7 +251,7 @@ function AmountChanged() {
     var sum = 0;
     _dataTable.OutStandingInvoices.rows().deselect();
     if ($('#TotalPaidAmt').val() < 0 || $('#TotalPaidAmt').val() == "") {
-        $('#TotalPaidAmt').val(0);
+        $('#TotalPaidAmt').val(roundoff(0));
     }
 
     AmountReceived = parseFloat($('#TotalPaidAmt').val())
@@ -293,6 +293,8 @@ function AmountChanged() {
 }
 function PaymentAmountChanged(this_Obj) {
     debugger;
+    if (this_Obj.value == "")
+        this_Obj.value = roundoff(0);
     AmountReceived = parseFloat($('#TotalPaidAmt').val())
     sum = 0;
     var allData = _dataTable.OutStandingInvoices.rows().data();

@@ -32,15 +32,28 @@ namespace ProductionApp.BusinessService.Services
         }
         public object InsertUpdateSupplierPayment(SupplierPayment supplierPayment)
         {
+            DetailsXMl(supplierPayment);
             return _supplierPaymentRepository.InsertUpdateSupplierPayment(supplierPayment);
+        }
+        public void DetailsXMl(SupplierPayment supplierPayment)
+        {
+            string result = "<Details>";
+            int totalRows = 0;
+            foreach (object some_object in supplierPayment.SupplierPaymentDetailList)
+            {
+                _commonBusiness.XML(some_object, ref result, ref totalRows);
+            }
+            result = result + "</Details>";
+
+            supplierPayment.DetailXML = result;
         }
         public SupplierPayment GetSupplierPayment(string Id)
         {
             return _supplierPaymentRepository.GetSupplierPayment(Id);
         }
-        public object DeleteSupplierPayment(Guid id)
+        public object DeleteSupplierPayment(Guid id,string userName)
         {
-            return _supplierPaymentRepository.DeleteSupplierPayment(id);
+            return _supplierPaymentRepository.DeleteSupplierPayment(id, userName);
         }
         public object ValidateSupplierPayment(Guid id, string paymentrefNo)
         {

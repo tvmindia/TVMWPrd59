@@ -210,27 +210,31 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetSupplierPayment
 
-        //#region DeleteSupplierPayment
-        //[AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
-        //public string DeleteSupplierPayment(string id)
-        //{
-        //    object result = null;
-        //    try
-        //    {
-        //        if (string.IsNullOrEmpty(id))
-        //        {
-        //            throw new Exception("ID Missing");
-        //        }
-        //        result = _supplierPaymentBusiness.DeleteSupplierPayment(Guid.Parse(id));
-        //        return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        AppConstMessage cm = _appConst.GetMessage(ex.Message);
-        //        return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
-        //    }
-        //}
-        //#endregion DeleteSupplierPayment
+        #region DeleteSupplierPayment
+        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        public string DeleteSupplierPayment(string id)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    throw new Exception("ID Missing");
+                }
+
+                AppUA appUA = Session["AppUA"] as AppUA;
+                string userName = appUA.UserName;
+
+                result = _supplierPaymentBusiness.DeleteSupplierPayment(Guid.Parse(id), userName);
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+        #endregion DeleteSupplierPayment
 
         #region ButtonStyling
         [HttpGet]
