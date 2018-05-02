@@ -32,7 +32,7 @@ namespace ProductionApp.UserInterface.Controllers
             otherExpenseVM.ID = id == null ? Guid.Empty : (Guid)id;
             otherExpenseVM.IsUpdate = id == null ? false : true;
             otherExpenseVM.ChartOfAccount = new ChartOfAccountViewModel();
-            otherExpenseVM.ChartOfAccount.ChartOfAccountSelectList = _chartOfAccountBusiness.GetChartOfAccountForSelectList();
+            otherExpenseVM.ChartOfAccount.ChartOfAccountSelectList = _chartOfAccountBusiness.GetChartOfAccountForSelectList("EXP");
             otherExpenseVM.SelectList = _otherExpenseBusiness.GetAccountSubHeadForSelectList();
             return View(otherExpenseVM);
         }
