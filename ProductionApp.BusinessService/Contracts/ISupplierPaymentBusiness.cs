@@ -10,11 +10,11 @@ namespace ProductionApp.BusinessService.Contracts
     public interface ISupplierPaymentBusiness
     {
         List<SupplierPayment> GetAllSupplierPayment(SupplierPaymentAdvanceSearch supplierPaymentAdvanceSearch);
-        List<SupplierInvoice> GetOutStandingInvoices(Guid PaymentID, Guid CustID);
+        List<SupplierInvoice> GetOutStandingSupplierInvoices(Guid PaymentID, Guid supplierId);
         SupplierInvoice GetOutstandingAmount(Guid Id);
         object InsertUpdateSupplierPayment(SupplierPayment supplierPayment);
         SupplierPayment GetSupplierPayment(string Id);
-        object DeleteSupplierPayment(Guid id);
+        object DeleteSupplierPayment(Guid id,string UserName);
         object ValidateSupplierPayment(Guid id, string paymentrefNo);
     }
 }
