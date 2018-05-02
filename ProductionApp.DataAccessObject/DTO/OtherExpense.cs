@@ -25,12 +25,20 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal RequiredApprovalLimit { get; set; }
         public Guid? LatestApprovalID { get; set; }
         public int LatestApprovalStatus { get; set; }
-        public Boolean isFinalApproved { get; set; }
+        public bool isFinalApproved { get; set; }
         //additional fields
         public Common Common { get; set; }
+        public ChartOfAccount ChartOfAccount { get; set; }
         public string ExpenseDateFormatted { get; set; }
         public string ChequeDateFormatted { get; set; }
         public string ChequeClearDateFormatted { get; set; }
+        public string ApprovalStatus { get; set; }
+        public decimal ReversableAmount { get; set; }
+        public bool IsReverse { get; set; }
+        public bool IsUpdate { get; set; }
+        public string Account { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
     }
     public class OtherExpenseAdvanceSearch
     {
