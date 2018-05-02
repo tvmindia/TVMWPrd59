@@ -140,12 +140,12 @@ namespace ProductionApp.UserInterface.Controllers
        
 
         #region ChartOfAccountDropdown
-        public ActionResult ChartOfAccountDropdown(string required)
+        public ActionResult ChartOfAccountDropdown(string required,string type)
         {
             ViewBag.IsRequired = required;
             ChartOfAccountViewModel chartOfAccountVM = new ChartOfAccountViewModel()
             {
-                ChartOfAccountSelectList = _chartOfAccountBusiness.GetChartOfAccountForSelectList()
+                ChartOfAccountSelectList = _chartOfAccountBusiness.GetChartOfAccountForSelectList(type)
             };
             return PartialView("_ChartOfAccountDropdown", chartOfAccountVM);
         }

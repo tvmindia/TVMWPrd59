@@ -20,17 +20,17 @@ namespace ProductionApp.BusinessService.Services
             _chartOfAccountRepository = chartOfAccountRepository;
             _commonBusiness = commonBusiness;
         }
-        public List<SelectListItem> GetChartOfAccountForSelectList()
+        public List<SelectListItem> GetChartOfAccountForSelectList(string type)
         {
             List<SelectListItem> selectListItem = new List<SelectListItem>();
-            List<ChartOfAccount> chartOfAccountList = _chartOfAccountRepository.GetChartOfAccountForSelectList();
+            List<ChartOfAccount> chartOfAccountList = _chartOfAccountRepository.GetChartOfAccountForSelectList(type);
             if (chartOfAccountList != null)
                 foreach (ChartOfAccount chartOfAccount in chartOfAccountList)
                 {
                     selectListItem.Add(new SelectListItem
                     {
-                        Text = chartOfAccount.Code + " - " + chartOfAccount.Type,
-                        Value = chartOfAccount.Code,
+                        Text = chartOfAccount.Code + " - " + chartOfAccount.TypeDesc,
+                        Value = chartOfAccount.Code+"|"+chartOfAccount.IsSubHeadApplicable,
                         Selected = false
                     });
                 }
