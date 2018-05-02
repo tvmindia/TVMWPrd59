@@ -25,14 +25,9 @@ namespace ProductionApp.UserInterface.Controllers
 
         public SupplierPaymentController(ISupplierPaymentBusiness supplierPaymentBusiness,
             ISupplierBusiness supplierBusiness)
-            //, IChartOfAccountBusiness chartOfAccountBusiness, 
-            //IPaymentTermBusiness paymentTermBusiness, IPurchaseOrderBusiness purchaseOrderBusiness)
         {
             _supplierPaymentBusiness = supplierPaymentBusiness;
             _supplierBusiness = supplierBusiness;
-            //_chartOfAccountBusiness = chartOfAccountBusiness;
-            //_paymentTermBusiness = paymentTermBusiness;
-            //_purchaseOrderBusiness = purchaseOrderBusiness;
         }
         // GET: SupplierPayment
         [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
