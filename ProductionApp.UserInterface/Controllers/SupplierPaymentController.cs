@@ -253,12 +253,12 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset All";
-                    toolboxVM.resetbtn.Event = "BindOrReloadSupplierInvoiceTable('Reset');";
+                    toolboxVM.resetbtn.Event = "BindOrReloadSupplierPaymentTable('Reset');";
                     //----added for export button--------------
                     toolboxVM.PrintBtn.Visible = true;
                     toolboxVM.PrintBtn.Text = "Export";
                     toolboxVM.PrintBtn.Title = "Export";
-                    toolboxVM.PrintBtn.Event = "BindOrReloadSupplierInvoiceTable('Export');";
+                    toolboxVM.PrintBtn.Event = "BindOrReloadSupplierPaymentTable('Export');";
                     //---------------------------------------
 
                     break;

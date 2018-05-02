@@ -14,7 +14,7 @@
 // ##6-- Save Supplier Payment
 // ##7-- Bind Supplier Payment Header and Details
 // ##8-- Bind CreditDropDown
-// ##9-- 
+// ##9-- Delete Supplier Payments
 // ##10-- 
 // ##11- 
 // 
@@ -434,9 +434,9 @@ function SaveSuccessSupplierPayment(data, status) {
         case "OK":
             $('#IsUpdate').val('True');
             $('#ID').val(_jsonData.Records.ID)
+            _message=_jsonData.Records.Message;
+            notyAlert("success", _message);
             BindSupplierPayment();
-            _SlNo = 1;
-            notyAlert("success", _jsonData.Records.Message)
             ChangeButtonPatchView('SupplierPayment', 'divbuttonPatchSupplierPayment', 'Edit');
             break;
         case "ERROR":
@@ -616,7 +616,7 @@ function GetSupplierPayments() {
 //    }
 //}
 
-// ##9-- Delete Supplier Payments
+// ##9-- Delete Supplier Payments---------------------------------------------------##9
 function DeleteClick() {
     notyConfirm('Are you sure to delete?', 'DeleteSupplierPayment()');
 }

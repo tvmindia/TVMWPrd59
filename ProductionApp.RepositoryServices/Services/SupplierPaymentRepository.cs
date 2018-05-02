@@ -57,13 +57,17 @@ namespace ProductionApp.RepositoryServices.Services
                                     SupplierPayment supplierPayment = new SupplierPayment();
                                     {
                                         supplierPayment.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : supplierPayment.ID);
-                                        //supplierPayment.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : supplierPayment.EntryNo);
-                                        //supplierPayment.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString(settings.DateFormat) : supplierPayment.InvoiceDateFormatted);
-                                        //supplierPayment.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.DateFormat) : supplierPayment.PaymentDueDateFormatted);
-                                        //supplierPayment.Supplier = new Supplier();
-                                        //supplierPayment.Supplier.CompanyName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : supplierPayment.Supplier.CompanyName);
-                                        //supplierPayment.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : supplierPayment.InvoiceAmount);
-                                        //supplierPayment.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : supplierPayment.TotalCount);
+                                        supplierPayment.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : supplierPayment.EntryNo);
+                                        supplierPayment.SupplierName = (sdr["Supplier"].ToString() != "" ? sdr["Supplier"].ToString() : supplierPayment.SupplierName);
+                                        supplierPayment.PaymentDateFormatted = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()).ToString("dd-MMM-yyyy").ToString() : supplierPayment.PaymentDateFormatted);
+                                        supplierPayment.PaymentDate = (sdr["PaymentDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDate"].ToString()) : supplierPayment.PaymentDate);
+                                        supplierPayment.PaymentRef = (sdr["PaymentRef"].ToString() != "" ? sdr["PaymentRef"].ToString() : supplierPayment.PaymentRef);
+                                        supplierPayment.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : supplierPayment.PaymentMode);
+                                        supplierPayment.TotalPaidAmt = (sdr["AmountPaid"].ToString() != "" ? Decimal.Parse(sdr["AmountPaid"].ToString()) : supplierPayment.TotalPaidAmt);
+                                        supplierPayment.AdvanceAmount = (sdr["AdvanceAmount"].ToString() != "" ? Decimal.Parse(sdr["AdvanceAmount"].ToString()) : supplierPayment.AdvanceAmount);
+                                        supplierPayment.Type = (sdr["TypeDesc"].ToString() != "" ? sdr["TypeDesc"].ToString() : supplierPayment.Type);
+                                        supplierPayment.CreditNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : supplierPayment.CreditNo);
+                                        supplierPayment.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : supplierPayment.TotalCount);
                                         supplierPayment.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : supplierPayment.FilteredCount);
                                     }
                                     supplierPaymentList.Add(supplierPayment);
