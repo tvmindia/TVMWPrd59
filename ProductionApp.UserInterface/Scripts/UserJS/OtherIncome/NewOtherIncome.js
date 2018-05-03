@@ -35,13 +35,14 @@ $(document).ready(function () {
         } catch (ex) {
             console.log(ex);
         }
-        if ($('#IsUpdate').val()==='True') {
-            BindOtherIncome();//GetOtherIncome
-        }
 
         $('#ChartOfAccountCode').change(function () {
             AccountCodeOnChange();
         });
+
+        if ($('#IsUpdate').val()==='True') {
+            BindOtherIncome();//GetOtherIncome
+        }
 
     } catch (ex) {
         console.log(ex);
@@ -52,12 +53,12 @@ $(document).ready(function () {
 function PaymentModeOnChanged(curObj) {
     try{
         debugger;
+        $('#msgPaymentRef').hide();
         $('#divBankDropdown .input-group-addon').each(function () {
             $(this).parent().css("width", "100%");
             $(this).parent().children().each(function () { $(this).prop("disabled", true); });
             $(this).hide();
         });
-        $('#PaymentRef').prop("disabled", true);
         $('#ReferenceBank').prop("disabled", true);
         $('#ChequeDate').prop("disabled", true);
         if (curObj !== undefined) {
@@ -67,14 +68,11 @@ function PaymentModeOnChanged(curObj) {
                     $('#ChequeDate').prop("disabled", false);
                     break;
                 case "ONLINE":
-                    $('#PaymentRef').prop("disabled", false);
                     $('#divBankDropdown .input-group-addon').each(function () {
                         $(this).parent().children().each(function () { $(this).prop("disabled", false); });
                         $(this).show();
                     });
                     break;
-                    //case "CASH":
-                    //    break;
                 default:
                     break;
             }
@@ -87,7 +85,39 @@ function PaymentModeOnChanged(curObj) {
 
 //Save button click
 function Save() {
-    $('#btnSave').click();
+    try {
+        debugger;
+        var isInput = false;
+
+        if ($('#hdnChartOfAccountCode').val() !== "") {
+            isInput = true;
+        }
+        else {
+            $('#msgAccountCode').show();
+        }
+
+        if ($('#PaymentMode').val() === "ONLINE") {
+            if ($('#PaymentRef').val() !== "" && $('#PaymentRef').val() !== null) {
+                isInput = true;
+            }
+            else {
+                isInput = false;
+                $('#msgPaymentRef').show();
+                $('#PaymentRef').change(function () { $('#msgPaymentRef').hide(); });
+            }
+        }
+
+        if ($('#Amount').val()<=0) {
+            $('#Amount').val("");
+        }
+
+        if (isInput) {
+            $('#hdnChartOfAccountCode').val($('#ChartOfAccountCode').val().split('|')[0]);
+            $('#btnSave').click();
+        }
+    } catch (ex) {
+        console.log(ex);
+    }
 }
 
 //SaveSuccess
@@ -137,13 +167,14 @@ function BindOtherIncome() {
         $('#AccountSubHead').val(_otherIncome.AccountSubHead).trigger('change');
         $('#PaymentMode').val(_otherIncome.PaymentMode).trigger('change');
         $('#BankCode').val(_otherIncome.BankCode).trigger('change');
-        $('#ReferenceBank').val(_otherIncome.ReferenceBank);
         $('#ChequeDate').val(_otherIncome.ChequeDateFormatted);
+        $('#ReferenceBank').val(_otherIncome.ReferenceBank);
+        $('#PaymentRef').val(_otherIncome.PaymentRef);
         debugger;
         $('#Amount').val(_otherIncome.Amount);
         $('#Description').val(_otherIncome.Description);
         $('#DepositWithdrawalID').val(_otherIncome.DepositWithdrawalID)
-        $('#lblRefNo').val(" Entry No#: "+_otherIncome.EntryNo);
+        $('#lblRefNo').text(" Entry No#: "+_otherIncome.EntryNo);
         ChangeButtonPatchView('OtherIncome', 'divButtonPatch', 'Edit');
     } catch (ex) {
         notyAlert("error", ex.message);
@@ -210,19 +241,23 @@ function ClearFields() {
         debugger;
         $('#ID').val(_emptyGuid);
         $('#IsUpdate').val('False');
-        $('#DepositWithdrawalID').val(_emptyGuid)
         $('#EntryNo').val("");
         $('#IncomeDate').val("");
         $('#hdnChartOfAccountCode').val("");
         $('#ChartOfAccountCode').val("").trigger('change');
         $('#AccountSubHead').val("").trigger('change');
         $('#PaymentMode').val("").trigger('change');
+        $('#PaymentRef').val("").trigger('change');
         $('#BankCode').val("").trigger('change');
+        $('#lblRefNo').text(" Entry No#: New");
         $('#ReferenceBank').val("");
         $('#ChequeDate').val("");
         $('#Amount').val("");
         $('#Description').val("");
+        $('#DepositWithdrawalID').val(_emptyGuid);
         ChangeButtonPatchView('OtherIncome', 'divButtonPatch', 'Add');
+        $('#msgAccountCode').hide();
+        $('#msgPaymentRef').hide();
     } catch (ex) {
         console.log("error", ex.message);
     }
@@ -247,6 +282,7 @@ function Reset() {
 function AccountCodeOnChange() {
     try {
         debugger;
+        $('#msgAccountCode').hide();
         if ($('#ChartOfAccountCode').val().split("|")[1] === "True") {
             $('#AccountSubHead').prop("disabled", false);
         } else {

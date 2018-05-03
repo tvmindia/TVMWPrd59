@@ -193,7 +193,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     otherIncome.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : otherIncome.ID);
                                     otherIncome.EntryNo = (sdr["EntryNo"].ToString() != "" ? sdr["EntryNo"].ToString() : otherIncome.EntryNo);
                                     otherIncome.IncomeDate = (sdr["IncomeDate"].ToString() != "" ? DateTime.Parse(sdr["IncomeDate"].ToString()) : otherIncome.IncomeDate);
-                                    otherIncome.IncomeDateFormatted = otherIncome.IncomeDate.ToString(settings.DateFormat);
+                                    otherIncome.IncomeDateFormatted = (sdr["IncomeDate"].ToString() != "" ? DateTime.Parse(sdr["IncomeDate"].ToString()).ToString(settings.DateFormat) : otherIncome.IncomeDateFormatted);
                                     otherIncome.AccountCode = (sdr["Account"].ToString() != "" ? sdr["Account"].ToString() : otherIncome.AccountCode);
                                     otherIncome.AccountSubHead = (sdr["AccountSubHead"].ToString() != "" ? sdr["AccountSubHead"].ToString() : otherIncome.AccountSubHead);
                                     otherIncome.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : otherIncome.PaymentMode);

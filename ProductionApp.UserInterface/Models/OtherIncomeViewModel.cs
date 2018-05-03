@@ -13,7 +13,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Entry No")]
         public string EntryNo { get; set; }
         [Display(Name = "Income Date")]
-        [Required(ErrorMessage = "Income Date Required")]
+        //[Required(ErrorMessage = "Income Date Required")]
         public DateTime IncomeDate { get; set; }
         [Display(Name = "Cheque Date")]
         public DateTime? ChequeDate { get; set; }
@@ -31,7 +31,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Description")]
         public string Description { get; set; }
         [Display(Name = "Amount")]
-        [Required(ErrorMessage = "Amount Required")]
+        [Required(ErrorMessage = "Amount Required and greater than zero")]
         public decimal Amount { get; set; }
         [Display(Name = "Reference Bank")]
         public string ReferenceBank { get; set; }
@@ -39,6 +39,7 @@ namespace ProductionApp.UserInterface.Models
         public string PaymentRef { get; set; }
         public CommonViewModel Common { get; set; }
         //ADDITIONAL FIELDS
+        [Required(ErrorMessage = "Income Date Required")]
         public string IncomeDateFormatted { get; set; }
         public string ChequeDateFormatted { get; set; }
         public int TotalCount { get; set; }
