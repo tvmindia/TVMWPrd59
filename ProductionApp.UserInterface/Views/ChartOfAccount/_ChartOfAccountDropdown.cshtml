@@ -26,6 +26,14 @@ else
         catch (e) {
             console.log(e.message);
         }
+        try {
+            $('#ChartOfAccountCode').change(function () {
+                AccountCodeOnChange();
+            });
+        }
+        catch (e) {
+            console.log(e.message);
+        }
         try{
             $("#ChartOfAccountCode").change(function () {
                 BindFinishedGoodStockAdjDetails(this.value)

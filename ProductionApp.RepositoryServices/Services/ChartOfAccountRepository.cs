@@ -28,10 +28,11 @@ namespace ProductionApp.RepositoryServices.Services
 
         #region GetChartOfAccountForSelectList
         /// <summary>
-        /// To Get ChartOfAccount List For DropDown
+        /// To Get ChartOfAccount For SelectList
         /// </summary>
-        /// <returns>List</returns>
-        public List<ChartOfAccount> GetChartOfAccountForSelectList()
+        /// <param name="type">type of ChartOfAccount eg:EXP,INC</param>
+        /// <returns>List of ChartOfAccount</returns>
+        public List<ChartOfAccount> GetChartOfAccountForSelectList(string type)
         {
             List<ChartOfAccount> chartOfAccountList = null;
             try
@@ -46,6 +47,7 @@ namespace ProductionApp.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetChartOfAccountForSelectList]";
+                        cmd.Parameters.Add("@Type", SqlDbType.VarChar).Value = type;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {

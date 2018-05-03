@@ -213,7 +213,7 @@ function GetMaterial(id) {
         }
     }
     catch (e) {
-        notyAlert('error', e.message);
+        console.log('error', e.message);
     }
 }
 

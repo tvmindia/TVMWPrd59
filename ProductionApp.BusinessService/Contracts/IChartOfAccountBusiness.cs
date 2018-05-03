@@ -10,7 +10,7 @@ namespace ProductionApp.BusinessService.Contracts
 {
     public interface IChartOfAccountBusiness
     {
-        List<SelectListItem> GetChartOfAccountForSelectList();
+        List<SelectListItem> GetChartOfAccountForSelectList(string type);
         List<ChartOfAccount> GetAllChartOfAccount(ChartOfAccountAdvanceSearch chartOfAccountAdvanceSearch);
         //bool CheckChartOfAccountTypeExist(ChartOfAccount chartOfAccount);
         object InsertUpdateChartOfAccount(ChartOfAccount chartOfAccount);
