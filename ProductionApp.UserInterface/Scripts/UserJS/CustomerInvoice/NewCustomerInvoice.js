@@ -508,7 +508,10 @@ function EdittextBoxValue(thisObj, textBoxCode)
             if (textBoxCode == 3)
                 customerInvoiceDetailVM[i].Rate = thisObj.value;
             if (textBoxCode == 4)
+            {
                 customerInvoiceDetailVM[i].TradeDiscountAmount = thisObj.value;
+                customerInvoiceDetailVM[i].TradeDiscountPerc = 0;
+            }               
             if (textBoxCode == 5)
             {
                 var taxTypeVM = GetTaxtypeDropdown();
@@ -665,6 +668,7 @@ function BindCustomerInvoiceByID()
     $('#PaymentTermCode').val(customerInvoiceVM.PaymentTermCode);
     $('#PaymentDueDateFormatted').val(customerInvoiceVM.PaymentDueDateFormatted);
     $('#CustomerID').val(customerInvoiceVM.CustomerID).select2();
+    $('#CustomerID').prop('disabled', true);
     $('#GeneralNotes').val(customerInvoiceVM.GeneralNotes);
     $('#BillingAddress').val(customerInvoiceVM.BillingAddress);
     $('#Discount').val(roundoff(customerInvoiceVM.Discount));
@@ -776,7 +780,11 @@ function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
             if (textBoxCode == 3)
                 customerInvoiceDetailVM[i].Rate = thisObj.value;
             if (textBoxCode == 4)
+            {
                 customerInvoiceDetailVM[i].TradeDiscountAmount = thisObj.value;
+                customerInvoiceDetailVM[i].TradeDiscountPerc = 0;
+            }
+
             if (textBoxCode == 5) 
             {
                 var taxTypeVM = GetTaxtypeDropdown();
@@ -914,7 +922,7 @@ function DeleteCustomerInvoiceDetail(id) {
 function DiscountAmountChanged(thisObj)
 {
     debugger;
-    if (thisObj.value!="")
+    if (thisObj.value != "" && thisObj.value != ".")
     {
             var InvoiceAmount = $('#InvoiceAmount').val();
             var calculatedAmount = parseFloat(InvoiceAmount) - parseFloat(thisObj.value);
@@ -924,6 +932,7 @@ function DiscountAmountChanged(thisObj)
     else
     {
         $('#Discount').val(roundoff(0));
+        $('#Discount').select();
     }
    
 }

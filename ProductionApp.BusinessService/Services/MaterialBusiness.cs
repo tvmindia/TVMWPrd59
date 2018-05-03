@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.BusinessService.Services
 {
-    public class MaterialBusiness:IMaterialBusiness
+    public class MaterialBusiness : IMaterialBusiness
     {
         private IMaterialRepository _materialRepository;
         private ICommonBusiness _commonBusiness;
@@ -83,5 +83,9 @@ namespace ProductionApp.BusinessService.Services
             return result;
         }
 
+        public List<Material> GetMaterialListForReorderAlert()
+        {
+            return _materialRepository.GetMaterialListForReorderAlert();
+        }
     }
 }

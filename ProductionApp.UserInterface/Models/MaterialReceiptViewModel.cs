@@ -12,9 +12,9 @@ namespace ProductionApp.UserInterface.Models
         public Guid ID { get; set; }
         [Required(ErrorMessage = "Please select a Supplier")]
         public Guid SupplierID { get; set; }
-        public Guid PurchaseOrderID { get; set; }
+        public Guid? PurchaseOrderID { get; set; }
         [Required(ErrorMessage = "Purchase Order is required")]
-        [Display(Name = "Purchase Order")]
+        [Display(Name = "Purchase Order / Reference No")]
         public string PurchaseOrderNo { get; set; }
         [Required(ErrorMessage = "Receipt No is required")]
         [Display(Name = "Receipt No")]
@@ -59,6 +59,7 @@ namespace ProductionApp.UserInterface.Models
         //Additional Fields
         [Display(Name = "Raw Material")]
         public MaterialViewModel Material { get; set; }
+        public UnitViewModel Unit { get; set; }
     }
 
     public class MaterialReceiptAdvanceSearchViewModel

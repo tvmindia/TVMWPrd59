@@ -42,7 +42,8 @@ namespace ProductionApp.UserInterface.Models
         public RequisitionDetailViewModel RequisitionDetail { get; set; }
         public List<RequisitionDetailViewModel> RequisitionDetailList { get; set; }
         public List<RequisitionViewModel> RequisitionList { get; set; }
-        public string BaseURL { get; set; }       
+        public string BaseURL { get; set; }   
+        public RequisitionAdvanceSearchViewModel RequisitionAdvanceSearch { get; set; }
     }
 
     public class RequisitionDetailViewModel 
@@ -84,6 +85,8 @@ namespace ProductionApp.UserInterface.Models
         public string RequisitionBy { get; set; }
         public Guid EmployeeID { get; set; }
         public EmployeeViewModel Employee { get; set; }
+        [Display(Name = "Filter")]
+        public string DateFilter { get; set; }
 
     }
 }

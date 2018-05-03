@@ -25,14 +25,9 @@ namespace ProductionApp.UserInterface.Controllers
 
         public SupplierPaymentController(ISupplierPaymentBusiness supplierPaymentBusiness,
             ISupplierBusiness supplierBusiness)
-            //, IChartOfAccountBusiness chartOfAccountBusiness, 
-            //IPaymentTermBusiness paymentTermBusiness, IPurchaseOrderBusiness purchaseOrderBusiness)
         {
             _supplierPaymentBusiness = supplierPaymentBusiness;
             _supplierBusiness = supplierBusiness;
-            //_chartOfAccountBusiness = chartOfAccountBusiness;
-            //_paymentTermBusiness = paymentTermBusiness;
-            //_purchaseOrderBusiness = purchaseOrderBusiness;
         }
         // GET: SupplierPayment
         [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
@@ -110,127 +105,131 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion
 
-        //#region InsertUpdateSupplierPayment
-        //[AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
-        //[HttpPost]
-        //public string InsertUpdateSupplierPayment(SupplierPaymentViewModel SupplierPaymentVM)
-        //{
+        #region InsertUpdateSupplierPayment
+        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [HttpPost]
+        public string InsertUpdateSupplierPayment(SupplierPaymentViewModel SupplierPaymentVM)
+        {
 
-        //    try
-        //    {
-        //        AppUA appUA = Session["AppUA"] as AppUA;
-        //        SupplierPaymentVM.Common = new CommonViewModel
-        //        {
-        //            CreatedBy = appUA.UserName,
-        //            CreatedDate = _common.GetCurrentDateTime(),
-        //            UpdatedBy = appUA.UserName,
-        //            UpdatedDate = _common.GetCurrentDateTime(),
-        //        };
-        //        //Deserialize items
-        //        object ResultFromJS = JsonConvert.DeserializeObject(SupplierPaymentVM.DetailJSON);
-        //        string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
-        //        SupplierPaymentVM.SupplierPaymentDetailList = JsonConvert.DeserializeObject<List<SupplierPaymentDetailViewModel>>(ReadableFormat);
-        //        var result = _SupplierPaymentBusiness.InsertUpdateSupplierPayment(Mapper.Map<SupplierPaymentViewModel, SupplierPayment>(SupplierPaymentVM));
-        //        return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = "Success" });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        AppConstMessage cm = _appConst.GetMessage(ex.Message);
-        //        return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
-        //    }
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                SupplierPaymentVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime(),
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                //Deserialize items
+                object ResultFromJS = JsonConvert.DeserializeObject(SupplierPaymentVM.DetailJSON);
+                string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                SupplierPaymentVM.SupplierPaymentDetailList = JsonConvert.DeserializeObject<List<SupplierPaymentDetailViewModel>>(ReadableFormat);
+                var result = _supplierPaymentBusiness.InsertUpdateSupplierPayment(Mapper.Map<SupplierPaymentViewModel, SupplierPayment>(SupplierPaymentVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
 
-        //}
-        //#endregion InsertUpdateSupplierPayment
+        }
+        #endregion InsertUpdateSupplierPayment
 
-        //#region ValidateSupplierPayment
-        //public string ValidateSupplierPayment(string id, string paymentRefNo)
-        //{
-        //    object result = null;
-        //    try
-        //    {
-        //        result = _SupplierPaymentBusiness.ValidateSupplierPayment(Guid.Parse(id), paymentRefNo);
-        //        return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = "" });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        AppConstMessage cm = _appConst.GetMessage(ex.Message);
-        //        return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
-        //    }
-        //}
-        //#endregion ValidateSupplierPayment
+        #region ValidateSupplierPayment
+        public string ValidateSupplierPayment(string id, string paymentRefNo)
+        {
+            object result = null;
+            try
+            {
+                result = _supplierPaymentBusiness.ValidateSupplierPayment(Guid.Parse(id), paymentRefNo);
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = "" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+        #endregion ValidateSupplierPayment
 
-        //#region GetOutStandingInvoices
-        //[AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
-        //public string GetOutStandingInvoices(string paymentId, string SupplierId)
-        //{
-        //    try
-        //    {
-        //        List<SupplierInvoiceViewModel> SupplierInvoiceVM = new List<SupplierInvoiceViewModel>();
-        //        SupplierInvoiceVM = Mapper.Map<List<SupplierInvoice>, List<SupplierInvoiceViewModel>>(_SupplierPaymentBusiness.GetOutStandingInvoices(Guid.Parse(paymentId), Guid.Parse(SupplierId)));
-        //        return JsonConvert.SerializeObject(new { Result = "OK", Records = SupplierInvoiceVM, Message = "Success" });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
-        //    }
-        //}
-        //#endregion
+        #region GetOutStandingSupplierInvoices
+        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        public string GetOutStandingSupplierInvoices(string paymentId, string supplierId)
+        {
+            try
+            {
+                List<SupplierInvoiceViewModel> SupplierInvoiceVM = new List<SupplierInvoiceViewModel>();
+                SupplierInvoiceVM = Mapper.Map<List<SupplierInvoice>, List<SupplierInvoiceViewModel>>(_supplierPaymentBusiness.GetOutStandingSupplierInvoices(Guid.Parse(paymentId), Guid.Parse(supplierId)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = SupplierInvoiceVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion
 
-        //#region GetOutStandingAmount
-        //[AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
-        //public string GetOutStandingAmount(string Id)
-        //{
-        //    try
-        //    {
-        //        SupplierInvoiceViewModel SupplierInvoiceVM = new SupplierInvoiceViewModel();
-        //        SupplierInvoiceVM = Mapper.Map<SupplierInvoice, SupplierInvoiceViewModel>(_SupplierPaymentBusiness.GetOutstandingAmount(Guid.Parse(Id)));
-        //        return JsonConvert.SerializeObject(new { Result = "OK", Records = SupplierInvoiceVM, Message = "Success" });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
-        //    }
-        //}
-        //#endregion
+        #region GetOutStandingAmount
+        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        public string GetOutStandingAmount(string Id)
+        {
+            try
+            {
+                SupplierInvoiceViewModel SupplierInvoiceVM = new SupplierInvoiceViewModel();
+                SupplierInvoiceVM = Mapper.Map<SupplierInvoice, SupplierInvoiceViewModel>(_supplierPaymentBusiness.GetOutstandingAmount(Guid.Parse(Id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = SupplierInvoiceVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion
 
-        //#region GetSupplierPayment
-        //[AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
-        //public string GetSupplierPayment(string Id)
-        //{
-        //    try
-        //    {
-        //        SupplierPaymentViewModel SupplierPaymentVM = new SupplierPaymentViewModel();
-        //        SupplierPaymentVM = Mapper.Map<SupplierPayment, SupplierPaymentViewModel>(_SupplierPaymentBusiness.GetSupplierPayment(Id));
-        //        return JsonConvert.SerializeObject(new { Result = "OK", Record = SupplierPaymentVM, Message = "Success" });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex });
-        //    }
-        //}
-        //#endregion GetSupplierPayment
+        #region GetSupplierPayment
+        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        public string GetSupplierPayment(string Id)
+        {
+            try
+            {
+                SupplierPaymentViewModel SupplierPaymentVM = new SupplierPaymentViewModel();
+                SupplierPaymentVM = Mapper.Map<SupplierPayment, SupplierPaymentViewModel>(_supplierPaymentBusiness.GetSupplierPayment(Id));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = SupplierPaymentVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex });
+            }
+        }
+        #endregion GetSupplierPayment
 
-        //#region DeleteSupplierPayment
-        //[AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
-        //public string DeleteSupplierPayment(string id)
-        //{
-        //    object result = null;
-        //    try
-        //    {
-        //        if (string.IsNullOrEmpty(id))
-        //        {
-        //            throw new Exception("ID Missing");
-        //        }
-        //        result = _supplierPaymentBusiness.DeleteSupplierPayment(Guid.Parse(id));
-        //        return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        AppConstMessage cm = _appConst.GetMessage(ex.Message);
-        //        return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
-        //    }
-        //}
-        //#endregion DeleteSupplierPayment
+        #region DeleteSupplierPayment
+        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        public string DeleteSupplierPayment(string id)
+        {
+            object result = null;
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    throw new Exception("ID Missing");
+                }
+
+                AppUA appUA = Session["AppUA"] as AppUA;
+                string userName = appUA.UserName;
+
+                result = _supplierPaymentBusiness.DeleteSupplierPayment(Guid.Parse(id), userName);
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = cm.Message });
+            }
+        }
+        #endregion DeleteSupplierPayment
 
         #region ButtonStyling
         [HttpGet]
@@ -249,12 +248,12 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset All";
-                    toolboxVM.resetbtn.Event = "BindOrReloadSupplierInvoiceTable('Reset');";
+                    toolboxVM.resetbtn.Event = "BindOrReloadSupplierPaymentTable('Reset');";
                     //----added for export button--------------
                     toolboxVM.PrintBtn.Visible = true;
                     toolboxVM.PrintBtn.Text = "Export";
                     toolboxVM.PrintBtn.Title = "Export";
-                    toolboxVM.PrintBtn.Event = "BindOrReloadSupplierInvoiceTable('Export');";
+                    toolboxVM.PrintBtn.Event = "BindOrReloadSupplierPaymentTable('Export');";
                     //---------------------------------------
 
                     break;
@@ -279,6 +278,24 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset";
                     toolboxVM.resetbtn.Event = "Reset();";
+
+                    toolboxVM.ListBtn.Visible = true;
+                    toolboxVM.ListBtn.Text = "List";
+                    toolboxVM.ListBtn.Title = "List";
+                    toolboxVM.ListBtn.Href = Url.Action("ViewSupplierPayment", "SupplierPayment", new { Code = "ACC" });
+
+                    toolboxVM.SendForApprovalBtn.Visible = true;
+                    toolboxVM.SendForApprovalBtn.Text = "Send";
+                    toolboxVM.SendForApprovalBtn.Title = "Send For Approval";
+                    toolboxVM.SendForApprovalBtn.Event = "ShowSendForApproval('SPAY');";
+                    break;
+
+                case "Disable":
+
+                    toolboxVM.addbtn.Visible = true;
+                    toolboxVM.addbtn.Text = "New";
+                    toolboxVM.addbtn.Title = "Add New";
+                    toolboxVM.addbtn.Href = Url.Action("ViewSupplierPayment", "SupplierPayment", new { Code = "ACC" });
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";

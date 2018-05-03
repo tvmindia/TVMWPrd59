@@ -7,7 +7,12 @@
             $("#PurchaseOrderID").select2({});
             $('#PurchaseOrderID').val($('#hdnPurchaseOrderID').val()).select2();
             try{
-                PurchaseOrderOnChange()
+                PurchaseOrderOnChange() 
+            } catch (ex) {
+                console.log(ex.message)
+            }
+            try {
+                CallForSupplierInvocie(); 
             } catch (ex) {
                 console.log(ex.message)
             }

@@ -18,40 +18,49 @@ namespace ProductionApp.BusinessService.Services
             _supplierPaymentRepository = supplierPaymentRepository;
             _commonBusiness = commonBusiness;
         }
-
         public List<SupplierPayment> GetAllSupplierPayment(SupplierPaymentAdvanceSearch supplierPaymentAdvanceSearch)
         {
             return _supplierPaymentRepository.GetAllSupplierPayment(supplierPaymentAdvanceSearch);
         }
-
-        public List<SupplierInvoice> GetOutStandingInvoices(Guid PaymentID, Guid CustID)
+        public List<SupplierInvoice> GetOutStandingSupplierInvoices(Guid PaymentID, Guid supplierId)
         {
-            throw new NotImplementedException();
+            return _supplierPaymentRepository.GetOutStandingSupplierInvoices(PaymentID, supplierId);
         }
-
         public SupplierInvoice GetOutstandingAmount(Guid Id)
         {
-            throw new NotImplementedException();
+            return _supplierPaymentRepository.GetOutstandingAmount(Id);
         }
-
         public object InsertUpdateSupplierPayment(SupplierPayment supplierPayment)
         {
-            throw new NotImplementedException();
+            DetailsXMl(supplierPayment);
+            return _supplierPaymentRepository.InsertUpdateSupplierPayment(supplierPayment);
         }
+        public void DetailsXMl(SupplierPayment supplierPayment)
+        {
+            string result = "<Details>";
+            int totalRows = 0;
+            foreach (object some_object in supplierPayment.SupplierPaymentDetailList)
+            {
+                _commonBusiness.XML(some_object, ref result, ref totalRows);
+            }
+            result = result + "</Details>";
 
+            supplierPayment.DetailXML = result;
+        }
         public SupplierPayment GetSupplierPayment(string Id)
         {
-            throw new NotImplementedException();
+            return _supplierPaymentRepository.GetSupplierPayment(Id);
         }
-
-        public object DeleteSupplierPayment(Guid id)
+        public object DeleteSupplierPayment(Guid id,string userName)
         {
-            throw new NotImplementedException();
+            return _supplierPaymentRepository.DeleteSupplierPayment(id, userName);
         }
-
         public object ValidateSupplierPayment(Guid id, string paymentrefNo)
         {
-            throw new NotImplementedException();
+            return _supplierPaymentRepository.ValidateSupplierPayment(id, paymentrefNo);
         }
+
+
+
     }
 }

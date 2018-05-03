@@ -28,7 +28,7 @@
 
 //##1--Global Declaration---------------------------------------------##1 
 var _dataTables = {};
-var EmptyGuid = "00000000-0000-0000-0000-000000000000";
+var _emptyGuid = "00000000-0000-0000-0000-000000000000";
 var _SlNo = 1;
 var _result = "";
 var _message = "";
@@ -50,11 +50,11 @@ $(document).ready(function () {
             debugger;
             //Pass the controller name
             var FileObject = new Object;
-            if ($('#hdnFileDupID').val() != EmptyGuid) {
-                FileObject.ParentID = (($('#ID').val()) != EmptyGuid ? ($('#ID').val()) : $('#hdnFileDupID').val());
+            if ($('#hdnFileDupID').val() != _emptyGuid) {
+                FileObject.ParentID = (($('#ID').val()) != _emptyGuid ? ($('#ID').val()) : $('#hdnFileDupID').val());
             }
             else {
-                FileObject.ParentID = ($('#ID').val() == EmptyGuid) ? "" : $('#ID').val();
+                FileObject.ParentID = ($('#ID').val() == _emptyGuid) ? "" : $('#ID').val();
             }
             FileObject.ParentType = "SupplierInvoice";
             FileObject.Controller = "FileUpload";
@@ -99,45 +99,60 @@ $(document).ready(function () {
         });
       
         _dataTables.PurchaseOrderDetailTable = $('#tblPurchaseOrderDetail').DataTable({
-                dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
-                order: [],
+                dom: '<"pull-right"f>rt<"bottom"ip><"clear">', 
+                ordering: false,
                 searching: true,
                 paging: true,
                 data: null,
                 pageLength: 5,
+                autoWidth: false,
                 language: {
                     search: "_INPUT_",
                     searchPlaceholder: "Search"
                 },
                 columns: [
-                  { "data": "Checkbox", "defaultContent": "", "width": "7%" },
+                  { "data": "Checkbox", "defaultContent": "", "width": "5%" },
                   {
-                      "data": "MaterialDesc", "defaultContent": "<i>-</i>", "width": "45%",
+                      "data": "MaterialDesc", "defaultContent": "<i>-</i>", "width": "20%",
                        'render': function (data, type, row) {
                            return data + '</br><b>Code :</b>' + row.MaterialCode + '</br><b>Type :</b>' + row.MaterialTypeDesc
                        }
                   },
+                  {
+                      "data": "POQty", "defaultContent": "<i>-</i>", "width": "10%",
+                      'render': function (data, type, row) {
+                          // return '<input class="form-control text-right" style="width: 10%;" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,1);">';
+                          return data;
+                      }
+                  },
                    {
-                       "data": "Qty", "defaultContent": "<i>-</i>", "width": "12%",
+                       "data": "PrevInvQty", "defaultContent": "<i>-</i>", "width": "10%",
                        'render': function (data, type, row) {
-                             return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,1);">';
-                           //return data;
+                           // return '<input class="form-control text-right" style="width: 10%;" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,1);">';
+                          return data;
+                       }
+                   },
+                   {
+                       "data": "Qty", "defaultContent": "<i>-</i>", "width": "15%",
+                       'render': function (data, type, row) { 
+                           return '<input class="form-control text-right" style="width: 100%;"  name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,1);">';
+                          // return data;
                        }
                    },
                     {
-                        "data": "Rate", "defaultContent": "<i>-</i>", "width": "12%",
+                        "data": "Rate", "defaultContent": "<i>-</i>", "width": "15%",
                         'render': function (data, type, row) {
-                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,2);">';
+                            return '<input class="form-control text-right" style="width: 100%;" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,2);">';
                         }
                     },
                     {
-                        "data": "Discount", "defaultContent": "<i>-</i>", "width": "12%",
+                        "data": "Discount", "defaultContent": "<i>-</i>", "width": "15%",
                         'render': function (data, type, row) {
-                            return '<input class="form-control text-right" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,3);">';
+                            return '<input class="form-control text-right" style="width: 100%;" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,3);">';
                         }
                     },
                     {
-                        "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "12%",
+                        "data": "TaxTypeCode", "defaultContent": "<i>-</i>", "width": "10%",
                         'render': function (data, type, row) {
                             if (data != null) {
                                 var first = _taxDropdownScript.slice(0, _taxDropdownScript.indexOf('value="' + data + '"'));
@@ -152,10 +167,9 @@ $(document).ready(function () {
                 ],
                 columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 0 },
                     { "targets": [], "visible": false, "searchable": false },
-                    { className: "text-right", "targets": [4] },
-                    { className: "text-left", "targets": [2,3, 5] },
-                    { className: "text-center", "targets": [0] },
-                    { "targets": [1,3,2,4,5], "bSortable": false }
+                    { className: "text-right", "targets": [] },
+                    { className: "text-left", "targets": [] },
+                    { className: "text-center", "targets": [0] }, 
                 ],
                 select: { style: 'multi', selector: 'td:first-child' },
                 destroy: true
@@ -232,7 +246,7 @@ function LoadPurchaseOrderDropdownBySupplier() {
         else
         {
             $("#divPOID").empty();
-            $("#divPOID").append('<input class="form-control HeaderBox text-box single-line" disabled="disabled" id="PurchaseOrderNo" name="PurchaseOrderNo" type="text" value="">');
+            $("#divPOID").append('<input class="form-control HeaderBox text-box single-line" disabled="disabled" id="PurchaseOrderHDN" name="PurchaseOrderNo" type="text" value="">');
         }
     }
     catch (ex) {
@@ -278,32 +292,38 @@ function IsFromPurchaseOrderChanged() {
     if ($('#IsFromPurchaseOrder').val() == "True") {
         $('#divPONo').hide();
         $('#divPOID').show();
+        $('#btnLoadPODetailModal').attr('onclick', 'LoadPODetailModal()');
     } else {
         $('#divPONo').show();
         $('#PurchaseOrderID').val('').select2();
         $('#divPOID').hide();
+        $('#btnLoadPODetailModal').removeAttr('onclick');
     }
 }
 
 //##6--Show Supplier Invoice Detail Modal ---------------------------##6
 function ShowSupplierInvoiceDetailModal()
 {
-    $("#supplierInvoiceDetailModalLabel").text('Add Supplier Invoice Detail');
-    $("#MaterialID").val('').select2();
-    $('#SupplierInvoiceDetail_UnitCode').val('');
-    $('#SupplierInvoiceDetail_Quantity').val('');
-    $('#SupplierInvoiceDetail_Rate').val('');
-    $('#SupplierInvoiceDetail_TradeDiscountAmount').val('');
-    $('#SupplierInvoiceDetail_TradeDiscountPerc').val('');
-    $('#TaxTypeCode').val('');
-    $('#SupplierInvoiceDetail_MaterialCode').val('');
-    $('#SupplierInvoiceDetail_MaterialTypeDesc').val('');
-    $('#SupplierInvoiceDetail_UnitCode').val('');
-    $('#SupplierInvoiceDetail_GrossAmount').val('');
-    $('#SupplierInvoiceDetail_TaxableAmount').val('');
-    $('#SupplierInvoiceDetail_NetAmount').val('');
-    $('#SupplierInvoiceDetail_TaxAmount').val('');
-    $('#SupplierInvoiceDetailModal').modal('show');
+    if ($('#SupplierInvoiceForm').valid()) {
+        $("#supplierInvoiceDetailModalLabel").text('Add Supplier Invoice Detail');
+        $("#MaterialID").prop("disabled", false);
+        $("#MaterialID").val('').select2();
+        $('#SupplierInvoiceDetail_ID').val('');
+        $('#SupplierInvoiceDetail_UnitCode').val('');
+        $('#SupplierInvoiceDetail_Quantity').val('');
+        $('#SupplierInvoiceDetail_Rate').val('');
+        $('#SupplierInvoiceDetail_TradeDiscountAmount').val(roundoff(0));
+        $('#SupplierInvoiceDetail_TradeDiscountPerc').val('0');
+        $('#TaxTypeCode').val('');
+        $('#SupplierInvoiceDetail_MaterialCode').val('');
+        $('#SupplierInvoiceDetail_MaterialTypeDesc').val('');
+        $('#SupplierInvoiceDetail_UnitCode').val('');
+        $('#SupplierInvoiceDetail_GrossAmount').val(roundoff(0));
+        $('#SupplierInvoiceDetail_TaxableAmount').val(roundoff(0));
+        $('#SupplierInvoiceDetail_NetAmount').val(roundoff(0));
+        $('#SupplierInvoiceDetail_TaxAmount').val(roundoff(0));
+        $('#SupplierInvoiceDetailModal').modal('show');
+    }
 } 
 function BindRawMaterialDetails(id) {
     try {
@@ -313,6 +333,7 @@ function BindRawMaterialDetails(id) {
         $('#SupplierInvoiceDetail_MaterialCode').val(result.MaterialCode);
         $('#SupplierInvoiceDetail_MaterialTypeDesc').val(result.MaterialType.Description);
         $('#SupplierInvoiceDetail_UnitCode').val(result.UnitCode);
+        $('#SupplierInvoiceDetail_Rate').val(result.Rate);
         ValueCalculation();
     }
     catch (e) {
@@ -432,20 +453,24 @@ function AddSupplierInvoiceDetails() {
     if (rate != "" && qty != "" && productId != "") {
         _SupplierInvoiceDetail = [];
         SupplierInvoiceDetailVM = new Object();
-        SupplierInvoiceDetailVM.MaterialID = $("#MaterialID").val(); 
+        SupplierInvoiceDetailVM.ID = $('#SupplierInvoiceDetail_ID').val() == "" ? _emptyGuid : $('#SupplierInvoiceDetail_ID').val();
+        SupplierInvoiceDetailVM.MaterialID = $("#MaterialID").val();
         SupplierInvoiceDetailVM.UnitCode = $('#SupplierInvoiceDetail_UnitCode').val();
         SupplierInvoiceDetailVM.Quantity = $('#SupplierInvoiceDetail_Quantity').val();
         SupplierInvoiceDetailVM.Rate = $('#SupplierInvoiceDetail_Rate').val();
         SupplierInvoiceDetailVM.TradeDiscountAmount = $('#SupplierInvoiceDetail_TradeDiscountAmount').val();
         SupplierInvoiceDetailVM.TradeDiscountPercent = $('#SupplierInvoiceDetail_TradeDiscountPerc').val();
         SupplierInvoiceDetailVM.TaxTypeCode = $('#TaxTypeCode').val();
-        _SupplierInvoiceDetail.push(SupplierInvoiceDetailVM);
-        
+        var taxTypeVM = GetTaxTypeByCode($('#TaxTypeCode').val());
+        SupplierInvoiceDetailVM.IGSTPerc =taxTypeVM.IGSTPercentage
+        SupplierInvoiceDetailVM.SGSTPerc = taxTypeVM.SGSTPercentage
+        SupplierInvoiceDetailVM.CGSTPerc = taxTypeVM.CGSTPercentage
+        _SupplierInvoiceDetail.push(SupplierInvoiceDetailVM); 
         if (_SupplierInvoiceDetail.length > 0)
         {
             var result = JSON.stringify(_SupplierInvoiceDetail);
             $("#DetailJSON").val(result);
-           // Save();
+            Save();
         }
         $('#SupplierInvoiceDetailModal').modal('hide');
     }
@@ -459,22 +484,36 @@ function AddSupplierInvoiceDetails() {
 //##8--Show Load PO Detail Modal ---------------------------##8
 function LoadPODetailModal() {
     debugger;
-    if ($('#PurchaseOrderID').val() !== "") {
-        TaxtypeDropdown();
-        $('#PurchaseOrderDetailModal').modal('show');
-        var id = $('#PurchaseOrderID').val();
-        BindPurchaseOrderDetailTable(id);
-    } else {
-        notyAlert('warning', 'Purchase Order Not selcted!');
+    if ($('#SupplierInvoiceForm').valid()) {
+        var POID = $('#PurchaseOrderID').val();
+        if (POID !== "" && POID != undefined) {
+            TaxtypeDropdown();
+            $('#PurchaseOrderDetailModal').modal('show');
+            BindPurchaseOrderDetailTable();
+        } else {
+            notyAlert('warning', 'Purchase Order Not selcted!');
+        }
     }
+    
 } 
-function BindPurchaseOrderDetailTable(id) {
+function BindPurchaseOrderDetailTable() {
     debugger;
-    _dataTables.PurchaseOrderDetailTable.clear().rows.add(GetPurchaseOrderItem(id)).select().draw(false);
+    var purchaseOrderDetailList = GetPurchaseOrderItem();
+    var supplierInvoiceDetailList = _dataTables.SupplierInvoiceDetailTable.rows().data();
+    //To exclude the materials already in Details table
+    for (j = 0; j < supplierInvoiceDetailList.length; j++) {//To remove the existing items in Details from PO items
+        for (i = 0; i < purchaseOrderDetailList.length; i++) {
+            if (purchaseOrderDetailList[i].MaterialID === supplierInvoiceDetailList[j].MaterialID) {
+                purchaseOrderDetailList.splice(i, 1);//Removes the ith element
+            }
+        }
+    }
+    _dataTables.PurchaseOrderDetailTable.clear().rows.add(purchaseOrderDetailList).select().draw(false);
 }
-function GetPurchaseOrderItem(id) {
+function GetPurchaseOrderItem() {
     try {
         debugger;
+        var id = $('#PurchaseOrderID').val();
         var data = { "id": id };
         var purchaseOrderDetailList = []; 
         _jsonData = GetDataFromServer("SupplierInvoice/GetAllPurchaseOrderItem/", data);
@@ -537,7 +576,7 @@ function EdittextBoxValue(thisObj, textBoxCode) {
     for (var i = 0; i < purchaseOrderDetailVM.length; i++) {
         if (purchaseOrderDetailVM[i].MaterialID == rowtable.MaterialID) {
             if (textBoxCode == 1) 
-                    purchaseOrderDetailVM[i].Quantity = thisObj.value;  
+                    purchaseOrderDetailVM[i].Qty = thisObj.value;  
             if (textBoxCode == 2)
                 purchaseOrderDetailVM[i].Rate = thisObj.value;
             if (textBoxCode == 3)
@@ -595,7 +634,6 @@ function AddPOItems() {
         SupplierInvoiceDetailVM.Quantity = purchaseOrderItemList[i].Qty;
         SupplierInvoiceDetailVM.Rate = purchaseOrderItemList[i].Rate;
         SupplierInvoiceDetailVM.TradeDiscountAmount = purchaseOrderItemList[i].Discount;
-        //SupplierInvoiceDetailVM.DiscountPercent = purchaseOrderItemList[i].DiscountPercent;
         SupplierInvoiceDetailVM.TaxTypeCode = purchaseOrderItemList[i].TaxTypeCode;
         SupplierInvoiceDetailVM.UnitCode = purchaseOrderItemList[i].UnitCode
         SupplierInvoiceDetailVM.IGSTPerc = purchaseOrderItemList[i].IGSTPerc
@@ -659,16 +697,16 @@ function BindSupplierInvoiceByID() {
     $('#lblTotalTaxableAmount').text(roundoff(SupplierInvoiceVM.TotalTaxableAmount));
     $('#lblTotalTaxAmount').text(roundoff(SupplierInvoiceVM.TotalTaxAmount));
     $('#InvoiceAmount').val(SupplierInvoiceVM.InvoiceAmount);
-    debugger;
     $('#lblInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount-SupplierInvoiceVM.Discount));
     $('#lblStatusInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount-SupplierInvoiceVM.Discount));
     $('#AccountCode').val(SupplierInvoiceVM.AccountCode).select2();
     debugger;
-    LoadPurchaseOrderDropdownBySupplier();
-    if (SupplierInvoiceVM.PurchaseOrderID)
+    if (SupplierInvoiceVM.PurchaseOrderID!=_emptyGuid)
     {
+        LoadPurchaseOrderDropdownBySupplier();
         $('#hdnPurchaseOrderID').val(SupplierInvoiceVM.PurchaseOrderID);
         $('#IsFromPurchaseOrder').val('True');
+        $('#PurchaseOrderID').prop("disabled", true);
     }
     else
     {
@@ -740,6 +778,8 @@ function ItemDetailsEdit(thisObj) {
     $("#supplierInvoiceDetailModalLabel").text('Edit Supplier Invoice Detail');
     var rowData = _dataTables.SupplierInvoiceDetailTable.row($(thisObj).parents('tr')).data(); 
     var supplierInvoiceDetailVM= GetSupplierInvoiceDetail(rowData.ID)
+    $('#SupplierInvoiceDetail_ID').val(rowData.ID);
+    $("#MaterialID").prop("disabled", true);
     $("#MaterialID").val(supplierInvoiceDetailVM.MaterialID).select2();
     $('#SupplierInvoiceDetail_UnitCode').val(supplierInvoiceDetailVM.UnitCode);
     $('#SupplierInvoiceDetail_Quantity').val(supplierInvoiceDetailVM.Quantity);
@@ -841,7 +881,7 @@ function DeleteSupplierInvoiceDetail(id) {
 //##18--Discount Amount Changed -------------------------------------------------------##18
 function DiscountAmountChanged(thisObj) {
     debugger;
-    if (thisObj.value != "") {
+    if (thisObj.value != "" && thisObj.value!=".") {
         var InvoiceAmount = $('#InvoiceAmount').val();
         var calculatedAmount = parseFloat(InvoiceAmount) - parseFloat(thisObj.value);
         $('#lblInvoiceAmount').text(roundoff(calculatedAmount));
@@ -849,6 +889,12 @@ function DiscountAmountChanged(thisObj) {
     }
     else {
         $('#Discount').val(roundoff(0));
+        $('#Discount').select();
     }
 
+}
+//calling from purchase order dropdown partial view
+function CallForSupplierInvocie() {
+    if ($("#PurchaseOrderID").val() != "" && ($("#PurchaseOrderNo").val() == "" || $("#PurchaseOrderNo").val() == undefined))
+        $('#PurchaseOrderID').prop("disabled", true);
 }

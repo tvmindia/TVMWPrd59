@@ -86,9 +86,9 @@ function BindOrReloadDocumentApprovals(action) {
                 columns: [
                     { "data": "ApprovalLogID", "defaultContent": "<i>-</i>" },
                     { "data": "DocumentTypeCode", "defaultContent": "<i>-</i>" },
+                    { "data": "DocumentDateFormatted", "defaultContent": "<i>-</i>"},
                     { "data": "DocumentType", "defaultContent": "<i>-</i>" },
                     { "data": "DocumentNo", "defaultContent": "<i>-</i>" },
-                    { "data": "DocumentDateFormatted", "defaultContent": "<i>-</i>" },
                     { "data": "ApproverLevel", "defaultContent": "<i>-</i>" },
                     { "data": "DocumentCreatedBy", "defaultContent": "<i>-</i>" },
                     //{ "data": "DocumentCreatedDate", "defaultContent": "<i>-</i>" },
@@ -100,8 +100,8 @@ function BindOrReloadDocumentApprovals(action) {
                     }
                 ],
                 columnDefs: [{ "targets": [0,1], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [2,3,6] },
-                    { className: "text-center", "targets": [4,5] }],
+                    { className: "text-left", "targets": [4,3,6] },
+                    { className: "text-center", "targets": [2, 5], "width": "10%" }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {

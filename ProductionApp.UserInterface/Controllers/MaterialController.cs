@@ -32,10 +32,12 @@ namespace ProductionApp.UserInterface.Controllers
         #region Index
         // GET: RawMaterial
         [AuthSecurityFilter(ProjectObject = "Material", Mode = "R")]
-        public ActionResult Index(string code)
+        public ActionResult Index(string code, string masterCode)
         {
             ViewBag.SysModuleCode = code;
             MaterialAdvanceSearchViewModel materialAdvanceSearchVM = new MaterialAdvanceSearchViewModel();
+            if(!string.IsNullOrEmpty(masterCode))
+                materialAdvanceSearchVM.ID =masterCode;
             materialAdvanceSearchVM.MaterialType = new MaterialTypeViewModel()
             {
                 MaterialTypeSelectList= _materialTypeBusiness.GetMaterialTypeForSelectList()
@@ -43,8 +45,7 @@ namespace ProductionApp.UserInterface.Controllers
             materialAdvanceSearchVM.Unit = new UnitViewModel()
             {
                 UnitSelectList = _unitBusiness.GetUnitForSelectList()
-            };   
-            
+            };
             return View(materialAdvanceSearchVM);
         }
         #endregion Index

@@ -112,6 +112,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\SAMTool.RepositoryServices.dll</HintPath>
     </Reference>
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -662,6 +664,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\PDF.js" />
+    <Content Include="Scripts\Report.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
@@ -687,6 +690,7 @@
     <Content Include="Scripts\UserJS\DocumentApproval\ApprovalHistory.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ApproveDocument.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\DocumentSummary.js" />
+    <Content Include="Scripts\UserJS\DocumentApproval\ViewApprovalHistory.js" />
     <Content Include="Scripts\UserJS\DocumentApproval\ViewPendingDocuments.js" />
     <Content Include="Scripts\UserJS\Employee.js" />
     <Content Include="Scripts\UserJS\FinishedGoodStockAdj\NewFinishedGoodStockAdj.js" />
@@ -708,6 +712,10 @@
     <Content Include="Scripts\UserJS\MaterialReturn\ViewMaterialReturn.js" />
     <Content Include="Scripts\UserJS\MaterialStockAdjustment\ListStockAdjustment.js" />
     <Content Include="Scripts\UserJS\MaterialStockAdjustment\NewStockAdjustment.js" />
+    <Content Include="Scripts\UserJS\OtherExpense\NewOtherExpense.js" />
+    <Content Include="Scripts\UserJS\OtherExpense\ViewOtherExpense.js" />
+    <Content Include="Scripts\UserJS\OtherIncome\NewOtherIncome.js" />
+    <Content Include="Scripts\UserJS\OtherIncome\ViewOtherIncome.js" />
     <Content Include="Scripts\UserJS\PackingSlip\AddPackingSlip.js" />
     <Content Include="Scripts\UserJS\PackingSlip\ListPackingSlips.js" />
     <Content Include="Scripts\UserJS\Privileges.js" />
@@ -719,6 +727,8 @@
     <Content Include="Scripts\UserJS\Product.js" />
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\NewRecieveFromProduction.js" />
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\ViewRecieveFromProduction.js" />
+    <Content Include="Scripts\UserJS\Report\Report.js" />
+    <Content Include="Scripts\UserJS\Report\RequisitionSummaryReport.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\NewRequisition.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\RequisitionApproval.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\ViewRequisition.js" />
@@ -778,6 +788,8 @@
     <Compile Include="Controllers\MaterialReturnFromProductionController.cs" />
     <Compile Include="Controllers\MaterialStockAdjController.cs" />
     <Compile Include="Controllers\MaterialTypeController.cs" />
+    <Compile Include="Controllers\OtherExpenseController.cs" />
+    <Compile Include="Controllers\OtherIncomeController.cs" />
     <Compile Include="Controllers\PackingSlipController.cs" />
     <Compile Include="Controllers\PaymentTermController.cs" />
     <Compile Include="Controllers\PDFGeneratorController.cs" />
@@ -804,6 +816,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AMCSysReportViewModel.cs" />
     <Compile Include="Models\ApplicationViewModel.cs" />
     <Compile Include="Models\AppObjectViewModel.cs" />
     <Compile Include="Models\ApprovalLogViewModel.cs" />
@@ -837,6 +850,8 @@
     <Compile Include="Models\MaterialReturnViewModel.cs" />
     <Compile Include="Models\MaterialStockAdjViewModel.cs" />
     <Compile Include="Models\MaterialTypeViewModel.cs" />
+    <Compile Include="Models\OtherExpenseViewModel.cs" />
+    <Compile Include="Models\OtherIncomeViewModel.cs" />
     <Compile Include="Models\PackingSlipViewModel.cs" />
     <Compile Include="Models\PaymentTermViewModel.cs" />
     <Compile Include="Models\PDFGeneratorViewModel.cs" />
@@ -1019,6 +1034,13 @@
     <Content Include="Views\DashboardAccount\_RecentCustomerInvoice.cshtml" />
     <Content Include="Views\DashboardAccount\Index.cshtml" />
     <Content Include="Views\DashboardAccount\_RecentCustomerPayment.cshtml" />
+    <Content Include="Views\DocumentApproval\ViewApprovalHistory.cshtml" />
+    <Content Include="Views\OtherIncome\NewOtherIncome.cshtml" />
+    <Content Include="Views\OtherIncome\ViewOtherIncome.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\OtherExpense\NewOtherExpense.cshtml" />
+    <Content Include="Views\OtherExpense\ViewOtherExpense.cshtml" />
+    <Content Include="Views\DashboardReport\RequisitionSummaryReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

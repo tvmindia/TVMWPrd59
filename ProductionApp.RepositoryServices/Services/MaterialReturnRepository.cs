@@ -228,7 +228,9 @@ namespace ProductionApp.RepositoryServices.Services
                                         materialReturn.MaterialDesc = (sdr["MaterialDesc"].ToString() != "" ? sdr["MaterialDesc"].ToString() : materialReturn.MaterialDesc);
                                         materialReturn.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : materialReturn.ToString());
                                         materialReturn.Qty = (sdr["Qty"].ToString() != "" ? Decimal.Parse(sdr["Qty"].ToString()) : materialReturn.Qty);
-                                        materialReturn.Rate = (sdr["Rate"].ToString() != "" ? Decimal.Parse(sdr["Rate"].ToString()) : materialReturn.Qty);
+                                        materialReturn.Rate = (sdr["Rate"].ToString() != "" ? Decimal.Parse(sdr["Rate"].ToString()) : materialReturn.Rate);
+                                        materialReturn.TaxTypeCode = (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : materialReturn.TaxTypeCode);
+                                        materialReturn.TaxTypeDescription = (sdr["TaxTypeDescription"].ToString() != "" ? sdr["TaxTypeDescription"].ToString() : materialReturn.TaxTypeDescription);
                                         materialReturn.CGSTPerc = (sdr["CGSTPerc"].ToString() != "" ? Decimal.Parse(sdr["CGSTPerc"].ToString()) : materialReturn.CGSTPerc);
                                         materialReturn.SGSTPerc = (sdr["SGSTPerc"].ToString() != "" ? Decimal.Parse(sdr["SGSTPerc"].ToString()) : materialReturn.SGSTPerc);
                                         materialReturn.IGSTPerc = (sdr["IGSTPerc"].ToString() != "" ? Decimal.Parse(sdr["IGSTPerc"].ToString()) : materialReturn.IGSTPerc);

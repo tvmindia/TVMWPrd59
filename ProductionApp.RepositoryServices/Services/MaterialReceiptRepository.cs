@@ -132,7 +132,10 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = materialReceipt.IsUpdate;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = materialReceipt.ID;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = materialReceipt.SupplierID;
-                        cmd.Parameters.Add("@PurchaseOrderID", SqlDbType.UniqueIdentifier).Value = materialReceipt.PurchaseOrderID;
+                        if(materialReceipt.PurchaseOrderID==Guid.Empty)
+                            cmd.Parameters.AddWithValue("@PurchaseOrderID", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@PurchaseOrderID", SqlDbType.UniqueIdentifier).Value = materialReceipt.PurchaseOrderID;
                         cmd.Parameters.Add("@PurchaseOrderNo", SqlDbType.NVarChar, 20).Value = materialReceipt.PurchaseOrderNo;
                         cmd.Parameters.Add("@ReceiptNo", SqlDbType.NVarChar, 50).Value = materialReceipt.ReceiptNo;
                         cmd.Parameters.Add("@ReceiptDate", SqlDbType.DateTime).Value = materialReceipt.ReceiptDateFormatted;
@@ -338,7 +341,9 @@ namespace ProductionApp.RepositoryServices.Services
                                     materialReceiptDetail.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : materialReceiptDetail.ID);
                                     materialReceiptDetail.HeaderID = (sdr["HeaderID"].ToString() != "" ? Guid.Parse(sdr["HeaderID"].ToString()) : materialReceiptDetail.HeaderID);
                                     materialReceiptDetail.MaterialID = materialReceiptDetail.Material.ID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : materialReceiptDetail.MaterialID);
-                                    materialReceiptDetail.Material.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : materialReceiptDetail.UnitCode);
+                                    materialReceiptDetail.Material.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : materialReceiptDetail.Material.MaterialCode);
+                                    materialReceiptDetail.Material.UnitCode= (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : materialReceiptDetail.Material.UnitCode);
+                                    materialReceiptDetail.Material.WeightInKG = (sdr["WeightInKG"].ToString() != "" ? decimal.Parse(sdr["WeightInKG"].ToString()) : materialReceiptDetail.Material.WeightInKG);
                                     materialReceiptDetail.MaterialDesc= (sdr["MaterialDesc"].ToString() != "" ? sdr["MaterialDesc"].ToString() : materialReceiptDetail.MaterialDesc);
                                     materialReceiptDetail.Qty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : materialReceiptDetail.Qty);
                                     materialReceiptDetail.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : materialReceiptDetail.UnitCode);

@@ -302,7 +302,7 @@ function EnableDisableFields(value)
     $('#Title').attr("disabled", value);
     $('#ReqDateFormatted').attr("disabled", value);
     $('#EmployeeID').attr("disabled", value);
-    $('#ReqStatus').attr("disabled", value);
+    //$('#ReqStatus').attr("disabled", value);
     DataTables.RequisitionDetailTable.column(8).visible(!value);
 }
 

@@ -83,7 +83,7 @@ namespace ProductionApp.UserInterface.Controllers
 
             supplierInvoiceVM.chartOfAccount = new ChartOfAccountViewModel()
             {
-                ChartOfAccountSelectList = _chartOfAccountBusiness.GetChartOfAccountForSelectList()
+                ChartOfAccountSelectList = _chartOfAccountBusiness.GetChartOfAccountForSelectList("EXP")
             };
             return View(supplierInvoiceVM);
         }

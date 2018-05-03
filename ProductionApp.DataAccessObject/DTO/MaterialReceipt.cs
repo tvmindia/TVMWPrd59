@@ -10,7 +10,7 @@ namespace ProductionApp.DataAccessObject.DTO
     {
         public Guid ID { get; set; }
         public Guid SupplierID { get; set; }
-        public Guid PurchaseOrderID { get; set; }
+        public Guid? PurchaseOrderID { get; set; }
         public string PurchaseOrderNo { get; set; }
         public string ReceiptNo { get; set; }
         public DateTime ReceiptDate { get; set; }
@@ -43,6 +43,7 @@ namespace ProductionApp.DataAccessObject.DTO
 
         //Additional Fields
         public Material Material { get; set; }
+        public Unit Unit { get; set; }
     }
 
     public class MaterialReceiptAdvanceSearch

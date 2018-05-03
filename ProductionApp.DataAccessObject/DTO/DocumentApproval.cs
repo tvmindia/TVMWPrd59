@@ -54,9 +54,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public string FromDate { get; set; }      
         public string ToDate { get; set; }       
         public DocumentType DocumentType { get; set; }
-        public Boolean ShowAll { get; set; } 
-        public String LoginName { get; set; }
-
+        public bool ShowAll { get; set; } 
+        public string LoginName { get; set; }
+        public int? ApprovalStatus { get; set; }
     }
 
     public class DocumentApprover

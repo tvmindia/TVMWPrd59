@@ -2,7 +2,7 @@
 //*****************************************************************************
 //Author: Arul
 //CreatedDate: 20-Feb-2018 
-//LastModified: 02-Mar-2018
+//LastModified: 24-Apr-2018
 //FileName: NewMaterialReceipt.js
 //Description: Client side coding for Adding / Updating Material Receipts
 //******************************************************************************
@@ -10,12 +10,14 @@
 
 var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
-var _MaterialReceiptDetail = [];
+var _MaterialReceiptDetail = {};
 var _MaterialReceiptDetailList = [];
+var _IsInput = false;
 
 $(document).ready(function () {
     debugger;
     try {
+        $('#msgSupplier,#msgPurchase').hide();
 
         try {
             DataTables.MaterialReceiptDetailTable = $('#tblMaterialReceiptDetail').DataTable(
@@ -66,12 +68,25 @@ $(document).ready(function () {
                   { "data": "MaterialCode", "defaultContent": "<i>-</i>" },
                   { "data": "MaterialDesc", "defaultContent": "<i>-</i>" },
                   { "data": "Qty", "defaultContent": "<i>-</i>" },
+                  //{
+                  //    "data": "Qty", render: function (data, type, row) {
+                  //        return '<input class="form-control text-left " name="Markup" value="' + row.Qty + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="QtyTextBoxValueChanged(this);">';
+                  //    }, "defaultContent": "<i>-</i>"
+                  //},
                   { "data": "UnitCode", "defaultContent": "<i>-</i>" },
+                  { "data": "PrevRcvQty", "defaultContent": "<i>-</i>" },
+                  {
+                      "data": "Material.Qty", render: function (data, type, row) {
+                          return '<input class="form-control text-right " name="Markup" value="' + Math.floor(row.Material.Qty) + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="TextBoxValueChanged(this);">';
+                      }, "defaultContent": "<i>-</i>"
+                  },
+                  { "data": null, "defaultContent": "Nos." },
+
                 ],
                 columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 1 },
                     { "targets": [0, 2], "visible": false, "searchable": false },
-                    { className: "text-right", "targets": [5] },
-                    { className: "text-left", "targets": [3, 4, 6] },
+                    { className: "text-right", "targets": [5, 7, 8], "width": "10%" },
+                    { className: "text-left", "targets": [3, 4, 6, 9] },
                     { className: "text-center", "targets": [1] },
                     { "targets": [3, 4, 5, 6], "bSortable": false }
                 ],
@@ -82,35 +97,43 @@ $(document).ready(function () {
         catch (e) {
             console.log(e.message)
         }
-        
+
         $('#MaterialID').select2({
             dropdownParent: $("#MaterialReceiptDetailModal")
         });
 
         $('#SupplierID').select2({});
-        PurchaseOrderOnChange();
+        //PurchaseOrderOnChange();
+
+        //$('#MaterialReceiptDetail_UnitCode').select2({
+        //    width: '100%'
+        //});
 
         $("#SupplierID").change(function () {
             LoadPurchaseOrderDropdownBySupplier();
-            PurchaseOrderOnChange();
+            debugger;
+            $('#hdnSupplierID').val($("#SupplierID").val());
+            //PurchaseOrderOnChange();
         });
+
+        $('#divPONo').hide();
 
         if ($('#ID').val !== EmptyGuid && $('#IsUpdate').val() === 'True') {
             BindMaterialReceipt();//Get MaterialReceipt By ID
             $('#lblReceiptNo').text('MRN#: ' + $('#ReceiptNo').val());
             debugger;
             ChangeButtonPatchView('MaterialReceipt', 'divButtonPatch', 'Edit');//divbuttonPatchAddMaterialReceipt
+            $('#PurchaseOrderID').prop('disabled', true);
+            $('#ExistingPurchaseOrder').prop('disabled', true);
         }
         else {
             $('#lblReceiptNo').text('MRN#: New');
-
         }
-
-        $('#divPONo,#msgSupplier,#msgPurchase').hide();
 
         $("#MaterialID").change(function () {
             BindMaterialDetails(this.value)
         });
+
         $("#SupplierID").change(function () {
             $('#msgSupplier').hide();
         });
@@ -121,37 +144,51 @@ $(document).ready(function () {
     }
 });
 
-function ExistingPurchaseOrderOnCheckChanged() {
+function ExistingPurchaseOrderChanged() {
     debugger;
-    if ($('#IsExisting:checked').val() === "true") {
+    if ($('#ExistingPurchaseOrder').val() === "YES") {
         $('#divPONo').hide();
+        $('#PurchaseOrderNo').val("");
+        $('#btnLoadPO').removeClass('disabled');
         $('#divPOID').show();
     } else {
         $('#divPONo').show();
         $('#PurchaseOrderID').val("").trigger('change');
+        $('#btnLoadPO').addClass('disabled');
         $('#divPOID').hide();
     }
 }
 
 function AddMaterialReceiptDetail() {
     debugger;
+    $('#MaterialID').val("").trigger('change');
     $('#MaterialReceiptDetail_Material_MaterialCode').val('');
     $('#MaterialReceiptDetail_Material_CurrentStock').val('');
     $('#MaterialReceiptDetail_Qty').val('');
     $('#MaterialReceiptDetail_MaterialDesc').val('');
-    $('#MaterialReceiptDetail_UnitCode').val('');
+    $('#MaterialReceiptDetail_UnitCode').val("").trigger("change");
     //$("#MaterialID").val('').select2();
     $('#MaterialReceiptDetailModal').modal('show');
 }
 
 function BindMaterialDetails(id) {
-    debugger;
-    var materialVM = GetMaterial(id);
-    $('#MaterialReceiptDetail_Material_MaterialCode').val(materialVM.MaterialCode);
-    $('#MaterialReceiptDetail_Material_CurrentStock').val(materialVM.CurrentStock);
-    //$('#MaterialReceiptDetail_Qty').val(MaterialViewModel.CurrentStock);
-    $('#MaterialReceiptDetail_MaterialDesc').val(materialVM.Description);
-    $('#MaterialReceiptDetail_UnitCode').val(materialVM.UnitCode);
+    try {
+        debugger;
+
+        if (id !== "") {
+            var materialVM = GetMaterial(id);
+            $('#MaterialReceiptDetail_Material_MaterialCode').val(materialVM.MaterialCode);
+            $('#MaterialReceiptDetail_Material_CurrentStock').val(materialVM.CurrentStock);
+            $('#MaterialReceiptDetail_Qty').val(0);
+            $('#MaterialReceiptDetail_MaterialDesc').val(materialVM.Description);
+            $('#MaterialReceiptDetail_UnitCode').val("Nos.");
+            $('#WeightInKG').val(materialVM.WeightInKG);
+
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }
 
 function GetMaterial(id) {
@@ -176,16 +213,15 @@ function GetMaterial(id) {
         }
     }
     catch (e) {
-        notyAlert('error', e.message);
+        console.log('error', e.message);
     }
 }
 
 function AddMaterialReceiptDetailToTable() {
     try {
         debugger;
-        if ($("#MaterialID").val() != "")
-        {
-            _MaterialReceiptDetail = [];
+        if ($("#MaterialID").val() != "") {
+            _MaterialReceiptDetailList = [];
             MaterialReceiptDetailVM = new Object();
             MaterialReceiptDetailVM.MaterialID = $("#MaterialID").val();
             MaterialReceiptDetailVM.Material = new Object();
@@ -195,31 +231,40 @@ function AddMaterialReceiptDetailToTable() {
             MaterialReceiptDetailVM.ID = $('#MaterialReceiptDetail_ID').val();
             MaterialReceiptDetailVM.Qty = $('#MaterialReceiptDetail_Qty').val();
             MaterialReceiptDetailVM.UnitCode = $('#MaterialReceiptDetail_UnitCode').val();
-            _MaterialReceiptDetail.push(MaterialReceiptDetailVM);
+            switch (MaterialReceiptDetailVM.UnitCode) {
+                case "kg":
+                    MaterialReceiptDetailVM.Qty = Math.floor(MaterialReceiptDetailVM.Qty / parseFloat(($('#WeightInKG').val() !== "0" && $('#WeightInKG').val() !== null) ? $('#WeightInKG').val() : 1));
+                    MaterialReceiptDetailVM.UnitCode = "Nos.";
+                    break;
+                default:
+                    MaterialReceiptDetailVM.UnitCode = "Nos.";
+                    break;
+            }
+            _MaterialReceiptDetailList.push(MaterialReceiptDetailVM);
 
             debugger;
-            if (_MaterialReceiptDetail != null) {
+            if (_MaterialReceiptDetailList != null) {
                 var materialReceiptDetailList = DataTables.MaterialReceiptDetailTable.rows().data();
                 if (materialReceiptDetailList.length > 0) {
                     var checkPoint = 0;
                     for (var i = 0; i < materialReceiptDetailList.length; i++) {
-                        if (materialReceiptDetailList[i].MaterialID == $("#MaterialID").val()) {
-                            materialReceiptDetailList[i].MaterialDesc = $('#MaterialReceiptDetail_MaterialDesc').val();
-                            materialReceiptDetailList[i].Qty = parseFloat($('#MaterialReceiptDetail_Qty').val());
-                            materialReceiptDetailList[i].UnitCode = $('#MaterialReceiptDetail_UnitCode').val();
+                        if (materialReceiptDetailList[i].MaterialID == MaterialReceiptDetailVM.MaterialID) {
+                            materialReceiptDetailList[i].MaterialDesc = MaterialReceiptDetailVM.MaterialDesc;
+                            materialReceiptDetailList[i].Qty = MaterialReceiptDetailVM.Qty;
+                            materialReceiptDetailList[i].UnitCode = MaterialReceiptDetailVM.UnitCode;
                             checkPoint = 1;
                             break;
                         }
                     }
                     if (!checkPoint) {
-                        DataTables.MaterialReceiptDetailTable.rows.add(_MaterialReceiptDetail).draw(false);
+                        DataTables.MaterialReceiptDetailTable.rows.add(_MaterialReceiptDetailList).draw(false);
                     }
                     else {
                         DataTables.MaterialReceiptDetailTable.clear().rows.add(materialReceiptDetailList).draw(false);
                     }
                 }
                 else {
-                    DataTables.MaterialReceiptDetailTable.rows.add(_MaterialReceiptDetail).draw(false);
+                    DataTables.MaterialReceiptDetailTable.rows.add(_MaterialReceiptDetailList).draw(false);
                 }
             }
             $('#MaterialReceiptDetailModal').modal('hide');
@@ -228,16 +273,18 @@ function AddMaterialReceiptDetailToTable() {
             notyAlert('warning', "Material is Empty");
         }
 
+
     } catch (e) {
-        console.log('error: '+ e.message);
+        console.log('error: ' + e.message);
     }
 }
 
 function Save() {
-    try{
+    try {
         debugger;
         var check = 0;
-
+        $("#PurchaseOrderNo").prop('disabled', false)
+        $('#PurchaseOrderID').prop('disabled', false);
         if ($('#PurchaseOrderNo').val() === "" && ($('#PurchaseOrderID').val() === "" || $('#PurchaseOrderID').val() === undefined)) {
             $('#msgPurchase').show();
             $('#PurchaseOrderNo,#PurchaseOrderID').change(function () {
@@ -246,6 +293,7 @@ function Save() {
             check = 1;
         }
 
+        $('#SupplierID').prop('disabled', false);
         if ($('#SupplierID').val() === "") {
             $('#msgSupplier').show();
             $('#SupplierID').change(function () {
@@ -275,7 +323,7 @@ function Save() {
 
 function SaveSuccess(data, status) {
     debugger;
-    try{
+    try {
         var JsonResult = JSON.parse(data)
         var result = JsonResult.Result;
         var message = JsonResult.Message;
@@ -289,6 +337,8 @@ function SaveSuccess(data, status) {
                 notyAlert("success", message);
                 ChangeButtonPatchView('MaterialReceipt', 'divButtonPatch', 'Edit');//divbuttonPatchAddMaterialReceipt
                 BindMaterialReceiptDetailTable($('#ID').val());
+                PurchaseOrderOnChange()
+
                 break;
             case "ERROR":
                 notyAlert("error", message);
@@ -318,18 +368,63 @@ function AddMaterialReceiptDetailList() {
 
 function LoadPODetail() {
     debugger;
-    if ($('#PurchaseOrderID').val() !== "") {
+    $('#PurchaseOrderID').prop('disabled', false);
+    if ($('#PurchaseOrderID').val() !== "" && $('#PurchaseOrderID').val() !== undefined) {
         $('#PurchaseOrderDetailsModal').modal('show');
         var id = $('#PurchaseOrderID').val();
         BindPurchaseOrderDetailTable(id);
     } else {
-        notyAlert('warning', 'Purchase Order Not selcted!');
+        if ($('#PurchaseOrderNo').val() !== "") {
+            notyAlert('warning', 'Purchase Order Not selcted!');
+        }
+        else {
+            notyAlert('warning', 'Purchase Order Not selcted!');
+        }
+    }
+    if ($("#IsUpdate").val() === "True") {
+        $('#PurchaseOrderID').prop('disabled', true);
     }
 }
 
-function BindPurchaseOrderDetailTable(id){
-    debugger;
-    DataTables.PurchaseOrderDetailTable.clear().rows.add(GetPurchaseOrderItem(id)).select().draw(false);
+function BindPurchaseOrderDetailTable(id) {
+    try {
+
+        debugger;
+        var purchaseOrderDetailList = GetPurchaseOrderItem(id);
+        var materialReceiptDetailList = DataTables.MaterialReceiptDetailTable.rows().data();
+        //To exclude the materials already in Details table
+        for (j = 0; j < materialReceiptDetailList.length; j++) {//To remove the existing items in Details from PO items
+            for (i = 0; i < purchaseOrderDetailList.length; i++) {
+                debugger;
+                if (purchaseOrderDetailList[i].MaterialID === materialReceiptDetailList[j].MaterialID) {
+                    purchaseOrderDetailList.splice(i, 1);//Removes the ith element
+                }
+            }
+        }
+        //To give material details to the purchase order detail
+        for (i = 0; i < purchaseOrderDetailList.length; i++) {
+            debugger;
+            purchaseOrderDetailList[i].Material = new Object();
+            purchaseOrderDetailList[i].Material = GetMaterial(purchaseOrderDetailList[i].MaterialID)
+            purchaseOrderDetailList[i].Material.UnitCode = purchaseOrderDetailList[i].UnitCode;
+            switch (purchaseOrderDetailList[i].UnitCode) {
+                case "kg":
+                    purchaseOrderDetailList[i].Material.Qty = (purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].Qty / purchaseOrderDetailList[i].Material.WeightInKG : 0);
+                    break;
+                case "Ton":
+                    purchaseOrderDetailList[i].Material.Qty = (purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].Qty * 1000 / purchaseOrderDetailList[i].Material.WeightInKG : 0);
+                    break;
+                default:
+                    purchaseOrderDetailList[i].Material.Qty = purchaseOrderDetailList[i].Qty;
+                    break;
+            }
+
+        }
+        DataTables.PurchaseOrderDetailTable.clear().rows.add(purchaseOrderDetailList).select().draw(false);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function GetPurchaseOrderItem(id) {
@@ -372,7 +467,7 @@ function AddPOItems() {
                 currentMaterial = purchaseOrderItemList[r].MaterialID
                 for (var j = r + 1; j < purchaseOrderItemList.length; j++) {
                     if (purchaseOrderItemList[j].MaterialID == currentMaterial) {
-                        purchaseOrderItemList[r].Qty = parseFloat(purchaseOrderItemList[r].Qty) + parseFloat(purchaseOrderItemList[j].Qty);
+                        purchaseOrderItemList[r].Qty += parseFloat(purchaseOrderItemList[j].Qty);
                         purchaseOrderItemList.splice(j, 1);//removing duplicate after adding value 
                         j = j - 1;// for avoiding skipping row while checking
                     }
@@ -394,7 +489,7 @@ function AddPOItems() {
 function LoadPOItems(purchaseOrderDetailList) {
     try {
         debugger;
-        _MaterialReceiptDetail = [];
+        _MaterialReceiptDetailList = [];
 
         for (var i = 0; i < purchaseOrderDetailList.length; i++) {
             materialReceiptDetailVM = new Object();
@@ -403,13 +498,13 @@ function LoadPOItems(purchaseOrderDetailList) {
             materialReceiptDetailVM.Material.MaterialCode = purchaseOrderDetailList[i].MaterialCode;
             materialReceiptDetailVM.MaterialDesc = purchaseOrderDetailList[i].MaterialDesc;
             materialReceiptDetailVM.ID = EmptyGuid;
-            materialReceiptDetailVM.Qty = parseFloat(purchaseOrderDetailList[i].Qty);
-            materialReceiptDetailVM.UnitCode = purchaseOrderDetailList[i].UnitCode;
+            materialReceiptDetailVM.Qty = Math.floor(parseFloat(purchaseOrderDetailList[i].Material.Qty));
+            materialReceiptDetailVM.UnitCode = "Nos.";
 
-            _MaterialReceiptDetail.push(materialReceiptDetailVM);
+            _MaterialReceiptDetailList.push(materialReceiptDetailVM);
         }
 
-        RebindMaterialReceiptDetailTable(_MaterialReceiptDetail);
+        RebindMaterialReceiptDetailTable(_MaterialReceiptDetailList);
 
     }
     catch (ex) {
@@ -417,22 +512,22 @@ function LoadPOItems(purchaseOrderDetailList) {
     }
 }
 
-function RebindMaterialReceiptDetailTable(_MaterialReceiptDetail) {
+function RebindMaterialReceiptDetailTable(_MaterialReceiptDetailList) {
     try {
         debugger;
         var checkPoint = 0;
-        if (_MaterialReceiptDetail != null) {
-            for (var r = 0; r < _MaterialReceiptDetail.length; r++) {
+        if (_MaterialReceiptDetailList != null) {
+            for (var r = 0; r < _MaterialReceiptDetailList.length; r++) {
                 var materialReceiptDetailList = DataTables.MaterialReceiptDetailTable.rows().data();
                 if (materialReceiptDetailList.length > 0) {
-                    
-                    for (var i = 0; i < materialReceiptDetailList.length; i++) {
-                        if (materialReceiptDetailList[i].MaterialID === _MaterialReceiptDetail[r].MaterialID) {
-                            materialReceiptDetailList[i].MaterialDesc = _MaterialReceiptDetail[r].MaterialDesc;
-                            materialReceiptDetailList[i].Qty = _MaterialReceiptDetail[r].Qty;
-                            materialReceiptDetailList[i].UnitCode = _MaterialReceiptDetail[r].UnitCode;
+
+                    for (var i = 0; i < materialReceiptDetailList.rows().data().length; i++) {
+                        if (materialReceiptDetailList[i].MaterialID === _MaterialReceiptDetailList[r].MaterialID) {
+                            materialReceiptDetailList[i].MaterialDesc = _MaterialReceiptDetailList[r].MaterialDesc;
+                            materialReceiptDetailList[i].Qty = _MaterialReceiptDetailList[r].Qty;
+                            materialReceiptDetailList[i].UnitCode = _MaterialReceiptDetailList[r].UnitCode;
                             checkPoint = 1;
-                            _MaterialReceiptDetail.splice(r, 1);
+                            _MaterialReceiptDetailList.splice(r, 1);
                             break;
                         }
                     }
@@ -441,7 +536,7 @@ function RebindMaterialReceiptDetailTable(_MaterialReceiptDetail) {
                     }
                 }
             }
-            DataTables.MaterialReceiptDetailTable.rows.add(_MaterialReceiptDetail).draw(false);
+            DataTables.MaterialReceiptDetailTable.rows.add(_MaterialReceiptDetailList).draw(false);
         }
     }
     catch (ex) {
@@ -460,10 +555,9 @@ function DetailEdit(curObj) {
         $('#MaterialReceiptDetail_MaterialDesc').val(materialReceiptDetailViewModel.MaterialDesc);
         $('#MaterialReceiptDetail_ID').val(materialReceiptDetailViewModel.ID);
         $('#MaterialReceiptDetail_Qty').val(materialReceiptDetailViewModel.Qty);
-        $('#MaterialReceiptDetail_UnitCode').val(materialReceiptDetailViewModel.UnitCode);
+        $('#MaterialReceiptDetail_UnitCode').val(materialReceiptDetailViewModel.UnitCode).trigger("change");
     }
-    catch(e)
-    {
+    catch (e) {
         console.log(e.message)
     }
 }
@@ -522,13 +616,13 @@ function DeleteItem(id) {
 }
 
 function DeleteClick() {
-    try{
+    try {
         debugger;
         var id = $('#ID').val();
         if (id !== EmptyGuid)
             notyConfirm('Are you sure to delete?', 'DeleteMaterialReceipt("' + id + '")');
         else
-            notyAlert('error',"Cannot Delete")
+            notyAlert('error', "Cannot Delete")
     }
     catch (e) {
         console.log(e.message)
@@ -668,7 +762,7 @@ function ReceiptNoOnChange(curObj) {
 function LoadPurchaseOrderDropdownBySupplier() {
     try {
         debugger;
-        if ($('#SupplierID').val() != ""){
+        if ($('#SupplierID').val() != "") {
             $("#divPOID").load('/PurchaseOrder/PurchaseOrderDropdown?SupplierID=' + $('#SupplierID').val());
         }
         else {
@@ -682,16 +776,97 @@ function LoadPurchaseOrderDropdownBySupplier() {
 }
 
 function PurchaseOrderOnChange() {
-    try{
+    try {
         debugger;
         $("#PurchaseOrderID").change(function () {
-            $("#PurchaseOrderNo").val($('#PurchaseOrderID').find('option:selected').text());
+            //$("#PurchaseOrderNo").val($('#PurchaseOrderID').find('option:selected').text());
+            if (DataTables.MaterialReceiptDetailTable.rows().data().length > 0) {
+                notyConfirm('Are you sure to clear Items in Detail Table?', 'ClearDetailTable()');
+            }
+            $('#hdnPurchaseOrderID').val($('#PurchaseOrderID').val());
             $('#msgPurchase').hide();
         });
         $('#hdnPurchaseOrderID').val($('#PurchaseOrderID').val());
-
+        if ($('#IsUpdate').val() === "True") {
+            //$('#btnLoadPO').addClass('disabled');
+            $('#ExistingPurchaseOrder').prop('disabled', true);
+            $('#PurchaseOrderID').prop('disabled', true);
+            $('#divSupplierDropdown .input-group-addon').each(function () {
+                $(this).parent().css("width", "100%");
+                $(this).remove();
+            });
+            $('#SupplierID').prop('disabled', true);
+            if ($('#hdnPurchaseOrderID').val() === EmptyGuid || $('#hdnPurchaseOrderID').val() === "" || $('#hdnPurchaseOrderID').val() === null) {
+                debugger;
+                $('#divPONo').show();
+                $('#divPOID').hide();
+                $("#PurchaseOrderNo").prop('disabled', true)
+            }
+        }
     }
     catch (ex) {
         console.log(ex.message);
     }
 }
+
+function ClearDetailTable() {
+    try {
+        debugger;
+        DataTables.MaterialReceiptDetailTable.clear().draw(false);
+        notyAlert('success', 'Cleared Successfully');
+    } catch (ex) {
+        console.log(ex.message);
+    }
+}
+
+function TextBoxValueChanged(thisObj) {
+    try {
+        debugger;
+        var _MaterialReceiptDetail = DataTables.PurchaseOrderDetailTable.row($(thisObj).parents('tr')).data();
+        var _MaterialReceiptDetailList = DataTables.PurchaseOrderDetailTable.rows().data();
+        var rows = DataTables.PurchaseOrderDetailTable.rows('.selected').indexes();
+        for (var i = 0; i < _MaterialReceiptDetailList.length; i++) {
+            if (_MaterialReceiptDetailList[i].ID === _MaterialReceiptDetail.ID) {
+                _MaterialReceiptDetailList[i].Material.Qty = Math.floor(parseFloat(thisObj.value));
+                _MaterialReceiptDetailList[i].Material.UnitCode = "Nos.";
+            }
+        }
+        DataTables.PurchaseOrderDetailTable.clear().rows.add(_MaterialReceiptDetailList).draw(true);
+        for (var x = 0; x < rows.length; x++) {
+            DataTables.PurchaseOrderDetailTable.rows(rows[x]).select();
+        }
+
+    } catch (ex) {
+        console.log(ex.message);
+    }
+}
+
+//// onchange for Qty TextBox Value
+//function QtyTextBoxValueChanged(thisObj) {
+//    try {
+//        debugger;
+//        var _MaterialReceiptDetail = DataTables.PurchaseOrderDetailTable.row($(thisObj).parents('tr')).data();
+//        var _MaterialReceiptDetailList = DataTables.PurchaseOrderDetailTable.rows().data();
+//        for (var i = 0; i < _MaterialReceiptDetailList.length; i++) {
+//            if (_MaterialReceiptDetailList[i].ID === _MaterialReceiptDetail.ID) {
+//                _MaterialReceiptDetailList[i].Qty = parseFloat(thisObj.value);
+//                switch (_MaterialReceiptDetailList[i].UnitCode) {
+//                    case "kg":
+//                        _MaterialReceiptDetailList[i].Material.Qty = _MaterialReceiptDetailList[i].Qty / _MaterialReceiptDetailList[i].Material.WeightInKG;
+//                        break;
+//                    case "Ton":
+//                        _MaterialReceiptDetailList[i].Material.Qty = _MaterialReceiptDetailList[i].Qty * 1000 / _MaterialReceiptDetailList[i].Material.WeightInKG;
+//                        break;
+//                    default:
+//                        _MaterialReceiptDetailList[i].Material.Qty = _MaterialReceiptDetailList[i].Qty;
+//                        break;
+//                }
+//                _MaterialReceiptDetailList[i].Material.UnitCode = _MaterialReceiptDetailList[i].UnitCode;
+//            }
+//        }
+//        DataTables.PurchaseOrderDetailTable.clear().rows.add(_MaterialReceiptDetailList).select().draw(true);
+//    } catch (ex) {
+//        console.log(ex.message);
+//    }
+//}
+

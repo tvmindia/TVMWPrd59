@@ -110,7 +110,7 @@
                             @Html.Hidden("hdnPurchaseOrderID","", htmlAttributes: new { @class = "" })
                         </div>
                         <div class="col-md-12" id="divPOID">
-                            @Html.EditorFor(model => model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox" ,@disabled="disabled"} })
+                            @Html.Editor("DUMMY", new { htmlAttributes = new { @class = "form-control HeaderBox" ,@disabled="disabled"} })
                         </div>
                         <div class="col-md-12" id="divPONo"  style="display: none;">
                             @Html.EditorFor(model => model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
@@ -196,7 +196,7 @@
                 <div class="col-md-6">
                 </div>
                 <div class="col-md-3">
-                    <a class="btn btn-openid" onclick="LoadPODetailModal()" style="color:white;font-weight:bold;float:right;"><i class="glyphicon glyphicon-arrow-down"></i> Load PO Items</a> 
+                    <a class="btn btn-openid" id="btnLoadPODetailModal" onclick="LoadPODetailModal()" style="color:white;font-weight:bold;float:right;"><i class="glyphicon glyphicon-arrow-down"></i> Load PO Items</a> 
                 </div>
                 <div class="col-md-3">
                     <a class="btn btn-openid" onclick="ShowSupplierInvoiceDetailModal()" id="btnAddSupplierInvoiceItems" style="color:white;font-weight:bold;float:right"><i class="glyphicon glyphicon-plus"></i> Add New Item </a>
@@ -303,6 +303,7 @@
                 <div class="container-fluid">
                     <div class="form-group col-md-6">
                         <div class="col-md-12">
+                            @Html.HiddenFor(model => model.SupplierInvoiceDetail.ID, htmlAttributes: new { @class = "" })
                             @Html.LabelFor(model => model.SupplierInvoiceDetail.MaterialID, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
                         <div class="col-md-12">
@@ -440,6 +441,8 @@
                             <tr class="text-center TableHead"> 
                                 <th></th>
                                 <th>Material</th> 
+                                <th> PO Qty</th>
+                                <th> Prev Inv Qty</th>
                                 <th>Quantity</th>
                                 <th>Rate</th>
                                 <th>Discount</th>

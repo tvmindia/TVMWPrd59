@@ -9,7 +9,7 @@ namespace ProductionApp.RepositoryServices.Contracts
 {
     public interface IChartOfAccountRepository
     {
-        List<ChartOfAccount> GetChartOfAccountForSelectList();
+        List<ChartOfAccount> GetChartOfAccountForSelectList(string type);
         List<ChartOfAccount> GetAllChartOfAccount(ChartOfAccountAdvanceSearch chartOfAccountAdvanceSearch);
         //bool CheckChartOfAccountTypeExist(ChartOfAccount chartOfAccount);
         object InsertUpdateChartOfAccount(ChartOfAccount chartOfAccount);

@@ -49,8 +49,9 @@ function BindOrReloadProductionTrackingTable(action) {
                 $('#SearchTerm').val('');
                 $('#FromDate').val('');
                 $('#ToDate').val('');
-                $('#ProductID').val('').select2();
-                $('#EmployeeID').val('').select2();
+                $('#ProductID').val('').trigger('change');
+                $('#EmployeeID').val('').trigger('change');
+                $('#StageID').val('').trigger('change');
                 break;
             case 'Init':
                 break;

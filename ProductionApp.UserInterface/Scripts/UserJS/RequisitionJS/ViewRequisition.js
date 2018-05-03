@@ -102,8 +102,13 @@ function BindOrReloadRequisitionTable(action) {
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
                     if (action === 'Export') {
+                        if (json.data.length > 0) {
+                            if (json.data[0].TotalCount > 10000) {
+                                notyAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
+                            }
+                        }
                         $(".buttons-excel").trigger('click');
-                        ResetRequisitionList();
+                        BindOrReloadRequisitionTable('Search');
                     }
                 }
             });
