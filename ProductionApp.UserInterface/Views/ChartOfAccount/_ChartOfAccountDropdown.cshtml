@@ -34,13 +34,13 @@ else
         catch (e) {
             console.log(e.message);
         }
-        //try{
-        //    $("#ChartOfAccountCode").change(function () {
-        //        BindFinishedGoodStockAdjDetails(this.value)
-        //    });
-        //}
-        //catch (e) {
-        //    console.log(e.message);
-        //}
+        try{
+            $("#ChartOfAccountCode").change(function () {
+                BindFinishedGoodStockAdjDetails(this.value)
+            });
+        }
+        catch (e) {
+            console.log(e.message);
+        }
         });
 </script>
