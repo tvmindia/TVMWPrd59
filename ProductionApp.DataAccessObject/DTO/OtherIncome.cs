@@ -20,10 +20,14 @@ namespace ProductionApp.DataAccessObject.DTO
         public string Description { get; set; }
         public decimal Amount { get; set; }
         public string ReferenceBank { get; set; }
+        public string PaymentRef { get; set; }
         public Common Common { get; set; }
         //ADDITIONAL FIELDS
         public string IncomeDateFormatted { get; set; }
         public string ChequeDateFormatted { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public bool IsUpdate { get; set; }
     }
 
     public class OtherIncomeAdvanceSearch
