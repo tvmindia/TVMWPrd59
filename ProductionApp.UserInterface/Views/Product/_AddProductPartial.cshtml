@@ -111,6 +111,7 @@
                             @Html.DropDownListFor(model => model.ProductCategoryCode, Model.ProductCategory.ProductCategorySelectList, "--- Select Product Category ---", new { @class = "form-control", @style = "width:100%" })
                             @*@Html.Action("ProductCategorySelectList", "ProductCategory", new { required = "required" })*@
                         </div>
+                        @Html.ValidationMessageFor(model => model.ProductCategoryCode, "", new { @class = "text-danger" })
                         @Html.HiddenFor(model => model.ProductCategoryCode, htmlAttributes: new { @class = "", @id = "hdnProductCategoryCode" })
                     </div>
                 </div>
@@ -250,7 +251,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.IsInvoiceInKG, new { htmlAttributes = new { @class = "" } })
+                        @Html.EditorFor(model => model.IsInvoiceInKG, new { htmlAttributes = new { @class = "", @onchange = "CheckProductInvoiceType()" } })
                         @Html.LabelFor(model => model.IsInvoiceInKG, htmlAttributes: new { @class = "control-label ", @style = "vertical-align: 2.5px;" })
                         @Html.ValidationMessageFor(model => model.IsInvoiceInKG, "", new { @class = "text-danger" })
                     </div>

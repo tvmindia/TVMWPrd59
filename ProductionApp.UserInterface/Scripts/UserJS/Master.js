@@ -27,6 +27,7 @@ function SaveSuccessBank(data, status) {
             MasterAlert("danger", JsonResult.Message)
             break;
     }
+    $('#divModelMasterPopUp').modal('hide');
 }
 //-- add  material--//
 function AddMaterialMaster(flag) {
@@ -60,11 +61,13 @@ function SaveSuccessMaterial(data, status) {
             MasterAlert("danger", JsonResult.Message)
             break;
     }
+    $('#divModelMasterPopUp').modal('hide');
 }
 //-- add Product--//
 function AddProductMaster(flag) {
     GetMasterPartial("Product", "");
     $('#h3ModelMasterContextLabel').text('Add Product/Component')
+    CheckProductInvoiceType();
     $('#divModelMasterPopUp').modal('show');
     $('#hdnMasterCall').val(flag);
 }
@@ -80,7 +83,14 @@ function SaveSuccessProduct(data, status) {
                 BindOrReloadProductTable('Reset');
             }
             else if ($('#hdnMasterCall').val() == "OTR") {
-                $('#divProductDropdown').load('/Product/ProductDropdown');
+                if($('#hdnProductTypeCode').val() == undefined)
+                {
+                    $('#divProductDropdown').load('/Product/ProductDropdown?required=');
+                }
+                else
+                {
+                    $('#divProductDropdown').load('/Product/ProductDropdown?required=&type=' + $('#hdnProductTypeCode').val());
+                }
             }            
             MasterAlert("success", JsonResult.Record.Message)
             break;
@@ -91,7 +101,29 @@ function SaveSuccessProduct(data, status) {
             MasterAlert("danger", JsonResult.Message)
             break;
     }
+    $('#divModelMasterPopUp').modal('hide');
 }
+
+function CheckProductInvoiceType() {
+    debugger;
+    if ($('#IsInvoiceInKG').is(':checked')) {
+        $('#CostPrice').prop('disabled', false);
+        $('#SellingPriceInKG').prop('disabled', false);
+        $('#CostPricePerPiece').val('');
+        $('#CostPricePerPiece').prop('disabled', true);
+        $('#SellingPricePerPiece').val('');
+        $('#SellingPricePerPiece').prop('disabled', true);
+    }
+    else {
+        $('#CostPrice').val('');
+        $('#CostPrice').prop('disabled', true);
+        $('#SellingPriceInKG').val('');
+        $('#SellingPriceInKG').prop('disabled', true);
+        $('#CostPricePerPiece').prop('disabled', false);
+        $('#SellingPricePerPiece').prop('disabled', false);
+    }
+}
+
 //-- add Material Type--//
 function AddMaterialTypeMaster(flag) {
     debugger;
@@ -122,6 +154,7 @@ function SaveSuccessMaterialType(data, status) {
             MasterAlert("danger", JsonResult.Message)
             break;
     }
+    $('#divModelMasterPopUp').modal('hide');
 }
 
 //-- Function After Save Approver--//
@@ -156,6 +189,8 @@ function SaveSuccessApprover(data, status) {
             MasterAlert("danger", JsonResult.Message)
             break;
     }
+    $('#divModelMasterPopUp').modal('hide');
+
 }
 
 //-- add  Stage--//
@@ -188,6 +223,7 @@ function SaveSuccessStage(data, status) {
             MasterAlert("danger", JsonResult.Message)
             break;
     }
+    $('#divModelMasterPopUp').modal('hide');
 }
 
 //-- add  SubComponent--//
@@ -220,6 +256,7 @@ function SaveSuccessSubComponent(data, status) {
             MasterAlert("danger", JsonResult.Message)
             break;
     }
+    $('#divModelMasterPopUp').modal('hide');
 }
 
 //-- Add  Customer--//
@@ -253,6 +290,7 @@ function SaveSuccessCustomer(data, status) {
             MasterAlert("danger", JsonResult.Message)
             break;
     }
+    $('#divModelMasterPopUp').modal('hide');
 }
 
 //-- Add  Supplier--//
@@ -287,6 +325,7 @@ function SaveSuccessSupplier(data, status) {
             MasterAlert("danger", JsonResult.Message)
             break;
     }
+    $('#divModelMasterPopUp').modal('hide');
 }
 
 //-- add  Product Category--//
@@ -320,6 +359,7 @@ function SaveSuccessProductCategory(data, status) {
             MasterAlert("danger", JsonResult.Message)
             break;
     }
+    $('#divModelMasterPopUp').modal('hide');
 }
 
 //-- add  Employee--//
@@ -361,6 +401,7 @@ function SaveSuccessEmployee(data, status) {
             MasterAlert("danger", JsonResult.Message)
             break;
     }
+    $('#divModelMasterPopUp').modal('hide');
 }
 
 //-- add  ChartOfAccount--//
@@ -394,4 +435,5 @@ function SaveSuccessChartOfAccount(data, status) {
             MasterAlert("danger", JsonResult.Message)
             break;
     }
+    $('#divModelMasterPopUp').modal('hide');
 }

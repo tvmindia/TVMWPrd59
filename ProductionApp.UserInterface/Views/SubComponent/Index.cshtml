@@ -47,7 +47,7 @@
             </div>
             <div class="col-md-12">
                 <div class="input-group">
-                    @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                    @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox", @onkeypress = "SearchOnkeyPress(event,this)" } })
                     <div class="input-group-btn">
                         <button class="btn btn-primary" type="submit" style="height:28px" onclick="BindOrReloadSubComponentTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
                     </div>

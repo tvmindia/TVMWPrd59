@@ -20,10 +20,10 @@ namespace ProductionApp.BusinessService.Services
             _productRepository = productRepository;
             _commonBusiness = commonBusiness;
         }
-        public List<SelectListItem> GetProductForSelectList()
+        public List<SelectListItem> GetProductForSelectList(string type=null)
         {
             List<SelectListItem> selectListItem = new List<SelectListItem>();
-            List<Product> productList = _productRepository.GetProductForSelectList();
+            List<Product> productList = _productRepository.GetProductForSelectList(type);
             if (productList != null)
                 foreach (Product product in productList)
                 {

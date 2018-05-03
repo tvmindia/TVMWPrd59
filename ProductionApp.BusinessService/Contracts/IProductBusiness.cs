@@ -10,7 +10,7 @@ namespace ProductionApp.BusinessService.Contracts
 {
     public interface IProductBusiness
     {
-        List<SelectListItem> GetProductForSelectList();
+        List<SelectListItem> GetProductForSelectList(string type=null);
         List<Product> GetAllProduct(ProductAdvanceSearch productAdvanceSearch);
         bool CheckProductCodeExist(Product product);
         object InsertUpdateProduct(Product product);

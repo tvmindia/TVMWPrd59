@@ -153,6 +153,7 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ProductViewModel productVM = string.IsNullOrEmpty(masterCode) ? new ProductViewModel() : Mapper.Map<Product, ProductViewModel>(_productBusiness.GetProduct(Guid.Parse(masterCode)));
             productVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
+            productVM.IsInvoiceInKG=productVM.IsUpdate==true? productVM.IsInvoiceInKG:true;
             productVM.ProductCategory = new ProductCategoryViewModel();
             productVM.ProductCategory.ProductCategorySelectList = _productCategoryBusiness.GetProductCategoryForSelectList();
             productVM.Unit = new UnitViewModel();
@@ -180,12 +181,12 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetProduct
 
         #region ProductDropdown
-        public ActionResult ProductDropdown(string required)
+        public ActionResult ProductDropdown(string required,string type=null)
         {
             ViewBag.IsRequired = required;
             ProductViewModel productVM = new ProductViewModel()
             {
-                ProductSelectList = _productBusiness.GetProductForSelectList()
+                ProductSelectList = _productBusiness.GetProductForSelectList(type)
             };            
             return PartialView("_ProductDropdown", productVM);
         }

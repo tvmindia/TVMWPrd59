@@ -9,7 +9,7 @@ namespace ProductionApp.RepositoryServices.Contracts
 {
     public interface IProductRepository
     {
-        List<Product> GetProductForSelectList();
+        List<Product> GetProductForSelectList(string type);
         List<Product> GetAllProduct(ProductAdvanceSearch productAdvanceSearch);
         bool CheckProductCodeExist(Product product);
         object InsertUpdateProduct(Product product);

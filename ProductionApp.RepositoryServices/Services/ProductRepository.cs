@@ -31,7 +31,7 @@ namespace ProductionApp.RepositoryServices.Services
         /// To Get Product List For DropDown
         /// </summary>
         /// <returns>List</returns>
-        public List<Product> GetProductForSelectList()
+        public List<Product> GetProductForSelectList(string type)
         {
             List<Product> productList = null;
             try
@@ -46,6 +46,7 @@ namespace ProductionApp.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetProductForSelectList]";
+                        cmd.Parameters.Add("@Type", SqlDbType.VarChar,5).Value = type;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
