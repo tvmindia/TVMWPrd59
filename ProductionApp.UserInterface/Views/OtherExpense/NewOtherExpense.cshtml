@@ -72,8 +72,8 @@
                     @Html.LabelFor(model => model.AccountCode, htmlAttributes: new { @class = "control-label lblrequired" })
                 </div>
                 <div class="col-md-12">
-                    @*@Html.Action("ChartOfAccountDropdown", "ChartOfAccount", new { required = "required" })*@
-                    @Html.DropDownListFor(model => model.AccountCode, Model.ChartOfAccount.ChartOfAccountSelectList, "--Select Account--", new { @class = "form-control BlockEnter", style = "width:100%" })
+                    @Html.Action("ChartOfAccountDropdown", "ChartOfAccount", new { required = "required", type= "EXP" })
+                    @*@Html.DropDownListFor(model => model.AccountCode, Model.ChartOfAccount.ChartOfAccountSelectList, "--Select Account--", new { @class = "form-control BlockEnter", style = "width:100%" })*@
                 </div>
             </div>
             <div class="col-md-12"></div>

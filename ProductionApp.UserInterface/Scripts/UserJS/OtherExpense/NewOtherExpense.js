@@ -13,7 +13,7 @@
 // ##5--Save Success Function
 // ##6--Binding OtherExpense Functions
 // ##7--Reversal setting Functions
-// ##8--Delete OtherExpense Function
+// ##8--Delete OtherExpense Function        
 // ##9--Approval Functions
 //******************************************************************************
 //##1--Global Declaration---------------------------------------------##1 
@@ -32,7 +32,7 @@ $(document).ready(function () {
         });
         $("#BankCode").select2({
         });
-        $("#AccountCode").select2({
+        $("#ChartOfAccountCode").select2({
         });
         if ($('#IsUpdate').val() == 'True') {
             BindOtherExpense()
@@ -137,7 +137,7 @@ function BindOtherExpense() {
     $('#DepositWithdrawalID').val(otherExpenseVM.DepositWithdrawalID);
     $('#EntryNo').val(otherExpenseVM.EntryNo);
     $('#ExpenseDateFormatted').val(otherExpenseVM.ExpenseDateFormatted);
-    $('#AccountCode').val(otherExpenseVM.AccountCode).select2();
+    $('#ChartOfAccountCode').val(otherExpenseVM.AccountCode).select2();
     $('#AccountSubHead').val(otherExpenseVM.AccountSubHead).select2();
     $('#lblApprovalStatus').text(otherExpenseVM.ApprovalStatus);
     $('#lblOtherExpenseEntryNo').text('Entry No. # : ' + otherExpenseVM.EntryNo);
@@ -292,9 +292,9 @@ function GetReversalReference()
 {
     try {
         debugger;
-        var accountCode = $('#AccountCode').val();
-        var data = { "accountCode": accountCode };
-        if (accountCode == null)
+        var ChartOfAccountCode = $('#ChartOfAccountCode').val();
+        var data = { "ChartOfAccountCode": ChartOfAccountCode };
+        if (ChartOfAccountCode == null)
             $("#ReFSearchMsg").show();
         var jsonData = {};
         var result = "";
@@ -418,7 +418,7 @@ function SendForApproval(documentTypeCode) {
 }
 function EnableDisableFields(value) {
     $('#ExpenseDateFormatted').attr("disabled", value);
-    $('#AccountCode').attr("disabled", value);
+    $('#ChartOfAccountCode').attr("disabled", value);
     $('#AccountSubHead').attr("disabled", value);
     $('#PaymentMode').attr("disabled", value);
     $('#BankCode').attr("disabled", value);
@@ -428,4 +428,27 @@ function EnableDisableFields(value) {
     $('#ExpneseRef').attr("disabled", value);
     $('#Description').attr("disabled", value);
     $('#ReversalRef').attr("disabled", value);
+    $('#IsReverse').attr("disabled", value);
+}
+//##8-----OnChange of ChartOfAccountCode Dropdown---------------------------------------------// 
+
+function AccountCodeOnChange() {
+
+    try {
+        debugger;
+        if ($('#ChartOfAccountCode').val().split("|")[1] === "True") {
+
+            $('#AccountSubHead').prop("disabled", false);
+
+        } else {
+
+            $('#AccountSubHead').prop("disabled", true);
+        }
+
+    } catch (ex) {
+
+        console.log("error", ex.message);
+
+    }
+
 }
