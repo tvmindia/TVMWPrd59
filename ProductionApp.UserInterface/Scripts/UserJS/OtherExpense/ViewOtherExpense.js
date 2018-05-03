@@ -1,34 +1,33 @@
 ﻿//*****************************************************************************
 //*****************************************************************************
-//Author: Arul
-//CreatedDate: 01-May-2018 
-//LastModified: 02-May-2018
-//FileName: ViewOtherIncome.js
-//Description: Client side coding to List Other Income
+//Author: Angel
+//CreatedDate: 30-Apr-2018 
+//LastModified: 30-Apr-2018
+//FileName: ViewOtherExpense.js
+//Description: Client side coding for ViewOtherExpense
 //******************************************************************************
+// ##1--Global Declaration
+// ##2--Document Ready Function 
+// ##3--OtherExpense Table Binding Function
 //******************************************************************************
-
+//##1--Global Declaration---------------------------------------------##1 
 var _dataTable = {};
 var _emptyGuid = "00000000-0000-0000-0000-000000000000";
-
-
+//##2--Document Ready Function----------------------------------------##2
 $(document).ready(function () {
-    try
-    {
-        debugger;
-        $('#ChartOfAccountCode,#PaymentMode').select2();
-        BindOrReloadOtherIncomeTable('Init');
+    debugger;
+    try {
+        BindOrReloadOtherExpenseTable('Init');
     }
-    catch(ex)
-    {
-        console.log(ex.message);
+    catch (e) {
+        console.log(e.message);
     }
-})
-
-function BindOrReloadOtherIncomeTable(action) {
+});
+//##3--OtherExpense Table Binding Function-------------------------------------##3
+function BindOrReloadOtherExpenseTable(action) {
     try {
         debugger;
-        otherIncomeAdvanceSearchVM = new Object();
+        otherExpenseAdvanceSearchVM = new Object();
         DataTablePagingViewModel = new Object();
         ProductViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
@@ -38,14 +37,14 @@ function BindOrReloadOtherIncomeTable(action) {
                 $('#SearchTerm').val('');
                 $('#FromDate').val('');
                 $('#ToDate').val('');
-                $('#ChartOfAccountCode').val('').trigger('change');
-                $('#PaymentMode').val('');
                 break;
             case 'Init':
                 break;
             case 'Search':
                 break;
             case 'Apply':
+                otherExpenseAdvanceSearchVM.FromDate = $('#FromDate').val();
+                otherExpenseAdvanceSearchVM.ToDate = $('#ToDate').val();
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
@@ -53,22 +52,18 @@ function BindOrReloadOtherIncomeTable(action) {
             default:
                 break;
         }
-        otherIncomeAdvanceSearchVM.DataTablePaging = DataTablePagingViewModel;
-        otherIncomeAdvanceSearchVM.SearchTerm = $('#SearchTerm').val();
-        otherIncomeAdvanceSearchVM.FromDate = $('#FromDate').val();
-        otherIncomeAdvanceSearchVM.ToDate = $('#ToDate').val();
-        otherIncomeAdvanceSearchVM.PaymentMode = $('#PaymentMode').val();
-        otherIncomeAdvanceSearchVM.ChartOfAccount = new Object();
-        otherIncomeAdvanceSearchVM.ChartOfAccount.Code = $('#ChartOfAccountCode').val().split("|")[0];
-        //To split value of #ChartOfAccountCode by '|' and to take only the AccountCode__________^
-        _dataTable.Assemble = $('#tblOtherIncome').DataTable(
+        otherExpenseAdvanceSearchVM.DataTablePaging = DataTablePagingViewModel;
+        otherExpenseAdvanceSearchVM.SearchTerm = $('#SearchTerm').val();
+        otherExpenseAdvanceSearchVM.FromDate = $('#FromDate').val();
+        otherExpenseAdvanceSearchVM.ToDate = $('#ToDate').val();
+        _dataTable.Assemble = $('#tblOtherExpense').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
                 buttons: [{
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [0, 1, 2, 5, 3, 4]
+                                     columns: [0, 1, 2, 3]
                                  }
                 }],
                 order: false,
@@ -79,26 +74,26 @@ function BindOrReloadOtherIncomeTable(action) {
                 proccessing: true,
                 serverSide: true,
                 ajax: {
-                    url: "GetAllOtherIncome/",
-                    data: { "otherIncomeAdvanceSearchVM": otherIncomeAdvanceSearchVM },
+                    url: "GetAllOtherExpense/",
+                    data: { "otherExpenseAdvanceSearchVM": otherExpenseAdvanceSearchVM },
                     type: 'POST'
                 },
                 pageLength: 10,
                 columns: [
                     { "data": "EntryNo", "defaultContent": "<i>-</i>", "width": "10%" },
-                    { "data": "IncomeDateFormatted", "defaultContent": "<i>-</i>", "width": "15%" },
-                    { "data": "AccountCode", "defaultContent": "<i>-</i>", "width": "25%" },
+                    { "data": "ExpenseDateFormatted", "defaultContent": "<i>-</i>", "width": "15%" },
+                    { "data": "Account", "defaultContent": "<i>-</i>", "width": "25%" },
                     { "data": "PaymentMode", "defaultContent": "<i>-</i>", "width": "20%" },
                     { "data": "Amount", "defaultContent": "<i>-</i>", "width": "15%" },
-                    { "data": "AccountSubHead", "defaultContent": "<i>-</i>", "width": "22%" },
+                    { "data": "ApprovalStatus", "defaultContent": "<i>-</i>", "width": "22%" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
-                            return '<a href="NewOtherIncome?code=ACC&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
+                            return '<a href="/OtherExpense/NewOtherExpense?code=ACC&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
                         }, "defaultContent": "<i>-</i>", "width": "3%"
                     }
                 ],
                 columnDefs: [
-                            { className: "text-left", "targets": [2, 3, 5, 0] },
+                            { className: "text-left", "targets": [2, 3,5, 0] },
                             { className: "text-right", "targets": [4] },
                             { className: "text-center", "targets": [1] }],
                 destroy: true,
@@ -112,13 +107,14 @@ function BindOrReloadOtherIncomeTable(action) {
                             }
                         }
                         $(".buttons-excel").trigger('click');
-                        BindOrReloadOtherIncomeTable('Search');
+                        BindOrReloadOtherExpenseTable('Search');
                     }
                 }
             });
         $(".buttons-excel").hide();
     }
-    catch (ex) {
-        console.log(ex.message);
+
+    catch (e) {
+        console.log(e.message);
     }
 }

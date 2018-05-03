@@ -6,23 +6,16 @@
 //FileName: NewSupplierPayment.js
 //Description: Client side coding for New/Edit Supplier Payment
 //******************************************************************************
-// ##1--Global Declaration
-// ##2--Document Ready function
-// ##3-- 
-// ##4-- 
+// ##1-- Global Declaration
+// ##2-- Document Ready function
+// ##3-- Edit Click Redirection
+// ##4-- Bind Supplier Payment Table List
 // ##5-- 
 // ##6-- 
 // ##7-- 
 // ##8-- 
 // ##9-- 
 // ##10-- 
-// ##11--Save  Supplier Payment 
-// ##12--Save Success Supplier Payment
-// ##13--Bind Supplier Payment By ID
-// ##14--Reset Button Click
-// ##15-- 
-// ##16--DELETE Supplier Payment 
-// ##17--DELETE Supplier Payment Details 
 // 
 //******************************************************************************
 
@@ -33,9 +26,6 @@ var _SlNo = 1;
 var _result = "";
 var _message = "";
 var _jsonData = {};
-
-
-
 
 //##2--Document Ready function-----------------------------------------##2  
 $(document).ready(function () {
@@ -60,7 +50,7 @@ function Edit(curObj) {
 }
 
 
-//##4--Bind Supplier Invoice Table List-------------------------------------------##4
+//##4--Bind Supplier Payment Table List-------------------------------------------##4
 function BindOrReloadSupplierPaymentTable(action) {
     try {
         //creating advancesearch object
@@ -115,27 +105,37 @@ function BindOrReloadSupplierPaymentTable(action) {
                 },
                 pageLength: 10,
                 columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
-                    { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
-                    { "data": "Supplier.CompanyName", "defaultContent": "<i>-</i>" },
-                    { "data": "InvoiceDateFormatted", "defaultContent": "<i>-</i>" },
-                    { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>" },
-                    {
-                        "data": "InvoiceAmount", "defaultContent": "<i>-</i>",
-                        'render': function (data, type, row) {
-                            return roundoff(data)
-                        }
-                    },
-                    {
-                        "data": "ID", "orderable": false, render: function (data, type, row) {
-                            return '<a href="/SupplierPayment/NewSupplierPayment?code=ACC&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
-                        }, "defaultContent": "<i>-</i>", "width": "3%"
-                    }
+                 { "data": "EntryNo", "defaultContent": "<i>-</i>", "width": "10%" },
+                 { "data": "PaymentDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
+                 { "data": "PaymentRef", "defaultContent": "<i>-</i>", "width": "15%" },
+                 { "data": "SupplierName", "defaultContent": "<i>-</i>", "width": "15%" },
+                 { "data": "PaymentMode", "defaultContent": "<i>-</i>", "width": "10%" },
+                 { "data": "Type", "defaultContent": "<i>-</i>", "width": "7%" },
+                 { "data": "CreditNo", "defaultContent": "<i>-</i>", "width": "10%" },
+                 {
+                     "data": "TotalPaidAmt", "defaultContent": "<i>-</i>",
+                     'render': function (data, type, row) {
+                         return roundoff(data, 1);
+                     }, "width": "11%"
+                 },
+                 {
+                     "data": "AdvanceAmount", "defaultContent": "<i>-</i>", 'render': function (data, type, row) {
+                         if (data == 0)
+                             return '0.00'
+                         else
+                             return roundoff(data, 1);
+                     }, "width": "12%"
+                 },
+                 {
+                     "data": "ID", "orderable": false, render: function (data, type, row) {
+                         return '<a href="/SupplierPayment/NewSupplierPayment?code=ACC&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
+                     }, "defaultContent": "<i>-</i>", "width": "3%"
+                 }
                 ],
-                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1, 2, ] },
-                    { className: "text-right", "targets": [5] },
-                    { className: "text-center", "targets": [3, 4, 6] }],
+                columnDefs: [{ "targets": [], "visible": false, "searchable": false },
+                            { className: "text-left", "targets": [0,1,2,3, 4, 5, 6] },
+                            { className: "text-right", "targets": [7, 8] },
+                            { className: "text-center", "targets": [9] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {

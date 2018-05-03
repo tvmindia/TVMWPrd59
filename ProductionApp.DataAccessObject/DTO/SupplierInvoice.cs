@@ -33,9 +33,12 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal TotalTaxableAmount { get; set; }
         public decimal TotalTaxAmount { get; set; }
         public decimal InvoiceAmount { get; set; }
+        public decimal PaymentReceived { get; set; }
+        public decimal Balance { get; set; }
         public Common Common { get; set; }
         public Supplier Supplier { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }
+        public SupplierPayment SupplierPayment { get; set; }
         public SupplierInvoiceDetail SupplierInvoiceDetail { get; set; }
         public List<SupplierInvoiceDetail> SupplierInvoiceDetailList { get; set; }
     }
