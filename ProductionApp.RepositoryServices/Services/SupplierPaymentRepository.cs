@@ -296,6 +296,8 @@ namespace ProductionApp.RepositoryServices.Services
                                     supplierPayment.DepositWithdrawalID = (sdr["DepositWithdrawalID"].ToString() != "" ? Guid.Parse(sdr["DepositWithdrawalID"].ToString()) : supplierPayment.DepositWithdrawalID);
                                     supplierPayment.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : supplierPayment.GeneralNotes);
                                     supplierPayment.SupplierID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : supplierPayment.SupplierID);
+                                    supplierPayment.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? sdr["ApprovalStatus"].ToString() : supplierPayment.ApprovalStatus);
+                                    supplierPayment.LatestApprovalStatus = (sdr["LatestApprovalStatus"].ToString() != "" ? Int32.Parse(sdr["LatestApprovalStatus"].ToString()) : supplierPayment.LatestApprovalStatus);
                                 }
                             }
                         }

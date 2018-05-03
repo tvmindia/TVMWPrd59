@@ -1,5 +1,7 @@
 ﻿@using ProductionApp.UserInterface.App_Start
 @model ProductionApp.UserInterface.Models.SupplierPaymentViewModel
+@using ProductionApp.UserInterface.Models
+
 @{
     if (Model.IsUpdate)
     {
@@ -44,6 +46,8 @@
             @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
             @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
             @Html.HiddenFor(model => model.hdnFileID, htmlAttributes: new { @class = "", @id = "hdnFileDupID", @value = Guid.Empty })
+            @Html.HiddenFor(model => model.LatestApprovalStatus)
+            @Html.HiddenFor(model => model.LatestApprovalID)
             @Html.HiddenFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "" })
 
             <div class="col-md-12">
@@ -177,7 +181,7 @@
                     <div class="form-group col-md-12 box-header figuresummary rounded">
 
                         <div class="form-group col-md-12 ">
-                            <div class="rightAmtCaption">Outstanding  Amount</div>
+                            <div class="rightAmtCaption" style="margin-right:0% !important">Outstanding  Amount</div>
                         </div>
                         <div class="form-group col-md-12">
                             <div class="lblStatusDisplay" id="invoicedAmt">₹ 0.00</div>
@@ -194,6 +198,12 @@
                         </div>
                         <div class="form-group col-md-12">
                             <div class="lblStatusDisplay" id="advAmt">₹ 0.00</div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="rightAmtCaption">Approval Status</div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="lblStatusDisplay" id="lblApprovalStatus">N/A</div>
                         </div>
                     </div>
                 </div>
@@ -291,6 +301,39 @@
         <div class="col-md-12  ">&nbsp;</div>
     </div>
 </section>
+
+<!-- Modal Send Approval Modal -->
+<div class="modal fade bs-example-modal-lg" id="SendApprovalModal" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document" style="min-width:500px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-9">
+                        <div class="col-md-12 modelIcon">
+                            <h3 class="modal-title" id="modelContextLabel">Send Approval Details</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    @{
+                        DocumentApprovalViewModel documentApprovalVM = new DocumentApprovalViewModel();
+                        documentApprovalVM.DocumentType = "SPAY";
+                        @Html.Action("GetApprovers", "DocumentApproval", documentApprovalVM);
+                    }
+                </div>
+            </div>
+            <div class="modal-footer" style="height: 50px;padding: 7px;">
+                <a class="btn btn-primary" onclick="SendForApproval('SPAY')"><i class="glyphicon glyphicon-floppy-disk"></i> Send For Approval</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
