@@ -15,7 +15,7 @@
 // ##7-- Bind Supplier Payment Header and Details
 // ##8-- Bind CreditDropDown
 // ##9-- Delete Supplier Payments
-// ##10-- 
+// ##10-- Send For Approval
 // ##11- 
 // 
 //******************************************************************************
@@ -30,11 +30,9 @@ var _jsonData = {};
 
 //##2--Document Ready function-----------------------------------------##2  
 $(document).ready(function () {
-    debugger;
     try {
         
         $('#btnUpload').click(function () {
-            debugger;
             //Pass the controller name
             var FileObject = new Object;
             if ($('#hdnFileDupID').val() != _emptyGuid) {
@@ -110,9 +108,7 @@ $(document).ready(function () {
             SupplierOnChange(this.value)
         });
         if ($('#IsUpdate').val() == 'True') {
-            debugger;
             BindSupplierPayment()
-            ChangeButtonPatchView('SupplierPayment', 'divbuttonPatchSupplierPayment', 'Edit');
         }
         else {
             $('#lblReturnSlipNo').text('Supplier Payment# : New');
@@ -173,7 +169,6 @@ function PaymentModeChanged() {
 
 // ##4-- Onchange: Supplier,Bind Outstanding Invocies and Amount--------------------------------------------------##4
 function SupplierOnChange() {
-    debugger;
     if ($('#SupplierID').val() != "") {
         //    BindCreditDropDown();
         BindOutstandingAmount();
@@ -187,7 +182,6 @@ function BindOutstanding() {
 }
 function GetOutStandingInvoices() {
     try {
-        debugger;
         var custId = $('#SupplierID').val() == "" ? _emptyGuid : $('#SupplierID').val();
         var paymentId = $('#ID').val() == "" ? _emptyGuid : $('#ID').val();
         var data = { "SupplierId": custId, "paymentId": paymentId };
@@ -221,7 +215,6 @@ function BindOutstandingAmount() {
 }
 function GetOutstandingAmountBySupplier() {
     try {
-        debugger;
         var Id = $('#SupplierID').val() == "" ? _emptyGuid : $('#SupplierID').val();
         var data = { "Id": Id };
         var outStandingAmountVM = new Object();
@@ -247,7 +240,6 @@ function GetOutstandingAmountBySupplier() {
 
 // ##5-- Paid Amount Entry and filling Invocies----------------------------------------- ##5
 function AmountChanged() {
-    debugger;
     var sum = 0;
     _dataTable.OutStandingInvoices.rows().deselect();
     if ($('#TotalPaidAmt').val() < 0 || $('#TotalPaidAmt').val() == "") {
@@ -292,7 +284,6 @@ function AmountChanged() {
     }
 }
 function PaymentAmountChanged(this_Obj) {
-    debugger;
     if (this_Obj.value == "")
         this_Obj.value = roundoff(0);
     AmountReceived = parseFloat($('#TotalPaidAmt').val())
@@ -345,7 +336,6 @@ function PaymentAmountChanged(this_Obj) {
     Selectcheckbox();
 }
 function Selectcheckbox() {
-    debugger;
     var table = $('#tblOutStandingDetails').DataTable();
     var allData = table.rows().data();
     for (var i = 0; i < allData.length; i++) {
@@ -366,7 +356,6 @@ function Selectcheckbox() {
 
 // ##6-- Save Supplier Payment ----------------------------------------- ##6
 function Save() {
-    debugger;
     var $form = $('#SupplierPaymentForm');
     if ($form.valid()) {
         ValidatePaymentRefNo();
@@ -377,7 +366,6 @@ function Save() {
 }
 function ValidatePaymentRefNo() {
     try {
-        debugger;
         var PaymentID = $('#ID').val();
         var paymentRefNo = $("#PaymentRef").val();
         var data = { "id": PaymentID, "paymentRefNo": paymentRefNo };
@@ -416,7 +404,6 @@ function SaveValidatedData() {
     _SlNo = 1;
 }
 function AddSupplierPaymentDetailList() {
-    debugger;
     var PaymentInvoices = _dataTable.OutStandingInvoices.rows(".selected").data();
     for (var r = 0; r < PaymentInvoices.length; r++) {
         paymentDetail = new Object();
@@ -428,7 +415,6 @@ function AddSupplierPaymentDetailList() {
     }
 }
 function SaveSuccessSupplierPayment(data, status) {
-    debugger;
     _jsonData = JSON.parse(data)
     switch (_jsonData.Result) {
         case "OK":
@@ -437,7 +423,6 @@ function SaveSuccessSupplierPayment(data, status) {
             _message=_jsonData.Records.Message;
             notyAlert("success", _message);
             BindSupplierPayment();
-            ChangeButtonPatchView('SupplierPayment', 'divbuttonPatchSupplierPayment', 'Edit');
             break;
         case "ERROR":
             notyAlert("danger", _jsonData.Message)
@@ -449,61 +434,66 @@ function SaveSuccessSupplierPayment(data, status) {
 }
 
 
-// ##7-- Bind Supplier Payment Header and Details ---------------------------------------------------------##7
+// ##7-- Bind Supplier Payment Header and Details,reset ---------------------------------------------------------##7
+function Reset() {
+    BindSupplierPayment();
+}
+
 function BindSupplierPayment() {
     var PaymentID = $('#ID').val();
-    ChangeButtonPatchView('SupplierPayment', 'divbuttonPatchSupplierPayment', 'Edit');
-    var thisitem = GetSupplierPayments();
-    $('#lblReturnSlipNo').text('Supplier Payment# : ' + thisitem.EntryNo);
-    $('#EntryNo').val(thisitem.EntryNo);
+    var SupplierPaymentVM = GetSupplierPayments();
+    $('#lblReturnSlipNo').text('Supplier Payment# : ' + SupplierPaymentVM.EntryNo);
+    $('#EntryNo').val(SupplierPaymentVM.EntryNo);
     $('#ID').val(PaymentID);
     $('#deleteId').val(PaymentID);
     $("#SupplierID").select2();
-    $("#SupplierID").val(thisitem.SupplierID).trigger('change');
+    $("#SupplierID").val(SupplierPaymentVM.SupplierID).trigger('change');
     $('#SupplierID').prop('disabled', true);
-    $('#ReferenceBank').val(thisitem.ReferenceBank);
-    $('#PaymentDateFormatted').val(thisitem.PaymentDateFormatted);
-    $('#ChequeDateFormatted').val(thisitem.ChequeDateFormatted);
-    $('#PaymentRef').val(thisitem.PaymentRef);
-    $('#PaymentMode').val(thisitem.PaymentMode);
-    $('#BankCode').val(thisitem.BankCode).select2();
-    $('#DepositWithdrawalID').val(thisitem.DepositWithdrawalID);
-    $('#GeneralNotes').val(thisitem.GeneralNotes);
-    $('#TotalPaidAmt').val(roundoff(thisitem.TotalPaidAmt));
-    $('#lblTotalRecdAmt').text(roundoff(thisitem.TotalPaidAmt));
-    $('#paidAmt').text("₹" + roundoff(thisitem.TotalPaidAmt));
-    $('#Type').val(thisitem.Type);
-    $('#hdfType').val(thisitem.Type);
+    $('#ReferenceBank').val(SupplierPaymentVM.ReferenceBank);
+    $('#PaymentDateFormatted').val(SupplierPaymentVM.PaymentDateFormatted);
+    $('#ChequeDateFormatted').val(SupplierPaymentVM.ChequeDateFormatted);
+    $('#PaymentRef').val(SupplierPaymentVM.PaymentRef);
+    $('#PaymentMode').val(SupplierPaymentVM.PaymentMode);
+    $('#BankCode').val(SupplierPaymentVM.BankCode).select2();
+    $('#DepositWithdrawalID').val(SupplierPaymentVM.DepositWithdrawalID);
+    $('#GeneralNotes').val(SupplierPaymentVM.GeneralNotes);
+    $('#TotalPaidAmt').val(roundoff(SupplierPaymentVM.TotalPaidAmt));
+    $('#lblTotalRecdAmt').text(roundoff(SupplierPaymentVM.TotalPaidAmt));
+    $('#paidAmt').text("₹" + roundoff(SupplierPaymentVM.TotalPaidAmt));
+    $('#Type').val(SupplierPaymentVM.Type);
+    $('#hdfType').val(SupplierPaymentVM.Type);
+    $('#lblApprovalStatus').text(SupplierPaymentVM.ApprovalStatus);
+    $('#LatestApprovalStatus').val(SupplierPaymentVM.LatestApprovalStatus);
+    $('#LatestApprovalID').val(SupplierPaymentVM.LatestApprovalID);
     $('#Type').prop('disabled', true);
-    if (thisitem.AdvanceAmount == 0) {
+    if (SupplierPaymentVM.AdvanceAmount == 0) {
         $('#advAmt').hide();
         $('#lblAdvAmt').hide();
     }
     else {
         $('#advAmt').show();
         $('#lblAdvAmt').show();
-        $('#advAmt').text("₹" + roundoff(thisitem.AdvanceAmount));
+        $('#advAmt').text("₹" + roundoff(SupplierPaymentVM.AdvanceAmount));
     }
     BindOutstandingAmount();
 
     if ($('#Type').val() == 'C') {
         $("#CreditID").html("");
         //Get Available Credit and Add with  TotalRecdAmt
-        debugger;
-        var thisObj = GetCreditNoteByPaymentID(thisitem.SupplierObj.ID, PaymentID)
+        var thisObj = GetCreditNoteByPaymentID(SupplierPaymentVM.SupplierObj.ID, PaymentID)
         if (thisObj.length > 0)
-            var CreditAmount = parseFloat(thisitem.TotalRecdAmt) + parseFloat(thisObj[0].AvailableCredit);
+            var CreditAmount = parseFloat(SupplierPaymentVM.TotalRecdAmt) + parseFloat(thisObj[0].AvailableCredit);
         else
-            var CreditAmount = parseFloat(thisitem.TotalRecdAmt);
+            var CreditAmount = parseFloat(SupplierPaymentVM.TotalRecdAmt);
 
         $('#TotalPaidAmt').val(roundoff(CreditAmount))
         $('#lblTotalRecdAmt').text(roundoff(CreditAmount))
         $('#paidAmt').text("₹" + roundoff(CreditAmount));
-        $("#CreditID").append($('<option></option>').val(thisitem.CreditID).html(thisitem.CreditNo + ' ( Credit Amt: ₹' + CreditAmount + ')'));
-        $('#CreditID').val(thisitem.CreditID)
+        $("#CreditID").append($('<option></option>').val(SupplierPaymentVM.CreditID).html(SupplierPaymentVM.CreditNo + ' ( Credit Amt: ₹' + CreditAmount + ')'));
+        $('#CreditID').val(SupplierPaymentVM.CreditID)
         $('#CreditID').prop('disabled', true);
         $('#TotalPaidAmt').prop('disabled', true);
-        $('#hdfCreditID').val(thisitem.CreditID);
+        $('#hdfCreditID').val(SupplierPaymentVM.CreditID);
         $('#PaymentMode').prop('disabled', true);
         $("#ddlCreditDiv").css("visibility", "visible");
         CaptionChangeCredit();
@@ -532,7 +522,29 @@ function BindSupplierPayment() {
     Selectcheckbox();
     clearUploadControl();
     PaintImages(PaymentID);
+    if (SupplierPaymentVM.LatestApprovalStatus == 3 || SupplierPaymentVM.LatestApprovalStatus == 0) {
+        ChangeButtonPatchView('SupplierPayment', 'divbuttonPatchSupplierPayment', 'Edit');
+        EnableDisableFields(false)
+        $("#fileUploadControlDiv").show();
+    }
+    else {
+        ChangeButtonPatchView('SupplierPayment', 'divbuttonPatchSupplierPayment', 'Disable');
+        EnableDisableFields(true)
+        $("#fileUploadControlDiv").hide();
+
+    }
 }
+function EnableDisableFields(value) {
+    $('#PaymentMode').attr("disabled", value);
+    $('#TotalPaidAmt').attr("disabled", value);
+    $('#PaymentDateFormatted').attr("disabled", value);
+    $('#PaymentRef').attr("disabled", value);
+    $('#ChequeDateFormatted').attr("disabled", value);
+    $('#ReferenceBank').attr("disabled", value);
+    $('#BankCode').attr("disabled", value);
+    $('#GeneralNotes').attr("disabled", value);
+}
+
 function CaptionChangePayment() {
     $("#lblTotalRecdAmtCptn").text('Total Amount Recevied');
     $("#lblPaymentAppliedCptn").text('Payment Applied');
@@ -542,7 +554,6 @@ function CaptionChangePayment() {
 }
 function GetSupplierPayments() {
     try {
-        debugger;
         var paymentId = $('#ID').val() == "" ? _emptyGuid : $('#ID').val();
         var data = { "Id": paymentId };
         var _jsonData = {};
@@ -573,7 +584,6 @@ function GetSupplierPayments() {
 // ##8-- Bind CreditDropDown---------------------------------------------------------##8
 
 //function BindCreditDropDown() {
-//    debugger;
 //    var ID = $("#SupplierID").val() == "" ? null : $("#SupplierID").val();
 //    if (ID != null) {
 //        var ds = GetCreditNoteBySupplier(ID);
@@ -593,7 +603,6 @@ function GetSupplierPayments() {
 //}
 //function GetCreditNoteBySupplier(ID) {
 //    try {
-//        debugger;
 //        var data = { "Id": ID }; 
 //        var SupplierCreditNoteVM = new Object();
 //        _jsonData = GetDataFromServer("SupplierPayment/GetSupplierCreditNote/", data);
@@ -622,7 +631,6 @@ function DeleteClick() {
 }
 function DeleteSupplierPayment() {
     try {
-        debugger;
         var id = $('#ID').val();
         if (id != '' && id != null) {
             var data = { "id": id }; 
@@ -650,6 +658,32 @@ function DeleteSupplierPayment() {
         return 0;
     }
 }
-function Reset() {
-    BindSupplierPayment();
+
+// ##10-- Send For Approval---------------------------------------------------##10
+function ShowSendForApproval(documentTypeCode) {
+    
+    if ($('#LatestApprovalStatus').val() == 3) {
+        var documentID = $('#ID').val();
+        var latestApprovalID = $('#LatestApprovalID').val();
+        ReSendDocForApproval(documentID, documentTypeCode, latestApprovalID);
+    }
+    else {
+        $('#SendApprovalModal').modal('show');
+    }
+}
+function SendForApproval(documentTypeCode) {
+    
+    var documentID = $('#ID').val();
+    var approversCSV;
+    var count = $('#ApproversCount').val();
+
+    for (i = 0; i < count; i++) {
+        if (i == 0)
+            approversCSV = $('#ApproverLevel' + i).val();
+        else
+            approversCSV = approversCSV + ',' + $('#ApproverLevel' + i).val();
+    }
+    SendDocForApproval(documentID, documentTypeCode, approversCSV);
+    $('#SendApprovalModal').modal('hide');
+    BindRequisitionByID();
 }

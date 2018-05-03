@@ -284,6 +284,24 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Title = "List";
                     toolboxVM.ListBtn.Href = Url.Action("ViewSupplierPayment", "SupplierPayment", new { Code = "ACC" });
 
+                    toolboxVM.SendForApprovalBtn.Visible = true;
+                    toolboxVM.SendForApprovalBtn.Text = "Send";
+                    toolboxVM.SendForApprovalBtn.Title = "Send For Approval";
+                    toolboxVM.SendForApprovalBtn.Event = "ShowSendForApproval('SPAY');";
+                    break;
+
+                case "Disable":
+
+                    toolboxVM.addbtn.Visible = true;
+                    toolboxVM.addbtn.Text = "New";
+                    toolboxVM.addbtn.Title = "Add New";
+                    toolboxVM.addbtn.Href = Url.Action("ViewSupplierPayment", "SupplierPayment", new { Code = "ACC" });
+
+                    toolboxVM.ListBtn.Visible = true;
+                    toolboxVM.ListBtn.Text = "List";
+                    toolboxVM.ListBtn.Title = "List";
+                    toolboxVM.ListBtn.Href = Url.Action("ViewSupplierPayment", "SupplierPayment", new { Code = "ACC" });
+
                     break;
 
                 case "Add":
