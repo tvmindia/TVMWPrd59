@@ -23,6 +23,13 @@ namespace ProductionApp.BusinessService.Services
             return _reportRepository.GetAllReport(searchTerm);
         }
         #endregion GetAllReports
-              
+
+        #region GetRequisitionSummaryReport
+        public List<Requisition> GetRequisitionSummaryReport(RequisitionSummaryReport requisitionSummaryReport)
+        {
+            return _reportRepository.GetRequisitionSummaryReport(requisitionSummaryReport);
+        }
+        #endregion GetRequisitionSummaryReport
+
     }
 }

@@ -9,6 +9,7 @@ namespace ProductionApp.RepositoryServices.Contracts
 {
    public interface IReportRepository
     {
-        List<AMCSysReport> GetAllReport(string searchTerm);        
+        List<AMCSysReport> GetAllReport(string searchTerm);
+        List<Requisition> GetRequisitionSummaryReport(RequisitionSummaryReport requisitionSummaryReport);
     }
 }

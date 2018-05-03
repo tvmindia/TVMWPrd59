@@ -136,7 +136,10 @@ namespace ProductionApp.UserInterface.App_Start
                 //Other Income
                 config.CreateMap<OtherIncomeViewModel, OtherIncome>().ReverseMap();
                 config.CreateMap<OtherIncomeAdvanceSearchViewModel, OtherIncomeAdvanceSearch>().ReverseMap();
-                config.CreateMap<AMCSysReportViewModel, AMCSysReport>().ReverseMap();               
+                //Report
+                config.CreateMap<AMCSysReportViewModel, AMCSysReport>().ReverseMap();
+                config.CreateMap<RequisitionSummaryReportViewModel, RequisitionSummaryReport>().ReverseMap();             
+
             });
         }
     }

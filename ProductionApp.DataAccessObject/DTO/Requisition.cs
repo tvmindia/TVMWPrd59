@@ -32,7 +32,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public RequisitionDetail RequisitionDetail { get; set; }
         public List<RequisitionDetail> RequisitionDetailList { get; set; }
         public List<Requisition> RequisitionList { get; set; }
-        public string BaseURL { get; set; }       
+        public string BaseURL { get; set; }
+        public RequisitionAdvanceSearch RequisitionAdvanceSearch { get; set; }
 
     }
 
@@ -64,5 +65,6 @@ namespace ProductionApp.DataAccessObject.DTO
         public string ReqStatus { get; set; }
         public string RequisitionBy { get; set; }
         public Guid EmployeeID { get; set; }
+        public string DateFilter { get; set; }
     }
 }
