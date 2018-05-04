@@ -20,7 +20,6 @@ var _message = "";
 var _jsonData = {};
 
 $(document).ready(function () {
-    debugger;
     try {
         $("#divCustomerDropdown").load('/Customer/CustomerDropdown')
         $("#divEmployeeDropdown").load('/Employee/EmployeeDropdown')
@@ -28,7 +27,6 @@ $(document).ready(function () {
         $("#ReferenceCustomer").select2({});
 
         $('#btnUpload').click(function () {
-            debugger;
             //Pass the controller name
             var FileObject = new Object;
             if ($('#hdnFileDupID').val() != EmptyGuid) {
@@ -51,9 +49,7 @@ $(document).ready(function () {
           data: null,
           "bInfo": false,
           autoWidth: false,
-          columns: [
-          { "data": "ID", "defaultContent": "<i></i>" },
-          { "data": "ProductID", "defaultContent": "<i></i>" },
+          columns: [ 
            {
                "data": "", render: function (data, type, row) {
                    return _SlNo++
@@ -63,23 +59,21 @@ $(document).ready(function () {
               "data": "Product.Name", render: function (data, type, row) {
                   row.Product.HSNNo=row.Product.HSNNo == null ? "Nill" : row.Product.HSNNo
                   return data + '</br><b>HSNNo: </b>' + row.Product.HSNNo + '</br><b>Expected Delivery: </b>' + row.ExpectedDeliveryDateFormatted
-              }, "defaultContent": "<i></i>", "width": "20%"
+              }, "defaultContent": "<i></i>", "width": "21%"
           },
+          { "data": "Quantity", render: function (data, type, row) { return data + ' ' + row.UnitCode }, "defaultContent": "<i></i>", "width": "10%" },
+          { "data": "Rate", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
+          { "data": "TradeDiscountAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "10%" },
+          { "data": "GrossAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
           { "data": "TaxTypeDescription", "defaultContent": "<i></i>", "width": "7%" },
-          { "data": "Quantity", render: function (data, type, row) { return data + ' ' + row.UnitCode }, "defaultContent": "<i></i>", "width": "8%" },
-          { "data": "Rate", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "8%" },
-          { "data": "GrossAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "8%" },
-          { "data": "TradeDiscountAmount", render: function (data, type, row) { return data }, "defaultContent": "<i></i>", "width": "8%" },
-          { "data": "TaxAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "9%" },
-          { "data": "NetAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "9%" },
-          { "data": "ExpectedDeliveryDateFormatted", "defaultContent": "<i></i>", "width": "10%" },
+          { "data": "TaxAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
+          { "data": "NetAmount", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>", "width": "10%" },
           { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ItemDetailsEdit(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "7%" }
-          
           ],
-          columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false },
-              { className: "text-center", "targets": [12,11,4] },
-              { className: "text-right", "targets": [6,7,8,9,10] },
-              { className: "text-left", "targets": [3,5] }
+          columnDefs: [{ "targets": [], "visible": false, searchable: false },
+              { className: "text-center", "targets": [0,9] },
+              { className: "text-right", "targets": [3,4,5,7,8] },
+              { className: "text-left", "targets": [6,2,1] }
           ]
       });
 
@@ -92,16 +86,13 @@ $(document).ready(function () {
             
         });
         $(".Calculation").change(function () {
-            debugger;
             ProductValueCalculation();
         });
 
         $("#TaxTypeCode").change(function () {
-            debugger;
             ProductValueCalculation();
         });
         
-        debugger;
         if ($('#IsUpdate').val() == 'True') {
             BindSalesOrderByID()
         }
@@ -157,6 +148,7 @@ function ItemDetailsEdit(curObj) {
     $('#SalesOrderDetail_Rate').val(rowData.Rate);
     $('#SalesOrderDetail_Quantity').val(rowData.Quantity);
     $('#SalesOrderDetail_DiscountPercent').val(rowData.DiscountPercent);
+    $('#SalesOrderDetail_TradeDiscountAmount').val(rowData.TradeDiscountAmount);
     $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val(rowData.ExpectedDeliveryDateFormatted);
     $('#TaxTypeCode').val(rowData.TaxTypeCode);
     ProductValueCalculation();
@@ -193,13 +185,20 @@ function ClearSalesOrderDetailsModalFields()
 
 function BindProductDetails(ID)
 {
-    var result = GetProduct(ID);
-    $('#SalesOrderDetail_Product_Name').val(result.Name);
-    $('#SalesOrderDetail_Product_HSNNo').val(result.HSNNo);
-    $('#SalesOrderDetail_UnitCode').val(result.UnitCode);
-    $('#SalesOrderDetail_Rate').val(result.Rate);
+    if (ID != "")
+    {
+        var result = GetProduct(ID);
+        $('#SalesOrderDetail_Product_Name').val(result.Name);
+        $('#SalesOrderDetail_Product_HSNNo').val(result.HSNNo);
+        $('#SalesOrderDetail_UnitCode').val(result.UnitCode);
+        $('#SalesOrderDetail_Rate').val(result.Rate);
+        $('#lblCurrentStock').text(result.CurrentStock);
+    }
+    else
+    {
+        ClearSalesOrderDetailsModalFields();
+    }
 }
-
 function GetProduct(ID) {
     try {
         var data = { "ID": ID };
@@ -266,9 +265,9 @@ function ProductValueCalculation()
             var SGSTAmt = parseFloat(taxableAmt) * parseFloat(parseFloat(taxTypeVM.SGSTPercentage) / 100);
             var IGSTAmt = parseFloat(taxableAmt) * parseFloat(parseFloat(taxTypeVM.IGSTPercentage) / 100);
             taxAmt = CGSTAmt + SGSTAmt + IGSTAmt;
-            $('#SalesOrderDetail_TaxAmount').val(roundoff(taxAmt));
         }
         //----------------------Net Amount---------------------//
+        $('#SalesOrderDetail_TaxAmount').val(roundoff(taxAmt));
         netAmt = parseFloat(taxableAmt) + parseFloat(taxAmt);
         $('#SalesOrderDetail_NetAmount').val(roundoff(netAmt));
     }
@@ -310,7 +309,6 @@ function AddSalesOrderDetails()
     var qty=$('#SalesOrderDetail_Quantity').val();
     var date=$('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val();
     var productId=$('#ProductID').val();
-
     if(rate !="" && qty!="" && date!="" && productId !="" )
     {
         _SalesOrderDetail = [];
@@ -330,9 +328,10 @@ function AddSalesOrderDetails()
         SalesOrderDetailVM.TaxAmount = $('#SalesOrderDetail_TaxAmount').val();
         SalesOrderDetailVM.NetAmount = $('#SalesOrderDetail_NetAmount').val();
         SalesOrderDetailVM.TaxTypeCode = $('#TaxTypeCode').val();
-        if(SalesOrderDetailVM.TaxTypeCode!="")
-        SalesOrderDetailVM.TaxTypeDescription = $('#TaxTypeCode option:selected').text();
-        
+        if (SalesOrderDetailVM.TaxTypeCode != "")
+            SalesOrderDetailVM.TaxTypeDescription = $('#TaxTypeCode option:selected').text();
+        else
+            SalesOrderDetailVM.TaxTypeDescription = null;
         _SalesOrderDetail.push(SalesOrderDetailVM);
 
         if (_SalesOrderDetail != null) {
@@ -346,7 +345,7 @@ function AddSalesOrderDetails()
                         SalesOrderDetailList[i].Quantity = $('#SalesOrderDetail_Quantity').val();
                         SalesOrderDetailList[i].Rate = $('#SalesOrderDetail_Rate').val();
                         SalesOrderDetailList[i].ExpectedDeliveryDateFormatted = $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val();
-                        SalesOrderDetailList[i].GrossAmount = $('#SalesOrderDetail_GrossAmount').val();
+                        SalesOrderDetailList[i].GrossAmount = $('#SalesOrderDetail_TaxableAmount').val();
                         SalesOrderDetailList[i].TradeDiscountAmount = $('#SalesOrderDetail_TradeDiscountAmount').val();
                         SalesOrderDetailList[i].DiscountPercent = $('#SalesOrderDetail_DiscountPercent').val();
                         SalesOrderDetailList[i].TaxAmount = $('#SalesOrderDetail_TaxAmount').val();
@@ -354,6 +353,8 @@ function AddSalesOrderDetails()
                         SalesOrderDetailList[i].TaxTypeCode = $('#TaxTypeCode').val();
                         if (SalesOrderDetailList[i].TaxTypeCode != "")
                             SalesOrderDetailList[i].TaxTypeDescription = $('#TaxTypeCode option:selected').text();
+                        else
+                            SalesOrderDetailList[i].TaxTypeDescription = null;
                         checkPoint = 1;
                         break;
                     }
@@ -369,6 +370,7 @@ function AddSalesOrderDetails()
                 DataTables.SalesOrderDetailTable.rows.add(_SalesOrderDetail).draw(false);
             }
         }
+        CalculateDetailTableSummary();
         $('#SalesOrderDetailsModal').modal('hide');
     }
     else
@@ -378,7 +380,6 @@ function AddSalesOrderDetails()
 }
 
 function Save() {
-    debugger;
     $("#DetailJSON").val('');
     _SalesOrderDetailList = [];
     AddSalesOrderDetailList();
@@ -412,7 +413,6 @@ function AddSalesOrderDetailList() {
     }
 }
 function SaveSuccessSalesOrder(data, status) {
-    debugger;
     _jsonData = JSON.parse(data)
     switch (_jsonData.Result) {
         case "OK":
@@ -432,7 +432,6 @@ function SaveSuccessSalesOrder(data, status) {
 
 function BindSalesOrderByID()
 {
-    debugger;
     ChangeButtonPatchView('SalesOrder', 'divbuttonPatchAddSalesOrder', 'Edit');
     var ID = $('#ID').val();
     _SlNo = 1;
@@ -450,12 +449,12 @@ function BindSalesOrderByID()
     //detail Table values binding with header id
     BindSalesOrderDetailTable(ID);
     PaintImages(ID);//bind attachments
+    CalculateDetailTableSummary();
 }
 
 function GetSalesOrderByID(ID)
 {
     try {
-        debugger;
         var data = { "ID": ID };
         _jsonData = GetDataFromServer("SalesOrder/GetSalesOrder/", data);
         if (_jsonData != '') {
@@ -479,7 +478,6 @@ function BindSalesOrderDetailTable(ID) {
 
 function GetSalesOrderDetail(ID) {
     try {
-        debugger;
         var data = { "ID": ID };
         _jsonData = GetDataFromServer("SalesOrder/GetSalesOrderDetail/", data);
         if (_jsonData != '') {
@@ -497,9 +495,7 @@ function GetSalesOrderDetail(ID) {
     }
 }
 
-
 function Delete(curobj) {
-    debugger;
     var rowData = DataTables.SalesOrderDetailTable.row($(curobj).parents('tr')).data();
     var Rowindex = DataTables.SalesOrderDetailTable.row($(curobj).parents('tr')).index();
 
@@ -513,18 +509,17 @@ function Delete(curobj) {
 }
 
 function DeleteTempItem(Rowindex) {
-    debugger;
     var Itemtabledata = DataTables.SalesOrderDetailTable.rows().data();
     Itemtabledata.splice(Rowindex, 1);
     _SlNo = 1;
     DataTables.SalesOrderDetailTable.clear().rows.add(Itemtabledata).draw(false);
     notyAlert('success', 'Deleted Successfully');
+    CalculateDetailTableSummary();
 }
 
 function DeleteItem(ID) {
 
     try {
-        debugger;
         var data = { "ID": ID };
         _jsonData = GetDataFromServer("SalesOrder/DeleteSalesOrderDetail/", data);
         if (_jsonData != '') {
@@ -550,13 +545,11 @@ function DeleteItem(ID) {
 }
 
 function DeleteClick() {
-    debugger;
     notyConfirm('Are you sure to delete?', 'DeleteSalesOrder()');
 }
 
 function DeleteSalesOrder() {
     try {
-        debugger;
         var id = $('#ID').val();
         if (id != '' && id != null) {
             var data = { "ID": id };
@@ -585,4 +578,22 @@ function DeleteSalesOrder() {
 function Reset()
 {
     BindSalesOrderByID();
+}
+//------------Table Summary Calculation to display below detail table---------
+function CalculateDetailTableSummary()
+{
+    debugger;
+    var taxableAmount = 0, totalGST = 0, grandTotal = 0;
+    var SalesOrderDetailList = DataTables.SalesOrderDetailTable.rows().data();
+    if (SalesOrderDetailList.length > 0) {
+        for (var i = 0; i < SalesOrderDetailList.length; i++)
+        {
+            taxableAmount = taxableAmount + parseFloat(SalesOrderDetailList[i].GrossAmount);
+            totalGST = totalGST + parseFloat(SalesOrderDetailList[i].TaxAmount);
+            grandTotal = grandTotal + parseFloat(SalesOrderDetailList[i].NetAmount);
+        }
+    }
+    $('#lblTaxableAmount').text(roundoff(taxableAmount));
+    $('#lblTotalGST').text(roundoff(totalGST));
+    $('#lblGrandTotal').text(roundoff(grandTotal));
 }
