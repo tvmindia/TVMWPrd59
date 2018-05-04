@@ -16,7 +16,7 @@ $(document).ready(function () {
     try {
 
         BindOrReloadApprovalHistory('Init');
-        $('#tblPendingDocuments tbody').on('dblclick', 'td', function () {
+        $('#tblApprovalHistory tbody').on('dblclick', 'td', function () {
             Edit(this);
         });
     }
