@@ -44,10 +44,13 @@ namespace ProductionApp.DataAccessObject.DTO
         public string SearchTerm { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
+        public Guid ProductID { get; set; }
         public Product Product { get; set; }
+        public Guid EmployeeID { get; set; }
         public Employee Employee { get; set; }
-        public DataTablePaging DataTablePaging { get; set; }
+        public Guid StageID { get; set; }
         public Stage Stage { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
 
         //public SubComponent SubComponent { get; set; }
         //public Product OutputComponent { get; set; }

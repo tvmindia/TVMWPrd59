@@ -52,7 +52,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public string SearchTerm { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
+        public Guid SupplierID { get; set; }
         public Supplier Supplier { get; set; }
+        public Guid PurchaseOrderID { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }
     }
 }

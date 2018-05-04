@@ -78,18 +78,19 @@
             </div>
             <div class="col-md-5">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.Supplier, htmlAttributes: new { @class = "control-label" })
+                    @Html.LabelFor(model => model.SupplierID, htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="col-md-12">
-                    @Html.Action("SupplierDropdown", "Supplier")
+                    @Html.DropDownListFor(model => model.SupplierID, Model.Supplier.SelectList, "--Select Supplier--", new { @class = "form-control BlockEnter", @style = "width:100%" })
                 </div>
             </div>
             <div class="col-md-5">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.PurchaseOrder, htmlAttributes: new { @class = "control-label" })
+                    @Html.LabelFor(model => model.PurchaseOrderID, htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="col-md-12">
-                    @Html.Action("PurchaseOrderDropdown", "PurchaseOrder")
+                    @Html.DropDownListFor(model => model.PurchaseOrderID, Model.PurchaseOrder.SelectList, "--Select PurchaseOrder--", new { @class = "form-control BlockEnter", @style = "width:100%" })
+                    @*@Html.Action("PurchaseOrderDropdown", "PurchaseOrder")*@
                 </div>
             </div>
 

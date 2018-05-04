@@ -17,7 +17,7 @@ $(document).ready(function () {
     try {
         $("#SupplierID,#PurchaseOrderID").select2({});
         BindOrReloadMaterialReceiptTable('Init');
-        AddOnRemove();
+        //AddOnRemove();
     }
     catch (e) {
         console.log(e.message);
@@ -35,8 +35,8 @@ function BindOrReloadMaterialReceiptTable(action) {
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
-                $('#SupplierID').val('').select2();
-                $('#PurchaseOrderID').val('').select2();
+                $('#SupplierID').val('').trigger('change');
+                $('#PurchaseOrderID').val('').trigger('change');
                 $('#ToDate').val('');
                 $('#FromDate').val('');
                 break;
@@ -55,10 +55,8 @@ function BindOrReloadMaterialReceiptTable(action) {
         MaterialReceiptAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
         MaterialReceiptAdvanceSearchViewModel.FromDate = $('#FromDate').val();
         MaterialReceiptAdvanceSearchViewModel.ToDate = $('#ToDate').val();
-        SupplierViewModel.ID = $('#SupplierID').val();
-        MaterialReceiptAdvanceSearchViewModel.Supplier = SupplierViewModel;
-        PurchaseOrderViewModel.ID = $('#PurchaseOrderID').val();
-        MaterialReceiptAdvanceSearchViewModel.PurchaseOrder = PurchaseOrderViewModel;
+        MaterialReceiptAdvanceSearchViewModel.SupplierID = $('#SupplierID').val();
+        MaterialReceiptAdvanceSearchViewModel.PurchaseOrderID = $('#PurchaseOrderID').val();
         try {
 
         } catch (e) {
@@ -131,14 +129,17 @@ function BindOrReloadMaterialReceiptTable(action) {
         console.log(e.message);
     }
 }
+
 //Reset Function of Material Receipts
 function ResetMaterialReceipt(){
     BindOrReloadMaterialReceiptTable('Reset');
 }
+
 //Import table values into excel
 function ImportMaterialReceipt() {
     BindOrReloadMaterialReceiptTable('Export');
 }
+
 
 function Edit(curobj) {
     debugger;
@@ -146,17 +147,17 @@ function Edit(curobj) {
     window.location.replace("/MaterialReceipt/NewMaterialReceipt?code=STR&id=" + MaterialReceiptViewModel.ID);
 }
 
-//Remove input addon for supplier insert
-function AddOnRemove() {
-    try{
-        debugger;
+////Remove input addon for supplier insert
+//function AddOnRemove() {
+//    try{
+//        debugger;
 
-        $('.input-group-addon').each(function () {
-            $(this).parent().css("width", "100%");
-            $(this).remove();
-        });
+//        $('.input-group-addon').each(function () {
+//            $(this).parent().css("width", "100%");
+//            $(this).remove();
+//        });
 
-    } catch (ex) {
-        console.log(ex.message)
-    }
-}
+//    } catch (ex) {
+//        console.log(ex.message)
+//    }
+//}

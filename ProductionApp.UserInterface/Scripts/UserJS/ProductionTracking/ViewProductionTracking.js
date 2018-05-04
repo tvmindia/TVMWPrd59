@@ -67,12 +67,9 @@ function BindOrReloadProductionTrackingTable(action) {
         ProductionTrackingAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
         ProductionTrackingAdvanceSearchViewModel.FromDate = $('#FromDate').val();
         ProductionTrackingAdvanceSearchViewModel.ToDate = $('#ToDate').val();
-        ProductionTrackingAdvanceSearchViewModel.Product = new Object();
-        ProductionTrackingAdvanceSearchViewModel.Product.ID = $('#ProductID').val();
-        ProductionTrackingAdvanceSearchViewModel.Employee = new Object();
-        ProductionTrackingAdvanceSearchViewModel.Employee.ID = $('#EmployeeID').val();
-        ProductionTrackingAdvanceSearchViewModel.Stage = new Object();
-        ProductionTrackingAdvanceSearchViewModel.Stage.ID = $('#StageID').val();
+        ProductionTrackingAdvanceSearchViewModel.ProductID = $('#ProductID').val();
+        ProductionTrackingAdvanceSearchViewModel.EmployeeID = $('#EmployeeID').val();
+        ProductionTrackingAdvanceSearchViewModel.StageID = $('#StageID').val();
 
         //apply datatable plugin on ProductionTracking table
         DataTables.ProductionTrackingList = $('#tblProductionTracking').DataTable(

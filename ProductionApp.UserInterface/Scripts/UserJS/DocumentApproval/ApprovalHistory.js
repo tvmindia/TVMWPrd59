@@ -21,3 +21,35 @@ function GetApprovalHistory() {
         notyAlert('error', e.message);
     }
 }
+
+function BindApprovalHistoryTable() {
+    try {
+        debugger;
+        DataTables.ApprovalHistoryTable = $('#tblApprovalHistory').DataTable({
+            dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+            "scrollY": "150px",
+            "scrollCollapse": true,
+            ordering: false,
+            searching: false,
+            paging: false,
+            bInfo: false,
+            data: GetApprovalHistory(),//ApprovalHistory.js
+            autoWidth: false,
+            columns: [
+            { "data": "ApproverName", "defaultContent": "<i>-</i>", "width": "20%" },
+            { "data": "ApproverLevel", "defaultContent": "<i>-</i>", "width": "5%" },
+            { "data": "ApprovalDate", "defaultContent": "<i>-</i>", "width": "20%" },
+            { "data": "Remarks", "defaultContent": "<i>-</i>", "width": "35%" },
+            { "data": "ApprovalStatus", "defaultContent": "<i>-</i>", "width": "20%" },
+            ],
+            columnDefs: [
+                { className: "text-center", "targets": [2] },
+                { className: "text-right", "targets": [] },
+                { className: "text-left", "targets": [0, 1, 3] }
+            ]
+        });
+    }
+    catch (e) {
+        console.log(e.message);
+    }
+}

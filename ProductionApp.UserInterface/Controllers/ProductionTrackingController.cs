@@ -20,10 +20,14 @@ namespace ProductionApp.UserInterface.Controllers
         Common _common = new Common();
         AppConst _appConst = new AppConst();
         private IProductionTrackingBusiness _ProductionTrackingBusiness;
+        private IProductBusiness _productBusiness;
+        private IEmployeeBusiness _employeeBusiness;
         private IStageBusiness _StageBusiness;
-        public ProductionTrackingController(IProductionTrackingBusiness ProductionTrackingBusiness,IStageBusiness StageBusiness)
+        public ProductionTrackingController(IProductionTrackingBusiness ProductionTrackingBusiness, IEmployeeBusiness employeeBusiness, IProductBusiness productBusiness, IStageBusiness StageBusiness)
         {
             _ProductionTrackingBusiness = ProductionTrackingBusiness;
+            _productBusiness = productBusiness;
+            _employeeBusiness = employeeBusiness;
             _StageBusiness = StageBusiness;
         }
         #endregion Constructor Injection
@@ -69,7 +73,18 @@ namespace ProductionApp.UserInterface.Controllers
             }
             ProductionTrackingAdvanceSearchViewModel productionTrackingAdvanceSearchVM = new ProductionTrackingAdvanceSearchViewModel()
             {
-                StageSelectList = selectList
+                Stage = new StageViewModel()
+                {
+                    SelectList = selectList
+                },
+                Employee = new EmployeeViewModel()
+                {
+                    SelectList = _employeeBusiness.GetEmployeeSelectList()
+                },
+                Product = new ProductViewModel()
+                {
+                    ProductSelectList = _productBusiness.GetProductForSelectList("PRO")
+                }
             };
             return View(productionTrackingAdvanceSearchVM);
         }
