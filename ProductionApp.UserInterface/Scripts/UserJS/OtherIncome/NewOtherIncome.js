@@ -20,18 +20,23 @@ $(document).ready(function () {
     try {
         debugger;
         $('#AccountSubHead').select2({
-            tags: true
+            tags: true,
+            width: "100%"
         });
 
         PaymentModeOnChanged();
         try {
-            $('#ChartOfAccountCode,#PaymentMode').select2();
+            $('#ChartOfAccountCode,#PaymentMode').select2({
+                width: "100%"
+            });
         } catch (ex) {
             console.log(ex);
         }
 
         try {
-            $('#BankCode').select2();
+            $('#BankCode').select2({
+                width: "100%"
+            });
         } catch (ex) {
             console.log(ex);
         }
@@ -66,14 +71,20 @@ function PaymentModeOnChanged(curObj) {
                 case "CHEQUE":
                     $('#ReferenceBank').prop("disabled", false);
                     $('#ChequeDate').prop("disabled", false);
+                    $('#BankCode').val("").trigger('change');
                     break;
                 case "ONLINE":
                     $('#divBankDropdown .input-group-addon').each(function () {
                         $(this).parent().children().each(function () { $(this).prop("disabled", false); });
                         $(this).show();
                     });
+                    $('#ReferenceBank').val("");
+                    $('#ChequeDate').val("");
                     break;
                 default:
+                    $('#BankCode').val("").trigger('change');
+                    $('#ReferenceBank').val("");
+                    $('#ChequeDate').val("");
                     break;
             }
         }

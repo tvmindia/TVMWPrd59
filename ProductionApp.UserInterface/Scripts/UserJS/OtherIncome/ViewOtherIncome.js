@@ -18,6 +18,12 @@ $(document).ready(function () {
         debugger;
         $('#ChartOfAccountCode,#PaymentMode').select2();
         BindOrReloadOtherIncomeTable('Init');
+        //$('#SearchTerm').keypress(function (event) {
+        //    if (event.which === 13) {
+        //        event.preventDefault();
+        //        BindOrReloadOtherIncomeTable('Apply');
+        //    }
+        //});
     }
     catch(ex)
     {
@@ -61,7 +67,7 @@ function BindOrReloadOtherIncomeTable(action) {
         otherIncomeAdvanceSearchVM.ChartOfAccount = new Object();
         otherIncomeAdvanceSearchVM.ChartOfAccount.Code = $('#ChartOfAccountCode').val().split("|")[0];
         //To split value of #ChartOfAccountCode by '|' and to take only the AccountCode__________^
-        _dataTable.Assemble = $('#tblOtherIncome').DataTable(
+        _dataTable.OtherIncome = $('#tblOtherIncome').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
                 buttons: [{
@@ -89,7 +95,7 @@ function BindOrReloadOtherIncomeTable(action) {
                     { "data": "IncomeDateFormatted", "defaultContent": "<i>-</i>", "width": "15%" },
                     { "data": "AccountCode", "defaultContent": "<i>-</i>", "width": "25%" },
                     { "data": "PaymentMode", "defaultContent": "<i>-</i>", "width": "20%" },
-                    { "data": "Amount", "defaultContent": "<i>-</i>", "width": "15%" },
+                    { "data": "Amount", render: function (data, type, row) { return formatCurrency(data); }, "defaultContent": "<i>-</i>", "width": "15%" },
                     { "data": "AccountSubHead", "defaultContent": "<i>-</i>", "width": "22%" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
@@ -117,8 +123,18 @@ function BindOrReloadOtherIncomeTable(action) {
                 }
             });
         $(".buttons-excel").hide();
+
+        $('#tblOtherIncome tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
     }
     catch (ex) {
         console.log(ex.message);
     }
+}
+
+function Edit(curobj) {
+    debugger;
+    var OtherIncomeViewModel = _dataTable.OtherIncome.row($(curobj).parents('tr')).data();
+    window.location.replace("/OtherIncome/NewOtherIncome?code=ACC&id=" + OtherIncomeViewModel.ID);
 }
