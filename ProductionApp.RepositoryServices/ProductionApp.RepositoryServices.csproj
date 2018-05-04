@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IApprovalStatusRepository.cs" />
     <Compile Include="Contracts\IApproverRepository.cs" />
     <Compile Include="Contracts\IAssemblyRepository.cs" />
     <Compile Include="Contracts\IBankRepository.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Contracts\IUnitRepository.cs" />
     <Compile Include="Contracts\ISalesInvoiceRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ApprovalStatusRepository.cs" />
     <Compile Include="Services\ApproverRepository.cs" />
     <Compile Include="Services\AssemblyRepository.cs" />
     <Compile Include="Services\BankRepository.cs" />

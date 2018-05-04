@@ -759,6 +759,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\AppObjectController.cs" />
+    <Compile Include="Controllers\ApprovalStatusController.cs" />
     <Compile Include="Controllers\ApproverController.cs" />
     <Compile Include="Controllers\AssemblyController.cs" />
     <Compile Include="Controllers\BankController.cs" />
@@ -1041,6 +1042,9 @@
     <Content Include="Views\OtherExpense\NewOtherExpense.cshtml" />
     <Content Include="Views\OtherExpense\ViewOtherExpense.cshtml" />
     <Content Include="Views\DashboardReport\RequisitionSummaryReport.cshtml" />
+    <Content Include="Views\ApprovalStatus\_ApprovalStatusDropDown.cshtml" />
+    <Content Include="Views\Employee\_ReceivedByDropdown.cshtml" />
+    <Content Include="Views\Employee\_ReturnByDropdown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

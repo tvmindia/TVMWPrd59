@@ -75,6 +75,22 @@
                     @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3" } })
                 </div>
             </div>
+            <div class="col-md-5">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.ChartOfAccount, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.ChartOfAccount.Code, Model.ChartOfAccount.ChartOfAccountSelectList, "--Select AccountCode--", new { @class = "form-control BlockEnter", @style = "width:100%", @id = "ChartOfAccountCode" })
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.ApprovalStatus, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-12">
+                   @Html.Action("ApprovalStatusDropdown", "ApprovalStatus")
+                </div>
+            </div>
             <div class="col-md-2">
                 <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadOtherExpenseTable('Apply')">Apply</a>
             </div>
@@ -88,6 +104,7 @@
                     <th>Expense Date</th>
                     <th>Account</th>
                     <th>Payment Mode</th>
+                    <th>Description</th>
                     <th>Amount</th>
                     <th>Approval Status</th>
                     <th>...</th>

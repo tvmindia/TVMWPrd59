@@ -47,5 +47,6 @@ namespace ProductionApp.DataAccessObject.DTO
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public ChartOfAccount ChartOfAccount { get; set; }
+        public ApprovalStatus ApprovalStatus { get; set; }
     }
 }

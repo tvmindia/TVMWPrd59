@@ -43,7 +43,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetUnitForSelectList]";
+                        cmd.CommandText = "[AMC].[GetApprovalStatusForSelectList]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -54,7 +54,7 @@ namespace ProductionApp.RepositoryServices.Services
                                 {
                                     ApprovalStatus approvalStatus = new ApprovalStatus();
                                     {
-                                        approvalStatus.ID = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : approvalStatus.ID);
+                                        approvalStatus.ID = (sdr["ID"].ToString() != "" ? int.Parse(sdr["ID"].ToString()) : approvalStatus.ID);
                                         approvalStatus.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : approvalStatus.Description);
                                     }
                                     ApprovalStatusList.Add(approvalStatus);

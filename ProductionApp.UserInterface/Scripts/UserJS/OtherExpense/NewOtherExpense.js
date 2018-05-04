@@ -25,6 +25,9 @@ $(document).ready(function () {
     try {
         $("#ChartOfAccountCode").select2({
         });
+        $('#ChartOfAccountCode').change(function () {
+            AccountCodeOnChange();
+        });
         $("#AccountSubHead").select2({
             tags: true
         });
@@ -80,12 +83,10 @@ function PaymentModeChanged() {
     debugger;
     if ($('#PaymentMode').val() == "ONLINE") {
         $('#BankCode').prop('disabled', false);
+        $('#ChequeDateFormatted').prop('disabled', true);
+        $('#ChequeClearDateFormatted').prop('disabled', true);
     }
-    else {
-        $("#BankCode").val('');
-        $('#BankCode').prop('disabled', true);
-    }
-    if ($('#PaymentMode').val() == "CHEQUE") {
+    else if ($('#PaymentMode').val() == "CHEQUE") {
         $('#ChequeDateFormatted').prop('disabled', false);
         $('#ChequeClearDateFormatted').prop('disabled', false);
         $('#BankCode').prop('disabled', false);
@@ -95,6 +96,8 @@ function PaymentModeChanged() {
         $('#ChequeDateFormatted').prop('disabled', true);
         $("#ChequeClearDateFormatted").val('');
         $('#ChequeClearDateFormatted').prop('disabled', true);
+        $("#BankCode").val('').trigger('change');
+        $('#BankCode').prop('disabled', true);
     }
 
 
@@ -104,10 +107,21 @@ function Save() {
     debugger;
     var $form = $('#OtherExpenseForm');
     if ($form.valid()) {
-        $('#btnSave').trigger('click');
-    }
-    else {
-        notyAlert('warning', "Please Fill Required Fields");
+        if ($('#PaymentMode').val() != "ONLINE" || ($('#PaymentMode').val() == "ONLINE" && $('#ExpneseRef').val() != "")) {
+            $('#hdnChartOfAccountCode').val($('#ChartOfAccountCode').val().split('|')[0]);
+            $("#PayReFAmountMsg").hide();
+            $('#btnSave').trigger('click');
+        }
+        else {
+            if ($('#PaymentMode').val() == "ONLINE" && $('#ExpneseRef').val() == "") {
+                $("#PayReFAmountMsg").text('Payment Reference Required ');
+                $("#PayReFAmountMsg").show();
+               
+            }
+        }
+        }
+        else {
+            notyAlert('warning', "Please Fill Required Fields");
     }
 } 
 //##5--Save Success Function-------------------------------------------------##5.
@@ -137,17 +151,20 @@ function BindOtherExpense() {
     $('#DepositWithdrawalID').val(otherExpenseVM.DepositWithdrawalID);
     $('#EntryNo').val(otherExpenseVM.EntryNo);
     $('#ExpenseDateFormatted').val(otherExpenseVM.ExpenseDateFormatted);
-    $('#ChartOfAccountCode').val(otherExpenseVM.AccountCode).select2();
-    $('#AccountSubHead').val(otherExpenseVM.AccountSubHead).select2();
+    $('#ChartOfAccountCode').val(otherExpenseVM.AccountCode).trigger('change');
+    $('#AccountSubHead').val(otherExpenseVM.AccountSubHead).trigger('change');
     $('#lblApprovalStatus').text(otherExpenseVM.ApprovalStatus);
     $('#lblOtherExpenseEntryNo').text('Entry No. # : ' + otherExpenseVM.EntryNo);
-    $('#PaymentMode').val(otherExpenseVM.PaymentMode).select2();
-    $('#BankCode').val(otherExpenseVM.BankCode).select2();
+    $('#PaymentMode').val(otherExpenseVM.PaymentMode).trigger('change');
+    $('#hdnBankCode').val(otherExpenseVM.BankCode);
+    $('#BankCode').val(otherExpenseVM.BankCode).trigger('change'); 
     $('#ChequeDateFormatted').val(otherExpenseVM.ChequeDateFormatted);
     $('#ChequeClearDateFormatted').val(otherExpenseVM.ChequeClearDateFormatted);
     $('#Amount').val(otherExpenseVM.Amount);
     $('#ExpneseRef').val(otherExpenseVM.ExpneseRef);
     $('#Description').val(otherExpenseVM.Description);
+    $('#LatestApprovalStatus').val(otherExpenseVM.LatestApprovalStatus); 
+    $('#LatestApprovalID').val(otherExpenseVM.LatestApprovalID);
     $("#ReversalRef").val(otherExpenseVM.ReversalRef);
     if (otherExpenseVM.Amount < 0)
         $("#IsReverse").val('true');
@@ -167,13 +184,15 @@ function BindOtherExpense() {
     if (otherExpenseVM.LatestApprovalStatus == 3 || otherExpenseVM.LatestApprovalStatus == 0) {
         ChangeButtonPatchView('OtherExpense', 'divbuttonPatchOtherExpense', 'Edit');
         EnableDisableFields(false)
+        $('#ChartOfAccountCode').val(otherExpenseVM.AccountCode).trigger('change');
+        $('#PaymentMode').val(otherExpenseVM.PaymentMode).trigger('change');
     }
     else {
         ChangeButtonPatchView('OtherExpense', 'divbuttonPatchOtherExpense', 'Disable');
+        $("#ReFAmountMsg").hide();
         EnableDisableFields(true)
     }
     IsReverseOnchange();
-    PaymentModeChanged();
 }
 function GetOtherExpense(ID) {
     try {
@@ -212,7 +231,6 @@ function IsReverseOnchange() {
         $('#ReversalRefDiv').hide();
         $('#ReversalRef').val('');
         $('#hdnAmountReversal').val('');
-        $('#ReFAmountMsg').hide();
         $("#hdnReducibleAmt").val('');
     }
 }
@@ -292,9 +310,9 @@ function GetReversalReference()
 {
     try {
         debugger;
-        var ChartOfAccountCode = $('#ChartOfAccountCode').val();
-        var data = { "ChartOfAccountCode": ChartOfAccountCode };
-        if (ChartOfAccountCode == null)
+        var ChartOfAccountCode = $('#ChartOfAccountCode').val().split("|")[0];
+        var data = { "accountCode": ChartOfAccountCode };
+        if (ChartOfAccountCode == "")
             $("#ReFSearchMsg").show();
         var jsonData = {};
         var result = "";
@@ -338,7 +356,7 @@ function GetMaximumReducibleAmount(refNo) {
             $("#hdnReducibleAmt").val('' + reducibleAmount);
             if (reducibleAmount > 0) {
                 $("#ReFAmountMsg").show();
-                $("#ReFAmountMsg").text('* Amount must be more than ' + reducibleAmount);
+                $("#ReFAmountMsg").text('* Reversal Reference Exists, Amount must be more than ' + reducibleAmount);
             }
         }
         if (result == "ERROR") {

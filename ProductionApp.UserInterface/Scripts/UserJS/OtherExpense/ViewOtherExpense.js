@@ -17,6 +17,8 @@ var _emptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
+        $('#ChartOfAccountCode').select2();
+        $('#ApprovalStatus').select2();
         BindOrReloadOtherExpenseTable('Init');
     }
     catch (e) {
@@ -36,7 +38,9 @@ function BindOrReloadOtherExpenseTable(action) {
             case 'Reset':
                 $('#SearchTerm').val('');
                 $('#FromDate').val('');
+                $('#ChartOfAccountCode').val('').trigger('change');
                 $('#ToDate').val('');
+                $('#ApprovalStatus').val('').trigger('change');
                 break;
             case 'Init':
                 break;
@@ -56,6 +60,11 @@ function BindOrReloadOtherExpenseTable(action) {
         otherExpenseAdvanceSearchVM.SearchTerm = $('#SearchTerm').val();
         otherExpenseAdvanceSearchVM.FromDate = $('#FromDate').val();
         otherExpenseAdvanceSearchVM.ToDate = $('#ToDate').val();
+        otherExpenseAdvanceSearchVM.ChartOfAccount = new Object();
+        otherExpenseAdvanceSearchVM.ChartOfAccount.Code = $('#ChartOfAccountCode').val().split("|")[0];
+        //To split value of #ChartOfAccountCode by '|' and to take only the AccountCode__________^
+        otherExpenseAdvanceSearchVM.ApprovalStatus = new Object();
+        otherExpenseAdvanceSearchVM.ApprovalStatus.ID = $('#ApprovalStatus').val();
         _dataTable.Assemble = $('#tblOtherExpense').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
@@ -63,7 +72,7 @@ function BindOrReloadOtherExpenseTable(action) {
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [0, 1, 2, 3]
+                                     columns: [0, 1, 2, 3,4,5,6]
                                  }
                 }],
                 order: false,
@@ -82,8 +91,19 @@ function BindOrReloadOtherExpenseTable(action) {
                 columns: [
                     { "data": "EntryNo", "defaultContent": "<i>-</i>", "width": "10%" },
                     { "data": "ExpenseDateFormatted", "defaultContent": "<i>-</i>", "width": "15%" },
-                    { "data": "Account", "defaultContent": "<i>-</i>", "width": "25%" },
-                    { "data": "PaymentMode", "defaultContent": "<i>-</i>", "width": "20%" },
+                    { "data": "Account", "defaultContent": "<i>-</i>", "width": "15%" },
+                    { "data": "PaymentMode", "defaultContent": "<i>-</i>", "width": "10%" },
+                    {
+                        "data": "Description", render: function (data, type, row) {
+                            if (row.ReversalRef != null && row.Description != null)
+                                return row.Description + " ( Reversal Of  <label><i><b>Ref# " + row.ReversalRef + "</b></i></label>)"
+                            else if (row.ReversalRef != null && row.Description == null)
+                                return " ( Reversal Of  <label><i><b>Ref# " + row.ReversalRef + "</b></i></label>)"
+                            else
+                                return row.Description
+
+                        }, "defaultContent": "<i>-</i>", "width": "20%"
+                    },
                     { "data": "Amount", "defaultContent": "<i>-</i>", "width": "15%" },
                     { "data": "ApprovalStatus", "defaultContent": "<i>-</i>", "width": "22%" },
                     {
@@ -93,8 +113,8 @@ function BindOrReloadOtherExpenseTable(action) {
                     }
                 ],
                 columnDefs: [
-                            { className: "text-left", "targets": [2, 3,5, 0] },
-                            { className: "text-right", "targets": [4] },
+                            { className: "text-left", "targets": [2,4, 3,6, 0] },
+                            { className: "text-right", "targets": [5] },
                             { className: "text-center", "targets": [1] }],
                 destroy: true,
                 //for performing the import operation after the data loaded

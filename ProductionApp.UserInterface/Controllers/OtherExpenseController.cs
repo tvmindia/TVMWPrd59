@@ -40,7 +40,14 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ViewOtherExpense(string code)
         {
             ViewBag.SysModuleCode = code;
-            return View();
+            OtherExpenseAdvanceSearchViewModel otherExpenseSearchVM = new OtherExpenseAdvanceSearchViewModel()
+            {
+                ChartOfAccount = new ChartOfAccountViewModel()
+                {
+                    ChartOfAccountSelectList = _chartOfAccountBusiness.GetChartOfAccountForSelectList("EXP")
+                }
+            };
+            return View(otherExpenseSearchVM);
         }
 
         #region GetAllOtherExpense

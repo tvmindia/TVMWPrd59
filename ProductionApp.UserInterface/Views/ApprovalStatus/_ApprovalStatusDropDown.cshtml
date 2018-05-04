@@ -1,1 +1,4 @@
-﻿
+﻿@model ProductionApp.UserInterface.Models.ApprovalStatusViewModel
+ 
+    @Html.DropDownList("ApprovalStatus", Model.StatusSelectList, "--Select Approval Status--", new { @class = "form-control", @style = "width:100%"})
+ 
