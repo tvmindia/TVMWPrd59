@@ -31,7 +31,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Reorder Quantity")]
         public decimal? ReorderQty { get; set; }
         //[Required(ErrorMessage = "Please Enter Rate")]
-        //public decimal Rate { get; set; }
+        public decimal Rate { get; set; }
         [Display(Name = "Opening Stock")]
         public decimal? OpeningStock { get; set; }
         [Display(Name = "Current Stock")]

@@ -321,6 +321,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     product.IsInvoiceInKG = sdr["IsInvoiceInKG"].ToString() != "" ? bool.Parse(sdr["IsInvoiceInKG"].ToString()) : product.IsInvoiceInKG;
                                     product.Type = sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : product.Type;
                                     product.HSNNo = sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : product.HSNNo;
+                                    product.Rate = sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : product.Rate;
                                 }
                             }
                         }
