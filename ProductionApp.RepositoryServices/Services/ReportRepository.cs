@@ -19,6 +19,11 @@ namespace ProductionApp.RepositoryServices.Services
             _databaseFactory = databaseFactory;
         }
         #region GetAllReport
+        /// <summary>
+        /// To Get All Reports
+        /// </summary>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
         public List<AMCSysReport>GetAllReport(string searchTerm)
         {
             List<AMCSysReport> AMCSysReportList = null;
@@ -69,10 +74,14 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return AMCSysReportList;
         }
-
         #endregion GetAllReport
 
         #region GetRequisitionSummaryReport
+        /// <summary>
+        /// To Get Requisition Summary Report
+        /// </summary>
+        /// <param name="requisitionSummaryReport"></param>
+        /// <returns></returns>
         public List<Requisition> GetRequisitionSummaryReport(RequisitionSummaryReport requisitionSummaryReport)
         {
 
@@ -88,12 +97,14 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
+                        if (requisitionSummaryReport.DataTablePaging.OrderColumn == "")
+                        {
+                            requisitionSummaryReport.DataTablePaging.OrderColumn = "REQNO";
+                            requisitionSummaryReport.DataTablePaging.OrderDir = "ASC";
+                        }
                         cmd.CommandText = "[AMC].[GetRequisitionSummaryReport]";
                         cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(requisitionSummaryReport.SearchTerm) ? "" : requisitionSummaryReport.SearchTerm;
-                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = requisitionSummaryReport.DataTablePaging.Start;
-                        //if (requisitionSummaryReport.DataTablePaging.Length == -1)
-                        //    cmd.Parameters.AddWithValue("@Length", DBNull.Value);
-                        //else
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = requisitionSummaryReport.DataTablePaging.Start;                       
                         cmd.Parameters.Add("@Length", SqlDbType.Int).Value = requisitionSummaryReport.DataTablePaging.Length;
                         cmd.Parameters.Add("@OrderDir", SqlDbType.VarChar).Value = requisitionSummaryReport.DataTablePaging.OrderDir;
                         cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = requisitionSummaryReport.DataTablePaging.OrderColumn;
@@ -114,15 +125,17 @@ namespace ProductionApp.RepositoryServices.Services
                                     Requisition requisitionObj = new Requisition();
                                     {
                                         requisitionObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : requisitionObj.ID);
-                                        requisitionObj.ReqNo = (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : requisitionObj.ReqNo);
+                                        requisitionObj.ReqNo = (sdr["RequisitionNo"].ToString() != "" ? sdr["RequisitionNo"].ToString() : requisitionObj.ReqNo);
                                         requisitionObj.ReqDate = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()) : requisitionObj.ReqDate);
                                         requisitionObj.ReqDateFormatted = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()).ToString(settings.DateFormat) : requisitionObj.ReqDateFormatted);
                                         requisitionObj.Title = (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : requisitionObj.Title);
-                                        requisitionObj.ReqStatus = (sdr["ReqStatus"].ToString() != "" ? sdr["ReqStatus"].ToString() : requisitionObj.ReqStatus);
-                                        //requisitionObj.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? sdr["ApprovalStatus"].ToString() : requisitionObj.ApprovalStatus);
+                                        requisitionObj.ReqStatus = (sdr["ReqStatus"].ToString() != "" ? sdr["ReqStatus"].ToString() : requisitionObj.ReqStatus);                                       
                                         requisitionObj.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : requisitionObj.RequisitionBy);
                                         requisitionObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : requisitionObj.TotalCount);
                                         requisitionObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : requisitionObj.FilteredCount);
+                                        requisitionObj.ReqAmount= (sdr["ReqAmount"].ToString() != "" ? sdr["ReqAmount"].ToString() : requisitionObj.ReqAmount);
+                                        requisitionObj.RequiredDate = (sdr["RequiredDate"].ToString() != "" ? DateTime.Parse(sdr["RequiredDate"].ToString()) : requisitionObj.RequiredDate);
+                                        requisitionObj.RequiredDateFormatted = (sdr["RequiredDate"].ToString() != "" ? DateTime.Parse(sdr["RequiredDate"].ToString()).ToString(settings.DateFormat) : requisitionObj.RequiredDateFormatted);
                                     }
                                     requisitionList.Add(requisitionObj);
                                 }
@@ -139,5 +152,85 @@ namespace ProductionApp.RepositoryServices.Services
             return requisitionList;
         }
         #endregion GetRequisitionSummaryReport
+
+
+
+
+        #region GetRequisitionDetailReport
+        /// <summary>
+        /// To Get Requisition Detail Report
+        /// </summary>
+        /// <param name="requisitionDetailReport"></param>
+        /// <returns></returns>
+        public List<RequisitionDetailReport> GetRequisitionDetailReport(RequisitionDetailReport requisitionDetailReport)
+        {
+
+            List<RequisitionDetailReport> requisitionDetailList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetRequisitionDetailReport]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(requisitionDetailReport.SearchTerm) ? "" : requisitionDetailReport.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = requisitionDetailReport.DataTablePaging.Start;                       
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = requisitionDetailReport.DataTablePaging.Length;
+                        cmd.Parameters.Add("@OrderDir", SqlDbType.VarChar).Value = requisitionDetailReport.DataTablePaging.OrderDir;
+                        cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = requisitionDetailReport.DataTablePaging.OrderColumn;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = requisitionDetailReport.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = requisitionDetailReport.ToDate;
+                        cmd.Parameters.Add("@ReqStatus", SqlDbType.VarChar).Value = requisitionDetailReport.ReqStatus;
+                        if (requisitionDetailReport.EmployeeID != Guid.Empty)
+                            cmd.Parameters.Add("@ReqBy", SqlDbType.UniqueIdentifier).Value = requisitionDetailReport.EmployeeID;
+                        if(requisitionDetailReport.MaterialID != Guid.Empty)
+                            cmd.Parameters.Add("@materialID", SqlDbType.UniqueIdentifier).Value = requisitionDetailReport.MaterialID;
+                        cmd.Parameters.Add("@DeliveryStatus", SqlDbType.VarChar).Value = requisitionDetailReport.DeliveryStatus;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                requisitionDetailList = new List<RequisitionDetailReport>();
+                                while (sdr.Read())
+                                {
+                                    RequisitionDetailReport requisitionObj = new RequisitionDetailReport();
+                                    {
+                                        requisitionObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : requisitionObj.ID);
+                                        requisitionObj.ReqNo = (sdr["RequisitionNo"].ToString() != "" ? sdr["RequisitionNo"].ToString() : requisitionObj.ReqNo);
+                                        requisitionObj.ReqDate = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()) : requisitionObj.ReqDate);
+                                        requisitionObj.ReqDateFormatted = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()).ToString(settings.DateFormat) : requisitionObj.ReqDateFormatted);
+                                        requisitionObj.Title = (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : requisitionObj.Title);
+                                        requisitionObj.ReqStatus = (sdr["ReqStatus"].ToString() != "" ? sdr["ReqStatus"].ToString() : requisitionObj.ReqStatus);                                
+                                        requisitionObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : requisitionObj.TotalCount);
+                                        requisitionObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : requisitionObj.FilteredCount);
+                                        requisitionObj.Material = new Material();                                      
+                                        requisitionObj.Material.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : requisitionObj.Material.UnitCode);                                      
+                                        requisitionObj.Material.Description = (sdr["ITEM"].ToString() != "" ? sdr["ITEM"].ToString() : requisitionObj.Material.Description);
+                                        requisitionObj.RequestedQty = (sdr["RequestedQty"].ToString() != "" ? sdr["RequestedQty"].ToString() : requisitionObj.RequestedQty);
+                                        requisitionObj.OrderedQty= (sdr["OrderQty"].ToString() != "" ? sdr["OrderQty"].ToString() : requisitionObj.OrderedQty);                                      
+                                        requisitionObj.ReceivedQty = (sdr["ReceivedQty"].ToString() != "" ? sdr["ReceivedQty"].ToString() : requisitionObj.ReceivedQty);
+                                        requisitionObj.DeliveryStatus= (sdr["DeliveryStatus"].ToString() != "" ? sdr["DeliveryStatus"].ToString() : requisitionObj.DeliveryStatus);
+                                    }
+                                    requisitionDetailList.Add(requisitionObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return requisitionDetailList;
+        }
+        #endregion GetRequisitionDetailReport
     }
 }

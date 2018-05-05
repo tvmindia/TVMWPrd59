@@ -1,4 +1,14 @@
-﻿var DataTables = {};
+﻿//*****************************************************************************
+//*****************************************************************************
+//Author:Sruthi
+//CreatedDate: 01-May-2018 
+//LastModified: 05-May-2018 
+//FileName: RequisitionSummaryReport.js
+//Description: Client side coding for Requisition Summary Report
+//******************************************************************************
+//******************************************************************************
+//Global Declaration
+var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
@@ -13,8 +23,17 @@ $(document).ready(function () {
     }
 });
 
+//Click function for search
+debugger;
+function RedirectSearchClick(e, this_obj) {
+    debugger;
+    var unicode = e.charCode ? e.charCode : e.keyCode
+    if (unicode == 13) {
+        $(this_obj).closest('.input-group').find('button').trigger('click')
+    }
+}
 
-//bind requisition report
+//bind requisition summary report
 function
     BindOrReloadRequisitionTable(action) {
     try {
@@ -67,7 +86,7 @@ function
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [1, 2, 3, 4, 5]
+                                     columns: [1, 2, 3, 4, 5,6,7]
                                  }
                 }],
                
@@ -87,15 +106,18 @@ function
                 columns: [
                     { "data": "ID", "defaultContent": "<i>-</i>" },
                     { "data": "ReqNo", "defaultContent": "<i>-</i>" },
-                    { "data": "Title", "defaultContent": "<i>-</i>" },
                     { "data": "ReqDateFormatted", "defaultContent": "<i>-</i>" },
-                    { "data": "ReqStatus", "defaultContent": "<i>-</i>" },
-                    { "data": "RequisitionBy", "defaultContent": "<i>-</i>" },
+                     { "data": "RequisitionBy", "defaultContent": "<i>-</i>" },
+                    { "data": "Title", "defaultContent": "<i>-</i>" },                    
+                    { "data": "ReqStatus", "defaultContent": "<i>-</i>" },                   
+                    { "data": "ReqAmount", "defaultContent": "<i>-</i>" },
+                    { "data": "RequiredDateFormatted", "defaultContent": "<i>-</i>" }
                     
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1, 2, 5] },
-                    { className: "text-center", "targets": [3,4] },
+                    { className: "text-left", "targets": [1, 3,4] },
+                    { className: "text-center", "targets": [2,5,7] },
+                    { className: "text-right", "targets": [6] },
                     { width: "20%", "targets": [2] }                   
                 ],
                
@@ -124,11 +146,13 @@ function
 function ResetReportList() {  
     BindOrReloadRequisitionTable('Reset');
 }
+
 //function export data to excel
 function ExportReportData() {  
     BindOrReloadRequisitionTable('Export');
 }
 
+//function to filter data based on date
 function DateFilterOnchange()
 {
     BindOrReloadRequisitionTable('Apply');

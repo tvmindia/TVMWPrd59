@@ -44,6 +44,9 @@ namespace ProductionApp.UserInterface.Models
         public List<RequisitionViewModel> RequisitionList { get; set; }
         public string BaseURL { get; set; }   
         public RequisitionAdvanceSearchViewModel RequisitionAdvanceSearch { get; set; }
+        public string ReqAmount { get; set; }
+        public DateTime RequiredDate { get; set; }
+        public string RequiredDateFormatted { get; set; }
     }
 
     public class RequisitionDetailViewModel 
