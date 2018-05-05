@@ -108,6 +108,14 @@ function BindOrReloadCustomerInvoiceTable(action) {
                                 return roundoff(data)
                         }
                     },
+                      {
+                          "data": "BalanceDue", "defaultContent": "<i>-</i>",
+                          'render': function (data, type, row) {
+                              return roundoff(data)
+                          }
+                      },
+                    { "data": "LastPaymentDateFormatted", "defaultContent": "<i>-</i>" },
+                    { "data": "Status", "defaultContent": "<i>-</i>" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
                             return '<a href="/CustomerInvoice/NewCustomerInvoice?code=ACC&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
@@ -115,9 +123,9 @@ function BindOrReloadCustomerInvoiceTable(action) {
                     }
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1, 2,] },
-                    { className: "text-right", "targets": [5] },
-                    { className: "text-center", "targets": [3,4,6] }],
+                    { className: "text-left", "targets": [1, 2,8] },
+                    { className: "text-right", "targets": [5,6] },
+                    { className: "text-center", "targets": [3,4,7,9] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {

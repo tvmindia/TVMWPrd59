@@ -25,9 +25,12 @@ namespace ProductionApp.DataAccessObject.DTO
         public int TotalCount { get; set; }
         public string DetailJSON { get; set; }
         public string DetailXML { get; set; }
+        public string Status { get; set; }
+        public decimal BalanceDue { get; set; }
         public int FilteredCount { get; set; }
         public string InvoiceDateFormatted { get; set; }
         public string PaymentDueDateFormatted { get; set; }
+        public string LastPaymentDateFormatted { get; set; }
 
         public decimal TotalTaxAmount { get; set; }
         public decimal TotalTaxableAmount { get; set; }

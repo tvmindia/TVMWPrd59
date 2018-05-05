@@ -346,6 +346,9 @@ namespace ProductionApp.RepositoryServices.Services
                                         customerInvoice.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : customerInvoice.InvoiceAmount);
                                         customerInvoice.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : customerInvoice.TotalCount);
                                         customerInvoice.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : customerInvoice.FilteredCount);
+                                        customerInvoice.Status = (sdr["Status"].ToString() != "" ? sdr["Status"].ToString() : customerInvoice.Status);
+                                        customerInvoice.BalanceDue = (sdr["BalanceDue"].ToString() != "" ? decimal.Parse(sdr["BalanceDue"].ToString()) : customerInvoice.BalanceDue);
+                                        customerInvoice.LastPaymentDateFormatted = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()).ToString(settings.DateFormat) : customerInvoice.LastPaymentDateFormatted);
                                     }
                                     CustomerInvoiceList.Add(customerInvoice);
                                 }
