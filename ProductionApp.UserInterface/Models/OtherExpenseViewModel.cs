@@ -13,7 +13,6 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Entry No")]
         public string EntryNo { get; set; }
         [Display(Name = "Expense Date")]
-        [Required(ErrorMessage = "Expense Date required")]
         public DateTime ExpenseDate { get; set; }
         [Display(Name = "Cheque Date")]
         public DateTime? ChequeDate { get; set; }
@@ -47,6 +46,7 @@ namespace ProductionApp.UserInterface.Models
         public CommonViewModel Common { get; set; }
         public ChartOfAccountViewModel ChartOfAccount { get; set; }
         public List<SelectListItem> SelectList { get; set; }
+        [Required(ErrorMessage = "Expense Date required")]
         public string ExpenseDateFormatted { get; set; }
         public string ChequeDateFormatted { get; set; }
         public string ChequeClearDateFormatted { get; set; }
@@ -69,6 +69,9 @@ namespace ProductionApp.UserInterface.Models
         public string FromDate { get; set; }
         [Display(Name = "To Date")]
         public string ToDate { get; set; }
+        [Display(Name = "Account")]
         public ChartOfAccountViewModel ChartOfAccount { get; set; }
+        [Display(Name = "Approval Status")]
+        public ApprovalStatusViewModel ApprovalStatus { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.DataAccessObject.DTO
 {
-    class ApprovalStatus
+    public class ApprovalStatus
     {
         public int ID { get; set; }
         public string Description { get; set; }

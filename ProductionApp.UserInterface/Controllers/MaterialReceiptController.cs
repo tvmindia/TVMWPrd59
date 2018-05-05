@@ -19,12 +19,14 @@ namespace ProductionApp.UserInterface.Controllers
         private IMaterialBusiness _materialBusiness;
         private IPurchaseOrderBusiness _purchaseOrderBusiness;
         private IUnitBusiness _unitBusiness;
+        private ISupplierBusiness _supplierBusiness;
         AppConst _appConst = new AppConst();
         Common _common = new Common();
-        public MaterialReceiptController(IMaterialReceiptBusiness materialReceiptBusiness, IMaterialBusiness materialBusiness, IPurchaseOrderBusiness purchaseOrderBusiness, IUnitBusiness unitBusiness)
+        public MaterialReceiptController(IMaterialReceiptBusiness materialReceiptBusiness, IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness, IPurchaseOrderBusiness purchaseOrderBusiness, IUnitBusiness unitBusiness)
         {
             _materialReceiptBusiness = materialReceiptBusiness;
             _materialBusiness = materialBusiness;
+            _supplierBusiness = supplierBusiness;
             _purchaseOrderBusiness = purchaseOrderBusiness;
             _unitBusiness = unitBusiness;
         }
@@ -36,7 +38,31 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ViewMaterialReceipt(string code)
         {
             ViewBag.SysModuleCode = code;
-            return View();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            List<SupplierViewModel> supplierList = Mapper.Map<List<Supplier>, List<SupplierViewModel>>(_supplierBusiness.GetSupplierForSelectList());
+            MaterialReceiptAdvanceSearchViewModel materialReceiptAdvanceSearchVM = new MaterialReceiptAdvanceSearchViewModel()
+            {
+                Supplier = new SupplierViewModel()
+                {
+                    SelectList = new List<SelectListItem>()
+                },
+                PurchaseOrder = new PurchaseOrderViewModel()
+                {
+                    SelectList = _purchaseOrderBusiness.PurchaseOrderDropdownList(Guid.Empty)
+                }
+            };
+            foreach (SupplierViewModel supplier in supplierList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = supplier.CompanyName,
+                    Value = supplier.ID.ToString(),
+                    Selected = false,
+                });
+
+            }
+            materialReceiptAdvanceSearchVM.Supplier.SelectList = selectListItem;
+            return View(materialReceiptAdvanceSearchVM);
         }
         #endregion View MaterialReceipt Index
 

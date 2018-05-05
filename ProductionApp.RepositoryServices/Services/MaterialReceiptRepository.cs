@@ -42,21 +42,21 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = materialReceiptAdvanceSearch.FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = materialReceiptAdvanceSearch.ToDate;
-                        if (materialReceiptAdvanceSearch.Supplier.ID == Guid.Empty)
+                        if (materialReceiptAdvanceSearch.SupplierID == Guid.Empty)
                         {
                             cmd.Parameters.AddWithValue("@SupplierID", DBNull.Value);
                         }
                         else
                         {
-                            cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = materialReceiptAdvanceSearch.Supplier.ID;
+                            cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = materialReceiptAdvanceSearch.SupplierID;
                         }
-                        if (materialReceiptAdvanceSearch.PurchaseOrder.ID == Guid.Empty)
+                        if (materialReceiptAdvanceSearch.PurchaseOrderID == Guid.Empty)
                         {
                             cmd.Parameters.AddWithValue("@PurchaseOrderID", DBNull.Value);
                         }
                         else
                         {
-                            cmd.Parameters.Add("@PurchaseOrderID", SqlDbType.UniqueIdentifier).Value = materialReceiptAdvanceSearch.PurchaseOrder.ID;
+                            cmd.Parameters.Add("@PurchaseOrderID", SqlDbType.UniqueIdentifier).Value = materialReceiptAdvanceSearch.PurchaseOrderID;
                         }
                         if (string.IsNullOrEmpty(materialReceiptAdvanceSearch.SearchTerm))
                         {

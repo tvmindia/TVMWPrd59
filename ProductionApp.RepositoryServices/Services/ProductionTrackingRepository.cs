@@ -46,18 +46,18 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.AddWithValue("@Length", DBNull.Value);
                         else
                             cmd.Parameters.Add("@Length", SqlDbType.Int).Value = productionTrackingAdvanceSearch.DataTablePaging.Length;
-                        if (productionTrackingAdvanceSearch.Product.ID == Guid.Empty)
+                        if (productionTrackingAdvanceSearch.ProductID == Guid.Empty)
                             cmd.Parameters.AddWithValue("@ProductID", DBNull.Value);
                         else
-                            cmd.Parameters.Add("@ProductID", SqlDbType.UniqueIdentifier).Value = productionTrackingAdvanceSearch.Product.ID;
-                        if (productionTrackingAdvanceSearch.Employee.ID == Guid.Empty)
+                            cmd.Parameters.Add("@ProductID", SqlDbType.UniqueIdentifier).Value = productionTrackingAdvanceSearch.ProductID;
+                        if (productionTrackingAdvanceSearch.EmployeeID == Guid.Empty)
                             cmd.Parameters.AddWithValue("@EmployeeID", DBNull.Value);
                         else
-                            cmd.Parameters.Add("@EmployeeID", SqlDbType.UniqueIdentifier).Value = productionTrackingAdvanceSearch.Employee.ID;
-                        if (productionTrackingAdvanceSearch.Stage.ID == Guid.Empty)
+                            cmd.Parameters.Add("@EmployeeID", SqlDbType.UniqueIdentifier).Value = productionTrackingAdvanceSearch.EmployeeID;
+                        if (productionTrackingAdvanceSearch.StageID == Guid.Empty)
                             cmd.Parameters.AddWithValue("@StageID", DBNull.Value);
                         else
-                            cmd.Parameters.Add("@StageID", SqlDbType.UniqueIdentifier).Value = productionTrackingAdvanceSearch.Stage.ID;
+                            cmd.Parameters.Add("@StageID", SqlDbType.UniqueIdentifier).Value = productionTrackingAdvanceSearch.StageID;
                         cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(productionTrackingAdvanceSearch.SearchTerm) ? "" : productionTrackingAdvanceSearch.SearchTerm;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

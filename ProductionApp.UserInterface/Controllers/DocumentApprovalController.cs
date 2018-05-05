@@ -62,6 +62,14 @@ namespace ProductionApp.UserInterface.Controllers
             return View();
         }
 
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public ActionResult AboutApprovalHistory(string id, string docType)
+        {
+            ViewBag.DocumentID = id;
+            ViewBag.DocumentType = docType;
+            return PartialView("_AboutApprovalHistory");
+        }
+
         #region Approvals
         public ActionResult GetApprovers(DocumentApprovalViewModel documentApprovalVM)
         {

@@ -1,0 +1,56 @@
+﻿@using ProductionApp.UserInterface.App_Start
+@model ProductionApp.UserInterface.Models.ApprovalLogViewModel
+
+@section styles {
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+}
+
+
+<div class="modal fade bs-example-modal-lg" id="ApprovalHistoryModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="min-width:850px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-9">
+                        <div class="col-md-12 modelIcon">
+                            <h3 class="modal-title" id="modelContextLabel">Approval History</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.DocumentID, htmlAttributes: new { @class = "", Value = @ViewBag.DocumentID })
+            @Html.HiddenFor(model => model.DocumentType, htmlAttributes: new { @class = "", Value = @ViewBag.DocumentType })
+            
+            <div class="modal-body">
+                <div class="col-md-12">
+                    @Html.Action("ApprovalHistory", "DocumentApproval")
+                </div>
+            </div>
+
+            @*<div class="modal-footer" style="height: 50px;padding: 7px;">
+                <a id="" class="btn btn-primary" onclick=""><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
+            </div>*@
+
+            </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        try {
+            debugger;
+            BindApprovalHistoryTable();
+        } catch (e) {
+            console.log(e.message);
+        }
+    });
+</script>
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/DocumentApproval/ApprovalHistory")
+}

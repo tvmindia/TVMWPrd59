@@ -37,6 +37,9 @@
             }
         </div>
     </div>
+    
+    @Html.Action("DocumentApproval", "AboutApprovalHistory", new { id=Model.ID, docType="REQ" });
+
     <div class="row tableContainer">
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
         @using (Ajax.BeginForm("InsertUpdateRequisition", "Requisition", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessRequisition", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "RequisitionForm" }))

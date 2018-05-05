@@ -66,6 +66,7 @@ namespace ProductionApp.UserInterface.Models
 
         public string TaxTypeCode { get; set; }
         public decimal Quantity { get; set; }
+        [Display(Name = "Unit")]
         public string UnitCode { get; set; }
         public decimal Rate { get; set; }
         [Display(Name = "Discount Amount")]
@@ -84,7 +85,7 @@ namespace ProductionApp.UserInterface.Models
         public decimal TaxableAmount { get; set; }
         [Display(Name = "Net Amount")]
         public decimal NetAmount { get; set; }
-        [Display(Name = "Gross Amount")]
+        [Display(Name = "Total")]
         public decimal GrossAmount { get; set; }
         public string TaxTypeDescription { get; set; }
 

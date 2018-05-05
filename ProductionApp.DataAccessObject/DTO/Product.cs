@@ -16,7 +16,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string ProductCategoryCode { get; set; }
         public decimal? ReorderQty { get; set; }
         //public string Category { get; set; }
-        //public decimal Rate { get; set; }
+        public decimal Rate { get; set; }
         public decimal? OpeningStock { get; set; }
         public decimal CurrentStock { get; set; }
         public string HSNNo { get; set; }

@@ -40,6 +40,8 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = otherExpenseAdvanceSearch.DataTablePaging.Start;
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = otherExpenseAdvanceSearch.FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = otherExpenseAdvanceSearch.ToDate;
+                        cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar).Value = otherExpenseAdvanceSearch.ChartOfAccount.Code;
+                        cmd.Parameters.Add("@ApprovalStatus", SqlDbType.Int).Value = otherExpenseAdvanceSearch.ApprovalStatus.ID;
                         if (otherExpenseAdvanceSearch.DataTablePaging.Length == -1)
                             cmd.Parameters.AddWithValue("@Length", DBNull.Value);
                         else
@@ -62,6 +64,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         otherExpense.Account = (sdr["Account"].ToString() != "" ? sdr["Account"].ToString() : otherExpense.Account);
                                         otherExpense.PaymentMode = (sdr["PaymentMode"].ToString() != "" ? sdr["PaymentMode"].ToString() : otherExpense.PaymentMode);
                                         otherExpense.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : otherExpense.Amount);
+                                        otherExpense.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : otherExpense.Description);
                                         otherExpense.ApprovalStatus = (sdr["ApprovalStatus"].ToString() != "" ? sdr["ApprovalStatus"].ToString() : otherExpense.ApprovalStatus);
                                         otherExpense.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : otherExpense.TotalCount);
                                         otherExpense.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : otherExpense.FilteredCount);
@@ -203,7 +206,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     otherExpense.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : otherExpense.Description);
                                     otherExpense.ReversalRef = (sdr["ReversalRef"].ToString() != "" ? sdr["ReversalRef"].ToString() : otherExpense.ReversalRef);
                                     otherExpense.RequiredApprovalLimit = (sdr["RequiredApprovalLimit"].ToString() != "" ? Decimal.Parse(sdr["RequiredApprovalLimit"].ToString()) : otherExpense.RequiredApprovalLimit);
-                                    otherExpense.LatestApprovalStatus = (sdr["LatestApprovalStatus"].ToString() != "" ? Int16.Parse(sdr["LatestApprovalStatus"].ToString()) : otherExpense.LatestApprovalStatus);
+                                    otherExpense.LatestApprovalStatus = (sdr["LatestApprovalStatus"].ToString() != "" ? int.Parse(sdr["LatestApprovalStatus"].ToString()) : otherExpense.LatestApprovalStatus);
                                     otherExpense.LatestApprovalID = (sdr["LatestApprovalID"].ToString() != "" ? Guid.Parse(sdr["LatestApprovalID"].ToString()) : otherExpense.LatestApprovalID);
                                 }
                             }

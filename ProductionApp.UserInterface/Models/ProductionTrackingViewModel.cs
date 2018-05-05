@@ -68,12 +68,14 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "To Date")]
         public string ToDate { get; set; }
         [Display(Name = "Product")]
+        public Guid ProductID { get; set; }
         public ProductViewModel Product { get; set; }
         [Display(Name = "Done By")]
+        public Guid EmployeeID { get; set; }
         public EmployeeViewModel Employee { get; set; }
         [Display(Name = "Stage")]
+        public Guid StageID { get; set; }
         public StageViewModel Stage { get; set; }
-        public List<SelectListItem> StageSelectList { get; set; }
 
         //[Display(Name = "Output")]
         //public SubComponentViewModel SubComponent { get; set; }

@@ -79,27 +79,28 @@
             </div>
             <div class="col-md-10">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.Product, htmlAttributes: new { @class = "control-label" })
+                    @Html.LabelFor(model => model.ProductID, htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="col-md-12">
-                    @Html.Action("ProductDropdown", "Product")
+                    @Html.DropDownListFor(model => model.ProductID, Model.Product.ProductSelectList, "--Select Product--", new { @class = "form-control BlockEnter", @style = "width:100%" })
+                    @*@Html.Action("ProductDropdown", "Product")*@
                 </div>
             </div>
             <div class="col-md-5">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.Employee, htmlAttributes: new { @class = "control-label" })
+                    @Html.LabelFor(model => model.EmployeeID, htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="col-md-12">
-                    @Html.Action("EmployeeDropdown", "Employee")
+                    @Html.DropDownListFor(model => model.EmployeeID, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", @style = "width:100%" })
                 </div>
             </div>
 
             <div class="col-md-5">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.Stage, htmlAttributes: new { @class = "control-label" })
+                    @Html.LabelFor(model => model.StageID, htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.Stage.ID, Model.StageSelectList, "--Select Stage--", new { @class = "form-control", @required = "", @title = "The Stage is missing", @style = "width:100%!important", @id = "StageID" })
+                    @Html.DropDownListFor(model => model.StageID, Model.Stage.SelectList, "--Select Stage--", new { @class = "form-control", @required = "", @title = "The Stage is missing", @style = "width:100%!important", @id = "StageID" })
                 </div>
             </div>
             @*<div class="col-md-5">

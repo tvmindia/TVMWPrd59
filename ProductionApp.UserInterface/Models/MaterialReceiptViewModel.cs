@@ -72,8 +72,10 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "To Date")]
         public string ToDate { get; set; }
         [Display(Name = "Supplier")]
+        public Guid SupplierID { get; set; }
         public SupplierViewModel Supplier { get; set; }
         [Display(Name = "Purchase Order")]
+        public Guid PurchaseOrderID { get; set; }
         public PurchaseOrderViewModel PurchaseOrder { get; set; }
     }
 }
