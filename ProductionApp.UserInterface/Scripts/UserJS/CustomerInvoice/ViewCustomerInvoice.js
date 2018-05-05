@@ -97,7 +97,6 @@ function BindOrReloadCustomerInvoiceTable(action) {
                 },
                 pageLength: 10,
                 columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
                     { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
                     { "data": "Customer.CompanyName", "defaultContent": "<i>-</i>" },
                     { "data": "InvoiceDateFormatted", "defaultContent": "<i>-</i>" },
@@ -122,16 +121,16 @@ function BindOrReloadCustomerInvoiceTable(action) {
                         }, "defaultContent": "<i>-</i>", "width": "3%"
                     }
                 ],
-                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1, 2,8] },
-                    { className: "text-right", "targets": [5,6] },
-                    { className: "text-center", "targets": [3,4,7,9] }],
+                columnDefs: [{ "targets": [], "visible": false, "searchable": false },
+                    { className: "text-left", "targets": [0,1, 7] },
+                    { className: "text-right", "targets": [5,4] },
+                    { className: "text-center", "targets": [2,3,6,8] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
                     if (action === 'Export') {
                         $(".buttons-excel").trigger('click');
-                        ResetCustomerInvoiceList();
+                        BindOrReloadCustomerInvoiceTable('Search');
                     }
                 }
             });
@@ -142,6 +141,4 @@ function BindOrReloadCustomerInvoiceTable(action) {
     }
 }
 
-function ResetCustomerInvoiceList() {
-    BindOrReloadCustomerInvoiceTable('Reset');
-}
+ 
