@@ -20,13 +20,15 @@ namespace ProductionApp.UserInterface.Controllers
         IEmployeeBusiness _employeeBusiness;
         IRequisitionBusiness _requisitionBusiness;
         ICommonBusiness _commonBusiness;
+        IMaterialBusiness _materialBusiness;
 
-        public DashboardReportController(IReportBusiness reportBusiness,IEmployeeBusiness employeeBusiness,IRequisitionBusiness requisitionBusiness,ICommonBusiness commonBusiness)
+        public DashboardReportController(IReportBusiness reportBusiness,IEmployeeBusiness employeeBusiness,IRequisitionBusiness requisitionBusiness,ICommonBusiness commonBusiness,IMaterialBusiness materialBusiness)
         {
             _reportBusiness = reportBusiness;
             _employeeBusiness = employeeBusiness;
             _requisitionBusiness = requisitionBusiness;
             _commonBusiness = commonBusiness;
+            _materialBusiness = materialBusiness;
         }
         #endregion Constructor Injection
 
@@ -102,6 +104,90 @@ namespace ProductionApp.UserInterface.Controllers
                 recordsTotal = requisitionOrderList.Count != 0 ? requisitionOrderList[0].TotalCount : 0,
                 recordsFiltered = requisitionOrderList.Count != 0 ? requisitionOrderList[0].FilteredCount : 0,
                 data = requisitionOrderList
+            });
+        }
+        #endregion GetRequisitionSummaryReport
+
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult RequisitionDetailReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+
+            RequisitionDetailReportViewModel requisitionDetailReportVM = new RequisitionDetailReportViewModel();
+            requisitionDetailReportVM.Employee = new EmployeeViewModel();
+            requisitionDetailReportVM.Employee.SelectList = _employeeBusiness.GetEmployeeSelectList();
+            requisitionDetailReportVM.Material = new MaterialViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            requisitionDetailReportVM.Material.SelectList = new List<SelectListItem>();
+            List<MaterialViewModel> materialList = Mapper.Map<List<Material>, List<MaterialViewModel>>(_materialBusiness.GetMaterialForSelectList());
+            if (materialList != null)
+                foreach (MaterialViewModel material in materialList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = material.MaterialCode + '-' + material.Description,
+                        Value = material.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            requisitionDetailReportVM.Material.SelectList = selectListItem;
+
+
+            //requisitionDetailReportVM.Material.SelectList = _materialBusiness.GetMaterialForSelectList();
+            return View(requisitionDetailReportVM);
+        }
+
+        #region GetRequisitionDetailReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetRequisitionDetailReport(DataTableAjaxPostModel model, RequisitionDetailReportViewModel requisitionDetailVM)
+        {
+            Common con = new Common();
+            DateTime dt = con.GetCurrentDateTime();
+            if (requisitionDetailVM != null)
+            {
+                if (requisitionDetailVM.DateFilter == "30")
+                {
+                    requisitionDetailVM.FromDate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
+                    requisitionDetailVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (requisitionDetailVM.DateFilter == "60")
+                {
+                    requisitionDetailVM.FromDate = dt.AddDays(-60).ToString("dd-MMM-yyyy");
+                    requisitionDetailVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (requisitionDetailVM.DateFilter == "90")
+                {
+                    requisitionDetailVM.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    requisitionDetailVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+            }
+            requisitionDetailVM.DataTablePaging.Start = model.start;
+            requisitionDetailVM.DataTablePaging.Length = (requisitionDetailVM.DataTablePaging.Length == 0 ? model.length : requisitionDetailVM.DataTablePaging.Length);
+
+            List<RequisitionDetailReportViewModel> requisitionOrderDetailList = Mapper.Map<List<RequisitionDetailReport>, List<RequisitionDetailReportViewModel>>(_reportBusiness.GetRequisitionDetailReport(Mapper.Map<RequisitionDetailReportViewModel, RequisitionDetailReport>(requisitionDetailVM)));
+
+            if (requisitionDetailVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = requisitionOrderDetailList.Count != 0 ? requisitionOrderDetailList[0].TotalCount : 0;
+                int filteredResult = requisitionOrderDetailList.Count != 0 ? requisitionOrderDetailList[0].FilteredCount : 0;
+                requisitionOrderDetailList = requisitionOrderDetailList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = requisitionOrderDetailList.Count != 0 ? requisitionOrderDetailList[0].TotalCount : 0,
+                recordsFiltered = requisitionOrderDetailList.Count != 0 ? requisitionOrderDetailList[0].FilteredCount : 0,
+                data = requisitionOrderDetailList
             });
         }
         #endregion GetRequisitionSummaryReport

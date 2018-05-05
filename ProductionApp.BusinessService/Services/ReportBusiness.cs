@@ -31,5 +31,13 @@ namespace ProductionApp.BusinessService.Services
         }
         #endregion GetRequisitionSummaryReport
 
+
+        #region GetRequisitionDetailReport
+        public List<RequisitionDetailReport> GetRequisitionDetailReport(RequisitionDetailReport requisitionDetailReport)
+        {
+            return _reportRepository.GetRequisitionDetailReport(requisitionDetailReport);
+        }       
+        #endregion GetRequisitionDetailReport
+
     }
 }

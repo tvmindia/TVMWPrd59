@@ -728,6 +728,7 @@
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\NewRecieveFromProduction.js" />
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\ViewRecieveFromProduction.js" />
     <Content Include="Scripts\UserJS\Report\Report.js" />
+    <Content Include="Scripts\UserJS\Report\RequisitionDetailReport.js" />
     <Content Include="Scripts\UserJS\Report\RequisitionSummaryReport.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\NewRequisition.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\RequisitionApproval.js" />
@@ -1044,6 +1045,7 @@
     <Content Include="Views\DashboardReport\RequisitionSummaryReport.cshtml" />
     <Content Include="Views\Employee\_ReceivedByDropdown.cshtml" />
     <Content Include="Views\Employee\_ReturnByDropdown.cshtml" />
+    <Content Include="Views\DashboardReport\RequisitionDetailReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

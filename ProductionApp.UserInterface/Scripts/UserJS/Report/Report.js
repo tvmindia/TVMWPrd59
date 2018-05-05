@@ -1,4 +1,14 @@
-﻿
+﻿//*****************************************************************************
+//*****************************************************************************
+//Author:Sruthi
+//CreatedDate: 28-APR-2018 
+//LastModified: 05-May-2018 
+//FileName: Report.js
+//Description: Client side coding for Report
+//******************************************************************************
+//******************************************************************************
+
+//Click function for search
 function RedirectSearchClick(e, this_obj) {
     debugger;
     var unicode = e.charCode ? e.charCode : e.keyCode

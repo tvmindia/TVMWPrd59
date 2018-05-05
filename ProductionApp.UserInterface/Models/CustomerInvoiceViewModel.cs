@@ -32,6 +32,9 @@ namespace ProductionApp.UserInterface.Models
         public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
         public string DetailJSON { get; set; }
+        public string Status { get; set; }
+        public string LastPaymentDateFormatted { get; set; }
+        public decimal BalanceDue { get; set; }
         public int FilteredCount { get; set; }
         [Display(Name = " Invoice Date")]
         [Required(ErrorMessage = "Invoice Date is missing")]
