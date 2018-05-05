@@ -67,7 +67,9 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ViewBag.DocumentID = id;
             ViewBag.DocumentType = docType;
-            return PartialView("_AboutApprovalHistory");
+            DocumentApprovalViewModel documentApprovalVM = new DocumentApprovalViewModel();
+            documentApprovalVM.ApprovalHistoryList = Mapper.Map<List<ApprovalHistory>, List<ApprovalHistoryViewModel>>(_documentApprovalBusiness.GetApprovalHistory(Guid.Parse(id), docType));
+            return PartialView("_AboutApprovalHistory", documentApprovalVM);
         }
 
         #region Approvals

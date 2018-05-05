@@ -37,8 +37,9 @@
             }
         </div>
     </div>
-    
-    @Html.Action("DocumentApproval", "AboutApprovalHistory", new { id=Model.ID, docType="REQ" });
+
+    @* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
+    @Html.Action("AboutApprovalHistory", "DocumentApproval", new { id=Model.ID, docType="REQ" })
 
     <div class="row tableContainer">
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
@@ -287,4 +288,5 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/RequisitionJS/NewRequisition")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/DocumentApproval/ApprovalHistory")
 }

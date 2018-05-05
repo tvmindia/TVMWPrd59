@@ -1,56 +1,111 @@
 ﻿@using ProductionApp.UserInterface.App_Start
-@model ProductionApp.UserInterface.Models.ApprovalLogViewModel
+@model ProductionApp.UserInterface.Models.DocumentApprovalViewModel
 
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
 }
 
 
-<div class="modal fade bs-example-modal-lg" id="ApprovalHistoryModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document" style="min-width:850px !important;">
-        <div class="modal-content" style="margin-top:4%;">
+<div class="modal fade bs-example-modal-lg" id="ApprovalHistoryModal" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="" role="document" style="width:500px !important;float:right;margin-right:2%;">
+        <div class="modal-content" style="margin-top:35%;height:400px;">
 
-            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
-                <div class="container-fluid" style="padding-right: 0px;">
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 30px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;font-size: 23px;">
                     <div class="col-md-9">
                         <div class="col-md-12 modelIcon">
-                            <h3 class="modal-title" id="modelContextLabel">Approval History</h3>
+                            <h4 class="modal-title" id="modelContextLabel">Approval History</h4>
                         </div>
                     </div>
                     <div class="col-md-3" style="padding-right: 4px;">
-                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 25px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
                     </div>
                 </div>
             </div>
             @Html.HiddenFor(model => model.DocumentID, htmlAttributes: new { @class = "", Value = @ViewBag.DocumentID })
             @Html.HiddenFor(model => model.DocumentType, htmlAttributes: new { @class = "", Value = @ViewBag.DocumentType })
-            
+
             <div class="modal-body">
-                <div class="col-md-12">
-                    @Html.Action("ApprovalHistory", "DocumentApproval")
+                <div class="container-fluid">
+                    <div class="box-body no-padding">
+                        <table class="table table-condensed scroll">
+                            <thead style="display: block;">
+                                <tr>
+                                    <th style="width:20%;">Approver</th>
+                                    <th style="width:05%;">Level</th>
+                                    <th style="width:20%;">Date</th>
+                                    <th style="width:35%;">Remarks</th>
+                                    <th style="width:20%;">Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody style="display: block;height: 300px;overflow-y: auto;overflow-x: hidden;">
+                                @if (Model.ApprovalHistoryList != null)
+                                {
+                                    for (int i = 0; i < Model.ApprovalHistoryList.Count; i++)
+                                    {
+                                        <tr>
+                                            <td style="width:20%;">@Model.ApprovalHistoryList[i].ApproverName</td>
+                                            <td style="width:05%;">@Model.ApprovalHistoryList[i].ApproverLevel</td>
+                                            <td style="width:20%;">@Model.ApprovalHistoryList[i].ApprovalDate</td>
+                                            <td style="width:35%;">@Model.ApprovalHistoryList[i].Remarks</td>
+                                            <td style="width:20%;">@Model.ApprovalHistoryList[i].ApprovalStatus</td>@*<span class="label label-info bg-olive "></span>*@
+                                        </tr>
+                                    }
+
+                                    for (int i = (Model.ApprovalHistoryList == null ? 0 : Model.ApprovalHistoryList.Count); i < 10; i++)
+                                    {
+                                        <tr>
+                                            <td style="width:20%;">-</td>
+                                            <td style="width:5%;">-</td>
+                                            <td style="width:20%;">-</td>
+                                            <td style="width:35%;">-</td>
+                                            <td style="width:20%;">-</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    for (int i = 0; i < 10; i++)
+                                    {
+                                        <tr>
+                                            <td style="width:20%;">-</td>
+                                            <td style="width:5%;">-</td>
+                                            <td style="width:20%;">-</td>
+                                            <td style="width:35%;">-</td>
+                                            <td style="width:20%;">-</td>
+                                        </tr>
+                                    }
+                                }
+                                @*<tr>
+                                    <td>1.</td>
+                                    <td>1.</td>
+                                    <td>Update software</td>
+                                    <td>
+                                        <div class="progress progress-xs">
+                                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-red">55%</span></td>
+                                </tr>*@
+                                
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
             @*<div class="modal-footer" style="height: 50px;padding: 7px;">
-                <a id="" class="btn btn-primary" onclick=""><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
+                <!--a id="" class="btn btn-primary" onclick=""><i class="glyphicon glyphicon-floppy-disk"></i> Add</a-->
             </div>*@
 
-            </div>
+        </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        try {
-            debugger;
-            BindApprovalHistoryTable();
-        } catch (e) {
-            console.log(e.message);
-        }
-    });
-</script>
 
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/DocumentApproval/ApprovalHistory")
 }
+
+
