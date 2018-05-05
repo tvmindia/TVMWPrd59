@@ -181,7 +181,14 @@ function BindOtherExpense() {
     else {
         GetMaximumReducibleAmount(otherExpenseVM.EntryNo);
     }
-    if (otherExpenseVM.LatestApprovalStatus == 3 || otherExpenseVM.LatestApprovalStatus == 0) {
+    if (otherExpenseVM.LatestApprovalStatus == 8)
+    {
+        ChangeButtonPatchView('OtherExpense', 'divbuttonPatchOtherExpense', 'Limit');
+        EnableDisableFields(false)
+        $('#ChartOfAccountCode').val(otherExpenseVM.AccountCode).trigger('change');
+        $('#PaymentMode').val(otherExpenseVM.PaymentMode).trigger('change');
+    }
+    else if (otherExpenseVM.LatestApprovalStatus == 3 || otherExpenseVM.LatestApprovalStatus == 0) {
         ChangeButtonPatchView('OtherExpense', 'divbuttonPatchOtherExpense', 'Edit');
         EnableDisableFields(false)
         $('#ChartOfAccountCode').val(otherExpenseVM.AccountCode).trigger('change');

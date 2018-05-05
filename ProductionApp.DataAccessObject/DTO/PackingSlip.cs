@@ -11,7 +11,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid ID { get; set; }
         public string SlipNo { get; set; }
         public DateTime Date { get; set; }
-        public Guid PackedBy { get; set; }
+        public Guid? PackedBy { get; set; }
         public Guid SalesOrderID { get; set; }
         public DateTime? IssueToDispatchDate { get; set; }
         public decimal? TotalPackageWeight { get; set; }

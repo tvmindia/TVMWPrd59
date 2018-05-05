@@ -72,7 +72,7 @@
 
                     <div class="form-group col-md-6">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.PackedBy, htmlAttributes: new { @class = "control-label lblrequired" })
+                            @Html.LabelFor(model => model.PackedBy, htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="col-md-12">
                             @Html.DropDownListFor(model => model.PackedBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", @Style = "width:100%" })

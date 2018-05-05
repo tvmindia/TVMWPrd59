@@ -26,6 +26,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid? LatestApprovalID { get; set; }
         public int LatestApprovalStatus { get; set; }
         public bool isFinalApproved { get; set; }
+        public decimal OELimit { get; set; }
         //additional fields
         public Common Common { get; set; }
         public ChartOfAccount ChartOfAccount { get; set; }
@@ -46,7 +47,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public string SearchTerm { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
+        public string AccountCode { get; set; }
         public ChartOfAccount ChartOfAccount { get; set; }
+        public int? Status { get; set; }
         public ApprovalStatus ApprovalStatus { get; set; }
     }
 }

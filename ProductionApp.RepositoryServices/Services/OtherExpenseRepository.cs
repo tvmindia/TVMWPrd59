@@ -40,8 +40,11 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = otherExpenseAdvanceSearch.DataTablePaging.Start;
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = otherExpenseAdvanceSearch.FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = otherExpenseAdvanceSearch.ToDate;
-                        cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar).Value = otherExpenseAdvanceSearch.ChartOfAccount.Code;
-                        cmd.Parameters.Add("@ApprovalStatus", SqlDbType.Int).Value = otherExpenseAdvanceSearch.ApprovalStatus.ID;
+                        cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar).Value = otherExpenseAdvanceSearch.AccountCode;
+                        if (otherExpenseAdvanceSearch.Status == -1)
+                            cmd.Parameters.AddWithValue("@ApprovalStatus", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@ApprovalStatus", SqlDbType.Int).Value = otherExpenseAdvanceSearch.Status;
                         if (otherExpenseAdvanceSearch.DataTablePaging.Length == -1)
                             cmd.Parameters.AddWithValue("@Length", DBNull.Value);
                         else

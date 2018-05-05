@@ -193,7 +193,7 @@ $(document).ready(function () {
 
 function AddPackingSlipDetail()
 {
-    if($('#PackedBy').val() && $('#DateFormatted').val() && $('#SalesOrderID').val()){
+    if($('#DateFormatted').val() && $('#SalesOrderID').val()){
         $('#lblOrderNo').text("SalesOrder# : " + $("#SalesOrderID option:selected").text());
         $('#PackingSlipModal').modal('show');
         BindProductListTable();
