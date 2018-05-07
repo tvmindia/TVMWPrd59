@@ -161,7 +161,7 @@ function
                         if (last !== group) {
                             debugger;
                             var rowData = api.row(i).data();
-                            $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>ReqNo</b> : ' + group + "&nbsp;&nbsp;&nbsp;" + ' <b>Title</b> : ' + rowData.Title + "&nbsp;&nbsp;&nbsp;" + '<b>Req Date</b> : ' + rowData.ReqDateFormatted + "&nbsp;&nbsp;&nbsp;" + '<b>Req Status</b> : ' + rowData.ReqStatus + '</td></tr>');
+                            $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Req No</b> : ' + group + "&nbsp;&nbsp;&nbsp;" + ' <b>Title</b> : ' + rowData.Title + "&nbsp;&nbsp;&nbsp;" + '<b>Req Date</b> : ' + rowData.ReqDateFormatted + "&nbsp;&nbsp;&nbsp;" + '<b>Req Status</b> : ' + rowData.ReqStatus + '</td></tr>');
                             last = group;
                         }
                     });
