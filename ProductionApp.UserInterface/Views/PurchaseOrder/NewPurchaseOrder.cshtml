@@ -26,12 +26,15 @@
     </ol>
 </div>
 
+@* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
+@Html.Action("AboutApprovalHistory", "DocumentApproval", new { id = Model.ID, docType = "PO" })
+
 <section class="content">
     <div class="row" id="OverlayHeader">
-        <div class="col-md-6" style="text-align:left">
+        <div class="col-md-5" style="text-align:left">
             <span id="lblReqNo" class="SCHeader">PO Number# : New</span>
         </div>
-        <div class="col-md-6" id="divbuttonPatchAddPurchaseOrder" style="min-height:25px">
+        <div class="col-md-7" id="divbuttonPatchAddPurchaseOrder" style="min-height:25px">
 
             @{
                 var data = new { actionType = "Add" };
@@ -495,6 +498,7 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/selectmin")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/PurchaseOrderJS/NewPurchaseOrder")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/DocumentApproval/ApprovalHistory")
 }
 
 

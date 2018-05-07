@@ -480,6 +480,13 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Event = "";
                     toolboxVM.ListBtn.Href = Url.Action("ViewPurchaseOrder", "PurchaseOrder", new { Code = "PURCH" });
 
+
+                    //Always To be placed Last
+                    toolboxVM.AboutBtn.Visible = true;
+                    toolboxVM.AboutBtn.Text = "History";
+                    toolboxVM.AboutBtn.Title = "About Approval History";
+                    toolboxVM.AboutBtn.Event = "ShowApprovalHistory()";
+
                     break;
 
                 case "Disable":
@@ -500,6 +507,13 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Title = "List";
                     toolboxVM.ListBtn.Event = "";
                     toolboxVM.ListBtn.Href = Url.Action("ViewPurchaseOrder", "PurchaseOrder", new { Code = "PURCH" });
+
+
+                    //Always To be placed Last
+                    toolboxVM.AboutBtn.Visible = true;
+                    toolboxVM.AboutBtn.Text = "History";
+                    toolboxVM.AboutBtn.Title = "About Approval History";
+                    toolboxVM.AboutBtn.Event = "ShowApprovalHistory()";
 
                     break;
                 case "Add":
