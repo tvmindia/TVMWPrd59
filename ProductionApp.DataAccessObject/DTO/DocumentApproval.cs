@@ -29,6 +29,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public List<DocumentApproval> DocumentApprovalList { get; set; }
+        public List<ApprovalHistory> ApprovalHistoryList { get; set; }
     }
     public class ApprovalHistory
     {

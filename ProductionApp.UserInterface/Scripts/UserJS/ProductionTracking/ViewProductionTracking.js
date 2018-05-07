@@ -15,27 +15,27 @@ $(document).ready(function () {
     try {
         BindOrReloadProductionTrackingTable('Init');
         $('#ProductID,#EmployeeID,#StageID').select2({});
-        AddOnRemove();
+        //AddOnRemove();
     }
     catch (ex) {
         console.log(ex.message);
     }
 });
 
-//Remove input addon for supplier insert
-function AddOnRemove() {
-    try {
-        debugger;
+////Remove input addon for supplier insert
+//function AddOnRemove() {
+//    try {
+//        debugger;
 
-        $('.input-group-addon').each(function () {
-            $(this).parent().css("width", "100%");
-            $(this).remove();
-        });
+//        $('.input-group-addon').each(function () {
+//            $(this).parent().css("width", "100%");
+//            $(this).remove();
+//        });
 
-    } catch (ex) {
-        console.log(ex.message)
-    }
-}
+//    } catch (ex) {
+//        console.log(ex.message)
+//    }
+//}
 
 function BindOrReloadProductionTrackingTable(action) {
     try {

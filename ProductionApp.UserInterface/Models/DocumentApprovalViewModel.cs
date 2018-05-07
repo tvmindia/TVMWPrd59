@@ -30,6 +30,7 @@ namespace ProductionApp.UserInterface.Models
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public List<DocumentApprovalViewModel> DocumentApprovalList { get; set; }
+        public List<ApprovalHistoryViewModel> ApprovalHistoryList { get; set; }
     }
 
     public class ApprovalHistoryViewModel
@@ -40,7 +41,6 @@ namespace ProductionApp.UserInterface.Models
         public string ApprovalDate { get; set; }
         public string ApprovalStatus { get; set; }
         public string Remarks { get; set; }
-
     }
     public class DocumentSummaryViewModel
     {
