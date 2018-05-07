@@ -1046,6 +1046,7 @@
     <Content Include="Views\Employee\_ReceivedByDropdown.cshtml" />
     <Content Include="Views\Employee\_ReturnByDropdown.cshtml" />
     <Content Include="Views\DashboardReport\RequisitionDetailReport.cshtml" />
+    <Content Include="Views\DocumentApproval\_AboutApprovalHistory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

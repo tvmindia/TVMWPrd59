@@ -19,7 +19,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Account Head")]
         [Required(ErrorMessage = "Account Head required")]
         public string AccountCode { get; set; }
-        [Display(Name = "Subtype (Employee,Other,etc..)")]
+        [Display(Name = "Account Sub type")]
         public string AccountSubHead { get; set; }
         [Display(Name = "Payment Mode")]
         [Required(ErrorMessage = "Payment Mode required")]
