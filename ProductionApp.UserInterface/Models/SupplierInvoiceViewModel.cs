@@ -48,6 +48,10 @@ namespace ProductionApp.UserInterface.Models
         public decimal InvoiceAmount { get; set; }
         public decimal PaymentReceived { get; set; }
         public decimal Balance { get; set; }
+        public decimal PaymentBooked { get; set; }
+        public decimal PaymentProcessed { get; set; }
+        public string Status { get; set; }
+        public string LastPaymentDateFormatted { get; set; }
         public CommonViewModel Common { get; set; }
         public SupplierViewModel Supplier { get; set; }
         public PurchaseOrderViewModel PurchaseOrder { get; set; }

@@ -304,10 +304,10 @@ function PaymentAmountChanged(this_Obj) {
                 var currenttotal = AmountReceived + parseFloat(this_Obj.value) - oldamount
             }
 
-            if (parseFloat(allData[i].BalanceDue) < parseFloat(this_Obj.value)) {
+            if (parseFloat(allData[i].Balance) < parseFloat(this_Obj.value)) {
                 if (currenttotal < AmountReceived) {
                     allData[i].SupplierPayment.SupplierPaymentDetail.PaidAmount = parseFloat(allData[i].Balance)
-                    sum = sum + parseFloat(allData[i].BalanceDue);
+                    sum = sum + parseFloat(allData[i].Balance);
                 }
                 else {
                     allData[i].SupplierPayment.SupplierPaymentDetail.PaidAmount = oldamount
@@ -506,7 +506,6 @@ function BindSupplierPayment() {
         CaptionChangePayment();
     }
 
-    PaymentModeChanged();
     //BIND OUTSTANDING INVOICE TABLE USING Supplier ID AND PAYMENT HEADER 
     BindOutstanding();
     //edit outstanding table Payment text binding
@@ -533,6 +532,7 @@ function BindSupplierPayment() {
         $("#fileUploadControlDiv").hide();
 
     }
+    PaymentModeChanged();
 }
 function EnableDisableFields(value) {
     $('#PaymentMode').attr("disabled", value);
