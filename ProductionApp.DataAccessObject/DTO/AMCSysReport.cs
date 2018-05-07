@@ -53,7 +53,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Employee Employee { get; set; }
         public string DateFilter { get; set; }
         public Guid MaterialID { get; set; }
-        public Material Material { get; set; }     
+        public Material Material { get; set; }
         public string DeliveryStatus { get; set; }
 
         public Guid ID { get; set; }
@@ -64,18 +64,22 @@ namespace ProductionApp.DataAccessObject.DTO
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
 
-        public Guid ReqID { get; set; }  
-        public string Description { get; set; }     
-        public string RequestedQty { get; set; }   
+        public Guid ReqID { get; set; }
+        public string Description { get; set; }
+        public string RequestedQty { get; set; }
         public string ApproximateRate { get; set; }
         public Decimal Discount { get; set; }
         public string POQty { get; set; }
-        public string OrderedQty { get; set; }     
+        public string OrderedQty { get; set; }
         public Common Common { get; set; }
         public string ReceivedQty { get; set; }
         public List<RequisitionDetailReport> RequisitionDetailReportList { get; set; }
-
     }
+
+
+
+
+
 
 
 

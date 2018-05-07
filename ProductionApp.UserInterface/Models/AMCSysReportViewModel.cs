@@ -87,10 +87,6 @@ namespace ProductionApp.UserInterface.Models
         public string ReqDateFormatted { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
-        public List<RequisitionDetailReportViewModel> RequisitionDetailReportList { get; set; }
-
+        public List<RequisitionDetailReportViewModel> RequisitionDetailReportList { get; set; }       
     }
-
-
-
 }

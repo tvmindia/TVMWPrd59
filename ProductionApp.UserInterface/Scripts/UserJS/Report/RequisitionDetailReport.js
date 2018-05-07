@@ -124,13 +124,19 @@ function
                     { "data": "ReceivedQty", "defaultContent": "<i>-</i>" },
                     { "data": "DeliveryStatus", "defaultContent": "<i>-</i>" }
                 ],
-                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
+                columnDefs: [{ "targets": [0,2,3,4], "visible": false, "searchable": false },
                     { className: "text-left", "targets": [1, 2, 5,6,10] },
                     { className: "text-center", "targets": [3, 4, 7, 8, 9] },
                    // { className: "text-right", "targets": [10] }
-                    //{ width: "20%", "targets": [2] }
+                   { width: "12%", "targets": [1] },
+                    { width: "15%", "targets": [5] },
+                    { width: "15%", "targets": [6] },
+                    { width: "15%", "targets": [7] },
+                    { width: "15%", "targets": [8] },
+                    { width: "15%", "targets": [9] },
+                    { width: "15%", "targets": [10] }
                 ],
-
+                
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
@@ -142,10 +148,27 @@ function
                         }
                         $(".buttons-excel").trigger('click');
                         BindOrReloadRequisitionDetailTable('Search');
-                    }
+                    }                   
+ 
+                },
+                // grouping with multiple columns
+                drawCallback: function (settings) {
+                    var api = this.api();
+                    var rows = api.rows({ page: 'current' }).nodes();
+                    var last = null;
+
+                    api.column(1, { page: 'current' }).data().each(function (group, i) {
+                        if (last !== group) {
+                            debugger;
+                            var rowData = api.row(i).data();
+                            $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>ReqNo</b> : ' + group + "&nbsp;&nbsp;&nbsp;" + ' <b>Title</b> : ' + rowData.Title + "&nbsp;&nbsp;&nbsp;" + '<b>Req Date</b> : ' + rowData.ReqDateFormatted + "&nbsp;&nbsp;&nbsp;" + '<b>Req Status</b> : ' + rowData.ReqStatus + '</td></tr>');
+                            last = group;
+                        }
+                    });
                 }
             });
-        $(".buttons-excel").hide();
+        $(".buttons-excel").hide();       
+
     }
     catch (e) {
         console.log(e.message);
