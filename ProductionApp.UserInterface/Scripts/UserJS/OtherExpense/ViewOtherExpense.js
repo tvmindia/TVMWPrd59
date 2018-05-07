@@ -20,6 +20,10 @@ $(document).ready(function () {
         $('#AccountCode').select2();
         $('#Status').select2();
         BindOrReloadOtherExpenseTable('Init');
+        $('#tblOtherExpense tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
+        
     }
     catch (e) {
         console.log(e.message);
@@ -66,7 +70,7 @@ function BindOrReloadOtherExpenseTable(action) {
             otherExpenseAdvanceSearchVM.Status = $('#Status').val();
         else
             otherExpenseAdvanceSearchVM.Status = -1;
-        _dataTable.Assemble = $('#tblOtherExpense').DataTable(
+        _dataTable.OtherExpense = $('#tblOtherExpense').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
                 buttons: [{
@@ -138,4 +142,10 @@ function BindOrReloadOtherExpenseTable(action) {
     catch (e) {
         console.log(e.message);
     }
+}
+//##4--Edit on table Click----------------------------------------##4
+function Edit(curObj) {
+    var rowData = _dataTable.OtherExpense.row($(curObj).parents('tr')).data();
+    window.location.replace("NewOtherExpense?code=ACC&ID=" + rowData.ID);
+
 }
