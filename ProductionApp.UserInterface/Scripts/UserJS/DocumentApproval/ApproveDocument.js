@@ -41,8 +41,9 @@ function ApproveDocument() {
         var DocumentID = $("#DocumentID").val();
         var ApprovalLogID = $("#ID").val();
         var DocumentTypeCode = $("#DocumentType").val();
+        var Remarks = $('#Remarks').val();
 
-        var data = { "ApprovalLogID": ApprovalLogID, "DocumentID": DocumentID, "DocumentTypeCode": DocumentTypeCode};
+        var data = { "ApprovalLogID": ApprovalLogID, "DocumentID": DocumentID, "DocumentTypeCode": DocumentTypeCode, "Remarks": Remarks };
         var ds = {};
         ds = GetDataFromServer("DocumentApproval/ApproveDocumentInsert/", data);
         if (ds != '') {

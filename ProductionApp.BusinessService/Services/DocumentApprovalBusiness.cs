@@ -42,14 +42,14 @@ namespace ProductionApp.BusinessService.Services
             return _documentApprovalRepository.GetDocumentSummary(DocumentID, DocumentTypeCode);
         }
 
-        public object ApproveDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode)
+        public object ApproveDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode, string Remarks,DateTime approvalDate)
         {
-            return _documentApprovalRepository.ApproveDocument(ApprovalLogID, DocumentID, DocumentTypeCode);
+            return _documentApprovalRepository.ApproveDocument(ApprovalLogID, DocumentID, DocumentTypeCode, Remarks, approvalDate);
         }
 
-        public object RejectDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode, string Remarks)
+        public object RejectDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode, string Remarks,DateTime rejectionDate)
         {
-            return _documentApprovalRepository.RejectDocument(ApprovalLogID, DocumentID, DocumentTypeCode, Remarks);
+            return _documentApprovalRepository.RejectDocument(ApprovalLogID, DocumentID, DocumentTypeCode, Remarks, rejectionDate);
         }
 
         public object ValidateDocumentsApprovalPermission(string LoginName, Guid DocumentID, string DocumentTypeCode)
