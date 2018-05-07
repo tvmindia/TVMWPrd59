@@ -35,6 +35,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal InvoiceAmount { get; set; }
         public decimal PaymentReceived { get; set; }
         public decimal Balance { get; set; }
+        public decimal PaymentBooked { get; set; }
+        public decimal PaymentProcessed { get; set; }
+        public string Status { get; set; }
+        public string LastPaymentDateFormatted { get; set; }
         public Common Common { get; set; }
         public Supplier Supplier { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }

@@ -61,6 +61,11 @@ namespace ProductionApp.RepositoryServices.Services
                                         supplierInvoice.Supplier = new Supplier();
                                         supplierInvoice.Supplier.CompanyName = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : supplierInvoice.Supplier.CompanyName);
                                         supplierInvoice.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : supplierInvoice.InvoiceAmount);
+                                        supplierInvoice.Balance = (sdr["BalanceDue"].ToString() != "" ? decimal.Parse(sdr["BalanceDue"].ToString()) : supplierInvoice.Balance);
+                                        supplierInvoice.PaymentBooked = (sdr["BookedAmount"].ToString() != "" ? decimal.Parse(sdr["BookedAmount"].ToString()) : supplierInvoice.PaymentBooked);
+                                        supplierInvoice.PaymentProcessed = (sdr["ProcessedAmount"].ToString() != "" ? decimal.Parse(sdr["ProcessedAmount"].ToString()) : supplierInvoice.PaymentProcessed);
+                                        supplierInvoice.LastPaymentDateFormatted = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()).ToString(settings.DateFormat) : supplierInvoice.LastPaymentDateFormatted);
+                                        supplierInvoice.Status = (sdr["Status"].ToString() != "" ? sdr["Status"].ToString() : supplierInvoice.Status);
                                         supplierInvoice.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : supplierInvoice.TotalCount);
                                         supplierInvoice.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : supplierInvoice.FilteredCount);
                                     }
