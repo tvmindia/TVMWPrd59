@@ -30,14 +30,14 @@
                     <div class="box-body no-padding">
                         @if (Model.ApprovalHistoryList != null && Model.ApprovalHistoryList.Count>0)
                         {
-                            <table class="table table-condensed scroll">
-                                <thead style="display: block;width:95%;">
+                            <table class="table table-condensed scroll" width="100%">
+                                <thead style="display: block;">
                                     <tr>
-                                        <th style="width:20%;">Approver</th>
-                                        <th style="width:08%;">Level</th>
-                                        <th style="width:20%;">Date</th>
-                                        <th style="width:32%;">Remarks</th>
-                                        <th style="width:20%;">Status</th>
+                                        <th style="width:20%;border-bottom: 0px;">Approver</th>
+                                        <th style="width:08%;border-bottom: 0px;">Level</th>
+                                        <th style="width:20%;border-bottom: 0px;">Date</th>
+                                        <th style="width:32%;border-bottom: 0px;">Remarks</th>
+                                        <th style="width:20%;border-bottom: 0px;">Status</th>
                                     </tr>
                                 </thead>
 
@@ -45,18 +45,18 @@
 
                                     @for (int i = 0; i < Model.ApprovalHistoryList.Count; i++)
                                     {
-                                    <tr style="width:100%;">
+                                    <tr>
                                         <td style="width:20%;">@Model.ApprovalHistoryList[i].ApproverName</td>
                                         <td style="width:08%;">@Model.ApprovalHistoryList[i].ApproverLevel</td>
                                         <td style="width:20%;">@Model.ApprovalHistoryList[i].ApprovalDate</td>
-                                        <td style="width:32%;">@Model.ApprovalHistoryList[i].Remarks</td>
+                                        @if (Model.ApprovalHistoryList[i].Remarks != null) {<td style="width:32%;">@Model.ApprovalHistoryList[i].Remarks </td>} else {<td style="width:32%;">-</td>}
                                         <td style="width:20%;">@Model.ApprovalHistoryList[i].ApprovalStatus</td>@*<span class="label label-info bg-olive "></span>*@
                                     </tr>
                                     }
 
                                     @for (int i = (Model.ApprovalHistoryList == null ? 0 : Model.ApprovalHistoryList.Count); i < 4; i++)
                                     {
-                                    <tr style="width:100%;">
+                                    <tr>
                                         <td style="width:20%;">-</td>
                                         <td style="width:08%;">-</td>
                                         <td style="width:20%;">-</td>
