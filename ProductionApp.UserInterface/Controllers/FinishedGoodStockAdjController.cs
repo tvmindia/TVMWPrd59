@@ -272,6 +272,14 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Title = "List";
                     toolboxVM.ListBtn.Event = "";
                     toolboxVM.ListBtn.Href = Url.Action("ViewFiniShedGoodStockAdj", "FinishedGoodStockAdj", new { code = "STR" });
+
+
+                    //Always To be placed Last
+                    toolboxVM.AboutBtn.Visible = true;
+                    toolboxVM.AboutBtn.Text = "History";
+                    toolboxVM.AboutBtn.Title = "About Approval History";
+                    toolboxVM.AboutBtn.Event = "ShowApprovalHistory()";
+
                     break;
 
                 case "Disable":
@@ -284,6 +292,13 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
                     toolboxVM.ListBtn.Href = Url.Action("ViewFiniShedGoodStockAdj", "FinishedGoodStockAdj", new { code = "STR" });
+
+
+                    //Always To be placed Last
+                    toolboxVM.AboutBtn.Visible = true;
+                    toolboxVM.AboutBtn.Text = "History";
+                    toolboxVM.AboutBtn.Title = "About Approval History";
+                    toolboxVM.AboutBtn.Event = "ShowApprovalHistory()";
 
                     break;
 

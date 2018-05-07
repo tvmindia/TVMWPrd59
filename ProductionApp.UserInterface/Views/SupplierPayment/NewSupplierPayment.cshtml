@@ -26,6 +26,12 @@
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
+
+
+@* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
+@Html.Action("AboutApprovalHistory", "DocumentApproval", new { id = Model.ID, docType = "SPAY" })
+
+
 <section class="content">
     <div class="row" id="OverlayHeader">
         <div class="col-md-6" style="text-align:left">
@@ -344,6 +350,7 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/selectmin")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/SupplierPayment/NewSupplierPayment")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/DocumentApproval/ApprovalHistory")
 }
 
 
