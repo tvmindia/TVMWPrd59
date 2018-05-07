@@ -27,10 +27,10 @@
 <!-- Main content -->
 <section class="content">
     <div class="row" id="OverlayHeader">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <span id="lblReqNo" class="SCHeader"></span>
         </div>
-        <div class="col-md-6" id="divbuttonPatchAddRequisition" style="min-height:25px;">
+        <div class="col-md-7" id="divbuttonPatchAddRequisition" style="min-height:25px;">
             @{
                 var data = new { actionType = "Add" };
                 @Html.Action("ChangeButtonStyle", "Requisition", data);

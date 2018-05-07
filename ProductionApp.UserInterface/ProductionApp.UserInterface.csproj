@@ -746,7 +746,6 @@
     <Content Include="Scripts\UserJS\SupplierPayment\NewSupplierPayment.js" />
     <Content Include="Scripts\UserJS\SupplierPayment\ViewSupplierPayment.js" />
     <Content Include="Scripts\UserJS\User.js" />
-    <Content Include="Views\DocumentApproval\_AboutApprovalHistory.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -1046,6 +1045,8 @@
     <Content Include="Views\ApprovalStatus\_ApprovalStatusDropDown.cshtml" />
     <Content Include="Views\Employee\_ReceivedByDropdown.cshtml" />
     <Content Include="Views\Employee\_ReturnByDropdown.cshtml" />
+    <Content Include="Views\DashboardReport\RequisitionDetailReport.cshtml" />
+    <Content Include="Views\DocumentApproval\_AboutApprovalHistory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -450,5 +450,29 @@
         }
 
     }
- 
+
+
+
+    @* Always to be placed Last *@
+    @if (Model.AboutBtn.Visible && Model.AboutBtn.HasAccess)
+    {
+        if (Model.AboutBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.AboutBtn.Title-@Model.AboutBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/info.PNG")">
+                <span class="btnText">@Model.AboutBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a title="@Model.AboutBtn.Title" class="thr_btn" onclick=@Model.AboutBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/info.PNG")">
+                <span class="btnText">@Model.AboutBtn.Text</span>
+            </a>
+        }
+
+    }
+
 </div>

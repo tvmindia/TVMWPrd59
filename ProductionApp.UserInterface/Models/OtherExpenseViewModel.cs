@@ -16,10 +16,10 @@ namespace ProductionApp.UserInterface.Models
         public DateTime ExpenseDate { get; set; }
         [Display(Name = "Cheque Date")]
         public DateTime? ChequeDate { get; set; }
-        [Display(Name = "Account Head")]
+        [Display(Name = "Account Code")]
         [Required(ErrorMessage = "Account Head required")]
         public string AccountCode { get; set; }
-        [Display(Name = "Subtype (Employee,Other,etc..)")]
+        [Display(Name = "Account Sub type")]
         public string AccountSubHead { get; set; }
         [Display(Name = "Payment Mode")]
         [Required(ErrorMessage = "Payment Mode required")]

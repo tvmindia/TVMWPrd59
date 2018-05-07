@@ -171,7 +171,7 @@ function BindOtherExpense() {
     else
         $("#IsReverse").val('false');
     
-    
+    IsReverseOnchange();
     if (otherExpenseVM.ReversableAmount > 0)//Setting hidden field to limit Reversible amount
     {
         $("#hdnAmountReversal").val(otherExpenseVM.ReversableAmount);
@@ -199,7 +199,7 @@ function BindOtherExpense() {
         $("#ReFAmountMsg").hide();
         EnableDisableFields(true)
     }
-    IsReverseOnchange();
+    
 }
 function GetOtherExpense(ID) {
     try {
@@ -295,7 +295,7 @@ function CheckReducibleAmount() {
         if (parseInt(enteredAmt) < parseInt(reducableAmt)) {
             $("#Amount").val('');
             $("#ReFAmountMsg").show();
-            $("#ReFAmountMsg").text('* Amount cannot be less than ' + reducableAmt);
+            $("#ReFAmountMsg").text('* Reversal Reference Exists, Amount must be more than ' + reducableAmt);
         }
         else {
             $("#ReFAmountMsg").hide();
@@ -476,4 +476,8 @@ function AccountCodeOnChange() {
 
     }
 
+}
+function Reset()
+{
+    BindOtherExpense();
 }
