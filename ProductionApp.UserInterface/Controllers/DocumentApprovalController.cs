@@ -128,11 +128,12 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region ApproveDocumentInsert
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
-        public async Task<string> ApproveDocumentInsert(string ApprovalLogID, string DocumentID, string DocumentTypeCode)
+        public async Task<string> ApproveDocumentInsert(string ApprovalLogID, string DocumentID, string DocumentTypeCode, string Remarks)
         {
             try
             {
-                var result = _documentApprovalBusiness.ApproveDocument(Guid.Parse(ApprovalLogID),Guid.Parse(DocumentID),DocumentTypeCode);
+                DateTime approvalDate = _common.GetCurrentDateTime();
+                var result = _documentApprovalBusiness.ApproveDocument(Guid.Parse(ApprovalLogID),Guid.Parse(DocumentID),DocumentTypeCode, Remarks, approvalDate);
                 bool mailresult = await _documentApprovalBusiness.SendApprolMails(Guid.Parse(DocumentID), DocumentTypeCode);
 
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
@@ -151,7 +152,8 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                var result = _documentApprovalBusiness.RejectDocument(Guid.Parse(ApprovalLogID), Guid.Parse(DocumentID), DocumentTypeCode,Remarks);
+                DateTime rejectionDate = _common.GetCurrentDateTime();
+                var result = _documentApprovalBusiness.RejectDocument(Guid.Parse(ApprovalLogID), Guid.Parse(DocumentID), DocumentTypeCode,Remarks, rejectionDate);
                 bool mailresult = await _documentApprovalBusiness.SendApprolMails(Guid.Parse(DocumentID), DocumentTypeCode);
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
