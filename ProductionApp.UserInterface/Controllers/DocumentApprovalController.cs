@@ -32,12 +32,13 @@ namespace ProductionApp.UserInterface.Controllers
             return View();
         }
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
-        public ActionResult ApproveDocument(string code,string ID,string DocType,string DocID)
+        public ActionResult ApproveDocument(string code,string id,string docType,string docID, bool? isHistory)
         {
             ViewBag.SysModuleCode = code;
-            ViewBag.DocumentID = DocID;
-            ViewBag.ApprovalLogID = ID;
-            ViewBag.DocumentType = DocType;
+            ViewBag.DocumentID = docID;
+            ViewBag.ApprovalLogID = id;
+            ViewBag.DocumentType = docType;
+            ViewBag.IsHistory = (isHistory== true ? true : false);
             return View();
         }
 
@@ -277,6 +278,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.PrintBtn.Event = "ExportPendingDocs();";
                     //---------------------------------------
                     break;
+
                 case "Back":
                     toolboxVM.backbtn.Visible = true;
                     toolboxVM.backbtn.Text = "Back";
@@ -285,10 +287,18 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.backbtn.Href = Url.Action("ViewPendingDocuments", "DocumentApproval", new { Code = "APR"});
 
                     break;
-              
-              
 
-                     
+                case "Return":
+                    toolboxVM.backbtn.Visible = true;
+                    toolboxVM.backbtn.Text = "Back";
+                    toolboxVM.backbtn.Title = "Back";
+                    toolboxVM.ListBtn.Event = "";
+                    toolboxVM.backbtn.Href = Url.Action("ViewApprovalHistory", "DocumentApproval", new { Code = "APR" });
+
+                    break;
+
+
+
                 default:
                     return Content("Nochange");
             }
