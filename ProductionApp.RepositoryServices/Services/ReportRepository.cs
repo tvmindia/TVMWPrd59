@@ -232,5 +232,91 @@ namespace ProductionApp.RepositoryServices.Services
             return requisitionDetailList;
         }
         #endregion GetRequisitionDetailReport
+
+        #region GetPurchaseSummaryReport
+        /// <summary>
+        /// To Get Purchase Summary Report
+        /// </summary>
+        /// <param name="purchaseSummaryReport"></param>
+        /// <returns></returns>
+        public List<PurchaseOrder> GetPurchaseSummaryReport(PurchaseSummaryReport purchaseSummaryReport)
+        {
+
+            List<PurchaseOrder> purchaseOrderList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        if (purchaseSummaryReport.DataTablePaging.OrderColumn == "")
+                        {
+                            purchaseSummaryReport.DataTablePaging.OrderColumn = "PURCHASEORDERNO";
+                            purchaseSummaryReport.DataTablePaging.OrderDir = "ASC";
+                        }
+                        cmd.CommandText = "[AMC].[GetPurchaseSummaryReport]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(purchaseSummaryReport.SearchTerm) ? "" : purchaseSummaryReport.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = purchaseSummaryReport.DataTablePaging.Start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = purchaseSummaryReport.DataTablePaging.Length;
+                        cmd.Parameters.Add("@OrderDir", SqlDbType.VarChar).Value = purchaseSummaryReport.DataTablePaging.OrderDir;
+                        cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = purchaseSummaryReport.DataTablePaging.OrderColumn;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = purchaseSummaryReport.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = purchaseSummaryReport.ToDate;
+                        cmd.Parameters.Add("@POStatus", SqlDbType.VarChar).Value = purchaseSummaryReport.Status;
+                        if (purchaseSummaryReport.SupplierID != Guid.Empty)
+                            cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = purchaseSummaryReport.SupplierID;
+                        cmd.Parameters.Add("@EmailSentYN", SqlDbType.NVarChar).Value = purchaseSummaryReport.EmailedYN;
+
+
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                purchaseOrderList = new List<PurchaseOrder>();
+                                while (sdr.Read())
+                                {
+                                    PurchaseOrder purchaseOrderObj = new PurchaseOrder();
+                                    {
+                                        purchaseOrderObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : purchaseOrderObj.ID);
+                                        purchaseOrderObj.PurchaseOrderNo = (sdr["PONo"].ToString() != "" ? sdr["PONo"].ToString() : purchaseOrderObj.PurchaseOrderNo);
+                                        purchaseOrderObj.PurchaseOrderDate = (sdr["PurchaseOrderDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderDate"].ToString()) : purchaseOrderObj.PurchaseOrderDate);
+                                        purchaseOrderObj.PurchaseOrderDateFormatted = (sdr["PurchaseOrderDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderDate"].ToString()).ToString(settings.DateFormat) : purchaseOrderObj.PurchaseOrderDateFormatted);
+                                        purchaseOrderObj.PurchaseOrderTitle = (sdr["PurchaseOrderTitle"].ToString() != "" ? sdr["PurchaseOrderTitle"].ToString() : purchaseOrderObj.PurchaseOrderTitle);
+                                       
+                                        purchaseOrderObj.Supplier = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : purchaseOrderObj.Supplier);
+                                        purchaseOrderObj.PurchaseOrderStatus = (sdr["PurchaseOrderStatus"].ToString() != "" ? sdr["PurchaseOrderStatus"].ToString() : purchaseOrderObj.PurchaseOrderStatus);
+                                        purchaseOrderObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : purchaseOrderObj.TotalCount);
+                                        purchaseOrderObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : purchaseOrderObj.FilteredCount);
+                                        purchaseOrderObj.EmailSentYN= (sdr["EmailSentYN"].ToString() != "" ? sdr["EmailSentYN"].ToString() : purchaseOrderObj.EmailSentYN);
+                                        
+                                        purchaseOrderObj.GrossAmount = (sdr["PurchaseAmount"].ToString() != "" ? decimal.Parse(sdr["PurchaseAmount"].ToString()) : purchaseOrderObj.GrossAmount);
+                                        purchaseOrderObj.PurchaseOrderIssuedDate = (sdr["PurchaseOrderIssuedDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderIssuedDate"].ToString()) : purchaseOrderObj.PurchaseOrderIssuedDate);
+                                        purchaseOrderObj.PurchaseOrderIssuedDateFormatted = (sdr["PurchaseOrderIssuedDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderIssuedDate"].ToString()).ToString(settings.DateFormat) : purchaseOrderObj.PurchaseOrderIssuedDateFormatted);
+
+                                    }
+                                    purchaseOrderList.Add(purchaseOrderObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return purchaseOrderList;
+        }
+        #endregion GetPurchaseSummaryReport
+
+
+
     }
 }

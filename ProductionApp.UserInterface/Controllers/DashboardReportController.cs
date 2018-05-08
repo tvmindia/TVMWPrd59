@@ -21,14 +21,16 @@ namespace ProductionApp.UserInterface.Controllers
         IRequisitionBusiness _requisitionBusiness;
         ICommonBusiness _commonBusiness;
         IMaterialBusiness _materialBusiness;
+        ISupplierBusiness _supplierBusiness;
 
-        public DashboardReportController(IReportBusiness reportBusiness,IEmployeeBusiness employeeBusiness,IRequisitionBusiness requisitionBusiness,ICommonBusiness commonBusiness,IMaterialBusiness materialBusiness)
+        public DashboardReportController(IReportBusiness reportBusiness,IEmployeeBusiness employeeBusiness,IRequisitionBusiness requisitionBusiness,ICommonBusiness commonBusiness,IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness)
         {
             _reportBusiness = reportBusiness;
             _employeeBusiness = employeeBusiness;
             _requisitionBusiness = requisitionBusiness;
             _commonBusiness = commonBusiness;
             _materialBusiness = materialBusiness;
+            _supplierBusiness = supplierBusiness;
         }
         #endregion Constructor Injection
 
@@ -192,6 +194,83 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetRequisitionSummaryReport
 
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult PurchaseSummaryReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+
+            PurchaseSummaryReportViewModel purchaseSummaryReportVM = new PurchaseSummaryReportViewModel();
+            purchaseSummaryReportVM.Supplier = new SupplierViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            purchaseSummaryReportVM.Supplier.SelectList = new List<SelectListItem>();
+            List<SupplierViewModel> supplierList = Mapper.Map<List<Supplier>, List<SupplierViewModel>>(_supplierBusiness.GetSupplierForSelectList());
+            if (supplierList != null)
+                foreach (SupplierViewModel supplier in supplierList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = supplier.CompanyName,
+                        Value = supplier.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            purchaseSummaryReportVM.Supplier.SelectList = selectListItem;
+            return View(purchaseSummaryReportVM);
+        }
+
+        #region GetPurchaseSummaryReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetPurchaseSummaryReport(DataTableAjaxPostModel model, PurchaseSummaryReportViewModel purchaseSummaryVM)
+        {
+            Common con = new Common();
+            DateTime dt = con.GetCurrentDateTime();
+            if (purchaseSummaryVM != null)
+            {
+                if (purchaseSummaryVM.DateFilter == "30")
+                {
+                    purchaseSummaryVM.FromDate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
+                    purchaseSummaryVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (purchaseSummaryVM.DateFilter == "60")
+                {
+                    purchaseSummaryVM.FromDate = dt.AddDays(-60).ToString("dd-MMM-yyyy");
+                    purchaseSummaryVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (purchaseSummaryVM.DateFilter == "90")
+                {
+                    purchaseSummaryVM.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    purchaseSummaryVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+            }
+            purchaseSummaryVM.DataTablePaging.Start = model.start;
+            purchaseSummaryVM.DataTablePaging.Length = (purchaseSummaryVM.DataTablePaging.Length == 0 ? model.length : purchaseSummaryVM.DataTablePaging.Length);
+
+            List<PurchaseOrderViewModel> purchaseOrderList = Mapper.Map<List<PurchaseOrder>, List<PurchaseOrderViewModel>>(_reportBusiness.GetPurchaseSummaryReport(Mapper.Map<PurchaseSummaryReportViewModel, PurchaseSummaryReport>(purchaseSummaryVM)));
+
+            if (purchaseSummaryVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = purchaseOrderList.Count != 0 ? purchaseOrderList[0].TotalCount : 0;
+                int filteredResult = purchaseOrderList.Count != 0 ? purchaseOrderList[0].FilteredCount : 0;
+                purchaseOrderList = purchaseOrderList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = purchaseOrderList.Count != 0 ? purchaseOrderList[0].TotalCount : 0,
+                recordsFiltered = purchaseOrderList.Count != 0 ? purchaseOrderList[0].FilteredCount : 0,
+                data = purchaseOrderList
+            });
+        }
+        #endregion GetPurchaseSummaryReport
 
         #region ButtonStyling
         [HttpGet]

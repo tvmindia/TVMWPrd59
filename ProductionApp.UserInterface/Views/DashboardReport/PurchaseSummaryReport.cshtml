@@ -1,8 +1,8 @@
 ﻿@using ProductionApp.UserInterface.App_Start
-@model ProductionApp.UserInterface.Models.RequisitionDetailReportViewModel
+@model ProductionApp.UserInterface.Models.PurchaseSummaryReportViewModel
 
 @{
-    ViewBag.Title = "Requisition Detail Report";
+    ViewBag.Title = "Purchase Summary Report";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
@@ -14,7 +14,7 @@
 
 <style>
     table.dataTable tr.odd {
-        background-color: white;
+        background-color: #ebf2f5;
     }
 
     table.dataTable tr.even {
@@ -26,8 +26,6 @@
     }
 </style>
 
-
-
 <div style="width:100%;">
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-cogs"></i>Reports</a></li>
@@ -35,7 +33,6 @@
     </ol>
 </div>
 <section class="content">
-
     <div class="form-horizontal">
         <div class="col-md-9" style="margin-top:10px;">
 
@@ -47,7 +44,7 @@
                     <div class="input-group">
                         @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "SearchTerm", @onkeypress = "RedirectSearchClick(event,this)" } })
                         <div class="input-group-btn">
-                            <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadRequisitionDetailTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
+                            <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadPurchaseTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
                         </div>
                     </div>
                 </div>
@@ -59,17 +56,15 @@
                 </div>
                 <div class="col-md-12">
                     @{
-                        List<SelectListItem> RequisitionDateRange = new List<SelectListItem>();
-                        //RequisitionDateRange.Add(new SelectListItem
-                        //{ Text = "ALL", Value = "0" });
-                        RequisitionDateRange.Add(new SelectListItem
+                        List<SelectListItem> PurchaseDateRange = new List<SelectListItem>();
+                        PurchaseDateRange.Add(new SelectListItem
                         { Text = "Last 30 Days", Value = "30" });
-                        RequisitionDateRange.Add(new SelectListItem
+                        PurchaseDateRange.Add(new SelectListItem
                         { Text = "Last 60 Days", Value = "60" });
-                        RequisitionDateRange.Add(new SelectListItem
+                        PurchaseDateRange.Add(new SelectListItem
                         { Text = "Last 90 Days", Value = "90" });
                     }
-                    @Html.DropDownListFor(model => model.DateFilter, RequisitionDateRange, "---  Filter  ---", new { @class = "form-control", style = "padding:4px 12px;", @onchange = "DateFilterOnchange('Apply');" })
+                    @Html.DropDownListFor(model => model.DateFilter, PurchaseDateRange, "---  Filter  ---", new { @class = "form-control", style = "padding:4px 12px;", @onchange = "DateFilterOnchange('Apply');" })
                 </div>
             </div>
 
@@ -82,8 +77,6 @@
             }
         </div>
     </div>
-
-
 
     <div class="row">
         <div class="form-group col-md-12" style="padding-top:5px;">
@@ -100,6 +93,8 @@
             <div style="border-top:1px solid #d9d9d9;margin-left: 15px;" class="form-group col-md-12"></div>
             
             <div class="col-md-12">
+
+
                 <div class="col-md-3">
                     <div class="col-md-12">
                         @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
@@ -118,88 +113,72 @@
                 </div>
                 <div class="col-md-3">
                     <div class="col-md-12">
-                        @Html.LabelFor(model => model.RequisitionBy, htmlAttributes: new { @class = "control-label" })
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-md-12">
-                        @Html.DropDownListFor(model => model.RequisitionBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", style = "width:100%", @id = "RequisitionBy" })
+                        @{
+                            List<SelectListItem> PurchaseOrderStatus = new List<SelectListItem>();
+                            PurchaseOrderStatus.Add(new SelectListItem
+                            { Text = "Open", Value = "Open" });
+                            PurchaseOrderStatus.Add(new SelectListItem
+                            { Text = "Closed", Value = "Closed" });
+                        }
+                        @Html.DropDownListFor(model => model.Status, PurchaseOrderStatus, "--Select Status--", new { @class = "form-control", style = "padding:4px 12px;", @id = "Status" })
                     </div>
                 </div>
 
             </div>
 
             <div class="col-md-12">
+
                 <div class="col-md-3">
                     <div class="col-md-12">
-                        @Html.LabelFor(model => model.ReqStatus, htmlAttributes: new { @class = "control-label" })
+                        @Html.LabelFor(model => model.SupplierID, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.DropDownListFor(model => model.SupplierID, Model.Supplier.SelectList, "--Select Supplier--", new { @class = "form-control BlockEnter", style = "width:100%", @id = "Supplier" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.EmailedYN, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-md-12">
                         @{
-                            List<SelectListItem> RequisitionStatus = new List<SelectListItem>();
-                            RequisitionStatus.Add(new SelectListItem
-                            { Text = "Open", Value = "Open" });
-                            RequisitionStatus.Add(new SelectListItem
-                            { Text = "Closed", Value = "Closed" });
+                            List<SelectListItem> EmailedYNStatus = new List<SelectListItem>();
+                            EmailedYNStatus.Add(new SelectListItem
+                            { Text = "Yes", Value = "1" });
+                            EmailedYNStatus.Add(new SelectListItem
+                            { Text = "No", Value = "0" });
                         }
-                        @Html.DropDownListFor(model => model.ReqStatus, RequisitionStatus, "--Select Status--", new { @class = "form-control", style = "padding:4px 12px;", @id = "ReqStatus" })
+                        @Html.DropDownListFor(model => model.EmailedYN, EmailedYNStatus, "--Select Status--", new { @class = "form-control", style = "padding:4px 12px;", @id = "EmailedYN" })
                     </div>
                 </div>
+                <div class="col-md-3"></div>
 
-                <div class="col-md-3">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.MaterialID, htmlAttributes: new { @class = "control-label" })
-                    </div>
-                    <div class="col-md-12">
-                        @Html.DropDownListFor(model => model.MaterialID, Model.Material.SelectList, "--Select Material--", new { @class = "form-control BlockEnter", style = "width:100%", @id = "Material" })
+                    <div class="col-md-2">
+                        <a class="btn btn-primary" style="right:-750px;margin-top:10px" onclick="BindOrReloadPurchaseTable('Apply')">Apply</a>
                     </div>
                 </div>
-
-
-
-                <div class="col-md-3">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.DeliveryStatus, htmlAttributes: new { @class = "control-label" })
-                    </div>
-                    <div class="col-md-12">
-                        @{
-                            List<SelectListItem> DeliveryStatusList = new List<SelectListItem>();
-                            DeliveryStatusList.Add(new SelectListItem
-                            { Text = "Delivered", Value = "Delivered" });
-                            DeliveryStatusList.Add(new SelectListItem
-                            { Text = "Not Delivered", Value = "Not Delivered" });
-                            DeliveryStatusList.Add(new SelectListItem
-                            { Text = "Partially Delivered", Value = "Partially Delivered" });
-                        }
-                        @Html.DropDownListFor(model => model.DeliveryStatus, DeliveryStatusList, "--Select Status--", new { @class = "form-control", style = "padding:4px 12px;", @id = "DelStatus" })
-                    </div>
-                </div>
-
-
-
-
-
-                <div class="col-md-2">
-                    <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadRequisitionDetailTable('Apply')">Apply</a>
-                </div>
-
-            </div>
+            
         </div>
     </div>
 
     <div class="col-md-12">
-        <table id="tblRequisitionDetailReport" class="table stripe" cellspacing="0" width="100%">
+        <table id="tblPurchaseSummaryReport" class="table stripe" cellspacing="0" width="100%">
             <thead>
                 <tr class="text-center TableHead">
                     <th>ID</th>
-                    <th>Req No</th>
-                    <th>Title</th>
-                    <th>Req Date</th>
-                    <th>Req Status</th> 
-                    <th>Item</th>
-                    <th>Unit</th>
-                    <th>Req Qty</th>
-                    <th>Ord Qty</th>
-                    <th>Delv Qty</th>  
-                    <th>Delv Status</th>                 
+                    <th>PO#</th>
+                    <th>PO Date</th>
+                    <th>POIssue Date</th>
+                    <th>PO Title</th>
+                    <th>Supplier</th>
+                    <th>PO Status</th>
+                    <th>OrderMailed Y/N</th>
+                    <th>Total POValue</th>
+                    
                 </tr>
             </thead>
         </table>
@@ -211,9 +190,7 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/Report/RequisitionDetailReport")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/Report/PurchaseSummaryReport")
 }
-
-
 
 

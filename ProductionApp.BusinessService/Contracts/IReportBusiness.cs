@@ -12,5 +12,6 @@ namespace ProductionApp.BusinessService.Contracts
         List<AMCSysReport> GetAllReport(string searchTerm);
         List<Requisition> GetRequisitionSummaryReport(RequisitionSummaryReport requisitionSummaryReport);
         List<RequisitionDetailReport> GetRequisitionDetailReport(RequisitionDetailReport requisitionDetailReport);
+        List<PurchaseOrder> GetPurchaseSummaryReport(PurchaseSummaryReport purchaseSummaryReport);
     }
 }
