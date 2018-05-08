@@ -79,10 +79,7 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     Material = new MaterialViewModel(),
                     Qty = 0,
-                    Unit = new UnitViewModel()
-                    {
-                        UnitSelectList = _unitBusiness.GetUnitForSelectList()
-                    }
+                    QtyInKG=0
                 }
             };
             return View(materialReceiptVM);

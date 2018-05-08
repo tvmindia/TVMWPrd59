@@ -132,8 +132,9 @@
                         <th>MaterialID</th>
                         <th>Material</th>
                         <th>Description</th>
-                        <th>Quantity</th>
-                        <th>Unit</th>
+                        <th>Quantity In KG</th>
+                        <th>Quantity In Nos.</th>
+                        @*<th>Unit</th>*@
                         <th>...</th>
                 </thead>
             </table>
@@ -214,20 +215,28 @@
                     </div>
                     <div class="col-md-6">
                         <div class="col-md-12">
+                            @Html.LabelFor(model => model.MaterialReceiptDetail.QtyInKG, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.MaterialReceiptDetail.QtyInKG, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
                             @Html.LabelFor(model => model.MaterialReceiptDetail.Qty, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
                             @Html.EditorFor(model => model.MaterialReceiptDetail.Qty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    @*<div class="col-md-6">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.MaterialReceiptDetail.UnitCode, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
                             @Html.EditorFor(model => model.MaterialReceiptDetail.UnitCode, new { htmlAttributes = new { @class = "form-control BlockEnter", @disabled = "disabled", @value = "Nos." } })
                         </div>
-                    </div>
+                    </div>*@
                     <div class="col-md-6">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.MaterialReceiptDetail.MaterialDesc, htmlAttributes: new { @class = "control-label " })
@@ -286,7 +295,7 @@
                                         <th>PO Unit</th>
                                         <th>Prev. Recvd. Qty</th>
                                         <th>Curr. Recvd. Qty</th>
-                                        <th>Recvd. Unit</th>
+                                        @*<th>Recvd. Unit</th>*@
                                 </thead>
                             </table>
                         </div>

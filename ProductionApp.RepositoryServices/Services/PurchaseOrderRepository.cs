@@ -588,6 +588,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         purchaseOrderDetail.Discount = (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseOrderDetail.Discount);
                                         purchaseOrderDetail.Amount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : purchaseOrderDetail.Amount);
                                         purchaseOrderDetail.PrevRcvQty = (sdr["PrevRcvQty"].ToString() != "" ? decimal.Parse(sdr["PrevRcvQty"].ToString()) : purchaseOrderDetail.PrevRcvQty);
+                                        purchaseOrderDetail.PrevRcvQtyInKG = (sdr["PrevRcvQtyInKG"].ToString() != "" ? decimal.Parse(sdr["PrevRcvQtyInKG"].ToString()) : purchaseOrderDetail.PrevRcvQtyInKG);
                                         purchaseOrderDetail.PrevInvQty = (sdr["PrevInvQty"].ToString() != "" ? decimal.Parse(sdr["PrevInvQty"].ToString()) : purchaseOrderDetail.PrevInvQty);
                                         //calculation
                                         purchaseOrderDetail.Qty = purchaseOrderDetail.POQty - purchaseOrderDetail.PrevInvQty > 0 ? purchaseOrderDetail.POQty - purchaseOrderDetail.PrevInvQty : 0;
