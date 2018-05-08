@@ -303,7 +303,7 @@ function BindProductionTracking() {
         debugger;
         _ProductionTracking = new Object();
         _ProductionTracking = GetProductionTracking();
-        $('#EntryDateFormatted').val(_ProductionTracking.EntryDateFormatted);
+        $('#EntryDate').val(_ProductionTracking.EntryDateFormatted);
         $('#EmployeeID').val(_ProductionTracking.ForemanID).select2();
         $('#ProductionRefNo').val(_ProductionTracking.ProductionRefNo);
         $('#AcceptedQty').val(_ProductionTracking.AcceptedQty);
