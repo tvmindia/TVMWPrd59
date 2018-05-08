@@ -70,7 +70,7 @@ $(document).ready(function () {
                   { "data": "MaterialDesc", "defaultContent": "<i>-</i>" },
                   { "data": "Qty", "defaultContent": "<i>-</i>" },//5
                   { "data": "UnitCode", "defaultContent": "<i>-</i>" },//6
-                  //{ "data": "PrevRcvQtyInKG", "defaultContent": "<i>-</i>" },//7
+                  { "data": "PrevRcvQtyInKG", "defaultContent": "<i>-</i>" },//7
                   { "data": "PrevRcvQty", "defaultContent": "<i>-</i>" },//7-8
                   //{
                   //    "data": "Material.QtyInKG", render: function (data, type, row) {
@@ -87,10 +87,10 @@ $(document).ready(function () {
                 ],
                 columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 1 },
                     { "targets": [0, 2], "visible": false, "searchable": false },
-                    { className: "text-right", "targets": [5, 7, 8], "width": "10%" },//, 9, 10
+                    { className: "text-right", "targets": [5, 7, 8, 9], "width": "10%" },//, 9, 10
                     { className: "text-left", "targets": [3, 4, 6] },//, 9
                     { className: "text-center", "targets": [1] },
-                    { "targets": [3, 4, 5, 6], "bSortable": false }
+                    { "targets": [3, 4, 5, 6, 7, 8, 9], "bSortable": false }
                 ],
                 select: { style: 'multi', selector: 'td:first-child' },
                 destroy: true
