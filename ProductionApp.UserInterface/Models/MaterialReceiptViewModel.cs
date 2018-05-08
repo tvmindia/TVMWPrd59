@@ -44,7 +44,7 @@ namespace ProductionApp.UserInterface.Models
     public class MaterialReceiptDetailViewModel
     {
         public Guid ID { get; set; }
-        public Guid HeaderID { get; set; }
+        public Guid MaterialReceiptID { get; set; }
         [Display(Name = "Material")]
         public Guid MaterialID { get; set; }
         [Display(Name = "Description")]
