@@ -12,15 +12,33 @@
 }
 
 <div style="width:100%;">
-    <ol class="breadcrumb">
-        <li><a href="/DocumentApproval/ViewPendingDocuments?Code=APR&Name=MyApprovals"><i class="fa fa-cogs"></i> My Approvals</a></li>
-        <li><a href="/DocumentApproval/ViewPendingDocuments?Code=APR&Name=MyApprovals"><i class="fa fa-cogs"></i> Pending Documents</a></li>
-        <li class="active">@ViewBag.Title</li>
-    </ol>
+    @if (ViewBag.IsHistory)
+    {
+        <ol class="breadcrumb">
+            <li><a href="/DocumentApproval/ViewPendingDocuments?Code=APR&Name=MyApprovals"><i class="fa fa-cogs"></i> My Approvals</a></li>
+            <li><a href="/DocumentApproval/ViewApprovalHistory?Code=APR"><i class="fa fa-cogs"></i> Approval History</a></li>
+            <li class="active">@ViewBag.Title</li>
+        </ol>
+    }
+    else
+    {
+        <ol class="breadcrumb">
+            <li><a href="/DocumentApproval/ViewPendingDocuments?Code=APR&Name=MyApprovals"><i class="fa fa-cogs"></i> My Approvals</a></li>
+            <li><a href="/DocumentApproval/ViewPendingDocuments?Code=APR&Name=MyApprovals"><i class="fa fa-cogs"></i> Pending Documents</a></li>
+            <li class="active">@ViewBag.Title</li>
+        </ol>
+    }
+    
 </div>
 <section class="content">
         <div class="row" id="" style="min-height:25px">
-            @{
+            @if (ViewBag.IsHistory)
+            {
+                var data = new { actionType = "Return" };
+                @Html.Action("ChangeButtonStyle", "DocumentApproval", data);
+            }
+            else
+            {
                 var data = new { actionType = "Back" };
                 @Html.Action("ChangeButtonStyle", "DocumentApproval", data);
             }

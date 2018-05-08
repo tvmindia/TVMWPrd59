@@ -127,7 +127,7 @@
 
                             <div class="form-group col-md-6">
                                 <div class="col-md-12">
-                                    @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label" })
+                                    @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label", @id="lblForBankCode" })
                                 </div>
                                 <div class="col-md-12" id="divBankDropdown">
                                     @Html.Action("BankDropdown", "Bank", new { required = "" })
@@ -164,7 +164,7 @@
 
                             <div class="form-group col-md-6">
                                 <div class="col-md-12">
-                                    @Html.LabelFor(model => model.PaymentRef, htmlAttributes: new { @class = "control-label " })
+                                    @Html.LabelFor(model => model.PaymentRef, htmlAttributes: new { @class = "control-label ", @id = "lblForPaymentRef" })
                                 </div>
                                 <div class="col-md-12">
                                     @Html.EditorFor(model => model.PaymentRef, new { htmlAttributes = new { @class = "form-control HeaderBox" } })

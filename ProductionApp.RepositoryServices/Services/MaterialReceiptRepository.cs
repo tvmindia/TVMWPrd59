@@ -339,7 +339,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     materialReceiptDetail.Material = new Material();
 
                                     materialReceiptDetail.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : materialReceiptDetail.ID);
-                                    materialReceiptDetail.HeaderID = (sdr["HeaderID"].ToString() != "" ? Guid.Parse(sdr["HeaderID"].ToString()) : materialReceiptDetail.HeaderID);
+                                    materialReceiptDetail.MaterialReceiptID = (sdr["MaterialReceiptID"].ToString() != "" ? Guid.Parse(sdr["MaterialReceiptID"].ToString()) : materialReceiptDetail.MaterialReceiptID);
                                     materialReceiptDetail.MaterialID = materialReceiptDetail.Material.ID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : materialReceiptDetail.MaterialID);
                                     materialReceiptDetail.Material.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : materialReceiptDetail.Material.MaterialCode);
                                     materialReceiptDetail.Material.UnitCode= (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : materialReceiptDetail.Material.UnitCode);

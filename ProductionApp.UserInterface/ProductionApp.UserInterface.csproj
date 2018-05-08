@@ -1043,7 +1043,6 @@
     <Content Include="Views\OtherExpense\NewOtherExpense.cshtml" />
     <Content Include="Views\OtherExpense\ViewOtherExpense.cshtml" />
     <Content Include="Views\DashboardReport\RequisitionSummaryReport.cshtml" />
-    <Content Include="Views\ApprovalStatus\_ApprovalStatusDropDown.cshtml" />
     <Content Include="Views\Employee\_ReceivedByDropdown.cshtml" />
     <Content Include="Views\Employee\_ReturnByDropdown.cshtml" />
     <Content Include="Views\DashboardReport\RequisitionDetailReport.cshtml" />
@@ -1059,6 +1058,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\" />
+    <Folder Include="Views\ApprovalStatus\" />
     <Folder Include="Views\Department\" />
     <Folder Include="Views\FileUpload\" />
     <Folder Include="Views\RecieveFromProduction\" />

@@ -27,8 +27,8 @@ $(document).ready(function () {
 
 function Edit(curObj) {
     debugger;
-    var rowData = DataTables.PurchaseOrderList.row($(curObj).parents('tr')).data();
-    window.location.replace("ApproveDocument?code=APR&ID=" + rowData.ApprovalLogID + '&DocType=' + rowData.DocumentTypeCode + '&DocID=' + rowData.DocumentID);
+    var rowData = DataTables.ApprovalHistoryList.row($(curObj).parents('tr')).data();
+    window.location.replace("ApproveDocument?code=APR&id=" + rowData.ApprovalLogID + '&docType=' + rowData.DocumentTypeCode + '&docID=' + rowData.DocumentID + '&isHistory=true');
 }
 
 //bind Pending list
@@ -70,7 +70,7 @@ function BindOrReloadApprovalHistory(action) {
         DocumentApprovalAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
         DocumentApprovalAdvanceSearchViewModel.DocumentType = DocumentTypeViewModel;
 
-        DataTables.PurchaseOrderList = $('#tblApprovalHistory').DataTable(
+        DataTables.ApprovalHistoryList = $('#tblApprovalHistory').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
                 buttons: [{
@@ -105,7 +105,7 @@ function BindOrReloadApprovalHistory(action) {
                     {
                         "data": "ApprovalLogID", "orderable": false, render: function (data, type, row) {
                             debugger;
-                            return '<a href="/DocumentApproval/ApproveDocument?code=APR&ID=' + data + '&DocType=' + row.DocumentTypeCode + '&DocID=' + row.DocumentID + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                            return '<a href="/DocumentApproval/ApproveDocument?code=APR&id=' + data + '&docType=' + row.DocumentTypeCode + '&docID=' + row.DocumentID + '&isHistory=true" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
                         }, "defaultContent": "<i>-</i>"
                     }
                 ],

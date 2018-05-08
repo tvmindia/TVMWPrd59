@@ -38,6 +38,7 @@
   transition: all 600ms;
   transform: translateY(0px);
   transition: all 0.5s;
+  z-index: 2;
 }
 .wrap.active:before {
   height: 2000px;

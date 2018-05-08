@@ -157,7 +157,7 @@ namespace ProductionApp.RepositoryServices.Services
 
         }
 
-        public object ApproveDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode)
+        public object ApproveDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode, string Remarks, DateTime approvalDate)
         {
             SqlParameter outputStatus= null;
             try
@@ -176,6 +176,8 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@ApprovalLogID", SqlDbType.UniqueIdentifier).Value = ApprovalLogID;
                         cmd.Parameters.Add("@DocumentID", SqlDbType.UniqueIdentifier).Value = DocumentID;
                         cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.VarChar, 250).Value = DocumentTypeCode;
+                        cmd.Parameters.Add("@Remarks", SqlDbType.VarChar, -1).Value = Remarks;
+                        cmd.Parameters.Add("@ApprovalDate", SqlDbType.DateTime).Value = approvalDate;
 
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
@@ -244,7 +246,7 @@ namespace ProductionApp.RepositoryServices.Services
 
         }
 
-        public object RejectDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode, string Remarks)
+        public object RejectDocument(Guid ApprovalLogID, Guid DocumentID, string DocumentTypeCode, string Remarks,DateTime rejectionDate)
         {
             SqlParameter outputStatus = null;
             try
@@ -264,6 +266,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@DocumentID", SqlDbType.UniqueIdentifier).Value = DocumentID;
                         cmd.Parameters.Add("@DocumentTypeCode", SqlDbType.VarChar, 250).Value = DocumentTypeCode;
                         cmd.Parameters.Add("@Remarks", SqlDbType.VarChar,-1).Value = Remarks;
+                        cmd.Parameters.Add("@RejectionDate", SqlDbType.DateTime).Value = rejectionDate;
 
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;

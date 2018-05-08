@@ -34,7 +34,7 @@ namespace ProductionApp.DataAccessObject.DTO
     public class MaterialReceiptDetail
     {
         public Guid ID { get; set; }
-        public Guid HeaderID { get; set; }
+        public Guid MaterialReceiptID { get; set; }
         public Guid MaterialID { get; set; }
         public string MaterialDesc { get; set; }
         public string UnitCode { get; set; }
