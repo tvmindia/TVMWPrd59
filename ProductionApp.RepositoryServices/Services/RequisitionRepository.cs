@@ -111,6 +111,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = requisition.ID;
                         cmd.Parameters.Add("@FileDupID", SqlDbType.UniqueIdentifier).Value = requisition.hdnFileID;
                         cmd.Parameters.Add("@Title", SqlDbType.VarChar, 250).Value = requisition.Title;
+                        if(requisition.EmployeeID != Guid.Empty)
                         cmd.Parameters.Add("@RequisitionBy", SqlDbType.UniqueIdentifier).Value = requisition.EmployeeID;
                         cmd.Parameters.Add("@ReqStatus", SqlDbType.VarChar, 250).Value = requisition.ReqStatus;
                         cmd.Parameters.Add("@ReqDate", SqlDbType.DateTime).Value = requisition.ReqDateFormatted;

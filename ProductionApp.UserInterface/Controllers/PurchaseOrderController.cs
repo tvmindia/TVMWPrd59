@@ -497,6 +497,11 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Href = Url.Action("NewPurchaseOrder", "PurchaseOrder", new { code = "PURCH" });
                     toolboxVM.addbtn.Event = "";
 
+                    toolboxVM.savebtn.Visible = true;
+                    toolboxVM.savebtn.Text = "Save";
+                    toolboxVM.savebtn.Title = "Save PurchaseOrder";
+                    toolboxVM.savebtn.Event = "Save();";
+
                     toolboxVM.EmailBtn.Visible = true;
                     toolboxVM.EmailBtn.Text = "Email";
                     toolboxVM.EmailBtn.Title = "Email";

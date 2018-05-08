@@ -77,7 +77,8 @@ function BindOrReloadPurchaseOrderTable(action) {
                                  columns: [1,2,3,4,5,6]
                              }
             }],
-            order:false,
+            order: false,
+            ordering: false,
             searching: false,
             paging: true,
             lengthChange: false,
