@@ -346,6 +346,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     materialReceiptDetail.Material.WeightInKG = (sdr["WeightInKG"].ToString() != "" ? decimal.Parse(sdr["WeightInKG"].ToString()) : materialReceiptDetail.Material.WeightInKG);
                                     materialReceiptDetail.MaterialDesc= (sdr["MaterialDesc"].ToString() != "" ? sdr["MaterialDesc"].ToString() : materialReceiptDetail.MaterialDesc);
                                     materialReceiptDetail.Qty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : materialReceiptDetail.Qty);
+                                    materialReceiptDetail.QtyInKG = (sdr["QtyInKG"].ToString() != "" ? decimal.Parse(sdr["QtyInKG"].ToString()) : materialReceiptDetail.QtyInKG);
                                     materialReceiptDetail.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : materialReceiptDetail.UnitCode);
 
                                     materialReceiptDetailList.Add(materialReceiptDetail);

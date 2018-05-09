@@ -33,8 +33,8 @@ $(document).ready(function () {
                     { "data": "MaterialID", "defaultContent": "<i></i>" },
                     { "data": "Material.MaterialCode", "defaultContent": "<i></i>" },
                     { "data": "MaterialDesc", "defaultContent": "<i></i>" },
-                    { "data": "QtyInKG", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>" },
-                    { "data": "Qty", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i></i>" },
+                    { "data": "QtyInKG", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
+                    { "data": "Qty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
                     //{ "data": "UnitCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
                     { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="DetailEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a> | <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
                 ],
@@ -72,14 +72,14 @@ $(document).ready(function () {
                   { "data": "UnitCode", "defaultContent": "<i>-</i>" },//6
                   { "data": "PrevRcvQtyInKG", "defaultContent": "<i>-</i>" },//7
                   { "data": "PrevRcvQty", "defaultContent": "<i>-</i>" },//7-8
-                  //{
-                  //    "data": "Material.QtyInKG", render: function (data, type, row) {
-                  //        return '<input class="form-control text-left " name="Markup" value="' + row.Qty + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="QtyTextBoxValueChanged(this);">';
-                  //    }, "defaultContent": "<i>-</i>"
-                  //},//9
+                  {
+                      "data": "Material.QtyInKG", render: function (data, type, row) {
+                          return '<input class="form-control text-left " name="Markup" value="' + data + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="QtyTextBoxValueChanged(this);">';
+                      }, "defaultContent": "<i>-</i>"
+                  },//9
                   {
                       "data": "Material.Qty", render: function (data, type, row) {
-                          return '<input class="form-control text-right " name="Markup" value="' + Math.floor(row.Material.Qty) + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="TextBoxValueChanged(this);">';
+                          return '<input class="form-control text-right " name="Markup" value="' + data + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="TextBoxValueChanged(this);">';
                       }, "defaultContent": "<i>-</i>"
                   },//9-10
                   //{ "data": null, "defaultContent": "Nos." },
@@ -190,8 +190,8 @@ function BindMaterialDetails(id) {
             $('#MaterialReceiptDetail_QtyInKG').change(function () {
                 if (parseFloat($('#WeightInKG').val()) > 0)
                     if ($('#MaterialReceiptDetail_QtyInKG').val() != "")
-                        $('#MaterialReceiptDetail_Qty').val(Math.ceil(parseFloat($('#MaterialReceiptDetail_QtyInKG').val()) / parseFloat(($('#WeightInKG').val() !== "0" && $('#WeightInKG').val() !== null) ? $('#WeightInKG').val() : 1)));
-                //Math.ceil used to round upward to nearest integer
+                        $('#MaterialReceiptDetail_Qty').val(Math.floor(parseFloat($('#MaterialReceiptDetail_QtyInKG').val()) / parseFloat(($('#WeightInKG').val() !== "0" && $('#WeightInKG').val() !== null) ? $('#WeightInKG').val() : 1)));
+                //Math.floor used to round downward to nearest integer
             });
 
         }
@@ -241,7 +241,7 @@ function AddMaterialReceiptDetailToTable() {
             MaterialReceiptDetailVM.ID = $('#MaterialReceiptDetail_ID').val();
             MaterialReceiptDetailVM.Qty = $('#MaterialReceiptDetail_Qty').val();
             MaterialReceiptDetailVM.QtyInKG = $('#MaterialReceiptDetail_QtyInKG').val();
-            MaterialReceiptDetailVM.UnitCode = $('#MaterialReceiptDetail_UnitCode').val();
+            //MaterialReceiptDetailVM.UnitCode = $('#MaterialReceiptDetail_UnitCode').val();
             //switch (MaterialReceiptDetailVM.UnitCode) {
             //    case "kg":
             //        MaterialReceiptDetailVM.Qty = Math.floor(MaterialReceiptDetailVM.Qty / parseFloat(($('#WeightInKG').val() !== "0" && $('#WeightInKG').val() !== null) ? $('#WeightInKG').val() : 1));
@@ -263,7 +263,7 @@ function AddMaterialReceiptDetailToTable() {
                             materialReceiptDetailList[i].MaterialDesc = MaterialReceiptDetailVM.MaterialDesc;
                             materialReceiptDetailList[i].QtyInKG = MaterialReceiptDetailVM.QtyInKG;
                             materialReceiptDetailList[i].Qty = MaterialReceiptDetailVM.Qty;
-                            materialReceiptDetailList[i].UnitCode = MaterialReceiptDetailVM.UnitCode;
+                            //materialReceiptDetailList[i].UnitCode = MaterialReceiptDetailVM.UnitCode;
                             checkPoint = 1;
                             break;
                         }
@@ -373,6 +373,7 @@ function AddMaterialReceiptDetailList() {
         MaterialReceiptDetail.MaterialID = materialReceiptDetailVM[r].MaterialID;
         MaterialReceiptDetail.MaterialDesc = materialReceiptDetailVM[r].MaterialDesc;
         MaterialReceiptDetail.Qty = materialReceiptDetailVM[r].Qty;
+        MaterialReceiptDetail.QtyInKG = materialReceiptDetailVM[r].QtyInKG;
         MaterialReceiptDetail.UnitCode = materialReceiptDetailVM[r].UnitCode;
         _MaterialReceiptDetailList.push(MaterialReceiptDetail);
     }
@@ -419,15 +420,15 @@ function BindPurchaseOrderDetailTable(id) {
             purchaseOrderDetailList[i].Material = new Object();
             purchaseOrderDetailList[i].Material = GetMaterial(purchaseOrderDetailList[i].MaterialID)
             purchaseOrderDetailList[i].Material.UnitCode = purchaseOrderDetailList[i].UnitCode;
-            //purchaseOrderDetailList[i].Material.QtyInKG = 0;
+            purchaseOrderDetailList[i].Material.QtyInKG = 0;
             switch (purchaseOrderDetailList[i].UnitCode) {
                 case "kg":
-                    //purchaseOrderDetailList[i].Material.QtyInKG = purchaseOrderDetailList[i].Qty;
-                    purchaseOrderDetailList[i].Material.Qty = (purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].Qty / purchaseOrderDetailList[i].Material.WeightInKG : 0);
+                    purchaseOrderDetailList[i].Material.QtyInKG = purchaseOrderDetailList[i].Qty;
+                    purchaseOrderDetailList[i].Material.Qty = Math.floor(purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].Qty / purchaseOrderDetailList[i].Material.WeightInKG : 0);
                     break;
                 case "Ton":
-                    //purchaseOrderDetailList[i].Material.QtyInKG = purchaseOrderDetailList[i].Qty*1000;
-                    purchaseOrderDetailList[i].Material.Qty = (purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].Qty * 1000 / purchaseOrderDetailList[i].Material.WeightInKG : 0);
+                    purchaseOrderDetailList[i].Material.QtyInKG = purchaseOrderDetailList[i].Qty*1000;
+                    purchaseOrderDetailList[i].Material.Qty = Math.floor(purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].Qty * 1000 / purchaseOrderDetailList[i].Material.WeightInKG : 0);
                     break;
                 default:
                     purchaseOrderDetailList[i].Material.Qty = purchaseOrderDetailList[i].Qty;
@@ -514,7 +515,7 @@ function LoadPOItems(purchaseOrderDetailList) {
             materialReceiptDetailVM.MaterialDesc = purchaseOrderDetailList[i].MaterialDesc;
             materialReceiptDetailVM.ID = EmptyGuid;
             materialReceiptDetailVM.Qty = Math.floor(parseFloat(purchaseOrderDetailList[i].Material.Qty));
-            //materialReceiptDetailVM.QtyInKG = Math.floor(parseFloat(purchaseOrderDetailList[i].Material.QtyInKG));
+            materialReceiptDetailVM.QtyInKG = (parseFloat(purchaseOrderDetailList[i].Material.QtyInKG));
             materialReceiptDetailVM.UnitCode = "Nos.";
 
             _MaterialReceiptDetailList.push(materialReceiptDetailVM);
@@ -571,6 +572,7 @@ function DetailEdit(curObj) {
         $('#MaterialReceiptDetail_MaterialDesc').val(materialReceiptDetailViewModel.MaterialDesc);
         $('#MaterialReceiptDetail_ID').val(materialReceiptDetailViewModel.ID);
         $('#MaterialReceiptDetail_Qty').val(materialReceiptDetailViewModel.Qty);
+        $('#MaterialReceiptDetail_QtyInKG').val(materialReceiptDetailViewModel.QtyInKG);
         $('#MaterialReceiptDetail_UnitCode').val(materialReceiptDetailViewModel.UnitCode).trigger("change");
     }
     catch (e) {
@@ -861,23 +863,16 @@ function TextBoxValueChanged(thisObj) {
 function QtyTextBoxValueChanged(thisObj) {
     try {
         debugger;
-        var _MaterialReceiptDetail = DataTables.PurchaseOrderDetailTable.row($(thisObj).parents('tr')).data();
-        var _MaterialReceiptDetailList = DataTables.PurchaseOrderDetailTable.rows().data();
-        for (var i = 0; i < _MaterialReceiptDetailList.length; i++) {
-            if (_MaterialReceiptDetailList[i].ID === _MaterialReceiptDetail.ID) {
-                _MaterialReceiptDetailList[i].Qty = parseFloat(thisObj.value);
-                switch (_MaterialReceiptDetailList[i].UnitCode) {
-                    case "kg":
-                        _MaterialReceiptDetailList[i].Material.Qty = _MaterialReceiptDetailList[i].Qty / _MaterialReceiptDetailList[i].Material.WeightInKG;
-                        break;
-                    case "Ton":
-                        _MaterialReceiptDetailList[i].Material.Qty = _MaterialReceiptDetailList[i].Qty * 1000 / _MaterialReceiptDetailList[i].Material.WeightInKG;
-                        break;
-                    default:
-                        _MaterialReceiptDetailList[i].Material.Qty = _MaterialReceiptDetailList[i].Qty;
-                        break;
+        var table = DataTables.PurchaseOrderDetailTable;
+        var _MaterialReceiptDetail = table.row($(thisObj).parents('tr')).data();
+        var _MaterialReceiptDetailList = table.rows().data();
+        if (!Number.isNaN(parseFloat(thisObj.value))) {
+            for (var i = 0; i < _MaterialReceiptDetailList.length; i++) {
+                if (_MaterialReceiptDetailList[i].ID === _MaterialReceiptDetail.ID) {
+                    _MaterialReceiptDetailList[i].Material.QtyInKG = (parseFloat(thisObj.value));
+                    _MaterialReceiptDetailList[i].Material.Qty = Math.floor(_MaterialReceiptDetailList[i].Material.WeightInKG !== 0 ? _MaterialReceiptDetailList[i].Material.QtyInKG / _MaterialReceiptDetailList[i].Material.WeightInKG : 0);
+                    _MaterialReceiptDetailList[i].Material.UnitCode = _MaterialReceiptDetailList[i].UnitCode;
                 }
-                _MaterialReceiptDetailList[i].Material.UnitCode = _MaterialReceiptDetailList[i].UnitCode;
             }
         }
         DataTables.PurchaseOrderDetailTable.clear().rows.add(_MaterialReceiptDetailList).select().draw(true);
