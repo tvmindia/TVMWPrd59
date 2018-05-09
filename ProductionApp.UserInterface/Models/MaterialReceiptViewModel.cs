@@ -24,6 +24,8 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "General Notes")]
         [DataType(DataType.MultilineText)]
         public string GeneralNotes { get; set; }
+        [Display(Name = "Received By")]
+        public Guid? ReceivedBy { get; set; }
         public CommonViewModel Common { get; set; }
 
         //Additional Fields

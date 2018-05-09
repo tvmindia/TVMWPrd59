@@ -104,7 +104,7 @@ $(document).ready(function () {
             dropdownParent: $("#MaterialReceiptDetailModal")
         });
 
-        $('#SupplierID').select2({});
+        $('#SupplierID,#EmployeeID').select2({});
         //PurchaseOrderOnChange();
 
         //$('#MaterialReceiptDetail_UnitCode').select2({
@@ -805,14 +805,15 @@ function PurchaseOrderOnChange() {
             $('#msgPurchase').hide();
         });
         $('#hdnPurchaseOrderID').val($('#PurchaseOrderID').val());
+
         if ($('#IsUpdate').val() === "True") {
             //$('#btnLoadPO').addClass('disabled');
             $('#ExistingPurchaseOrder').prop('disabled', true);
             $('#PurchaseOrderID').prop('disabled', true);
-            $('#divSupplierDropdown .input-group-addon').each(function () {
-                $(this).parent().css("width", "100%");
-                $(this).remove();
-            });
+            //$('#divSupplierDropdown .input-group-addon').each(function () {
+            //    $(this).parent().css("width", "100%");
+            //    $(this).hide();
+            //});
             $('#SupplierID').prop('disabled', true);
             if ($('#hdnPurchaseOrderID').val() === EmptyGuid || $('#hdnPurchaseOrderID').val() === "" || $('#hdnPurchaseOrderID').val() === null) {
                 debugger;

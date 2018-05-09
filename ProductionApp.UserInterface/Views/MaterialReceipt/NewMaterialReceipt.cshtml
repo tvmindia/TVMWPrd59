@@ -18,8 +18,7 @@
 
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href=@Url.Action("Index", "Home")><i class="fa fa-home"></i> Home</a></li>
-        <li><a href=@Url.Action("Index", "DashboardStore", new { code = "STR" })>Store</a></li>
+        <li><a href=@Url.Action("Index", "DashboardStore", new { code = "STR" })><i class="fa fa-cogs"></i> Store</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -47,72 +46,84 @@
                 @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
                 @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
 
-                <div class="form-group col-md-12"></div>
-                <div class="form-group col-md-4">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.ReceiptDate, htmlAttributes: new { @class = "control-label lblrequired" })
+                <div class="form-group col-md-8">
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ReceiptNo, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.ReceiptNo, new { htmlAttributes = new { @class = "form-control HeaderBox ", @autofocus = true, onkeyup = "ReceiptNoOnChange(this);" } })
+                            @Html.ValidationMessageFor(model => model.ReceiptNo, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                    <div class="col-md-12">
-                        @Html.EditorFor(model => model.ReceiptDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker" } })
-                        @Html.ValidationMessageFor(model => model.ReceiptDateFormatted, "", new { @class = "text-danger" })
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ReceiptDate, htmlAttributes: new { @class = "control-label lblrequired" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.ReceiptDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker" } })
+                            @Html.ValidationMessageFor(model => model.ReceiptDateFormatted, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
-                <div class="form-group col-md-4">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.ReceiptNo, htmlAttributes: new { @class = "control-label lblrequired" })
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ReceivedBy, htmlAttributes: new { @class = "control-label" })
+                            @Html.HiddenFor(model => model.ReceivedBy, htmlAttributes: new { @id = "hdnEmployeeID" })
+                        </div>
+                        <div id="divEmployeeDropdown" class="col-md-12">
+                            @Html.Action("EmployeeDropdown", "Employee")
+                        </div>
+                        <div class="col-md-12">
+                            @Html.ValidationMessageFor(model => model.ReceivedBy, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                    <div class="col-md-12">
-                        @Html.EditorFor(model => model.ReceiptNo, new { htmlAttributes = new { @class = "form-control HeaderBox ", @autofocus = true, onkeyup = "ReceiptNoOnChange(this);" } })
-                        @Html.ValidationMessageFor(model => model.ReceiptNo, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group col-md-4">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.Supplier, htmlAttributes: new { @class = "control-label lblrequired" })
-                    </div>
-                    <div class="col-md-12">
-                        @Html.HiddenFor(model => model.SupplierID, htmlAttributes: new { @id= "hdnSupplierID" })
-                        <div id="divSupplierDropdown">
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Supplier, htmlAttributes: new { @class = "control-label lblrequired" })
+                            @Html.HiddenFor(model => model.SupplierID, htmlAttributes: new { @id = "hdnSupplierID" })
+                        </div>
+                        <div id="divSupplierDropdown" class="col-md-12">
                             @Html.Action("SupplierDropdown", "Supplier")
                         </div>
-                        <span class="text-danger" id="msgSupplier" style="display:none;">* Supplier not Selected</span>
+                        <div class="col-md-12">
+                            <span class="text-danger" id="msgSupplier" style="display:none;">* Supplier not Selected</span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group col-md-12">&nbsp;</div>
-                <div class="form-group col-md-4">
-                    <div class="col-md-12 ">
-                        @Html.Label("Load From Existing Purchase Order", htmlAttributes: new { @class = "control-label" })
-                        @*@Html.CheckBox("IsExisting", htmlAttributes: new { @class = "checkbox-inline", @OnChange = "ExistingPurchaseOrderOnCheckChanged()", @checked = "checked" })*@
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12 ">
+                            @Html.Label("Load From Existing Purchase Order", htmlAttributes: new { @class = "control-label" })
+                            @*@Html.CheckBox("IsExisting", htmlAttributes: new { @class = "checkbox-inline", @OnChange = "ExistingPurchaseOrderOnCheckChanged()", @checked = "checked" })*@
+                        </div>
+                        <div class="col-md-12">
+                            @{
+                                List<SelectListItem> yesNoList = new List<SelectListItem>();
+                                yesNoList.Add(new SelectListItem
+                                { Text = "Yes", Value = "YES" });
+                                yesNoList.Add(new SelectListItem
+                                { Text = "No", Value = "NO" });
+                            }
+                            @Html.DropDownList("ExistingPurchaseOrder", yesNoList, htmlAttributes: new { @class = "form-control BlockEnter", @OnChange = "ExistingPurchaseOrderChanged()" })
+                        </div>
                     </div>
-                    <div class="col-md-12">
-                        @{ 
-                            List<SelectListItem> yesNoList = new List<SelectListItem>();
-                            yesNoList.Add(new SelectListItem
-                            { Text = "Yes", Value = "YES" });
-                            yesNoList.Add(new SelectListItem
-                            { Text = "No", Value = "NO" });
-                        }
-                        @Html.DropDownList("ExistingPurchaseOrder", yesNoList, htmlAttributes: new { @class = "form-control BlockEnter", @OnChange = "ExistingPurchaseOrderChanged()" })
-                    </div>
-                </div>
-                <div class="form-group col-md-4">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.PurchaseOrderNo, htmlAttributes: new { @class = "control-label lblrequired " })
-                        @Html.HiddenFor(model => model.PurchaseOrderID, htmlAttributes: new { @id= "hdnPurchaseOrderID" })
-                    </div>
-                    <div class="col-md-12" id="divPONo">
-                        @Html.EditorFor(model => model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
-                    </div>
-                    <div class="col-md-12" id="divPOID">
-                        @Html.Editor("PurchaseOrderNo", Model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled" } })
-                    </div>
-                    <div class="col-md-12">
-                        <span class="text-danger" id="msgPurchase" style="display:none;">* Purchase Order not Selected / Entered</span>
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.PurchaseOrderNo, htmlAttributes: new { @class = "control-label lblrequired " })
+                            @Html.HiddenFor(model => model.PurchaseOrderID, htmlAttributes: new { @id = "hdnPurchaseOrderID" })
+                        </div>
+                        <div class="col-md-12" id="divPONo" style="display:none;">
+                            @Html.EditorFor(model => model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                        </div>
+                        <div class="col-md-12" id="divPOID">
+                            @Html.Editor("PurchaseOrderNo", Model.PurchaseOrderNo, new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled" } })
+                        </div>
+                        <div class="col-md-12">
+                            <span class="text-danger" id="msgPurchase" style="display:none;">* Purchase Order not Selected / Entered</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-12 headSeperator"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> Item Details</div>
+            <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
 
             <div class="col-md-12" style="padding-bottom:3px">
                 <div class="col-md-6"></div>
@@ -124,42 +135,44 @@
                 </div>
             </div>
 
-
-            <table id="tblMaterialReceiptDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
-                <thead>
-                    <tr class="text-center TableHead">
-                        <th>ID</th>
-                        <th>MaterialID</th>
-                        <th>Material</th>
-                        <th>Description</th>
-                        <th>Quantity In KG</th>
-                        <th>Quantity In Nos.</th>
-                        @*<th>Unit</th>*@
-                        <th>...</th>
-                </thead>
-            </table>
+            <div class="form-group col-md-12">
+                <table id="tblMaterialReceiptDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                    <thead>
+                        <tr class="text-center TableHead">
+                            <th>ID</th>
+                            <th>MaterialID</th>
+                            <th>Material</th>
+                            <th>Description</th>
+                            <th>Quantity In KG</th>
+                            <th>Quantity In Nos.</th>
+                            @*<th>Unit</th>*@
+                            <th>...</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
 
 
             <div class="col-md-12 headSeperator"><i class="fa fa-th ig-green" aria-hidden="true"></i> Description</div>
-            <div class="form-group col-md-12">
-                <div class="form-group col-md-8">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label " })
-                    </div>
-                    <div class="col-md-12">
-                        @Html.EditorFor(model => model.GeneralNotes, new { htmlAttributes = new { @class = "form-control HeaderBox", @rows = 7 } })
+                <div class="form-group col-md-12">
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.GeneralNotes, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.GeneralNotes, new { htmlAttributes = new { @class = "form-control HeaderBox", @rows = 7 } })
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group" hidden="hidden">
-                <div class="col-md-offset-2 col-md-10">
-                    @Html.HiddenFor(model => model.DetailJSON, htmlAttributes: new { @class = "" })
-                    <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
+                <div class="form-group" hidden="hidden">
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.HiddenFor(model => model.DetailJSON, htmlAttributes: new { @class = "" })
+                        <input id="btnSave" type="submit" value="Create" class="btn btn-default" />
+                    </div>
                 </div>
-            </div>
 
-        }
+                                }
 
     </div>
 </section>
@@ -196,7 +209,7 @@
 
                     <div class="col-md-12 headSeperator"></div>
                     @Html.HiddenFor(model => model.MaterialReceiptDetail.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
-                    @Html.Hidden("WeightInKG", Model.MaterialReceiptDetail.Material.MaterialCode, htmlAttributes: new { @id= "WeightInKG" })
+                    @Html.Hidden("WeightInKG", Model.MaterialReceiptDetail.Material.MaterialCode, htmlAttributes: new { @id = "WeightInKG" })
                     <div class="col-md-6">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.MaterialReceiptDetail.Material.MaterialCode, htmlAttributes: new { @class = "control-label " })
@@ -230,13 +243,13 @@
                         </div>
                     </div>
                     @*<div class="col-md-6">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.MaterialReceiptDetail.UnitCode, htmlAttributes: new { @class = "control-label " })
-                        </div>
-                        <div class="col-md-12">
-                            @Html.EditorFor(model => model.MaterialReceiptDetail.UnitCode, new { htmlAttributes = new { @class = "form-control BlockEnter", @disabled = "disabled", @value = "Nos." } })
-                        </div>
-                    </div>*@
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.MaterialReceiptDetail.UnitCode, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.MaterialReceiptDetail.UnitCode, new { htmlAttributes = new { @class = "form-control BlockEnter", @disabled = "disabled", @value = "Nos." } })
+                            </div>
+                        </div>*@
                     <div class="col-md-6">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.MaterialReceiptDetail.MaterialDesc, htmlAttributes: new { @class = "control-label " })

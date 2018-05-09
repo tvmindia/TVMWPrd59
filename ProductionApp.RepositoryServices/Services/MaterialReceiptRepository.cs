@@ -139,6 +139,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@PurchaseOrderNo", SqlDbType.NVarChar, 20).Value = materialReceipt.PurchaseOrderNo;
                         cmd.Parameters.Add("@ReceiptNo", SqlDbType.NVarChar, 50).Value = materialReceipt.ReceiptNo;
                         cmd.Parameters.Add("@ReceiptDate", SqlDbType.DateTime).Value = materialReceipt.ReceiptDateFormatted;
+                        cmd.Parameters.Add("@ReceivedBy", SqlDbType.UniqueIdentifier).Value = materialReceipt.ReceivedBy;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.VarChar, -1).Value = materialReceipt.GeneralNotes;
 
                         cmd.Parameters.Add("@DetailXML", SqlDbType.VarChar, -1).Value = materialReceipt.DetailXML;

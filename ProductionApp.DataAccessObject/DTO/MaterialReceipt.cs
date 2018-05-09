@@ -15,6 +15,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string ReceiptNo { get; set; }
         public DateTime ReceiptDate { get; set; }
         public string GeneralNotes { get; set; }
+        public Guid? ReceivedBy { get; set; }
         public Common Common { get; set; }
 
         //Additional Fields
