@@ -727,6 +727,7 @@
     <Content Include="Scripts\UserJS\Product.js" />
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\NewRecieveFromProduction.js" />
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\ViewRecieveFromProduction.js" />
+    <Content Include="Scripts\UserJS\Report\PurchaseSummaryReport.js" />
     <Content Include="Scripts\UserJS\Report\Report.js" />
     <Content Include="Scripts\UserJS\Report\RequisitionSummaryReport.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\NewRequisition.js" />
@@ -1042,11 +1043,11 @@
     <Content Include="Views\OtherExpense\NewOtherExpense.cshtml" />
     <Content Include="Views\OtherExpense\ViewOtherExpense.cshtml" />
     <Content Include="Views\DashboardReport\RequisitionSummaryReport.cshtml" />
-    <Content Include="Views\ApprovalStatus\_ApprovalStatusDropDown.cshtml" />
     <Content Include="Views\Employee\_ReceivedByDropdown.cshtml" />
     <Content Include="Views\Employee\_ReturnByDropdown.cshtml" />
     <Content Include="Views\DashboardReport\RequisitionDetailReport.cshtml" />
     <Content Include="Views\DocumentApproval\_AboutApprovalHistory.cshtml" />
+    <Content Include="Views\DashboardReport\PurchaseSummaryReport.cshtml" />
     <Content Include="Views\CustomerInvoice\_CustomerInvoiceMailPreview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1058,6 +1059,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\" />
+    <Folder Include="Views\ApprovalStatus\" />
     <Folder Include="Views\Department\" />
     <Folder Include="Views\FileUpload\" />
     <Folder Include="Views\RecieveFromProduction\" />

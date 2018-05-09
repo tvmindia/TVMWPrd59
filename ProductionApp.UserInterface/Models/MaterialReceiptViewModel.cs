@@ -24,6 +24,8 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "General Notes")]
         [DataType(DataType.MultilineText)]
         public string GeneralNotes { get; set; }
+        [Display(Name = "Received By")]
+        public Guid? ReceivedBy { get; set; }
         public CommonViewModel Common { get; set; }
 
         //Additional Fields
@@ -52,14 +54,16 @@ namespace ProductionApp.UserInterface.Models
         public string MaterialDesc { get; set; }
         [Display(Name = "Unit")]
         public string UnitCode { get; set; }
-        [Display(Name = "Quantity")]
+        [Display(Name = "Quantity in Nos")]
         public decimal Qty { get; set; }
+        [Display(Name = "Quantity in KG")]
+        public decimal QtyInKG { get; set; }
         public CommonViewModel Common { get; set; }
 
         //Additional Fields
         [Display(Name = "Raw Material")]
         public MaterialViewModel Material { get; set; }
-        public UnitViewModel Unit { get; set; }
+        //public UnitViewModel Unit { get; set; }
     }
 
     public class MaterialReceiptAdvanceSearchViewModel

@@ -85,11 +85,13 @@ function PaymentModeChanged() {
         $('#BankCode').prop('disabled', false);
         $('#ChequeDateFormatted').prop('disabled', true);
         $('#ChequeClearDateFormatted').prop('disabled', true);
+        $('#Referencelbl').addClass('lblrequired');
     }
     else if ($('#PaymentMode').val() == "CHEQUE") {
         $('#ChequeDateFormatted').prop('disabled', false);
         $('#ChequeClearDateFormatted').prop('disabled', false);
         $('#BankCode').prop('disabled', false);
+        $('#Referencelbl').removeClass('lblrequired');
     }
     else {
         $("#ChequeDateFormatted").val('');
@@ -98,6 +100,7 @@ function PaymentModeChanged() {
         $('#ChequeClearDateFormatted').prop('disabled', true);
         $("#BankCode").val('').trigger('change');
         $('#BankCode').prop('disabled', true);
+        $('#Referencelbl').removeClass('lblrequired');
     }
 
 

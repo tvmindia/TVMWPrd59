@@ -76,7 +76,19 @@ namespace ProductionApp.DataAccessObject.DTO
         public List<RequisitionDetailReport> RequisitionDetailReportList { get; set; }
     }
 
-
+    public class PurchaseSummaryReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public Supplier Supplier { get; set; }
+        public Guid SupplierID { get; set; }
+        public string Status { get; set; }
+        public List<PurchaseOrder> PurchaseOrderList { get; set; }
+        public string EmailedYN { get; set; }
+        public string DateFilter { get; set; }
+    }
 
 
 

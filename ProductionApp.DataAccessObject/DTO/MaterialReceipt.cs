@@ -15,6 +15,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string ReceiptNo { get; set; }
         public DateTime ReceiptDate { get; set; }
         public string GeneralNotes { get; set; }
+        public Guid? ReceivedBy { get; set; }
         public Common Common { get; set; }
 
         //Additional Fields
@@ -39,11 +40,12 @@ namespace ProductionApp.DataAccessObject.DTO
         public string MaterialDesc { get; set; }
         public string UnitCode { get; set; }
         public decimal Qty { get; set; }
+        public decimal QtyInKG { get; set; }
         public Common Common { get; set; }
 
         //Additional Fields
         public Material Material { get; set; }
-        public Unit Unit { get; set; }
+        //public Unit Unit { get; set; }
     }
 
     public class MaterialReceiptAdvanceSearch

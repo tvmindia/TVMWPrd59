@@ -66,6 +66,8 @@ function PaymentModeOnChanged(curObj) {
         });
         $('#ReferenceBank').prop("disabled", true);
         $('#ChequeDate').prop("disabled", true);
+        $('#lblForPaymentRef').removeClass("lblrequired");
+        $('#lblForBankCode').removeClass("lblrequired");
         if (curObj !== undefined) {
             switch (curObj.value) {
                 case "CHEQUE":
@@ -80,6 +82,8 @@ function PaymentModeOnChanged(curObj) {
                     });
                     $('#ReferenceBank').val("");
                     $('#ChequeDate').val("");
+                    $('#lblForPaymentRef').addClass("lblrequired");
+                    $('#lblForBankCode').addClass("lblrequired");
                     break;
                 default:
                     $('#BankCode').val("").trigger('change');
