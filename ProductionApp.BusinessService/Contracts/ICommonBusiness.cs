@@ -10,5 +10,6 @@ namespace ProductionApp.BusinessService.Contracts
     {
         void XML(object some_object, ref string result, ref int totalRows);
         string ConvertCurrency(decimal value, int DecimalPoints = 0, bool Symbol = true);
+        string NumberToWords(double number);
     }
 }

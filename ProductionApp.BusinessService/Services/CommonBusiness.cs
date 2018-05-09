@@ -48,5 +48,73 @@ namespace ProductionApp.BusinessService.Services
         {
             return obj.GetType().GetProperties();
         }
+
+        public string NumberToWords(double number)
+        { 
+                string[] numbersArr = new string[] { "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen" };
+                string[] tensArr = new string[] { "Twenty", "Thirty", "Fourty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninty" };
+                string[] suffixesArr = new string[] { "Thousand", "Million", "Billion", "Trillion", "Quadrillion", "Quintillion", "Sextillion", "Septillion", "Octillion", "Nonillion", "Decillion", "Undecillion", "Duodecillion", "Tredecillion", "Quattuordecillion", "Quindecillion", "Sexdecillion", "Septdecillion", "Octodecillion", "Novemdecillion", "Vigintillion" };
+                string words = "";
+
+                bool tens = false;
+
+                if (number < 0)
+                {
+                    words += "negative ";
+                    number *= -1;
+                }
+
+                int power = (suffixesArr.Length + 1) * 3;
+
+                while (power > 3)
+                {
+                    double pow = Math.Pow(10, power);
+                    if (number >= pow)
+                    {
+                        if (number % pow > 0)
+                        {
+                            words += NumberToWords(Math.Floor(number / pow)) + " " + suffixesArr[(power / 3) - 1] + ", ";
+                        }
+                        else if (number % pow == 0)
+                        {
+                            words += NumberToWords(Math.Floor(number / pow)) + " " + suffixesArr[(power / 3) - 1];
+                        }
+                        number %= pow;
+                    }
+                    power -= 3;
+                }
+                if (number >= 1000)
+                {
+                    if (number % 1000 > 0) words += NumberToWords(Math.Floor(number / 1000)) + " Thousand, ";
+                    else words += NumberToWords(Math.Floor(number / 1000)) + " Thousand";
+                    number %= 1000;
+                }
+                if (0 <= number && number <= 999)
+                {
+                    if ((int)number / 100 > 0)
+                    {
+                        words += NumberToWords(Math.Floor(number / 100)) + " Hundred";
+                        number %= 100;
+                    }
+                    if ((int)number / 10 > 1)
+                    {
+                    if (words != "")
+                        words += " and ";
+                        words += tensArr[(int)number / 10 - 2];
+                        tens = true;
+                        number %= 10;
+                    }
+
+                    if (number < 20 && number > 0)
+                    {
+                        if (words != "" && tens == false)
+                        words += " and ";
+                    words += (tens ? "-" + numbersArr[(int)number - 1] : numbersArr[(int)number - 1]);
+                        number -= Math.Floor(number);
+                    }
+                }
+
+                return words;
+        }
     }
 }
