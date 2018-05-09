@@ -311,8 +311,6 @@
 </div>
 
 <!-- Modal Edit <!-- Modal Edit customer Invocie  Details Modal -->
-
-
 <div class="modal fade bs-example-modal-lg" id="EditCustomerInvoiceDetailModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document" style="min-width:900px !important;">
         <div class="modal-content" style="margin-top:4%;">
@@ -353,6 +351,81 @@
     </div>
 </div>
 
+
+<!--Email Preview model-->
+<div class="modal fade" id="MailPreviewModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="min-width:900px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-9 ">
+                        <div class="col-md-12 modelIcon">
+                            <h3 class="modal-title SCHeader" id="modelContextLabel">Add Mail</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>  
+            <div class="modal-body" style="max-height:510px !important;overflow-y:scroll">
+                <div class="col-md-12">
+                    @using (Ajax.BeginForm("CustomerInvoiceSendMail", "CustomerInvoice", new AjaxOptions { HttpMethod = "POST", OnSuccess = "MailSuccess", OnFailure = "SaveFailure", OnBegin = "ValidateEmail", AllowCache = false, LoadingElementId = "", OnComplete = "OnServerCallComplete" }, new { @class = "form-horizontal", role = "form", id = "sendmailform" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group col-md-12" hidden="hidden">
+                            @Html.HiddenFor(model => model.CustomerInvoiceMailPreview.MailBody, htmlAttributes: new { @class = "", Value = "", @id = "mailBodyText" })
+                        </div>
+                        @*<div class="col-md-10">*@
+                        <div class="form-group col-md-12">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.CustomerInvoiceMailPreview.SentToEmails, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-12">
+                                @*<div class="col-md-12">*@
+                                @Html.EditorFor(model => model.CustomerInvoiceMailPreview.SentToEmails, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                                @Html.ValidationMessageFor(model => model.CustomerInvoiceMailPreview.SentToEmails, "", new { @class = "text-danger" })
+                                @*</div>*@
+                                <div class="col-md-1"></div>
+                                <div class="col-md-1"></div>
+                            </div>
+
+                        </div>
+                        @*</div>*@
+                        <div class="form-group" style="display:none;">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input id="btnFormSendMail" type="submit" value="Create" class="btn btn-default" />
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-12" style="margin-top:1%" id="mailmodelcontent">
+                </div>
+            </div>
+            <div class="modal-footer" style="background-image: url('');background-repeat: repeat;height: 50px;padding: 7px;">
+                <a class="btn btn-info" onclick="DownloadPDF()" id="btnSend"><i class="glyphicon glyphicon-download-alt"></i> Download</a>
+                <a class="btn btn-info" onclick="SendMailClick()" id="btnMailSend"><i class="glyphicon glyphicon-floppy-disk"></i> Send Mail</a>
+
+                @using (Html.BeginForm("Download", "PDFGenerator", new { HttpMethod = "POST", @class = "form-horizontal", role = "form", @id = "PDFForm" }))
+                {
+                    @Html.HiddenFor(model => model.PDFTools.Content, htmlAttributes: new { @class = "", Value = "", @id = "hdnContent" })
+                    @Html.HiddenFor(model => model.PDFTools.Headcontent, htmlAttributes: new { @class = "", Value = "", @id = "hdnHeadContent" })
+                    @Html.HiddenFor(model => model.PDFTools.HeaderText, htmlAttributes: new { @class = "", Value = "AURA" })
+                    @Html.HiddenFor(model => model.PDFTools.ContentFileName, htmlAttributes: new { @class = "", Value = "PurchaseOrder", @id = "hdnContentFileName" })
+                    @Html.HiddenFor(model => model.PDFTools.CustomerName, htmlAttributes: new { @class = "", @id = "hdnCustomerName" })
+
+                    <input type="submit" id="btnSendDownload" value="Download" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")
@@ -361,5 +434,6 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/selectmin")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/pdf")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/CustomerInvoice/NewCustomerInvoice")
 }

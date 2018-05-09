@@ -7,6 +7,7 @@ using ProductionApp.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -355,6 +356,76 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion DeleteCustomerInvoiceDetail
 
+        #region GetMailPreview
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "")]
+        public ActionResult GetMailPreview(string ID)
+        {
+            CustomerInvoiceMailPreviewViewModel CustomerInvoiceMailPreviewVM = null;
+            try
+            {
+                if (string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID is missing");
+                }
+                CustomerInvoiceMailPreviewVM = new CustomerInvoiceMailPreviewViewModel();
+                CustomerInvoiceMailPreviewVM.CustomerInvoice = Mapper.Map<CustomerInvoice, CustomerInvoiceViewModel>(_customerInvoiceBusiness.GetMailPreview(Guid.Parse(ID)));
+              
+                ViewBag.path = "http://" + HttpContext.Request.Url.Authority + CustomerInvoiceMailPreviewVM.CustomerInvoice.LogoURL;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+            return PartialView("_CustomerInvoiceMailPreview", CustomerInvoiceMailPreviewVM);
+        }
+        #endregion GetMailPreview
+
+        #region EmailSent
+        [HttpPost, ValidateInput(false)]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "")]
+        public async Task<string> CustomerInvoiceSendMail(CustomerInvoiceViewModel CustomerInvoiceVM)
+        {
+            try
+            {
+                object result = null;
+                if (!string.IsNullOrEmpty(CustomerInvoiceVM.ID.ToString()))
+                {
+                    AppUA appUA = Session["AppUA"] as AppUA;
+                    CustomerInvoiceVM.Common = new CommonViewModel
+                    {
+                        UpdatedBy = appUA.UserName,
+                        UpdatedDate = _common.GetCurrentDateTime(),
+                    };
+
+                    bool sendsuccess = await _customerInvoiceBusiness.EmailPush(Mapper.Map<CustomerInvoiceViewModel, CustomerInvoice>(CustomerInvoiceVM));
+                    //if (sendsuccess)
+                    //{
+                    //    //1 is meant for mail sent successfully
+                    //    CustomerInvoiceVM.EmailSentYN = sendsuccess.ToString();
+                    //    result = _customerInvoiceBusiness.UpdateCustomerInvoiceMailStatus(Mapper.Map<CustomerInvoiceViewModel, CustomerInvoice>(CustomerInvoiceVM));
+                    //}
+                   
+                    return JsonConvert.SerializeObject(new { Result = "OK", Record = result, MailResult = sendsuccess, Message = _appConst.MailSuccess });
+                }
+                else
+                {
+
+                    return JsonConvert.SerializeObject(new { Result = "ERROR", Message = "ID is Missing" });
+                }
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion EmailSent
+
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
@@ -401,8 +472,13 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset";
-                    toolboxVM.resetbtn.Event = "Reset();"; 
-                  
+                    toolboxVM.resetbtn.Event = "Reset();";
+
+                    toolboxVM.EmailBtn.Visible = true;
+                    toolboxVM.EmailBtn.Text = "Email";
+                    toolboxVM.EmailBtn.Title = "Email";
+                    toolboxVM.EmailBtn.Event = "EmailPreview(1);";
+
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
