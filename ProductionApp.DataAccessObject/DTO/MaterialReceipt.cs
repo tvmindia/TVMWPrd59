@@ -27,6 +27,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public PurchaseOrder PurchaseOrder { get; set; }
         public bool IsUpdate { get; set; }
         public string DetailXML { get; set; }
+        public Employee Employee { get; set; }
 
         public List<MaterialReceipt> MaterialReceiptList { get; set; }
         public List<MaterialReceiptDetail> MaterialReceiptDetailList { get; set; }
@@ -58,5 +59,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Supplier Supplier { get; set; }
         public Guid PurchaseOrderID { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }
+        public Guid ReceivedBy { get; set; }
+        public Employee Employee { get; set; }
     }
 }

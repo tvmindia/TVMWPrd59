@@ -690,8 +690,10 @@ function BindMaterialReceipt() {
     $('#SupplierID').val(MaterialReceiptViewModel.SupplierID).trigger('change');
     $('#PurchaseOrderNo').val(MaterialReceiptViewModel.PurchaseOrderNo);
     $('#hdnPurchaseOrderID').val(MaterialReceiptViewModel.PurchaseOrderID);
-    $('#PurchaseOrderID').val(MaterialReceiptViewModel.PurchaseOrderID).select2();
+    $('#PurchaseOrderID').val(MaterialReceiptViewModel.PurchaseOrderID).trigger('change');
     $('#GeneralNotes').val(MaterialReceiptViewModel.GeneralNotes);
+    $('#hdnEmployeeID').val(MaterialReceiptViewModel.ReceivedBy);
+    $('#EmployeeID').val(MaterialReceiptViewModel.ReceivedBy).trigger('change');
     BindMaterialReceiptDetailTable(id);//Get All MaterialReceiptDetails By HeaderID
 }
 
