@@ -287,18 +287,15 @@ namespace ProductionApp.RepositoryServices.Services
                                         purchaseOrderObj.PurchaseOrderNo = (sdr["PONo"].ToString() != "" ? sdr["PONo"].ToString() : purchaseOrderObj.PurchaseOrderNo);
                                         purchaseOrderObj.PurchaseOrderDate = (sdr["PurchaseOrderDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderDate"].ToString()) : purchaseOrderObj.PurchaseOrderDate);
                                         purchaseOrderObj.PurchaseOrderDateFormatted = (sdr["PurchaseOrderDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderDate"].ToString()).ToString(settings.DateFormat) : purchaseOrderObj.PurchaseOrderDateFormatted);
-                                        purchaseOrderObj.PurchaseOrderTitle = (sdr["PurchaseOrderTitle"].ToString() != "" ? sdr["PurchaseOrderTitle"].ToString() : purchaseOrderObj.PurchaseOrderTitle);
-                                       
+                                        purchaseOrderObj.PurchaseOrderTitle = (sdr["PurchaseOrderTitle"].ToString() != "" ? sdr["PurchaseOrderTitle"].ToString() : purchaseOrderObj.PurchaseOrderTitle);                                       
                                         purchaseOrderObj.Supplier = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : purchaseOrderObj.Supplier);
                                         purchaseOrderObj.PurchaseOrderStatus = (sdr["PurchaseOrderStatus"].ToString() != "" ? sdr["PurchaseOrderStatus"].ToString() : purchaseOrderObj.PurchaseOrderStatus);
                                         purchaseOrderObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : purchaseOrderObj.TotalCount);
                                         purchaseOrderObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : purchaseOrderObj.FilteredCount);
-                                        purchaseOrderObj.EmailSentYN= (sdr["EmailSentYN"].ToString() != "" ? sdr["EmailSentYN"].ToString() : purchaseOrderObj.EmailSentYN);
-                                        
+                                        purchaseOrderObj.EmailSentYN= (sdr["EmailSentYN"].ToString() != "" ? sdr["EmailSentYN"].ToString() : purchaseOrderObj.EmailSentYN);                                        
                                         purchaseOrderObj.GrossAmount = (sdr["PurchaseAmount"].ToString() != "" ? decimal.Parse(sdr["PurchaseAmount"].ToString()) : purchaseOrderObj.GrossAmount);
                                         purchaseOrderObj.PurchaseOrderIssuedDate = (sdr["PurchaseOrderIssuedDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderIssuedDate"].ToString()) : purchaseOrderObj.PurchaseOrderIssuedDate);
                                         purchaseOrderObj.PurchaseOrderIssuedDateFormatted = (sdr["PurchaseOrderIssuedDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderIssuedDate"].ToString()).ToString(settings.DateFormat) : purchaseOrderObj.PurchaseOrderIssuedDateFormatted);
-
                                     }
                                     purchaseOrderList.Add(purchaseOrderObj);
                                 }
@@ -316,7 +313,84 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetPurchaseSummaryReport
 
+        #region GetPurchaseDetailReport
+        public List<PurchaseDetailReport> GetPurchaseDetailReport(PurchaseDetailReport purchaseDetailReport)
+        {
 
+            List<PurchaseDetailReport> purchaseDetailList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        if (purchaseDetailReport.DataTablePaging.OrderColumn == "")
+                        {
+                            purchaseDetailReport.DataTablePaging.OrderColumn = "PURCHASEORDERNO";
+                            purchaseDetailReport.DataTablePaging.OrderDir = "ASC";
+                        }
+                        cmd.CommandText = "[AMC].[GetPurcaseDetailReport]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(purchaseDetailReport.SearchTerm) ? "" : purchaseDetailReport.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = purchaseDetailReport.DataTablePaging.Start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = purchaseDetailReport.DataTablePaging.Length;
+                        cmd.Parameters.Add("@OrderDir", SqlDbType.VarChar).Value = purchaseDetailReport.DataTablePaging.OrderDir;
+                        cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = purchaseDetailReport.DataTablePaging.OrderColumn;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = purchaseDetailReport.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = purchaseDetailReport.ToDate;
+                        cmd.Parameters.Add("@POStatus", SqlDbType.VarChar).Value = purchaseDetailReport.Status;
+                        if (purchaseDetailReport.SupplierID != Guid.Empty)
+                            cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = purchaseDetailReport.SupplierID;
+                        if (purchaseDetailReport.MaterialID != Guid.Empty)
+                            cmd.Parameters.Add("@MaterialID", SqlDbType.UniqueIdentifier).Value = purchaseDetailReport.MaterialID;                      
+                        cmd.Parameters.Add("@ApprovalStatus", SqlDbType.NVarChar).Value = purchaseDetailReport.ApprovalStatus;
+                        cmd.Parameters.Add("@DeliveryStatus", SqlDbType.VarChar).Value = purchaseDetailReport.DeliveryStatus;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                purchaseDetailList = new List<PurchaseDetailReport>();
+                                while (sdr.Read())
+                                {
+                                    PurchaseDetailReport purchaseOrderObj = new PurchaseDetailReport();
+                                    {
+                                        purchaseOrderObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : purchaseOrderObj.ID);
+                                        purchaseOrderObj.PurchaseOrderNo = (sdr["PONo"].ToString() != "" ? sdr["PONo"].ToString() : purchaseOrderObj.PurchaseOrderNo);
+                                        purchaseOrderObj.PurchaseOrderDate = (sdr["PurchaseOrderDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderDate"].ToString()) : purchaseOrderObj.PurchaseOrderDate);
+                                        purchaseOrderObj.PurchaseOrderDateFormatted = (sdr["PurchaseOrderDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderDate"].ToString()).ToString(settings.DateFormat) : purchaseOrderObj.PurchaseOrderDateFormatted);                                        
+                                        purchaseOrderObj.Status = (sdr["PurchaseOrderStatus"].ToString() != "" ? sdr["PurchaseOrderStatus"].ToString() : purchaseOrderObj.Status);
+                                        purchaseOrderObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : purchaseOrderObj.TotalCount);
+                                        purchaseOrderObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : purchaseOrderObj.FilteredCount);
+                                        purchaseOrderObj.Material = new Material();
+                                        purchaseOrderObj.Material.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : purchaseOrderObj.Material.UnitCode);
+                                        purchaseOrderObj.Material.Description = (sdr["ITEM"].ToString() != "" ? sdr["ITEM"].ToString() : purchaseOrderObj.Material.Description);
+                                        purchaseOrderObj.Supplier = new Supplier();
+                                        purchaseOrderObj.Supplier.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : purchaseOrderObj.Supplier.CompanyName);
+                                        purchaseOrderObj.POQty = (sdr["OrderQty"].ToString() != "" ?decimal.Parse( sdr["OrderQty"].ToString()) : purchaseOrderObj.POQty);
+                                        purchaseOrderObj.PrevRcvQty = (sdr["ReceivedQty"].ToString() != "" ? decimal.Parse(sdr["ReceivedQty"].ToString()) : purchaseOrderObj.PrevRcvQty);                                        
+                                        purchaseOrderObj.ApprovalStatus= (sdr["ApprovalStatus"].ToString() != "" ? sdr["ApprovalStatus"].ToString() : purchaseOrderObj.ApprovalStatus);
+                                        purchaseOrderObj.DeliveryStatus = (sdr["DeliveryStatus"].ToString() != "" ? sdr["DeliveryStatus"].ToString() : purchaseOrderObj.DeliveryStatus);
+                                    }
+                                    purchaseDetailList.Add(purchaseOrderObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return purchaseDetailList;
+        }
+        #endregion GetPurchaseDetailReport
 
     }
 }

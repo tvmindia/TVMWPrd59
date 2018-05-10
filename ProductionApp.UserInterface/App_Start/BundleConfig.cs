@@ -126,6 +126,8 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/RequisitionSummaryReport").Include("~/Scripts/UserJS/Report/RequisitionSummaryReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/RequisitionDetailReport").Include("~/Scripts/UserJS/Report/RequisitionDetailReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/PurchaseSummaryReport").Include("~/Scripts/UserJS/Report/PurchaseSummaryReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/PurchaseDetailReport").Include("~/Scripts/UserJS/Report/PurchaseDetailReport.js"));
+
             //OtherIncome
             bundles.Add(new ScriptBundle("~/bundles/UserJs/OtherIncome/ViewOtherIncome").Include("~/Scripts/UserJS/OtherIncome/ViewOtherIncome.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/OtherIncome/NewOtherIncome").Include("~/Scripts/UserJS/OtherIncome/NewOtherIncome.js"));
