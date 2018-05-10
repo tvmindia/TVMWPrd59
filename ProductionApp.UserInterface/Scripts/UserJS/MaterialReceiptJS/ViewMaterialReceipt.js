@@ -15,9 +15,8 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
-        $("#SupplierID,#PurchaseOrderID").select2({});
+        $("#SupplierID,#PurchaseOrderID,#ReceivedBy").select2({});
         BindOrReloadMaterialReceiptTable('Init');
-        //AddOnRemove();
     }
     catch (e) {
         console.log(e.message);
@@ -35,6 +34,7 @@ function BindOrReloadMaterialReceiptTable(action) {
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
+                $('#ReceivedBy').val('').trigger('change');
                 $('#SupplierID').val('').trigger('change');
                 $('#PurchaseOrderID').val('').trigger('change');
                 $('#ToDate').val('');
@@ -57,6 +57,7 @@ function BindOrReloadMaterialReceiptTable(action) {
         MaterialReceiptAdvanceSearchViewModel.ToDate = $('#ToDate').val();
         MaterialReceiptAdvanceSearchViewModel.SupplierID = $('#SupplierID').val();
         MaterialReceiptAdvanceSearchViewModel.PurchaseOrderID = $('#PurchaseOrderID').val();
+        MaterialReceiptAdvanceSearchViewModel.ReceivedBy = $('#ReceivedBy').val();
         try {
 
         } catch (e) {
@@ -69,7 +70,7 @@ function BindOrReloadMaterialReceiptTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [1, 2, 3, 4, 5]
+                                 columns: [1, 2, 3, 4, 5, 6]
                              }
             }],
             order: false,
@@ -89,11 +90,12 @@ function BindOrReloadMaterialReceiptTable(action) {
             pageLength: 10,
             columns: [
                 { "data": "ID", "defaultContent": "<i>-</i>" },
-                { "data": "ReceiptNo", "defaultContent": "<i>-</i>", "width": "15%" },
-                { "data": "ReceiptDateFormatted", "defaultContent": "<i>-</i>", "width": "18%" },
+                { "data": "ReceiptNo", "defaultContent": "<i>-</i>", "width": "10%" },
+                { "data": "ReceiptDateFormatted", "defaultContent": "<i>-</i>", "width": "15%" },
                 { "data": "PurchaseOrderNo", "defaultContent": "<i>-</i>", "width": "12%" },
-                { "data": "Supplier.CompanyName", "defaultContent": "<i>-</i>", "width": "26%" },
-                { "data": "GeneralNotes", "defaultContent": "<i>-</i>", "width": "26%" },
+                { "data": "Supplier.CompanyName", "defaultContent": "<i>-</i>", "width": "20%" },
+                { "data": "Employee.Name", "defaultContent": "<i>-</i>", "width": "20%" },
+                { "data": "GeneralNotes", "defaultContent": "<i>-</i>", "width": "20%" },
                 {
                     "data": "ID", "orderable": false, render: function (data, type, row) {
                         return '<a href="/MaterialReceipt/NewMaterialReceipt?code=STR&id=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
@@ -102,8 +104,8 @@ function BindOrReloadMaterialReceiptTable(action) {
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [] },
-                { className: "text-left", "targets": [1, 3, 3, 4] },
-                { className: "text-center", "targets": [2, 6] }],
+                { className: "text-left", "targets": [1, 3, 3, 4, 5, 6] },
+                { className: "text-center", "targets": [2, 7] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {
@@ -146,18 +148,3 @@ function Edit(curobj) {
     var MaterialReceiptViewModel = DataTables.MaterialReceiptList.row($(curobj).parents('tr')).data();
     window.location.replace("/MaterialReceipt/NewMaterialReceipt?code=STR&id=" + MaterialReceiptViewModel.ID);
 }
-
-////Remove input addon for supplier insert
-//function AddOnRemove() {
-//    try{
-//        debugger;
-
-//        $('.input-group-addon').each(function () {
-//            $(this).parent().css("width", "100%");
-//            $(this).remove();
-//        });
-
-//    } catch (ex) {
-//        console.log(ex.message)
-//    }
-//}

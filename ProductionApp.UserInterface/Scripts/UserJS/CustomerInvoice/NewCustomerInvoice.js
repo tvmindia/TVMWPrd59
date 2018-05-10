@@ -45,7 +45,7 @@ $(document).ready(function () {
         $("#PackingSlipID").select2({ dropdownParent: $("#CustomerInvoiceDetailsModal")  });
         $("#CustomerID").select2({ });
         $("#ReferenceCustomer").select2({});
-
+        $('#btnSendDownload').hide();
         $('#btnUpload').click(function () {
             debugger;
             //Pass the controller name
@@ -674,7 +674,9 @@ function BindCustomerInvoiceByID()
     $('#Discount').val(roundoff(customerInvoiceVM.Discount));
     $('#lblTotalTaxableAmount').text(roundoff(customerInvoiceVM.TotalTaxableAmount));
     $('#lblTotalTaxAmount').text(roundoff(customerInvoiceVM.TotalTaxAmount));
-    $('#lblInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount-customerInvoiceVM.Discount));
+    $('#lblPaymentReceived').text(roundoff(customerInvoiceVM.PaymentReceived));
+    $('#lblBalance').text(roundoff(roundoff(customerInvoiceVM.InvoiceAmount - customerInvoiceVM.Discount) - customerInvoiceVM.PaymentReceived));
+    $('#lblInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount - customerInvoiceVM.Discount));
     $('#lblStatusInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount-customerInvoiceVM.Discount));
     $('#InvoiceAmount').val(roundoff(customerInvoiceVM.InvoiceAmount));
     
@@ -936,3 +938,97 @@ function DiscountAmountChanged(thisObj)
     }
    
 }
+
+//##19--Email and Print------------------------------------------------------------------##19
+//Email Sending
+function EmailPreview(flag) {
+    try {
+        debugger;
+        var headerID = $("#ID").val();
+        if (headerID) {
+            //Bind mail html into model
+            GetMailPreview(headerID, flag);
+            $("#MailPreviewModel").modal('show'); 
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.Message);
+    }
+}
+
+function GetMailPreview(ID) {
+    debugger;
+    var data = { "ID": ID};
+    var jsonData = {};
+    jsonData = GetDataFromServer("CustomerInvoice/GetMailPreview/", data);
+    if (jsonData == "Nochange") {
+        return; 0
+    }
+    $("#mailmodelcontent").empty();
+    $("#mailmodelcontent").html(jsonData);
+    $("#mailBodyText").val(jsonData);
+}
+ 
+function SendMailClick() {
+    debugger;
+        $('#btnFormSendMail').trigger('click');
+        $('#btnMail').hide();
+}
+
+function ValidateEmail() {
+    debugger;
+    var ste = $('#CustomerInvoiceMailPreview_SentToEmails').val();
+    if (ste) {
+        var atpos = ste.indexOf("@");
+        var dotpos = ste.lastIndexOf(".");
+        if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= ste.length) {
+            notyAlert('error', 'Invalid Email');
+            return false;
+        }
+            //not valid
+        else {
+            $("#MailPreviewModel").modal('hide');
+            OnServerCallBegin();
+            return true;
+        }
+    }
+    else
+        notyAlert('error', 'Enter email address');
+    return false;
+}
+
+function MailSuccess(data, status) {
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            notyAlert('success', JsonResult.Message);
+            OnServerCallComplete(); 
+            Reset();
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message); 
+            break;
+        default:
+            notyAlert('error', JsonResult.Message);
+            break;
+    }
+}
+//To trigger PDF download button
+function DownloadPDF() {
+    debugger; 
+        GetHtmlData();
+        $('#btnSendDownload').trigger('click');
+}
+
+//To download file in PDF
+function GetHtmlData() {
+    debugger;
+    var bodyContent = $('#mailmodelcontent').html();
+    var headerContent = $('#hdnHeadContent').html();
+    $('#hdnContent').val(bodyContent);
+    $('#hdnHeadContent').val(headerContent);
+    var customerName = $("#CustomerID option:selected").text();
+    $('#hdnCustomerName').val(customerName);
+
+} 

@@ -46,6 +46,7 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/selectmin").Include("~/Scripts/select2.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/select2").Include("~/Scripts/select2.js"));
             bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include("~/Scripts/jquery-ui.js"));
+            bundles.Add(new ScriptBundle("~/bundles/pdf").Include("~/Scripts/PDF.js"));
 
             //----------------------
             bundles.Add(new ScriptBundle("~/bundles/ManageAccess").Include("~/Scripts/UserJS/ManageAccess.js"));

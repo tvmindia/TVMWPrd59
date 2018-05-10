@@ -1049,6 +1049,7 @@
     <Content Include="Views\DashboardReport\RequisitionDetailReport.cshtml" />
     <Content Include="Views\DocumentApproval\_AboutApprovalHistory.cshtml" />
     <Content Include="Views\DashboardReport\PurchaseSummaryReport.cshtml" />
+    <Content Include="Views\CustomerInvoice\_CustomerInvoiceMailPreview.cshtml" />
     <Content Include="Views\DashboardReport\PurchaseDetailReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

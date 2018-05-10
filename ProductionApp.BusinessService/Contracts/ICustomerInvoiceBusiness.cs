@@ -20,5 +20,8 @@ namespace ProductionApp.BusinessService.Contracts
         object DeleteCustomerInvoice(Guid id);
         object DeleteCustomerInvoiceDetail(Guid id);
         List<CustomerInvoice> GetRecentCustomerInvoice(string BaseURL);
+        object UpdateCustomerInvoiceMailStatus(CustomerInvoice CustomerInvoice);
+        Task<bool> EmailPush(CustomerInvoice CustomerInvoice);
+        CustomerInvoice GetMailPreview(Guid ID);
     }
 }
