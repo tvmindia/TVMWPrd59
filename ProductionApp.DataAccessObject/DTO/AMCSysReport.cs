@@ -91,7 +91,35 @@ namespace ProductionApp.DataAccessObject.DTO
     }
 
 
-
+    public class PurchaseDetailReport
+    {        
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }        
+        public string FromDate { get; set; }       
+        public string ToDate { get; set; }
+        public Supplier Supplier { get; set; }       
+        public Guid SupplierID { get; set; }      
+        public string Status { get; set; }        
+        public string DateFilter { get; set; }
+        public Guid MaterialID { get; set; }
+        
+        public Material Material { get; set; }       
+        public string DeliveryStatus { get; set; }
+        public Guid ID { get; set; }
+        public string PurchaseOrderNo { get; set; }
+        public DateTime PurchaseOrderDate { get; set; }
+        public string PurchaseOrderDateFormatted { get; set; }
+        public string PurchaseOrderStatus { get; set; }
+        public string ApprovalStatus { get; set; }
+        public ApprovalStatus Approval { get; set; }     
+        public string MaterialDesc { get; set; }
+        public string UnitCode { get; set; }
+        public decimal Qty { get; set; }
+        public decimal PrevRcvQty { get; set; }
+        public decimal POQty { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+    }
 
 
 

@@ -22,8 +22,8 @@ namespace ProductionApp.UserInterface.Controllers
         ICommonBusiness _commonBusiness;
         IMaterialBusiness _materialBusiness;
         ISupplierBusiness _supplierBusiness;
-
-        public DashboardReportController(IReportBusiness reportBusiness,IEmployeeBusiness employeeBusiness,IRequisitionBusiness requisitionBusiness,ICommonBusiness commonBusiness,IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness)
+        IApprovalStatusBusiness _approvalStatusBusiness;
+        public DashboardReportController(IReportBusiness reportBusiness,IEmployeeBusiness employeeBusiness,IRequisitionBusiness requisitionBusiness,ICommonBusiness commonBusiness,IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness,IApprovalStatusBusiness approvalStatusBusiness)
         {
             _reportBusiness = reportBusiness;
             _employeeBusiness = employeeBusiness;
@@ -31,6 +31,7 @@ namespace ProductionApp.UserInterface.Controllers
             _commonBusiness = commonBusiness;
             _materialBusiness = materialBusiness;
             _supplierBusiness = supplierBusiness;
+            _approvalStatusBusiness = approvalStatusBusiness;
         }
         #endregion Constructor Injection
 
@@ -271,6 +272,101 @@ namespace ProductionApp.UserInterface.Controllers
             });
         }
         #endregion GetPurchaseSummaryReport
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult PurchaseDetailReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+
+            PurchaseDetailReportViewModel purchaseDetailReportVM = new PurchaseDetailReportViewModel();
+            purchaseDetailReportVM.Supplier = new SupplierViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            purchaseDetailReportVM.Supplier.SelectList = new List<SelectListItem>();
+            List<SupplierViewModel> supplierList = Mapper.Map<List<Supplier>, List<SupplierViewModel>>(_supplierBusiness.GetSupplierForSelectList());
+            if (supplierList != null)
+                foreach (SupplierViewModel supplier in supplierList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = supplier.CompanyName,
+                        Value = supplier.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            purchaseDetailReportVM.Supplier.SelectList = selectListItem;
+             selectListItem = new List<SelectListItem>();
+            purchaseDetailReportVM.Material = new MaterialViewModel();
+            purchaseDetailReportVM.Material.SelectList = new List<SelectListItem>();
+            List<MaterialViewModel> materialList = Mapper.Map<List<Material>, List<MaterialViewModel>>(_materialBusiness.GetMaterialForSelectList());
+            if (materialList != null)
+                foreach (MaterialViewModel material in materialList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = material.MaterialCode + '-' + material.Description,
+                        Value = material.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            purchaseDetailReportVM.Material.SelectList = selectListItem;
+            purchaseDetailReportVM.Approval = new ApprovalStatusViewModel();
+            purchaseDetailReportVM.Approval.StatusSelectList = _approvalStatusBusiness.GetApprovalStatusForSelectList();
+            return View(purchaseDetailReportVM);
+        }
+
+        #region GetPurchaseDetailReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetPurchaseDetailReport(DataTableAjaxPostModel model, PurchaseDetailReportViewModel purchaseDetailVM)
+        {
+            Common con = new Common();
+            DateTime dt = con.GetCurrentDateTime();
+            if (purchaseDetailVM != null)
+            {
+                if (purchaseDetailVM.DateFilter == "30")
+                {
+                    purchaseDetailVM.FromDate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
+                    purchaseDetailVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (purchaseDetailVM.DateFilter == "60")
+                {
+                    purchaseDetailVM.FromDate = dt.AddDays(-60).ToString("dd-MMM-yyyy");
+                    purchaseDetailVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (purchaseDetailVM.DateFilter == "90")
+                {
+                    purchaseDetailVM.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    purchaseDetailVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+            }
+            purchaseDetailVM.DataTablePaging.Start = model.start;
+            purchaseDetailVM.DataTablePaging.Length = (purchaseDetailVM.DataTablePaging.Length == 0 ? model.length : purchaseDetailVM.DataTablePaging.Length);
+
+            List<PurchaseDetailReportViewModel> purchaseOrderDetailList = Mapper.Map<List<PurchaseDetailReport>, List<PurchaseDetailReportViewModel>>(_reportBusiness.GetPurchaseDetailReport(Mapper.Map<PurchaseDetailReportViewModel, PurchaseDetailReport>(purchaseDetailVM)));
+
+            if (purchaseDetailVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = purchaseOrderDetailList.Count != 0 ? purchaseOrderDetailList[0].TotalCount : 0;
+                int filteredResult = purchaseOrderDetailList.Count != 0 ? purchaseOrderDetailList[0].FilteredCount : 0;
+                purchaseOrderDetailList = purchaseOrderDetailList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = purchaseOrderDetailList.Count != 0 ? purchaseOrderDetailList[0].TotalCount : 0,
+                recordsFiltered = purchaseOrderDetailList.Count != 0 ? purchaseOrderDetailList[0].FilteredCount : 0,
+                data = purchaseOrderDetailList
+            });
+        }
+        #endregion GetPurchaseDetailReport
+
 
         #region ButtonStyling
         [HttpGet]

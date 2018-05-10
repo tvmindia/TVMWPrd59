@@ -121,6 +121,9 @@ namespace ProductionApp.RepositoryServices.Services
                                     supplierInvoice.TotalTaxableAmount = (sdr["TotalTaxableAmount"].ToString() != "" ? decimal.Parse(sdr["TotalTaxableAmount"].ToString()) : supplierInvoice.TotalTaxableAmount);
                                     supplierInvoice.TotalTaxAmount = (sdr["TotalTaxAmount"].ToString() != "" ? decimal.Parse(sdr["TotalTaxAmount"].ToString()) : supplierInvoice.TotalTaxAmount);
                                     supplierInvoice.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : supplierInvoice.InvoiceAmount);
+                                    supplierInvoice.Balance = (sdr["BalanceDue"].ToString() != "" ? decimal.Parse(sdr["BalanceDue"].ToString()) : supplierInvoice.Balance);
+                                    supplierInvoice.PaymentBooked = (sdr["BookedAmount"].ToString() != "" ? decimal.Parse(sdr["BookedAmount"].ToString()) : supplierInvoice.PaymentBooked);
+                                    supplierInvoice.PaymentProcessed = (sdr["ProcessedAmount"].ToString() != "" ? decimal.Parse(sdr["ProcessedAmount"].ToString()) : supplierInvoice.PaymentProcessed);
 
                                 }
                             }

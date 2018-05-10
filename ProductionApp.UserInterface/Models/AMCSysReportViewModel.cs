@@ -47,8 +47,6 @@ namespace ProductionApp.UserInterface.Models
 
     public class RequisitionDetailReportViewModel
     {
-        //public List<RequisitionViewModel> RequisitionList { get; set; }
-        //public List<RequisitionDetailReportViewModel> RequisitionDetailList { get; set; }
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
@@ -91,14 +89,14 @@ namespace ProductionApp.UserInterface.Models
     }
 
     public class PurchaseSummaryReportViewModel
-    { 
+    {
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
         [Display(Name = "From Date")]
         public string FromDate { get; set; }
         [Display(Name = "To Date")]
-        public string ToDate { get; set; }        
+        public string ToDate { get; set; }
         public SupplierViewModel Supplier { get; set; }
         [Display(Name = "Supplier")]
         public Guid SupplierID { get; set; }
@@ -111,7 +109,43 @@ namespace ProductionApp.UserInterface.Models
         public List<PurchaseOrderViewModel> PurchaseOrderList { get; set; }
     }
 
-
+    public class PurchaseDetailReportViewModel
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
+        [Display(Name = "From Date")]
+        public string FromDate { get; set; }
+        [Display(Name = "To Date")]
+        public string ToDate { get; set; }
+        public SupplierViewModel Supplier { get; set; }
+        [Display(Name = "Supplier")]
+        public Guid SupplierID { get; set; }
+        [Display(Name = "PO Status")]
+        public string Status { get; set; }
+        [Display(Name = "Quick Filter")]
+        public string DateFilter { get; set; }
+        [Display(Name = "Material")]       
+        public Guid MaterialID { get; set; }
+        public MaterialViewModel Material { get; set; }
+        [Display(Name = "Approval Status")]
+        public string ApprovalStatus { get; set; }
+        public ApprovalStatusViewModel Approval { get; set; }
+        [Display(Name = "Delivery Status")]
+        public string DeliveryStatus { get; set; }
+        public Guid ID { get; set; }
+        public string PurchaseOrderNo { get; set; }
+        public DateTime PurchaseOrderDate { get; set; }
+        public string PurchaseOrderDateFormatted { get; set; }
+        public string PurchaseOrderStatus { get; set; }      
+        public string MaterialDesc { get; set; }
+        public string UnitCode { get; set; }
+        public decimal Qty { get; set; }
+        public decimal PrevRcvQty { get; set; }       
+        public decimal POQty { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+    }
 
 
 

@@ -638,12 +638,12 @@ function SaveSuccessCustomerInvoice(data, status)
     _jsonData = JSON.parse(data)
     switch (_jsonData.Result) {
         case "OK":
+            notyAlert("success", _jsonData.Records.Message)
             $('#IsUpdate').val('True');
             $('#ID').val(_jsonData.Records.ID)
             _CustomerInvoiceDetail = [];
             $("#DetailJSON").val('');
             BindCustomerInvoiceByID();
-            notyAlert("success", _jsonData.Records.Message)
             break;
         case "ERROR":
             notyAlert("danger", _jsonData.Message)
