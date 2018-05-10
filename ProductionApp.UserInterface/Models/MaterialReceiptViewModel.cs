@@ -26,6 +26,7 @@ namespace ProductionApp.UserInterface.Models
         public string GeneralNotes { get; set; }
         [Display(Name = "Received By")]
         public Guid? ReceivedBy { get; set; }
+        public EmployeeViewModel Employee { get; set; }
         public CommonViewModel Common { get; set; }
 
         //Additional Fields
@@ -81,5 +82,8 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Purchase Order")]
         public Guid PurchaseOrderID { get; set; }
         public PurchaseOrderViewModel PurchaseOrder { get; set; }
+        [Display(Name = "Received By")]
+        public Guid ReceivedBy { get; set; }
+        public EmployeeViewModel Employee { get; set; }
     }
 }

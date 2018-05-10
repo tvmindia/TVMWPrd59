@@ -17,10 +17,12 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Product")]
         public Guid ProductID { get; set; }
         public Guid LineStageDetailID { get; set; }
+        [Range(0, int.MaxValue)]
         [Display(Name = "Accepted Quantity")]
         public int? AcceptedQty { get; set; }
         [Display(Name = "Accepted Weight")]
         public decimal? AcceptedWt { get; set; }
+        [Range(0, int.MaxValue)]
         [Display(Name = "Damaged Quantity")]
         public int? DamagedQty { get; set; }
         [Display(Name = "Damaged Weight")]

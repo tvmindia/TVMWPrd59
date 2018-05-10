@@ -18,17 +18,17 @@ namespace ProductionApp.UserInterface.Controllers
         private IMaterialReceiptBusiness _materialReceiptBusiness;
         private IMaterialBusiness _materialBusiness;
         private IPurchaseOrderBusiness _purchaseOrderBusiness;
-        private IUnitBusiness _unitBusiness;
+        private IEmployeeBusiness _employeeBusiness;
         private ISupplierBusiness _supplierBusiness;
         AppConst _appConst = new AppConst();
         Common _common = new Common();
-        public MaterialReceiptController(IMaterialReceiptBusiness materialReceiptBusiness, IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness, IPurchaseOrderBusiness purchaseOrderBusiness, IUnitBusiness unitBusiness)
+        public MaterialReceiptController(IMaterialReceiptBusiness materialReceiptBusiness, IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness, IPurchaseOrderBusiness purchaseOrderBusiness, IEmployeeBusiness employeeBusiness)
         {
             _materialReceiptBusiness = materialReceiptBusiness;
             _materialBusiness = materialBusiness;
             _supplierBusiness = supplierBusiness;
             _purchaseOrderBusiness = purchaseOrderBusiness;
-            _unitBusiness = unitBusiness;
+            _employeeBusiness = employeeBusiness;
         }
         #endregion Constructor Injection
 
@@ -49,6 +49,10 @@ namespace ProductionApp.UserInterface.Controllers
                 PurchaseOrder = new PurchaseOrderViewModel()
                 {
                     SelectList = _purchaseOrderBusiness.PurchaseOrderDropdownList(Guid.Empty)
+                },
+                Employee = new EmployeeViewModel()
+                {
+                    SelectList = _employeeBusiness.GetEmployeeSelectList()
                 }
             };
             foreach (SupplierViewModel supplier in supplierList)
@@ -66,7 +70,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion View MaterialReceipt Index
 
-        #region NewMaterialReceipt
+        #region New MaterialReceipt
         [AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "W")]
         public ActionResult NewMaterialReceipt(string code, Guid? id)
         {
@@ -84,7 +88,7 @@ namespace ProductionApp.UserInterface.Controllers
             };
             return View(materialReceiptVM);
         }
-        #endregion NewMaterialReceipt
+        #endregion New MaterialReceipt
 
         #region GetAllMaterialReceipt
         [AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "R")]
