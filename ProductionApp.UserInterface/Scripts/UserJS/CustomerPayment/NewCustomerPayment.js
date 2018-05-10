@@ -105,7 +105,6 @@ $(document).ready(function () {
         if ($('#IsUpdate').val() == 'True') {
             debugger;
             BindCustomerPayment()
-            ChangeButtonPatchView('CustomerPayment', 'divbuttonPatchCustomerPayment', 'Edit');
         }
         else {
             $('#lblReturnSlipNo').text('Customer Payment# : New');
@@ -430,10 +429,9 @@ function SaveSuccessCustomerPayment(data, status) {
         case "OK":
             $('#IsUpdate').val('True');
             $('#ID').val(JsonResult.Records.ID)
+            notyAlert("success", JsonResult.Records.Message)
             BindCustomerPayment();
             _SlNo = 1;
-            notyAlert("success", JsonResult.Records.Message)
-            ChangeButtonPatchView('CustomerPayment', 'divbuttonPatchCustomerPayment', 'Edit');
             break;
         case "ERROR":
             notyAlert("danger", JsonResult.Message)

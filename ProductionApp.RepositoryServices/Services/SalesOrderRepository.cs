@@ -181,6 +181,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@OrderDate", SqlDbType.DateTime).Value = salesOrder.OrderDateFormatted;
                         cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = salesOrder.CustomerID;
                         cmd.Parameters.Add("@ReferenceCustomer", SqlDbType.UniqueIdentifier).Value = salesOrder.ReferenceCustomer;
+                        if(salesOrder.SalesPerson!=Guid.Empty)
                         cmd.Parameters.Add("@SalesPerson", SqlDbType.UniqueIdentifier).Value = salesOrder.SalesPerson;
 
                         cmd.Parameters.Add("@BillingAddress", SqlDbType.VarChar, -1).Value = salesOrder.BillingAddress;

@@ -1,20 +1,19 @@
 ﻿@model ProductionApp.UserInterface.Models.CustomerInvoiceMailPreviewViewModel
 
 <div id="mailcontainerDiv">
-    <div style="max-width: 1100px; font-size: 16px; line-height: 24px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #555; margin: auto; padding: 30px; border: 3px solid #adadad;">
+    <div style="max-width: 1100px; font-size: 16px; line-height: 24px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #555; margin: auto; padding: 10px 40px 10px 40px; border: 3px solid #adadad;">
         <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit; text-align: left;border-bottom-color:#0094ff!important;border-bottom:thin solid">
-            <tr class="top">
-                <td style="width:400px;vertical-align: top;  " valign="top"><img src="@ViewBag.path" style="width:100px!important;workAround:image"></td>
-                <td colspan="2" style="vertical-align: top;  text-align:right" valign="top"></td>
-                <td style="text-align:right;"><span style="font-size:25px">Customer Invoice</span></td>
-            </tr>
-        </table>
-        <table style="width:100%;line-height:20px;margin-top:5px">
-            <tr style="width:100%;">
-                <td style="width:60%;"></td>
+            <tr class="top" valign="top">
+                <td style="width:40%;"><img src="@ViewBag.path" style="width:100px !important; workAround:image"></td>
+                <td style="width:20%;" colspan="2"></td>
                 <td style="width:40%;text-align:right">
                     <table style="width:100%;font-size:14px">
                         <tr>
+                            <td colspan="3" style="text-align:right;">
+                                <span style="font-size:25px">Customer Invoice</span>
+                            </td>
+                        </tr>
+                        <tr style="padding-top:10px">
                             <td style="text-align:left;"><b>Invoice #</b> </td>
                             <td>:</td>
                             <td style="text-align:right;font-weight:bold; padding-left:5px">@Model.CustomerInvoice.InvoiceNo</td>
@@ -25,11 +24,10 @@
                             <td style="text-align:right;padding-left:5px">@Model.CustomerInvoice.InvoiceDateFormatted  </td>
                         </tr>
                     </table>
-                    <span style="text-align:left;"></span><br />
-                    <span style="text-align:left;"></span>
                 </td>
             </tr>
         </table>
+
         <br />
         @{ decimal grossAmt = 0, total = 0;}
         <table>
@@ -54,7 +52,7 @@
         <br />
         <table id="ItemDetailsTable" style="font-family: arial, sans-serif; border-collapse: collapse; width: 100%; line-height: inherit; text-align: left;" cellspacing="0" width="100%">
             <thead>
-                <tr style="border-bottom-style: solid;border-bottom-width: 2px;border-bottom-color: #eee; " valign="top">
+                <tr  valign="top">
                     <th style="width:5%; text-align: left;padding: 8px;font-size:12px; ">Sl No.</th>
                     <th style="width:30%; text-align: left;padding: 8px;font-size:12px;">Product</th>
                     <th style="width:10%; text-align: left;padding: 8px;font-size:12px;">GST%</th>
@@ -64,6 +62,9 @@
                     <th style="width:10%; text-align: right;padding: 8px;font-size:12px;">Trade Disc</th>
                     <th style="width:10%; text-align: right;padding: 8px;font-size:12px;">Taxable Amt</th>
                     <th style="width:14%; text-align: right;padding: 8px;font-size:12px;">Total</th>
+                </tr>
+                <tr>
+                    <td colspan="9" style="vertical-align: top; border-top-style: solid; border-top-width: 2px; border-top-color: #eee; font-weight: bold; padding: 2px;width:100%" valign="top">
                 </tr>
                 @if (Model.CustomerInvoice.CustomerInvoiceDetailList != null)
                 {
@@ -177,7 +178,7 @@
                     <b>Bank Details </b>
                 </td>
                 <td> : </td>
-                <td  style="width:80%;">
+                <td style="width:80%;">
                     <b>@Model.CustomerInvoice.BankName</b><br />
                     <b>@Model.CustomerInvoice.BankAccDetail</b><br />
                 </td>

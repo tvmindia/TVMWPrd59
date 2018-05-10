@@ -181,6 +181,7 @@ function ClearSalesOrderDetailsModalFields()
     $('#SalesOrderDetail_TaxAmount').val(roundoff(0));
     $('#SalesOrderDetail_NetAmount').val(roundoff(0));
     $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val('');
+    $('#lblCurrentStock').text('0');
 }
 
 function BindProductDetails(ID)
@@ -416,10 +417,10 @@ function SaveSuccessSalesOrder(data, status) {
     _jsonData = JSON.parse(data)
     switch (_jsonData.Result) {
         case "OK":
+            notyAlert("success", _jsonData.Records.Message)
             $('#IsUpdate').val('True');
             $('#ID').val(_jsonData.Records.ID)
             BindSalesOrderByID();
-            notyAlert("success", _jsonData.Records.Message)
             break;
         case "ERROR":
             notyAlert("danger", _jsonData.Message)

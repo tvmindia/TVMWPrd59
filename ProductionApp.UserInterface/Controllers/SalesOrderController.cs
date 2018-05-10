@@ -155,7 +155,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateSalesOrder
         [HttpPost]
-      //  [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
         public string InsertUpdateSalesOrder(SalesOrderViewModel salesOrderVM)
         {
             try
