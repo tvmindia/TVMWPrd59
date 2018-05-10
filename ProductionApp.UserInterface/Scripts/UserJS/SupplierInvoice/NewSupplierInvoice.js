@@ -697,7 +697,10 @@ function BindSupplierInvoiceByID() {
     $('#lblTotalTaxableAmount').text(roundoff(SupplierInvoiceVM.TotalTaxableAmount));
     $('#lblTotalTaxAmount').text(roundoff(SupplierInvoiceVM.TotalTaxAmount));
     $('#InvoiceAmount').val(SupplierInvoiceVM.InvoiceAmount);
-    $('#lblInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount-SupplierInvoiceVM.Discount));
+    $('#lblPaymentBooked').text(roundoff(SupplierInvoiceVM.PaymentBooked));
+    $('#lblPaidAmount').text(roundoff(SupplierInvoiceVM.PaymentProcessed));
+    $('#lblBalance').text(roundoff(SupplierInvoiceVM.Balance));
+    $('#lblInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount - SupplierInvoiceVM.Discount));
     $('#lblStatusInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount-SupplierInvoiceVM.Discount));
     $('#AccountCode').val(SupplierInvoiceVM.AccountCode).select2();
     debugger;
