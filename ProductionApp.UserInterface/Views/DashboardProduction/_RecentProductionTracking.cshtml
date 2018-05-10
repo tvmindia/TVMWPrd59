@@ -13,19 +13,19 @@
                     <thead style="display:table;width:100%; ">
                         <tr>
                             <th>Date</th>
-                            <th style="width:25%;">SubComponent/Output</th>                            
+                            <th>Output</th>                            
                             <th>Acc. Qty</th>
                             <th>Dam. Qty</th>                           
                         </tr>
                     </thead>
-                    <tbody style="height:430px;max-height:500px;overflow-y:scroll;display:block;width:100%;">
+                    <tbody style="height:400px;max-height:500px;overflow-y:scroll;display:block;width:100%;">
                         @if (Model.ProductionTrackingList != null)
                         {
                             for (int i = 0; i < Model.ProductionTrackingList.Count; i++)
                             {
                                 <tr>
                                     <td><a href="/ProductionTracking/NewProductionTracking?code=PROD&id=@Model.ProductionTrackingList[i].ID">@Model.ProductionTrackingList[i].EntryDateFormatted</a></td>
-                                    <td style="width:25%;">@Model.ProductionTrackingList[i].OutputComponent.Name</td>
+                                    <td>@Model.ProductionTrackingList[i].OutputComponent.Name</td>
                                     <td>@Model.ProductionTrackingList[i].AcceptedQty</td> 
                                     <td>@Model.ProductionTrackingList[i].DamagedQty</td>                                    
                                 </tr>
@@ -35,7 +35,7 @@
                             {
                                 <tr>
                                     <td>-</td>
-                                    <td style="width:25%;">-</td>
+                                    <td  >-</td>
                                     <td>-</td>
                                     <td>-</td>                                    
                                 </tr>
