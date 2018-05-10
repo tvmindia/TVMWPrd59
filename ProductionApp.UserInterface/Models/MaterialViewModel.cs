@@ -34,7 +34,7 @@ namespace ProductionApp.UserInterface.Models
         public decimal? ReorderQty { get; set; }
         //additional fields 
         public Guid MaterialID { get; set; }
-        [Display(Name = "Current Stock")]
+        [Display(Name = "Current Stock (Nos.)")]
         public decimal? CurrentStock { get; set; }
         [Display(Name = "Opening Stock")]
         public decimal? OpeningStock { get; set; }
