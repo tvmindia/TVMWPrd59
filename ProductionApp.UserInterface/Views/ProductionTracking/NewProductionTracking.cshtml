@@ -122,6 +122,8 @@
 
                     <div class="col-md-12">&nbsp;</div>
                     <div class="col-md-12">
+                        @Html.HiddenFor(model => model.ProductID)
+                        @Html.HiddenFor(model => model.LineStageDetailID)
                         <div class="col-md-12">
                             <div class="col-md-12">
                                 <div class="box box-primary" style="left:-1%;">
@@ -166,8 +168,6 @@
                         </div>
                         @*<div class="col-md-12" style="padding-top:7px;">
                             <div class="form-group col-md-12">
-                                @Html.HiddenFor(model => model.ProductID)
-                                @Html.HiddenFor(model => model.LineStageDetailID)
                                 <div class="form-group col-md-12 box-header figuresummaryGray rounded">
                                     <div class="form-group col-md-6">
                                         <div class="rightAmtCaption">Product</div>
