@@ -17,7 +17,7 @@
                             <th>Ass.By</th>                            
                         </tr>
                     </thead>
-                    <tbody style="height:430px;max-height:500px;overflow-y:scroll;display:block;width:100%;">
+                    <tbody style="height:400px;max-height:500px;overflow-y:scroll;display:block;width:100%;">
                         @if (Model.AssemblyList != null)
                         {
                             for (int i = 0; i < Model.AssemblyList.Count; i++)
@@ -25,7 +25,7 @@
                                 <tr>
                                     <td><a href="/Assembly/NewAssembly?code=PROD&id=@Model.AssemblyList[i].ID">@Model.AssemblyList[i].EntryNo</a></td>
                                     <td>@Model.AssemblyList[i].AssemblyDateFormatted</td>                                    
-                                    <td style="width:25%;">@Model.AssemblyList[i].Employee.Name</td>                                    
+                                    <td  >@Model.AssemblyList[i].Employee.Name</td>                                    
                                 </tr>
                             }
 
@@ -34,7 +34,7 @@
                                 <tr>                                                               
                                     <td>-</td>
                                     <td>-</td>
-                                    <td style="width:25%;">-</td>
+                                    <td  >-</td>
                                 </tr>
                             }
                         }
@@ -45,7 +45,7 @@
                                 <tr>                                                                 
                                     <td>-</td>
                                     <td>-</td>
-                                    <td style="width:25%;">-</td>
+                                    <td  >-</td>
                                 </tr>
                             }
                         }

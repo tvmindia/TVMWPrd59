@@ -206,6 +206,14 @@
                             @Html.EditorFor(model => model.RequisitionDetail.Material.MaterialCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.RequisitionDetail.Material.UnitCode, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.RequisitionDetail.Material.UnitCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.RequisitionDetail.Description, htmlAttributes: new { @class = "control-label " })

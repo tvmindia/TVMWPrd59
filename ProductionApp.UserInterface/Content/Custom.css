@@ -770,7 +770,7 @@ input.ApplyCurrency {
     
 }
 .addEmp {
-    border:2px solid #01abe3;padding-bottom:8px;z-index:10;position:absolute;border-radius:15px;width:90%;background-color:whitesmoke;
+    border:2px solid #01abe3;padding-bottom:8px;z-index:10;position:absolute;border-radius:15px;width:100%;background-color:whitesmoke;
 
 }
 .addEmp::before {
@@ -779,7 +779,7 @@ input.ApplyCurrency {
 	height: 0px;
 	border: 0.8em solid transparent;
 	position: absolute;
-   left: 85%;
+    left: 10%;
 	top: -20px;
 	border-bottom: 10px solid #01abe3;
 }
@@ -790,7 +790,7 @@ input.ApplyCurrency {
 	height: 0px;
 	border: 0.8em solid transparent;
 	position: absolute;
-   left: 85%;
+    left: 10%;
 	top: -17px;
 	border-bottom: 10px solid whitesmoke;
 }
