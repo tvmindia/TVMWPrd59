@@ -147,6 +147,45 @@ namespace ProductionApp.UserInterface.Models
         public int FilteredCount { get; set; }
     }
 
+    public class PurchaseRegisterReportViewModel
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
+        [Display(Name = "From Date")]
+        public string FromDate { get; set; }
+        [Display(Name = "To Date")]
+        public string ToDate { get; set; }
+        public SupplierViewModel Supplier { get; set; }
+        [Display(Name = "Supplier")]
+        public Guid SupplierID { get; set; }
+        [Display(Name = "Invoice Status")]
+        public string InvoiceStatus { get; set; }
+        [Display(Name = "Payment Status")]
+        public string PaymentStatus { get; set; }
+        [Display(Name = "PO Status")]
+        public string Status { get; set; }
+        [Display(Name = "Quick Filter")]
+        public string DateFilter { get; set; }
+        public MaterialViewModel Material { get; set; }
+        [Display(Name = "Material")]
+        public Guid MaterialID { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+        public string PurchaseOrderNo { get; set; }
+        public DateTime PurchaseOrderDate { get; set; }
+        public string PurchaseOrderDateFormatted { get; set; }
+        public decimal GSTPerc { get; set; }
+        public decimal GSTAmt { get; set; }
+        public decimal Discount { get; set; }
+        public decimal GrossAmount { get; set; }
+        public decimal InvoicedAmount { get; set; }
+        public decimal PaidAmount { get; set; }
+        public decimal NetAmount { get; set; }
+        public decimal TaxableAmount { get; set; }
+        public List<PurchaseRegisterReportViewModel> PurchaseRegisterReportList { get; set; }
 
+    }
 
 }

@@ -121,7 +121,35 @@ namespace ProductionApp.DataAccessObject.DTO
         public int FilteredCount { get; set; }
     }
 
-
+    public class  PurchaseRegisterReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public Supplier Supplier { get; set; }
+        public Guid SupplierID { get; set; }
+        public string Status { get; set; }
+        public string InvoiceStatus{ get; set; }
+        public string PaymentStatus { get; set; }
+        public string DateFilter { get; set; }
+        public Guid MaterialID { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+        public string PurchaseOrderNo { get; set; }
+        public DateTime PurchaseOrderDate { get; set; }
+        public string PurchaseOrderDateFormatted { get; set; }
+        public decimal GSTPerc { get; set; }
+        public decimal GSTAmt { get; set; }
+        public decimal Discount { get; set; }
+        public decimal GrossAmount { get; set; }
+        public decimal InvoicedAmount { get; set; }
+        public decimal PaidAmount { get; set; }
+        public decimal NetAmount { get; set; }
+        public decimal TaxableAmount { get; set; }
+        public List<PurchaseRegisterReport> PurchaseRegisterReportList { get; set; }
+    }
 
 
 }

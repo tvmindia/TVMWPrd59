@@ -54,5 +54,12 @@ namespace ProductionApp.BusinessService.Services
             return _reportRepository.GetPurchaseDetailReport(purchaseDetailReport);
         }
         #endregion GetPurchaseDetailReport
+
+        #region GetPurchaseRegisterReport
+        public List<PurchaseRegisterReport>GetPurchaseRegisterReport(PurchaseRegisterReport purchaseRegisterReport)
+        {
+            return _reportRepository.GetPurchaseRegisterReport(purchaseRegisterReport);
+        }
+        #endregion GetPurchaseRegisterReport
     }
 }

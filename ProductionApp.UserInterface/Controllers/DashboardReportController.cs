@@ -367,6 +367,84 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetPurchaseDetailReport
 
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult PurchaseRegisterReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+            PurchaseRegisterReportViewModel purchaseRegisterReportVM = new PurchaseRegisterReportViewModel();
+            purchaseRegisterReportVM.Supplier = new SupplierViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            purchaseRegisterReportVM.Supplier.SelectList = new List<SelectListItem>();
+            List<SupplierViewModel> supplierList = Mapper.Map<List<Supplier>, List<SupplierViewModel>>(_supplierBusiness.GetSupplierForSelectList());
+            if (supplierList != null)
+                foreach (SupplierViewModel supplier in supplierList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = supplier.CompanyName,
+                        Value = supplier.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            purchaseRegisterReportVM.Supplier.SelectList = selectListItem;                  
+            return View(purchaseRegisterReportVM);
+        }
+
+
+        #region GetPurchaseRegisterReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetPurchaseRegisterReport(DataTableAjaxPostModel model, PurchaseRegisterReportViewModel purchaseRegisterVM)
+        {
+            Common con = new Common();
+            DateTime dt = con.GetCurrentDateTime();
+            if (purchaseRegisterVM != null)
+            {
+                if (purchaseRegisterVM.DateFilter == "30")
+                {
+                    purchaseRegisterVM.FromDate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
+                    purchaseRegisterVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (purchaseRegisterVM.DateFilter == "60")
+                {
+                    purchaseRegisterVM.FromDate = dt.AddDays(-60).ToString("dd-MMM-yyyy");
+                    purchaseRegisterVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (purchaseRegisterVM.DateFilter == "90")
+                {
+                    purchaseRegisterVM.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    purchaseRegisterVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+            }
+            purchaseRegisterVM.DataTablePaging.Start = model.start;
+            purchaseRegisterVM.DataTablePaging.Length = (purchaseRegisterVM.DataTablePaging.Length == 0 ? model.length : purchaseRegisterVM.DataTablePaging.Length);
+
+            List<PurchaseRegisterReportViewModel> purchaseRegisterList = Mapper.Map<List<PurchaseRegisterReport>, List<PurchaseRegisterReportViewModel>>(_reportBusiness.GetPurchaseRegisterReport(Mapper.Map<PurchaseRegisterReportViewModel, PurchaseRegisterReport>(purchaseRegisterVM)));
+
+            if (purchaseRegisterVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = purchaseRegisterList.Count != 0 ? purchaseRegisterList[0].TotalCount : 0;
+                int filteredResult = purchaseRegisterList.Count != 0 ? purchaseRegisterList[0].FilteredCount : 0;
+                purchaseRegisterList = purchaseRegisterList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = purchaseRegisterList.Count != 0 ? purchaseRegisterList[0].TotalCount : 0,
+                recordsFiltered = purchaseRegisterList.Count != 0 ? purchaseRegisterList[0].FilteredCount : 0,
+                data = purchaseRegisterList
+            });
+        }
+        #endregion GetPurchaseRegisterReport
+
+
 
         #region ButtonStyling
         [HttpGet]

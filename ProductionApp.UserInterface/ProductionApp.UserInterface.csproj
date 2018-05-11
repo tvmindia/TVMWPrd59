@@ -728,6 +728,7 @@
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\NewRecieveFromProduction.js" />
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\ViewRecieveFromProduction.js" />
     <Content Include="Scripts\UserJS\Report\PurchaseDetailReport.js" />
+    <Content Include="Scripts\UserJS\Report\PurchaseRegisterReport.js" />
     <Content Include="Scripts\UserJS\Report\PurchaseSummaryReport.js" />
     <Content Include="Scripts\UserJS\Report\Report.js" />
     <Content Include="Scripts\UserJS\Report\RequisitionSummaryReport.js" />
@@ -1051,6 +1052,7 @@
     <Content Include="Views\DashboardReport\PurchaseSummaryReport.cshtml" />
     <Content Include="Views\CustomerInvoice\_CustomerInvoiceMailPreview.cshtml" />
     <Content Include="Views\DashboardReport\PurchaseDetailReport.cshtml" />
+    <Content Include="Views\DashboardReport\PurchaseRegisterReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
