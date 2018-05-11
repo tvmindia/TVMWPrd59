@@ -17,10 +17,9 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Customer required")]
         public Guid CustomerID { get; set; }
         [Display(Name = "Reference Customer")]
-        public Guid ReferenceCustomer { get; set; }
+        public Guid? ReferenceCustomer { get; set; }
         [Display(Name = "Sales Person")]
-      //  [Required(ErrorMessage = "Sales Person required")]
-        public Guid SalesPerson { get; set; }
+        public Guid? SalesPerson { get; set; }
         public DateTime ExpectedDeliveryDate { get; set; }
         [Display(Name = "Billing Address")]
         public string BillingAddress { get; set; }
@@ -30,11 +29,12 @@ namespace ProductionApp.UserInterface.Models
         public string Remarks { get; set; }
 
         //additional properties
-        public Guid EmployeeID { get; set; }
+        public Guid? EmployeeID { get; set; }
         public bool IsUpdate { get; set; }
         public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
         public string DetailJSON { get; set; }
+
         [Display(Name = "Sales Person")]
         public string CustomerName { get; set; }
         public string ReferenceCustomerName { get; set; }

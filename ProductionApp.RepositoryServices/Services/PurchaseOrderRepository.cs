@@ -155,7 +155,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@PODate", SqlDbType.DateTime).Value = purchaseOrder.PurchaseOrderDate;
                         cmd.Parameters.Add("@POIssuedDate", SqlDbType.DateTime).Value = purchaseOrder.PurchaseOrderIssuedDate;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = purchaseOrder.SupplierID;
-                        cmd.Parameters.Add("@POTitle", SqlDbType.VarChar, 10).Value = purchaseOrder.PurchaseOrderTitle;
+                        cmd.Parameters.Add("@POTitle", SqlDbType.VarChar, 500).Value = purchaseOrder.PurchaseOrderTitle;
                         cmd.Parameters.Add("@MailingAddress", SqlDbType.NVarChar, -1).Value = purchaseOrder.MailingAddress;
                         cmd.Parameters.Add("@ShippingAddress", SqlDbType.NVarChar, -1).Value = purchaseOrder.ShippingAddress;
                         cmd.Parameters.Add("@MailBodyHeader", SqlDbType.VarChar, 500).Value = purchaseOrder.MailBodyHeader;
@@ -236,7 +236,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@PODate", SqlDbType.DateTime).Value = purchaseOrder.PurchaseOrderDate;
                         cmd.Parameters.Add("@POIssuedDate", SqlDbType.DateTime).Value = purchaseOrder.PurchaseOrderIssuedDate;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = purchaseOrder.SupplierID;
-                        cmd.Parameters.Add("@POTitle", SqlDbType.VarChar, 10).Value = purchaseOrder.PurchaseOrderTitle;
+                        cmd.Parameters.Add("@POTitle", SqlDbType.VarChar, 500).Value = purchaseOrder.PurchaseOrderTitle;
                         cmd.Parameters.Add("@MailingAddress", SqlDbType.NVarChar, -1).Value = purchaseOrder.MailingAddress;
                         cmd.Parameters.Add("@ShippingAddress", SqlDbType.NVarChar, -1).Value = purchaseOrder.ShippingAddress;
                         cmd.Parameters.Add("@MailBodyHeader", SqlDbType.VarChar, 500).Value = purchaseOrder.MailBodyHeader;
