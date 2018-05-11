@@ -314,6 +314,11 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion GetPurchaseSummaryReport
 
         #region GetPurchaseDetailReport
+        /// <summary>
+        /// To get Purchase Detail Report
+        /// </summary>
+        /// <param name="purchaseDetailReport"></param>
+        /// <returns></returns>
         public List<PurchaseDetailReport> GetPurchaseDetailReport(PurchaseDetailReport purchaseDetailReport)
         {
 
@@ -391,6 +396,89 @@ namespace ProductionApp.RepositoryServices.Services
             return purchaseDetailList;
         }
         #endregion GetPurchaseDetailReport
+
+        #region GetPurchaseRegisterReport
+        /// <summary>
+        /// To Get Purchase Register Report
+        /// </summary>
+        /// <param name="purchaseRegisterReport"></param>
+        /// <returns></returns>
+        public List<PurchaseRegisterReport> GetPurchaseRegisterReport(PurchaseRegisterReport purchaseRegisterReport)
+        {
+
+            List<PurchaseRegisterReport> purchaseRegisterList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        if (purchaseRegisterReport.DataTablePaging.OrderColumn == "")
+                        {
+                            purchaseRegisterReport.DataTablePaging.OrderColumn = "PURCHASEORDERNO";
+                            purchaseRegisterReport.DataTablePaging.OrderDir = "ASC";
+                        }
+                        cmd.CommandText = "[AMC].[GetPurchaseRegisterReport]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(purchaseRegisterReport.SearchTerm) ? "" : purchaseRegisterReport.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = purchaseRegisterReport.DataTablePaging.Start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = purchaseRegisterReport.DataTablePaging.Length;
+                        cmd.Parameters.Add("@OrderDir", SqlDbType.VarChar).Value = purchaseRegisterReport.DataTablePaging.OrderDir;
+                        cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = purchaseRegisterReport.DataTablePaging.OrderColumn;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = purchaseRegisterReport.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = purchaseRegisterReport.ToDate;
+                        cmd.Parameters.Add("@POStatus", SqlDbType.VarChar).Value = purchaseRegisterReport.Status;
+                        cmd.Parameters.Add("@PaymentStatus", SqlDbType.VarChar).Value = purchaseRegisterReport.PaymentStatus;
+                        if (purchaseRegisterReport.SupplierID != Guid.Empty)
+                            cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = purchaseRegisterReport.SupplierID;                    
+                       
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                purchaseRegisterList = new List<PurchaseRegisterReport>();
+                                while (sdr.Read())
+                                {
+                                    PurchaseRegisterReport purchaseRegisterObj = new PurchaseRegisterReport();
+                                    {
+                                        purchaseRegisterObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : purchaseRegisterObj.ID);
+                                        purchaseRegisterObj.PurchaseOrderNo = (sdr["PONo"].ToString() != "" ? sdr["PONo"].ToString() : purchaseRegisterObj.PurchaseOrderNo);
+                                        purchaseRegisterObj.PurchaseOrderDate = (sdr["PurchaseOrderDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderDate"].ToString()) : purchaseRegisterObj.PurchaseOrderDate);
+                                        purchaseRegisterObj.PurchaseOrderDateFormatted = (sdr["PurchaseOrderDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderDate"].ToString()).ToString(settings.DateFormat) : purchaseRegisterObj.PurchaseOrderDateFormatted);                                        
+                                        purchaseRegisterObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : purchaseRegisterObj.TotalCount);
+                                        purchaseRegisterObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : purchaseRegisterObj.FilteredCount);                                        
+                                        purchaseRegisterObj.Supplier = new Supplier();
+                                        purchaseRegisterObj.Supplier.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : purchaseRegisterObj.Supplier.CompanyName);
+                                        purchaseRegisterObj.GrossAmount= (sdr["GrossAmount"].ToString() != "" ? decimal.Parse(sdr["GrossAmount"].ToString()) : purchaseRegisterObj.GrossAmount);
+                                        purchaseRegisterObj.Discount= (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseRegisterObj.Discount);
+                                        purchaseRegisterObj.TaxableAmount = (sdr["TaxableAmount"].ToString() != "" ? decimal.Parse(sdr["TaxableAmount"].ToString()) : purchaseRegisterObj.TaxableAmount);
+                                        purchaseRegisterObj.GSTPerc = (sdr["GSTPercentage"].ToString() != "" ? decimal.Parse(sdr["GSTPercentage"].ToString()) : purchaseRegisterObj.GSTPerc);
+                                        purchaseRegisterObj.GSTAmt = (sdr["GSTAMOUNT"].ToString() != "" ? decimal.Parse(sdr["GSTAMOUNT"].ToString()) : purchaseRegisterObj.GSTAmt);
+                                        purchaseRegisterObj.NetAmount = (sdr["NetAmt"].ToString() != "" ? decimal.Parse(sdr["NetAmt"].ToString()) : purchaseRegisterObj.NetAmount);
+                                        purchaseRegisterObj.InvoicedAmount = (sdr["InvcdAmount"].ToString() != "" ? decimal.Parse(sdr["InvcdAmount"].ToString()) : purchaseRegisterObj.InvoicedAmount);
+                                        purchaseRegisterObj.PaidAmount = (sdr["PaidAmunt"].ToString() != "" ? decimal.Parse(sdr["PaidAmunt"].ToString()) : purchaseRegisterObj.PaidAmount);
+                                        
+                                    }
+                                    purchaseRegisterList.Add(purchaseRegisterObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return purchaseRegisterList;
+        }
+        #endregion GetPurchaseRegisterReport
 
     }
 }

@@ -1,0 +1,221 @@
+﻿@using ProductionApp.UserInterface.App_Start
+@model ProductionApp.UserInterface.Models.PurchaseRegisterReportViewModel
+
+@{
+    ViewBag.Title = "Purchase Register Report";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+@section styles {
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")
+}
+
+<style>
+    table.dataTable tr.odd {
+        background-color: #ebf2f5;
+    }
+
+    table.dataTable tr.even {
+        background-color: white;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 20px !important;
+    }
+</style>
+
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-cogs"></i>Reports</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+<section class="content">
+    <div class="form-horizontal">
+        <div class="col-md-9" style="margin-top:10px;">
+
+            <div class="col-md-9">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.SearchTerm, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-12">
+                    <div class="input-group">
+                        @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "SearchTerm", @onkeypress = "RedirectSearchClick(event,this)" } })
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadPurchaseRegisterTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.DateFilter, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-12">
+                    @{
+                        List<SelectListItem> PurchaseDateRange = new List<SelectListItem>();
+                        PurchaseDateRange.Add(new SelectListItem
+                        { Text = "Last 30 Days", Value = "30" });
+                        PurchaseDateRange.Add(new SelectListItem
+                        { Text = "Last 60 Days", Value = "60" });
+                        PurchaseDateRange.Add(new SelectListItem
+                        { Text = "Last 90 Days", Value = "90" });
+                    }
+                    @Html.DropDownListFor(model => model.DateFilter, PurchaseDateRange, "---  Filter  ---", new { @class = "form-control", style = "padding:4px 12px;", @onchange = "DateFilterOnchange('Apply');" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-3" style="min-height:25px">
+            @{
+                var data = new { actionType = "List" };
+                @Html.Action("ChangeButtonStyle", "DashboardReport", data);
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-12" style="padding-top:5px;">
+            @*Advance Filter *@
+            <div class="col-md-12">
+                <p id="filter" style="float:right;font-size:small"><i class="fa fa-filter advanceFilterLink" aria-hidden="true"></i>&nbsp;<a href="#demo" class="accordion" data-toggle="collapse" aria-expanded="false" aria-controls="demo">Advanced Filter</a></p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row tableContainer">
+        <div class="form-group col-md-12 collapse" id="demo">
+            <div style="border-top:1px solid #d9d9d9;margin-left: 15px;" class="form-group col-md-12"></div>
+
+            <div class="col-md-12">
+
+
+                <div class="col-md-3">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @id = "FromDate" } })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @id = "ToDate" } })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        @{
+                            List<SelectListItem> PurchaseOrderStatus = new List<SelectListItem>();
+                            PurchaseOrderStatus.Add(new SelectListItem
+                            { Text = "Open", Value = "Open" });
+                            PurchaseOrderStatus.Add(new SelectListItem
+                            { Text = "Closed", Value = "Closed" });
+                        }
+                        @Html.DropDownListFor(model => model.Status, PurchaseOrderStatus, "--Select Status--", new { @class = "form-control", style = "padding:4px 12px;", @id = "Status" })
+                    </div>
+                </div>
+
+                
+
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.InvoiceStatus, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        @{
+                            List<SelectListItem> PurchaseInvoiceStatus = new List<SelectListItem>();
+                            PurchaseInvoiceStatus.Add(new SelectListItem
+                            { Text = "Not Invoiced", Value = "Not Invoiced" });
+                            PurchaseInvoiceStatus.Add(new SelectListItem
+                            { Text = "Partially Invoiced", Value = "Partially Invoiced" });
+                            PurchaseInvoiceStatus.Add(new SelectListItem
+                            { Text = "Fully Invoiced", Value = "Fully Invoiced" });
+                        }
+                        @Html.DropDownListFor(model => model.InvoiceStatus, PurchaseInvoiceStatus, "--Select Status--", new { @class = "form-control", style = "padding:4px 12px;", @id = "InvoiceStatus" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.PaymentStatus, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        @{
+                            List<SelectListItem> PurchasePaymentStatus = new List<SelectListItem>();
+                            PurchasePaymentStatus.Add(new SelectListItem
+                            { Text = "Not Paid", Value = "Not Paid" });
+                            PurchasePaymentStatus.Add(new SelectListItem
+                            { Text = "Partially Paid", Value = "Partially Paid" });
+                            PurchasePaymentStatus.Add(new SelectListItem
+                            { Text = "Fully Paid", Value = "Fully Paid" });
+                        }
+                        @Html.DropDownListFor(model => model.PaymentStatus, PurchasePaymentStatus, "--Select Status--", new { @class = "form-control", style = "padding:4px 12px;", @id = "PaymentStatus" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.SupplierID, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.DropDownListFor(model => model.SupplierID, Model.Supplier.SelectList, "--Select Supplier--", new { @class = "form-control BlockEnter", style = "width:100%", @id = "Supplier" })
+                    </div>
+                </div>
+
+              
+                
+
+                <div class="col-md-2">
+                    <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadPurchaseRegisterTable('Apply')">Apply</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <table id="tblPurchaseRegisterReport" class="table stripe" cellspacing="0" width="100%">
+            <thead>
+                <tr class="text-center TableHead">
+                    <th>ID</th>
+                    <th>PO#</th>
+                    <th>PO Date</th>                   
+                    <th>Supplier</th>                    
+                    <th>Discount</th>
+                    <th>GST(%)</th>
+                    <th>GST Amt</th>                   
+                    <th>Net Amt</th>
+                    <th>Taxable Amt</th>
+                    <th>Gross Amt</th>
+                    <th>Invoice Amt</th>
+                    <th>Paid Amt</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/Report/PurchaseRegisterReport")
+}
+
+

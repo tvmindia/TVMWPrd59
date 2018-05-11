@@ -14,6 +14,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<RequisitionDetailReport>GetRequisitionDetailReport(RequisitionDetailReport requisitionDetailReport);
         List<PurchaseOrder> GetPurchaseSummaryReport(PurchaseSummaryReport purchaseSummaryReport);
         List<PurchaseDetailReport> GetPurchaseDetailReport(PurchaseDetailReport purchaseDetailReport);
-        
+        List<PurchaseRegisterReport> GetPurchaseRegisterReport(PurchaseRegisterReport purchaseRegisterReport);
     }
 }
