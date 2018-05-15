@@ -480,5 +480,90 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetPurchaseRegisterReport
 
+
+        #region GetInventoryReorderStatusReport
+        public List<InventoryReorderStatusReport> GetInventoryReorderStatusReport(InventoryReorderStatusReport inventoryReOrderStatusReport)
+        {
+
+            List<InventoryReorderStatusReport> inventoryReOrderList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        //if (inventoryReOrderStatusReport.DataTablePaging.OrderColumn == "")
+                        //{
+                        //    inventoryReOrderStatusReport.DataTablePaging.OrderColumn = "PURCHASEORDERNO";
+                        //    inventoryReOrderStatusReport.DataTablePaging.OrderDir = "ASC";
+                        //}
+                        cmd.CommandText = "[AMC].[GetInventoryReOrderStatusReport]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(inventoryReOrderStatusReport.SearchTerm) ? "" : inventoryReOrderStatusReport.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = inventoryReOrderStatusReport.DataTablePaging.Start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = inventoryReOrderStatusReport.DataTablePaging.Length;
+                        cmd.Parameters.Add("@OrderDir", SqlDbType.VarChar).Value = inventoryReOrderStatusReport.DataTablePaging.OrderDir;
+                        cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = inventoryReOrderStatusReport.DataTablePaging.OrderColumn;                       
+                        cmd.Parameters.Add("@ItemStatus", SqlDbType.Int).Value = inventoryReOrderStatusReport.ItemStatus;
+                        if (inventoryReOrderStatusReport.MaterialID != Guid.Empty)
+                            cmd.Parameters.Add("@MaterialID", SqlDbType.UniqueIdentifier).Value = inventoryReOrderStatusReport.MaterialID;                        
+                            cmd.Parameters.Add("@MaterialType", SqlDbType.NVarChar).Value = inventoryReOrderStatusReport.Code;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                inventoryReOrderList = new List<InventoryReorderStatusReport>();
+                                while (sdr.Read())
+                                {
+                                    InventoryReorderStatusReport inventoryReOrderObj = new InventoryReorderStatusReport();
+                                    {
+
+                                        inventoryReOrderObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : inventoryReOrderObj.ID);
+                                        inventoryReOrderObj.Description = (sdr["Item"].ToString() != "" ? (sdr["Item"].ToString()) : inventoryReOrderObj.Description);
+                                        inventoryReOrderObj.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : inventoryReOrderObj.CurrentStock);
+                                        inventoryReOrderObj.ReorderQty = (sdr["ReorderQty"].ToString() != "" ? decimal.Parse(sdr["ReorderQty"].ToString()) : inventoryReOrderObj.ReorderQty);
+                                        inventoryReOrderObj.PODueQty = (sdr["PODueQty"].ToString() != "" ? decimal.Parse(sdr["PODueQty"].ToString()) : inventoryReOrderObj.PODueQty);
+                                        inventoryReOrderObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : inventoryReOrderObj.TotalCount);
+                                        inventoryReOrderObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : inventoryReOrderObj.FilteredCount);                                       
+                                        inventoryReOrderObj.NetAvailableQty = (sdr["NetAvailableQty"].ToString() != "" ? decimal.Parse(sdr["NetAvailableQty"].ToString()) : inventoryReOrderObj.NetAvailableQty);
+                                        inventoryReOrderObj.ShortFall = (sdr["ShortFall"].ToString() != "" ? decimal.Parse(sdr["ShortFall"].ToString()) : inventoryReOrderObj.ShortFall);
+                                    }
+                                    inventoryReOrderList.Add(inventoryReOrderObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return inventoryReOrderList;
+        }
+
+
+
+
+        #endregion GetInventoryReorderStatusReport
+
+
+
+
     }
-}
+
+
+
+
+                                }
+
+
+
+
+                           

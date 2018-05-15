@@ -188,4 +188,31 @@ namespace ProductionApp.UserInterface.Models
 
     }
 
+
+    public class InventoryReorderStatusReportViewModel
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }       
+        [Display(Name = "Item Status")]
+        public int ItemStatus { get; set; }
+        [Display(Name = "Material")]
+        public Guid MaterialID { get; set; }
+        public MaterialViewModel Material { get; set; }
+        [Display(Name = "Material Type")]
+        public string Code { get; set; }
+        public MaterialTypeViewModel MaterialType { get; set; }
+
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+        public string Description { get; set; }
+        public decimal ReorderQty { get; set; }
+        public decimal CurrentStock { get; set; }
+        public decimal PODueQty { get; set; }
+        public decimal NetAvailableQty { get; set; }
+        public decimal ShortFall { get; set; }
+        public List<InventoryReorderStatusReportViewModel> InventoryReorderStatusList { get; set; }
+    }
+
 }
