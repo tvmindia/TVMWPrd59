@@ -109,23 +109,25 @@ function BindOrReloadSalesOrderTable(action) {
                 },
                 pageLength: 10,
                 columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
-                    { "data": "CustomerName", "defaultContent": "<i>-</i>" },
-                    { "data": "OrderNo", "defaultContent": "<i>-</i>" },
-                    { "data": "OrderDateFormatted", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "ExpectedDeliveryDateFormatted", "defaultContent": "<i>-</i>" },
-                    //{ "data": "", "defaultContent": "<i>-</i>" },
+                    { "data": "CustomerName", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "OrderNo", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "OrderDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "NetAmount", render: function (data, type, row) {
+                        return roundoff(data) 
+                    }, "defaultContent": "<i>-</i>", "width": "20%"
+                    },
+                    { "data": "SOStatus", "defaultContent": "<i>-</i>", "width": "20%" },
+                    { "data": "ExpectedDeliveryDateFormatted", "defaultContent": "<i>-</i>", "width": "27%" },
                     {
                          "data": "ID", "orderable": false, render: function (data, type, row) {
                              return '<a href="/SalesOrder/AddSalesOrder?code=SALE&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
                          }, "defaultContent": "<i>-</i>", "width": "3%"
                     }
                 ],
-                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1, 2, 4, 5, 6] },
-                    { className: "text-center", "targets": [3, 7] }],
+                columnDefs: [{ "targets": [], "visible": false, "searchable": false },
+                    { className: "text-left", "targets": [0,1,4] },
+                    { className: "text-right", "targets": [3] },
+                    { className: "text-center", "targets": [2,5,6] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
@@ -200,30 +202,30 @@ function BindOrReloadSalesOrderDetailTable(action) {
                 },
                 pageLength: 10,
                 columns: [
-                    { "data": "SalesOrderDetail.ID", "defaultContent": "<i>-</i>" },
-                    { "data": "CustomerName", "defaultContent": "<i>-</i>" },
-                    { "data": "OrderNo", "defaultContent": "<i>-</i>" },
-                    { "data": "OrderDateFormatted", "defaultContent": "<i>-</i>" },
+                    { "data": "CustomerName", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "OrderNo", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "OrderDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
                     { "data": "SalesOrderDetail.Product.Name", render: function (data, type, row) {
                         row.SalesOrderDetail.Product.HSNNo = row.SalesOrderDetail.Product.HSNNo == null ? "Nill" : row.SalesOrderDetail.Product.HSNNo
                         return data + '</br><b>HSNNo: </b>' + row.SalesOrderDetail.Product.HSNNo
                         }
-                        , "defaultContent": "<i>-</i>" },
-                    { "data": "SalesOrderDetail.Quantity", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "", "defaultContent": "<i>-</i>" },
-                    { "data": "SalesOrderDetail.ExpectedDeliveryDateFormatted", "defaultContent": "<i>-</i>" },
+                        , "defaultContent": "<i>-</i>", "width": "17%"
+                    },
+                    { "data": "SalesOrderDetail.Quantity", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "DispatchedQty", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "DispatchedDates", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "SOStatus", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "SalesOrderDetail.ExpectedDeliveryDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
-                            return '<a href="/SalesOrder/AddSalesOrder?code=SALE&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                            return '<a href="/SalesOrder/AddSalesOrder?code=SALE&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
                         }, "defaultContent": "<i>-</i>", "width": "3%"
                     }
                 ],
-                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1, 2, 4] },
-                    { className: "text-center", "targets": [3, 9, 10] },
-                    { className: "text-right", "targets": [5,6] }],
+                columnDefs: [{ "targets": [], "visible": false, "searchable": false },
+                    { className: "text-left", "targets": [0,1,3,6,7]},
+                    { className: "text-center", "targets": [ 2,8,9] },
+                    { className: "text-right", "targets": [4,5] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
