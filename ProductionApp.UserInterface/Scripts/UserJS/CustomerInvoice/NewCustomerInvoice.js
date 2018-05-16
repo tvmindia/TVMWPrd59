@@ -812,6 +812,8 @@ function UpdateCustomerInvoiceDetails()
     customerInvoiceVM = new Object();
     customerInvoiceVM.CustomerInvoiceDetailList = new Object();
     customerInvoiceVM.CustomerInvoiceDetailList = _CustomerInvoiceDetailLink;
+    customerInvoiceVM.ID = $('#ID').val();
+    customerInvoiceVM.InvoiceDateFormatted=$('#InvoiceDateFormatted').val();
     var data = "{'customerInvoiceVM':" + JSON.stringify(customerInvoiceVM) + "}";
 
     PostDataToServer("CustomerInvoice/UpdateCustomerInvoiceDetail/", data, function (JsonResult) {
