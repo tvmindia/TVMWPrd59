@@ -180,7 +180,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { Code = "ACC" });
+                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { code = "ACC" });
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
@@ -199,7 +199,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { Code = "ACC" });
+                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { code = "ACC" });
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
@@ -224,7 +224,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { Code = "ACC" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { code = "ACC" });
 
                     toolboxVM.AboutBtn.Visible = true;
                     toolboxVM.AboutBtn.Text = "History";
@@ -238,12 +238,12 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { Code = "ACC" });
+                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { code = "ACC" });
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { Code = "ACC" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { code = "ACC" });
 
                     toolboxVM.AboutBtn.Visible = true;
                     toolboxVM.AboutBtn.Text = "History";
@@ -261,14 +261,14 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { Code = "ACC" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { code = "ACC" });
                     break;
                 case "Limit":
 
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { Code = "ACC" });
+                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { code = "ACC" });
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
@@ -288,7 +288,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { Code = "ACC" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { code = "ACC" });
 
                     break;
                 default:
