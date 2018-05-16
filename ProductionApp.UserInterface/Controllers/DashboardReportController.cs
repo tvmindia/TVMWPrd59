@@ -508,6 +508,65 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetInventoryReorderStatusReport
 
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult StockRegisterReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+            StockRegisterReportViewModel stockRegisterReportViewModelVM = new StockRegisterReportViewModel();
+            stockRegisterReportViewModelVM.MaterialType = new MaterialTypeViewModel();
+            stockRegisterReportViewModelVM.MaterialType.MaterialTypeSelectList = _materialTypeBusiness.GetMaterialTypeForSelectList();
+            stockRegisterReportViewModelVM.Material = new MaterialViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            stockRegisterReportViewModelVM.Material.SelectList = new List<SelectListItem>();
+            List<MaterialViewModel> materialList = Mapper.Map<List<Material>, List<MaterialViewModel>>(_materialBusiness.GetMaterialForSelectList());
+            if (materialList != null)
+                foreach (MaterialViewModel material in materialList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = material.MaterialCode + '-' + material.Description,
+                        Value = material.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            stockRegisterReportViewModelVM.Material.SelectList = selectListItem;
+            return View(stockRegisterReportViewModelVM);
+        }
+
+        #region GetStockRegisterReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetStockRegisterReport(DataTableAjaxPostModel model, StockRegisterReportViewModel stockRegisterReportVM)
+        {
+            stockRegisterReportVM.DataTablePaging.Start = model.start;
+            stockRegisterReportVM.DataTablePaging.Length = (stockRegisterReportVM.DataTablePaging.Length == 0 ? model.length : stockRegisterReportVM.DataTablePaging.Length);
+
+            List<StockRegisterReportViewModel> inventoryReOrderList = Mapper.Map<List<StockRegisterReport>, List<StockRegisterReportViewModel>>(_reportBusiness.GetStockRegisterReport(Mapper.Map<StockRegisterReportViewModel, StockRegisterReport>(stockRegisterReportVM)));
+
+            if (stockRegisterReportVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = inventoryReOrderList.Count != 0 ? inventoryReOrderList[0].TotalCount : 0;
+                int filteredResult = inventoryReOrderList.Count != 0 ? inventoryReOrderList[0].FilteredCount : 0;
+                inventoryReOrderList = inventoryReOrderList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = inventoryReOrderList.Count != 0 ? inventoryReOrderList[0].TotalCount : 0,
+                recordsFiltered = inventoryReOrderList.Count != 0 ? inventoryReOrderList[0].FilteredCount : 0,
+                data = inventoryReOrderList
+            });
+        }
+        #endregion GetStockRegisterReport
+
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "dashboardReport", Mode = "R")]
