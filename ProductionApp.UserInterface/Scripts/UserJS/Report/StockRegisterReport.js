@@ -110,8 +110,8 @@ function
 
 
                 ],
-                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1,2] },
+                columnDefs: [{ "targets": [0,1], "visible": false, "searchable": false },
+                    { className: "text-left", "targets": [2] },
                     { className: "text-center", "targets": [ 3] },
                     { className: "text-right", "targets": [4, 5, 6] }
 
@@ -129,6 +129,21 @@ function
                         $(".buttons-excel").trigger('click');
                         BindOrReloadStockRegisterTable('Search');
                     }
+                },
+                // grouping with  columns
+                drawCallback: function (settings) {
+                    var api = this.api();
+                    var rows = api.rows({ page: 'current' }).nodes();
+                    var last = null;
+
+                    api.column(1, { page: 'current' }).data().each(function (group, i) {
+                        if (last !== group) {
+                            debugger;
+                            var rowData = api.row(i).data();
+                            $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Material Type</b> : ' + group +  '</td></tr>');
+                            last = group;
+                        }
+                    });
                 }
             });
         $(".buttons-excel").hide();
