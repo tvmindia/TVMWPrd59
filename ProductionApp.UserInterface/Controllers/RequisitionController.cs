@@ -231,7 +231,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewRequisition", "Requisition", new { Code = "PURCH" });
+                    toolboxVM.addbtn.Href = Url.Action("NewRequisition", "Requisition", new { code = "PURCH" });
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
@@ -250,7 +250,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewRequisition", "Requisition", new { Code = "PURCH" });
+                    toolboxVM.addbtn.Href = Url.Action("NewRequisition", "Requisition", new { code = "PURCH" });
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
@@ -275,7 +275,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewRequisition", "Requisition", new { Code = "PURCH" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewRequisition", "Requisition", new { code = "PURCH" });
 
 
                     //Always To be placed Last
@@ -291,7 +291,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewRequisition", "Requisition", new { Code = "PURCH" });
+                    toolboxVM.addbtn.Href = Url.Action("NewRequisition", "Requisition", new { code = "PURCH" });
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
@@ -301,7 +301,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewRequisition", "Requisition", new { Code = "PURCH" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewRequisition", "Requisition", new { code = "PURCH" });
 
 
                     //Always To be placed Last
@@ -321,7 +321,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewRequisition", "Requisition", new { Code = "PURCH" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewRequisition", "Requisition", new { code = "PURCH" });
                     break;
                 default:
                     return Content("Nochange");

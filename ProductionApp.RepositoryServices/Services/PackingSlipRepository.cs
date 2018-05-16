@@ -74,6 +74,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         paySlip.VehiclePlateNo = (sdr["VehiclePlateNo"].ToString() != "" ? sdr["VehiclePlateNo"].ToString() : paySlip.VehiclePlateNo);
                                         paySlip.ReceivedBy = (sdr["ReceivedBy"].ToString() != "" ? sdr["ReceivedBy"].ToString() : paySlip.ReceivedBy);
                                         paySlip.ReceivedDate = (sdr["ReceivedDate"].ToString() != "" ? DateTime.Parse(sdr["ReceivedDate"].ToString()) : paySlip.ReceivedDate);
+                                        paySlip.ReceivedDateFormatted = (sdr["ReceivedDate"].ToString() != "" ? DateTime.Parse(sdr["ReceivedDate"].ToString()).ToString(settings.DateFormat) : paySlip.ReceivedDateFormatted);
                                         paySlip.SalesOrderID = (sdr["SalesOrderID"].ToString() != "" ? Guid.Parse(sdr["SalesOrderID"].ToString()) : paySlip.SalesOrderID);
                                         paySlip.CheckedPackageWeight = (sdr["CheckedPackageWeight"].ToString() != "" ? decimal.Parse(sdr["CheckedPackageWeight"].ToString()) : paySlip.CheckedPackageWeight);
                                         paySlip.SalesOrder = new SalesOrder();
