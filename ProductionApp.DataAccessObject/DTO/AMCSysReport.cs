@@ -172,4 +172,25 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal ShortFall { get; set; }
         public List<InventoryReorderStatusReport> InventoryReorderStatusList { get; set; }
     }
+
+
+    public class StockRegisterReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public Guid MaterialID { get; set; }
+        public Material Material { get; set; }
+        public string MaterialTypeCode { get; set; }
+        public MaterialType MaterialType { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+        public string Description { get; set; }
+        public string TypeDescription { get; set; }
+        public decimal CostPrice { get; set; }
+        public decimal CurrentStock { get; set; }
+        public string UnitCode { get; set; }
+        public decimal StockValue { get; set; }
+        public List<StockRegisterReport> StockRegisterReportList { get; set; }
+    }
 }
