@@ -548,12 +548,70 @@ namespace ProductionApp.RepositoryServices.Services
             return inventoryReOrderList;
         }
 
-
-
-
         #endregion GetInventoryReorderStatusReport
 
+        #region GetStockRegisterReport
+        public List<StockRegisterReport> GetStockRegisterReport(StockRegisterReport stockRegisterReport)
+        {
 
+            List<StockRegisterReport> stockRegisterReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;                       
+                        cmd.CommandText = "[AMC].[GetStockRegisterReport]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(stockRegisterReport.SearchTerm) ? "" : stockRegisterReport.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = stockRegisterReport.DataTablePaging.Start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = stockRegisterReport.DataTablePaging.Length;
+                        cmd.Parameters.Add("@OrderDir", SqlDbType.VarChar).Value = stockRegisterReport.DataTablePaging.OrderDir;
+                        cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = stockRegisterReport.DataTablePaging.OrderColumn;                       
+                        if (stockRegisterReport.MaterialID != Guid.Empty)
+                           cmd.Parameters.Add("@MaterialID", SqlDbType.UniqueIdentifier).Value = stockRegisterReport.MaterialID;
+                        cmd.Parameters.Add("@materialTypeCode", SqlDbType.NVarChar).Value = stockRegisterReport.MaterialTypeCode;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                stockRegisterReportList = new List<StockRegisterReport>();
+                                while (sdr.Read())
+                                {
+                                    StockRegisterReport stockRegisterObj = new StockRegisterReport();
+                                    {
+
+                                        stockRegisterObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : stockRegisterObj.ID);
+                                        stockRegisterObj.TypeDescription = (sdr["MaterialType"].ToString() != "" ? (sdr["MaterialType"].ToString()) : stockRegisterObj.TypeDescription);
+                                        stockRegisterObj.Description = (sdr["Item"].ToString() != "" ? (sdr["Item"].ToString()) : stockRegisterObj.Description);
+                                        stockRegisterObj.UnitCode = (sdr["UnitCode"].ToString() != "" ? (sdr["UnitCode"].ToString()) : stockRegisterObj.UnitCode);
+                                        stockRegisterObj.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : stockRegisterObj.CurrentStock);
+                                        stockRegisterObj.CostPrice = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : stockRegisterObj.CostPrice);                                        
+                                        stockRegisterObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : stockRegisterObj.TotalCount);
+                                        stockRegisterObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : stockRegisterObj.FilteredCount);
+                                        stockRegisterObj.StockValue = (sdr["StockValue"].ToString() != "" ? decimal.Parse(sdr["StockValue"].ToString()) : stockRegisterObj.StockValue);                                       
+                                    }
+                                    stockRegisterReportList.Add(stockRegisterObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return stockRegisterReportList;
+        }
+
+        #endregion GetStockRegisterReport
 
 
     }
@@ -561,7 +619,7 @@ namespace ProductionApp.RepositoryServices.Services
 
 
 
-                                }
+}
 
 
 
