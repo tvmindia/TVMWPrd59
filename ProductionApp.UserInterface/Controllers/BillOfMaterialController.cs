@@ -504,7 +504,8 @@ namespace ProductionApp.UserInterface.Controllers
         {
            
             List<BOMTreeViewModel> bomTree = Mapper.Map<List<BOMTree>, List<BOMTreeViewModel>>(_billOfMaterialBusiness.GetBOMTree(Guid.Parse(ProductID)));
-            object renamedResultForJSTree= from a in bomTree select new { id = a.ID.ToString(), parent =  a.ParentID==null?"#":a.ParentID.ToString() , text = a.Name };
+            object renamedResultForJSTree= from a in bomTree select new { id = a.ID.ToString(), parent =  a.ParentID==null?"#":a.ParentID.ToString() , text = a.Qty!="N/A"? a.Name + " -- Qty : "+ a.Qty +"": a.Name 
+                                           ,icon= a.Icon };
             return JsonConvert.SerializeObject(new { Result = "OK", Records = renamedResultForJSTree, Message = "Success" });
 
         }
