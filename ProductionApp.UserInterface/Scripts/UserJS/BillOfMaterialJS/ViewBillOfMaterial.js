@@ -166,7 +166,7 @@ function ViewBOMTree(id,name) {
         case "OK":
             debugger;
 
-          
+            $('#jstree').parent().html('<div id="jstree"></div>');        
 
             $('#jstree').jstree({
                 'core': {
@@ -176,10 +176,13 @@ function ViewBOMTree(id,name) {
 
             var $treeview = $("#jstree");
             $treeview               
-              .on('loaded.jstree', function () {
+              .on('loaded.jstree', function () {            
+              
                   $treeview.jstree('open_all');
               });
 
+          
+           
 
             //$('#data').jstree({
             //    'core': {
