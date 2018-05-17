@@ -14,7 +14,7 @@ namespace ProductionApp.RepositoryServices.Contracts
         CustomerInvoice GetOutstandingAmount(Guid Id);
         object InsertUpdateCustomerPayment(CustomerPayment customerPayment);
         CustomerPayment GetCustomerPayment(string Id);
-        object DeleteCustomerPayment(Guid id);
+        object DeleteCustomerPayment(Guid id, string userName);
         object ValidateCustomerPayment(Guid id, string paymentrefNo);
         List<CustomerPayment>GetRecentCustomerPayment();
     }
