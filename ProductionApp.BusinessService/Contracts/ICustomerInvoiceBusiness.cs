@@ -17,8 +17,8 @@ namespace ProductionApp.BusinessService.Contracts
         List<CustomerInvoice> GetAllCustomerInvoice(CustomerInvoiceAdvanceSearch customerInvoiceAdvanceSearch);
         List<CustomerInvoiceDetail> GetCustomerInvoiceDetailLinkForEdit(string id);
         object UpdateCustomerInvoiceDetail(CustomerInvoice customerInvoice);
-        object DeleteCustomerInvoice(Guid id);
-        object DeleteCustomerInvoiceDetail(Guid id);
+        object DeleteCustomerInvoice(Guid id, string userName);
+        object DeleteCustomerInvoiceDetail(Guid id, string userName);
         List<CustomerInvoice> GetRecentCustomerInvoice(string BaseURL);
         object UpdateCustomerInvoiceMailStatus(CustomerInvoice CustomerInvoice);
         Task<bool> EmailPush(CustomerInvoice CustomerInvoice);

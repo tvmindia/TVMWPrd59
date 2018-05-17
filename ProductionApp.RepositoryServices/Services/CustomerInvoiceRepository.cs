@@ -489,7 +489,7 @@ namespace ProductionApp.RepositoryServices.Services
 
         }
 
-        public object DeleteCustomerInvoice(Guid id)
+        public object DeleteCustomerInvoice(Guid id, string userName)
         {
             SqlParameter outputStatus = null;
             try
@@ -506,6 +506,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[DeleteCustomerInvoice]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = userName;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -532,7 +533,7 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
 
-        public object DeleteCustomerInvoiceDetail(Guid id)
+        public object DeleteCustomerInvoiceDetail(Guid id, string userName)
         {
             SqlParameter outputStatus = null;
             try
@@ -549,6 +550,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[DeleteCustomerInvoiceDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = userName;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

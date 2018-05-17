@@ -76,15 +76,15 @@ namespace ProductionApp.BusinessService.Services
             return _customerInvoiceRepository.UpdateCustomerInvoiceDetail(customerInvoice);
         }
 
-        public object DeleteCustomerInvoice(Guid id)
+        public object DeleteCustomerInvoice(Guid id, string userName)
         {
-            return _customerInvoiceRepository.DeleteCustomerInvoice(id);
+            return _customerInvoiceRepository.DeleteCustomerInvoice(id,userName);
 
         }
 
-        public object DeleteCustomerInvoiceDetail(Guid id)
+        public object DeleteCustomerInvoiceDetail(Guid id, string userName)
         {
-            return _customerInvoiceRepository.DeleteCustomerInvoiceDetail(id);
+            return _customerInvoiceRepository.DeleteCustomerInvoiceDetail(id,userName);
 
         }
 
