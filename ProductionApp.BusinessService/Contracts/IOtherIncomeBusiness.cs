@@ -14,6 +14,6 @@ namespace ProductionApp.BusinessService.Contracts
         object InsertUpdateOtherIncome(OtherIncome otherIncome);
         OtherIncome GetOtherIncome(Guid id);
         List<SelectListItem> GetAllAccountSubHeadForSelectList();
-        object DeleteOtherIncome(Guid id);
+        object DeleteOtherIncome(Guid id,string UserName);
     }
 }

@@ -136,7 +136,9 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     throw new Exception("ID Missing");
                 }
-                object result = _otherIncomeBusiness.DeleteOtherIncome(Guid.Parse(id));
+                AppUA appUA = Session["AppUA"] as AppUA;
+
+                object result = _otherIncomeBusiness.DeleteOtherIncome(Guid.Parse(id), appUA.UserName);
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)
