@@ -198,7 +198,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.deletebtn.Visible = true;
                     toolboxVM.deletebtn.Text = "Delete";
                     toolboxVM.deletebtn.Title = "Delete";
-                    toolboxVM.deletebtn.Event = "DeleteOtherIncome()";
+                    toolboxVM.deletebtn.Event = "Delete()";
                     break;
                 case "Add":
                     toolboxVM.ListBtn.Visible = true;
