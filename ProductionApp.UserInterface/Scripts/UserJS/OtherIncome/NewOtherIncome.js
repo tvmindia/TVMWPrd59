@@ -222,11 +222,25 @@ function GetOtherIncome(id) {
     }
 }
 
-//Delete OtherIncome by ID
-function DeleteOtherIncome() {
+//Delete Popup
+function Delete() {
     try {
         debugger;
         var id = $('#ID').val();
+        if (id !== _emptyGuid)
+            notyConfirm('Are you sure to delete?', 'DeleteOtherIncome("' + id + '")');
+        else
+            notyAlert('error', "Cannot Delete");
+    } catch (ex) {
+        console.log(ex.message);
+    }
+}
+
+
+//Delete OtherIncome by ID
+function DeleteOtherIncome(id) {
+    try {
+        debugger;
         var data = { "id": id };
         var OtherIncomeViewModel = new Object();
         var result = "";
