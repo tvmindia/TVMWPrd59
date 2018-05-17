@@ -8,10 +8,6 @@
 //******************************************************************************
 //******************************************************************************
 
-/*
-
-*/
-
 //var DataTables = {};
 var _emptyGuid = "00000000-0000-0000-0000-000000000000";
 var _otherIncome = {};
@@ -315,6 +311,7 @@ function AccountCodeOnChange() {
         if ($('#ChartOfAccountCode').val().split("|")[1] === "True") {
             $('#AccountSubHead').prop("disabled", false);
         } else {
+            $('#AccountSubHead').val('').trigger('change');
             $('#AccountSubHead').prop("disabled", true);
         }
     } catch (ex) {

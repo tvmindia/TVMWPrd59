@@ -112,6 +112,6 @@ namespace ProductionApp.UserInterface.Models
         public string Name { get; set; }
         public string Type { get; set; }
         public string Qty { get; set; }
-
+        public string Icon { get; set; }
     }
 }

@@ -432,10 +432,12 @@
     <Content Include="Content\images\bg.png" />
     <Content Include="Content\images\bg123.png" />
     <Content Include="Content\images\bgTest1.JPG" />
+    <Content Include="Content\images\bom.png" />
     <Content Include="Content\images\browser-window.png" />
     <Content Include="Content\images\calendar.png" />
     <Content Include="Content\images\circle.png" />
     <Content Include="Content\images\close.png" />
+    <Content Include="Content\images\component.png" />
     <Content Include="Content\images\delete.png" />
     <Content Include="Content\images\deposit.png" />
     <Content Include="Content\images\download.jpg" />
@@ -445,6 +447,8 @@
     <Content Include="Content\images\history.png" />
     <Content Include="Content\images\hourglass.png" />
     <Content Include="Content\images\indian-rupee.png" />
+    <Content Include="Content\images\input.png" />
+    <Content Include="Content\images\line.png" />
     <Content Include="Content\images\List1.png" />
     <Content Include="Content\images\listdlt.png" />
     <Content Include="Content\images\loading.gif" />
@@ -453,6 +457,7 @@
     <Content Include="Content\images\MasterLoading.gif" />
     <Content Include="Content\images\MaxLimit.png" />
     <Content Include="Content\images\Notification.png" />
+    <Content Include="Content\images\output.png" />
     <Content Include="Content\images\paperclip.png" />
     <Content Include="Content\images\percentage.png" />
     <Content Include="Content\images\printer.png" />
@@ -465,6 +470,7 @@
     <Content Include="Content\images\save.png" />
     <Content Include="Content\images\save1.png" />
     <Content Include="Content\images\searchdefault.png" />
+    <Content Include="Content\images\stage.png" />
     <Content Include="Content\images\suryapetpreforms.png" />
     <Content Include="Content\images\Transfer.png" />
     <Content Include="Content\images\wheel.png" />

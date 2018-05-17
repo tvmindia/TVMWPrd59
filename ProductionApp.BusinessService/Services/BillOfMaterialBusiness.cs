@@ -168,7 +168,25 @@ namespace ProductionApp.BusinessService.Services
 
         public List<BOMTree> GetBOMTree(Guid ProductID)
         {
-            return _billOfMaterialRepository.GetBOMTree(ProductID);
+            List<BOMTree> result = null;
+            result= _billOfMaterialRepository.GetBOMTree(ProductID);
+            if (result != null) {
+
+                foreach (BOMTree F in result) {
+                    if (F.Type == "BOM") F.Icon = "../Content/images/bom.png";
+                    if (F.Type == "Component") { F.Icon = "../Content/images/component.png"; }
+                    if (F.Type == "Line") F.Icon = "../Content/images/line.png";
+                    if (F.Type == "Stage") F.Icon = "../Content/images/stage.png";
+                    if (F.Type.Contains("| Input")) F.Icon = "../Content/images/input.png";
+                    if (F.Type.Contains("| Output")) F.Icon = "../Content/images/output.png";
+
+                    F.Name = "<b>["+F.Type+"]</b> " + F.Name;
+                }
+
+
+            }
+
+            return result;
 
         }
         }

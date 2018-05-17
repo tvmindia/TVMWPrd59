@@ -45,7 +45,7 @@ function BindOrReloadOtherIncomeTable(action) {
                 $('#FromDate').val('');
                 $('#ToDate').val('');
                 $('#ChartOfAccountCode').val('').trigger('change');
-                $('#PaymentMode').val('');
+                $('#PaymentMode').val('').trigger('change');
                 break;
             case 'Init':
                 break;
