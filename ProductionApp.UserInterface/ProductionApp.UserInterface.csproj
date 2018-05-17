@@ -469,6 +469,17 @@
     <Content Include="Content\images\Transfer.png" />
     <Content Include="Content\images\wheel.png" />
     <Content Include="Content\images\withdraw.png" />
+    <Content Include="Content\jsTree\docs.css" />
+    <Content Include="Content\jsTree\themes\default-dark\32px.png" />
+    <Content Include="Content\jsTree\themes\default-dark\40px.png" />
+    <Content Include="Content\jsTree\themes\default-dark\style.css" />
+    <Content Include="Content\jsTree\themes\default-dark\style.min.css" />
+    <Content Include="Content\jsTree\themes\default-dark\throbber.gif" />
+    <Content Include="Content\jsTree\themes\default\32px.png" />
+    <Content Include="Content\jsTree\themes\default\40px.png" />
+    <Content Include="Content\jsTree\themes\default\style.css" />
+    <Content Include="Content\jsTree\themes\default\style.min.css" />
+    <Content Include="Content\jsTree\themes\default\throbber.gif" />
     <Content Include="Content\MailTemplate\DocumentApproved.html" />
     <Content Include="Content\MailTemplate\DocumentRejected.html" />
     <Content Include="Content\MailTemplate\SendForApproval.html" />
@@ -662,6 +673,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jsTree3\jstree.js" />
+    <Content Include="Scripts\jsTree3\jstree.min.js" />
     <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\PDF.js" />
     <Content Include="Scripts\Report.js" />
@@ -785,6 +798,7 @@
     <Compile Include="Controllers\DashboardStoreController.cs" />
     <Compile Include="Controllers\DashboardReportController.cs" />
     <Compile Include="Controllers\IssueToProductionController.cs" />
+    <Compile Include="Controllers\jsTree3Controller.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\MaterialReceiptController.cs" />
     <Compile Include="Controllers\MaterialReturnController.cs" />
@@ -844,6 +858,7 @@
     <Compile Include="Models\FinishedGoodStockAdjViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\AMCSysModuleViewModel.cs" />
+    <Compile Include="Models\jsTree3Node.cs" />
     <Compile Include="Models\ManageAccessViewModel.cs" />
     <Compile Include="Models\AMCSysMenuViewModel.cs" />
     <Compile Include="Models\MastersCountViewModel.cs" />
@@ -1051,6 +1066,9 @@
     <Content Include="Views\DashboardReport\PurchaseSummaryReport.cshtml" />
     <Content Include="Views\CustomerInvoice\_CustomerInvoiceMailPreview.cshtml" />
     <Content Include="Views\DashboardReport\PurchaseDetailReport.cshtml" />
+    <Content Include="Views\Shared\_jsTreeDemo.cshtml" />
+    <Content Include="Views\jsTree3\Demo.cshtml" />
+    <Content Include="Views\jsTree3\AJAXDemo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1091,7 +1109,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>14521</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:14521/</IISUrl>
+          <IISUrl>http://localhost:14522/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

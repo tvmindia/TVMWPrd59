@@ -19,6 +19,7 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new StyleBundle("~/Content/DataTables/css/datatableFixedHeader").Include("~/Content/DataTables/css/fixedHeader.dataTables.min.css"));
             bundles.Add(new StyleBundle("~/Content/MvcDatalist/Datalist").Include("~/Content/MvcDatalist/mvc-datalist.css"));
             bundles.Add(new StyleBundle("~/Content/css/select2").Include("~/Content/css/select2.min.css"));
+            bundles.Add(new StyleBundle("~/Content/jsTree/themes/default").Include("~/Content/jsTree/themes/default/style.min.css"));
 
             //-------------------
             bundles.Add(new StyleBundle("~/Content/UserCSS/Login").Include("~/Content/UserCSS/Login.css"));
@@ -47,6 +48,7 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/select2").Include("~/Scripts/select2.js"));
             bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include("~/Scripts/jquery-ui.js"));
             bundles.Add(new ScriptBundle("~/bundles/pdf").Include("~/Scripts/PDF.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jsTree3").Include("~/Scripts/jsTree3/jstree.js"));
 
             //----------------------
             bundles.Add(new ScriptBundle("~/bundles/ManageAccess").Include("~/Scripts/UserJS/ManageAccess.js"));

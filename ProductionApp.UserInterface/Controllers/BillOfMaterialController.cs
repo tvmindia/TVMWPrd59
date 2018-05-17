@@ -498,5 +498,16 @@ namespace ProductionApp.UserInterface.Controllers
             return PartialView("ToolboxView", toolboxVM);
         }
         #endregion ButtonStyling
+
+        #region GetBOMTree
+        public string GetBOMTree(string ProductID)
+        {
+           
+            List<BOMTreeViewModel> bomTree = Mapper.Map<List<BOMTree>, List<BOMTreeViewModel>>(_billOfMaterialBusiness.GetBOMTree(Guid.Parse(ProductID)));
+            object renamedResultForJSTree= from a in bomTree select new { id = a.ID.ToString(), parent =  a.ParentID==null?"#":a.ParentID.ToString() , text = a.Name };
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = renamedResultForJSTree, Message = "Success" });
+
+        }
+        #endregion GetBOMTree
     }
 }
