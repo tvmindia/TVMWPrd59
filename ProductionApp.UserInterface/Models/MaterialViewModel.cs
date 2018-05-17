@@ -30,7 +30,7 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Unit is missing")]
         [Display(Name = "Unit")]
         public string UnitCode { get; set; }
-        [Display(Name = "Reorder Quantity")]
+        [Display(Name = "Reorder Quantity In Nos.")]
         public decimal? ReorderQty { get; set; }
         //additional fields 
         public Guid MaterialID { get; set; }

@@ -314,6 +314,11 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion GetPurchaseSummaryReport
 
         #region GetPurchaseDetailReport
+        /// <summary>
+        /// To get Purchase Detail Report
+        /// </summary>
+        /// <param name="purchaseDetailReport"></param>
+        /// <returns></returns>
         public List<PurchaseDetailReport> GetPurchaseDetailReport(PurchaseDetailReport purchaseDetailReport)
         {
 
@@ -392,5 +397,231 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetPurchaseDetailReport
 
+        #region GetPurchaseRegisterReport
+        /// <summary>
+        /// To Get Purchase Register Report
+        /// </summary>
+        /// <param name="purchaseRegisterReport"></param>
+        /// <returns></returns>
+        public List<PurchaseRegisterReport> GetPurchaseRegisterReport(PurchaseRegisterReport purchaseRegisterReport)
+        {
+
+            List<PurchaseRegisterReport> purchaseRegisterList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        if (purchaseRegisterReport.DataTablePaging.OrderColumn == "")
+                        {
+                            purchaseRegisterReport.DataTablePaging.OrderColumn = "PURCHASEORDERNO";
+                            purchaseRegisterReport.DataTablePaging.OrderDir = "ASC";
+                        }
+                        cmd.CommandText = "[AMC].[GetPurchaseRegisterReport]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(purchaseRegisterReport.SearchTerm) ? "" : purchaseRegisterReport.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = purchaseRegisterReport.DataTablePaging.Start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = purchaseRegisterReport.DataTablePaging.Length;
+                        cmd.Parameters.Add("@OrderDir", SqlDbType.VarChar).Value = purchaseRegisterReport.DataTablePaging.OrderDir;
+                        cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = purchaseRegisterReport.DataTablePaging.OrderColumn;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = purchaseRegisterReport.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = purchaseRegisterReport.ToDate;
+                        cmd.Parameters.Add("@POStatus", SqlDbType.VarChar).Value = purchaseRegisterReport.Status;
+                        cmd.Parameters.Add("@PaymentStatus", SqlDbType.VarChar).Value = purchaseRegisterReport.PaymentStatus;
+                        if (purchaseRegisterReport.SupplierID != Guid.Empty)
+                            cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = purchaseRegisterReport.SupplierID;                    
+                       
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                purchaseRegisterList = new List<PurchaseRegisterReport>();
+                                while (sdr.Read())
+                                {
+                                    PurchaseRegisterReport purchaseRegisterObj = new PurchaseRegisterReport();
+                                    {
+                                        purchaseRegisterObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : purchaseRegisterObj.ID);
+                                        purchaseRegisterObj.PurchaseOrderNo = (sdr["PONo"].ToString() != "" ? sdr["PONo"].ToString() : purchaseRegisterObj.PurchaseOrderNo);
+                                        purchaseRegisterObj.PurchaseOrderDate = (sdr["PurchaseOrderDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderDate"].ToString()) : purchaseRegisterObj.PurchaseOrderDate);
+                                        purchaseRegisterObj.PurchaseOrderDateFormatted = (sdr["PurchaseOrderDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderDate"].ToString()).ToString(settings.DateFormat) : purchaseRegisterObj.PurchaseOrderDateFormatted);                                        
+                                        purchaseRegisterObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : purchaseRegisterObj.TotalCount);
+                                        purchaseRegisterObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : purchaseRegisterObj.FilteredCount);                                        
+                                        purchaseRegisterObj.Supplier = new Supplier();
+                                        purchaseRegisterObj.Supplier.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : purchaseRegisterObj.Supplier.CompanyName);
+                                        purchaseRegisterObj.GrossAmount= (sdr["GrossAmount"].ToString() != "" ? decimal.Parse(sdr["GrossAmount"].ToString()) : purchaseRegisterObj.GrossAmount);
+                                        purchaseRegisterObj.Discount= (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseRegisterObj.Discount);
+                                        purchaseRegisterObj.TaxableAmount = (sdr["TaxableAmount"].ToString() != "" ? decimal.Parse(sdr["TaxableAmount"].ToString()) : purchaseRegisterObj.TaxableAmount);
+                                        purchaseRegisterObj.GSTPerc = (sdr["GSTPercentage"].ToString() != "" ? decimal.Parse(sdr["GSTPercentage"].ToString()) : purchaseRegisterObj.GSTPerc);
+                                        purchaseRegisterObj.GSTAmt = (sdr["GSTAMOUNT"].ToString() != "" ? decimal.Parse(sdr["GSTAMOUNT"].ToString()) : purchaseRegisterObj.GSTAmt);
+                                        purchaseRegisterObj.NetAmount = (sdr["NetAmt"].ToString() != "" ? decimal.Parse(sdr["NetAmt"].ToString()) : purchaseRegisterObj.NetAmount);
+                                        purchaseRegisterObj.InvoicedAmount = (sdr["InvcdAmount"].ToString() != "" ? decimal.Parse(sdr["InvcdAmount"].ToString()) : purchaseRegisterObj.InvoicedAmount);
+                                        purchaseRegisterObj.PaidAmount = (sdr["PaidAmunt"].ToString() != "" ? decimal.Parse(sdr["PaidAmunt"].ToString()) : purchaseRegisterObj.PaidAmount);
+                                        
+                                    }
+                                    purchaseRegisterList.Add(purchaseRegisterObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return purchaseRegisterList;
+        }
+        #endregion GetPurchaseRegisterReport
+
+
+        #region GetInventoryReorderStatusReport
+        public List<InventoryReorderStatusReport> GetInventoryReorderStatusReport(InventoryReorderStatusReport inventoryReOrderStatusReport)
+        {
+
+            List<InventoryReorderStatusReport> inventoryReOrderList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        //if (inventoryReOrderStatusReport.DataTablePaging.OrderColumn == "")
+                        //{
+                        //    inventoryReOrderStatusReport.DataTablePaging.OrderColumn = "PURCHASEORDERNO";
+                        //    inventoryReOrderStatusReport.DataTablePaging.OrderDir = "ASC";
+                        //}
+                        cmd.CommandText = "[AMC].[GetInventoryReOrderStatusReport]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(inventoryReOrderStatusReport.SearchTerm) ? "" : inventoryReOrderStatusReport.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = inventoryReOrderStatusReport.DataTablePaging.Start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = inventoryReOrderStatusReport.DataTablePaging.Length;
+                        cmd.Parameters.Add("@OrderDir", SqlDbType.VarChar).Value = inventoryReOrderStatusReport.DataTablePaging.OrderDir;
+                        cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = inventoryReOrderStatusReport.DataTablePaging.OrderColumn;                       
+                        cmd.Parameters.Add("@ItemStatus", SqlDbType.Int).Value = inventoryReOrderStatusReport.ItemStatus;
+                        if (inventoryReOrderStatusReport.MaterialID != Guid.Empty)
+                            cmd.Parameters.Add("@MaterialID", SqlDbType.UniqueIdentifier).Value = inventoryReOrderStatusReport.MaterialID;                        
+                            cmd.Parameters.Add("@MaterialType", SqlDbType.NVarChar).Value = inventoryReOrderStatusReport.Code;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                inventoryReOrderList = new List<InventoryReorderStatusReport>();
+                                while (sdr.Read())
+                                {
+                                    InventoryReorderStatusReport inventoryReOrderObj = new InventoryReorderStatusReport();
+                                    {
+
+                                        inventoryReOrderObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : inventoryReOrderObj.ID);
+                                        inventoryReOrderObj.Description = (sdr["Item"].ToString() != "" ? (sdr["Item"].ToString()) : inventoryReOrderObj.Description);
+                                        inventoryReOrderObj.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : inventoryReOrderObj.CurrentStock);
+                                        inventoryReOrderObj.ReorderQty = (sdr["ReorderQty"].ToString() != "" ? decimal.Parse(sdr["ReorderQty"].ToString()) : inventoryReOrderObj.ReorderQty);
+                                        inventoryReOrderObj.PODueQty = (sdr["PODueQty"].ToString() != "" ? decimal.Parse(sdr["PODueQty"].ToString()) : inventoryReOrderObj.PODueQty);
+                                        inventoryReOrderObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : inventoryReOrderObj.TotalCount);
+                                        inventoryReOrderObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : inventoryReOrderObj.FilteredCount);                                       
+                                        inventoryReOrderObj.NetAvailableQty = (sdr["NetAvailableQty"].ToString() != "" ? decimal.Parse(sdr["NetAvailableQty"].ToString()) : inventoryReOrderObj.NetAvailableQty);
+                                        inventoryReOrderObj.ShortFall = (sdr["ShortFall"].ToString() != "" ? decimal.Parse(sdr["ShortFall"].ToString()) : inventoryReOrderObj.ShortFall);
+                                    }
+                                    inventoryReOrderList.Add(inventoryReOrderObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return inventoryReOrderList;
+        }
+
+        #endregion GetInventoryReorderStatusReport
+
+        #region GetStockRegisterReport
+        public List<StockRegisterReport> GetStockRegisterReport(StockRegisterReport stockRegisterReport)
+        {
+
+            List<StockRegisterReport> stockRegisterReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;                       
+                        cmd.CommandText = "[AMC].[GetStockRegisterReport]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(stockRegisterReport.SearchTerm) ? "" : stockRegisterReport.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = stockRegisterReport.DataTablePaging.Start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = stockRegisterReport.DataTablePaging.Length;
+                        cmd.Parameters.Add("@OrderDir", SqlDbType.VarChar).Value = stockRegisterReport.DataTablePaging.OrderDir;
+                        cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = stockRegisterReport.DataTablePaging.OrderColumn;                       
+                        if (stockRegisterReport.MaterialID != Guid.Empty)
+                           cmd.Parameters.Add("@MaterialID", SqlDbType.UniqueIdentifier).Value = stockRegisterReport.MaterialID;
+                        cmd.Parameters.Add("@materialTypeCode", SqlDbType.NVarChar).Value = stockRegisterReport.MaterialTypeCode;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                stockRegisterReportList = new List<StockRegisterReport>();
+                                while (sdr.Read())
+                                {
+                                    StockRegisterReport stockRegisterObj = new StockRegisterReport();
+                                    {
+
+                                        stockRegisterObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : stockRegisterObj.ID);
+                                        stockRegisterObj.TypeDescription = (sdr["MaterialType"].ToString() != "" ? (sdr["MaterialType"].ToString()) : stockRegisterObj.TypeDescription);
+                                        stockRegisterObj.Description = (sdr["Item"].ToString() != "" ? (sdr["Item"].ToString()) : stockRegisterObj.Description);
+                                        stockRegisterObj.UnitCode = (sdr["UnitCode"].ToString() != "" ? (sdr["UnitCode"].ToString()) : stockRegisterObj.UnitCode);
+                                        stockRegisterObj.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : stockRegisterObj.CurrentStock);
+                                        stockRegisterObj.CostPrice = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : stockRegisterObj.CostPrice);                                        
+                                        stockRegisterObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : stockRegisterObj.TotalCount);
+                                        stockRegisterObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : stockRegisterObj.FilteredCount);
+                                        stockRegisterObj.StockValue = (sdr["StockValue"].ToString() != "" ? decimal.Parse(sdr["StockValue"].ToString()) : stockRegisterObj.StockValue);                                       
+                                    }
+                                    stockRegisterReportList.Add(stockRegisterObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return stockRegisterReportList;
+        }
+
+        #endregion GetStockRegisterReport
+
+
     }
+
+
+
+
 }
+
+
+
+
+                           

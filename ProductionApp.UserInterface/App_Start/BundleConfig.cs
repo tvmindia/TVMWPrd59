@@ -130,6 +130,9 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/RequisitionDetailReport").Include("~/Scripts/UserJS/Report/RequisitionDetailReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/PurchaseSummaryReport").Include("~/Scripts/UserJS/Report/PurchaseSummaryReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/PurchaseDetailReport").Include("~/Scripts/UserJS/Report/PurchaseDetailReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/PurchaseRegisterReport").Include("~/Scripts/UserJS/Report/PurchaseRegisterReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/InventoryReOrderStatusReport").Include("~/Scripts/UserJS/Report/InventoryReOrderStatusReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/StockRegisterReport").Include("~/Scripts/UserJS/Report/StockRegisterReport.js"));
 
             //OtherIncome
             bundles.Add(new ScriptBundle("~/bundles/UserJs/OtherIncome/ViewOtherIncome").Include("~/Scripts/UserJS/OtherIncome/ViewOtherIncome.js"));
@@ -137,7 +140,7 @@ namespace ProductionApp.UserInterface.App_Start
             //OtherExpense
             bundles.Add(new ScriptBundle("~/bundles/UserJs/OtherExpense/ViewOtherExpense").Include("~/Scripts/UserJS/OtherExpense/ViewOtherExpense.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/OtherExpense/NewOtherExpense").Include("~/Scripts/UserJS/OtherExpense/NewOtherExpense.js"));
-
+            
         }
     }
 }

@@ -271,10 +271,10 @@ function PaymentAmountChanged(this_Obj) {
                 var currenttotal = AmountReceived + parseFloat(this_Obj.value) - oldamount
             }
 
-            if (parseFloat(allData[i].BalanceDue) < parseFloat(this_Obj.value)) {
+            if (parseFloat(allData[i].Balance) < parseFloat(this_Obj.value)) {
                 if (currenttotal < AmountReceived) {
                     allData[i].CustomerPayment.CustomerPaymentDetail.PaidAmount = parseFloat(allData[i].Balance)
-                    sum = sum + parseFloat(allData[i].BalanceDue);
+                    sum = sum + parseFloat(allData[i].Balance);
                 }
                 else {
                     allData[i].CustomerPayment.CustomerPaymentDetail.PaidAmount = oldamount

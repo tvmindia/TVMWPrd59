@@ -98,7 +98,7 @@ function BindOrReloadMaterialReceiptTable(action) {
                 { "data": "GeneralNotes", "defaultContent": "<i>-</i>", "width": "20%" },
                 {
                     "data": "ID", "orderable": false, render: function (data, type, row) {
-                        return '<a href="/MaterialReceipt/NewMaterialReceipt?code=STR&id=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>'
+                        return '<a href="/MaterialReceipt/NewMaterialReceipt?code=STR&id=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
                     }, "defaultContent": "<i>-</i>", "width": "3%"
                 }
             ],

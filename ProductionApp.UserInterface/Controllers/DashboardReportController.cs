@@ -23,7 +23,8 @@ namespace ProductionApp.UserInterface.Controllers
         IMaterialBusiness _materialBusiness;
         ISupplierBusiness _supplierBusiness;
         IApprovalStatusBusiness _approvalStatusBusiness;
-        public DashboardReportController(IReportBusiness reportBusiness,IEmployeeBusiness employeeBusiness,IRequisitionBusiness requisitionBusiness,ICommonBusiness commonBusiness,IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness,IApprovalStatusBusiness approvalStatusBusiness)
+        IMaterialTypeBusiness _materialTypeBusiness;
+        public DashboardReportController(IReportBusiness reportBusiness,IEmployeeBusiness employeeBusiness,IRequisitionBusiness requisitionBusiness,ICommonBusiness commonBusiness,IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness,IApprovalStatusBusiness approvalStatusBusiness, IMaterialTypeBusiness materialTypeBusiness)
         {
             _reportBusiness = reportBusiness;
             _employeeBusiness = employeeBusiness;
@@ -32,6 +33,7 @@ namespace ProductionApp.UserInterface.Controllers
             _materialBusiness = materialBusiness;
             _supplierBusiness = supplierBusiness;
             _approvalStatusBusiness = approvalStatusBusiness;
+            _materialTypeBusiness = materialTypeBusiness;
         }
         #endregion Constructor Injection
 
@@ -366,6 +368,203 @@ namespace ProductionApp.UserInterface.Controllers
             });
         }
         #endregion GetPurchaseDetailReport
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult PurchaseRegisterReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+            PurchaseRegisterReportViewModel purchaseRegisterReportVM = new PurchaseRegisterReportViewModel();
+            purchaseRegisterReportVM.Supplier = new SupplierViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            purchaseRegisterReportVM.Supplier.SelectList = new List<SelectListItem>();
+            List<SupplierViewModel> supplierList = Mapper.Map<List<Supplier>, List<SupplierViewModel>>(_supplierBusiness.GetSupplierForSelectList());
+            if (supplierList != null)
+                foreach (SupplierViewModel supplier in supplierList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = supplier.CompanyName,
+                        Value = supplier.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            purchaseRegisterReportVM.Supplier.SelectList = selectListItem;                  
+            return View(purchaseRegisterReportVM);
+        }
+
+
+        #region GetPurchaseRegisterReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetPurchaseRegisterReport(DataTableAjaxPostModel model, PurchaseRegisterReportViewModel purchaseRegisterVM)
+        {
+            Common con = new Common();
+            DateTime dt = con.GetCurrentDateTime();
+            if (purchaseRegisterVM != null)
+            {
+                if (purchaseRegisterVM.DateFilter == "30")
+                {
+                    purchaseRegisterVM.FromDate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
+                    purchaseRegisterVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (purchaseRegisterVM.DateFilter == "60")
+                {
+                    purchaseRegisterVM.FromDate = dt.AddDays(-60).ToString("dd-MMM-yyyy");
+                    purchaseRegisterVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (purchaseRegisterVM.DateFilter == "90")
+                {
+                    purchaseRegisterVM.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    purchaseRegisterVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+            }
+            purchaseRegisterVM.DataTablePaging.Start = model.start;
+            purchaseRegisterVM.DataTablePaging.Length = (purchaseRegisterVM.DataTablePaging.Length == 0 ? model.length : purchaseRegisterVM.DataTablePaging.Length);
+
+            List<PurchaseRegisterReportViewModel> purchaseRegisterList = Mapper.Map<List<PurchaseRegisterReport>, List<PurchaseRegisterReportViewModel>>(_reportBusiness.GetPurchaseRegisterReport(Mapper.Map<PurchaseRegisterReportViewModel, PurchaseRegisterReport>(purchaseRegisterVM)));
+
+            if (purchaseRegisterVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = purchaseRegisterList.Count != 0 ? purchaseRegisterList[0].TotalCount : 0;
+                int filteredResult = purchaseRegisterList.Count != 0 ? purchaseRegisterList[0].FilteredCount : 0;
+                purchaseRegisterList = purchaseRegisterList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = purchaseRegisterList.Count != 0 ? purchaseRegisterList[0].TotalCount : 0,
+                recordsFiltered = purchaseRegisterList.Count != 0 ? purchaseRegisterList[0].FilteredCount : 0,
+                data = purchaseRegisterList
+            });
+        }
+        #endregion GetPurchaseRegisterReport
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult InventoryReorderStatusReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+            InventoryReorderStatusReportViewModel inventoryReorderStatusReportVM = new InventoryReorderStatusReportViewModel();
+            inventoryReorderStatusReportVM.MaterialType = new MaterialTypeViewModel();
+            inventoryReorderStatusReportVM.MaterialType.MaterialTypeSelectList = _materialTypeBusiness.GetMaterialTypeForSelectList();
+            inventoryReorderStatusReportVM.Material = new MaterialViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            inventoryReorderStatusReportVM.Material.SelectList = new List<SelectListItem>();
+            List<MaterialViewModel> materialList = Mapper.Map<List<Material>, List<MaterialViewModel>>(_materialBusiness.GetMaterialForSelectList());
+            if (materialList != null)
+                foreach (MaterialViewModel material in materialList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = material.MaterialCode + '-' + material.Description,
+                        Value = material.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            inventoryReorderStatusReportVM.Material.SelectList = selectListItem;
+
+
+
+            return View(inventoryReorderStatusReportVM);
+        }
+
+
+        #region GetInventoryReorderStatusReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetInventoryReorderStatusReport(DataTableAjaxPostModel model, InventoryReorderStatusReportViewModel inventoryReorderStatusVM)
+        {         
+            inventoryReorderStatusVM.DataTablePaging.Start = model.start;
+            inventoryReorderStatusVM.DataTablePaging.Length = (inventoryReorderStatusVM.DataTablePaging.Length == 0 ? model.length : inventoryReorderStatusVM.DataTablePaging.Length);
+
+            List<InventoryReorderStatusReportViewModel> inventoryReOrderList = Mapper.Map<List<InventoryReorderStatusReport>, List<InventoryReorderStatusReportViewModel>>(_reportBusiness.GetInventoryReorderStatusReport(Mapper.Map<InventoryReorderStatusReportViewModel, InventoryReorderStatusReport>(inventoryReorderStatusVM)));
+
+            if (inventoryReorderStatusVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = inventoryReOrderList.Count != 0 ? inventoryReOrderList[0].TotalCount : 0;
+                int filteredResult = inventoryReOrderList.Count != 0 ? inventoryReOrderList[0].FilteredCount : 0;
+                inventoryReOrderList = inventoryReOrderList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = inventoryReOrderList.Count != 0 ? inventoryReOrderList[0].TotalCount : 0,
+                recordsFiltered = inventoryReOrderList.Count != 0 ? inventoryReOrderList[0].FilteredCount : 0,
+                data = inventoryReOrderList
+            });
+        }
+        #endregion GetInventoryReorderStatusReport
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult StockRegisterReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+            StockRegisterReportViewModel stockRegisterReportViewModelVM = new StockRegisterReportViewModel();
+            stockRegisterReportViewModelVM.MaterialType = new MaterialTypeViewModel();
+            stockRegisterReportViewModelVM.MaterialType.MaterialTypeSelectList = _materialTypeBusiness.GetMaterialTypeForSelectList();
+            stockRegisterReportViewModelVM.Material = new MaterialViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            stockRegisterReportViewModelVM.Material.SelectList = new List<SelectListItem>();
+            List<MaterialViewModel> materialList = Mapper.Map<List<Material>, List<MaterialViewModel>>(_materialBusiness.GetMaterialForSelectList());
+            if (materialList != null)
+                foreach (MaterialViewModel material in materialList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = material.MaterialCode + '-' + material.Description,
+                        Value = material.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            stockRegisterReportViewModelVM.Material.SelectList = selectListItem;
+            return View(stockRegisterReportViewModelVM);
+        }
+
+        #region GetStockRegisterReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetStockRegisterReport(DataTableAjaxPostModel model, StockRegisterReportViewModel stockRegisterReportVM)
+        {
+            stockRegisterReportVM.DataTablePaging.Start = model.start;
+            stockRegisterReportVM.DataTablePaging.Length = (stockRegisterReportVM.DataTablePaging.Length == 0 ? model.length : stockRegisterReportVM.DataTablePaging.Length);
+
+            List<StockRegisterReportViewModel> inventoryReOrderList = Mapper.Map<List<StockRegisterReport>, List<StockRegisterReportViewModel>>(_reportBusiness.GetStockRegisterReport(Mapper.Map<StockRegisterReportViewModel, StockRegisterReport>(stockRegisterReportVM)));
+
+            if (stockRegisterReportVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = inventoryReOrderList.Count != 0 ? inventoryReOrderList[0].TotalCount : 0;
+                int filteredResult = inventoryReOrderList.Count != 0 ? inventoryReOrderList[0].FilteredCount : 0;
+                inventoryReOrderList = inventoryReOrderList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = inventoryReOrderList.Count != 0 ? inventoryReOrderList[0].TotalCount : 0,
+                recordsFiltered = inventoryReOrderList.Count != 0 ? inventoryReOrderList[0].FilteredCount : 0,
+                data = inventoryReOrderList
+            });
+        }
+        #endregion GetStockRegisterReport
 
 
         #region ButtonStyling
