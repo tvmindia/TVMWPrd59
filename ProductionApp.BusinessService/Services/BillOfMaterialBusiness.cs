@@ -165,5 +165,11 @@ namespace ProductionApp.BusinessService.Services
             return _billOfMaterialRepository.GetRecentBillOfMaterial();
         }
         #endregion GetRecentBillOfMaterial
-    }
+
+        public List<BOMTree> GetBOMTree(Guid ProductID)
+        {
+            return _billOfMaterialRepository.GetBOMTree(ProductID);
+
+        }
+        }
 }

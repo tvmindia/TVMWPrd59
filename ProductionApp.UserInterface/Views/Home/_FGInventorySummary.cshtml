@@ -31,17 +31,23 @@
                         <ul class="chart-legend clearfix">
                             @for (int i = 0; i < FGSummaryList.Count; i++)
                             {
-                                <li title="@FGSummaryList[i].Category">
-                                    <i class="fa fa-circle" style="color:@FGSummaryList[i].Color"></i>@if (FGSummaryList[i].Category.Length > 15)
-                                    {
-                                        @FGSummaryList[i].Category.Substring(0, 14); <span>..</span>
+                                if (FGSummaryList[i].Category != null)
+                                {
 
-                                    }
-                                    else
-                                    {
-                                        @FGSummaryList[i].Category;
-                                    }
-                                </li>
+                                    <li title="@FGSummaryList[i].Category">
+                                        <i class="fa fa-circle" style="color:@FGSummaryList[i].Color"></i>@if (FGSummaryList[i].Category.Length > 15)
+                                        {
+                                            @FGSummaryList[i].Category.Substring(0, 14); <span>..</span>
+
+                                        }
+                                        else
+                                        {
+                                            @FGSummaryList[i].Category;
+                                        }
+                                    </li>
+
+                                }
+
                             }
 
                         </ul>
