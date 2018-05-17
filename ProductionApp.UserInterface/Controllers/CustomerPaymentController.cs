@@ -195,7 +195,9 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     throw new Exception("ID Missing");
                 }
-                result = _customerPaymentBusiness.DeleteCustomerPayment(Guid.Parse(id));
+                AppUA appUA = Session["AppUA"] as AppUA;
+
+                result = _customerPaymentBusiness.DeleteCustomerPayment(Guid.Parse(id), appUA.UserName);
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)

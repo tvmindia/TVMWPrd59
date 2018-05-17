@@ -150,6 +150,7 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<PurchaseRegisterReportViewModel, PurchaseRegisterReport>().ReverseMap();
                 config.CreateMap<InventoryReorderStatusReportViewModel, InventoryReorderStatusReport>().ReverseMap();
                 config.CreateMap<StockRegisterReportViewModel, StockRegisterReport>().ReverseMap();
+                config.CreateMap<BOMTreeViewModel, BOMTree>().ReverseMap();
                 //Approval Status
                 config.CreateMap<ApprovalStatusViewModel, ApprovalStatus>().ReverseMap();
 
