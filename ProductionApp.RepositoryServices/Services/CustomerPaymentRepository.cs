@@ -323,7 +323,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion GetCustomerPayment
 
         #region DeleteCustomerPayment
-        public object DeleteCustomerPayment(Guid id)
+        public object DeleteCustomerPayment(Guid id,string userName)
         {
             SqlParameter outputStatus = null;
             try
@@ -340,6 +340,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[DeleteCustomerPayment]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = userName;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

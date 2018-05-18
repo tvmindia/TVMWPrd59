@@ -9,16 +9,18 @@
 @section styles {
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+@Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/jsTree/themes/default")
 }
-
+ 
 <div style="width:100%;">
     <ol class="breadcrumb">
         <li><a href=@Url.Action("Index", "Home")><i class="fa fa-cogs"></i>Home</a></li>
         <li><a href="#">BOM</a> </li>
         <li class="active">@ViewBag.Title</li>
     </ol>
+    
 </div>
-
+ 
 <section class="content">
     <div class="row">
         <div class="" id="" style="min-height:25px">
@@ -60,6 +62,7 @@
                     <th>Product</th>
                     <th>Description</th>
                     <th>Components</th>
+                    <th>BOM</th>
                     <th>...</th>
                 </tr>
             </thead>
@@ -67,12 +70,35 @@
     </div>
 
 </section>
+<div class="modal fade" id="bomTreeModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true" @*style="overflow-y:hidden !important;"*@>
+    <div class="modal-dialog" role="document" style="min-width:550px;">
+        <div class="modal-content">
+            <div class="modal-header" style="background-image: url('content/images/73a6f1c8.png');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-12">
+                        <h4 class="modal-title SCHeader col-md-10 modelIcon" id="bomName" style="padding-left: 7%;"></h4>
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size:33px;color:rgb(40, 45, 51)!important;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" style="padding:0" id="divMasterBody">
+
+                <div id="jstree" class="demo">
+
+                </div>
+            </div>
+            <input type="hidden" id="hdnMasterCall" value="" />
+        </div>
+    </div>
+</div>
 
 
-@section Scripts {
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/BillOfMaterial/ViewBillOfMaterial")
-}
+            @section Scripts {
+                @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+                @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+                @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+                @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+                @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/BillOfMaterial/ViewBillOfMaterial")
+                @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsTree3")
+            }
+ 

@@ -103,4 +103,15 @@ namespace ProductionApp.UserInterface.Models
         public MaterialViewModel Material { get; set; }
         public SubComponentViewModel SubComponent { get; set; }
     }
+
+    public class BOMTreeViewModel
+    {
+        public Guid ID { get; set; }
+        public Guid? ParentID { get; set; }
+        public int Level { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string Qty { get; set; }
+        public string Icon { get; set; }
+    }
 }
