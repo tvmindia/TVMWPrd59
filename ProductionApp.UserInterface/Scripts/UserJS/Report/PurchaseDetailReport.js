@@ -35,7 +35,7 @@ function RedirectSearchClick(e, this_obj) {
     }
 }
 
-//bind requisition detail report
+//bind purchase detail report
 function
     BindOrReloadPurchaseDetailTable(action) {
     try {

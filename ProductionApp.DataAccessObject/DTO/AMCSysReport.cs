@@ -181,7 +181,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid MaterialID { get; set; }
         public Material Material { get; set; }
         public string MaterialTypeCode { get; set; }
-        public MaterialType MaterialType { get; set; }
+        public MaterialType MaterialType { get; set; }        
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public Guid ID { get; set; }
@@ -192,5 +192,31 @@ namespace ProductionApp.DataAccessObject.DTO
         public string UnitCode { get; set; }
         public decimal StockValue { get; set; }
         public List<StockRegisterReport> StockRegisterReportList { get; set; }
+    }
+
+    public class  StockLedgerReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public Guid MaterialID { get; set; }
+        public Material Material { get; set; }
+        public string MaterialTypeCode { get; set; }
+        public MaterialType MaterialType { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string DateFilter { get; set; }
+        public string TransactionType { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public string Description { get; set; }
+        public string UnitCode { get; set; }
+        public decimal OpeningStock { get; set; }
+        public decimal ClosingStock { get; set; }       
+        public DateTime TransactionDate { get; set; }
+        public string TransactionDateFormatted { get; set; }
+        public string DocumentNo { get; set; }
+        public decimal StockIn { get; set; }
+        public decimal StockOut { get; set; }
+        public List<StockLedgerReport> StockLedgerReportList { get; set; }
     }
 }
