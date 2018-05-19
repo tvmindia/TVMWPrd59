@@ -566,6 +566,68 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetStockRegisterReport
 
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult StockLedgerReport(string Code)
+        {            
+            ViewBag.SysModuleCode = Code;            
+            StockLedgerReportViewModel stockLedgerReportVM = new StockLedgerReportViewModel();
+            stockLedgerReportVM.MaterialType = new MaterialTypeViewModel();
+            stockLedgerReportVM.MaterialType.MaterialTypeSelectList = _materialTypeBusiness.GetMaterialTypeForSelectList();       
+            return View(stockLedgerReportVM);
+        }
+
+        #region GetStockLedgerReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetStockLedgerReport(DataTableAjaxPostModel model, StockLedgerReportViewModel stockLedgerReportVM)
+        {
+            Common con = new Common();
+            DateTime dt = con.GetCurrentDateTime();
+            if (stockLedgerReportVM != null)
+            {
+                if (stockLedgerReportVM.DateFilter == "30")
+                {
+                    stockLedgerReportVM.FromDate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
+                    stockLedgerReportVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (stockLedgerReportVM.DateFilter == "60")
+                {
+                    stockLedgerReportVM.FromDate = dt.AddDays(-60).ToString("dd-MMM-yyyy");
+                    stockLedgerReportVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (stockLedgerReportVM.DateFilter == "90")
+                {
+                    stockLedgerReportVM.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    stockLedgerReportVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+            }
+            stockLedgerReportVM.DataTablePaging.Start = model.start;
+            stockLedgerReportVM.DataTablePaging.Length = (stockLedgerReportVM.DataTablePaging.Length == 0 ? model.length : stockLedgerReportVM.DataTablePaging.Length);
+
+            List<StockLedgerReportViewModel> stockLedgerList = Mapper.Map<List<StockLedgerReport>, List<StockLedgerReportViewModel>>(_reportBusiness.GetStockLedgerReport(Mapper.Map<StockLedgerReportViewModel, StockLedgerReport>(stockLedgerReportVM)));
+
+            if (stockLedgerReportVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = stockLedgerList.Count != 0 ? stockLedgerList[0].TotalCount : 0;
+                int filteredResult = stockLedgerList.Count != 0 ? stockLedgerList[0].FilteredCount : 0;
+                stockLedgerList = stockLedgerList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = stockLedgerList.Count != 0 ? stockLedgerList[0].TotalCount : 0,
+                recordsFiltered = stockLedgerList.Count != 0 ? stockLedgerList[0].FilteredCount : 0,
+                data = stockLedgerList
+            });
+        }
+        #endregion GetStockLedgerReport
 
         #region ButtonStyling
         [HttpGet]

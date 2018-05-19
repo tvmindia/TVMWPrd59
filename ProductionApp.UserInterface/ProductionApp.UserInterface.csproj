@@ -752,6 +752,7 @@
     <Content Include="Scripts\UserJS\Report\PurchaseSummaryReport.js" />
     <Content Include="Scripts\UserJS\Report\Report.js" />
     <Content Include="Scripts\UserJS\Report\RequisitionSummaryReport.js" />
+    <Content Include="Scripts\UserJS\Report\StockLedgerReport.js" />
     <Content Include="Scripts\UserJS\Report\StockRegisterReport.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\NewRequisition.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\RequisitionApproval.js" />
@@ -1081,6 +1082,7 @@
     <Content Include="Views\Shared\_jsTreeDemo.cshtml" />
     <Content Include="Views\jsTree3\Demo.cshtml" />
     <Content Include="Views\jsTree3\AJAXDemo.cshtml" />
+    <Content Include="Views\DashboardReport\StockLedgerReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

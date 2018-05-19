@@ -482,6 +482,11 @@ namespace ProductionApp.RepositoryServices.Services
 
 
         #region GetInventoryReorderStatusReport
+        /// <summary>
+        /// To Get Inventory Reorder Status Report
+        /// </summary>
+        /// <param name="inventoryReOrderStatusReport"></param>
+        /// <returns></returns>
         public List<InventoryReorderStatusReport> GetInventoryReorderStatusReport(InventoryReorderStatusReport inventoryReOrderStatusReport)
         {
 
@@ -551,6 +556,11 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion GetInventoryReorderStatusReport
 
         #region GetStockRegisterReport
+        /// <summary>
+        /// To Get Stock Register Report
+        /// </summary>
+        /// <param name="stockRegisterReport"></param>
+        /// <returns></returns>
         public List<StockRegisterReport> GetStockRegisterReport(StockRegisterReport stockRegisterReport)
         {
 
@@ -613,7 +623,78 @@ namespace ProductionApp.RepositoryServices.Services
 
         #endregion GetStockRegisterReport
 
+        #region GetStockLedgerReport
+        /// <summary>
+        /// To Get Stock Ledger Report
+        /// </summary>
+        /// <param name="stockLedgerReport"></param>
+        /// <returns></returns>
+        public List<StockLedgerReport> GetStockLedgerReport(StockLedgerReport stockLedgerReport)
+        {
 
+            List<StockLedgerReport> stockLedgerReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetStockLedgerReport]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(stockLedgerReport.SearchTerm) ? "" : stockLedgerReport.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = stockLedgerReport.DataTablePaging.Start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = stockLedgerReport.DataTablePaging.Length;
+                        cmd.Parameters.Add("@OrderDir", SqlDbType.VarChar).Value = stockLedgerReport.DataTablePaging.OrderDir;
+                        cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = stockLedgerReport.DataTablePaging.OrderColumn;
+                        cmd.Parameters.Add("@DateFrom", SqlDbType.DateTime).Value = stockLedgerReport.FromDate;
+                        cmd.Parameters.Add("@DateTo", SqlDbType.DateTime).Value = stockLedgerReport.ToDate;
+                        cmd.Parameters.Add("@TransactionType", SqlDbType.VarChar).Value = stockLedgerReport.TransactionType;                      
+                        cmd.Parameters.Add("@materialTypeCode", SqlDbType.NVarChar).Value = stockLedgerReport.MaterialTypeCode;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                stockLedgerReportList = new List<StockLedgerReport>();
+                                while (sdr.Read())
+                                {
+                                    StockLedgerReport stockLedgerObj = new StockLedgerReport();
+                                    {
+
+                                        stockLedgerObj.MaterialID = (sdr["materialID"].ToString() != "" ? Guid.Parse(sdr["materialID"].ToString()) : stockLedgerObj.MaterialID);                                        
+                                        stockLedgerObj.Description = (sdr["Item"].ToString() != "" ? (sdr["Item"].ToString()) : stockLedgerObj.Description);
+                                        stockLedgerObj.UnitCode = (sdr["UnitCode"].ToString() != "" ? (sdr["UnitCode"].ToString()) : stockLedgerObj.UnitCode);
+                                        stockLedgerObj.OpeningStock = (sdr["OpeningStock"].ToString() != "" ? decimal.Parse(sdr["OpeningStock"].ToString()) : stockLedgerObj.OpeningStock);
+                                        stockLedgerObj.ClosingStock = (sdr["ClosingStock"].ToString() != "" ? decimal.Parse(sdr["ClosingStock"].ToString()) : stockLedgerObj.ClosingStock);
+                                        stockLedgerObj.TransactionType = (sdr["TransactionType"].ToString() != "" ? (sdr["TransactionType"].ToString()) : stockLedgerObj.TransactionType);
+                                        stockLedgerObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : stockLedgerObj.TotalCount);
+                                        stockLedgerObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : stockLedgerObj.FilteredCount);
+                                        stockLedgerObj.DocumentNo= (sdr["DocumentNo"].ToString() != "" ? (sdr["DocumentNo"].ToString()) : stockLedgerObj.DocumentNo);                                        
+                                        stockLedgerObj.TransactionDate = (sdr["TrDate"].ToString() != "" ? DateTime.Parse(sdr["TrDate"].ToString()) : stockLedgerObj.TransactionDate);
+                                        stockLedgerObj.TransactionDateFormatted = (sdr["TrDate"].ToString() != "" ? DateTime.Parse(sdr["TrDate"].ToString()).ToString(settings.DateFormat) : stockLedgerObj.TransactionDateFormatted);
+                                        stockLedgerObj.StockIn = (sdr["StockIn"].ToString() != "" ? decimal.Parse(sdr["StockIn"].ToString()) : stockLedgerObj.StockIn);
+                                        stockLedgerObj.StockOut = (sdr["StockOut"].ToString() != "" ? decimal.Parse(sdr["StockOut"].ToString()) : stockLedgerObj.StockOut);
+
+                                    }
+                                    stockLedgerReportList.Add(stockLedgerObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return stockLedgerReportList;
+        }
+        #endregion GetStockLedgerReport
     }
 
 
