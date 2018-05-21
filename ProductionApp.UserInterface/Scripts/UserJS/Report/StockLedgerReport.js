@@ -1,10 +1,10 @@
 ﻿//*****************************************************************************
 //*****************************************************************************
 //Author:Sruthi
-//CreatedDate: 16-May-2018 
-//LastModified: 16-May-2018 
-//FileName: StockRegisterReport.js
-//Description: Client side coding for Stock Register Report
+//CreatedDate: 17-May-2018 
+//LastModified: 18-May-2018 
+//FileName: StockLedgerReport.js
+//Description: Client side coding for Stock Ledger Report
 //******************************************************************************
 //******************************************************************************
 //Global Declaration
@@ -13,9 +13,9 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
-        $("#MaterialType,#Material").select2({
+        $("#MaterialType").select2({
         });
-        BindOrReloadStockRegisterTable('Init');
+        BindOrReloadStockLedgerTable('Init');
 
     }
     catch (e) {
@@ -33,13 +33,13 @@ function RedirectSearchClick(e, this_obj) {
     }
 }
 
-//bind stock register report
-function
-    BindOrReloadStockRegisterTable(action) {
+//bind stock ledger report
+function 
+    BindOrReloadStockLedgerTable(action) {
+    debugger;
     try {
-        debugger;
         //creating advancesearch object       
-        StockRegisterReportViewModel = new Object();
+        StockLedgerReportViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
 
@@ -47,19 +47,31 @@ function
         //switch case to check the operation
         switch (action) {
             case 'Reset':
-                $('#SearchTerm').val('');               
+                $('#SearchTerm').val('');                
+                $('#FromDate').val('');
+                $('#ToDate').val('');
                 $('#MaterialType').val('').select2();
-                $('#Material').val('').select2();
-                
+                $('#TransactionType').val('');               
+                $('#DateFilter').val('30');
                 break;
             case 'Init':
                 break;
             case 'Search':
                 break;
-            case 'Apply':                           
-                StockRegisterReportViewModel.MaterialTypeCode = $('#MaterialType').val();
-                StockRegisterReportViewModel.MaterialID = $('#Material').val();
-
+            case 'Apply':
+                StockLedgerReportViewModel.FromDate = $('#FromDate').val();
+                StockLedgerReportViewModel.ToDate = $('#ToDate').val();
+                StockLedgerReportViewModel.TransactionType = $('#TransactionType').val();
+                StockLedgerReportViewModel.MaterialTypeCode = $('#MaterialType').val();
+                if ((StockLedgerReportViewModel.FromDate == "") && (StockLedgerReportViewModel.ToDate == ""))
+                {
+                    StockLedgerReportViewModel.DateFilter = $('#DateFilter').val();
+                }
+                else
+                {
+                    $('#DateFilter').val('');
+                }                
+                
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
@@ -67,12 +79,14 @@ function
             default:
                 break;
         }
-        StockRegisterReportViewModel.DataTablePaging = DataTablePagingViewModel;
-        StockRegisterReportViewModel.SearchTerm = $('#SearchTerm').val();       
-        StockRegisterReportViewModel.MaterialTypeCode = $('#MaterialType').val();
-        StockRegisterReportViewModel.MaterialID = $('#Material').val();
-
-        DataTables.StockRegisterList = $('#tblStockRegisterReport').DataTable(
+        StockLedgerReportViewModel.DataTablePaging = DataTablePagingViewModel;
+        StockLedgerReportViewModel.SearchTerm = $('#SearchTerm').val();
+        StockLedgerReportViewModel.FromDate = $('#FromDate').val();
+        StockLedgerReportViewModel.ToDate = $('#ToDate').val();
+        StockLedgerReportViewModel.TransactionType = $('#TransactionType').val();
+        StockLedgerReportViewModel.MaterialTypeCode = $('#MaterialType').val();
+        StockLedgerReportViewModel.DateFilter = $('#DateFilter').val();
+        DataTables.StockLedgerList = $('#tblStockLedgerReport').DataTable(
 
             {
 
@@ -81,7 +95,7 @@ function
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [1, 2, 3, 4, 5,6]
+                                     columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
                                  }
                 }],
 
@@ -93,28 +107,28 @@ function
                 proccessing: true,
                 serverSide: true,
                 ajax: {
-                    url: "GetStockRegisterReport/",
-                    data: { "stockRegisterReportVM": StockRegisterReportViewModel },
+                    url: "GetStockLedgerReport/",
+                    data: { "stockLedgerReportVM": StockLedgerReportViewModel },
                     type: 'POST'
                 },
                 pageLength: 15,
                 columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
-                    { "data": "TypeDescription", "defaultContent": "<i>-</i>" },
+                    { "data": "MaterialID", "defaultContent": "<i>-</i>" },
                     { "data": "Description", "defaultContent": "<i>-</i>" },
                     { "data": "UnitCode", "defaultContent": "<i>-</i>" },
-                    { "data": "CurrentStock", "defaultContent": "<i>-</i>" },
-                    { "data": "CostPrice", "defaultContent": "<i>-</i>" },
-                    { "data": "StockValue", "defaultContent": "<i>-</i>" }
-                   
-
+                    { "data": "OpeningStock", "defaultContent": "<i>-</i>" },
+                    { "data": "ClosingStock", "defaultContent": "<i>-</i>" },
+                    { "data": "TransactionType", "defaultContent": "<i>-</i>" },
+                    { "data": "DocumentNo", "defaultContent": "<i>-</i>" },
+                    { "data": "TransactionDateFormatted", "defaultContent": "<i>-</i>" },
+                    { "data": "StockIn", "defaultContent": "<i>-</i>" },
+                    { "data": "StockOut", "defaultContent": "<i>-</i>" },
 
                 ],
                 columnDefs: [{ "targets": [0,1], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [2] },
-                    { className: "text-center", "targets": [ 3] },
-                    { className: "text-right", "targets": [4, 5, 6] }
-
+                    { className: "text-left", "targets": [1] },
+                    { className: "text-center", "targets": [2,5,6,7] },
+                    { className: "text-right", "targets": [3, 4, 8, 9] }
                 ],
 
                 destroy: true,
@@ -127,7 +141,7 @@ function
                             }
                         }
                         $(".buttons-excel").trigger('click');
-                        BindOrReloadStockRegisterTable('Search');
+                        BindOrReloadStockLedgerTable('Search');
                     }
                 },
                 // grouping with  columns
@@ -140,13 +154,13 @@ function
                         if (last !== group) {
                             debugger;
                             var rowData = api.row(i).data();
-                            $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Material Type</b> : ' + group +  '</td></tr>');
+                            $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Item</b> : ' + group + '</td></tr>');
                             last = group;
                         }
                     });
                 }
             });
-        $(".buttons-excel").hide();
+        $(".buttons-excel").hide();       
     }
     catch (e) {
         console.log(e.message);
@@ -155,11 +169,15 @@ function
 
 //function reset the list to initial
 function ResetReportList() {
-    BindOrReloadStockRegisterTable('Reset');
+    BindOrReloadStockLedgerTable('Reset');
 }
 
 //function export data to excel
 function ExportReportData() {
-    BindOrReloadStockRegisterTable('Export');
+    BindOrReloadStockLedgerTable('Export');
 }
 
+//function to filter data based on date
+function DateFilterOnchange() {
+    BindOrReloadStockLedgerTable('Apply');
+}

@@ -68,9 +68,9 @@ namespace ProductionApp.BusinessService.Services
             }
             return HeadAmount;
         }
-        public object DeleteOtherExpense(Guid id)
+        public object DeleteOtherExpense(Guid id,string userName)
         {
-            return _otherExpenseRepository.DeleteOtherExpense(id);
+            return _otherExpenseRepository.DeleteOtherExpense(id,userName);
         }
     }
 }

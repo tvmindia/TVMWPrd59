@@ -238,5 +238,36 @@ namespace ProductionApp.UserInterface.Models
         public List<StockRegisterReportViewModel> StockRegisterReportList { get; set; }
     }
 
-
+    public class StockLedgerReportViewModel
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
+        [Display(Name = "Material")]
+        public Guid MaterialID { get; set; }
+        public MaterialViewModel Material { get; set; }
+        [Display(Name = "Material Type")]
+        public string MaterialTypeCode { get; set; }
+        public MaterialTypeViewModel MaterialType { get; set; }
+        [Display(Name = "Transaction Type")]
+        public string TransactionType { get; set; }
+        [Display(Name = "From Date")]
+        public string FromDate { get; set; }
+        [Display(Name = "To Date")]
+        public string ToDate { get; set; }
+        [Display(Name = "Quick Filter")]
+        public string DateFilter { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public string Description { get; set; }
+        public string UnitCode { get; set; }
+        public decimal OpeningStock { get; set; }
+        public decimal ClosingStock { get; set; }
+        public DateTime TransactionDate { get; set; }
+        public string TransactionDateFormatted { get; set; }
+        public string DocumentNo { get; set; }
+        public decimal StockIn { get; set; }
+        public decimal StockOut { get; set; }
+        public List<StockLedgerReportViewModel> StockLedgerReportList { get; set; }
+    }
 }
