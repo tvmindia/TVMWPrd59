@@ -219,4 +219,26 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal StockOut { get; set; }
         public List<StockLedgerReport> StockLedgerReportList { get; set; }
     }
+
+    public class InventoryReOrderStatusFGReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public int ItemStatus { get; set; }
+        public int TotalCount { get; set; }
+        public Guid ProductID { get; set; }
+        public Product Product { get; set; }
+        public string ProductType { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+        public string Description { get; set; }
+        public decimal ReorderQty { get; set; }
+        public decimal CurrentStock { get; set; }
+        public decimal SalesOrderDueQty { get; set; }
+        public decimal NetAvailableQty { get; set; }
+        public decimal ShortFall { get; set; }
+        public List<InventoryReOrderStatusFGReport> InventoryReorderStatusFGList { get; set; }
+    }
+
+
 }
