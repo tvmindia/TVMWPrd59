@@ -294,4 +294,28 @@ namespace ProductionApp.UserInterface.Models
         public decimal ShortFall { get; set; }
         public List<InventoryReOrderStatusFGReportViewModel> InventoryReorderStatusFGList { get; set; }
     }
+
+    public class StockRegisterFGReportViewModel
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
+        public Guid ProductID { get; set; }
+        public ProductViewModel Product { get; set; }
+        [Display(Name = "Type")]
+        public string ProductType { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+        public string Description { get; set; }
+        public string TypeDescription { get; set; }
+        public decimal CostPrice { get; set; }
+        public decimal CurrentStock { get; set; }
+        public string UnitCode { get; set; }
+        public decimal CostAmount { get; set; }
+        public decimal SellingRate { get; set; }
+        public decimal SellingAmount { get; set; }
+        public List<StockRegisterFGReportViewModel> StockRegisterFGReportList { get; set; }
+    }
+   
 }

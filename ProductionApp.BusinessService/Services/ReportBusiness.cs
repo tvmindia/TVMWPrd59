@@ -62,7 +62,7 @@ namespace ProductionApp.BusinessService.Services
         }
         #endregion GetPurchaseRegisterReport
 
-       
+
         #region GetInventoryReorderStatusReport
         public List<InventoryReorderStatusReport> GetInventoryReorderStatusReport(InventoryReorderStatusReport inventoryReOrderStatusReport)
         {
@@ -91,5 +91,14 @@ namespace ProductionApp.BusinessService.Services
             return _reportRepository.GetInventoryReOrderStatusFGReport(inventoryReOrderStatusFGReport);
         }
         #endregion GetInventoryReOrderStatusFGReport
+
+
+
+        #region GetStockRegisterFGReport
+        public List<StockRegisterFGReport> GetStockRegisterFGReport(StockRegisterFGReport stockRegisterFGReport)
+        {
+            return _reportRepository.GetStockRegisterFGReport(stockRegisterFGReport);
+        }
+        #endregion GetStockRegisterFGReport
     }
 }

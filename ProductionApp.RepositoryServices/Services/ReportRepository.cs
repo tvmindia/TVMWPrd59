@@ -761,6 +761,74 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetInventoryReOrderStatusFGReport
 
+        #region GetStockRegisterFGReport
+        /// <summary>
+        /// To Get Stock Register FG Report
+        /// </summary>
+        /// <param name="stockRegisterFGReport"></param>
+        /// <returns></returns>
+        public List<StockRegisterFGReport> GetStockRegisterFGReport(StockRegisterFGReport stockRegisterFGReport)
+        {
+
+            List<StockRegisterFGReport> stockRegisterFGReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetStockRegisterReport_FG]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(stockRegisterFGReport.SearchTerm) ? "" : stockRegisterFGReport.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = stockRegisterFGReport.DataTablePaging.Start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = stockRegisterFGReport.DataTablePaging.Length;
+                        cmd.Parameters.Add("@OrderDir", SqlDbType.VarChar).Value = stockRegisterFGReport.DataTablePaging.OrderDir;
+                        cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = stockRegisterFGReport.DataTablePaging.OrderColumn;                      
+                        cmd.Parameters.Add("@ProductType", SqlDbType.VarChar).Value = stockRegisterFGReport.ProductType;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                stockRegisterFGReportList = new List<StockRegisterFGReport>();
+                                while (sdr.Read())
+                                {
+                                    StockRegisterFGReport stockRegisterFGObj = new StockRegisterFGReport();
+                                    {
+
+                                        stockRegisterFGObj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : stockRegisterFGObj.ID);
+                                        stockRegisterFGObj.ProductType = (sdr["ProductType"].ToString() != "" ? (sdr["ProductType"].ToString()) : stockRegisterFGObj.ProductType);
+                                        stockRegisterFGObj.Description = (sdr["Item"].ToString() != "" ? (sdr["Item"].ToString()) : stockRegisterFGObj.Description);
+                                        stockRegisterFGObj.UnitCode = (sdr["UnitCode"].ToString() != "" ? (sdr["UnitCode"].ToString()) : stockRegisterFGObj.UnitCode);
+                                        stockRegisterFGObj.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : stockRegisterFGObj.CurrentStock);
+                                        stockRegisterFGObj.CostPrice = (sdr["CostPrice"].ToString() != "" ? decimal.Parse(sdr["CostPrice"].ToString()) : stockRegisterFGObj.CostPrice);
+                                        stockRegisterFGObj.CostAmount = (sdr["CostAmount"].ToString() != "" ? decimal.Parse(sdr["CostAmount"].ToString()) : stockRegisterFGObj.CostAmount);
+                                        stockRegisterFGObj.SellingRate = (sdr["SellingRate"].ToString() != "" ? decimal.Parse(sdr["SellingRate"].ToString()) : stockRegisterFGObj.SellingRate);
+                                        stockRegisterFGObj.SellingAmount = (sdr["SellingAmount"].ToString() != "" ? decimal.Parse(sdr["SellingAmount"].ToString()) : stockRegisterFGObj.SellingAmount);
+                                        stockRegisterFGObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : stockRegisterFGObj.TotalCount);
+                                        stockRegisterFGObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : stockRegisterFGObj.FilteredCount);
+                                    }
+                                    stockRegisterFGReportList.Add(stockRegisterFGObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return stockRegisterFGReportList;
+        }
+        #endregion GetStockRegisterFGReport
+
+
     }
 }
 

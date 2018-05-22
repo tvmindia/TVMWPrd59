@@ -675,7 +675,46 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetInventoryReOrderStatusFGReport
 
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult StockRegisterFGReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+            StockRegisterFGReportViewModel stockRegisterFGReportVM = new StockRegisterFGReportViewModel();           
+            return View(stockRegisterFGReportVM);
+        }
 
+        #region GetStockRegisterFGReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetStockRegisterFGReport(DataTableAjaxPostModel model, StockRegisterFGReportViewModel stockRegisterFGReportVM)
+        {
+            stockRegisterFGReportVM.DataTablePaging.Start = model.start;
+            stockRegisterFGReportVM.DataTablePaging.Length = (stockRegisterFGReportVM.DataTablePaging.Length == 0 ? model.length : stockRegisterFGReportVM.DataTablePaging.Length);
+
+            List<StockRegisterFGReportViewModel> stockRegisterFGList = Mapper.Map<List<StockRegisterFGReport>, List<StockRegisterFGReportViewModel>>(_reportBusiness.GetStockRegisterFGReport(Mapper.Map<StockRegisterFGReportViewModel, StockRegisterFGReport>(stockRegisterFGReportVM)));
+
+            if (stockRegisterFGReportVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = stockRegisterFGList.Count != 0 ? stockRegisterFGList[0].TotalCount : 0;
+                int filteredResult = stockRegisterFGList.Count != 0 ? stockRegisterFGList[0].FilteredCount : 0;
+                stockRegisterFGList = stockRegisterFGList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = stockRegisterFGList.Count != 0 ? stockRegisterFGList[0].TotalCount : 0,
+                recordsFiltered = stockRegisterFGList.Count != 0 ? stockRegisterFGList[0].FilteredCount : 0,
+                data = stockRegisterFGList
+            });
+        }
+        #endregion GetStockRegisterFGReport
 
         #region ButtonStyling
         [HttpGet]
