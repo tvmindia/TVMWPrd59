@@ -111,7 +111,7 @@ namespace ProductionApp.BusinessService.Services
                     {
                         Mail _mail = new Mail();
                         _mail.Body = customerInvoice.CustomerInvoiceMailPreview.MailBody;
-                        _mail.Subject = "Purchase Order";
+                        _mail.Subject = "Customer Invoice";
                         _mail.To = email;
                         sendsuccess = await _mailBusiness.MailSendAsync(_mail);
                     }
@@ -139,7 +139,7 @@ namespace ProductionApp.BusinessService.Services
                     {
                         customerInvoice.CustomerInvoiceDetailList = GetCustomerInvoiceDetail(ID);
                     }
-                    customerInvoice.InvoiceAmountWords = _commonBusiness.NumberToWords(double.Parse(customerInvoice.InvoiceAmount.ToString()));
+                    customerInvoice.InvoiceAmountWords = _commonBusiness.NumberToWords(double.Parse((customerInvoice.InvoiceAmount- customerInvoice.Discount).ToString()));
                 }
             }
             catch (Exception ex)

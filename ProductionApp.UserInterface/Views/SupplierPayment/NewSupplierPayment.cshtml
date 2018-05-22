@@ -99,8 +99,8 @@
                                 List<SelectListItem> TypeList = new List<SelectListItem>();
                                 TypeList.Add(new SelectListItem
                                 { Text = "Payment", Value = "P" });
-                                TypeList.Add(new SelectListItem
-                                { Text = "Credit Adujustment", Value = "C" });
+                                //TypeList.Add(new SelectListItem
+                                //{ Text = "Credit Adujustment", Value = "C" });
                             }
                             @Html.DropDownListFor(model => model.Type, TypeList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;width:100 %", onchange = "TypeOnChange();" })
                         </div>
