@@ -24,7 +24,8 @@ namespace ProductionApp.UserInterface.Controllers
         ISupplierBusiness _supplierBusiness;
         IApprovalStatusBusiness _approvalStatusBusiness;
         IMaterialTypeBusiness _materialTypeBusiness;
-        public DashboardReportController(IReportBusiness reportBusiness,IEmployeeBusiness employeeBusiness,IRequisitionBusiness requisitionBusiness,ICommonBusiness commonBusiness,IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness,IApprovalStatusBusiness approvalStatusBusiness, IMaterialTypeBusiness materialTypeBusiness)
+        IProductBusiness _productBusiness;
+        public DashboardReportController(IReportBusiness reportBusiness,IEmployeeBusiness employeeBusiness,IRequisitionBusiness requisitionBusiness,ICommonBusiness commonBusiness,IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness,IApprovalStatusBusiness approvalStatusBusiness, IMaterialTypeBusiness materialTypeBusiness, IProductBusiness productBusiness)
         {
             _reportBusiness = reportBusiness;
             _employeeBusiness = employeeBusiness;
@@ -34,6 +35,7 @@ namespace ProductionApp.UserInterface.Controllers
             _supplierBusiness = supplierBusiness;
             _approvalStatusBusiness = approvalStatusBusiness;
             _materialTypeBusiness = materialTypeBusiness;
+            _productBusiness = productBusiness;
         }
         #endregion Constructor Injection
 
@@ -628,6 +630,52 @@ namespace ProductionApp.UserInterface.Controllers
             });
         }
         #endregion GetStockLedgerReport
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult InventoryReorderStatusFGReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+            InventoryReOrderStatusFGReportViewModel inventoryReOrderStatusFGReportVM = new InventoryReOrderStatusFGReportViewModel();
+            inventoryReOrderStatusFGReportVM.Product = new ProductViewModel();
+            inventoryReOrderStatusFGReportVM.Product.ProductSelectList = _productBusiness.GetProductForSelectList();    
+
+            return View(inventoryReOrderStatusFGReportVM);
+        }
+
+        #region GetInventoryReOrderStatusFGReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetInventoryReOrderStatusFGReport(DataTableAjaxPostModel model, InventoryReOrderStatusFGReportViewModel inventoryReOrderStatusFGVM)
+        {
+            inventoryReOrderStatusFGVM.DataTablePaging.Start = model.start;
+            inventoryReOrderStatusFGVM.DataTablePaging.Length = (inventoryReOrderStatusFGVM.DataTablePaging.Length == 0 ? model.length : inventoryReOrderStatusFGVM.DataTablePaging.Length);
+
+            List<InventoryReOrderStatusFGReportViewModel> inventoryReOrderFGList = Mapper.Map<List<InventoryReOrderStatusFGReport>, List<InventoryReOrderStatusFGReportViewModel>>(_reportBusiness.GetInventoryReOrderStatusFGReport(Mapper.Map<InventoryReOrderStatusFGReportViewModel, InventoryReOrderStatusFGReport>(inventoryReOrderStatusFGVM)));
+
+            if (inventoryReOrderStatusFGVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = inventoryReOrderFGList.Count != 0 ? inventoryReOrderFGList[0].TotalCount : 0;
+                int filteredResult = inventoryReOrderFGList.Count != 0 ? inventoryReOrderFGList[0].FilteredCount : 0;
+                inventoryReOrderFGList = inventoryReOrderFGList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = inventoryReOrderFGList.Count != 0 ? inventoryReOrderFGList[0].TotalCount : 0,
+                recordsFiltered = inventoryReOrderFGList.Count != 0 ? inventoryReOrderFGList[0].FilteredCount : 0,
+                data = inventoryReOrderFGList
+            });
+        }
+        #endregion GetInventoryReOrderStatusFGReport
+
+
 
         #region ButtonStyling
         [HttpGet]
