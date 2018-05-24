@@ -15,5 +15,10 @@ namespace ProductionApp.RepositoryServices.Contracts
         object DeleteProductionTracking(ProductionTracking productionTracking);
         ProductionTracking GetProductionTracking(Guid id);
         List<ProductionTracking> GetRecentProductionTracking();
+        List<ProductionTracking> GetPendingProductionTracking(string postDate);
+        List<ProductionTracking> GetPendingProductionTrackingDetail(ProductionTrackingAdvanceSearch productionTrackingAdvanceSearch);
+        List<string> GetAllAvailableProductionTrackingEntryDate();
+        object UpdateProductionTrackingByXML(Common common, string productionTrackingXML);
+        object ProductionTrackingPosting(Common common, string postDate);
     }
 }

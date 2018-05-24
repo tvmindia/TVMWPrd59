@@ -19,11 +19,19 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal? DamagedWt { get; set; }
         public Guid ForemanID { get; set; }
         public string Remarks { get; set; }
+        public DateTime PostedDate { get; set; }
+        public Guid? PostedBy { get; set; }
         public Common Common { get; set; }
+            
         //Additional
         public bool IsUpdate { get; set; }
         public string EntryDateFormatted { get; set; }
         public string SearchDetail { get; set; }
+        public string PostedDateFormatted { get; set; }
+        public int PreviousQty { get; set; }
+        public int TotalQty { get; set; }
+        public bool IsValid { get; set; }
+        public int SlNo { get; set; }
 
         public Product Product { get; set; }
         public SubComponent SubComponent { get; set; }
@@ -41,6 +49,7 @@ namespace ProductionApp.DataAccessObject.DTO
 
     public class ProductionTrackingAdvanceSearch
     {
+        public DataTablePaging DataTablePaging { get; set; }
         public string SearchTerm { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
@@ -50,7 +59,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public Employee Employee { get; set; }
         public Guid StageID { get; set; }
         public Stage Stage { get; set; }
-        public DataTablePaging DataTablePaging { get; set; }
+        public string PostDate { get; set; }
+        public Guid? LineStageDetailID { get; set; }
 
         //public SubComponent SubComponent { get; set; }
         //public Product OutputComponent { get; set; }

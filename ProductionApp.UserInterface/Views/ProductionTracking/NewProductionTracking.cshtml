@@ -206,7 +206,7 @@
                                 @Html.LabelFor(model => model.AcceptedQty, htmlAttributes: new { @class = "control-label " })
                             </div>
                             <div class="col-md-12">
-                                @Html.EditorFor(model => model.AcceptedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                                @Html.EditorFor(model => model.AcceptedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0, @onclick = "SelectAllValue(this);" } })
                                 @Html.ValidationMessageFor(model => model.AcceptedQty, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -216,7 +216,7 @@
                                 @Html.LabelFor(model => model.DamagedQty, htmlAttributes: new { @class = "control-label " })
                             </div>
                             <div class="col-md-12">
-                                @Html.EditorFor(model => model.DamagedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                                @Html.EditorFor(model => model.DamagedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0, @onclick = "SelectAllValue(this);" } })
                                 @Html.ValidationMessageFor(model => model.DamagedQty, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -226,7 +226,7 @@
                                 @Html.LabelFor(model => model.AcceptedWt, htmlAttributes: new { @class = "control-label " })
                             </div>
                             <div class="col-md-12">
-                                @Html.EditorFor(model => model.AcceptedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                                @Html.EditorFor(model => model.AcceptedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0, @onclick = "SelectAllValue(this);" } })
                                 @Html.ValidationMessageFor(model => model.AcceptedWt, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -236,7 +236,7 @@
                                 @Html.LabelFor(model => model.DamagedWt, htmlAttributes: new { @class = "control-label " })
                             </div>
                             <div class="col-md-12">
-                                @Html.EditorFor(model => model.DamagedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                                @Html.EditorFor(model => model.DamagedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0, @onclick = "SelectAllValue(this);" } })
                                 @Html.ValidationMessageFor(model => model.DamagedWt, "", new { @class = "text-danger" })
                             </div>
                         </div>
