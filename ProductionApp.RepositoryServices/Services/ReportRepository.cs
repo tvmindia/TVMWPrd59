@@ -810,7 +810,10 @@ namespace ProductionApp.RepositoryServices.Services
                                         stockRegisterFGObj.SellingRate = (sdr["SellingRate"].ToString() != "" ? decimal.Parse(sdr["SellingRate"].ToString()) : stockRegisterFGObj.SellingRate);
                                         stockRegisterFGObj.SellingAmount = (sdr["SellingAmount"].ToString() != "" ? decimal.Parse(sdr["SellingAmount"].ToString()) : stockRegisterFGObj.SellingAmount);
                                         stockRegisterFGObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : stockRegisterFGObj.TotalCount);
-                                        stockRegisterFGObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : stockRegisterFGObj.FilteredCount);
+                                        stockRegisterFGObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : stockRegisterFGObj.FilteredCount);                                       
+                                        stockRegisterFGObj.StockCostAmount = (sdr["TotalCostAmount"].ToString() != "" ? (sdr["TotalCostAmount"].ToString()) : stockRegisterFGObj.StockCostAmount);
+                                        stockRegisterFGObj.StockSellingAmount = (sdr["TotalSellingAmount"].ToString() != "" ? (sdr["TotalSellingAmount"].ToString()) : stockRegisterFGObj.StockSellingAmount);
+
                                     }
                                     stockRegisterFGReportList.Add(stockRegisterFGObj);
                                 }
@@ -827,6 +830,75 @@ namespace ProductionApp.RepositoryServices.Services
             return stockRegisterFGReportList;
         }
         #endregion GetStockRegisterFGReport
+
+        #region GetStockLedgerFGReport
+        public List<StockLedgerFGReport> GetStockLedgerFGReport(StockLedgerFGReport stockLedgerFGReport)
+        {
+
+            List<StockLedgerFGReport> stockLedgerFGReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetStockLedgerReport_FG]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(stockLedgerFGReport.SearchTerm) ? "" : stockLedgerFGReport.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = stockLedgerFGReport.DataTablePaging.Start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = stockLedgerFGReport.DataTablePaging.Length;
+                        cmd.Parameters.Add("@OrderDir", SqlDbType.VarChar).Value = stockLedgerFGReport.DataTablePaging.OrderDir;
+                        cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = stockLedgerFGReport.DataTablePaging.OrderColumn;
+                        cmd.Parameters.Add("@DateFrom", SqlDbType.DateTime).Value = stockLedgerFGReport.FromDate;
+                        cmd.Parameters.Add("@DateTo", SqlDbType.DateTime).Value = stockLedgerFGReport.ToDate;
+                        cmd.Parameters.Add("@TransactionType", SqlDbType.VarChar).Value = stockLedgerFGReport.TransactionType;
+                        cmd.Parameters.Add("@ProductType", SqlDbType.NVarChar).Value = stockLedgerFGReport.ProductType;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                stockLedgerFGReportList = new List<StockLedgerFGReport>();
+                                while (sdr.Read())
+                                {
+                                    StockLedgerFGReport stockLedgerFGObj = new StockLedgerFGReport();
+                                    {
+
+                                        stockLedgerFGObj.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : stockLedgerFGObj.ProductID);
+                                        stockLedgerFGObj.Description = (sdr["Item"].ToString() != "" ? (sdr["Item"].ToString()) : stockLedgerFGObj.Description);
+                                        stockLedgerFGObj.UnitCode = (sdr["UnitCode"].ToString() != "" ? (sdr["UnitCode"].ToString()) : stockLedgerFGObj.UnitCode);
+                                        stockLedgerFGObj.OpeningStock = (sdr["OpeningStock"].ToString() != "" ? decimal.Parse(sdr["OpeningStock"].ToString()) : stockLedgerFGObj.OpeningStock);
+                                        stockLedgerFGObj.ClosingStock = (sdr["ClosingStock"].ToString() != "" ? decimal.Parse(sdr["ClosingStock"].ToString()) : stockLedgerFGObj.ClosingStock);
+                                        stockLedgerFGObj.TransactionType = (sdr["TransactionType"].ToString() != "" ? (sdr["TransactionType"].ToString()) : stockLedgerFGObj.TransactionType);
+                                        stockLedgerFGObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : stockLedgerFGObj.TotalCount);
+                                        stockLedgerFGObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : stockLedgerFGObj.FilteredCount);
+                                        stockLedgerFGObj.DocumentNo = (sdr["DocumentNo"].ToString() != "" ? (sdr["DocumentNo"].ToString()) : stockLedgerFGObj.DocumentNo);
+                                        stockLedgerFGObj.TransactionDate = (sdr["TrDate"].ToString() != "" ? DateTime.Parse(sdr["TrDate"].ToString()) : stockLedgerFGObj.TransactionDate);
+                                        stockLedgerFGObj.TransactionDateFormatted = (sdr["TrDate"].ToString() != "" ? DateTime.Parse(sdr["TrDate"].ToString()).ToString(settings.DateFormat) : stockLedgerFGObj.TransactionDateFormatted);
+                                        stockLedgerFGObj.StockIn = (sdr["StockIn"].ToString() != "" ? decimal.Parse(sdr["StockIn"].ToString()) : stockLedgerFGObj.StockIn);
+                                        stockLedgerFGObj.StockOut = (sdr["StockOut"].ToString() != "" ? decimal.Parse(sdr["StockOut"].ToString()) : stockLedgerFGObj.StockOut);
+
+                                    }
+                                    stockLedgerFGReportList.Add(stockLedgerFGObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return stockLedgerFGReportList;
+        }
+    #endregion GetStockLedgerFGReport
+
 
 
     }

@@ -315,7 +315,33 @@ namespace ProductionApp.UserInterface.Models
         public decimal CostAmount { get; set; }
         public decimal SellingRate { get; set; }
         public decimal SellingAmount { get; set; }
+        public string StockCostAmount { get; set; }
+        public string StockSellingAmount { get; set; }        
         public List<StockRegisterFGReportViewModel> StockRegisterFGReportList { get; set; }
     }
-   
+
+    public class StockLedgerFGReportViewModel
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
+        public Guid ProductID { get; set; }
+        public ProductViewModel Product { get; set; }
+        public string ProductType { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string DateFilter { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public string TransactionType { get; set; }
+        public string Description { get; set; }
+        public string UnitCode { get; set; }
+        public decimal OpeningStock { get; set; }
+        public decimal ClosingStock { get; set; }
+        public DateTime TransactionDate { get; set; }
+        public string TransactionDateFormatted { get; set; }
+        public string DocumentNo { get; set; }
+        public decimal StockIn { get; set; }
+        public decimal StockOut { get; set; }        
+        public List<StockLedgerFGReportViewModel> StockLedgerFGReportList { get; set; }
+    }
 }

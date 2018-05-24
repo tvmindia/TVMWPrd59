@@ -692,13 +692,14 @@ namespace ProductionApp.UserInterface.Controllers
             stockRegisterFGReportVM.DataTablePaging.Start = model.start;
             stockRegisterFGReportVM.DataTablePaging.Length = (stockRegisterFGReportVM.DataTablePaging.Length == 0 ? model.length : stockRegisterFGReportVM.DataTablePaging.Length);
 
-            List<StockRegisterFGReportViewModel> stockRegisterFGList = Mapper.Map<List<StockRegisterFGReport>, List<StockRegisterFGReportViewModel>>(_reportBusiness.GetStockRegisterFGReport(Mapper.Map<StockRegisterFGReportViewModel, StockRegisterFGReport>(stockRegisterFGReportVM)));
+           // List<StockRegisterFGReportViewModel> stockRegisterFGList = Mapper.Map<List<StockRegisterFGReport>, List<StockRegisterFGReportViewModel>>(_reportBusiness.GetStockRegisterFGReport(Mapper.Map<StockRegisterFGReportViewModel, StockRegisterFGReport>(stockRegisterFGReportVM)));
+            StockRegisterFGReportViewModel stockRegisterFGList = Mapper.Map<StockRegisterFGReport, StockRegisterFGReportViewModel>(_reportBusiness.GetStockRegisterFGReport(Mapper.Map<StockRegisterFGReportViewModel, StockRegisterFGReport>(stockRegisterFGReportVM)));
 
             if (stockRegisterFGReportVM.DataTablePaging.Length == -1)
             {
-                int totalResult = stockRegisterFGList.Count != 0 ? stockRegisterFGList[0].TotalCount : 0;
-                int filteredResult = stockRegisterFGList.Count != 0 ? stockRegisterFGList[0].FilteredCount : 0;
-                stockRegisterFGList = stockRegisterFGList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+                int totalResult = stockRegisterFGList.StockRegisterFGReportList.Count != 0 ? stockRegisterFGList.StockRegisterFGReportList[0].TotalCount : 0;
+                int filteredResult = stockRegisterFGList.StockRegisterFGReportList.Count != 0 ? stockRegisterFGList.StockRegisterFGReportList[0].FilteredCount : 0;
+                stockRegisterFGList.StockRegisterFGReportList = stockRegisterFGList.StockRegisterFGReportList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
             }
             var settings = new JsonSerializerSettings
             {
@@ -709,12 +710,78 @@ namespace ProductionApp.UserInterface.Controllers
             return Json(new
             {
                 draw = model.draw,
-                recordsTotal = stockRegisterFGList.Count != 0 ? stockRegisterFGList[0].TotalCount : 0,
-                recordsFiltered = stockRegisterFGList.Count != 0 ? stockRegisterFGList[0].FilteredCount : 0,
-                data = stockRegisterFGList
+                recordsTotal = stockRegisterFGList.StockRegisterFGReportList.Count != 0 ? stockRegisterFGList.StockRegisterFGReportList[0].TotalCount : 0,
+                recordsFiltered = stockRegisterFGList.StockRegisterFGReportList.Count != 0 ? stockRegisterFGList.StockRegisterFGReportList[0].FilteredCount : 0,
+                data = stockRegisterFGList.StockRegisterFGReportList,
+                TotalCostAmount= stockRegisterFGList.StockCostAmount,
+                TotalSellingAmount= stockRegisterFGList.StockSellingAmount
             });
         }
         #endregion GetStockRegisterFGReport
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult StockLedgerFGReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+            StockLedgerFGReportViewModel stockLedgerFGReportVM = new StockLedgerFGReportViewModel();           
+            return View(stockLedgerFGReportVM);
+        }
+
+
+        #region GetStockLedgerFGReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetStockLedgerFGReport(DataTableAjaxPostModel model, StockLedgerFGReportViewModel stockLedgerFGReportVM)
+        {
+            Common con = new Common();
+            DateTime dt = con.GetCurrentDateTime();
+            if (stockLedgerFGReportVM != null)
+            {
+                if (stockLedgerFGReportVM.DateFilter == "30")
+                {
+                    stockLedgerFGReportVM.FromDate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
+                    stockLedgerFGReportVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (stockLedgerFGReportVM.DateFilter == "60")
+                {
+                    stockLedgerFGReportVM.FromDate = dt.AddDays(-60).ToString("dd-MMM-yyyy");
+                    stockLedgerFGReportVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (stockLedgerFGReportVM.DateFilter == "90")
+                {
+                    stockLedgerFGReportVM.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    stockLedgerFGReportVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+            }
+            stockLedgerFGReportVM.DataTablePaging.Start = model.start;
+            stockLedgerFGReportVM.DataTablePaging.Length = (stockLedgerFGReportVM.DataTablePaging.Length == 0 ? model.length : stockLedgerFGReportVM.DataTablePaging.Length);
+
+            List<StockLedgerFGReportViewModel> stockLedgerFGList = Mapper.Map<List<StockLedgerFGReport>, List<StockLedgerFGReportViewModel>>(_reportBusiness.GetStockLedgerFGReport(Mapper.Map<StockLedgerFGReportViewModel, StockLedgerFGReport>(stockLedgerFGReportVM)));
+
+            if (stockLedgerFGReportVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = stockLedgerFGList.Count != 0 ? stockLedgerFGList[0].TotalCount : 0;
+                int filteredResult = stockLedgerFGList.Count != 0 ? stockLedgerFGList[0].FilteredCount : 0;
+                stockLedgerFGList = stockLedgerFGList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = stockLedgerFGList.Count != 0 ? stockLedgerFGList[0].TotalCount : 0,
+                recordsFiltered = stockLedgerFGList.Count != 0 ? stockLedgerFGList[0].FilteredCount : 0,
+                data = stockLedgerFGList
+            });
+        }
+        #endregion GetStockLedgerFGReport
+
 
         #region ButtonStyling
         [HttpGet]

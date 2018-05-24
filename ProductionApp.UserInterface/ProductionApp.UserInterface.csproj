@@ -753,6 +753,7 @@
     <Content Include="Scripts\UserJS\Report\PurchaseSummaryReport.js" />
     <Content Include="Scripts\UserJS\Report\Report.js" />
     <Content Include="Scripts\UserJS\Report\RequisitionSummaryReport.js" />
+    <Content Include="Scripts\UserJS\Report\StockLedgerFGReport.js" />
     <Content Include="Scripts\UserJS\Report\StockLedgerReport.js" />
     <Content Include="Scripts\UserJS\Report\StockRegisterFGReport.js" />
     <Content Include="Scripts\UserJS\Report\StockRegisterReport.js" />
@@ -1087,6 +1088,7 @@
     <Content Include="Views\DashboardReport\StockLedgerReport.cshtml" />
     <Content Include="Views\DashboardReport\InventoryReorderStatusFGReport.cshtml" />
     <Content Include="Views\DashboardReport\StockRegisterFGReport.cshtml" />
+    <Content Include="Views\DashboardReport\StockLedgerFGReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,10 +1,10 @@
 ﻿//*****************************************************************************
 //*****************************************************************************
 //Author:Sruthi
-//CreatedDate: 22-May-2018 
-//LastModified: 24-May-2018 
-//FileName: StockRegisterFGReport.js
-//Description: Client side coding for Stock Register FG Report
+//CreatedDate: 23-May-2018 
+//LastModified: 23-May-2018 
+//FileName: StockLedgerFGReport.js
+//Description: Client side coding for Stock Ledger FG Report
 //******************************************************************************
 //******************************************************************************
 //Global Declaration
@@ -12,13 +12,12 @@ var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
-    try
-    {
-        BindOrReloadStockRegisterFGTable('Init');
-      
+    try {
+        
+        BindOrReloadStockLedgerFGTable('Init');
+
     }
-    catch (e)
-    {
+    catch (e) {
         console.log(e.message);
     }
 });
@@ -33,13 +32,13 @@ function RedirectSearchClick(e, this_obj) {
     }
 }
 
-//bind stock register FG report
-function 
-    BindOrReloadStockRegisterFGTable(action) {
+//bind stock ledger report
+function
+    BindOrReloadStockLedgerFGTable(action) {
+    debugger;
     try {
-        debugger;
         //creating advancesearch object       
-        StockRegisterFGReportViewModel = new Object();
+        StockLedgerFGReportViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
 
@@ -48,14 +47,28 @@ function
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
-                $('#Type').val('');               
+                $('#FromDate').val('');
+                $('#ToDate').val('');               
+                $('#TransactionType').val('');
+                $('#Type').val('');
+                $('#DateFilter').val('30');
                 break;
             case 'Init':
                 break;
             case 'Search':
                 break;
             case 'Apply':
-                StockRegisterFGReportViewModel.ProductType = $('#Type').val();               
+                StockLedgerFGReportViewModel.FromDate = $('#FromDate').val();
+                StockLedgerFGReportViewModel.ToDate = $('#ToDate').val();
+                StockLedgerFGReportViewModel.TransactionType = $('#TransactionType').val();
+                StockLedgerFGReportViewModel.ProductType = $('#Type').val();
+
+                if ((StockLedgerFGReportViewModel.FromDate == "") && (StockLedgerFGReportViewModel.ToDate == "")) {
+                    StockLedgerFGReportViewModel.DateFilter = $('#DateFilter').val();
+                }
+                else {
+                    $('#DateFilter').val('');
+                }
 
                 break;
             case 'Export':
@@ -64,11 +77,14 @@ function
             default:
                 break;
         }
-        StockRegisterFGReportViewModel.DataTablePaging = DataTablePagingViewModel;
-        StockRegisterFGReportViewModel.SearchTerm = $('#SearchTerm').val();
-        StockRegisterFGReportViewModel.ProductType = $('#Type').val();
-      
-        DataTables.StockRegisterFGList = $('#tblStockRegisterFGReport').DataTable(
+        StockLedgerFGReportViewModel.DataTablePaging = DataTablePagingViewModel;
+        StockLedgerFGReportViewModel.SearchTerm = $('#SearchTerm').val();
+        StockLedgerFGReportViewModel.FromDate = $('#FromDate').val();
+        StockLedgerFGReportViewModel.ToDate = $('#ToDate').val();
+        StockLedgerFGReportViewModel.TransactionType = $('#TransactionType').val();
+        StockLedgerFGReportViewModel.ProductType = $('#Type').val();
+        StockLedgerFGReportViewModel.DateFilter = $('#DateFilter').val();
+        DataTables.StockLedgerFGList = $('#tblStockLedgerFGReport').DataTable(
 
             {
 
@@ -77,7 +93,7 @@ function
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [1, 2, 3, 4, 5, 6,7,8]
+                                     columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
                                  }
                 }],
 
@@ -89,55 +105,33 @@ function
                 proccessing: true,
                 serverSide: true,
                 ajax: {
-                    url: "GetStockRegisterFGReport/",
-                    data: { "stockRegisterFGReportVM": StockRegisterFGReportViewModel },
+                    url: "GetStockLedgerFGReport/",
+                    data: { "stockLedgerFGReportVM": StockLedgerFGReportViewModel },
                     type: 'POST'
                 },
                 pageLength: 15,
                 columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
-                    { "data": "ProductType", "defaultContent": "<i>-</i>" },
+                    { "data": "ProductID", "defaultContent": "<i>-</i>" },
                     { "data": "Description", "defaultContent": "<i>-</i>" },
                     { "data": "UnitCode", "defaultContent": "<i>-</i>" },
-                    { "data": "CurrentStock", "defaultContent": "<i>-</i>" },                  
-                    
-                    { "data": "CostPrice", "defaultContent": "<i>-</i>" },
-                   { "data": "CostAmount", "defaultContent": "<i>-</i>" },
-                    { "data": "SellingRate", "defaultContent": "<i>-</i>" },
-                    { "data": "SellingAmount", "defaultContent": "<i>-</i>" }
-                
-
-
+                    { "data": "OpeningStock", "defaultContent": "<i>-</i>" },
+                    { "data": "ClosingStock", "defaultContent": "<i>-</i>" },
+                    { "data": "TransactionType", "defaultContent": "<i>-</i>" },
+                    { "data": "DocumentNo", "defaultContent": "<i>-</i>" },
+                    { "data": "TransactionDateFormatted", "defaultContent": "<i>-</i>" },
+                    { "data": "StockIn", "defaultContent": "<i>-</i>" },
+                    { "data": "StockOut", "defaultContent": "<i>-</i>" },
 
                 ],
-                columnDefs: [{ "targets": [0,1], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [2] },
-                    { className: "text-center", "targets": [3] },
-                    { className: "text-right", "targets": [4, 5, 6, 7, 8] },
-
-                    
-
-
-                    {
-                        targets: [1],
-                        render: function (data, type, row) {
-                            switch (data) {
-                                case 'COM': return 'Component'; break;
-                                case 'PRO': return 'Product'; break;
-                                case 'SUB': return 'SubComponent'; break;
-                                default: return '';
-                            }
-                        }
-                    }
-
-                   
-
+                columnDefs: [{ "targets": [0, 1], "visible": false, "searchable": false },
+                    { className: "text-left", "targets": [1] },
+                    { className: "text-center", "targets": [2, 5, 6, 7] },
+                    { className: "text-right", "targets": [3, 4, 8, 9] }
                 ],
 
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
-                    debugger;
                     if (action === 'Export') {
                         if (json.data.length > 0) {
                             if (json.data[0].TotalCount > 10000) {
@@ -145,47 +139,26 @@ function
                             }
                         }
                         $(".buttons-excel").trigger('click');
-                        BindOrReloadStockRegisterFGTable('Search');
+                        BindOrReloadStockLedgerFGTable('Search');
                     }
-                    var totalCostAmount = json.data[0].StockCostAmount;
-                    var totalSellingAmount = json.data[0].StockSellingAmount;
-                    $('#stockcostamount').text("₹"+(totalCostAmount));
-                    $('#stocksellingamount').text("₹" + (totalSellingAmount));
                 },
-            
-               
-
                 // grouping with  columns
                 drawCallback: function (settings) {
                     var api = this.api();
                     var rows = api.rows({ page: 'current' }).nodes();
                     var last = null;
-                 
+
                     api.column(1, { page: 'current' }).data().each(function (group, i) {
-                        if (group == 'SUB') {
-                            group = 'Sub Component';
-                        }
-                        else if (group == 'PRO')
-                        {
-                            group = 'Product';
-                        }
-                        else
-                        {
-                            group = 'Component';
-                        }
                         if (last !== group) {
-                          
+                            debugger;
                             var rowData = api.row(i).data();
-                            $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Stock Type</b> : ' + group + '</td></tr>');
+                            $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Item</b> : ' + group + '</td></tr>');
                             last = group;
                         }
                     });
                 }
             });
-       
         $(".buttons-excel").hide();
-      
-      
     }
     catch (e) {
         console.log(e.message);
@@ -194,11 +167,15 @@ function
 
 //function reset the list to initial
 function ResetReportList() {
-    BindOrReloadStockRegisterFGTable('Reset');
+    BindOrReloadStockLedgerFGTable('Reset');
 }
 
 //function export data to excel
 function ExportReportData() {
-    BindOrReloadStockRegisterFGTable('Export');
+    BindOrReloadStockLedgerFGTable('Export');
 }
 
+//function to filter data based on date
+function DateFilterOnchange() {
+    BindOrReloadStockLedgerFGTable('Apply');
+}

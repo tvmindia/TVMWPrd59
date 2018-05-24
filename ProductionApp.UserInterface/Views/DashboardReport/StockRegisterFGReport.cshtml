@@ -59,71 +59,92 @@
                 @Html.Action("ChangeButtonStyle", "DashboardReport", data);
             }
         </div>
+           
     </div>
 
     <div class="row">
-        <div class="form-group col-md-12" style="padding-top:5px;">
-            @*Advance Filter *@
-            <div class="col-md-12">
-                <p id="filter" style="float:right;font-size:small"><i class="fa fa-filter advanceFilterLink" aria-hidden="true"></i>&nbsp;<a href="#demo" class="accordion" data-toggle="collapse" aria-expanded="false" aria-controls="demo">Advanced Filter</a></p>
+        <div class="form-group col-md-12">
+            <div class="col-md-8">
+            </div>
+            <div id="stockRegisterFGtotals" class="col-md-4 box-header figuresummary rounded" style="margin-top:1%;background-color:#ebf2f5;"><!--style="margin-top:-3%;visibility:hidden">  -->
+                <div class="col-md-6 text-right" style="font-size:small">Total Cost Amount:</div>
+                <div class="col-md-6 text-right"><small><span id="stockcostamount" style="font-size:small;font-weight:bold"></span></small></div>     
+                <div class="col-md-6 text-right" style="font-size:small">Total Selling Amount:</div>
+                <div class="col-md-6 text-right"><small><span id="stocksellingamount" style="font-size:small;font-weight:bold"></span></small></div>                           
             </div>
         </div>
     </div>
+        <div class="row">
+            &nbsp;
+        </div>
 
 
-    <div class="row tableContainer">
-        <div class="form-group col-md-12 collapse" id="demo">
-            <div style="border-top:1px solid #d9d9d9;margin-left: 15px;" class="form-group col-md-12"></div>
-
-            <div class="col-md-12">               
 
 
-                <div class="col-md-3">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.ProductType, htmlAttributes: new { @class = "control-label" })
-                    </div>
-                    <div class="col-md-12">
-                        @{
-                            List<SelectListItem> ProductTypeStatus = new List<SelectListItem>();
-                            ProductTypeStatus.Add(new SelectListItem
-                            { Text = "Component", Value = "COM" });
-                            ProductTypeStatus.Add(new SelectListItem
-                            { Text = "Product", Value = "PRO" });
-                            ProductTypeStatus.Add(new SelectListItem
-                            { Text = "Sub Component", Value = "SUB" });
-                        }
-                        @Html.DropDownListFor(model => model.ProductType, ProductTypeStatus, "--Select Type--", new { @class = "form-control", style = "padding:4px 12px;", @id = "Type" })
-                    </div>
+        <div class="row">
+            <div class="form-group col-md-12" style="padding-top:5px;">
+                @*Advance Filter *@
+                <div class="col-md-12">
+                    <p id="filter" style="float:right;font-size:small"><i class="fa fa-filter advanceFilterLink" aria-hidden="true"></i>&nbsp;<a href="#demo" class="accordion" data-toggle="collapse" aria-expanded="false" aria-controls="demo">Advanced Filter</a></p>
                 </div>
+            </div>
+        </div>
 
 
-                <div class="col-md-2">
-                    <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadStockRegisterFGTable('Apply')">Apply</a>
+        <div class="row tableContainer">
+            <div class="form-group col-md-12 collapse" id="demo">
+                <div style="border-top:1px solid #d9d9d9;margin-left: 15px;" class="form-group col-md-12"></div>
+
+                <div class="col-md-12">
+
+
+                    <div class="col-md-3">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ProductType, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @{
+                                List<SelectListItem> ProductTypeStatus = new List<SelectListItem>();
+                                ProductTypeStatus.Add(new SelectListItem
+                                { Text = "Component", Value = "COM" });
+                                ProductTypeStatus.Add(new SelectListItem
+                                { Text = "Product", Value = "PRO" });
+                                ProductTypeStatus.Add(new SelectListItem
+                                { Text = "Sub Component", Value = "SUB" });
+                            }
+                            @Html.DropDownListFor(model => model.ProductType, ProductTypeStatus, "--Select Type--", new { @class = "form-control", style = "padding:4px 12px;", @id = "Type" })
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-2">
+                        <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadStockRegisterFGTable('Apply')">Apply</a>
+                    </div>
+
+
                 </div>
-
 
             </div>
-
         </div>
-    </div>
 
-    <div class="col-md-12">
-        <table id="tblStockRegisterFGReport" class="table stripe" cellspacing="0" width="100%">
-            <thead>
-                <tr class="text-center TableHead">
-                    <th>ID</th>
-                    <th>Type</th>
-                    <th>Item</th>
-                    <th>Unit</th>
-                    <th>Current Stock (A)</th>                   
-                    <th>Cost Price (B)</th>
-                    <th>Cost Amount (C=A*B)</th>
-                    <th>Selling Price (B)</th>
-                    <th>Selling Amount (C=A*B)</th>                    
-                </tr>
-            </thead>
-        </table>
-    </div>
+
+        <div class="col-md-12">
+            <table id="tblStockRegisterFGReport" class="table stripe" cellspacing="0" width="100%">
+                <thead>
+                    <tr class="text-center TableHead">
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Item</th>
+                        <th>Unit</th>
+                        <th>Current Stock (A)</th>
+                        <th>Cost Price (B)</th>
+                        <th>Cost Amount (C=A*B)</th>
+                        <th>Selling Price (B)</th>
+                        <th>Selling Amount (C=A*B)</th>                        
+                    </tr>
+                </thead>
+            </table>
+        </div>
 </section>
 
 @section Scripts {
