@@ -12,9 +12,11 @@ namespace ProductionApp.BusinessService.Services
     public class ReportBusiness : IReportBusiness
     {
         private IReportRepository _reportRepository;
-        public ReportBusiness(IReportRepository reportRepository)
+        private ICommonBusiness _commonBusiness;
+        public ReportBusiness(IReportRepository reportRepository,ICommonBusiness commonBusiness)
         {
             _reportRepository = reportRepository;
+            _commonBusiness = commonBusiness;
         }
 
         #region GetAllReports
@@ -62,7 +64,7 @@ namespace ProductionApp.BusinessService.Services
         }
         #endregion GetPurchaseRegisterReport
 
-       
+
         #region GetInventoryReorderStatusReport
         public List<InventoryReorderStatusReport> GetInventoryReorderStatusReport(InventoryReorderStatusReport inventoryReOrderStatusReport)
         {
@@ -77,5 +79,50 @@ namespace ProductionApp.BusinessService.Services
             return _reportRepository.GetStockRegisterReport(stockRegisterReport);
         }
         #endregion GetStockRegisterReport
+
+        #region GetStockLedgerReport
+        public List<StockLedgerReport> GetStockLedgerReport(StockLedgerReport stockLedgerReport)
+        {
+            return _reportRepository.GetStockLedgerReport(stockLedgerReport);
+        }
+        #endregion GetStockLedgerReport
+
+        #region GetInventoryReOrderStatusFGReport
+        public List<InventoryReOrderStatusFGReport> GetInventoryReOrderStatusFGReport(InventoryReOrderStatusFGReport inventoryReOrderStatusFGReport)
+        {
+            return _reportRepository.GetInventoryReOrderStatusFGReport(inventoryReOrderStatusFGReport);
+        }
+        #endregion GetInventoryReOrderStatusFGReport
+
+        #region GetStockRegisterFGReport      
+        public StockRegisterFGReport GetStockRegisterFGReport(StockRegisterFGReport stockRegisterFGReport)
+        {
+            StockRegisterFGReport stockRegisterFGObj = new StockRegisterFGReport();
+            List<StockRegisterFGReport> stockRegisterFGReportList = null;
+
+            try
+            {
+                stockRegisterFGReportList = _reportRepository.GetStockRegisterFGReport(stockRegisterFGReport);
+                stockRegisterFGObj.StockRegisterFGReportList = stockRegisterFGReportList;           
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return stockRegisterFGObj;
+
+        }
+        #endregion GetStockRegisterFGReport
+
+
+
+
+        #region GetStockLedgerFGReport
+        public List<StockLedgerFGReport> GetStockLedgerFGReport(StockLedgerFGReport stockLedgerFGReport)
+        {
+            return _reportRepository.GetStockLedgerFGReport(stockLedgerFGReport);
+        }
+        #endregion GetStockLedgerFGReport
     }
 }

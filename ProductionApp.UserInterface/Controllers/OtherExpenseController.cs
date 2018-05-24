@@ -156,7 +156,8 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                var result = _otherExpenseBusiness.DeleteOtherExpense(id);
+                AppUA appUA = Session["AppUA"] as AppUA;
+                var result = _otherExpenseBusiness.DeleteOtherExpense(id, appUA.UserName);
                 return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
             }
             catch (Exception ex)

@@ -24,7 +24,8 @@ namespace ProductionApp.UserInterface.Controllers
         ISupplierBusiness _supplierBusiness;
         IApprovalStatusBusiness _approvalStatusBusiness;
         IMaterialTypeBusiness _materialTypeBusiness;
-        public DashboardReportController(IReportBusiness reportBusiness,IEmployeeBusiness employeeBusiness,IRequisitionBusiness requisitionBusiness,ICommonBusiness commonBusiness,IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness,IApprovalStatusBusiness approvalStatusBusiness, IMaterialTypeBusiness materialTypeBusiness)
+        IProductBusiness _productBusiness;
+        public DashboardReportController(IReportBusiness reportBusiness,IEmployeeBusiness employeeBusiness,IRequisitionBusiness requisitionBusiness,ICommonBusiness commonBusiness,IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness,IApprovalStatusBusiness approvalStatusBusiness, IMaterialTypeBusiness materialTypeBusiness, IProductBusiness productBusiness)
         {
             _reportBusiness = reportBusiness;
             _employeeBusiness = employeeBusiness;
@@ -34,6 +35,7 @@ namespace ProductionApp.UserInterface.Controllers
             _supplierBusiness = supplierBusiness;
             _approvalStatusBusiness = approvalStatusBusiness;
             _materialTypeBusiness = materialTypeBusiness;
+            _productBusiness = productBusiness;
         }
         #endregion Constructor Injection
 
@@ -565,6 +567,220 @@ namespace ProductionApp.UserInterface.Controllers
             });
         }
         #endregion GetStockRegisterReport
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult StockLedgerReport(string Code)
+        {            
+            ViewBag.SysModuleCode = Code;            
+            StockLedgerReportViewModel stockLedgerReportVM = new StockLedgerReportViewModel();
+            stockLedgerReportVM.MaterialType = new MaterialTypeViewModel();
+            stockLedgerReportVM.MaterialType.MaterialTypeSelectList = _materialTypeBusiness.GetMaterialTypeForSelectList();       
+            return View(stockLedgerReportVM);
+        }
+
+        #region GetStockLedgerReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetStockLedgerReport(DataTableAjaxPostModel model, StockLedgerReportViewModel stockLedgerReportVM)
+        {
+            Common con = new Common();
+            DateTime dt = con.GetCurrentDateTime();
+            if (stockLedgerReportVM != null)
+            {
+                if (stockLedgerReportVM.DateFilter == "30")
+                {
+                    stockLedgerReportVM.FromDate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
+                    stockLedgerReportVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (stockLedgerReportVM.DateFilter == "60")
+                {
+                    stockLedgerReportVM.FromDate = dt.AddDays(-60).ToString("dd-MMM-yyyy");
+                    stockLedgerReportVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (stockLedgerReportVM.DateFilter == "90")
+                {
+                    stockLedgerReportVM.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    stockLedgerReportVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+            }
+            stockLedgerReportVM.DataTablePaging.Start = model.start;
+            stockLedgerReportVM.DataTablePaging.Length = (stockLedgerReportVM.DataTablePaging.Length == 0 ? model.length : stockLedgerReportVM.DataTablePaging.Length);
+
+            List<StockLedgerReportViewModel> stockLedgerList = Mapper.Map<List<StockLedgerReport>, List<StockLedgerReportViewModel>>(_reportBusiness.GetStockLedgerReport(Mapper.Map<StockLedgerReportViewModel, StockLedgerReport>(stockLedgerReportVM)));
+
+            if (stockLedgerReportVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = stockLedgerList.Count != 0 ? stockLedgerList[0].TotalCount : 0;
+                int filteredResult = stockLedgerList.Count != 0 ? stockLedgerList[0].FilteredCount : 0;
+                stockLedgerList = stockLedgerList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = stockLedgerList.Count != 0 ? stockLedgerList[0].TotalCount : 0,
+                recordsFiltered = stockLedgerList.Count != 0 ? stockLedgerList[0].FilteredCount : 0,
+                data = stockLedgerList
+            });
+        }
+        #endregion GetStockLedgerReport
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult InventoryReorderStatusFGReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+            InventoryReOrderStatusFGReportViewModel inventoryReOrderStatusFGReportVM = new InventoryReOrderStatusFGReportViewModel();
+            inventoryReOrderStatusFGReportVM.Product = new ProductViewModel();
+            inventoryReOrderStatusFGReportVM.Product.ProductSelectList = _productBusiness.GetProductForSelectList();    
+
+            return View(inventoryReOrderStatusFGReportVM);
+        }
+
+        #region GetInventoryReOrderStatusFGReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetInventoryReOrderStatusFGReport(DataTableAjaxPostModel model, InventoryReOrderStatusFGReportViewModel inventoryReOrderStatusFGVM)
+        {
+            inventoryReOrderStatusFGVM.DataTablePaging.Start = model.start;
+            inventoryReOrderStatusFGVM.DataTablePaging.Length = (inventoryReOrderStatusFGVM.DataTablePaging.Length == 0 ? model.length : inventoryReOrderStatusFGVM.DataTablePaging.Length);
+
+            List<InventoryReOrderStatusFGReportViewModel> inventoryReOrderFGList = Mapper.Map<List<InventoryReOrderStatusFGReport>, List<InventoryReOrderStatusFGReportViewModel>>(_reportBusiness.GetInventoryReOrderStatusFGReport(Mapper.Map<InventoryReOrderStatusFGReportViewModel, InventoryReOrderStatusFGReport>(inventoryReOrderStatusFGVM)));
+
+            if (inventoryReOrderStatusFGVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = inventoryReOrderFGList.Count != 0 ? inventoryReOrderFGList[0].TotalCount : 0;
+                int filteredResult = inventoryReOrderFGList.Count != 0 ? inventoryReOrderFGList[0].FilteredCount : 0;
+                inventoryReOrderFGList = inventoryReOrderFGList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = inventoryReOrderFGList.Count != 0 ? inventoryReOrderFGList[0].TotalCount : 0,
+                recordsFiltered = inventoryReOrderFGList.Count != 0 ? inventoryReOrderFGList[0].FilteredCount : 0,
+                data = inventoryReOrderFGList
+            });
+        }
+        #endregion GetInventoryReOrderStatusFGReport
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult StockRegisterFGReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+            StockRegisterFGReportViewModel stockRegisterFGReportVM = new StockRegisterFGReportViewModel();           
+            return View(stockRegisterFGReportVM);
+        }
+
+        #region GetStockRegisterFGReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetStockRegisterFGReport(DataTableAjaxPostModel model, StockRegisterFGReportViewModel stockRegisterFGReportVM)
+        {
+            stockRegisterFGReportVM.DataTablePaging.Start = model.start;
+            stockRegisterFGReportVM.DataTablePaging.Length = (stockRegisterFGReportVM.DataTablePaging.Length == 0 ? model.length : stockRegisterFGReportVM.DataTablePaging.Length);
+
+           // List<StockRegisterFGReportViewModel> stockRegisterFGList = Mapper.Map<List<StockRegisterFGReport>, List<StockRegisterFGReportViewModel>>(_reportBusiness.GetStockRegisterFGReport(Mapper.Map<StockRegisterFGReportViewModel, StockRegisterFGReport>(stockRegisterFGReportVM)));
+            StockRegisterFGReportViewModel stockRegisterFGList = Mapper.Map<StockRegisterFGReport, StockRegisterFGReportViewModel>(_reportBusiness.GetStockRegisterFGReport(Mapper.Map<StockRegisterFGReportViewModel, StockRegisterFGReport>(stockRegisterFGReportVM)));
+
+            if (stockRegisterFGReportVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = stockRegisterFGList.StockRegisterFGReportList.Count != 0 ? stockRegisterFGList.StockRegisterFGReportList[0].TotalCount : 0;
+                int filteredResult = stockRegisterFGList.StockRegisterFGReportList.Count != 0 ? stockRegisterFGList.StockRegisterFGReportList[0].FilteredCount : 0;
+                stockRegisterFGList.StockRegisterFGReportList = stockRegisterFGList.StockRegisterFGReportList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = stockRegisterFGList.StockRegisterFGReportList.Count != 0 ? stockRegisterFGList.StockRegisterFGReportList[0].TotalCount : 0,
+                recordsFiltered = stockRegisterFGList.StockRegisterFGReportList.Count != 0 ? stockRegisterFGList.StockRegisterFGReportList[0].FilteredCount : 0,
+                data = stockRegisterFGList.StockRegisterFGReportList,
+                TotalCostAmount= stockRegisterFGList.StockCostAmount,
+                TotalSellingAmount= stockRegisterFGList.StockSellingAmount
+            });
+        }
+        #endregion GetStockRegisterFGReport
+
+
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult StockLedgerFGReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+            StockLedgerFGReportViewModel stockLedgerFGReportVM = new StockLedgerFGReportViewModel();           
+            return View(stockLedgerFGReportVM);
+        }
+
+
+        #region GetStockLedgerFGReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetStockLedgerFGReport(DataTableAjaxPostModel model, StockLedgerFGReportViewModel stockLedgerFGReportVM)
+        {
+            Common con = new Common();
+            DateTime dt = con.GetCurrentDateTime();
+            if (stockLedgerFGReportVM != null)
+            {
+                if (stockLedgerFGReportVM.DateFilter == "30")
+                {
+                    stockLedgerFGReportVM.FromDate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
+                    stockLedgerFGReportVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (stockLedgerFGReportVM.DateFilter == "60")
+                {
+                    stockLedgerFGReportVM.FromDate = dt.AddDays(-60).ToString("dd-MMM-yyyy");
+                    stockLedgerFGReportVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (stockLedgerFGReportVM.DateFilter == "90")
+                {
+                    stockLedgerFGReportVM.FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    stockLedgerFGReportVM.ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+            }
+            stockLedgerFGReportVM.DataTablePaging.Start = model.start;
+            stockLedgerFGReportVM.DataTablePaging.Length = (stockLedgerFGReportVM.DataTablePaging.Length == 0 ? model.length : stockLedgerFGReportVM.DataTablePaging.Length);
+
+            List<StockLedgerFGReportViewModel> stockLedgerFGList = Mapper.Map<List<StockLedgerFGReport>, List<StockLedgerFGReportViewModel>>(_reportBusiness.GetStockLedgerFGReport(Mapper.Map<StockLedgerFGReportViewModel, StockLedgerFGReport>(stockLedgerFGReportVM)));
+
+            if (stockLedgerFGReportVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = stockLedgerFGList.Count != 0 ? stockLedgerFGList[0].TotalCount : 0;
+                int filteredResult = stockLedgerFGList.Count != 0 ? stockLedgerFGList[0].FilteredCount : 0;
+                stockLedgerFGList = stockLedgerFGList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = stockLedgerFGList.Count != 0 ? stockLedgerFGList[0].TotalCount : 0,
+                recordsFiltered = stockLedgerFGList.Count != 0 ? stockLedgerFGList[0].FilteredCount : 0,
+                data = stockLedgerFGList
+            });
+        }
+        #endregion GetStockLedgerFGReport
 
 
         #region ButtonStyling

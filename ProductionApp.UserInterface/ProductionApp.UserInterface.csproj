@@ -746,12 +746,16 @@
     <Content Include="Scripts\UserJS\Product.js" />
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\NewRecieveFromProduction.js" />
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\ViewRecieveFromProduction.js" />
+    <Content Include="Scripts\UserJS\Report\InventoryReOrderStatusFGReport.js" />
     <Content Include="Scripts\UserJS\Report\InventoryReOrderStatusReport.js" />
     <Content Include="Scripts\UserJS\Report\PurchaseDetailReport.js" />
     <Content Include="Scripts\UserJS\Report\PurchaseRegisterReport.js" />
     <Content Include="Scripts\UserJS\Report\PurchaseSummaryReport.js" />
     <Content Include="Scripts\UserJS\Report\Report.js" />
     <Content Include="Scripts\UserJS\Report\RequisitionSummaryReport.js" />
+    <Content Include="Scripts\UserJS\Report\StockLedgerFGReport.js" />
+    <Content Include="Scripts\UserJS\Report\StockLedgerReport.js" />
+    <Content Include="Scripts\UserJS\Report\StockRegisterFGReport.js" />
     <Content Include="Scripts\UserJS\Report\StockRegisterReport.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\NewRequisition.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\RequisitionApproval.js" />
@@ -1081,6 +1085,10 @@
     <Content Include="Views\Shared\_jsTreeDemo.cshtml" />
     <Content Include="Views\jsTree3\Demo.cshtml" />
     <Content Include="Views\jsTree3\AJAXDemo.cshtml" />
+    <Content Include="Views\DashboardReport\StockLedgerReport.cshtml" />
+    <Content Include="Views\DashboardReport\InventoryReorderStatusFGReport.cshtml" />
+    <Content Include="Views\DashboardReport\StockRegisterFGReport.cshtml" />
+    <Content Include="Views\DashboardReport\StockLedgerFGReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

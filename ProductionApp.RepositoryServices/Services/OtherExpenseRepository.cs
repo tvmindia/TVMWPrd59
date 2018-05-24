@@ -319,7 +319,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion GetReversalReference
 
         #region DeleteOtherExpense
-        public object DeleteOtherExpense(Guid id)
+        public object DeleteOtherExpense(Guid id, string userName)
         {
             SqlParameter outputStatus = null;
             try

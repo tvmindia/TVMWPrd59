@@ -1,10 +1,10 @@
 ﻿//*****************************************************************************
 //*****************************************************************************
 //Author:Sruthi
-//CreatedDate: 16-May-2018 
-//LastModified: 16-May-2018 
-//FileName: StockRegisterReport.js
-//Description: Client side coding for Stock Register Report
+//CreatedDate: 22-May-2018 
+//LastModified: 24-May-2018 
+//FileName: StockRegisterFGReport.js
+//Description: Client side coding for Stock Register FG Report
 //******************************************************************************
 //******************************************************************************
 //Global Declaration
@@ -12,13 +12,13 @@ var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
-    try {
-        $("#MaterialType,#Material").select2({
-        });
-        BindOrReloadStockRegisterTable('Init');
-
+    try
+    {
+        BindOrReloadStockRegisterFGTable('Init');
+      
     }
-    catch (e) {
+    catch (e)
+    {
         console.log(e.message);
     }
 });
@@ -33,13 +33,13 @@ function RedirectSearchClick(e, this_obj) {
     }
 }
 
-//bind stock register report
-function
-    BindOrReloadStockRegisterTable(action) {
+//bind stock register FG report
+function 
+    BindOrReloadStockRegisterFGTable(action) {
     try {
         debugger;
         //creating advancesearch object       
-        StockRegisterReportViewModel = new Object();
+        StockRegisterFGReportViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
 
@@ -47,18 +47,15 @@ function
         //switch case to check the operation
         switch (action) {
             case 'Reset':
-                $('#SearchTerm').val('');               
-                $('#MaterialType').val('').select2();
-                $('#Material').val('').select2();
-                
+                $('#SearchTerm').val('');
+                $('#Type').val('');               
                 break;
             case 'Init':
                 break;
             case 'Search':
                 break;
-            case 'Apply':                           
-                StockRegisterReportViewModel.MaterialTypeCode = $('#MaterialType').val();
-                StockRegisterReportViewModel.MaterialID = $('#Material').val();
+            case 'Apply':
+                StockRegisterFGReportViewModel.ProductType = $('#Type').val();               
 
                 break;
             case 'Export':
@@ -67,12 +64,11 @@ function
             default:
                 break;
         }
-        StockRegisterReportViewModel.DataTablePaging = DataTablePagingViewModel;
-        StockRegisterReportViewModel.SearchTerm = $('#SearchTerm').val();       
-        StockRegisterReportViewModel.MaterialTypeCode = $('#MaterialType').val();
-        StockRegisterReportViewModel.MaterialID = $('#Material').val();
-
-        DataTables.StockRegisterList = $('#tblStockRegisterReport').DataTable(
+        StockRegisterFGReportViewModel.DataTablePaging = DataTablePagingViewModel;
+        StockRegisterFGReportViewModel.SearchTerm = $('#SearchTerm').val();
+        StockRegisterFGReportViewModel.ProductType = $('#Type').val();
+      
+        DataTables.StockRegisterFGList = $('#tblStockRegisterFGReport').DataTable(
 
             {
 
@@ -81,7 +77,7 @@ function
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [1, 2, 3, 4, 5,6]
+                                     columns: [1, 2, 3, 4, 5, 6,7,8]
                                  }
                 }],
 
@@ -93,33 +89,55 @@ function
                 proccessing: true,
                 serverSide: true,
                 ajax: {
-                    url: "GetStockRegisterReport/",
-                    data: { "stockRegisterReportVM": StockRegisterReportViewModel },
+                    url: "GetStockRegisterFGReport/",
+                    data: { "stockRegisterFGReportVM": StockRegisterFGReportViewModel },
                     type: 'POST'
                 },
                 pageLength: 15,
                 columns: [
                     { "data": "ID", "defaultContent": "<i>-</i>" },
-                    { "data": "TypeDescription", "defaultContent": "<i>-</i>" },
+                    { "data": "ProductType", "defaultContent": "<i>-</i>" },
                     { "data": "Description", "defaultContent": "<i>-</i>" },
                     { "data": "UnitCode", "defaultContent": "<i>-</i>" },
-                    { "data": "CurrentStock", "defaultContent": "<i>-</i>" },
+                    { "data": "CurrentStock", "defaultContent": "<i>-</i>" },                  
+                    
                     { "data": "CostPrice", "defaultContent": "<i>-</i>" },
-                    { "data": "StockValue", "defaultContent": "<i>-</i>" }
-                   
+                   { "data": "CostAmount", "defaultContent": "<i>-</i>" },
+                    { "data": "SellingRate", "defaultContent": "<i>-</i>" },
+                    { "data": "SellingAmount", "defaultContent": "<i>-</i>" }
+                
+
 
 
                 ],
                 columnDefs: [{ "targets": [0,1], "visible": false, "searchable": false },
                     { className: "text-left", "targets": [2] },
-                    { className: "text-center", "targets": [ 3] },
-                    { className: "text-right", "targets": [4, 5, 6] }
+                    { className: "text-center", "targets": [3] },
+                    { className: "text-right", "targets": [4, 5, 6, 7, 8] },
+
+                    
+
+
+                    {
+                        targets: [1],
+                        render: function (data, type, row) {
+                            switch (data) {
+                                case 'COM': return 'Component'; break;
+                                case 'PRO': return 'Product'; break;
+                                case 'SUB': return 'SubComponent'; break;
+                                default: return '';
+                            }
+                        }
+                    }
+
+                   
 
                 ],
 
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
+                    debugger;
                     if (action === 'Export') {
                         if (json.data.length > 0) {
                             if (json.data[0].TotalCount > 10000) {
@@ -127,26 +145,47 @@ function
                             }
                         }
                         $(".buttons-excel").trigger('click');
-                        BindOrReloadStockRegisterTable('Search');
+                        BindOrReloadStockRegisterFGTable('Search');
                     }
+                    var totalCostAmount = json.data[0].StockCostAmount;
+                    var totalSellingAmount = json.data[0].StockSellingAmount;
+                    $('#stockcostamount').text("₹"+(totalCostAmount));
+                    $('#stocksellingamount').text("₹" + (totalSellingAmount));
                 },
+            
+               
+
                 // grouping with  columns
                 drawCallback: function (settings) {
                     var api = this.api();
                     var rows = api.rows({ page: 'current' }).nodes();
                     var last = null;
-
+                 
                     api.column(1, { page: 'current' }).data().each(function (group, i) {
+                        if (group == 'SUB') {
+                            group = 'Sub Component';
+                        }
+                        else if (group == 'PRO')
+                        {
+                            group = 'Product';
+                        }
+                        else
+                        {
+                            group = 'Component';
+                        }
                         if (last !== group) {
-                            debugger;
+                          
                             var rowData = api.row(i).data();
-                            $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Material Type</b> : ' + group +  '</td></tr>');
+                            $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Stock Type</b> : ' + group + '</td></tr>');
                             last = group;
                         }
                     });
                 }
             });
+       
         $(".buttons-excel").hide();
+      
+      
     }
     catch (e) {
         console.log(e.message);
@@ -155,11 +194,11 @@ function
 
 //function reset the list to initial
 function ResetReportList() {
-    BindOrReloadStockRegisterTable('Reset');
+    BindOrReloadStockRegisterFGTable('Reset');
 }
 
 //function export data to excel
 function ExportReportData() {
-    BindOrReloadStockRegisterTable('Export');
+    BindOrReloadStockRegisterFGTable('Export');
 }
 

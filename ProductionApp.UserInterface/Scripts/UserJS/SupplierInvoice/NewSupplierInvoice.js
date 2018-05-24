@@ -20,10 +20,10 @@
 // ##12--Save Success Supplier Invoice
 // ##13--Bind Supplier Invoice By ID
 // ##14--Reset Button Click
-// ##15-- 
+// ##15--Edit Popup Modal Update Supplier Invoice Detail
 // ##16--DELETE Supplier Invoice 
 // ##17--DELETE Supplier Invoice Details 
-// 
+// ##18--Discount Amount Changed 
 //******************************************************************************
 
 //##1--Global Declaration---------------------------------------------##1 
@@ -775,7 +775,7 @@ function Reset() {
     BindSupplierInvoiceByID();
 }
 
-////##15--Edit Popup Modal Update Supplier Invoice Detail----------------------------##15
+//##15--Edit Popup Modal Update Supplier Invoice Detail----------------------------##15
 function ItemDetailsEdit(thisObj) {
     debugger;
     $("#supplierInvoiceDetailModalLabel").text('Edit Supplier Invoice Detail');
@@ -850,9 +850,17 @@ function DeleteSupplierInvoice() {
 }
 
 //##17--DELETE Supplier Invoice Details------------------------------------------------##17
-function DeleteDetail(curobj) {
-    var rowData = _dataTables.SupplierInvoiceDetailTable.row($(curobj).parents('tr')).data();
-    notyConfirm('Are you sure to delete?', 'DeleteSupplierInvoiceDetail("' + rowData.ID + '")');
+function DeleteDetail(curobj)
+{
+    if (_dataTables.SupplierInvoiceDetailTable.rows().count() > 1)
+    {
+        var rowData = _dataTables.SupplierInvoiceDetailTable.row($(curobj).parents('tr')).data();
+        notyConfirm('Are you sure to delete?', 'DeleteSupplierInvoiceDetail("' + rowData.ID + '")');
+    }
+    else {
+        notyAlert('warning', "Can't delete item detail, Minimum one item is required");
+    }
+   
 }
 function DeleteSupplierInvoiceDetail(id) {
     try {

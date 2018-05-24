@@ -97,7 +97,7 @@ $(document).ready(function () {
                 , { "targets": [2, 3, 4, 5, 6, 7], "bSortable": false }],
 
             select: { style: 'multi', selector: 'td:first-child' }
-        });
+        }); 
 
         $("#CustomerID").change(function () {
             CustomerChange(this.value)
@@ -403,8 +403,8 @@ function SaveValidatedData()
     AddCustomerPaymentDetailList();
     var result = JSON.stringify(_CustomerPaymentDetailList);
     $("#DetailJSON").val(result);
-    $('#hdfCreditAmount').val($('#lblPaymentApplied').text());
-    $('#AdvanceAmount').val($('#lblCredit').text());
+    //$('#hdfCreditAmount').val($('#lblPaymentApplied').text());
+    //$('#AdvanceAmount').val($('#lblCredit').text());
     setTimeout(function () {
         $('#btnSave').trigger('click');
     }, 1000);
@@ -413,6 +413,8 @@ function SaveValidatedData()
 function AddCustomerPaymentDetailList() {
     debugger;
     var PaymentInvoices = _dataTable.OutStandingInvoices.rows(".selected").data();
+    var appliedAmountSum = 0;
+    var totalAmtReceived = parseFloat($('#TotalRecievedAmt').val())
         for (var r = 0; r < PaymentInvoices.length; r++) {
             paymentDetail = new Object();
             paymentDetail.InvoiceID = PaymentInvoices[r].ID;
@@ -420,7 +422,10 @@ function AddCustomerPaymentDetailList() {
             paymentDetail.PaymentID = $('#ID').val() == "" ? _emptyGuid : $('#ID').val();
             paymentDetail.PaidAmount = PaymentInvoices[r].CustomerPayment.CustomerPaymentDetail.PaidAmount;
             _CustomerPaymentDetailList.push(paymentDetail);
+            appliedAmountSum = appliedAmountSum + PaymentInvoices[r].CustomerPayment.CustomerPaymentDetail.PaidAmount;
         }
+    $('#hdfCreditAmount').val(appliedAmountSum);
+    $('#AdvanceAmount').val(totalAmtReceived - appliedAmountSum);
 }
 function SaveSuccessCustomerPayment(data, status) {
     debugger;

@@ -264,7 +264,8 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     throw new Exception("ID Missing");
                 }
-                result = _supplierInvoiceBusiness.DeleteSupplierInvoice(Guid.Parse(ID));
+                AppUA appUA = Session["AppUA"] as AppUA;
+                result = _supplierInvoiceBusiness.DeleteSupplierInvoice(Guid.Parse(ID), appUA.UserName);
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)
@@ -286,7 +287,8 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     throw new Exception("ID Missing");
                 }
-                result = _supplierInvoiceBusiness.DeleteSupplierInvoiceDetail(Guid.Parse(ID));
+                AppUA appUA = Session["AppUA"] as AppUA;
+                result = _supplierInvoiceBusiness.DeleteSupplierInvoiceDetail(Guid.Parse(ID), appUA.UserName);
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)

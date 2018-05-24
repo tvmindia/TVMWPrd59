@@ -33,7 +33,7 @@ function RedirectSearchClick(e, this_obj) {
     }
 }
 
-//bind requisition summary report
+//bind purchase summary report
 function 
     BindOrReloadPurchaseTable(action) {
     try {

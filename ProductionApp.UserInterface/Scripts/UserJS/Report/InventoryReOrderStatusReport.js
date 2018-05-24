@@ -33,7 +33,7 @@ function RedirectSearchClick(e, this_obj) {
     }
 }
 
-//bind purchase register report
+//bind inventory reOrder Status report
 function 
     BindOrReloadInventoryReorderTable(action) {
     try {

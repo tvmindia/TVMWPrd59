@@ -1,10 +1,10 @@
 ﻿//*****************************************************************************
 //*****************************************************************************
 //Author:Sruthi
-//CreatedDate: 16-May-2018 
-//LastModified: 16-May-2018 
-//FileName: StockRegisterReport.js
-//Description: Client side coding for Stock Register Report
+//CreatedDate: 19-May-2018 
+//LastModified: 22-May-2018 
+//FileName: InventoryReOrderStatusFGReport.js
+//Description: Client side coding for Inventory ReOrder Status FG Report
 //******************************************************************************
 //******************************************************************************
 //Global Declaration
@@ -12,13 +12,14 @@ var DataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
-    try {
-        $("#MaterialType,#Material").select2({
-        });
-        BindOrReloadStockRegisterTable('Init');
-
+    try
+    {     
+        //$('#Product').select2({
+        //});
+        BindOrReloadInventoryReorderFGTable('Init');
     }
-    catch (e) {
+    catch (e)
+    {
         console.log(e.message);
     }
 });
@@ -33,13 +34,15 @@ function RedirectSearchClick(e, this_obj) {
     }
 }
 
-//bind stock register report
+//bind inventory reOrder Status FG report
 function
-    BindOrReloadStockRegisterTable(action) {
-    try {
+    BindOrReloadInventoryReorderFGTable(action)
+{
+    try
+    {
         debugger;
         //creating advancesearch object       
-        StockRegisterReportViewModel = new Object();
+        InventoryReOrderStatusFGReportViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
 
@@ -47,19 +50,17 @@ function
         //switch case to check the operation
         switch (action) {
             case 'Reset':
-                $('#SearchTerm').val('');               
-                $('#MaterialType').val('').select2();
-                $('#Material').val('').select2();
-                
+                $('#SearchTerm').val('');
+                $('#Status').val('');               
+                $('#Type').val('');
                 break;
             case 'Init':
                 break;
             case 'Search':
                 break;
-            case 'Apply':                           
-                StockRegisterReportViewModel.MaterialTypeCode = $('#MaterialType').val();
-                StockRegisterReportViewModel.MaterialID = $('#Material').val();
-
+            case 'Apply':
+                InventoryReOrderStatusFGReportViewModel.ItemStatus = $('#Status').val();             
+                InventoryReOrderStatusFGReportViewModel.ProductType = $("#Type").val();
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
@@ -67,12 +68,11 @@ function
             default:
                 break;
         }
-        StockRegisterReportViewModel.DataTablePaging = DataTablePagingViewModel;
-        StockRegisterReportViewModel.SearchTerm = $('#SearchTerm').val();       
-        StockRegisterReportViewModel.MaterialTypeCode = $('#MaterialType').val();
-        StockRegisterReportViewModel.MaterialID = $('#Material').val();
-
-        DataTables.StockRegisterList = $('#tblStockRegisterReport').DataTable(
+        InventoryReOrderStatusFGReportViewModel.DataTablePaging = DataTablePagingViewModel;
+        InventoryReOrderStatusFGReportViewModel.SearchTerm = $('#SearchTerm').val();
+        InventoryReOrderStatusFGReportViewModel.ItemStatus = $('#Status').val();      
+        InventoryReOrderStatusFGReportViewModel.ProductType = $("#Type").val();
+        DataTables.InventoryReOrderFGList = $('#tblInventoryReOrderStatusFGReport').DataTable(
 
             {
 
@@ -81,7 +81,7 @@ function
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [1, 2, 3, 4, 5,6]
+                                     columns: [1, 2, 3, 4, 5, 6,7]
                                  }
                 }],
 
@@ -93,28 +93,39 @@ function
                 proccessing: true,
                 serverSide: true,
                 ajax: {
-                    url: "GetStockRegisterReport/",
-                    data: { "stockRegisterReportVM": StockRegisterReportViewModel },
+                    url: "GetInventoryReOrderStatusFGReport/",
+                    data: { "inventoryReOrderStatusFGVM": InventoryReOrderStatusFGReportViewModel },
                     type: 'POST'
                 },
                 pageLength: 15,
                 columns: [
                     { "data": "ID", "defaultContent": "<i>-</i>" },
-                    { "data": "TypeDescription", "defaultContent": "<i>-</i>" },
                     { "data": "Description", "defaultContent": "<i>-</i>" },
-                    { "data": "UnitCode", "defaultContent": "<i>-</i>" },
+                    { "data": "ProductType", "defaultContent": "<i>-</i>" },
                     { "data": "CurrentStock", "defaultContent": "<i>-</i>" },
-                    { "data": "CostPrice", "defaultContent": "<i>-</i>" },
-                    { "data": "StockValue", "defaultContent": "<i>-</i>" }
-                   
+                    { "data": "SalesOrderDueQty", "defaultContent": "<i>-</i>" },
+                    { "data": "NetAvailableQty", "defaultContent": "<i>-</i>" },
+                    { "data": "ReorderQty", "defaultContent": "<i>-</i>" },
+                    { "data": "ShortFall", "defaultContent": "<i>-</i>" }
 
 
                 ],
-                columnDefs: [{ "targets": [0,1], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [2] },
-                    { className: "text-center", "targets": [ 3] },
-                    { className: "text-right", "targets": [4, 5, 6] }
+                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
+                    { className: "text-left", "targets": [1,2] },
+                    { className: "text-center", "targets": [3, 4, 5, 6,7] },
+                    //{ className: "text-right", "targets": [4, 5, 6, 7, 8, 9, 10, 11] }
 
+                     {
+                         targets: [2],
+                         render: function (data, type, row) {
+                             switch (data) {
+                                 case 'COM': return 'Component'; break;
+                                 case 'PRO': return 'Product'; break;
+                                 case 'SUB': return 'SubComponent'; break;
+                                 default: return '-';
+                             }
+                         }
+                     }
                 ],
 
                 destroy: true,
@@ -127,23 +138,8 @@ function
                             }
                         }
                         $(".buttons-excel").trigger('click');
-                        BindOrReloadStockRegisterTable('Search');
+                        BindOrReloadInventoryReorderFGTable('Search');
                     }
-                },
-                // grouping with  columns
-                drawCallback: function (settings) {
-                    var api = this.api();
-                    var rows = api.rows({ page: 'current' }).nodes();
-                    var last = null;
-
-                    api.column(1, { page: 'current' }).data().each(function (group, i) {
-                        if (last !== group) {
-                            debugger;
-                            var rowData = api.row(i).data();
-                            $(rows).eq(i).before('<tr class="group "><td colspan="7" class="rptGrp">' + '<b>Material Type</b> : ' + group +  '</td></tr>');
-                            last = group;
-                        }
-                    });
                 }
             });
         $(".buttons-excel").hide();
@@ -155,11 +151,11 @@ function
 
 //function reset the list to initial
 function ResetReportList() {
-    BindOrReloadStockRegisterTable('Reset');
+    BindOrReloadInventoryReorderFGTable('Reset');
 }
 
 //function export data to excel
 function ExportReportData() {
-    BindOrReloadStockRegisterTable('Export');
+    BindOrReloadInventoryReorderFGTable('Export');
 }
 

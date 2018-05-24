@@ -17,6 +17,9 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<PurchaseRegisterReport> GetPurchaseRegisterReport(PurchaseRegisterReport purchaseRegisterReport);
         List<InventoryReorderStatusReport> GetInventoryReorderStatusReport(InventoryReorderStatusReport inventoryReOrderStatusReport);
         List<StockRegisterReport> GetStockRegisterReport(StockRegisterReport stockRegisterReport);
-
+        List<StockLedgerReport> GetStockLedgerReport(StockLedgerReport stockLedgerReport);
+        List<InventoryReOrderStatusFGReport> GetInventoryReOrderStatusFGReport(InventoryReOrderStatusFGReport inventoryReOrderStatusFGReport);
+        List<StockRegisterFGReport> GetStockRegisterFGReport(StockRegisterFGReport stockRegisterFGReport);
+        List<StockLedgerFGReport> GetStockLedgerFGReport(StockLedgerFGReport stockLedgerFGReport);
     }
 }

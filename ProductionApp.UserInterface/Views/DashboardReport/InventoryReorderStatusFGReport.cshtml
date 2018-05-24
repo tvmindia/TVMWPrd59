@@ -1,8 +1,8 @@
 ﻿@using ProductionApp.UserInterface.App_Start
-@model ProductionApp.UserInterface.Models.InventoryReorderStatusReportViewModel
+@model ProductionApp.UserInterface.Models.InventoryReOrderStatusFGReportViewModel
 
 @{
-    ViewBag.Title = "Inventory Reorder Status Report";
+    ViewBag.Title = "Inventory ReOrder Status Report";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
@@ -29,7 +29,7 @@
 <div style="width:100%;">
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-cogs"></i>Reports</a></li>
-        <li class="active">Inventory Re-Order Satus - Raw Material/Spare/Accessories</li>
+        <li class="active">Inventory Re-Order Satus - FG/Components</li>
     </ol>
 </div>
 <section class="content">
@@ -44,12 +44,12 @@
                     <div class="input-group">
                         @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "SearchTerm", @onkeypress = "RedirectSearchClick(event,this)" } })
                         <div class="input-group-btn">
-                            <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadInventoryReorderTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
+                            <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadInventoryReorderFGTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
                         </div>
                     </div>
                 </div>
             </div>
-                     
+
 
         </div>
 
@@ -78,8 +78,8 @@
             <div class="col-md-12">
 
 
-               
-                
+
+
 
                 <div class="col-md-3">
                     <div class="col-md-12">
@@ -89,30 +89,41 @@
                         @{
                             List<SelectListItem> InventoryItemStatus = new List<SelectListItem>();
                             InventoryItemStatus.Add(new SelectListItem
-                            { Text = " All Items", Value = "0",Selected=true });
+                            { Text = " All Items", Value = "0", Selected = true });
                             InventoryItemStatus.Add(new SelectListItem
-                            { Text = "Items To Re-Order", Value = "1" });
+                            { Text = "Items To Produce", Value = "1" });
                             InventoryItemStatus.Add(new SelectListItem
                             { Text = "Items with sufficient stock", Value = "2" });
                             InventoryItemStatus.Add(new SelectListItem
-                            { Text = "Items without re-order level", Value = "3" });
-                           
+                            { Text = "Items without re-order level defined", Value = "3" });
+
                         }
                         @Html.DropDownListFor(model => model.ItemStatus, InventoryItemStatus, "--Select Status--", new { @class = "form-control", style = "padding:4px 12px;", @id = "Status" })
                     </div>
                 </div>
+             
 
                 <div class="col-md-3">
                     <div class="col-md-12">
-                        @Html.LabelFor(model => model.MaterialID, htmlAttributes: new { @class = "control-label" })
+                        @Html.LabelFor(model => model.ProductType, htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-md-12">
-                        @Html.DropDownListFor(model => model.MaterialID, Model.Material.SelectList, "--Select Material--", new { @class = "form-control BlockEnter", style = "width:100%", @id = "Material" })
+                        @{
+                            List<SelectListItem> ProductTypeStatus = new List<SelectListItem>();
+                            ProductTypeStatus.Add(new SelectListItem
+                            { Text = "Component", Value = "COM" });
+                            ProductTypeStatus.Add(new SelectListItem
+                            { Text = "Product", Value = "PRO"});
+                            ProductTypeStatus.Add(new SelectListItem
+                            { Text = "SubComponent", Value = "SUB" });
+                        }
+                        @Html.DropDownListFor(model => model.ProductType, ProductTypeStatus, "--Select Type--", new { @class = "form-control", style = "padding:4px 12px;", @id = "Type" })
                     </div>
-
                 </div>
 
-                <div class="col-md-3">
+
+
+                @*<div class="col-md-3">
                     <div class="col-md-12">
                         @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label" })
                     </div>
@@ -120,29 +131,30 @@
                         @Html.DropDownListFor(model => model.Code, Model.MaterialType.MaterialTypeSelectList, "--Select Material Type--", new { @class = "form-control BlockEnter", style = "width:100%", @id = "MaterialType" })
                     </div>
 
+                </div>*@
+
+                <div class="col-md-2">
+                    <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadInventoryReorderFGTable('Apply')">Apply</a>
                 </div>
 
-                    <div class="col-md-2">
-                        <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadInventoryReorderTable('Apply')">Apply</a>
-                    </div>
 
+            </div>
 
-                </div>                                         
-                       
         </div>
     </div>
 
     <div class="col-md-12">
-        <table id="tblInventoryReOrderStatusReport" class="table stripe" cellspacing="0" width="100%">
+        <table id="tblInventoryReOrderStatusFGReport" class="table stripe" cellspacing="0" width="100%">
             <thead>
                 <tr class="text-center TableHead">
                     <th>ID</th>
                     <th>Item</th>
+                    <th>Type</th>
                     <th>Current Stock(A)</th>
-                    <th>PO Qty's Due(B)</th>
-                    <th>Net Available(C=A+B)</th>
+                    <th>Sale Orders Due(B)</th>
+                    <th>Net Available(C=A-B)</th>
                     <th>Re-Order Level</th>
-                    <th>Short Fall/Produce Items</th>                   
+                    <th>Short Fall/Place Order</th>
                 </tr>
             </thead>
         </table>
@@ -154,7 +166,5 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/Report/InventoryReOrderStatusReport")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/Report/InventoryReOrderStatusFGReport")
 }
-
-
