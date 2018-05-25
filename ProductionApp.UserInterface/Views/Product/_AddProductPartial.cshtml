@@ -229,7 +229,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -243,6 +243,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="form-group col-md-12">
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -257,7 +259,20 @@
                     </div>
                 </div>
                 <div class="col-md-12" style="margin-left: 10%;font-size: 11px;font-weight: 300;color: #984848;">
-                    <i>[Product will be invoiced based on weight]</i>
+                    <i><b>[Product will be invoiced based on weight]</b></i>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.OpeningStock, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.OpeningStock, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumber(event)" } })
+                        @Html.ValidationMessageFor(model => model.OpeningStock, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
         </div>
