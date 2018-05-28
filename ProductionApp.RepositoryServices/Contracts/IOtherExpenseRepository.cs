@@ -15,6 +15,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         OtherExpense GetOtherExpense(Guid id);
         List<SelectListItem> GetAccountSubHeadForSelectList();
         List<OtherExpense> GetReversalReference(string accountCode);
-        object DeleteOtherExpense(Guid id);
+        object DeleteOtherExpense(Guid id, string userName);
     }
 }

@@ -15,6 +15,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string ReceiptNo { get; set; }
         public DateTime ReceiptDate { get; set; }
         public string GeneralNotes { get; set; }
+        public Guid? ReceivedBy { get; set; }
         public Common Common { get; set; }
 
         //Additional Fields
@@ -26,6 +27,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public PurchaseOrder PurchaseOrder { get; set; }
         public bool IsUpdate { get; set; }
         public string DetailXML { get; set; }
+        public Employee Employee { get; set; }
 
         public List<MaterialReceipt> MaterialReceiptList { get; set; }
         public List<MaterialReceiptDetail> MaterialReceiptDetailList { get; set; }
@@ -34,16 +36,17 @@ namespace ProductionApp.DataAccessObject.DTO
     public class MaterialReceiptDetail
     {
         public Guid ID { get; set; }
-        public Guid HeaderID { get; set; }
+        public Guid MaterialReceiptID { get; set; }
         public Guid MaterialID { get; set; }
         public string MaterialDesc { get; set; }
         public string UnitCode { get; set; }
         public decimal Qty { get; set; }
+        public decimal QtyInKG { get; set; }
         public Common Common { get; set; }
 
         //Additional Fields
         public Material Material { get; set; }
-        public Unit Unit { get; set; }
+        //public Unit Unit { get; set; }
     }
 
     public class MaterialReceiptAdvanceSearch
@@ -52,7 +55,11 @@ namespace ProductionApp.DataAccessObject.DTO
         public string SearchTerm { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
+        public Guid SupplierID { get; set; }
         public Supplier Supplier { get; set; }
+        public Guid PurchaseOrderID { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }
+        public Guid ReceivedBy { get; set; }
+        public Employee Employee { get; set; }
     }
 }

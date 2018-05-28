@@ -155,7 +155,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateSalesOrder
         [HttpPost]
-      //  [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
         public string InsertUpdateSalesOrder(SalesOrderViewModel salesOrderVM)
         {
             try
@@ -298,7 +298,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("AddSalesOrder", "SalesOrder", new { Code = "SALE" });
+                    toolboxVM.addbtn.Href = Url.Action("AddSalesOrder", "SalesOrder", new { code = "SALE" });
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
@@ -317,7 +317,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("AddSalesOrder", "SalesOrder", new { Code = "SALE" });
+                    toolboxVM.addbtn.Href = Url.Action("AddSalesOrder", "SalesOrder", new { code = "SALE" });
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
@@ -342,7 +342,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ListSalesOrder", "SalesOrder", new { Code = "SALE" });
+                    toolboxVM.ListBtn.Href = Url.Action("ListSalesOrder", "SalesOrder", new { code = "SALE" });
 
                     break;
 
@@ -351,12 +351,12 @@ namespace ProductionApp.UserInterface.Controllers
                 //    toolboxVM.addbtn.Visible = true;
                 //    toolboxVM.addbtn.Text = "New";
                 //    toolboxVM.addbtn.Title = "Add New";
-                //    toolboxVM.addbtn.Href = Url.Action("AddSalesOrder", "SalesOrder", new { Code = "SALE" });
+                //    toolboxVM.addbtn.Href = Url.Action("AddSalesOrder", "SalesOrder", new { code = "SALE" });
 
                 //    toolboxVM.ListBtn.Visible = true;
                 //    toolboxVM.ListBtn.Text = "List";
                 //    toolboxVM.ListBtn.Title = "List";
-                //    toolboxVM.ListBtn.Href = Url.Action("ListSalesOrder", "SalesOrder", new { Code = "SALE" });
+                //    toolboxVM.ListBtn.Href = Url.Action("ListSalesOrder", "SalesOrder", new { code = "SALE" });
 
                 //    break;
                 case "Add":
@@ -369,7 +369,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ListSalesOrder", "SalesOrder", new { Code = "SALE" });
+                    toolboxVM.ListBtn.Href = Url.Action("ListSalesOrder", "SalesOrder", new { code = "SALE" });
                     break;
                 default:
                     return Content("Nochange");

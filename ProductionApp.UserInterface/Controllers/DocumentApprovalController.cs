@@ -32,12 +32,13 @@ namespace ProductionApp.UserInterface.Controllers
             return View();
         }
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
-        public ActionResult ApproveDocument(string code,string ID,string DocType,string DocID)
+        public ActionResult ApproveDocument(string code,string id,string docType,string docID, bool? isHistory)
         {
             ViewBag.SysModuleCode = code;
-            ViewBag.DocumentID = DocID;
-            ViewBag.ApprovalLogID = ID;
-            ViewBag.DocumentType = DocType;
+            ViewBag.DocumentID = docID;
+            ViewBag.ApprovalLogID = id;
+            ViewBag.DocumentType = docType;
+            ViewBag.IsHistory = (isHistory== true ? true : false);
             return View();
         }
 
@@ -60,6 +61,16 @@ namespace ProductionApp.UserInterface.Controllers
         {
             ViewBag.SysModuleCode = code;
             return View();
+        }
+
+        [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
+        public ActionResult AboutApprovalHistory(string id, string docType)
+        {
+            ViewBag.DocumentID = id;
+            ViewBag.DocumentType = docType;
+            DocumentApprovalViewModel documentApprovalVM = new DocumentApprovalViewModel();
+            documentApprovalVM.ApprovalHistoryList = Mapper.Map<List<ApprovalHistory>, List<ApprovalHistoryViewModel>>(_documentApprovalBusiness.GetApprovalHistory(Guid.Parse(id), docType));
+            return PartialView("_AboutApprovalHistory", documentApprovalVM);
         }
 
         #region Approvals
@@ -117,11 +128,12 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region ApproveDocumentInsert
         [AuthSecurityFilter(ProjectObject = "DocumentApproval", Mode = "R")]
-        public async Task<string> ApproveDocumentInsert(string ApprovalLogID, string DocumentID, string DocumentTypeCode)
+        public async Task<string> ApproveDocumentInsert(string ApprovalLogID, string DocumentID, string DocumentTypeCode, string Remarks)
         {
             try
             {
-                var result = _documentApprovalBusiness.ApproveDocument(Guid.Parse(ApprovalLogID),Guid.Parse(DocumentID),DocumentTypeCode);
+                DateTime approvalDate = _common.GetCurrentDateTime();
+                var result = _documentApprovalBusiness.ApproveDocument(Guid.Parse(ApprovalLogID),Guid.Parse(DocumentID),DocumentTypeCode, Remarks, approvalDate);
                 bool mailresult = await _documentApprovalBusiness.SendApprolMails(Guid.Parse(DocumentID), DocumentTypeCode);
 
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
@@ -140,7 +152,8 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                var result = _documentApprovalBusiness.RejectDocument(Guid.Parse(ApprovalLogID), Guid.Parse(DocumentID), DocumentTypeCode,Remarks);
+                DateTime rejectionDate = _common.GetCurrentDateTime();
+                var result = _documentApprovalBusiness.RejectDocument(Guid.Parse(ApprovalLogID), Guid.Parse(DocumentID), DocumentTypeCode,Remarks, rejectionDate);
                 bool mailresult = await _documentApprovalBusiness.SendApprolMails(Guid.Parse(DocumentID), DocumentTypeCode);
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
@@ -267,6 +280,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.PrintBtn.Event = "ExportPendingDocs();";
                     //---------------------------------------
                     break;
+
                 case "Back":
                     toolboxVM.backbtn.Visible = true;
                     toolboxVM.backbtn.Text = "Back";
@@ -275,10 +289,18 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.backbtn.Href = Url.Action("ViewPendingDocuments", "DocumentApproval", new { Code = "APR"});
 
                     break;
-              
-              
 
-                     
+                case "Return":
+                    toolboxVM.backbtn.Visible = true;
+                    toolboxVM.backbtn.Text = "Back";
+                    toolboxVM.backbtn.Title = "Back";
+                    toolboxVM.ListBtn.Event = "";
+                    toolboxVM.backbtn.Href = Url.Action("ViewApprovalHistory", "DocumentApproval", new { Code = "APR" });
+
+                    break;
+
+
+
                 default:
                     return Content("Nochange");
             }

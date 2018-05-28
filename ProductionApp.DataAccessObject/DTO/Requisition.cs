@@ -34,6 +34,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public List<Requisition> RequisitionList { get; set; }
         public string BaseURL { get; set; }
         public RequisitionAdvanceSearch RequisitionAdvanceSearch { get; set; }
+        public string ReqAmount { get; set; }
+        public DateTime RequiredDate { get; set; }
+        public string RequiredDateFormatted { get; set; }
 
     }
 

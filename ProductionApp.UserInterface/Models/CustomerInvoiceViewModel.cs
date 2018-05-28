@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using UserInterface.Models;
 
 namespace ProductionApp.UserInterface.Models
 {
@@ -32,6 +33,9 @@ namespace ProductionApp.UserInterface.Models
         public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
         public string DetailJSON { get; set; }
+        public string Status { get; set; }
+        public string LastPaymentDateFormatted { get; set; }
+        public decimal BalanceDue { get; set; }
         public int FilteredCount { get; set; }
         [Display(Name = " Invoice Date")]
         [Required(ErrorMessage = "Invoice Date is missing")]
@@ -55,7 +59,25 @@ namespace ProductionApp.UserInterface.Models
         public List<CustomerInvoiceDetailViewModel> CustomerInvoiceDetailList { get; set; }
         public CustomerPaymentViewModel CustomerPayment { get; set; }
         public List<CustomerInvoiceViewModel> CustomerInvoiceList { get; set; }
+        public CustomerInvoiceMailPreviewViewModel CustomerInvoiceMailPreview { get; set; }
+        public PDFTools PDFTools { get; set; }
         public string BaseURL { get; set; }
+        //Mail and Print 
+        [Display(Name = "Body Header")]
+        [DataType(DataType.MultilineText)]
+        public string MailBodyHeader { get; set; }
+        [Display(Name = "Body Footer")]
+        [DataType(DataType.MultilineText)]
+        public string MailBodyFooter { get; set; }
+        public string EmailSentYN { get; set; }
+        public string SubscriberEmail { get; set; }
+        public string CompanyAddress { get; set; }
+        public string CompanyName { get; set; }
+        public string LogoURL { get; set; }
+        public string BankName { get; set; }
+        public string BankAccDetail { get; set; }
+        public string InvoiceDeclaration { get; set; }
+        public string InvoiceAmountWords { get; set; }
 
     }
     public class CustomerInvoiceDetailViewModel
@@ -83,7 +105,7 @@ namespace ProductionApp.UserInterface.Models
         public Guid CustomerInvoiceDetailLinkID { get; set; }
         public decimal QuantityCheck { get; set; }
         public decimal WeightCheck { get; set; }
-
+        public ProductViewModel Product { get; set; }
     }
 
     public class CustomerInvoiceDetailLinkViewModel
@@ -109,5 +131,13 @@ namespace ProductionApp.UserInterface.Models
         public Guid CustomerID { get; set; }
         public CustomerViewModel Customer { get; set; }
 
+    }
+    public class CustomerInvoiceMailPreviewViewModel
+    {
+        [Display(Name = "Send To")]
+        public string SentToEmails { get; set; }
+        public string MailBody { get; set; }
+        public bool Flag { get; set; }
+        public CustomerInvoiceViewModel CustomerInvoice { get; set; }
     }
 }

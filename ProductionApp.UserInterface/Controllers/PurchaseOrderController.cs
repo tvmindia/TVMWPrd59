@@ -478,7 +478,14 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
                     toolboxVM.ListBtn.Event = "";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewPurchaseOrder", "PurchaseOrder", new { Code = "PURCH" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewPurchaseOrder", "PurchaseOrder", new { code = "PURCH" });
+
+
+                    //Always To be placed Last
+                    toolboxVM.AboutBtn.Visible = true;
+                    toolboxVM.AboutBtn.Text = "History";
+                    toolboxVM.AboutBtn.Title = "About Approval History";
+                    toolboxVM.AboutBtn.Event = "ShowApprovalHistory()";
 
                     break;
 
@@ -490,6 +497,11 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Href = Url.Action("NewPurchaseOrder", "PurchaseOrder", new { code = "PURCH" });
                     toolboxVM.addbtn.Event = "";
 
+                    toolboxVM.savebtn.Visible = true;
+                    toolboxVM.savebtn.Text = "Save";
+                    toolboxVM.savebtn.Title = "Save PurchaseOrder";
+                    toolboxVM.savebtn.Event = "Save();";
+
                     toolboxVM.EmailBtn.Visible = true;
                     toolboxVM.EmailBtn.Text = "Email";
                     toolboxVM.EmailBtn.Title = "Email";
@@ -499,7 +511,14 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
                     toolboxVM.ListBtn.Event = "";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewPurchaseOrder", "PurchaseOrder", new { Code = "PURCH" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewPurchaseOrder", "PurchaseOrder", new { code = "PURCH" });
+
+
+                    //Always To be placed Last
+                    toolboxVM.AboutBtn.Visible = true;
+                    toolboxVM.AboutBtn.Text = "History";
+                    toolboxVM.AboutBtn.Title = "About Approval History";
+                    toolboxVM.AboutBtn.Event = "ShowApprovalHistory()";
 
                     break;
                 case "Add":
@@ -513,7 +532,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
                     toolboxVM.ListBtn.Event = "";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewPurchaseOrder", "PurchaseOrder", new { Code = "PURCH" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewPurchaseOrder", "PurchaseOrder", new { code = "PURCH" });
 
 
                     break;

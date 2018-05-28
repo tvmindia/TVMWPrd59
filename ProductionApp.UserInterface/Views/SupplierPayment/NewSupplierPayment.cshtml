@@ -26,6 +26,12 @@
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
+
+
+@* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
+@Html.Action("AboutApprovalHistory", "DocumentApproval", new { id = Model.ID, docType = "SPAY" })
+
+
 <section class="content">
     <div class="row" id="OverlayHeader">
         <div class="col-md-6" style="text-align:left">
@@ -93,8 +99,8 @@
                                 List<SelectListItem> TypeList = new List<SelectListItem>();
                                 TypeList.Add(new SelectListItem
                                 { Text = "Payment", Value = "P" });
-                                TypeList.Add(new SelectListItem
-                                { Text = "Credit Adujustment", Value = "C" });
+                                //TypeList.Add(new SelectListItem
+                                //{ Text = "Credit Adujustment", Value = "C" });
                             }
                             @Html.DropDownListFor(model => model.Type, TypeList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;width:100 %", onchange = "TypeOnChange();" })
                         </div>
@@ -344,6 +350,7 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/selectmin")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/SupplierPayment/NewSupplierPayment")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/DocumentApproval/ApprovalHistory")
 }
 
 

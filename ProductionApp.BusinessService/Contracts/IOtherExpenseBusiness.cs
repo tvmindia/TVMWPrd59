@@ -16,6 +16,6 @@ namespace ProductionApp.BusinessService.Contracts
         List<SelectListItem> GetAccountSubHeadForSelectList();
         List<OtherExpense> GetReversalReference(string accountCode);
         decimal GetMaximumReducibleAmount(string refNumber);
-        object DeleteOtherExpense(Guid id);
+        object DeleteOtherExpense(Guid id, string userName);
     }
 }

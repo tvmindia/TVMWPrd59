@@ -13,6 +13,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         object InsertUpdateOtherIncome(OtherIncome otherIncome);
         OtherIncome GetOtherIncome(Guid id);
         List<string> GetAllAccountSubHeadForSelectList();
-        object DeleteOtherIncome(Guid id);
+        object DeleteOtherIncome(Guid id,string UserName);
     }
 }

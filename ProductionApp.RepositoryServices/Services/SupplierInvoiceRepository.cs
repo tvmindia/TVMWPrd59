@@ -61,6 +61,11 @@ namespace ProductionApp.RepositoryServices.Services
                                         supplierInvoice.Supplier = new Supplier();
                                         supplierInvoice.Supplier.CompanyName = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : supplierInvoice.Supplier.CompanyName);
                                         supplierInvoice.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : supplierInvoice.InvoiceAmount);
+                                        supplierInvoice.Balance = (sdr["BalanceDue"].ToString() != "" ? decimal.Parse(sdr["BalanceDue"].ToString()) : supplierInvoice.Balance);
+                                        supplierInvoice.PaymentBooked = (sdr["BookedAmount"].ToString() != "" ? decimal.Parse(sdr["BookedAmount"].ToString()) : supplierInvoice.PaymentBooked);
+                                        supplierInvoice.PaymentProcessed = (sdr["ProcessedAmount"].ToString() != "" ? decimal.Parse(sdr["ProcessedAmount"].ToString()) : supplierInvoice.PaymentProcessed);
+                                        supplierInvoice.LastPaymentDateFormatted = (sdr["LastPaymentDate"].ToString() != "" ? DateTime.Parse(sdr["LastPaymentDate"].ToString()).ToString(settings.DateFormat) : supplierInvoice.LastPaymentDateFormatted);
+                                        supplierInvoice.Status = (sdr["Status"].ToString() != "" ? sdr["Status"].ToString() : supplierInvoice.Status);
                                         supplierInvoice.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : supplierInvoice.TotalCount);
                                         supplierInvoice.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : supplierInvoice.FilteredCount);
                                     }
@@ -116,6 +121,9 @@ namespace ProductionApp.RepositoryServices.Services
                                     supplierInvoice.TotalTaxableAmount = (sdr["TotalTaxableAmount"].ToString() != "" ? decimal.Parse(sdr["TotalTaxableAmount"].ToString()) : supplierInvoice.TotalTaxableAmount);
                                     supplierInvoice.TotalTaxAmount = (sdr["TotalTaxAmount"].ToString() != "" ? decimal.Parse(sdr["TotalTaxAmount"].ToString()) : supplierInvoice.TotalTaxAmount);
                                     supplierInvoice.InvoiceAmount = (sdr["InvoiceAmount"].ToString() != "" ? decimal.Parse(sdr["InvoiceAmount"].ToString()) : supplierInvoice.InvoiceAmount);
+                                    supplierInvoice.Balance = (sdr["BalanceDue"].ToString() != "" ? decimal.Parse(sdr["BalanceDue"].ToString()) : supplierInvoice.Balance);
+                                    supplierInvoice.PaymentBooked = (sdr["BookedAmount"].ToString() != "" ? decimal.Parse(sdr["BookedAmount"].ToString()) : supplierInvoice.PaymentBooked);
+                                    supplierInvoice.PaymentProcessed = (sdr["ProcessedAmount"].ToString() != "" ? decimal.Parse(sdr["ProcessedAmount"].ToString()) : supplierInvoice.PaymentProcessed);
 
                                 }
                             }
@@ -152,7 +160,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@InvoiceNo", SqlDbType.VarChar,20).Value = supplierInvoice.InvoiceNo;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = supplierInvoice.InvoiceDateFormatted;
                         cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = supplierInvoice.SupplierID;
-                        cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar,10).Value = supplierInvoice.AccountCode;
+                        cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar,10).Value = supplierInvoice.AccountCode.Split('|')[0];
                         cmd.Parameters.Add("@PaymentTermCode", SqlDbType.VarChar,20).Value = supplierInvoice.PaymentTermCode;
                         if(supplierInvoice.PurchaseOrderID!=Guid.Empty)
                             cmd.Parameters.Add("@PurchaseOrderID", SqlDbType.UniqueIdentifier).Value = supplierInvoice.PurchaseOrderID;
@@ -203,7 +211,7 @@ namespace ProductionApp.RepositoryServices.Services
             };
 
         }
-        public object DeleteSupplierInvoice(Guid id)
+        public object DeleteSupplierInvoice(Guid id, string userName)
         {
             SqlParameter outputStatus = null;
             try
@@ -220,6 +228,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[DeleteSupplierInvoice]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@supplierInvoiceId", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = userName;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -245,7 +254,7 @@ namespace ProductionApp.RepositoryServices.Services
                 Message = _appConst.DeleteSuccess
             };
         }
-        public object DeleteSupplierInvoiceDetail(Guid id)
+        public object DeleteSupplierInvoiceDetail(Guid id, string userName)
         {
             SqlParameter outputStatus = null;
             try
@@ -262,6 +271,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[DeleteSupplierInvoiceDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = userName;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

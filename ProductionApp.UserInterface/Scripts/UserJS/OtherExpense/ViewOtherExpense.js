@@ -17,9 +17,13 @@ var _emptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
-        $('#ChartOfAccountCode').select2();
-        $('#ApprovalStatus').select2();
+        $('#AccountCode').select2();
+        $('#Status').select2();
         BindOrReloadOtherExpenseTable('Init');
+        $('#tblOtherExpense tbody').on('dblclick', 'td', function () {
+            Edit(this);
+        });
+        
     }
     catch (e) {
         console.log(e.message);
@@ -38,9 +42,9 @@ function BindOrReloadOtherExpenseTable(action) {
             case 'Reset':
                 $('#SearchTerm').val('');
                 $('#FromDate').val('');
-                $('#ChartOfAccountCode').val('').trigger('change');
+                $('#AccountCode').val('').trigger('change');
                 $('#ToDate').val('');
-                $('#ApprovalStatus').val('').trigger('change');
+                $('#Status').val('').trigger('change');
                 break;
             case 'Init':
                 break;
@@ -60,12 +64,13 @@ function BindOrReloadOtherExpenseTable(action) {
         otherExpenseAdvanceSearchVM.SearchTerm = $('#SearchTerm').val();
         otherExpenseAdvanceSearchVM.FromDate = $('#FromDate').val();
         otherExpenseAdvanceSearchVM.ToDate = $('#ToDate').val();
-        otherExpenseAdvanceSearchVM.ChartOfAccount = new Object();
-        otherExpenseAdvanceSearchVM.ChartOfAccount.Code = $('#ChartOfAccountCode').val().split("|")[0];
+        otherExpenseAdvanceSearchVM.AccountCode = $('#AccountCode').val().split("|")[0];
         //To split value of #ChartOfAccountCode by '|' and to take only the AccountCode__________^
-        otherExpenseAdvanceSearchVM.ApprovalStatus = new Object();
-        otherExpenseAdvanceSearchVM.ApprovalStatus.ID = $('#ApprovalStatus').val();
-        _dataTable.Assemble = $('#tblOtherExpense').DataTable(
+        if ($('#Status').val() != "")
+            otherExpenseAdvanceSearchVM.Status = $('#Status').val();
+        else
+            otherExpenseAdvanceSearchVM.Status = -1;
+        _dataTable.OtherExpense = $('#tblOtherExpense').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
                 buttons: [{
@@ -137,4 +142,10 @@ function BindOrReloadOtherExpenseTable(action) {
     catch (e) {
         console.log(e.message);
     }
+}
+//##4--Edit on table Click----------------------------------------##4
+function Edit(curObj) {
+    var rowData = _dataTable.OtherExpense.row($(curObj).parents('tr')).data();
+    window.location.replace("NewOtherExpense?code=ACC&ID=" + rowData.ID);
+
 }

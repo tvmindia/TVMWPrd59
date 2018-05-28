@@ -45,8 +45,6 @@ namespace ProductionApp.BusinessService.Services
             OtherExpenseAdvanceSearch otherExpenseAdvanceSearch = new OtherExpenseAdvanceSearch();
             otherExpenseAdvanceSearch.DataTablePaging = new DataTablePaging();
             otherExpenseAdvanceSearch.DataTablePaging.Length = -1;
-            otherExpenseAdvanceSearch.ChartOfAccount = new ChartOfAccount();
-            otherExpenseAdvanceSearch.ApprovalStatus = new ApprovalStatus();
             decimal HeadAmount = 0;
             try
             {
@@ -70,9 +68,9 @@ namespace ProductionApp.BusinessService.Services
             }
             return HeadAmount;
         }
-        public object DeleteOtherExpense(Guid id)
+        public object DeleteOtherExpense(Guid id,string userName)
         {
-            return _otherExpenseRepository.DeleteOtherExpense(id);
+            return _otherExpenseRepository.DeleteOtherExpense(id,userName);
         }
     }
 }

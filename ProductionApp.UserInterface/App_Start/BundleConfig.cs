@@ -19,6 +19,7 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new StyleBundle("~/Content/DataTables/css/datatableFixedHeader").Include("~/Content/DataTables/css/fixedHeader.dataTables.min.css"));
             bundles.Add(new StyleBundle("~/Content/MvcDatalist/Datalist").Include("~/Content/MvcDatalist/mvc-datalist.css"));
             bundles.Add(new StyleBundle("~/Content/css/select2").Include("~/Content/css/select2.min.css"));
+            bundles.Add(new StyleBundle("~/Content/jsTree/themes/default").Include("~/Content/jsTree/themes/default/style.min.css"));
 
             //-------------------
             bundles.Add(new StyleBundle("~/Content/UserCSS/Login").Include("~/Content/UserCSS/Login.css"));
@@ -46,6 +47,8 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/selectmin").Include("~/Scripts/select2.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/select2").Include("~/Scripts/select2.js"));
             bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include("~/Scripts/jquery-ui.js"));
+            bundles.Add(new ScriptBundle("~/bundles/pdf").Include("~/Scripts/PDF.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jsTree3").Include("~/Scripts/jsTree3/jstree.js"));
 
             //----------------------
             bundles.Add(new ScriptBundle("~/bundles/ManageAccess").Include("~/Scripts/UserJS/ManageAccess.js"));
@@ -123,14 +126,25 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJs/DocumentApproval/ViewApprovalHistory").Include("~/Scripts/UserJS/DocumentApproval/ViewApprovalHistory.js"));
             //Report
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/Report").Include("~/Scripts/UserJS/Report/Report.js"));
-            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/RequisitionSummaryReport").Include("~/Scripts/UserJS/Report/RequisitionSummaryReport.js"));           
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/RequisitionSummaryReport").Include("~/Scripts/UserJS/Report/RequisitionSummaryReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/RequisitionDetailReport").Include("~/Scripts/UserJS/Report/RequisitionDetailReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/PurchaseSummaryReport").Include("~/Scripts/UserJS/Report/PurchaseSummaryReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/PurchaseDetailReport").Include("~/Scripts/UserJS/Report/PurchaseDetailReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/PurchaseRegisterReport").Include("~/Scripts/UserJS/Report/PurchaseRegisterReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/InventoryReOrderStatusReport").Include("~/Scripts/UserJS/Report/InventoryReOrderStatusReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/StockRegisterReport").Include("~/Scripts/UserJS/Report/StockRegisterReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/StockLedgerReport").Include("~/Scripts/UserJS/Report/StockLedgerReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/InventoryReOrderStatusFGReport").Include("~/Scripts/UserJS/Report/InventoryReOrderStatusFGReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/StockRegisterFGReport").Include("~/Scripts/UserJS/Report/StockRegisterFGReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/StockLedgerFGReport").Include("~/Scripts/UserJS/Report/StockLedgerFGReport.js"));
+
             //OtherIncome
             bundles.Add(new ScriptBundle("~/bundles/UserJs/OtherIncome/ViewOtherIncome").Include("~/Scripts/UserJS/OtherIncome/ViewOtherIncome.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/OtherIncome/NewOtherIncome").Include("~/Scripts/UserJS/OtherIncome/NewOtherIncome.js"));
             //OtherExpense
             bundles.Add(new ScriptBundle("~/bundles/UserJs/OtherExpense/ViewOtherExpense").Include("~/Scripts/UserJS/OtherExpense/ViewOtherExpense.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/OtherExpense/NewOtherExpense").Include("~/Scripts/UserJS/OtherExpense/NewOtherExpense.js"));
-
+            
         }
     }
 }

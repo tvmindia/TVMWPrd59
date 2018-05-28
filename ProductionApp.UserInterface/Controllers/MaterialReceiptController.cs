@@ -18,15 +18,17 @@ namespace ProductionApp.UserInterface.Controllers
         private IMaterialReceiptBusiness _materialReceiptBusiness;
         private IMaterialBusiness _materialBusiness;
         private IPurchaseOrderBusiness _purchaseOrderBusiness;
-        private IUnitBusiness _unitBusiness;
+        private IEmployeeBusiness _employeeBusiness;
+        private ISupplierBusiness _supplierBusiness;
         AppConst _appConst = new AppConst();
         Common _common = new Common();
-        public MaterialReceiptController(IMaterialReceiptBusiness materialReceiptBusiness, IMaterialBusiness materialBusiness, IPurchaseOrderBusiness purchaseOrderBusiness, IUnitBusiness unitBusiness)
+        public MaterialReceiptController(IMaterialReceiptBusiness materialReceiptBusiness, IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness, IPurchaseOrderBusiness purchaseOrderBusiness, IEmployeeBusiness employeeBusiness)
         {
             _materialReceiptBusiness = materialReceiptBusiness;
             _materialBusiness = materialBusiness;
+            _supplierBusiness = supplierBusiness;
             _purchaseOrderBusiness = purchaseOrderBusiness;
-            _unitBusiness = unitBusiness;
+            _employeeBusiness = employeeBusiness;
         }
         #endregion Constructor Injection
 
@@ -36,11 +38,39 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ViewMaterialReceipt(string code)
         {
             ViewBag.SysModuleCode = code;
-            return View();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            List<SupplierViewModel> supplierList = Mapper.Map<List<Supplier>, List<SupplierViewModel>>(_supplierBusiness.GetSupplierForSelectList());
+            MaterialReceiptAdvanceSearchViewModel materialReceiptAdvanceSearchVM = new MaterialReceiptAdvanceSearchViewModel()
+            {
+                Supplier = new SupplierViewModel()
+                {
+                    SelectList = new List<SelectListItem>()
+                },
+                PurchaseOrder = new PurchaseOrderViewModel()
+                {
+                    SelectList = _purchaseOrderBusiness.PurchaseOrderDropdownList(Guid.Empty)
+                },
+                Employee = new EmployeeViewModel()
+                {
+                    SelectList = _employeeBusiness.GetEmployeeSelectList()
+                }
+            };
+            foreach (SupplierViewModel supplier in supplierList)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = supplier.CompanyName,
+                    Value = supplier.ID.ToString(),
+                    Selected = false,
+                });
+
+            }
+            materialReceiptAdvanceSearchVM.Supplier.SelectList = selectListItem;
+            return View(materialReceiptAdvanceSearchVM);
         }
         #endregion View MaterialReceipt Index
 
-        #region NewMaterialReceipt
+        #region New MaterialReceipt
         [AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "W")]
         public ActionResult NewMaterialReceipt(string code, Guid? id)
         {
@@ -53,15 +83,12 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     Material = new MaterialViewModel(),
                     Qty = 0,
-                    Unit = new UnitViewModel()
-                    {
-                        UnitSelectList = _unitBusiness.GetUnitForSelectList()
-                    }
+                    QtyInKG=0
                 }
             };
             return View(materialReceiptVM);
         }
-        #endregion NewMaterialReceipt
+        #endregion New MaterialReceipt
 
         #region GetAllMaterialReceipt
         [AuthSecurityFilter(ProjectObject = "MaterialReceipt", Mode = "R")]

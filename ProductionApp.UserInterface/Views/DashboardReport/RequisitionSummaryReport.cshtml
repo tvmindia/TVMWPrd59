@@ -14,7 +14,7 @@
 
 <style>
     table.dataTable tr.odd {
-        background-color:#CFE5F0;
+        background-color:#ebf2f5;
     }
 
     table.dataTable tr.even {
@@ -43,7 +43,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="input-group">
-                            @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "SearchTerm" } })
+                            @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "SearchTerm", @onkeypress = "RedirectSearchClick(event,this)" } })
                             <div class="input-group-btn">
                                 <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadRequisitionTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
                             </div>
@@ -93,47 +93,57 @@
             <div class="form-group col-md-12 collapse" id="demo">
                 <div style="border-top:1px solid #d9d9d9;margin-left: 15px;" class="form-group col-md-12"></div>
 
-                <div class="col-md-5">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-12">
+
+                    <div class="col-md-3">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @id = "FromDate" } })
+                        </div>
                     </div>
-                    <div class="col-md-12">
-                        @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @id = "FromDate" } })
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
-                    </div>
-                    <div class="col-md-12">
-                        @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @id = "ToDate" } })
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.RequisitionBy, htmlAttributes: new { @class = "control-label" })
-                    </div>
-                    <div class="col-md-12">
-                        @Html.DropDownListFor(model => model.RequisitionBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", style = "width:100%", @id = "RequisitionBy" })
+                    <div class="col-md-3">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @id = "ToDate" } })
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-5">
-                    <div class="col-md-12">
-                        @Html.LabelFor(model => model.ReqStatus, htmlAttributes: new { @class = "control-label" })
+                
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.RequisitionBy, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.DropDownListFor(model => model.RequisitionBy, Model.Employee.SelectList, "--Select Employee--", new { @class = "form-control BlockEnter", style = "width:100%", @id = "RequisitionBy" })
+                        </div>
                     </div>
-                    <div class="col-md-12">
-                        @{
-                            List<SelectListItem> RequisitionStatus = new List<SelectListItem>();
-                            RequisitionStatus.Add(new SelectListItem
-                            { Text = "Open", Value = "Open" });
-                            RequisitionStatus.Add(new SelectListItem
-                            { Text = "Closed", Value = "Closed" });
-                        }
-                        @Html.DropDownListFor(model => model.ReqStatus, RequisitionStatus, "--Select Status--", new { @class = "form-control", style = "padding:4px 12px;", @id = "ReqStatus" })
+
+
+                    <div class="col-md-3">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ReqStatus, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            @{
+                                List<SelectListItem> RequisitionStatus = new List<SelectListItem>();
+                                RequisitionStatus.Add(new SelectListItem
+                                { Text = "Open", Value = "Open" });
+                                RequisitionStatus.Add(new SelectListItem
+                                { Text = "Closed", Value = "Closed" });
+                            }
+                            @Html.DropDownListFor(model => model.ReqStatus, RequisitionStatus, "--Select Status--", new { @class = "form-control", style = "padding:4px 12px;", @id = "ReqStatus" })
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadRequisitionTable('Apply')">Apply</a>
+                   
+                    <div class="col-md-2">
+                        <a class="btn btn-primary" style="right:-750px;margin-top:10px" onclick="BindOrReloadRequisitionTable('Apply')">Apply</a>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -143,11 +153,13 @@
                 <thead>
                     <tr class="text-center TableHead">
                         <th>ID</th>
-                        <th>Requisition#</th>
-                        <th>Title</th>
-                        <th>Requisition Date</th>
-                        <th>Requisition Status</th>
-                        <th>Requisition By</th>                       
+                        <th>Req No</th>
+                        <th>Req Date</th>
+                        <th>Req By</th> 
+                        <th>Title</th>                        
+                        <th>Req Status</th>                        
+                        <th>Req Amount</th> 
+                        <th>Required date</th>                    
                     </tr>
                 </thead>
             </table>

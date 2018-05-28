@@ -53,9 +53,9 @@ namespace ProductionApp.BusinessService.Services
             return _customerPaymentRepository.GetCustomerPayment(Id);
         }
 
-        public object DeleteCustomerPayment(Guid id)
+        public object DeleteCustomerPayment(Guid id,string userName)
         {
-            return _customerPaymentRepository.DeleteCustomerPayment(id);
+            return _customerPaymentRepository.DeleteCustomerPayment(id,userName);
         }
 
         public object ValidateCustomerPayment(Guid id, string paymentrefNo)

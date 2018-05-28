@@ -42,21 +42,29 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = materialReceiptAdvanceSearch.FromDate;
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = materialReceiptAdvanceSearch.ToDate;
-                        if (materialReceiptAdvanceSearch.Supplier.ID == Guid.Empty)
+                        if (materialReceiptAdvanceSearch.SupplierID == Guid.Empty)
                         {
                             cmd.Parameters.AddWithValue("@SupplierID", DBNull.Value);
                         }
                         else
                         {
-                            cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = materialReceiptAdvanceSearch.Supplier.ID;
+                            cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = materialReceiptAdvanceSearch.SupplierID;
                         }
-                        if (materialReceiptAdvanceSearch.PurchaseOrder.ID == Guid.Empty)
+                        if (materialReceiptAdvanceSearch.PurchaseOrderID == Guid.Empty)
                         {
                             cmd.Parameters.AddWithValue("@PurchaseOrderID", DBNull.Value);
                         }
                         else
                         {
-                            cmd.Parameters.Add("@PurchaseOrderID", SqlDbType.UniqueIdentifier).Value = materialReceiptAdvanceSearch.PurchaseOrder.ID;
+                            cmd.Parameters.Add("@PurchaseOrderID", SqlDbType.UniqueIdentifier).Value = materialReceiptAdvanceSearch.PurchaseOrderID;
+                        }
+                        if (materialReceiptAdvanceSearch.ReceivedBy == Guid.Empty)
+                        {
+                            cmd.Parameters.AddWithValue("@ReceivedBy", DBNull.Value);
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add("@ReceivedBy", SqlDbType.UniqueIdentifier).Value = materialReceiptAdvanceSearch.ReceivedBy;
                         }
                         if (string.IsNullOrEmpty(materialReceiptAdvanceSearch.SearchTerm))
                         {
@@ -81,6 +89,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     materialReceipt = new MaterialReceipt();
                                     materialReceipt.Supplier = new Supplier();
                                     materialReceipt.Common = new Common();
+                                    materialReceipt.Employee = new Employee();
                                     materialReceipt.PurchaseOrderID = (sdr["PurchaseOrderID"].ToString() != "" ? Guid.Parse(sdr["PurchaseOrderID"].ToString()) : materialReceipt.PurchaseOrderID);
                                     materialReceipt.PurchaseOrderNo = (sdr["PurchaseOrderNo"].ToString() != "" ? sdr["PurchaseOrderNo"].ToString() : materialReceipt.PurchaseOrderNo);
                                     materialReceipt.Supplier.ID = materialReceipt.SupplierID = (sdr["SupplierID"].ToString() != "" ? Guid.Parse(sdr["SupplierID"].ToString()) : materialReceipt.SupplierID);
@@ -89,6 +98,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     materialReceipt.ReceiptDate = (sdr["ReceiptDate"].ToString() != "" ? DateTime.Parse(sdr["ReceiptDate"].ToString()) : materialReceipt.ReceiptDate);
                                     materialReceipt.ReceiptDateFormatted = (sdr["ReceiptDate"].ToString() != "" ? DateTime.Parse(sdr["ReceiptDate"].ToString()).ToString(settings.DateFormat) : materialReceipt.ReceiptDateFormatted);
                                     materialReceipt.Supplier.CompanyName = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : materialReceipt.Supplier.CompanyName);
+                                    materialReceipt.Employee.Name = (sdr["Employee"].ToString() != "" ? sdr["Employee"].ToString() : materialReceipt.Employee.Name);
                                     materialReceipt.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : materialReceipt.GeneralNotes);
                                     materialReceipt.Common.CreatedBy = (sdr["CreatedBy"].ToString() != "" ? sdr["CreatedBy"].ToString() : materialReceipt.Common.CreatedBy);
                                     materialReceipt.Common.UpdatedBy = (sdr["UpdatedBy"].ToString() != "" ? sdr["UpdatedBy"].ToString() : materialReceipt.Common.UpdatedBy);
@@ -139,6 +149,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@PurchaseOrderNo", SqlDbType.NVarChar, 20).Value = materialReceipt.PurchaseOrderNo;
                         cmd.Parameters.Add("@ReceiptNo", SqlDbType.NVarChar, 50).Value = materialReceipt.ReceiptNo;
                         cmd.Parameters.Add("@ReceiptDate", SqlDbType.DateTime).Value = materialReceipt.ReceiptDateFormatted;
+                        cmd.Parameters.Add("@ReceivedBy", SqlDbType.UniqueIdentifier).Value = materialReceipt.ReceivedBy;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.VarChar, -1).Value = materialReceipt.GeneralNotes;
 
                         cmd.Parameters.Add("@DetailXML", SqlDbType.VarChar, -1).Value = materialReceipt.DetailXML;
@@ -292,6 +303,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     materialReceipt.ReceiptDateFormatted = (sdr["ReceiptDate"].ToString() != "" ? DateTime.Parse(sdr["ReceiptDate"].ToString()).ToString(settings.DateFormat) : materialReceipt.ReceiptDateFormatted);
                                     materialReceipt.Supplier.CompanyName = (sdr["SupplierName"].ToString() != "" ? sdr["SupplierName"].ToString() : materialReceipt.Supplier.CompanyName);
                                     materialReceipt.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : materialReceipt.GeneralNotes);
+                                    materialReceipt.ReceivedBy = (sdr["ReceivedBy"].ToString() != "" ? Guid.Parse(sdr["ReceivedBy"].ToString()) : materialReceipt.ReceivedBy);
                                     materialReceipt.Common.CreatedBy = (sdr["CreatedBy"].ToString() != "" ? sdr["CreatedBy"].ToString() : materialReceipt.Common.CreatedBy);
                                     materialReceipt.Common.UpdatedBy = (sdr["UpdatedBy"].ToString() != "" ? sdr["UpdatedBy"].ToString() : materialReceipt.Common.UpdatedBy);
                                     materialReceipt.Common.CreatedDateString = (sdr["CreatedDate"].ToString() != "" ? DateTime.Parse(sdr["CreatedDate"].ToString()).ToString(settings.DateFormat) : materialReceipt.Common.CreatedDateString);
@@ -339,13 +351,14 @@ namespace ProductionApp.RepositoryServices.Services
                                     materialReceiptDetail.Material = new Material();
 
                                     materialReceiptDetail.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : materialReceiptDetail.ID);
-                                    materialReceiptDetail.HeaderID = (sdr["HeaderID"].ToString() != "" ? Guid.Parse(sdr["HeaderID"].ToString()) : materialReceiptDetail.HeaderID);
+                                    materialReceiptDetail.MaterialReceiptID = (sdr["MaterialReceiptID"].ToString() != "" ? Guid.Parse(sdr["MaterialReceiptID"].ToString()) : materialReceiptDetail.MaterialReceiptID);
                                     materialReceiptDetail.MaterialID = materialReceiptDetail.Material.ID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : materialReceiptDetail.MaterialID);
                                     materialReceiptDetail.Material.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : materialReceiptDetail.Material.MaterialCode);
                                     materialReceiptDetail.Material.UnitCode= (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : materialReceiptDetail.Material.UnitCode);
                                     materialReceiptDetail.Material.WeightInKG = (sdr["WeightInKG"].ToString() != "" ? decimal.Parse(sdr["WeightInKG"].ToString()) : materialReceiptDetail.Material.WeightInKG);
                                     materialReceiptDetail.MaterialDesc= (sdr["MaterialDesc"].ToString() != "" ? sdr["MaterialDesc"].ToString() : materialReceiptDetail.MaterialDesc);
                                     materialReceiptDetail.Qty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : materialReceiptDetail.Qty);
+                                    materialReceiptDetail.QtyInKG = (sdr["QtyInKG"].ToString() != "" ? decimal.Parse(sdr["QtyInKG"].ToString()) : materialReceiptDetail.QtyInKG);
                                     materialReceiptDetail.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : materialReceiptDetail.UnitCode);
 
                                     materialReceiptDetailList.Add(materialReceiptDetail);

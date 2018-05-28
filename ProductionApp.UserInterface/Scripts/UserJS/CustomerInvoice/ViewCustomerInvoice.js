@@ -80,7 +80,7 @@ function BindOrReloadCustomerInvoiceTable(action) {
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [1, 2, 3, 4, 5]
+                                     columns: [0,1, 2, 3, 4, 5,6,7]
                                  }
                 }],
                 order: false,
@@ -97,7 +97,6 @@ function BindOrReloadCustomerInvoiceTable(action) {
                 },
                 pageLength: 10,
                 columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
                     { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
                     { "data": "Customer.CompanyName", "defaultContent": "<i>-</i>" },
                     { "data": "InvoiceDateFormatted", "defaultContent": "<i>-</i>" },
@@ -108,22 +107,30 @@ function BindOrReloadCustomerInvoiceTable(action) {
                                 return roundoff(data)
                         }
                     },
+                      {
+                          "data": "BalanceDue", "defaultContent": "<i>-</i>",
+                          'render': function (data, type, row) {
+                              return roundoff(data)
+                          }
+                      },
+                    { "data": "LastPaymentDateFormatted", "defaultContent": "<i>-</i>" },
+                    { "data": "Status", "defaultContent": "<i>-</i>" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
                             return '<a href="/CustomerInvoice/NewCustomerInvoice?code=ACC&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
                         }, "defaultContent": "<i>-</i>", "width": "3%"
                     }
                 ],
-                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1, 2,] },
-                    { className: "text-right", "targets": [5] },
-                    { className: "text-center", "targets": [3,4,6] }],
+                columnDefs: [{ "targets": [], "visible": false, "searchable": false },
+                    { className: "text-left", "targets": [0,1, 7] },
+                    { className: "text-right", "targets": [5,4] },
+                    { className: "text-center", "targets": [2,3,6,8] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
                     if (action === 'Export') {
                         $(".buttons-excel").trigger('click');
-                        ResetCustomerInvoiceList();
+                        BindOrReloadCustomerInvoiceTable('Search');
                     }
                 }
             });
@@ -134,6 +141,4 @@ function BindOrReloadCustomerInvoiceTable(action) {
     }
 }
 
-function ResetCustomerInvoiceList() {
-    BindOrReloadCustomerInvoiceTable('Reset');
-}
+ 

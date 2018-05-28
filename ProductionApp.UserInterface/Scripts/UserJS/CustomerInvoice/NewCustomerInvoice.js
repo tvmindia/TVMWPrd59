@@ -23,11 +23,12 @@
 // ##15--Edit Popup Modal Update Customer Invoice Details
 // ##16--DELETE Customer Invoice 
 // ##17--DELETE Customer Invoice Details 
-// 
+// ##18--Discount Amount Changed
+// ##19--Email and Print
 //******************************************************************************
 
 //##1--Global Declaration---------------------------------------------##1 
-var _DataTables = {};
+var _dataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 var _SlNo = 1;
 var _result = "";
@@ -45,7 +46,7 @@ $(document).ready(function () {
         $("#PackingSlipID").select2({ dropdownParent: $("#CustomerInvoiceDetailsModal")  });
         $("#CustomerID").select2({ });
         $("#ReferenceCustomer").select2({});
-
+        $('#btnSendDownload').hide();
         $('#btnUpload').click(function () {
             debugger;
             //Pass the controller name
@@ -61,7 +62,7 @@ $(document).ready(function () {
             UploadFile(FileObject);
         });
 
-        _DataTables.CustomerInvoiceDetailTable = $('#tblCustomerInvoiceDetail').DataTable({
+        _dataTables.CustomerInvoiceDetailTable = $('#tblCustomerInvoiceDetail').DataTable({
           dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
           ordering: false,
           searching: false,
@@ -102,7 +103,7 @@ $(document).ready(function () {
               { className: "text-left", "targets": [4, 6] }
           ]
       }); 
-        _DataTables.PackingSlipListTable = $('#tblPackingSlipList').DataTable({
+        _dataTables.PackingSlipListTable = $('#tblPackingSlipList').DataTable({
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
             ordering: false,
             searching: true,
@@ -131,7 +132,7 @@ $(document).ready(function () {
             select: { style: 'multi', selector: 'td:first-child' },
             destroy: true
         });
-        _DataTables.PackingSlipListDetailTable = $('#tblPackingSlipListDetail').DataTable({
+        _dataTables.PackingSlipListDetailTable = $('#tblPackingSlipListDetail').DataTable({
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
             ordering: false,
             searching: false,
@@ -206,7 +207,7 @@ $(document).ready(function () {
             select: { style: 'multi', selector: 'td:first-child' },
             destroy: true
         });
-        _DataTables.EditPackingSlipListDetailTable = $('#tblPackingSlipListDetailEdit').DataTable( {
+        _dataTables.EditPackingSlipListDetailTable = $('#tblPackingSlipListDetailEdit').DataTable( {
       dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
       ordering: false,
       searching: false,
@@ -342,7 +343,7 @@ function ShowCustomerInvoiceDetailsModal()
 //##5--Bind Packing Slip List ----------------------------------------##5
 function BindPackingSlipListTable() {
     var packingSlipList = GetPackingSlipList();
-    _DataTables.PackingSlipListTable.clear().rows.add(packingSlipList).draw(false);
+    _dataTables.PackingSlipListTable.clear().rows.add(packingSlipList).draw(false);
 }
 function GetPackingSlipList()
 {
@@ -389,20 +390,20 @@ function ViewPackingSlipListDetails(value) {
         var packingSlipIds = GetSelectedRowPackingSlipIds();
         if (packingSlipIds) {
             BindPackingSlipListDetailTable(packingSlipIds);
-            _DataTables.PackingSlipListDetailTable.rows().select();
+            _dataTables.PackingSlipListDetailTable.rows().select();
             $('#btnForward').hide();
             $('#btnBackward').show();
             $('#btnAdd').show();
         }
         else {
            $('#tabDetail').attr('data-toggle', '');
-            _DataTables.PackingSlipListDetailTable.clear().draw(false);
+            _dataTables.PackingSlipListDetailTable.clear().draw(false);
             notyAlert('warning', "Please Select Packing Slip");
         }
     }
 }
 function GetSelectedRowPackingSlipIds() {
-    var SelectedRows = _DataTables.PackingSlipListTable.rows(".selected").data();
+    var SelectedRows = _dataTables.PackingSlipListTable.rows(".selected").data();
     if ((SelectedRows) && (SelectedRows.length > 0)) {
         var arrIDs = "";
         for (var r = 0; r < SelectedRows.length; r++) {
@@ -422,7 +423,7 @@ function BindPackingSlipListDetailTable(packingSlipIDs)
     TaxtypeDropdown(); //##8
     if (packingSlipIDs != "")
     {
-        _DataTables.PackingSlipListDetailTable.clear().rows.add(GetPackingSlipListDetail(packingSlipIDs)).draw(false);
+        _dataTables.PackingSlipListDetailTable.clear().rows.add(GetPackingSlipListDetail(packingSlipIDs)).draw(false);
     }
 }
 function GetPackingSlipListDetail(packingSlipIDs) {
@@ -489,8 +490,8 @@ function EdittextBoxValue(thisObj, textBoxCode)
 {
     debugger;
     var IDs = selectedRowIDs();//identify the selected rows 
-    var customerInvoiceDetailVM = _DataTables.PackingSlipListDetailTable.rows().data();
-    var rowtable = _DataTables.PackingSlipListDetailTable.row($(thisObj).parents('tr')).data();
+    var customerInvoiceDetailVM = _dataTables.PackingSlipListDetailTable.rows().data();
+    var rowtable = _dataTables.PackingSlipListDetailTable.row($(thisObj).parents('tr')).data();
     for (var i = 0; i < customerInvoiceDetailVM.length; i++)
     {
         if (customerInvoiceDetailVM[i].ProductID == rowtable.ProductID && customerInvoiceDetailVM[i].SlipNo == rowtable.SlipNo)
@@ -526,11 +527,11 @@ function EdittextBoxValue(thisObj, textBoxCode)
             }
         }
     }
-    _DataTables.PackingSlipListDetailTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
+    _dataTables.PackingSlipListDetailTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
     selectCheckbox(IDs); //Selecting the checked rows with their ids taken 
 }
 function selectedRowIDs() {
-    var allData = _DataTables.PackingSlipListDetailTable.rows(".selected").data();
+    var allData = _dataTables.PackingSlipListDetailTable.rows(".selected").data();
     var arrIDs = "";
     for (var r = 0; r < allData.length; r++) {
         if (r == 0)
@@ -541,13 +542,13 @@ function selectedRowIDs() {
     return arrIDs;
 }
 function selectCheckbox(IDs) {
-    var customerInvoiceDetailVM = _DataTables.PackingSlipListDetailTable.rows().data()
+    var customerInvoiceDetailVM = _dataTables.PackingSlipListDetailTable.rows().data()
     for (var i = 0; i < customerInvoiceDetailVM.length; i++) {
         if (IDs.includes(customerInvoiceDetailVM[i].ProductID)) {
-            _DataTables.PackingSlipListDetailTable.rows(i).select();
+            _dataTables.PackingSlipListDetailTable.rows(i).select();
         }
         else {
-            _DataTables.PackingSlipListDetailTable.rows(i).deselect();
+            _dataTables.PackingSlipListDetailTable.rows(i).deselect();
         }
     }
 }
@@ -556,7 +557,7 @@ function selectCheckbox(IDs) {
 function AddCustomerInvoiceDetails()
 {
    
-    var customerInvoiceDetailVM = _DataTables.PackingSlipListDetailTable.rows(".selected").data();
+    var customerInvoiceDetailVM = _dataTables.PackingSlipListDetailTable.rows(".selected").data();
     if (customerInvoiceDetailVM.length > 0)
     {
         AddCustomerInvoiceDetailList(customerInvoiceDetailVM)
@@ -638,12 +639,12 @@ function SaveSuccessCustomerInvoice(data, status)
     _jsonData = JSON.parse(data)
     switch (_jsonData.Result) {
         case "OK":
+            notyAlert("success", _jsonData.Records.Message)
             $('#IsUpdate').val('True');
             $('#ID').val(_jsonData.Records.ID)
             _CustomerInvoiceDetail = [];
             $("#DetailJSON").val('');
             BindCustomerInvoiceByID();
-            notyAlert("success", _jsonData.Records.Message)
             break;
         case "ERROR":
             notyAlert("danger", _jsonData.Message)
@@ -674,10 +675,12 @@ function BindCustomerInvoiceByID()
     $('#Discount').val(roundoff(customerInvoiceVM.Discount));
     $('#lblTotalTaxableAmount').text(roundoff(customerInvoiceVM.TotalTaxableAmount));
     $('#lblTotalTaxAmount').text(roundoff(customerInvoiceVM.TotalTaxAmount));
-    $('#lblInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount-customerInvoiceVM.Discount));
+    $('#lblPaymentReceived').text(roundoff(customerInvoiceVM.PaymentReceived));
+    $('#lblBalance').text(roundoff(roundoff(customerInvoiceVM.InvoiceAmount - customerInvoiceVM.Discount) - customerInvoiceVM.PaymentReceived));
+    $('#lblInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount - customerInvoiceVM.Discount));
     $('#lblStatusInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount-customerInvoiceVM.Discount));
     $('#InvoiceAmount').val(roundoff(customerInvoiceVM.InvoiceAmount));
-    
+    $('#CustomerInvoiceMailPreview_SentToEmails').val(customerInvoiceVM.Customer.ContactEmail)
     //detail Table values binding with header id
     BindCustomerInvoiceDetailTable(ID);
     PaintImages(ID);//bind attachments written in custom js
@@ -702,7 +705,7 @@ function GetCustomerInvoiceByID(ID) {
 }
 function BindCustomerInvoiceDetailTable(ID)
 {
-    _DataTables.CustomerInvoiceDetailTable.clear().rows.add(GetCustomerInvoiceDetail(ID)).draw(false);
+    _dataTables.CustomerInvoiceDetailTable.clear().rows.add(GetCustomerInvoiceDetail(ID)).draw(false);
 }
 function GetCustomerInvoiceDetail(ID)
 {
@@ -735,9 +738,9 @@ function Reset()
 function ItemDetailsEdit(thisObj) {
     debugger;
 
-    var rowData = _DataTables.CustomerInvoiceDetailTable.row($(thisObj).parents('tr')).data();
+    var rowData = _dataTables.CustomerInvoiceDetailTable.row($(thisObj).parents('tr')).data();
     TaxtypeDropdown(); //##8
-    _DataTables.EditPackingSlipListDetailTable.clear().rows.add(GetCustomerInvoiceDetailLinkForEdit(rowData.ID)).draw(false);
+    _dataTables.EditPackingSlipListDetailTable.clear().rows.add(GetCustomerInvoiceDetailLinkForEdit(rowData.ID)).draw(false);
 
     $('#EditCustomerInvoiceDetailModal').modal('show');
 
@@ -763,8 +766,8 @@ function GetCustomerInvoiceDetailLinkForEdit(id) {
 }
 function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
     debugger;
-    var customerInvoiceDetailVM = _DataTables.EditPackingSlipListDetailTable.rows().data();
-    var rowtable = _DataTables.EditPackingSlipListDetailTable.row($(thisObj).parents('tr')).data();
+    var customerInvoiceDetailVM = _dataTables.EditPackingSlipListDetailTable.rows().data();
+    var rowtable = _dataTables.EditPackingSlipListDetailTable.row($(thisObj).parents('tr')).data();
     for (var i = 0; i < customerInvoiceDetailVM.length; i++) {
         if (customerInvoiceDetailVM[i].ProductID == rowtable.ProductID && customerInvoiceDetailVM[i].SlipNo == rowtable.SlipNo) {
             if (textBoxCode == 1)
@@ -799,17 +802,19 @@ function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
             }
         }
     }
-    _DataTables.EditPackingSlipListDetailTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
+    _dataTables.EditPackingSlipListDetailTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
 }
 function UpdateCustomerInvoiceDetails()
 {
     debugger;
-    var CustomerInvoiceDetailVM = _DataTables.EditPackingSlipListDetailTable.rows().data();
+    var CustomerInvoiceDetailVM = _dataTables.EditPackingSlipListDetailTable.rows().data();
     _CustomerInvoiceDetailLink = [];
     UpdateCustomerInvoiceDetailLinkVM(CustomerInvoiceDetailVM)
     customerInvoiceVM = new Object();
     customerInvoiceVM.CustomerInvoiceDetailList = new Object();
     customerInvoiceVM.CustomerInvoiceDetailList = _CustomerInvoiceDetailLink;
+    customerInvoiceVM.ID = $('#ID').val();
+    customerInvoiceVM.InvoiceDateFormatted=$('#InvoiceDateFormatted').val();
     var data = "{'customerInvoiceVM':" + JSON.stringify(customerInvoiceVM) + "}";
 
     PostDataToServer("CustomerInvoice/UpdateCustomerInvoiceDetail/", data, function (JsonResult) {
@@ -888,12 +893,21 @@ function DeleteCustomerInvoice() {
 //##17--DELETE Customer Invoice Details------------------------------------------------##17
 function DeleteDetail(curobj)
 {
-    var rowData = _DataTables.CustomerInvoiceDetailTable.row($(curobj).parents('tr')).data();
-    notyConfirm('Are you sure to delete?', 'DeleteCustomerInvoiceDetail("' + rowData.ID + '")');
+    debugger;
+    if (_dataTables.CustomerInvoiceDetailTable.rows().count() > 1)
+    {
+        var rowData = _dataTables.CustomerInvoiceDetailTable.row($(curobj).parents('tr')).data();
+        notyConfirm('Are you sure to delete?', 'DeleteCustomerInvoiceDetail("' + rowData.ID + '")');
+    }
+    else
+    {
+        notyAlert('warning', "Can't delete item detail, Minimum one item is required");
+    }
+ 
 }
 function DeleteCustomerInvoiceDetail(id) {
     try {
-        debugger;
+      
         if (id != '' && id != null) {
             var data = { "id": id };
             _jsonData = GetDataFromServer("CustomerInvoice/DeleteCustomerInvoiceDetail/", data);
@@ -936,3 +950,97 @@ function DiscountAmountChanged(thisObj)
     }
    
 }
+
+//##19--Email and Print------------------------------------------------------------------##19
+//Email Sending
+function EmailPreview(flag) {
+    try {
+        debugger;
+        var headerID = $("#ID").val();
+        if (headerID) {
+            //Bind mail html into model
+            GetMailPreview(headerID, flag);
+            $("#MailPreviewModel").modal('show'); 
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.Message);
+    }
+}
+
+function GetMailPreview(ID) {
+    debugger;
+    var data = { "ID": ID};
+    var jsonData = {};
+    jsonData = GetDataFromServer("CustomerInvoice/GetMailPreview/", data);
+    if (jsonData == "Nochange") {
+        return; 0
+    }
+    $("#mailmodelcontent").empty();
+    $("#mailmodelcontent").html(jsonData);
+    $("#mailBodyText").val(jsonData);
+}
+ 
+function SendMailClick() {
+    debugger;
+        $('#btnFormSendMail').trigger('click');
+        $('#btnMail').hide();
+}
+
+function ValidateEmail() {
+    debugger;
+    var ste = $('#CustomerInvoiceMailPreview_SentToEmails').val();
+    if (ste) {
+        var atpos = ste.indexOf("@");
+        var dotpos = ste.lastIndexOf(".");
+        if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= ste.length) {
+            notyAlert('error', 'Invalid Email');
+            return false;
+        }
+            //not valid
+        else {
+            $("#MailPreviewModel").modal('hide');
+            OnServerCallBegin();
+            return true;
+        }
+    }
+    else
+        notyAlert('error', 'Enter email address');
+    return false;
+}
+
+function MailSuccess(data, status) {
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            notyAlert('success', JsonResult.Message);
+            OnServerCallComplete(); 
+            Reset();
+            break;
+        case "ERROR":
+            notyAlert('error', JsonResult.Message); 
+            break;
+        default:
+            notyAlert('error', JsonResult.Message);
+            break;
+    }
+}
+//To trigger PDF download button
+function DownloadPDF() {
+    debugger; 
+        GetHtmlData();
+        $('#btnSendDownload').trigger('click');
+}
+
+//To download file in PDF
+function GetHtmlData() {
+    debugger;
+    var bodyContent = $('#mailmodelcontent').html();
+    var headerContent = $('#hdnHeadContent').html();
+    $('#hdnContent').val(bodyContent);
+    $('#hdnHeadContent').val(headerContent);
+    var customerName = $("#CustomerID option:selected").text();
+    $('#hdnCustomerName').val(customerName);
+
+} 

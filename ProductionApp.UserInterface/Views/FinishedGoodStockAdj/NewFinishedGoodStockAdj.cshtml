@@ -19,6 +19,9 @@
     </ol>
 </div>
 
+@* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
+@Html.Action("AboutApprovalHistory", "DocumentApproval", new { id = Model.ID, docType = "FGADJ" })
+
 <section class="content">
     <div class="row" id="OverlayHeader">
         <div class="col-md-6">
@@ -262,4 +265,5 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/FinishedGoodStockAdj/NewFinishedGoodStockAdj")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/DocumentApproval/ApprovalHistory")
 }

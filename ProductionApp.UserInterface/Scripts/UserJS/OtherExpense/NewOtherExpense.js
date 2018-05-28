@@ -85,11 +85,13 @@ function PaymentModeChanged() {
         $('#BankCode').prop('disabled', false);
         $('#ChequeDateFormatted').prop('disabled', true);
         $('#ChequeClearDateFormatted').prop('disabled', true);
+        $('#Referencelbl').addClass('lblrequired');
     }
     else if ($('#PaymentMode').val() == "CHEQUE") {
         $('#ChequeDateFormatted').prop('disabled', false);
         $('#ChequeClearDateFormatted').prop('disabled', false);
         $('#BankCode').prop('disabled', false);
+        $('#Referencelbl').removeClass('lblrequired');
     }
     else {
         $("#ChequeDateFormatted").val('');
@@ -98,6 +100,7 @@ function PaymentModeChanged() {
         $('#ChequeClearDateFormatted').prop('disabled', true);
         $("#BankCode").val('').trigger('change');
         $('#BankCode').prop('disabled', true);
+        $('#Referencelbl').removeClass('lblrequired');
     }
 
 
@@ -171,7 +174,7 @@ function BindOtherExpense() {
     else
         $("#IsReverse").val('false');
     
-    
+    IsReverseOnchange();
     if (otherExpenseVM.ReversableAmount > 0)//Setting hidden field to limit Reversible amount
     {
         $("#hdnAmountReversal").val(otherExpenseVM.ReversableAmount);
@@ -181,7 +184,14 @@ function BindOtherExpense() {
     else {
         GetMaximumReducibleAmount(otherExpenseVM.EntryNo);
     }
-    if (otherExpenseVM.LatestApprovalStatus == 3 || otherExpenseVM.LatestApprovalStatus == 0) {
+    if (otherExpenseVM.LatestApprovalStatus == 8)
+    {
+        ChangeButtonPatchView('OtherExpense', 'divbuttonPatchOtherExpense', 'Limit');
+        EnableDisableFields(false)
+        $('#ChartOfAccountCode').val(otherExpenseVM.AccountCode).trigger('change');
+        $('#PaymentMode').val(otherExpenseVM.PaymentMode).trigger('change');
+    }
+    else if (otherExpenseVM.LatestApprovalStatus == 3 || otherExpenseVM.LatestApprovalStatus == 0) {
         ChangeButtonPatchView('OtherExpense', 'divbuttonPatchOtherExpense', 'Edit');
         EnableDisableFields(false)
         $('#ChartOfAccountCode').val(otherExpenseVM.AccountCode).trigger('change');
@@ -192,7 +202,7 @@ function BindOtherExpense() {
         $("#ReFAmountMsg").hide();
         EnableDisableFields(true)
     }
-    IsReverseOnchange();
+    
 }
 function GetOtherExpense(ID) {
     try {
@@ -288,7 +298,7 @@ function CheckReducibleAmount() {
         if (parseInt(enteredAmt) < parseInt(reducableAmt)) {
             $("#Amount").val('');
             $("#ReFAmountMsg").show();
-            $("#ReFAmountMsg").text('* Amount cannot be less than ' + reducableAmt);
+            $("#ReFAmountMsg").text('* Reversal Reference Exists, Amount must be more than ' + reducableAmt);
         }
         else {
             $("#ReFAmountMsg").hide();
@@ -469,4 +479,8 @@ function AccountCodeOnChange() {
 
     }
 
+}
+function Reset()
+{
+    BindOtherExpense();
 }

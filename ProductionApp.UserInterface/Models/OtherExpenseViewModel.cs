@@ -16,10 +16,10 @@ namespace ProductionApp.UserInterface.Models
         public DateTime ExpenseDate { get; set; }
         [Display(Name = "Cheque Date")]
         public DateTime? ChequeDate { get; set; }
-        [Display(Name = "Account Head")]
+        [Display(Name = "Account Code")]
         [Required(ErrorMessage = "Account Head required")]
         public string AccountCode { get; set; }
-        [Display(Name = "Subtype (Employee,Other,etc..)")]
+        [Display(Name = "Account Sub type")]
         public string AccountSubHead { get; set; }
         [Display(Name = "Payment Mode")]
         [Required(ErrorMessage = "Payment Mode required")]
@@ -42,6 +42,7 @@ namespace ProductionApp.UserInterface.Models
         public Guid? LatestApprovalID { get; set; }
         public int LatestApprovalStatus { get; set; }
         public bool isFinalApproved { get; set; }
+        public decimal OELimit { get; set; }
         //additional fields
         public CommonViewModel Common { get; set; }
         public ChartOfAccountViewModel ChartOfAccount { get; set; }
@@ -70,8 +71,10 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "To Date")]
         public string ToDate { get; set; }
         [Display(Name = "Account")]
+        public string AccountCode { get; set; }
         public ChartOfAccountViewModel ChartOfAccount { get; set; }
         [Display(Name = "Approval Status")]
+        public int? Status { get; set; }
         public ApprovalStatusViewModel ApprovalStatus { get; set; }
     }
 }

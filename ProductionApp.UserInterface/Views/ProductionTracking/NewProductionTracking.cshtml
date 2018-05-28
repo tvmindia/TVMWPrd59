@@ -43,7 +43,7 @@
             {
 
                 <div class="col-md-12">
-                    <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
+                    <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Production Entry</div>
                 </div>
                 @Html.HiddenFor(model => model.ID)
                 @Html.HiddenFor(model => model.IsUpdate)
@@ -53,7 +53,7 @@
                             @Html.LabelFor(model => model.EntryDate, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.EntryDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @value = ViewBag.CurrentDate, @id = "EntryDate" } })
+                            @Html.EditorFor(model => model.EntryDateFormatted, new { htmlAttributes = new { @class = "form-control HeaderBox datepicker", @id = "EntryDate" } })
                             @*@Html.ValidationMessageFor(model => model.EntryDateFormatted, "", new { @class = "text-danger" })*@
                             <span class = "text-danger" id="msgEntryDate" style="display:none;">Entry Date Required</span>
                         </div>
@@ -63,38 +63,25 @@
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.ForemanID, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
+                        <div class="col-md-12" id="divEmployeeDropdown">
+                            @Html.Action("EmployeeDropdown", "Employee")
+                        </div>
                         <div class="col-md-12">
-                            @Html.Action("EmployeeDropdown", "Employee", Model.ForemanID)
                             @Html.HiddenFor(model => model.ForemanID, htmlAttributes: new { @value = Guid.Empty })
-                            <span class = "text-danger"  id="msgForemanID" style="display:none;">Employee Required</span>
+                            <span class="text-danger" id="msgForemanID" style="display:none;">Employee Required</span>
                         </div>
                     </div>
 
-                    <div class="form-group col-md-6">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.ProductionRefNo, htmlAttributes: new { @class = "control-label" })
-                        </div>
-                        <div class="col-md-12">
-                            @Html.EditorFor(model => model.ProductionRefNo, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
-                            @Html.ValidationMessageFor(model => model.ProductionRefNo, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
                 </div>
-
-                <div class="col-md-12">
-                    <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Selected Product/Component/Stage Details</div>
-                </div>
-
-
-
+                
                 <div class="form-group col-md-12">
                     <div class="col-md-12">
                         <div class="col-md-12">
-                            @Html.Label("ProductionTrackingSearch", "Search", htmlAttributes: new { @class = "control-label lblrequired" })
+                            @Html.Label("ProductionTrackingSearch", "Search and select Subcomponent", htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
                         <div class="col-md-12">
                             <div class="input-group">
-                                @Html.Editor("ProductionTrackingSearch", new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "ProductionTrackingSearch", placeholder = "Search" } })@*, @onkeypress = "ProductionTrackingSearchOnKeyPress(this)"*@
+                                @Html.Editor("ProductionTrackingSearch", new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "ProductionTrackingSearch", placeholder = "Search", @onkeypress = "SearchOnkeyPress(ProductionTrackingSearch(),this)" } })@*, @onkeypress = "ProductionTrackingSearchOnKeyPress(this)"*@
                                 <div class="input-group-btn">
                                     <a class="btn btn-primary" style="height:27.5px" onclick="ProductionTrackingSearch()"><i class="glyphicon glyphicon-search"></i></a> @*type="submit"*@
                                 </div>
@@ -105,7 +92,7 @@
                 </div>
 
                 <div class="col-md-12">
-                    <div id="TrackingDetailSearchDiv" class="addEmp" style="display:none">
+                    <div id="TrackingDetailSearchDiv" class="addEmp" style="margin-left:4%;width:150%;display:none;">
                             @*style="width:92.5%;margin-left:2%;display:none"*@
                             <div class="col-md-11"></div>
                             <div class="col-md-1">
@@ -133,12 +120,54 @@
                         </div>
                     </div>
 
-
+                    <div class="col-md-12">&nbsp;</div>
                     <div class="col-md-12">
-                        <div class="col-md-12" style="padding-top:7px;">
+                        @Html.HiddenFor(model => model.ProductID)
+                        @Html.HiddenFor(model => model.LineStageDetailID)
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <div class="box box-primary" style="left:-1%;">
+                                    <div class="box-header with-border">
+                                        <div class="box-title" style="font-size:1.1em;">
+                                            <b> SubComponent : </b>
+                                            <span class="" id="lblSubComponent">N/A</span>
+                                        </div>
+
+                                        <div class="box-tools pull-right">
+                                            <a class="btn btn-box-tool" data-widget="collapse" onclick='$(this).children("i").toggleClass("fa-angle-double-up").toggleClass("fa-angle-double-down");' style="font-size:1.5em;">
+                                                <i class="fa fa-angle-double-up"></i>
+                                            </a>
+                                        </div>
+                                        <!-- /.box-tools -->
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body" style="font-size:1.1em;">
+                                        <div class="form-group col-md-12">
+                                            <div>
+                                                <b> Product : </b>
+                                                <span class="" id="lblProduct">N/A</span>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div>
+                                                <b> Component : </b>
+                                                <span class="" id="lblComponent">N/A</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div>
+                                                <b> Stage : </b>
+                                                <span class="" id="lblStage">N/A</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-md-12" style="padding-top:7px;">
                             <div class="form-group col-md-12">
-                                @Html.HiddenFor(model => model.ProductID)
-                                @Html.HiddenFor(model => model.LineStageDetailID)
                                 <div class="form-group col-md-12 box-header figuresummaryGray rounded">
                                     <div class="form-group col-md-6">
                                         <div class="rightAmtCaption">Product</div>
@@ -148,7 +177,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <div class="lblStatusDisplay" id="lblProduct" style="font-size: 14px;">N/A</div> @*style="font-size: 13.5px;"*@
-                                    </div>
+                                    @*</div>
                                     <div class="form-group col-md-6">
                                         <div class="lblStatusDisplay" id="lblComponent" style="font-size: 14px;">N/A</div>
                                     </div>
@@ -166,19 +195,18 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                     </div>
 
 
 
-                    <div class="col-md-12 headSeperator" style="border-right:25px solid #f8f8f8"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Quantity Details</div>
                     <div class="col-md-12">
                         <div class="col-md-6">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.AcceptedQty, htmlAttributes: new { @class = "control-label " })
                             </div>
                             <div class="col-md-12">
-                                @Html.EditorFor(model => model.AcceptedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                                @Html.EditorFor(model => model.AcceptedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0, @onclick = "SelectAllValue(this);" } })
                                 @Html.ValidationMessageFor(model => model.AcceptedQty, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -188,7 +216,7 @@
                                 @Html.LabelFor(model => model.DamagedQty, htmlAttributes: new { @class = "control-label " })
                             </div>
                             <div class="col-md-12">
-                                @Html.EditorFor(model => model.DamagedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                                @Html.EditorFor(model => model.DamagedQty, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0, @onclick = "SelectAllValue(this);" } })
                                 @Html.ValidationMessageFor(model => model.DamagedQty, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -198,7 +226,7 @@
                                 @Html.LabelFor(model => model.AcceptedWt, htmlAttributes: new { @class = "control-label " })
                             </div>
                             <div class="col-md-12">
-                                @Html.EditorFor(model => model.AcceptedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                                @Html.EditorFor(model => model.AcceptedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0, @onclick = "SelectAllValue(this);" } })
                                 @Html.ValidationMessageFor(model => model.AcceptedWt, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -208,8 +236,18 @@
                                 @Html.LabelFor(model => model.DamagedWt, htmlAttributes: new { @class = "control-label " })
                             </div>
                             <div class="col-md-12">
-                                @Html.EditorFor(model => model.DamagedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0 } })
+                                @Html.EditorFor(model => model.DamagedWt, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumber(event)", @value = 0, @onclick = "SelectAllValue(this);" } })
                                 @Html.ValidationMessageFor(model => model.DamagedWt, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.ProductionRefNo, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.ProductionRefNo, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
+                                @Html.ValidationMessageFor(model => model.ProductionRefNo, "", new { @class = "text-danger" })
                             </div>
                         </div>
 

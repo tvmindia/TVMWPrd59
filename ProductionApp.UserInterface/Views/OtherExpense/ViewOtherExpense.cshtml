@@ -1,7 +1,7 @@
 ﻿@using ProductionApp.UserInterface.App_Start
 @model ProductionApp.UserInterface.Models.OtherExpenseAdvanceSearchViewModel
 @{
-    ViewBag.Title = "ViewOtherExpense";
+    ViewBag.Title = "View OtherExpense";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 @section styles {
@@ -77,18 +77,18 @@
             </div>
             <div class="col-md-5">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.ChartOfAccount, htmlAttributes: new { @class = "control-label" })
+                    @Html.LabelFor(model => model.AccountCode, htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="col-md-12">
-                    @Html.DropDownListFor(model => model.ChartOfAccount.Code, Model.ChartOfAccount.ChartOfAccountSelectList, "--Select AccountCode--", new { @class = "form-control BlockEnter", @style = "width:100%", @id = "ChartOfAccountCode" })
+                    @Html.DropDownListFor(model => model.AccountCode, Model.ChartOfAccount.ChartOfAccountSelectList, "--Select Account--", new { @class = "form-control BlockEnter", @style = "width:100%" })
                 </div>
             </div>
             <div class="col-md-5">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.ApprovalStatus, htmlAttributes: new { @class = "control-label" })
+                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="col-md-12">
-                   @Html.Action("ApprovalStatusDropdown", "ApprovalStatus")
+                   @Html.DropDownListFor(model => model.Status, Model.ApprovalStatus.StatusSelectList, "--Select Approval Status--", new { @class = "form-control BlockEnter", @style = "width:100%" })
                 </div>
             </div>
             <div class="col-md-2">

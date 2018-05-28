@@ -1,0 +1,87 @@
+﻿@using ProductionApp.UserInterface.App_Start
+@model ProductionApp.UserInterface.Models.DocumentApprovalViewModel
+
+@section styles {
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+}
+
+
+<div class="modal fade bs-example-modal-lg" id="ApprovalHistoryModal" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="" role="document" style="width:500px !important;float:right;margin-right:2%;">
+        <div class="modal-content" style="margin-top:35%;height:400px;">
+
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 30px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;font-size: 23px;">
+                    <div class="col-md-9">
+                        <div class="col-md-12 modelIcon">
+                            <h4 class="modal-title" id="modelContextLabel">Approval History</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 25px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.DocumentID, htmlAttributes: new { @class = "", Value = @ViewBag.DocumentID })
+            @Html.HiddenFor(model => model.DocumentType, htmlAttributes: new { @class = "", Value = @ViewBag.DocumentType })
+
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="box-body no-padding">
+                        @if (Model.ApprovalHistoryList != null && Model.ApprovalHistoryList.Count>0)
+                        {
+                            <table class="table table-condensed scroll" width="100%">
+                                <thead style="display: block;">
+                                    <tr>
+                                        <th style="width:20%;border-bottom: 0px;">Approver</th>
+                                        <th style="width:08%;border-bottom: 0px;">Level</th>
+                                        <th style="width:20%;border-bottom: 0px;">Date</th>
+                                        <th style="width:32%;border-bottom: 0px;">Remarks</th>
+                                        <th style="width:20%;border-bottom: 0px;">Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody style="display: block;height: 300px;overflow-y: auto;overflow-x: hidden;width:100%;">
+
+                                    @for (int i = 0; i < Model.ApprovalHistoryList.Count; i++)
+                                    {
+                                    <tr>
+                                        <td style="width:20%;">@Model.ApprovalHistoryList[i].ApproverName</td>
+                                        <td style="width:08%;">@Model.ApprovalHistoryList[i].ApproverLevel</td>
+                                        <td style="width:20%;">@Model.ApprovalHistoryList[i].ApprovalDate</td>
+                                        @if (Model.ApprovalHistoryList[i].Remarks != null) {<td style="width:32%;">@Model.ApprovalHistoryList[i].Remarks </td>} else {<td style="width:32%;">-</td>}
+                                        <td style="width:20%;">@Model.ApprovalHistoryList[i].ApprovalStatus</td>@*<span class="label label-info bg-olive "></span>*@
+                                    </tr>
+                                    }
+
+                                    @for (int i = (Model.ApprovalHistoryList == null ? 0 : Model.ApprovalHistoryList.Count); i < 4; i++)
+                                    {
+                                    <tr>
+                                        <td style="width:20%;">-</td>
+                                        <td style="width:08%;">-</td>
+                                        <td style="width:20%;">-</td>
+                                        <td style="width:32%;">-</td>
+                                        <td style="width:20%;">-</td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="modal-footer" style="height: 50px;padding: 7px;">
+                    <!--a id="" class="btn btn-primary" onclick=""><i class="glyphicon glyphicon-floppy-disk"></i> Add</a-->
+                </div>*@
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/DocumentApproval/ApprovalHistory")
+}
+
+

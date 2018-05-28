@@ -16,12 +16,14 @@ namespace ProductionApp.UserInterface.Controllers
     {
         private IOtherExpenseBusiness _otherExpenseBusiness;
         private IChartOfAccountBusiness _chartOfAccountBusiness;
+        private IApprovalStatusBusiness _approvalStatusBusiness;
         Common _common = new Common();
         AppConst _appConst = new AppConst();
-        public OtherExpenseController(IOtherExpenseBusiness otherExpenseBusiness, IChartOfAccountBusiness chartOfAccountBusiness)
+        public OtherExpenseController(IOtherExpenseBusiness otherExpenseBusiness, IChartOfAccountBusiness chartOfAccountBusiness, IApprovalStatusBusiness approvalStatusBusiness)
         {
             _otherExpenseBusiness = otherExpenseBusiness;
             _chartOfAccountBusiness = chartOfAccountBusiness;
+            _approvalStatusBusiness = approvalStatusBusiness;
         }
         // GET: OtherExpense
         [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
@@ -40,13 +42,11 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ViewOtherExpense(string code)
         {
             ViewBag.SysModuleCode = code;
-            OtherExpenseAdvanceSearchViewModel otherExpenseSearchVM = new OtherExpenseAdvanceSearchViewModel()
-            {
-                ChartOfAccount = new ChartOfAccountViewModel()
-                {
-                    ChartOfAccountSelectList = _chartOfAccountBusiness.GetChartOfAccountForSelectList("EXP")
-                }
-            };
+            OtherExpenseAdvanceSearchViewModel otherExpenseSearchVM = new OtherExpenseAdvanceSearchViewModel();
+            otherExpenseSearchVM.ChartOfAccount = new ChartOfAccountViewModel();
+            otherExpenseSearchVM.ChartOfAccount.ChartOfAccountSelectList = _chartOfAccountBusiness.GetChartOfAccountForSelectList("EXP");
+            otherExpenseSearchVM.ApprovalStatus = new ApprovalStatusViewModel();
+            otherExpenseSearchVM.ApprovalStatus.StatusSelectList = _approvalStatusBusiness.GetApprovalStatusForSelectList();
             return View(otherExpenseSearchVM);
         }
 
@@ -156,7 +156,8 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                var result = _otherExpenseBusiness.DeleteOtherExpense(id);
+                AppUA appUA = Session["AppUA"] as AppUA;
+                var result = _otherExpenseBusiness.DeleteOtherExpense(id, appUA.UserName);
                 return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
             }
             catch (Exception ex)
@@ -180,7 +181,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { Code = "ACC" });
+                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { code = "ACC" });
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
@@ -199,7 +200,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { Code = "ACC" });
+                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { code = "ACC" });
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
@@ -224,7 +225,12 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { Code = "ACC" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { code = "ACC" });
+
+                    toolboxVM.AboutBtn.Visible = true;
+                    toolboxVM.AboutBtn.Text = "History";
+                    toolboxVM.AboutBtn.Title = "About Approval History";
+                    toolboxVM.AboutBtn.Event = "ShowApprovalHistory()";
 
                     break;
 
@@ -233,12 +239,17 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { Code = "ACC" });
+                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { code = "ACC" });
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { Code = "ACC" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { code = "ACC" });
+
+                    toolboxVM.AboutBtn.Visible = true;
+                    toolboxVM.AboutBtn.Text = "History";
+                    toolboxVM.AboutBtn.Title = "About Approval History";
+                    toolboxVM.AboutBtn.Event = "ShowApprovalHistory()";
 
                     break;
                 case "Add":
@@ -251,7 +262,35 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { Code = "ACC" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { code = "ACC" });
+                    break;
+                case "Limit":
+
+                    toolboxVM.addbtn.Visible = true;
+                    toolboxVM.addbtn.Text = "New";
+                    toolboxVM.addbtn.Title = "Add New";
+                    toolboxVM.addbtn.Href = Url.Action("NewOtherExpense", "OtherExpense", new { code = "ACC" });
+
+                    toolboxVM.savebtn.Visible = true;
+                    toolboxVM.savebtn.Text = "Save";
+                    toolboxVM.savebtn.Title = "Save";
+                    toolboxVM.savebtn.Event = "Save();";
+
+                    toolboxVM.deletebtn.Visible = true;
+                    toolboxVM.deletebtn.Text = "Delete";
+                    toolboxVM.deletebtn.Title = "Delete";
+                    toolboxVM.deletebtn.Event = "DeleteClick()";
+
+                    toolboxVM.resetbtn.Visible = true;
+                    toolboxVM.resetbtn.Text = "Reset";
+                    toolboxVM.resetbtn.Title = "Reset";
+                    toolboxVM.resetbtn.Event = "Reset();";
+
+                    toolboxVM.ListBtn.Visible = true;
+                    toolboxVM.ListBtn.Text = "List";
+                    toolboxVM.ListBtn.Title = "List";
+                    toolboxVM.ListBtn.Href = Url.Action("ViewOtherExpense", "OtherExpense", new { code = "ACC" });
+
                     break;
                 default:
                     return Content("Nochange");

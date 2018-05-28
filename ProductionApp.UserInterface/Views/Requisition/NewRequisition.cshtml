@@ -27,16 +27,20 @@
 <!-- Main content -->
 <section class="content">
     <div class="row" id="OverlayHeader">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <span id="lblReqNo" class="SCHeader"></span>
         </div>
-        <div class="col-md-6" id="divbuttonPatchAddRequisition" style="min-height:25px;">
+        <div class="col-md-7" id="divbuttonPatchAddRequisition" style="min-height:25px;">
             @{
                 var data = new { actionType = "Add" };
                 @Html.Action("ChangeButtonStyle", "Requisition", data);
             }
         </div>
     </div>
+
+    @* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
+    @Html.Action("AboutApprovalHistory", "DocumentApproval", new { id=Model.ID, docType="REQ" })
+
     <div class="row tableContainer">
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
         @using (Ajax.BeginForm("InsertUpdateRequisition", "Requisition", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessRequisition", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "RequisitionForm" }))
@@ -202,6 +206,14 @@
                             @Html.EditorFor(model => model.RequisitionDetail.Material.MaterialCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.RequisitionDetail.Material.UnitCode, htmlAttributes: new { @class = "control-label " })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.RequisitionDetail.Material.UnitCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.RequisitionDetail.Description, htmlAttributes: new { @class = "control-label " })
@@ -284,4 +296,5 @@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/RequisitionJS/NewRequisition")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/DocumentApproval/ApprovalHistory")
 }

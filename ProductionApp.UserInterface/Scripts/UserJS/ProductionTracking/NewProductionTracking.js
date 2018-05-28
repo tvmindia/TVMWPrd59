@@ -36,10 +36,6 @@ $(document).ready(function () {
 function ProductionTrackingInit() {
     try{
         debugger;
-        $('.input-group-addon').each(function () {
-            $(this).parent().css("width", "100%");
-            $(this).remove();
-        });
 
         $('#ProductionTrackingSearch').keydown(function (event) {
             if (event.which === 13) {
@@ -303,7 +299,7 @@ function BindProductionTracking() {
         debugger;
         _ProductionTracking = new Object();
         _ProductionTracking = GetProductionTracking();
-        $('#EntryDateFormatted').val(_ProductionTracking.EntryDateFormatted);
+        $('#EntryDate').val(_ProductionTracking.EntryDateFormatted);
         $('#EmployeeID').val(_ProductionTracking.ForemanID).select2();
         $('#ProductionRefNo').val(_ProductionTracking.ProductionRefNo);
         $('#AcceptedQty').val(_ProductionTracking.AcceptedQty);

@@ -25,9 +25,12 @@ namespace ProductionApp.DataAccessObject.DTO
         public int TotalCount { get; set; }
         public string DetailJSON { get; set; }
         public string DetailXML { get; set; }
+        public string Status { get; set; }
+        public decimal BalanceDue { get; set; }
         public int FilteredCount { get; set; }
         public string InvoiceDateFormatted { get; set; }
         public string PaymentDueDateFormatted { get; set; }
+        public string LastPaymentDateFormatted { get; set; }
 
         public decimal TotalTaxAmount { get; set; }
         public decimal TotalTaxableAmount { get; set; }
@@ -41,8 +44,20 @@ namespace ProductionApp.DataAccessObject.DTO
         public List<CustomerInvoiceDetail> CustomerInvoiceDetailList { get; set; }
         public CustomerPayment CustomerPayment { get; set; }
         public List<CustomerInvoice> CustomerInvoiceList { get; set; }
+        public CustomerInvoiceMailPreview CustomerInvoiceMailPreview { get; set; }
         public string BaseURL { get; set; }
-
+        public string MailBodyHeader { get; set; }
+        public string MailBodyFooter { get; set; }
+        public string EmailSentYN { get; set; }
+        public string SubscriberEmail { get; set; }
+        public string CompanyAddress { get; set; }
+        public string CompanyName { get; set; }
+        public string LogoURL { get; set; }
+        public string BankName{ get; set; }
+        public string BankAccDetail { get; set; }
+        public string InvoiceDeclaration { get; set; }
+        public string InvoiceAmountWords { get; set; }
+        
     }
     public class CustomerInvoiceDetail
     {
@@ -92,5 +107,13 @@ namespace ProductionApp.DataAccessObject.DTO
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public Guid CustomerID { get; set; }
+    }
+
+    public class CustomerInvoiceMailPreview
+    { 
+        public string SentToEmails { get; set; }
+        public string MailBody { get; set; }
+        public bool Flag { get; set; }
+        public CustomerInvoice CustomerInvoice { get; set; }
     }
 }

@@ -20,10 +20,10 @@
 // ##12--Save Success Supplier Invoice
 // ##13--Bind Supplier Invoice By ID
 // ##14--Reset Button Click
-// ##15-- 
+// ##15--Edit Popup Modal Update Supplier Invoice Detail
 // ##16--DELETE Supplier Invoice 
 // ##17--DELETE Supplier Invoice Details 
-// 
+// ##18--Discount Amount Changed 
 //******************************************************************************
 
 //##1--Global Declaration---------------------------------------------##1 
@@ -662,12 +662,12 @@ function SaveSuccessSupplierInvoice(data, status) {
     _jsonData = JSON.parse(data)
     switch (_jsonData.Result) {
         case "OK":
+            notyAlert("success", _jsonData.Records.Message)
             $('#IsUpdate').val('True');
             $('#ID').val(_jsonData.Records.ID)
             _SupplierInvoiceDetail = [];
             $("#DetailJSON").val('');
             BindSupplierInvoiceByID();
-            notyAlert("success", _jsonData.Records.Message)
             break;
         case "ERROR":
             notyAlert("danger", _jsonData.Message)
@@ -697,7 +697,10 @@ function BindSupplierInvoiceByID() {
     $('#lblTotalTaxableAmount').text(roundoff(SupplierInvoiceVM.TotalTaxableAmount));
     $('#lblTotalTaxAmount').text(roundoff(SupplierInvoiceVM.TotalTaxAmount));
     $('#InvoiceAmount').val(SupplierInvoiceVM.InvoiceAmount);
-    $('#lblInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount-SupplierInvoiceVM.Discount));
+    $('#lblPaymentBooked').text(roundoff(SupplierInvoiceVM.PaymentBooked));
+    $('#lblPaidAmount').text(roundoff(SupplierInvoiceVM.PaymentProcessed));
+    $('#lblBalance').text(roundoff(SupplierInvoiceVM.Balance));
+    $('#lblInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount - SupplierInvoiceVM.Discount));
     $('#lblStatusInvoiceAmount').text(roundoff(SupplierInvoiceVM.InvoiceAmount-SupplierInvoiceVM.Discount));
     $('#AccountCode').val(SupplierInvoiceVM.AccountCode).select2();
     debugger;
@@ -772,7 +775,7 @@ function Reset() {
     BindSupplierInvoiceByID();
 }
 
-////##15--Edit Popup Modal Update Supplier Invoice Detail----------------------------##15
+//##15--Edit Popup Modal Update Supplier Invoice Detail----------------------------##15
 function ItemDetailsEdit(thisObj) {
     debugger;
     $("#supplierInvoiceDetailModalLabel").text('Edit Supplier Invoice Detail');
@@ -847,9 +850,17 @@ function DeleteSupplierInvoice() {
 }
 
 //##17--DELETE Supplier Invoice Details------------------------------------------------##17
-function DeleteDetail(curobj) {
-    var rowData = _dataTables.SupplierInvoiceDetailTable.row($(curobj).parents('tr')).data();
-    notyConfirm('Are you sure to delete?', 'DeleteSupplierInvoiceDetail("' + rowData.ID + '")');
+function DeleteDetail(curobj)
+{
+    if (_dataTables.SupplierInvoiceDetailTable.rows().count() > 1)
+    {
+        var rowData = _dataTables.SupplierInvoiceDetailTable.row($(curobj).parents('tr')).data();
+        notyConfirm('Are you sure to delete?', 'DeleteSupplierInvoiceDetail("' + rowData.ID + '")');
+    }
+    else {
+        notyAlert('warning', "Can't delete item detail, Minimum one item is required");
+    }
+   
 }
 function DeleteSupplierInvoiceDetail(id) {
     try {

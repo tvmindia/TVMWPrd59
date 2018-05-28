@@ -141,7 +141,21 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<OtherExpenseAdvanceSearchViewModel, OtherExpenseAdvanceSearch>().ReverseMap();
                 //Report
                 config.CreateMap<AMCSysReportViewModel, AMCSysReport>().ReverseMap();
+               
+                config.CreateMap<RequisitionDetailReportViewModel, RequisitionDetailReport>().ReverseMap();
+
                 config.CreateMap<RequisitionSummaryReportViewModel, RequisitionSummaryReport>().ReverseMap();
+                config.CreateMap<PurchaseSummaryReportViewModel, PurchaseSummaryReport>().ReverseMap();
+                config.CreateMap<PurchaseDetailReportViewModel, PurchaseDetailReport>().ReverseMap();
+                config.CreateMap<PurchaseRegisterReportViewModel, PurchaseRegisterReport>().ReverseMap();
+                config.CreateMap<InventoryReorderStatusReportViewModel, InventoryReorderStatusReport>().ReverseMap();
+                config.CreateMap<StockRegisterReportViewModel, StockRegisterReport>().ReverseMap();
+                config.CreateMap<BOMTreeViewModel, BOMTree>().ReverseMap();
+                config.CreateMap<StockLedgerReportViewModel, StockLedgerReport>().ReverseMap();
+                config.CreateMap<InventoryReOrderStatusFGReportViewModel, InventoryReOrderStatusFGReport>().ReverseMap();
+                config.CreateMap<StockRegisterFGReportViewModel, StockRegisterFGReport>().ReverseMap();
+                config.CreateMap<StockLedgerFGReportViewModel, StockLedgerFGReport>().ReverseMap();
+
                 //Approval Status
                 config.CreateMap<ApprovalStatusViewModel, ApprovalStatus>().ReverseMap();
 

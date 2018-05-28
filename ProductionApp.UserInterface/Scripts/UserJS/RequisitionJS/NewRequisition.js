@@ -129,8 +129,9 @@ function BindMaterialDetails(ID)
     $('#RequisitionDetail_Material_MaterialCode').val(result.MaterialCode);
     $('#RequisitionDetail_Material_CurrentStock').val(result.CurrentStock);
     $('#RequisitionDetail_Description').val(result.Description);
+    $('#RequisitionDetail_Material_UnitCode').val(result.UnitCode);
     $('#RequisitionDetail_ApproximateRate').val(result.Rate);
-}
+ }
 
 function GetMaterial(ID) {
     try {

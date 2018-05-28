@@ -144,7 +144,7 @@ namespace ProductionApp.DataAccessObject.DTO
 
         public AppConstMessage GetMessage(string messageCode)
         {
-            AppConstMessage result = new AppConstMessage(messageCode, "", "ERROR");
+            AppConstMessage result = new AppConstMessage(messageCode, messageCode, "ERROR");
 
             try
             {

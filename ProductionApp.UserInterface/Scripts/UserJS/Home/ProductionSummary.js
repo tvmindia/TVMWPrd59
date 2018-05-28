@@ -5,7 +5,7 @@
         labels: lblProduction, //x-axis
         datasets: [
         {
-            stack:"stanck1",
+            stack:"stanck2",
             legendText: "Materials Used",
             label: "Matrls Usd", //optional
             fillColor: "rgba(211, 218, 7,0.8)",
@@ -159,7 +159,7 @@
                     xAxes: [{
                         stacked: true,                       
                         barPercentage: 0.4,
-                        maxBarThickness: 20
+                        maxBarThickness: 10
                     }],
                     yAxes: [{
                         stacked: true

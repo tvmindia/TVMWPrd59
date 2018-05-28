@@ -13,10 +13,13 @@ namespace ProductionApp.BusinessService.Services
     {
         private ICustomerInvoiceRepository _customerInvoiceRepository;
         private ICommonBusiness _commonBusiness;
-        public CustomerInvoiceBusiness(ICustomerInvoiceRepository customerInvoiceRepository, ICommonBusiness commonBusiness)
+        private IMailBusiness _mailBusiness;
+        public CustomerInvoiceBusiness(ICustomerInvoiceRepository customerInvoiceRepository,
+            ICommonBusiness commonBusiness, IMailBusiness mailBusiness)
         {
             _customerInvoiceRepository = customerInvoiceRepository;
             _commonBusiness = commonBusiness;
+            _mailBusiness = mailBusiness;
         }
 
         public List<CustomerInvoiceDetail> GetPackingSlipListDetail(string packingSlipIDs, string id)
@@ -73,21 +76,77 @@ namespace ProductionApp.BusinessService.Services
             return _customerInvoiceRepository.UpdateCustomerInvoiceDetail(customerInvoice);
         }
 
-        public object DeleteCustomerInvoice(Guid id)
+        public object DeleteCustomerInvoice(Guid id, string userName)
         {
-            return _customerInvoiceRepository.DeleteCustomerInvoice(id);
+            return _customerInvoiceRepository.DeleteCustomerInvoice(id,userName);
 
         }
 
-        public object DeleteCustomerInvoiceDetail(Guid id)
+        public object DeleteCustomerInvoiceDetail(Guid id, string userName)
         {
-            return _customerInvoiceRepository.DeleteCustomerInvoiceDetail(id);
+            return _customerInvoiceRepository.DeleteCustomerInvoiceDetail(id,userName);
 
         }
 
         public List<CustomerInvoice> GetRecentCustomerInvoice(string BaseURL)
         {
             return _customerInvoiceRepository.GetRecentCustomerInvoice();
+        }
+
+        public object UpdateCustomerInvoiceMailStatus(CustomerInvoice CustomerInvoice)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> EmailPush(CustomerInvoice customerInvoice)
+        {
+            bool sendsuccess = false;
+
+            try
+            {
+                if (!string.IsNullOrEmpty(customerInvoice.CustomerInvoiceMailPreview.SentToEmails))
+                {
+                    string[] EmailList = customerInvoice.CustomerInvoiceMailPreview.SentToEmails.Split(',');
+                    foreach (string email in EmailList)
+                    {
+                        Mail _mail = new Mail();
+                        _mail.Body = customerInvoice.CustomerInvoiceMailPreview.MailBody;
+                        _mail.Subject = "Customer Invoice";
+                        _mail.To = email;
+                        sendsuccess = await _mailBusiness.MailSendAsync(_mail);
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return sendsuccess;
+        }
+
+        public CustomerInvoice GetMailPreview(Guid ID)
+        {
+            CustomerInvoice customerInvoice = null;
+            try
+            {
+                customerInvoice = GetCustomerInvoice(ID);
+                customerInvoice.ID = ID;
+                if (customerInvoice != null)
+                {
+                    if ((customerInvoice.ID != Guid.Empty) && (customerInvoice.ID != null))
+                    {
+                        customerInvoice.CustomerInvoiceDetailList = GetCustomerInvoiceDetail(ID);
+                    }
+                    customerInvoice.InvoiceAmountWords = _commonBusiness.NumberToWords(double.Parse((customerInvoice.InvoiceAmount- customerInvoice.Discount).ToString()));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return customerInvoice;
         }
     }
 }

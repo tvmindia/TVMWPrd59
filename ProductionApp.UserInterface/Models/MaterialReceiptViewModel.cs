@@ -24,6 +24,9 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "General Notes")]
         [DataType(DataType.MultilineText)]
         public string GeneralNotes { get; set; }
+        [Display(Name = "Received By")]
+        public Guid? ReceivedBy { get; set; }
+        public EmployeeViewModel Employee { get; set; }
         public CommonViewModel Common { get; set; }
 
         //Additional Fields
@@ -44,7 +47,7 @@ namespace ProductionApp.UserInterface.Models
     public class MaterialReceiptDetailViewModel
     {
         public Guid ID { get; set; }
-        public Guid HeaderID { get; set; }
+        public Guid MaterialReceiptID { get; set; }
         [Display(Name = "Material")]
         public Guid MaterialID { get; set; }
         [Display(Name = "Description")]
@@ -52,14 +55,16 @@ namespace ProductionApp.UserInterface.Models
         public string MaterialDesc { get; set; }
         [Display(Name = "Unit")]
         public string UnitCode { get; set; }
-        [Display(Name = "Quantity")]
+        [Display(Name = "Quantity in Nos")]
         public decimal Qty { get; set; }
+        [Display(Name = "Quantity in KG")]
+        public decimal QtyInKG { get; set; }
         public CommonViewModel Common { get; set; }
 
         //Additional Fields
         [Display(Name = "Raw Material")]
         public MaterialViewModel Material { get; set; }
-        public UnitViewModel Unit { get; set; }
+        //public UnitViewModel Unit { get; set; }
     }
 
     public class MaterialReceiptAdvanceSearchViewModel
@@ -72,8 +77,13 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "To Date")]
         public string ToDate { get; set; }
         [Display(Name = "Supplier")]
+        public Guid SupplierID { get; set; }
         public SupplierViewModel Supplier { get; set; }
         [Display(Name = "Purchase Order")]
+        public Guid PurchaseOrderID { get; set; }
         public PurchaseOrderViewModel PurchaseOrder { get; set; }
+        [Display(Name = "Received By")]
+        public Guid ReceivedBy { get; set; }
+        public EmployeeViewModel Employee { get; set; }
     }
 }

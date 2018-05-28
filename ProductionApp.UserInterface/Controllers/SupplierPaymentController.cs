@@ -243,7 +243,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewSupplierPayment", "SupplierPayment", new { Code = "ACC" });
+                    toolboxVM.addbtn.Href = Url.Action("NewSupplierPayment", "SupplierPayment", new { code = "ACC" });
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
@@ -262,7 +262,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewSupplierPayment", "SupplierPayment", new { Code = "ACC" });
+                    toolboxVM.addbtn.Href = Url.Action("NewSupplierPayment", "SupplierPayment", new { code = "ACC" });
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
@@ -282,12 +282,20 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewSupplierPayment", "SupplierPayment", new { Code = "ACC" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewSupplierPayment", "SupplierPayment", new { code = "ACC" });
 
                     toolboxVM.SendForApprovalBtn.Visible = true;
                     toolboxVM.SendForApprovalBtn.Text = "Send";
                     toolboxVM.SendForApprovalBtn.Title = "Send For Approval";
                     toolboxVM.SendForApprovalBtn.Event = "ShowSendForApproval('SPAY');";
+
+
+                    //Always To be placed Last
+                    toolboxVM.AboutBtn.Visible = true;
+                    toolboxVM.AboutBtn.Text = "History";
+                    toolboxVM.AboutBtn.Title = "About Approval History";
+                    toolboxVM.AboutBtn.Event = "ShowApprovalHistory()";
+
                     break;
 
                 case "Disable":
@@ -295,12 +303,19 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("ViewSupplierPayment", "SupplierPayment", new { Code = "ACC" });
+                    toolboxVM.addbtn.Href = Url.Action("ViewSupplierPayment", "SupplierPayment", new { code = "ACC" });
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewSupplierPayment", "SupplierPayment", new { Code = "ACC" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewSupplierPayment", "SupplierPayment", new { code = "ACC" });
+
+
+                    //Always To be placed Last
+                    toolboxVM.AboutBtn.Visible = true;
+                    toolboxVM.AboutBtn.Text = "History";
+                    toolboxVM.AboutBtn.Title = "About Approval History";
+                    toolboxVM.AboutBtn.Event = "ShowApprovalHistory()";
 
                     break;
 
@@ -314,7 +329,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewSupplierPayment", "SupplierPayment", new { Code = "ACC" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewSupplierPayment", "SupplierPayment", new { code = "ACC" });
                     break;
                 default:
                     return Content("Nochange");

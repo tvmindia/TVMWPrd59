@@ -15,8 +15,7 @@ namespace ProductionApp.UserInterface.Models
         public string SlipNo { get; set; }
         public DateTime Date { get; set; }
         [Display(Name = "Packed By ")]
-        [Required(ErrorMessage = "Packed By field is required")]
-        public Guid PackedBy { get; set; }
+        public Guid? PackedBy { get; set; }
         [Display(Name = "Sales Order")]
         [Required(ErrorMessage = "Sales Order is required")]
         public Guid SalesOrderID { get; set; }
