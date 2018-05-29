@@ -15,7 +15,7 @@ namespace ProductionApp.BusinessService.Contracts
         bool CheckProductCodeExist(Product product);
         object InsertUpdateProduct(Product product);
         Product GetProduct(Guid id);
-        object DeleteProduct(Guid id);
+        object DeleteProduct(Guid id,string deletedBy);
         List<FinishedGoodSummary> GetFinishGoodsSummary();
         List<Product> GetProductListForBillOfMaterial(string componentIDs);
     }

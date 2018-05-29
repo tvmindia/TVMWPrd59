@@ -220,7 +220,8 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@HSNNo", SqlDbType.NVarChar,30).Value = material.HSNNo;
                         cmd.Parameters.Add("@UnitCode", SqlDbType.VarChar,15).Value = material.UnitCode;
                         cmd.Parameters.Add("@ReorderQty", SqlDbType.Decimal).Value = material.ReorderQty;
-                       // cmd.Parameters.Add("@OpeningStock", SqlDbType.Decimal).Value = material.OpeningStock;
+                        cmd.Parameters.Add("@OpeningStock", SqlDbType.Decimal).Value = material.OpeningStock;
+                        cmd.Parameters.Add("@OpeningStockInKG", SqlDbType.Decimal).Value = material.OpeningStockInKG;
                        // cmd.Parameters.Add("@CurrentStock", SqlDbType.Decimal).Value = material.CurrentStock;
                         cmd.Parameters.Add("@WeightInKG", SqlDbType.Decimal).Value = material.WeightInKG;
                         cmd.Parameters.Add("@CostPrice", SqlDbType.Decimal).Value = material.CostPrice;
@@ -308,6 +309,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     material.CurrentStock = sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : material.CurrentStock;
                                     material.ReorderQty = sdr["ReorderQty"].ToString() != "" ? decimal.Parse(sdr["ReorderQty"].ToString()) : material.ReorderQty;
                                     material.OpeningStock = sdr["OpeningStock"].ToString() != "" ? decimal.Parse(sdr["OpeningStock"].ToString()) : material.OpeningStock;
+                                    material.OpeningStockInKG = sdr["OpeningStockInKG"].ToString() != "" ? decimal.Parse(sdr["OpeningStockInKG"].ToString()) : material.OpeningStockInKG;
                                     material.WeightInKG = sdr["WeightInKG"].ToString() != "" ? decimal.Parse(sdr["WeightInKG"].ToString()) : material.WeightInKG;
                                     material.CostPrice = sdr["CostPrice"].ToString() != "" ? decimal.Parse(sdr["CostPrice"].ToString()) : material.CostPrice;
                                 }
@@ -330,7 +332,7 @@ namespace ProductionApp.RepositoryServices.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public object DeleteMaterial(Guid id)
+        public object DeleteMaterial(Guid id,string deletedBy)
         {
             SqlParameter outputStatus = null;
             try
@@ -348,6 +350,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[DeleteMaterial]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 255).Value = deletedBy;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.Int);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

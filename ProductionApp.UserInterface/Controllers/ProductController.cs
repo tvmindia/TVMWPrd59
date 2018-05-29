@@ -199,7 +199,9 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                var result = _productBusiness.DeleteProduct(id);
+                AppUA appUA = Session["AppUA"] as AppUA;
+                string deletedBy = appUA.UserName;
+                var result = _productBusiness.DeleteProduct(id, deletedBy);
                 return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
             }
             catch (Exception ex)

@@ -36,12 +36,14 @@ namespace ProductionApp.UserInterface.Models
         public Guid MaterialID { get; set; }
         [Display(Name = "Current Stock (Nos.)")]
         public decimal? CurrentStock { get; set; }
-        [Display(Name = "Opening Stock")]
+        [Display(Name = "Opening Stock In Nos.")]
         public decimal? OpeningStock { get; set; }
         [Display(Name = "Weight In KG")]
         public decimal? WeightInKG { get; set; }
         [Display(Name = "Cost Price")]
         public decimal? CostPrice { get; set; }
+        [Display(Name = "Opening Stock In KG")]
+        public decimal? OpeningStockInKG { get; set; }
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
