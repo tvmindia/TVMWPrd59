@@ -585,6 +585,7 @@ namespace ProductionApp.RepositoryServices.Services
                         if (stockRegisterReport.MaterialID != Guid.Empty)
                             cmd.Parameters.Add("@MaterialID", SqlDbType.UniqueIdentifier).Value = stockRegisterReport.MaterialID;
                         cmd.Parameters.Add("@materialTypeCode", SqlDbType.NVarChar).Value = stockRegisterReport.MaterialTypeCode;
+                        cmd.Parameters.Add("@Location", SqlDbType.VarChar).Value = stockRegisterReport.Location;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {

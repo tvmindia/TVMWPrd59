@@ -192,6 +192,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string UnitCode { get; set; }
         public decimal StockValue { get; set; }
         public List<StockRegisterReport> StockRegisterReportList { get; set; }
+        public string Location { get; set; }
     }
 
     public class  StockLedgerReport

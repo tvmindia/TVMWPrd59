@@ -50,7 +50,7 @@ function
                 $('#SearchTerm').val('');               
                 $('#MaterialType').val('').select2();
                 $('#Material').val('').select2();
-                
+                $('#Location').val('Store');
                 break;
             case 'Init':
                 break;
@@ -59,6 +59,7 @@ function
             case 'Apply':                           
                 StockRegisterReportViewModel.MaterialTypeCode = $('#MaterialType').val();
                 StockRegisterReportViewModel.MaterialID = $('#Material').val();
+                StockRegisterReportViewModel.Location = $('#Location').val();
 
                 break;
             case 'Export':
@@ -71,6 +72,8 @@ function
         StockRegisterReportViewModel.SearchTerm = $('#SearchTerm').val();       
         StockRegisterReportViewModel.MaterialTypeCode = $('#MaterialType').val();
         StockRegisterReportViewModel.MaterialID = $('#Material').val();
+        StockRegisterReportViewModel.Location = $('#Location').val();
+
 
         DataTables.StockRegisterList = $('#tblStockRegisterReport').DataTable(
 
