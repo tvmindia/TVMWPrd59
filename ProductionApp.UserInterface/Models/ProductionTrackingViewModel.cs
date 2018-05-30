@@ -34,7 +34,7 @@ namespace ProductionApp.UserInterface.Models
         [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
         public DateTime PostedDate { get; set; }
-        public Guid? PostedBy { get; set; }
+        public string PostedBy { get; set; }
         public CommonViewModel Common { get; set; }
         //Additional
         public bool IsUpdate { get; set; }
@@ -46,6 +46,7 @@ namespace ProductionApp.UserInterface.Models
         public int TotalQty { get; set; }
         public bool IsValid { get; set; }
         public int SlNo { get; set; }
+        public string ErrorMessage { get; set; }
 
         [Display(Name = "Product")]
         public ProductViewModel Product { get; set; }
@@ -89,6 +90,8 @@ namespace ProductionApp.UserInterface.Models
         public string PostDate { get; set; }
         [Display(Name = "Posted By")]
         public Guid? LineStageDetailID { get; set; }
+        [Display(Name ="Posting Status")]
+        public bool? Status { get; set; }
 
         //[Display(Name = "Output")]
         //public SubComponentViewModel SubComponent { get; set; }

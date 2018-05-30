@@ -20,7 +20,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid ForemanID { get; set; }
         public string Remarks { get; set; }
         public DateTime PostedDate { get; set; }
-        public Guid? PostedBy { get; set; }
+        public string PostedBy { get; set; }
         public Common Common { get; set; }
             
         //Additional
@@ -32,6 +32,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public int TotalQty { get; set; }
         public bool IsValid { get; set; }
         public int SlNo { get; set; }
+        public string ErrorMessage { get; set; }
 
         public Product Product { get; set; }
         public SubComponent SubComponent { get; set; }
@@ -61,6 +62,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Stage Stage { get; set; }
         public string PostDate { get; set; }
         public Guid? LineStageDetailID { get; set; }
+        public bool? Status { get; set; }
 
         //public SubComponent SubComponent { get; set; }
         //public Product OutputComponent { get; set; }

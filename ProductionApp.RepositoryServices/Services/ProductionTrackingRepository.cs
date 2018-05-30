@@ -58,6 +58,10 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.AddWithValue("@StageID", DBNull.Value);
                         else
                             cmd.Parameters.Add("@StageID", SqlDbType.UniqueIdentifier).Value = productionTrackingAdvanceSearch.StageID;
+                        if (productionTrackingAdvanceSearch.Status == null)
+                            cmd.Parameters.AddWithValue("@IsPosted", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@IsPosted", SqlDbType.Bit).Value = productionTrackingAdvanceSearch.Status;
                         cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(productionTrackingAdvanceSearch.SearchTerm) ? "" : productionTrackingAdvanceSearch.SearchTerm;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -77,6 +81,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     productionTracking.AcceptedWt = (sdr["AcceptedWt"].ToString() != "" ? decimal.Parse(sdr["AcceptedWt"].ToString()) : productionTracking.AcceptedWt);
                                     productionTracking.DamagedQty = (sdr["DamagedQty"].ToString() != "" ? int.Parse(sdr["DamagedQty"].ToString()) : productionTracking.DamagedQty);
                                     productionTracking.DamagedWt = (sdr["DamagedWt"].ToString() != "" ? decimal.Parse(sdr["DamagedWt"].ToString()) : productionTracking.DamagedWt);
+                                    productionTracking.PostedBy= (sdr["PostedBy"].ToString() != "" ? sdr["PostedBy"].ToString() : productionTracking.PostedBy);
 
                                     productionTracking.Employee = new Employee();
                                     productionTracking.Employee.ID = productionTracking.ForemanID= (sdr["ForemanID"].ToString() != "" ? Guid.Parse(sdr["ForemanID"].ToString()) : productionTracking.ForemanID);
@@ -430,6 +435,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     productionTracking.PreviousQty = (sdr["Qty"].ToString() != "" ? int.Parse(sdr["Qty"].ToString()) : productionTracking.PreviousQty);
                                     productionTracking.TotalQty = (sdr["TotalQty"].ToString() != "" ? int.Parse(sdr["TotalQty"].ToString()) : productionTracking.TotalQty);
                                     productionTracking.IsValid = (sdr["isValid"].ToString() != "" ? bool.Parse(sdr["isValid"].ToString()) : productionTracking.IsValid);
+                                    productionTracking.ErrorMessage = (sdr["InvalidationMsg"].ToString() != "" ? sdr["InvalidationMsg"].ToString() : productionTracking.ErrorMessage);
 
                                     productionTracking.LineStageDetailID = (sdr["LineStageDetailID"].ToString() != "" ? Guid.Parse(sdr["LineStageDetailID"].ToString()) : productionTracking.LineStageDetailID);
                                     productionTracking.Product = new Product();

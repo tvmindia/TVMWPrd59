@@ -21,11 +21,11 @@ $(document).ready(function () {
         $('#ProductID,#EmployeeID,#StageID').select2({});
         BindPendingProductionTrackingDetailTable();
         BindPendingProductionTrackingTable();
-        var _dateList = GetAllAvailableProductionTrackingEntryDate()
         debugger;
         if (_dateList === null) {
-            _dateList=[$('#PostDate').val()]
+            _dateList = [$('#PostDate').val()]
         }
+        var _dateList = GetAllAvailableProductionTrackingEntryDate()
         $('#PostDate').datepicker({
             startDate: _dateList[0],
             endDate: _dateList[_dateList.length - 1],
@@ -62,6 +62,7 @@ function BindOrReloadProductionTrackingTable(action) {
                 $('#ProductID').val('').trigger('change');
                 $('#EmployeeID').val('').trigger('change');
                 $('#StageID').val('').trigger('change');
+                $('#Status').val('');
                 break;
             case 'Init':
                 break;
@@ -80,6 +81,7 @@ function BindOrReloadProductionTrackingTable(action) {
         ProductionTrackingAdvanceSearchViewModel.ProductID = $('#ProductID').val();
         ProductionTrackingAdvanceSearchViewModel.EmployeeID = $('#EmployeeID').val();
         ProductionTrackingAdvanceSearchViewModel.StageID = $('#StageID').val();
+        ProductionTrackingAdvanceSearchViewModel.Status = $('#Status').val();
 
         //apply datatable plugin on ProductionTracking table
         _dataTables.ProductionTrackingList = $('#tblProductionTracking').DataTable(
@@ -89,7 +91,7 @@ function BindOrReloadProductionTrackingTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                                 columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11/*, 12*/]
                              }
             }],
             ordering: false,
@@ -128,15 +130,25 @@ function BindOrReloadProductionTrackingTable(action) {
             { "data": "AcceptedWt", "defaultContent": "<i>-</i>" },
             { "data": "DamagedQty", "defaultContent": "<i>-</i>" },//9
             { "data": "DamagedWt", "defaultContent": "<i>-</i>" },
-            { "data": "ProductionRefNo", "defaultContent": "<i>-</i>", "width": '6%' },//11
-            { "data": "Remarks", "defaultContent": "<i>-</i>", "width": '8%' },
+            //{ "data": "ProductionRefNo", "defaultContent": "<i>-</i>", "width": '6%' },//11
+            //{ "data": "Remarks", "defaultContent": "<i>-</i>", "width": '8%' },
+            {
+                "data": "PostedBy", "defaultContent": "<i>-</i>",
+                render: function (data, type, row) {
+                    if (data !== null) {
+                        return "Posted"
+                    } else {
+                        return "Unposted"
+                    }
+                }
+            },
 
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="Edit(this)"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": '3%' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { className: "text-left", "targets": [7, 8, 9, 10], "width": '5%' },
-                { className: "text-right", "targets": [2, 3, 4, 5, 6, 11, 12] },
-                { className: "text-center", "targets": [1, 13] }],
+                { className: "text-right", "targets": [2, 3, 4, 5, 6, 11/*, 12*/] },
+                { className: "text-center", "targets": [1, 12] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {
@@ -178,6 +190,7 @@ function LoadPendingProductionTrackingPopUp() {
     try {
         $('#btnBackward').hide();
         $('#ProductionTrackingRecordsModal').modal('show');
+        ViewProductionTrackingList(2);
     }
     catch (ex) {
         console.log(ex.message);
@@ -310,6 +323,7 @@ function ViewProductionTrackingList(value) {
 function ReloadPendingProductionTrackingDetailTable(curObj) {
     try {
         debugger;
+        $('#ErrorMsg').text('');
         var ProductionTrackingViewModel = _dataTables.PendingTrackingList.row($(curObj).parents('tr')).data();
         if (ProductionTrackingViewModel !== null)
             RebindPendingProductionTrackingDetailTable(ProductionTrackingViewModel.LineStageDetailID)
@@ -319,6 +333,7 @@ function ReloadPendingProductionTrackingDetailTable(curObj) {
         $('#lblAcceptedQty').text(ProductionTrackingViewModel.AcceptedQty);
         $('#lblTotalQty').text(ProductionTrackingViewModel.TotalQty);
         $('#lblSlNo').text(ProductionTrackingViewModel.SlNo);
+        $('#ErrorMsg').append(ProductionTrackingViewModel.ErrorMessage);
         ViewProductionTrackingDetails(1);
     }
     catch (ex) {
