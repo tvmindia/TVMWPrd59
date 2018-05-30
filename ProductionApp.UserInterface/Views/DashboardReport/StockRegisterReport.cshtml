@@ -100,6 +100,26 @@
 
         </div>
 
+                <div class="col-md-3">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        @{
+                            List<SelectListItem> LocationType = new List<SelectListItem>();
+                            LocationType.Add(new SelectListItem
+                            { Text = "Store", Value = "Store",Selected=true });
+                            LocationType.Add(new SelectListItem
+                            { Text = "Production", Value = "Production" });                            
+                        }
+                        @Html.DropDownListFor(model => model.Location, LocationType, "--Select Location--", new { @class = "form-control", style = "padding:4px 12px;", @id = "Location" })
+                    </div>
+                </div>
+
+                
+
+
+
                 <div class="col-md-2">
                     <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadStockRegisterTable('Apply')">Apply</a>
                 </div>

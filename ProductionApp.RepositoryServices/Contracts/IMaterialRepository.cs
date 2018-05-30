@@ -14,7 +14,7 @@ namespace ProductionApp.RepositoryServices.Contracts
         bool CheckMaterialCodeExist(Material material);
         object InsertUpdateMaterial(Material material);
         Material GetMaterial(Guid id);
-        object DeleteMaterial(Guid id);
+        object DeleteMaterial(Guid id,string deletedBy);
         List<MaterialSummary> GetMaterialSummary();
         List<Material> GetMaterialListForReorderAlert();
 

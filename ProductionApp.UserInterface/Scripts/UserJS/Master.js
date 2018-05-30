@@ -173,7 +173,7 @@ function SaveSuccessApprover(data, status) {
                     $("#IsDefault").prop("checked", false);
                     $('#IsDefault').prop("disabled", false);
                 }
-                BindOrReloadApproverTable('Reset');
+                BindOrReloadApproverTable();
             }
             else if ($('#hdnMasterCall').val() == "OTR") {
                 $('#divApproverDropdown').load('/Approver/ApproverDropdown');

@@ -236,6 +236,8 @@ namespace ProductionApp.UserInterface.Models
         public string UnitCode { get; set; }
         public decimal StockValue { get; set; }
         public List<StockRegisterReportViewModel> StockRegisterReportList { get; set; }
+        [Display(Name = "Location")]
+        public string Location { get; set; }
     }
 
     public class StockLedgerReportViewModel
