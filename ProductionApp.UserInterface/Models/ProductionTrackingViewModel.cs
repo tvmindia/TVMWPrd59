@@ -86,7 +86,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Stage")]
         public Guid StageID { get; set; }
         public StageViewModel Stage { get; set; }
-        [Display(Name = "Posting Date")]
+        [Display(Name = "Transactions Upto")]
         public string PostDate { get; set; }
         [Display(Name = "Posted By")]
         public Guid? LineStageDetailID { get; set; }
