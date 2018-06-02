@@ -38,6 +38,7 @@ namespace ProductionApp.UserInterface.Models
         public decimal? CurrentStock { get; set; }
         [Display(Name = "Opening Stock In Nos.")]
         public decimal? OpeningStock { get; set; }
+        [Remote(action: "CheckMaterialWeight", controller: "Material", AdditionalFields = "OpeningStockInKG,MaterialTypeCode")]
         [Display(Name = "Weight In KG")]
         public decimal? WeightInKG { get; set; }
         [Display(Name = "Cost Price")]

@@ -76,16 +76,19 @@
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.LabelFor(model => model.Rate, htmlAttributes: new { @class = "control-label lblrequired" })
+                        @Html.LabelFor(model => model.MaterialTypeCode, htmlAttributes: new { @class = "control-label lblrequired" })
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency",@onkeypress = "return isNumber(event)" } })
-                        @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
+                        <div id="divMaterialTypeDropdown">
+                            @Html.DropDownListFor(model => model.MaterialTypeCode, Model.MaterialType.MaterialTypeSelectList, "--- Select Material Type ---", new { @class = "form-control CalculateOpeningStockInNos", @style = "width:100%" })
+                            @Html.ValidationMessageFor(model => model.MaterialTypeCode, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                 </div>
             </div>
+           
         </div>
 
 
@@ -108,21 +111,6 @@
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.LabelFor(model => model.MaterialTypeCode, htmlAttributes: new { @class = "control-label lblrequired" })
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-12">
-                        <div id="divMaterialTypeDropdown">
-                            @Html.DropDownListFor(model => model.MaterialTypeCode, Model.MaterialType.MaterialTypeSelectList, "--- Select Material Type ---", new { @class = "form-control CalculateOpeningStockInNos", @style = "width:100%"})
-                            @Html.ValidationMessageFor(model => model.MaterialTypeCode, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="col-md-12">
-                    <div class="col-md-12">
                         @Html.LabelFor(model => model.UnitCode, htmlAttributes: new { @class = "control-label lblrequired" })
                     </div>
                 </div>
@@ -136,7 +124,19 @@
                     </div>
                 </div>
             </div>
-
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Rate, htmlAttributes: new { @class = "control-label lblrequired" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency", @onkeypress = "return isNumber(event)" } })
+                        @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -285,11 +285,17 @@
         debugger;
         if($('#MaterialTypeCode').val()=='CRC'){
             debugger;
-            var openingStockInNo, openingStockInKG, weightInKG;
-            openingStockInKG = $('#OpeningStockInKG').val();
-            weightInKG = $('#WeightInKG').val();
-            openingStockInNo = weightInKG != 0 ? openingStockInKG / weightInKG : "";
-            $('#OpeningStock').val(openingStockInNo)
+            $("#WeightInKG").attr("required", "required");
+            $('#WeightInKG').attr('title', 'Weight In KG is missing');
+                var openingStockInNo, openingStockInKG, weightInKG;
+                openingStockInKG = $('#OpeningStockInKG').val();
+                weightInKG = $('#WeightInKG').val();
+                openingStockInNo = weightInKG != 0 ? openingStockInKG / weightInKG : "";
+                $('#OpeningStock').val(openingStockInNo)
+        }
+        else {
+            $("#WeightInKG").removeAttr("required");
+            $('#WeightInKG').removeAttr('title');
         }
     }
 </script>
