@@ -290,7 +290,7 @@
                 var openingStockInNo, openingStockInKG, weightInKG;
                 openingStockInKG = $('#OpeningStockInKG').val();
                 weightInKG = $('#WeightInKG').val();
-                openingStockInNo = weightInKG != 0 ? openingStockInKG / weightInKG : "";
+                openingStockInNo = weightInKG != 0 ? Math.floor(openingStockInKG / weightInKG) : "";
                 $('#OpeningStock').val(openingStockInNo)
         }
         else {
