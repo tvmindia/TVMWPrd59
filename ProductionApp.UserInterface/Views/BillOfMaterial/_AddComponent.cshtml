@@ -16,7 +16,7 @@
             <div class="col-md-12">
                 <div id="divProductDropdown">
                     @*<input type="hidden" id="hdnProductTypeCode" value="PRO" />*@
-                    @Html.Action("ProductDropdown", "Product", new { required = "" })@*,type="PRO"*@
+                    @Html.Action("ProductDropdown", "Product", new { required = "", type = "PRO" })@**@
                 </div>
                 @Html.HiddenFor(model => model.ProductID, htmlAttributes : new { @id= "hdnProductID", @value = Guid.Empty })
                 @Html.ValidationMessageFor(model => model.ProductID, "", new { @class = "text-danger" })
