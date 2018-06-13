@@ -783,6 +783,51 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetStockLedgerFGReport
 
 
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public ActionResult ProductStageWiseStockReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+            ProductStageWiseStockReportViewModel productStageWiseStockReportVM = new ProductStageWiseStockReportViewModel();
+            productStageWiseStockReportVM.Product = new ProductViewModel();
+            productStageWiseStockReportVM.Product.ProductSelectList = _productBusiness.GetProductForSelectList();
+
+            return View(productStageWiseStockReportVM);
+        }
+
+        #region GetProductStageWiseStockReport
+        [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        public JsonResult GetProductStageWiseStockReport(DataTableAjaxPostModel model, ProductStageWiseStockReportViewModel productStageWiseStockReportVM)
+        {
+            productStageWiseStockReportVM.DataTablePaging.Start = model.start;
+            productStageWiseStockReportVM.DataTablePaging.Length = (productStageWiseStockReportVM.DataTablePaging.Length == 0 ? model.length : productStageWiseStockReportVM.DataTablePaging.Length);
+
+            List<ProductStageWiseStockReportViewModel> productStagewiseReportList = Mapper.Map<List<ProductStageWiseStockReport>, List<ProductStageWiseStockReportViewModel>>(_reportBusiness.GetProductStageWiseStockReport(Mapper.Map<ProductStageWiseStockReportViewModel, ProductStageWiseStockReport>(productStageWiseStockReportVM)));
+
+            if (productStageWiseStockReportVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = productStagewiseReportList.Count != 0 ? productStagewiseReportList[0].TotalCount : 0;
+                int filteredResult = productStagewiseReportList.Count != 0 ? productStagewiseReportList[0].FilteredCount : 0;
+                productStagewiseReportList = productStagewiseReportList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = productStagewiseReportList.Count != 0 ? productStagewiseReportList[0].TotalCount : 0,
+                recordsFiltered = productStagewiseReportList.Count != 0 ? productStagewiseReportList[0].FilteredCount : 0,
+                data = productStagewiseReportList
+            });
+        }
+        #endregion GetProductStageWiseStockReport
+
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "dashboardReport", Mode = "R")]

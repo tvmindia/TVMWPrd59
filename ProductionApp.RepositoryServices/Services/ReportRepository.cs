@@ -833,6 +833,11 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion GetStockRegisterFGReport
 
         #region GetStockLedgerFGReport
+        /// <summary>
+        /// To Get Stock Ledger FG Report
+        /// </summary>
+        /// <param name="stockLedgerFGReport"></param>
+        /// <returns></returns>
         public List<StockLedgerFGReport> GetStockLedgerFGReport(StockLedgerFGReport stockLedgerFGReport)
         {
 
@@ -898,8 +903,83 @@ namespace ProductionApp.RepositoryServices.Services
 
             return stockLedgerFGReportList;
         }
-    #endregion GetStockLedgerFGReport
+        #endregion GetStockLedgerFGReport
 
+        #region GetProductStageWiseStockReport
+        /// <summary>
+        /// To Get Product Stage Wise Stock Report
+        /// </summary>
+        /// <param name="productStagewiseReport"></param>
+        /// <returns></returns>
+        public List<ProductStageWiseStockReport> GetProductStageWiseStockReport(ProductStageWiseStockReport productStagewiseReport)
+        {
+
+            List<ProductStageWiseStockReport> productStagewiseReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetProductStageWiseReport]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(productStagewiseReport.SearchTerm) ? "" : productStagewiseReport.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = productStagewiseReport.DataTablePaging.Start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = productStagewiseReport.DataTablePaging.Length;
+                        if (productStagewiseReport.ProductID != Guid.Empty)
+                        {
+                            cmd.Parameters.Add("@ProductID", SqlDbType.UniqueIdentifier).Value = productStagewiseReport.ProductID;
+
+
+
+
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            using (SqlDataReader sdr = cmd.ExecuteReader())
+                            {
+                                if ((sdr != null) && (sdr.HasRows))
+                                {
+                                    productStagewiseReportList = new List<ProductStageWiseStockReport>();
+                                    while (sdr.Read())
+                                    {
+                                        ProductStageWiseStockReport productStagewiseStockObj = new ProductStageWiseStockReport();
+                                        {
+
+                                            productStagewiseStockObj.ProductID = (sdr["PartID"].ToString() != "" ? Guid.Parse(sdr["PartID"].ToString()) : productStagewiseStockObj.ProductID);
+                                            productStagewiseStockObj.Stage = (sdr["Stage"].ToString() != "" ? (sdr["Stage"].ToString()) : productStagewiseStockObj.Stage);
+                                            productStagewiseStockObj.Description = (sdr["Name"].ToString() != "" ? (sdr["Name"].ToString()) : productStagewiseStockObj.Description);
+                                            productStagewiseStockObj.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : productStagewiseStockObj.CurrentStock);
+                                            productStagewiseStockObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : productStagewiseStockObj.TotalCount);
+                                            productStagewiseStockObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : productStagewiseStockObj.FilteredCount);
+
+                                        }
+                                        productStagewiseReportList.Add(productStagewiseStockObj);
+                                    }
+                                }
+                            }
+
+                        }
+
+                        else
+                        {
+                            cmd.Parameters.Add("@ProductID", SqlDbType.UniqueIdentifier).Value =Guid.Empty;
+                    
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return productStagewiseReportList;
+        }
+        #endregion GetProductStageWiseStockReport
 
 
     }

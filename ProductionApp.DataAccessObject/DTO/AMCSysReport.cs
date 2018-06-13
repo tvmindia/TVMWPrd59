@@ -288,4 +288,19 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal StockOut { get; set; }      
         public List<StockLedgerFGReport> StockLedgerFGReportList { get; set; }
     }
+
+    public class ProductStageWiseStockReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public Guid ProductID { get; set; }
+        public Product Product { get; set; }
+        public string Description { get;set;}
+        public string Stage { get; set; }
+        public decimal CurrentStock { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public List<ProductStageWiseStockReport> ProductStagewiseReportList { get; set; }
+
+    }
 }

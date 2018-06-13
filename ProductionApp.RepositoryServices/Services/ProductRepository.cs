@@ -107,6 +107,7 @@ namespace ProductionApp.RepositoryServices.Services
                         //cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar, -1).Value = model.order[0].column;
                         cmd.Parameters.Add("@UnitCode", SqlDbType.VarChar,15).Value = productAdvanceSearch.Unit.Code;
                         cmd.Parameters.Add("@ProductCategoryCode", SqlDbType.VarChar,20).Value = productAdvanceSearch.ProductCategory.Code;
+                        cmd.Parameters.Add("@Type", SqlDbType.NVarChar, 20).Value = productAdvanceSearch.Type;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {

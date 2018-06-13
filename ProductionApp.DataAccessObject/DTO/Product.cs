@@ -42,6 +42,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public DataTablePaging DataTablePaging { get; set; }
         public Unit Unit { get; set; }
         public ProductCategory ProductCategory { get; set; }
+        public string  Type{get;set;}
     }
 
 

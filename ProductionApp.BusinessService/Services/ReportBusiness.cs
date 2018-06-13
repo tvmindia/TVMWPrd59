@@ -124,5 +124,12 @@ namespace ProductionApp.BusinessService.Services
             return _reportRepository.GetStockLedgerFGReport(stockLedgerFGReport);
         }
         #endregion GetStockLedgerFGReport
+
+        #region GetProductStageWiseStockReport
+        public List<ProductStageWiseStockReport> GetProductStageWiseStockReport(ProductStageWiseStockReport productStagewiseReport)
+        {
+            return _reportRepository.GetProductStageWiseStockReport(productStagewiseReport);
+        }
+        #endregion GetProductStageWiseStockReport
     }
 }

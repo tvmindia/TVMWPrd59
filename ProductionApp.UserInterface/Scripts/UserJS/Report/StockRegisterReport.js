@@ -14,7 +14,7 @@ $(document).ready(function () {
     debugger;
     try {
         $("#MaterialType,#Material").select2({
-        });
+        });       
         BindOrReloadStockRegisterTable('Init');
 
     }

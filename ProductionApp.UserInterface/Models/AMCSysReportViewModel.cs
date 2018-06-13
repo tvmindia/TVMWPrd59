@@ -324,16 +324,22 @@ namespace ProductionApp.UserInterface.Models
 
     public class StockLedgerFGReportViewModel
     {
+        [Display(Name = "Search")]
         public string SearchTerm { get; set; }
         public DataTablePagingViewModel DataTablePaging { get; set; }
         public Guid ProductID { get; set; }
         public ProductViewModel Product { get; set; }
+        [Display(Name = "Type")]
         public string ProductType { get; set; }
+        [Display(Name = "From Date")]
         public string FromDate { get; set; }
+        [Display(Name = "To Date")]
         public string ToDate { get; set; }
+        [Display(Name = "Quick Filter")]
         public string DateFilter { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
+        [Display(Name = "Transaction Type")]
         public string TransactionType { get; set; }
         public string Description { get; set; }
         public string UnitCode { get; set; }
@@ -345,5 +351,22 @@ namespace ProductionApp.UserInterface.Models
         public decimal StockIn { get; set; }
         public decimal StockOut { get; set; }        
         public List<StockLedgerFGReportViewModel> StockLedgerFGReportList { get; set; }
+    }
+
+    public class ProductStageWiseStockReportViewModel
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
+        [Display(Name = "Product")]
+        public Guid ProductID { get; set; }
+        public ProductViewModel Product { get; set; }
+        public string Description { get; set; }
+        public string Stage { get; set; }
+        public decimal CurrentStock { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public List<ProductStageWiseStockReportViewModel> ProductStagewiseReportList { get; set; }
+
     }
 }

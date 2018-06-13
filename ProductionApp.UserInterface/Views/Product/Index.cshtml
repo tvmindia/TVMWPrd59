@@ -81,11 +81,29 @@
                         @Html.DropDownListFor(model => model.ProductCategory.Code, Model.ProductCategory.ProductCategorySelectList, "--Select Product Category--", new { @class = "form-control", style = "width:100%" })
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="col-md-12"></div>
-                    <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadProductTable('Search')">Apply</a>
+                <div class="col-md-5 no-left-padding">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        @{
+                            List<SelectListItem> selectListItem = new List<SelectListItem>();
+                            selectListItem.Add(new SelectListItem                     
+                          
+                            { Text = "Product", Value = "PRO", Selected = true });
+                            selectListItem.Add(new SelectListItem
+                            { Text = "Component", Value = "COM"});
+                        }
+                        @Html.DropDownListFor(model => model.Type, selectListItem, "--Select Type--", new { @class = "form-control", style = "width:100%" ,@id="Type"})
+                    </div>
                 </div>
-            </div>
+                <div class="col-md-5"></div>
+
+                    <div class="col-md-2">
+                        <div class="col-md-12"></div>
+                        <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadProductTable('Search')">Apply</a>
+                    </div>
+                </div>
         </div>
 
         &nbsp;
