@@ -575,7 +575,19 @@ namespace ProductionApp.UserInterface.Controllers
             ViewBag.SysModuleCode = Code;            
             StockLedgerReportViewModel stockLedgerReportVM = new StockLedgerReportViewModel();
             stockLedgerReportVM.MaterialType = new MaterialTypeViewModel();
-            stockLedgerReportVM.MaterialType.MaterialTypeSelectList = _materialTypeBusiness.GetMaterialTypeForSelectList();       
+            stockLedgerReportVM.MaterialType.MaterialTypeSelectList = _materialTypeBusiness.GetMaterialTypeForSelectList();
+            stockLedgerReportVM.Material = new MaterialViewModel();
+            List<SelectListItem> selectList = new List<SelectListItem>();
+            foreach (Material material in _materialBusiness.GetMaterialForSelectList())
+            {
+                selectList.Add(new SelectListItem
+                {
+                    Text = material.MaterialCode + " - " + material.Description,
+                    Value = material.ID.ToString(),
+                    Selected = false,
+                });
+            }
+            stockLedgerReportVM.Material.SelectList = selectList;
             return View(stockLedgerReportVM);
         }
 

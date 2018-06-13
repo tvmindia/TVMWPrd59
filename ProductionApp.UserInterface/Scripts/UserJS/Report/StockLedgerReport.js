@@ -13,7 +13,7 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
-        $("#MaterialType").select2({
+        $("#MaterialType,#MaterialID").select2({
         });
         BindOrReloadStockLedgerTable('Init');
 
@@ -53,6 +53,7 @@ function
                 $('#MaterialType').val('').select2();
                 $('#TransactionType').val('');               
                 $('#DateFilter').val('30');
+                $('#MaterialID').val('').select2();
                 break;
             case 'Init':
                 break;
@@ -63,6 +64,7 @@ function
                 StockLedgerReportViewModel.ToDate = $('#ToDate').val();
                 StockLedgerReportViewModel.TransactionType = $('#TransactionType').val();
                 StockLedgerReportViewModel.MaterialTypeCode = $('#MaterialType').val();
+                StockLedgerReportViewModel.MaterialID = $('#MaterialID').val();
                 if ((StockLedgerReportViewModel.FromDate == "") && (StockLedgerReportViewModel.ToDate == ""))
                 {
                     StockLedgerReportViewModel.DateFilter = $('#DateFilter').val();
@@ -85,6 +87,7 @@ function
         StockLedgerReportViewModel.ToDate = $('#ToDate').val();
         StockLedgerReportViewModel.TransactionType = $('#TransactionType').val();
         StockLedgerReportViewModel.MaterialTypeCode = $('#MaterialType').val();
+        StockLedgerReportViewModel.MaterialID = $('#MaterialID').val();
         StockLedgerReportViewModel.DateFilter = $('#DateFilter').val();
         DataTables.StockLedgerList = $('#tblStockLedgerReport').DataTable(
 
@@ -125,10 +128,10 @@ function
                     { "data": "StockOut", "defaultContent": "<i>-</i>" },
 
                 ],
-                columnDefs: [{ "targets": [0,1], "visible": false, "searchable": false },
+                columnDefs: [{ "targets": [0, 3, 4], "visible": false, "searchable": false },
                     { className: "text-left", "targets": [1] },
                     { className: "text-center", "targets": [2,5,6,7] },
-                    { className: "text-right", "targets": [3, 4, 8, 9] }
+                    { className: "text-right", "targets": [8, 9] }
                 ],
 
                 destroy: true,
@@ -154,7 +157,11 @@ function
                         if (last !== group) {
                             debugger;
                             var rowData = api.row(i).data();
-                            $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Item</b> : ' + group + '</td></tr>');
+                            $(rows).eq(i).before('<tr class="group"><td colspan="7" class="rptGrp">' +
+                                        '<div class="col-md-4" style="padding:0px;"><b>Item</b> :' + group + '</div>' +
+                                        '<div class="col-md-2"><b>OpeningStock</b> : ' + rowData.OpeningStock + '</div>' +
+                                        '<div class="col-md-2"><b>ClosingStock</b> : ' + rowData.ClosingStock + '</div>' +
+                                        '</td></tr>');
                             last = group;
                         }
                     });

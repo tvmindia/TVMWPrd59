@@ -123,10 +123,10 @@ function
                     { "data": "StockOut", "defaultContent": "<i>-</i>" },
 
                 ],
-                columnDefs: [{ "targets": [0, 1], "visible": false, "searchable": false },
+                columnDefs: [{ "targets": [3, 4, 0], "visible": false, "searchable": false },
                     { className: "text-left", "targets": [1] },
                     { className: "text-center", "targets": [2, 5, 6, 7] },
-                    { className: "text-right", "targets": [3, 4, 8, 9] }
+                    { className: "text-right", "targets": [8, 9] }
                 ],
 
                 destroy: true,
@@ -152,7 +152,11 @@ function
                         if (last !== group) {
                             debugger;
                             var rowData = api.row(i).data();
-                            $(rows).eq(i).before('<tr class="group "><td colspan="8" class="rptGrp">' + '<b>Item</b> : ' + group + '</td></tr>');
+                            $(rows).eq(i).before('<tr class="group"><td colspan="7" class="rptGrp">' +
+                                        '<div class="col-md-4" style="padding:0px;"><b>Item</b> :' + group + '</div>' +
+                                        '<div class="col-md-2"><b>OpeningStock</b> : ' + rowData.OpeningStock + '</div>' +
+                                        '<div class="col-md-2"><b>ClosingStock</b> : ' + rowData.ClosingStock + '</div>' +
+                                        '</td></tr>');
                             last = group;
                         }
                     });

@@ -653,6 +653,8 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = stockLedgerReport.DataTablePaging.OrderColumn;
                         cmd.Parameters.Add("@DateFrom", SqlDbType.DateTime).Value = stockLedgerReport.FromDate;
                         cmd.Parameters.Add("@DateTo", SqlDbType.DateTime).Value = stockLedgerReport.ToDate;
+                        if (stockLedgerReport.MaterialID != Guid.Empty)
+                            cmd.Parameters.Add("@MaterialID", SqlDbType.UniqueIdentifier).Value = stockLedgerReport.MaterialID;
                         cmd.Parameters.Add("@TransactionType", SqlDbType.VarChar).Value = stockLedgerReport.TransactionType;
                         cmd.Parameters.Add("@materialTypeCode", SqlDbType.NVarChar).Value = stockLedgerReport.MaterialTypeCode;
                         cmd.CommandType = CommandType.StoredProcedure;

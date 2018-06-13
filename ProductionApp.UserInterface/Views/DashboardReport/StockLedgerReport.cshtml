@@ -154,7 +154,16 @@
                         @Html.DropDownListFor(model => model.TransactionType, transactionTypeList, "--Select Transaction Type--", new { @class = "form-control", style = "padding:4px 12px;", @id = "TransactionType" })
                     </div>
                 </div>                                             
-                
+
+                <div class="col-md-3">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.MaterialID, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-md-12">
+                        @Html.DropDownListFor(model => model.MaterialID, Model.Material.SelectList, "--Select Material--", new { @class = "form-control BlockEnter", style = "width:100%", @id = "MaterialID" })
+                    </div>
+                </div>
+
                 <div class="col-md-2">
                     <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadStockLedgerTable('Apply')">Apply</a>
                 </div>
