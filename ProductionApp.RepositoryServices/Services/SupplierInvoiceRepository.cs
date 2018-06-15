@@ -400,5 +400,44 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return supplierInvoiceDetail;
         }
+
+        #region GetOutstandingSupplierInvoice
+        public decimal GetOutstandingSupplierInvoice()
+        {
+            decimal outstandingSupplierInvoice = 0;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetOutstandingSupplierInvoice]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    outstandingSupplierInvoice = (sdr["OutstandingInvoice"].ToString() != "" ? decimal.Parse(sdr["OutstandingInvoice"].ToString()) : outstandingSupplierInvoice);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return outstandingSupplierInvoice;
+        }
+        #endregion GetOutstandingSupplierInvoice
+
     }
 }

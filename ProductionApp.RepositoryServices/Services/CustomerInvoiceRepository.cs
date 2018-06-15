@@ -625,6 +625,43 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetRecentCustomerInvoice
 
+        #region GetOutstandingCustomerInvoice
+        public decimal GetOutstandingCustomerInvoice()
+        {
+            decimal outstandingCustomerInvoice = 0;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetOutstandingCustomerInvoice]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    outstandingCustomerInvoice = (sdr["OutstandingInvoice"].ToString() != "" ? decimal.Parse(sdr["OutstandingInvoice"].ToString()) : outstandingCustomerInvoice);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return outstandingCustomerInvoice;
+        }
+        #endregion GetOutstandingCustomerInvoice
 
     }
 }
