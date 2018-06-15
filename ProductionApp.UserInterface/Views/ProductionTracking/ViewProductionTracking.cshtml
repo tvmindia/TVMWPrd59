@@ -106,7 +106,7 @@
             <div class="col-md-5">
                 <div class="col-md-12">
                     @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
-                    @{ 
+                    @{
                         List<SelectListItem> statusList = new List<SelectListItem>();
                         statusList.Add(new SelectListItem()
                         { Text = "   All", Value = "", Selected = true });
@@ -120,6 +120,24 @@
                     @Html.DropDownListFor(model => model.Status, statusList, new { @class = "form-control", @required = "", @title = "The Status is missing", @style = "width:100%!important" })
                 </div>
             </div>
+            <div class="col-md-5">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.IsDamaged, htmlAttributes: new { @class = "control-label" })
+                    @{
+                        List<SelectListItem> isDamagedList = new List<SelectListItem>();
+                        isDamagedList.Add(new SelectListItem()
+                        { Text = "   All", Value = "", Selected = true });
+                        isDamagedList.Add(new SelectListItem()
+                        { Text = "Yes", Value = "True", Selected = false });
+                        isDamagedList.Add(new SelectListItem()
+                        { Text = "No", Value = "False", Selected = false });
+                    }
+                </div>
+                <div class="col-md-12">
+                    @Html.DropDownListFor(model => model.IsDamaged, isDamagedList, new { @class = "form-control", @required = "", @style = "width:100%!important" })
+                </div>
+            </div>
+            <div class="col-md-5">&nbsp;</div>
             <div class="col-md-2">
                 <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadProductionTrackingTable('Apply')">Apply</a>
             </div>
@@ -129,27 +147,29 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table id="tblProductionTracking" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
-                <thead>
-                    <tr class="text-center TableHead">
-                        <th>ID</th>
-                        <th>Entry Date</th>
-                        <th>Product</th>
-                        <th>Component</th>
-                        <th>Stage</th>
-                        <th>SubComponent/Output</th>
-                        <th>Done By</th>
-                        <th>Accepted Qty</th>
-                        <th>Accepted Wt</th>
-                        <th>Damaged Qty</th>
-                        <th>Damaged Wt</th>
-                        @*<th>Production Ref No</th>
-                        <th>Remarks</th>*@
-                        <th>Posting Status</th>
-                        <th>...</th>
-                    </tr>
-                </thead>
-            </table>
+            <div class="col-md-12">
+                <table id="tblProductionTracking" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                    <thead>
+                        <tr class="text-center TableHead">
+                            <th>ID</th>
+                            <th>Entry Date</th>
+                            <th>Product</th>
+                            <th>Component</th>
+                            <th>Stage</th>
+                            <th>SubComponent/Output</th>
+                            <th>Done By</th>
+                            <th>Accepted Qty</th>
+                            <th>Accepted Wt</th>
+                            <th>Damaged Qty</th>
+                            <th>Damaged Wt</th>
+                            @*<th>Production Ref No</th>
+                                <th>Remarks</th>*@
+                            <th>Posting Status</th>
+                            <th>...</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -265,7 +285,7 @@
 
                                 <div class="form-group col-md-9" id="divErrorMsg">
                                     <div class="col-md-12">
-                                       <b class="control-label text-danger" id="ErrorMsg"></b>
+                                        <b class="control-label text-danger" id="ErrorMsg"></b>
                                     </div>
                                 </div>
 
