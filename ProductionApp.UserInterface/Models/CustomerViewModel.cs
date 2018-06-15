@@ -51,6 +51,8 @@ namespace ProductionApp.UserInterface.Models
         public List<SelectListItem> SelectList { get; set; }
         public CustomerAdvanceSearchViewModel CustomerAdvanceSearch { get; set; }
         public List<SelectListItem> ContactTitleList { get; set; }
+        public decimal? OutStanding { get; set; }
+        
     }
     public class CustomerAdvanceSearchViewModel
     {
