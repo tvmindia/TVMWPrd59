@@ -92,6 +92,8 @@ namespace ProductionApp.UserInterface.Models
         public Guid? LineStageDetailID { get; set; }
         [Display(Name ="Posting Status")]
         public bool? Status { get; set; }
+        [Display(Name = "Damaged Y/N")]
+        public bool? IsDamaged { get; set; }
 
         //[Display(Name = "Output")]
         //public SubComponentViewModel SubComponent { get; set; }

@@ -63,6 +63,7 @@ function BindOrReloadProductionTrackingTable(action) {
                 $('#EmployeeID').val('').trigger('change');
                 $('#StageID').val('').trigger('change');
                 $('#Status').val('');
+                $('#IsDamaged').val('');
                 break;
             case 'Init':
                 break;
@@ -82,6 +83,7 @@ function BindOrReloadProductionTrackingTable(action) {
         ProductionTrackingAdvanceSearchViewModel.EmployeeID = $('#EmployeeID').val();
         ProductionTrackingAdvanceSearchViewModel.StageID = $('#StageID').val();
         ProductionTrackingAdvanceSearchViewModel.Status = $('#Status').val();
+        ProductionTrackingAdvanceSearchViewModel.IsDamaged = $('#IsDamaged').val();
 
         //apply datatable plugin on ProductionTracking table
         _dataTables.ProductionTrackingList = $('#tblProductionTracking').DataTable(

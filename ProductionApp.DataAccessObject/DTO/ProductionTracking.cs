@@ -63,6 +63,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string PostDate { get; set; }
         public Guid? LineStageDetailID { get; set; }
         public bool? Status { get; set; }
+        public bool? IsDamaged { get; set; }
 
         //public SubComponent SubComponent { get; set; }
         //public Product OutputComponent { get; set; }

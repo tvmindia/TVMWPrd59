@@ -16,6 +16,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         object DeleteSupplierInvoiceDetail(Guid id, string userName);
         List<SupplierInvoiceDetail> GetAllSupplierInvoiceDetail(Guid id);
         SupplierInvoiceDetail GetSupplierInvoiceDetail(Guid id);
-
+        decimal GetOutstandingSupplierInvoice();
     }
 }

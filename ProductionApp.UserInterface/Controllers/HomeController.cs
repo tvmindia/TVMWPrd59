@@ -16,7 +16,9 @@ namespace ProductionApp.UserInterface.Controllers
         IProductBusiness _productBusiness;
         IMaterialBusiness _materialBusiness;
         ICommonBusiness _commonBusiness;
-        public HomeController(IDynamicUIBusiness dynamicUIBusiness, ISalesInvoieBusiness salesInvoiceBusiness, IPurchaseInvoiceBusiness purchaseInvoiceBusiness,IProductBusiness productBusiness,ICommonBusiness commonBusiness, IMaterialBusiness materialBusiness)
+        private ICustomerInvoiceBusiness _customerInvoiceBusiness;
+        private ISupplierInvoiceBusiness _supplierInvoiceBusiness;
+        public HomeController(IDynamicUIBusiness dynamicUIBusiness, ISalesInvoieBusiness salesInvoiceBusiness, IPurchaseInvoiceBusiness purchaseInvoiceBusiness,IProductBusiness productBusiness,ICommonBusiness commonBusiness, ISupplierInvoiceBusiness supplierInvoiceBusiness, ICustomerInvoiceBusiness customerInvoiceBusiness, IMaterialBusiness materialBusiness)
         {
             _dynamicUIBusiness = dynamicUIBusiness;
              _salesInvoiceBusiness= salesInvoiceBusiness;
@@ -24,6 +26,8 @@ namespace ProductionApp.UserInterface.Controllers
             _productBusiness = productBusiness;
             _commonBusiness = commonBusiness;
             _materialBusiness = materialBusiness;
+            _supplierInvoiceBusiness = supplierInvoiceBusiness;
+            _customerInvoiceBusiness = customerInvoiceBusiness;
         }
         // GET: Home
         [AuthSecurityFilter(ProjectObject = "Home", Mode = "")]
@@ -76,6 +80,14 @@ namespace ProductionApp.UserInterface.Controllers
 
             IncomeExpenseSummaryListViewModel list = new IncomeExpenseSummaryListViewModel();
             list.IncomeExpenseList = Mapper.Map<List<IncomeExpenseSummary>, List<IncomeExpenseSummaryViewModel>>(_dynamicUIBusiness.GetIncomeExpenseSummary());
+            ViewBag.TotalIncome = 0;
+            ViewBag.TotalExpense = 0;
+            foreach(IncomeExpenseSummaryViewModel incomeExpenseSummary in list.IncomeExpenseList)
+            {
+                ViewBag.TotalIncome += incomeExpenseSummary.InAmount;
+                ViewBag.TotalExpense += incomeExpenseSummary.ExAmount;
+            }
+            ViewBag.TotalProfit = ViewBag.TotalIncome - ViewBag.TotalExpense;
             return PartialView("_IncomeExpenseSummary", list);
         }
 
@@ -88,7 +100,8 @@ namespace ProductionApp.UserInterface.Controllers
             ViewBag.ActionName = "Admin";
             AppUA appUA = Session["AppUA"] as AppUA;
             SalesInvoiceSummaryViewModel data = new SalesInvoiceSummaryViewModel();
-
+            ViewBag.OutStandingSupplierInvoice = _supplierInvoiceBusiness.GetOutstandingSupplierInvoice();
+            ViewBag.OutStandingCustomerInvoice = _customerInvoiceBusiness.GetOutstandingCustomerInvoice();
             return PartialView("_SalesInvoiceSummary", data);
         }
 
@@ -99,7 +112,7 @@ namespace ProductionApp.UserInterface.Controllers
             ViewBag.ActionName = "Admin";
             AppUA appUA = Session["AppUA"] as AppUA;
             PurchaseInvoiceSummaryViewModel data = new PurchaseInvoiceSummaryViewModel();
-
+            //data.TotalPendingPayments
             return PartialView("_PurchaseInvoiceSummary", data);
         }
 

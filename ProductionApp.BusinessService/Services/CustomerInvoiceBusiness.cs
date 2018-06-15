@@ -148,5 +148,10 @@ namespace ProductionApp.BusinessService.Services
             }
             return customerInvoice;
         }
+
+        public decimal GetOutstandingCustomerInvoice()
+        {
+            return _customerInvoiceRepository.GetOutstandingCustomerInvoice();
+        }
     }
 }

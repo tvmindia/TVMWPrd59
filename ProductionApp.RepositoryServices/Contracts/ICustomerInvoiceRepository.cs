@@ -20,5 +20,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         object DeleteCustomerInvoice(Guid id, string username);
         object DeleteCustomerInvoiceDetail(Guid id, string username);
         List<CustomerInvoice> GetRecentCustomerInvoice();
+        decimal GetOutstandingCustomerInvoice();
     }
 }

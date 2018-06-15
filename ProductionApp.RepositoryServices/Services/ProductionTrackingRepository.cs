@@ -62,6 +62,10 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.AddWithValue("@IsPosted", DBNull.Value);
                         else
                             cmd.Parameters.Add("@IsPosted", SqlDbType.Bit).Value = productionTrackingAdvanceSearch.Status;
+                        if (productionTrackingAdvanceSearch.IsDamaged == null)
+                            cmd.Parameters.AddWithValue("@IsDamaged", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@IsDamaged", SqlDbType.Bit).Value = productionTrackingAdvanceSearch.IsDamaged;
                         cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(productionTrackingAdvanceSearch.SearchTerm) ? "" : productionTrackingAdvanceSearch.SearchTerm;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())

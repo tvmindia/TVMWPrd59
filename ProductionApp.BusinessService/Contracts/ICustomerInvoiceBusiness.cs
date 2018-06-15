@@ -23,5 +23,6 @@ namespace ProductionApp.BusinessService.Contracts
         object UpdateCustomerInvoiceMailStatus(CustomerInvoice CustomerInvoice);
         Task<bool> EmailPush(CustomerInvoice CustomerInvoice);
         CustomerInvoice GetMailPreview(Guid ID);
+        decimal GetOutstandingCustomerInvoice();
     }
 }

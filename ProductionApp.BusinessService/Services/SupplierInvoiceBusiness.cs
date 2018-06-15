@@ -64,5 +64,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _supplierInvoiceRepository.GetSupplierInvoiceDetail(id);
         }
+
+        public decimal GetOutstandingSupplierInvoice()
+        {
+            return _supplierInvoiceRepository.GetOutstandingSupplierInvoice();
+        }
     }
 }
