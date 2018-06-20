@@ -52,7 +52,7 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "RequisitionReport", Mode = "R")]
         public ActionResult RequisitionSummaryReport(string Code)
         {
             ViewBag.SysModuleCode = Code;
@@ -65,7 +65,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region GetRequisitionSummaryReport
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "RequisitionReport", Mode = "R")]
         public JsonResult GetRequisitionSummaryReport(DataTableAjaxPostModel model, RequisitionSummaryReportViewModel requisitionSummaryVM)
         {  
             Common con = new Common();
@@ -118,7 +118,7 @@ namespace ProductionApp.UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "RequisitionReport", Mode = "R")]
         public ActionResult RequisitionDetailReport(string Code)
         {
             ViewBag.SysModuleCode = Code;
@@ -149,7 +149,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region GetRequisitionDetailReport
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "RequisitionReport", Mode = "R")]
         public JsonResult GetRequisitionDetailReport(DataTableAjaxPostModel model, RequisitionDetailReportViewModel requisitionDetailVM)
         {
             Common con = new Common();
@@ -201,7 +201,7 @@ namespace ProductionApp.UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public ActionResult PurchaseSummaryReport(string Code)
         {
             ViewBag.SysModuleCode = Code;
@@ -227,7 +227,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region GetPurchaseSummaryReport
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public JsonResult GetPurchaseSummaryReport(DataTableAjaxPostModel model, PurchaseSummaryReportViewModel purchaseSummaryVM)
         {
             Common con = new Common();
@@ -278,7 +278,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetPurchaseSummaryReport
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public ActionResult PurchaseDetailReport(string Code)
         {
             ViewBag.SysModuleCode = Code;
@@ -321,7 +321,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region GetPurchaseDetailReport
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseReport", Mode = "R")]
         public JsonResult GetPurchaseDetailReport(DataTableAjaxPostModel model, PurchaseDetailReportViewModel purchaseDetailVM)
         {
             Common con = new Common();
@@ -372,7 +372,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetPurchaseDetailReport
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseRegisterReport", Mode = "R")]
         public ActionResult PurchaseRegisterReport(string Code)
         {
             ViewBag.SysModuleCode = Code;
@@ -398,7 +398,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region GetPurchaseRegisterReport
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseRegisterReport", Mode = "R")]
         public JsonResult GetPurchaseRegisterReport(DataTableAjaxPostModel model, PurchaseRegisterReportViewModel purchaseRegisterVM)
         {
             Common con = new Common();
@@ -449,7 +449,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetPurchaseRegisterReport
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "InventoryReport", Mode = "R")]
         public ActionResult InventoryReorderStatusReport(string Code)
         {
             ViewBag.SysModuleCode = Code;
@@ -480,7 +480,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region GetInventoryReorderStatusReport
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "InventoryReport", Mode = "R")]
         public JsonResult GetInventoryReorderStatusReport(DataTableAjaxPostModel model, InventoryReorderStatusReportViewModel inventoryReorderStatusVM)
         {         
             inventoryReorderStatusVM.DataTablePaging.Start = model.start;
@@ -511,7 +511,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetInventoryReorderStatusReport
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "StockRegisterReport", Mode = "R")]
         public ActionResult StockRegisterReport(string Code)
         {
             ViewBag.SysModuleCode = Code;
@@ -538,7 +538,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region GetStockRegisterReport
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "StockRegisterReport", Mode = "R")]
         public JsonResult GetStockRegisterReport(DataTableAjaxPostModel model, StockRegisterReportViewModel stockRegisterReportVM)
         {
             stockRegisterReportVM.DataTablePaging.Start = model.start;
@@ -569,7 +569,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetStockRegisterReport
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "StockLedgerReport", Mode = "R")]
         public ActionResult StockLedgerReport(string Code)
         {            
             ViewBag.SysModuleCode = Code;            
@@ -593,7 +593,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region GetStockLedgerReport
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "StockLedgerReport", Mode = "R")]
         public JsonResult GetStockLedgerReport(DataTableAjaxPostModel model, StockLedgerReportViewModel stockLedgerReportVM)
         {
             Common con = new Common();
@@ -644,7 +644,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetStockLedgerReport
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "InventoryFGReport", Mode = "R")]
         public ActionResult InventoryReorderStatusFGReport(string Code)
         {
             ViewBag.SysModuleCode = Code;
@@ -657,7 +657,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region GetInventoryReOrderStatusFGReport
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "InventoryFGReport", Mode = "R")]
         public JsonResult GetInventoryReOrderStatusFGReport(DataTableAjaxPostModel model, InventoryReOrderStatusFGReportViewModel inventoryReOrderStatusFGVM)
         {
             inventoryReOrderStatusFGVM.DataTablePaging.Start = model.start;
@@ -688,7 +688,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetInventoryReOrderStatusFGReport
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "StockRegisterFGReport", Mode = "R")]
         public ActionResult StockRegisterFGReport(string Code)
         {
             ViewBag.SysModuleCode = Code;
@@ -698,7 +698,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region GetStockRegisterFGReport
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "StockRegisterFGReport", Mode = "R")]
         public JsonResult GetStockRegisterFGReport(DataTableAjaxPostModel model, StockRegisterFGReportViewModel stockRegisterFGReportVM)
         {
             stockRegisterFGReportVM.DataTablePaging.Start = model.start;
@@ -733,7 +733,7 @@ namespace ProductionApp.UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "StockLedgerFGReport", Mode = "R")]
         public ActionResult StockLedgerFGReport(string Code)
         {
             ViewBag.SysModuleCode = Code;
@@ -744,7 +744,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region GetStockLedgerFGReport
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "StockLedgerFGReport", Mode = "R")]
         public JsonResult GetStockLedgerFGReport(DataTableAjaxPostModel model, StockLedgerFGReportViewModel stockLedgerFGReportVM)
         {
             Common con = new Common();
@@ -796,20 +796,20 @@ namespace ProductionApp.UserInterface.Controllers
 
 
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "ProductStageWiseStockReport", Mode = "R")]
         public ActionResult ProductStageWiseStockReport(string Code)
         {
             ViewBag.SysModuleCode = Code;
             ProductStageWiseStockReportViewModel productStageWiseStockReportVM = new ProductStageWiseStockReportViewModel();
             productStageWiseStockReportVM.Product = new ProductViewModel();
-            productStageWiseStockReportVM.Product.ProductSelectList = _productBusiness.GetProductForSelectList();
+            productStageWiseStockReportVM.Product.ProductSelectList = _productBusiness.GetProductForSelectList("PRO");
 
             return View(productStageWiseStockReportVM);
         }
 
         #region GetProductStageWiseStockReport
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "DashboardReport", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "ProductStageWiseStockReport", Mode = "R")]
         public JsonResult GetProductStageWiseStockReport(DataTableAjaxPostModel model, ProductStageWiseStockReportViewModel productStageWiseStockReportVM)
         {
             productStageWiseStockReportVM.DataTablePaging.Start = model.start;
