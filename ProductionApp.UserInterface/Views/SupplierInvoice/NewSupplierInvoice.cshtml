@@ -80,7 +80,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.AccountCode, htmlAttributes: new { @class = "control-label" })
+                            @Html.LabelFor(model => model.AccountCode, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
                         <div class="col-md-12">
                             @Html.DropDownListFor(model => model.AccountCode, Model.chartOfAccount.ChartOfAccountSelectList, "--Select Account Head--", new { @class = "form-control BlockEnter", @style = "width:100%" })
