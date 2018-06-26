@@ -228,7 +228,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public int Year { get; set; }
         public decimal Material { get; set; }
         public decimal Product { get; set; }
-        public decimal Wastage { get; set; }
+        public decimal InProduction { get; set; }
         public decimal Damage { get; set; }
     }
 

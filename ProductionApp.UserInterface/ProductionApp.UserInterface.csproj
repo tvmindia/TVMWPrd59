@@ -775,7 +775,9 @@
     <Content Include="Scripts\UserJS\SupplierPayment\NewSupplierPayment.js" />
     <Content Include="Scripts\UserJS\SupplierPayment\ViewSupplierPayment.js" />
     <Content Include="Scripts\UserJS\User.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
