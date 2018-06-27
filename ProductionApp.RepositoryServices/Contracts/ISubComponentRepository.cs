@@ -13,7 +13,7 @@ namespace ProductionApp.RepositoryServices.Contracts
         //bool CheckSubComponentCodeExist(string materialCode);
         object InsertUpdateSubComponent(SubComponent subComponent);
         SubComponent GetSubComponent(Guid id);
-        object DeleteSubComponent(Guid id);
+        object DeleteSubComponent(Guid id, string deletedBy);
         List<SubComponent> GetSubComponentForSelectList();
     }
 }

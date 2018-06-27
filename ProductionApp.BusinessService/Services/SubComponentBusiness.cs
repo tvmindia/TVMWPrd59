@@ -35,9 +35,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _subComponentRepository.GetSubComponent(id);
         }
-        public object DeleteSubComponent(Guid id)
+        public object DeleteSubComponent(Guid id, string deletedBy)
         {
-            return _subComponentRepository.DeleteSubComponent(id);
+            return _subComponentRepository.DeleteSubComponent(id, deletedBy);
         }
         public List<SubComponent> GetSubComponentForSelectList()
         {

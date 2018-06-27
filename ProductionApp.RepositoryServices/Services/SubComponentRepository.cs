@@ -252,7 +252,7 @@ namespace ProductionApp.RepositoryServices.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public object DeleteSubComponent(Guid id)
+        public object DeleteSubComponent(Guid id, string deletedBy)
         {
             SqlParameter outputStatus = null;
             try
@@ -270,6 +270,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[DeleteSubComponent]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 255).Value = deletedBy;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.Int);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

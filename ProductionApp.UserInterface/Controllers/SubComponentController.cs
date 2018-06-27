@@ -166,7 +166,9 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                var result = _subComponentBusiness.DeleteSubComponent(id);
+                AppUA appUA = Session["AppUA"] as AppUA;
+                string deletedBy = appUA.UserName;
+                var result = _subComponentBusiness.DeleteSubComponent(id,deletedBy);
                 return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
             }
             catch (Exception ex)
