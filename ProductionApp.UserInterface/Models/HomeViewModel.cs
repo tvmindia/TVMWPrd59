@@ -75,6 +75,14 @@ namespace ProductionApp.UserInterface.Models
     public class DispatchSummaryViewModel
     {
 
+    } 
+    
+    public class DayBookViewModel
+    {
+        public string TransactionName { get; set; }
+        public int Count { get; set; }
+        public List<DayBookViewModel> DayBookList { get; set; }
+
     }
 
 }

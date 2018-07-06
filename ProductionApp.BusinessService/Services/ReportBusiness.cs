@@ -129,7 +129,12 @@ namespace ProductionApp.BusinessService.Services
         public List<ProductStageWiseStockReport> GetProductStageWiseStockReport(ProductStageWiseStockReport productStagewiseReport)
         {
             return _reportRepository.GetProductStageWiseStockReport(productStagewiseReport);
-        }
+        } 
         #endregion GetProductStageWiseStockReport
+
+        public List<DayBook> GetDayBook(string date)
+        {
+            return _reportRepository.GetDayBook(date);
+        }
     }
 }

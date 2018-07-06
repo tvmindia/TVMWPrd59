@@ -1093,6 +1093,7 @@
     <Content Include="Views\DashboardReport\StockRegisterFGReport.cshtml" />
     <Content Include="Views\DashboardReport\StockLedgerFGReport.cshtml" />
     <Content Include="Views\DashboardReport\ProductStageWiseStockReport.cshtml" />
+    <Content Include="Views\Home\_DayBook.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

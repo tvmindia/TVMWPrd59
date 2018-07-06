@@ -232,4 +232,12 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal Damage { get; set; }
     }
 
+    public class DayBook
+    {
+        public string TransactionName { get; set; }
+        public int Count { get; set; }
+        public List<DayBook> DayBookList { get; set; }
+
+    }
+
 }

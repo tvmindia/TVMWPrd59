@@ -16,9 +16,15 @@ namespace ProductionApp.UserInterface.Controllers
         IProductBusiness _productBusiness;
         IMaterialBusiness _materialBusiness;
         ICommonBusiness _commonBusiness;
+        IReportBusiness _reportBusiness;
+
         private ICustomerInvoiceBusiness _customerInvoiceBusiness;
         private ISupplierInvoiceBusiness _supplierInvoiceBusiness;
-        public HomeController(IDynamicUIBusiness dynamicUIBusiness, ISalesInvoieBusiness salesInvoiceBusiness, IPurchaseInvoiceBusiness purchaseInvoiceBusiness,IProductBusiness productBusiness,ICommonBusiness commonBusiness, ISupplierInvoiceBusiness supplierInvoiceBusiness, ICustomerInvoiceBusiness customerInvoiceBusiness, IMaterialBusiness materialBusiness)
+        public HomeController(IDynamicUIBusiness dynamicUIBusiness, ISalesInvoieBusiness salesInvoiceBusiness,
+                                IPurchaseInvoiceBusiness purchaseInvoiceBusiness,IProductBusiness productBusiness,
+                                ICommonBusiness commonBusiness, ISupplierInvoiceBusiness supplierInvoiceBusiness,
+                                ICustomerInvoiceBusiness customerInvoiceBusiness, IMaterialBusiness materialBusiness,
+                                IReportBusiness reportBusiness )
         {
             _dynamicUIBusiness = dynamicUIBusiness;
              _salesInvoiceBusiness= salesInvoiceBusiness;
@@ -28,6 +34,7 @@ namespace ProductionApp.UserInterface.Controllers
             _materialBusiness = materialBusiness;
             _supplierInvoiceBusiness = supplierInvoiceBusiness;
             _customerInvoiceBusiness = customerInvoiceBusiness;
+            _reportBusiness = reportBusiness;
         }
         // GET: Home
         [AuthSecurityFilter(ProjectObject = "Home", Mode = "")]
@@ -161,5 +168,15 @@ namespace ProductionApp.UserInterface.Controllers
             return PartialView("_DispatchSummary", data);
         }
 
+        public ActionResult DayBook()
+        {
+            ViewBag.ActionName = "Admin";
+            AppUA appUA = Session["AppUA"] as AppUA;
+            string date = appUA.LoginDateTime.ToShortDateString();
+            DayBookViewModel dayBookVM = new DayBookViewModel();
+            dayBookVM.DayBookList = Mapper.Map<List<DayBook>,List<DayBookViewModel>>(_reportBusiness.GetDayBook(date));
+
+            return PartialView("_DayBook", dayBookVM);
+        }
     }
 }

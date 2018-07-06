@@ -983,6 +983,55 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetProductStageWiseStockReport
 
+        #region GetProductStageWiseStockReport
+       
+        public List<DayBook> GetDayBook(string date)
+        {
+            List<DayBook> dayBookList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetDayBook]";
+                        if (date != null)
+                            cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = DateTime.Parse(date);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                            {
+                                if ((sdr != null) && (sdr.HasRows))
+                                {
+                                    dayBookList = new List<DayBook>();
+                                    while (sdr.Read())
+                                    {
+                                        DayBook dayBook = new DayBook();
+                                        {
+                                            dayBook.TransactionName = (sdr["Name"].ToString() != "" ? (sdr["Name"].ToString()) : dayBook.TransactionName);
+                                            dayBook.Count = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : dayBook.Count);
+                                        }
+                                        dayBookList.Add(dayBook);
+                                    }
+                                }
+                            } 
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return dayBookList;
+        }
+        #endregion GetProductStageWiseStockReport
+
+
 
     }
 }

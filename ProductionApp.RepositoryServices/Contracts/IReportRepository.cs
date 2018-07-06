@@ -22,6 +22,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<StockRegisterFGReport> GetStockRegisterFGReport(StockRegisterFGReport stockRegisterFGReport);
         List<StockLedgerFGReport> GetStockLedgerFGReport(StockLedgerFGReport stockLedgerFGReport);
         List<ProductStageWiseStockReport> GetProductStageWiseStockReport(ProductStageWiseStockReport productStagewiseReport);
-
+        List<DayBook> GetDayBook(string date);
     }
 }

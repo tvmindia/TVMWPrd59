@@ -158,6 +158,8 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<ProductStageWiseStockReport, ProductStageWiseStockReportViewModel>().ReverseMap();
                 //Approval Status
                 config.CreateMap<ApprovalStatusViewModel, ApprovalStatus>().ReverseMap();
+                //Day Book
+                config.CreateMap<DayBookViewModel, DayBook>().ReverseMap();
 
             });
         }
