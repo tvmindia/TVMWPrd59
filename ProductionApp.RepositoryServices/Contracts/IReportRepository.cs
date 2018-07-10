@@ -1,6 +1,7 @@
 ﻿using ProductionApp.DataAccessObject.DTO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<StockRegisterFGReport> GetStockRegisterFGReport(StockRegisterFGReport stockRegisterFGReport);
         List<StockLedgerFGReport> GetStockLedgerFGReport(StockLedgerFGReport stockLedgerFGReport);
         List<ProductStageWiseStockReport> GetProductStageWiseStockReport(ProductStageWiseStockReport productStagewiseReport);
-        List<DayBook> GetDayBook(string date);
+        List<DayBook> GetDayBook(string date, string searchTerm);
+        DataSet GetDayBookDetailByCode(string code, string date);
     }
 }

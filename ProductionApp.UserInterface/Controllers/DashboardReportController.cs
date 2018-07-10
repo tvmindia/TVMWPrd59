@@ -6,6 +6,7 @@ using ProductionApp.UserInterface.Models;
 using ProductionApp.UserInterface.SecurityFilter;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -840,6 +841,55 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetProductStageWiseStockReport
 
 
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "DayBook", Mode = "R")]
+        public ActionResult DayBookReport(string Code)
+        {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.LoginDateTime;
+            ViewBag.Date = dt.ToString("dd-MMM-yyyy");
+            ViewBag.SysModuleCode = Code;
+            DayBookViewModel dayBookReportVM = new DayBookViewModel();
+            return View();
+        }
+
+        #region GetDayBookList
+        [AuthSecurityFilter(ProjectObject = "DayBook", Mode = "R")]
+        public string GetDayBookList(string date,string searchTerm)
+        {
+            try
+            {
+                DayBookViewModel dayBookVM = new DayBookViewModel();
+                dayBookVM.DayBookList = Mapper.Map<List<DayBook>, List<DayBookViewModel>>(_reportBusiness.GetDayBook(date,searchTerm));
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = dayBookVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetDayBookList
+
+        #region GetDayBookDetailByCode
+
+        [AuthSecurityFilter(ProjectObject = "DayBook", Mode = "R")]
+        public string GetDayBookDetailByCode(string code, string date)
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+                ds=_reportBusiness.GetDayBookDetailByCode(code,date); 
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = ds, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+
+        #endregion GetDayBookDetailByCode
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "dashboardReport", Mode = "R")]
@@ -864,9 +914,25 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
                     toolboxVM.ListBtn.Href = Url.Action("Index", "DashboardReport", new { Code = "RPT" });
-                    break;                
-               
-              
+                    break;
+                case "ListDayBook":
+                    //----added for reset button---------------
+                    toolboxVM.resetbtn.Visible = true;
+                    toolboxVM.resetbtn.Text = "Reset";
+                    toolboxVM.resetbtn.Title = "Reset All";
+                    toolboxVM.resetbtn.Event = "ResetReportList();";
+                    ////----added for export button--------------
+                    //toolboxVM.PrintBtn.Visible = true;
+                    //toolboxVM.PrintBtn.Text = "Export";
+                    //toolboxVM.PrintBtn.Title = "Export";
+                    //toolboxVM.PrintBtn.Event = "ExportReportData();";
+                    //---------------------------------------
+                    toolboxVM.ListBtn.Visible = true;
+                    toolboxVM.ListBtn.Text = "List";
+                    toolboxVM.ListBtn.Title = "List";
+                    toolboxVM.ListBtn.Href = Url.Action("Index", "DashboardReport", new { Code = "RPT" });
+                    break;
+
                 default:
                     return Content("Nochange");
             }

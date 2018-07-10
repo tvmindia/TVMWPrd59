@@ -237,6 +237,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public string TransactionName { get; set; }
         public int Count { get; set; }
         public List<DayBook> DayBookList { get; set; }
+        public string dayBookDate { get; set; }
+        public string TransactionCode { get; set; }
+        public string SearchTerm { get; set; }
 
     }
 

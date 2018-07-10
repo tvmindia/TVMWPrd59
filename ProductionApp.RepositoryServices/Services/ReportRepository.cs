@@ -983,9 +983,9 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetProductStageWiseStockReport
 
-        #region GetProductStageWiseStockReport
-       
-        public List<DayBook> GetDayBook(string date)
+        #region GetDayBook
+
+        public List<DayBook> GetDayBook(string date, string searchTerm)
         {
             List<DayBook> dayBookList = null;
             try
@@ -1002,6 +1002,8 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[GetDayBook]";
                         if (date != null)
                             cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = DateTime.Parse(date);
+                        if (searchTerm != "")
+                            cmd.Parameters.Add("@searchTerm", SqlDbType.NVarChar,250).Value = searchTerm;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                             {
@@ -1012,6 +1014,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     {
                                         DayBook dayBook = new DayBook();
                                         {
+                                            dayBook.TransactionCode = (sdr["Code"].ToString() != "" ? (sdr["Code"].ToString()) : dayBook.TransactionCode);
                                             dayBook.TransactionName = (sdr["Name"].ToString() != "" ? (sdr["Name"].ToString()) : dayBook.TransactionName);
                                             dayBook.Count = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : dayBook.Count);
                                         }
@@ -1029,11 +1032,59 @@ namespace ProductionApp.RepositoryServices.Services
 
             return dayBookList;
         }
-        #endregion GetProductStageWiseStockReport
+
+        public DataSet GetDayBookDetailByCode(string code, string date)
+        {
+            DataSet ds = null;
+            SqlDataAdapter sda = null;
+            try
+            {
+              
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetDayBookDetailByCode]";
+                        if (code != null)
+                            cmd.Parameters.Add("@Code", SqlDbType.NVarChar,20).Value = code;
+                        if (date != null)
+                            cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = DateTime.Parse(date);
+                        cmd.CommandType = CommandType.StoredProcedure; 
+
+                        sda = new SqlDataAdapter();
+                        cmd.ExecuteNonQuery();
+                        sda.SelectCommand = cmd;
+                        ds = new DataSet();
+                        sda.Fill(ds);  
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return ds;
+        }
+
 
 
 
     }
+
+
+
+        #endregion GetDayBook
+
+
+
+    
 }
 
 

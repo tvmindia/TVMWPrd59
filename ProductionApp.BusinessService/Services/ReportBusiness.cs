@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace ProductionApp.BusinessService.Services
 {
@@ -132,9 +133,14 @@ namespace ProductionApp.BusinessService.Services
         } 
         #endregion GetProductStageWiseStockReport
 
-        public List<DayBook> GetDayBook(string date)
+        public List<DayBook> GetDayBook(string date, string searchTerm)
         {
-            return _reportRepository.GetDayBook(date);
+            return _reportRepository.GetDayBook(date,searchTerm);
+        }
+
+        public DataSet GetDayBookDetailByCode(string code, string date)
+        {
+            return _reportRepository.GetDayBookDetailByCode(code,date);
         }
     }
 }

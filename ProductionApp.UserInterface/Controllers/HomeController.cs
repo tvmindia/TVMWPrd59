@@ -174,7 +174,7 @@ namespace ProductionApp.UserInterface.Controllers
             AppUA appUA = Session["AppUA"] as AppUA;
             string date = appUA.LoginDateTime.ToShortDateString();
             DayBookViewModel dayBookVM = new DayBookViewModel();
-            dayBookVM.DayBookList = Mapper.Map<List<DayBook>,List<DayBookViewModel>>(_reportBusiness.GetDayBook(date));
+            dayBookVM.DayBookList = Mapper.Map<List<DayBook>,List<DayBookViewModel>>(_reportBusiness.GetDayBook(date,""));
 
             return PartialView("_DayBook", dayBookVM);
         }
