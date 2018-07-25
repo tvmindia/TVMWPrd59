@@ -142,5 +142,16 @@ namespace ProductionApp.BusinessService.Services
         {
             return _reportRepository.GetDayBookDetailByCode(code,date);
         }
+
+        public DataSet GetSalesAnalysisReport(string isInvoicedOnly, string fromDate, string toDate)
+        {
+            return _reportRepository.GetSalesAnalysisReport(isInvoicedOnly,fromDate,toDate);
+        }
+
+        public DataSet GetMovementAnalysisReport(MovementAnalysisReport movementAnalysisReport)
+        {
+            return _reportRepository.GetMovementAnalysisReport(movementAnalysisReport);
+
+        }
     }
 }

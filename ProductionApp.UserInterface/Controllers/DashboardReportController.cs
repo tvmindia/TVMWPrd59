@@ -890,6 +890,108 @@ namespace ProductionApp.UserInterface.Controllers
 
         #endregion GetDayBookDetailByCode
 
+        //SalesAnalysisReport
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SalesAnalysisReport", Mode = "R")]
+        public ActionResult SalesAnalysisReport(string Code)
+        {
+            
+            Common con = new Common();
+            DateTime dt = con.GetCurrentDateTime();
+            ViewBag.Date = dt.ToString("dd-MMM-yyyy");
+            ViewBag.SysModuleCode = Code;
+            SalesAnalysisReportViewModel salesAnalysisReportVM = new SalesAnalysisReportViewModel();
+            return View();
+        }
+
+        //GetSalesAnalysisReport
+        #region GetSalesAnalysisReport
+
+        [AuthSecurityFilter(ProjectObject = "DayBook", Mode = "R")]
+        public string GetSalesAnalysisReport(string IsInvoicedOnly, string FromDate, string ToDate, string DateFilter)
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+                Common con = new Common();
+                DateTime dt = con.GetCurrentDateTime();
+             
+                if (DateFilter == "30")
+                {
+                    FromDate = dt.AddDays(-30).ToString("dd-MMM-yyyy");
+                    ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (DateFilter == "60")
+                {
+                    FromDate = dt.AddDays(-60).ToString("dd-MMM-yyyy");
+                    ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+                if (DateFilter == "90")
+                {
+                    FromDate = dt.AddDays(-90).ToString("dd-MMM-yyyy");
+                    ToDate = dt.ToString("dd-MMM-yyyy");
+                }
+              
+                ds =_reportBusiness.GetSalesAnalysisReport(IsInvoicedOnly,FromDate,ToDate);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = ds, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+
+        #endregion GetSalesAnalysisReport
+
+        //MovementAnalysisReport
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "MovementAnalysisReport", Mode = "R")]
+        public ActionResult MovementAnalysisReport(string Code)
+        {
+            AppUA _appUA = Session["AppUA"] as AppUA;
+            DateTime dt = _appUA.LoginDateTime;
+            ViewBag.Date = dt.ToString("dd-MMM-yyyy");
+            ViewBag.SysModuleCode = Code;
+            MovementAnalysisReportViewModel movementAnalysisReportVM = new MovementAnalysisReportViewModel();
+
+            movementAnalysisReportVM.ProductSelectList = _productBusiness.GetProductForSelectList();
+            movementAnalysisReportVM.EmployeeSelectList = _employeeBusiness.GetEmployeeSelectList();
+
+            return View(movementAnalysisReportVM);
+        }
+
+        //MovementAnalysisReport
+        #region MovementAnalysisReport
+
+        [AuthSecurityFilter(ProjectObject = "DayBook", Mode = "R")]
+        public string GetMovementAnalysisReport(string SalesPerson, string FromDate, string ToDate, string MonthFilter,string ProductID)
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+                Common con = new Common();
+                DateTime dt = con.GetCurrentDateTime();
+                MovementAnalysisReportViewModel movementAnalysisReportVM = new MovementAnalysisReportViewModel();
+                if(ProductID!=null && ProductID!="")
+                movementAnalysisReportVM.ProductID = Guid.Parse(ProductID);
+                if(SalesPerson != null && SalesPerson != "")
+                    movementAnalysisReportVM.EmployeeID = Guid.Parse(SalesPerson);
+                movementAnalysisReportVM.FromDate = FromDate;
+                movementAnalysisReportVM.ToDate = ToDate;
+                movementAnalysisReportVM.MonthFilter = MonthFilter;
+
+                ds=_reportBusiness.GetMovementAnalysisReport(Mapper.Map<MovementAnalysisReportViewModel, MovementAnalysisReport>(movementAnalysisReportVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = ds, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+
+        #endregion MovementAnalysisReport
+
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "dashboardReport", Mode = "R")]

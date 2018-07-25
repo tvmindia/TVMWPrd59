@@ -141,7 +141,9 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<OtherExpenseAdvanceSearchViewModel, OtherExpenseAdvanceSearch>().ReverseMap();
                 //Report
                 config.CreateMap<AMCSysReportViewModel, AMCSysReport>().ReverseMap();
-               
+                config.CreateMap<SalesAnalysisReportViewModel, SalesAnalysisReport>().ReverseMap();
+                config.CreateMap<MovementAnalysisReportViewModel, MovementAnalysisReport>().ReverseMap();
+                
                 config.CreateMap<RequisitionDetailReportViewModel, RequisitionDetailReport>().ReverseMap();
 
                 config.CreateMap<RequisitionSummaryReportViewModel, RequisitionSummaryReport>().ReverseMap();

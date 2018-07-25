@@ -1072,19 +1072,96 @@ namespace ProductionApp.RepositoryServices.Services
 
             return ds;
         }
-
-
-
-
-    }
-
-
-
         #endregion GetDayBook
 
+        public DataSet GetSalesAnalysisReport(string isInvoicedOnly, string fromDate, string toDate)
+        {
+            DataSet ds = null;
+            SqlDataAdapter sda = null;
+            try
+            {
 
 
-    
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetSalesAnalysisReport]"; 
+                        cmd.Parameters.Add("@isInvoicedOnly", SqlDbType.Bit).Value = isInvoicedOnly;
+                        if(fromDate!="")
+                        cmd.Parameters.Add("@DateFrom", SqlDbType.DateTime).Value = DateTime.Parse(fromDate);
+                        if(toDate != "")
+                            cmd.Parameters.Add("@DateTo", SqlDbType.DateTime).Value = DateTime.Parse(toDate);
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        sda = new SqlDataAdapter();
+                        cmd.ExecuteNonQuery();
+                        sda.SelectCommand = cmd;
+                        ds = new DataSet();
+                        sda.Fill(ds);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return ds;
+        }
+
+        public DataSet GetMovementAnalysisReport(MovementAnalysisReport movementAnalysisReport)
+        {
+            DataSet ds = null;
+            SqlDataAdapter sda = null;
+            try
+            {
+
+
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetMovementAnalysisReport]";
+                        if(movementAnalysisReport.MonthFilter != null && movementAnalysisReport.MonthFilter!="")
+                            cmd.Parameters.Add("@Months", SqlDbType.Int).Value = movementAnalysisReport.MonthFilter;
+                        if(movementAnalysisReport.EmployeeID!=Guid.Empty)
+                            cmd.Parameters.Add("@SalesPersonID", SqlDbType.UniqueIdentifier).Value = movementAnalysisReport.EmployeeID;
+                        if(movementAnalysisReport.ProductID!=Guid.Empty)
+                            cmd.Parameters.Add("@ProductID", SqlDbType.UniqueIdentifier).Value = movementAnalysisReport.ProductID;
+                        //if (movementAnalysisReport.FromDate != "")
+                        //    cmd.Parameters.Add("@DateFrom", SqlDbType.DateTime).Value = DateTime.Parse(movementAnalysisReport.FromDate);
+                        //if (movementAnalysisReport.ToDate != "")
+                        //    cmd.Parameters.Add("@DateTo", SqlDbType.DateTime).Value = DateTime.Parse(movementAnalysisReport.ToDate);
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        sda = new SqlDataAdapter();
+                        cmd.ExecuteNonQuery();
+                        sda.SelectCommand = cmd;
+                        ds = new DataSet();
+                        sda.Fill(ds);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return ds;
+        }
+    }
+     
 }
 
 

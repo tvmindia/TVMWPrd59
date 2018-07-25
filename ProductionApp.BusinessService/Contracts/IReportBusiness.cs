@@ -26,5 +26,7 @@ namespace ProductionApp.BusinessService.Contracts
 
         List<DayBook> GetDayBook(string date, string searchTerm);
         DataSet GetDayBookDetailByCode(string code, string date);
+        DataSet GetSalesAnalysisReport(string isInvoicedOnly, string fromDate, string toDate);
+        DataSet GetMovementAnalysisReport(MovementAnalysisReport movementAnalysisReport);
     }
 }

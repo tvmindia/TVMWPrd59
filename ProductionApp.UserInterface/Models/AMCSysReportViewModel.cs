@@ -369,4 +369,54 @@ namespace ProductionApp.UserInterface.Models
         public List<ProductStageWiseStockReportViewModel> ProductStagewiseReportList { get; set; }
 
     }
+
+    public class SalesAnalysisReportViewModel
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
+        [Display(Name = "From Date")]
+        public string FromDate { get; set; }
+        [Display(Name = "To Date")]
+        public string ToDate { get; set; }
+        [Display(Name = "Product")]
+        public Guid ProductID { get; set; }
+        [Display(Name = "Quick Filter")]
+        public string DateFilter { get; set; }
+        public bool IsInvoicedOnly { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+      
+        public List<SalesAnalysisReportViewModel> SalesAnalysisReportList { get; set; }
+
+    }
+    //MovementAnalysisReportViewModel
+    public class MovementAnalysisReportViewModel
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
+        [Display(Name = "From Date")]
+        public string FromDate { get; set; }
+        [Display(Name = "To Date")]
+        public string ToDate { get; set; }
+
+        [Display(Name = "Month Range")]
+        public string MonthFilter { get; set; }
+        [Display(Name = "Sales Person")]
+        public Guid EmployeeID { get; set; }
+        [Display(Name = "Product")]
+        public Guid ProductID { get; set; } 
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+
+        public List<SelectListItem> EmployeeSelectList { get; set; }
+        public List<SelectListItem> ProductSelectList { get; set; }
+        public List<MovementAnalysisReportViewModel> MovementAnalysisReportList { get; set; }
+
+    }
+
+
 }

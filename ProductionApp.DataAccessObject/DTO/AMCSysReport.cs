@@ -303,4 +303,45 @@ namespace ProductionApp.DataAccessObject.DTO
         public List<ProductStageWiseStockReport> ProductStagewiseReportList { get; set; }
 
     }
+
+    public class SalesAnalysisReport
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+
+        [Display(Name = "From Date")]
+        public string FromDate { get; set; }
+        [Display(Name = "To Date")]
+        public string ToDate { get; set; }
+
+        [Display(Name = "Quick Filter")]
+        public string DateFilter { get; set; }
+
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+
+        public List<SalesAnalysisReport> SalesAnalysisReportList { get; set; }
+
+    }
+
+
+    public class MovementAnalysisReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string MonthFilter { get; set; }
+        public Guid EmployeeID { get; set; }
+        public Guid ProductID { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+
+        public List<MovementAnalysisReport> MovementAnalysisReportList { get; set; }
+
+    }
+
 }

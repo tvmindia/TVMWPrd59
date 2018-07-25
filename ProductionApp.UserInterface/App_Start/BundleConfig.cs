@@ -139,6 +139,8 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/StockLedgerFGReport").Include("~/Scripts/UserJS/Report/StockLedgerFGReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/ProductStageWiseStockReport").Include("~/Scripts/UserJS/Report/ProductStageWiseStockReport.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/DayBookReport").Include("~/Scripts/UserJS/Report/DayBookReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/SalesAnalysisReport").Include("~/Scripts/UserJS/Report/SalesAnalysisReport.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/Report/MovementAnalysisReport").Include("~/Scripts/UserJS/Report/MovementAnalysisReport.js"));
             
 
             //OtherIncome
