@@ -448,7 +448,7 @@ namespace ProductionApp.RepositoryServices.Services
                                 salesOrderList = new List<SalesOrderDetail>();
                                 while (sdr.Read())
                                 {
-                                    SalesOrderDetail salesOrderDetail = new SalesOrderDetail();
+                                    SalesOrderDetail salesOrder = new SalesOrderDetail();
                                     {
                                         salesOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : salesOrder.ID);
                                         salesOrder.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : salesOrder.ProductID);
@@ -469,7 +469,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         salesOrder.GroupID = (sdr["GroupID"].ToString() != "" ? Guid.Parse(sdr["GroupID"].ToString()) : salesOrder.GroupID);
                                         salesOrder.PkgWt = (sdr["PkgWt"].ToString() != "" ? decimal.Parse(sdr["PkgWt"].ToString()) : salesOrder.PkgWt);
                                     }
-                                    salesOrderList.Add(salesOrderDetail);
+                                    salesOrderList.Add(salesOrder);
                                 }
                             }
                         }

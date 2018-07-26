@@ -43,8 +43,6 @@ namespace ProductionApp.UserInterface.Models
         public string SalesPersonName { get; set; }
         public string SOStatus { get; set; }
         public decimal NetAmount { get; set; }
-        public decimal DispatchedQty { get; set; }
-        public string DispatchedDates { get; set; }
         public int FilteredCount { get; set; }
         [Display(Name = "Order Date")]
         [Required(ErrorMessage = "Order Date required")]

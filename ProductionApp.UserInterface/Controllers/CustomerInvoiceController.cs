@@ -342,7 +342,7 @@ namespace ProductionApp.UserInterface.Controllers
                     throw new Exception("ID Missing");
                 }
                 AppUA appUA = Session["AppUA"] as AppUA;
-                result = _customerInvoiceBusiness.DeleteCustomerInvoice(Guid.Parse(ID), appUA.UserName);
+                result = _customerInvoiceBusiness.DeleteCustomerInvoice(Guid.Parse(ID));
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)

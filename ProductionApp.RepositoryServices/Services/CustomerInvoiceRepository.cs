@@ -559,7 +559,7 @@ namespace ProductionApp.RepositoryServices.Services
 
         }
 
-        public object DeleteCustomerInvoice(Guid id, string userName)
+        public object DeleteCustomerInvoice(Guid id)
         {
             SqlParameter outputStatus = null;
             try
@@ -576,7 +576,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[DeleteCustomerInvoice]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = userName;
+                       // cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = userName;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -735,7 +735,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     customerInvoiceDetail.Weight = (sdr["Weight"].ToString() != "" ? decimal.Parse(sdr["Weight"].ToString()) : customerInvoiceDetail.Weight);
                                     customerInvoiceDetail.PackingSlipDetailID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
                                     customerInvoiceDetail.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : Guid.Empty);
-                                   // customerInvoiceDetail.TaxTypeDescription = (sdr["TaxTypeDesc"].ToString() != "" ? sdr["TaxTypeDesc"].ToString() : customerInvoiceDetail.TaxTypeDescription);
+                                    // customerInvoiceDetail.TaxTypeDescription = (sdr["TaxTypeDesc"].ToString() != "" ? sdr["TaxTypeDesc"].ToString() : customerInvoiceDetail.TaxTypeDescription);
                                     //
                                     customerInvoiceDetailList.Add(customerInvoiceDetail);
                                 }
@@ -749,6 +749,7 @@ namespace ProductionApp.RepositoryServices.Services
                 throw ex;
             }
             return customerInvoiceDetailList;
+        }
 
         #region GetOutstandingCustomerInvoice
         public decimal GetOutstandingCustomerInvoice()

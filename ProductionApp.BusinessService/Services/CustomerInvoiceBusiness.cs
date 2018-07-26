@@ -80,11 +80,7 @@ namespace ProductionApp.BusinessService.Services
             return _customerInvoiceRepository.UpdateCustomerInvoiceDetail(customerInvoice);
         }
 
-        public object DeleteCustomerInvoice(Guid id, string userName)
-        {
-            return _customerInvoiceRepository.DeleteCustomerInvoice(id,userName);
 
-        }
 
         public object DeleteCustomerInvoiceDetail(Guid id,string isGroupItem,Guid invoiceID)
         {
@@ -167,6 +163,11 @@ namespace ProductionApp.BusinessService.Services
         public decimal GetOutstandingCustomerInvoice()
         {
             return _customerInvoiceRepository.GetOutstandingCustomerInvoice();
+        }
+
+        public object DeleteCustomerInvoice(Guid id)
+        { 
+            return _customerInvoiceRepository.DeleteCustomerInvoice(id);
         }
     }
 }

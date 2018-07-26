@@ -33,8 +33,6 @@ namespace ProductionApp.DataAccessObject.DTO
         public string DetailXML { get; set; }
         public decimal OrderAmount { get; set; }
         public string OrderStatus { get; set; }
-        public string DispatchedDates { get; set; }
-        public decimal DispatchedQty { get; set; }
         
         public string CustomerName { get; set; }
         public string SalesPersonName { get; set; }
