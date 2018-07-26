@@ -81,7 +81,7 @@ function
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [1, 2, 3, 4, 5, 6,7]
+                                     columns: [0,1, 2, 3, 4, 5, 6]
                                  }
                 }],
 
@@ -99,7 +99,7 @@ function
                 },
                 pageLength: 15,
                 columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
+                  //  { "data": "ID", "defaultContent": "<i>-</i>" },
                     { "data": "Description", "defaultContent": "<i>-</i>" },
                     { "data": "ProductType", "defaultContent": "<i>-</i>" },
                     { "data": "CurrentStock", "defaultContent": "<i>-</i>" },
@@ -110,13 +110,13 @@ function
 
 
                 ],
-                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1,2] },
-                    { className: "text-center", "targets": [3, 4, 5, 6,7] },
+                columnDefs: [//{ "targets": [0], "visible": false, "searchable": false },
+                    { className: "text-left", "targets": [0,1] },
+                    { className: "text-center", "targets": [2,3, 4, 5, 6] },
                     //{ className: "text-right", "targets": [4, 5, 6, 7, 8, 9, 10, 11] }
 
                      {
-                         targets: [2],
+                         targets: [1],
                          render: function (data, type, row) {
                              switch (data) {
                                  case 'COM': return 'Component'; break;

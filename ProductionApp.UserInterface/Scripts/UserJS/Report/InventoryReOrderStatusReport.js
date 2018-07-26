@@ -82,7 +82,7 @@ function
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [1, 2, 3, 4, 5, 6]
+                                     columns: [0,1, 2, 3, 4, 5, 6]
                                  }
                 }],
 
@@ -100,21 +100,20 @@ function
                 },
                 pageLength: 15,
                 columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
-                    { "data": "Description", "defaultContent": "<i>-</i>", "width": "22%" },
-                    { "data": "CurrentStock", "defaultContent": "<i>-</i>", "width": "10%" },
-                    { "data": "PODueQty", "defaultContent": "<i>-</i>", "width": "13%" },
-                    { "data": "NetAvailableQty", "defaultContent": "<i>-</i>", "width": "13%" },
-                    { "data": "ReorderQty", "defaultContent": "<i>-</i>", "width": "10%" },
-                    { "data": "ShortFall", "defaultContent": "<i>-</i>", "width": "16%" },
-                    { "data": "ShortFall", "defaultContent": "<i>-</i>", "width": "16%" }
+                   // { "data": "ID", "defaultContent": "<i>-</i>" },
+                    { "data": "Description", "defaultContent": "<i>-</i>"},
+                    { "data": "CurrentStock", "defaultContent": "<i>-</i>"},
+                    { "data": "PODueQty", "defaultContent": "<i>-</i>"},
+                    { "data": "NetAvailableQty", "defaultContent": "<i>-</i>" },
+                    { "data": "ReorderQty", "defaultContent": "<i>-</i>" },
+                    { "data": "ShortFall", "defaultContent": "<i>-</i>" },
+                    { "data": "ShortFall", "defaultContent": "<i>-</i>"}
                    
 
                 ],
-                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1] },
-                    { className: "text-center", "targets": [2,3,4,5,6,7] }
-                    //{ className: "text-right", "targets": [4, 5, 6, 7, 8, 9, 10, 11] }
+                columnDefs: [//{ "targets": [0], "visible": false, "searchable": false },
+                    { className: "text-left", "targets": [0] },
+                    { className: "text-center", "targets": [1,2,3,4,5,6] }
 
                 ],
 

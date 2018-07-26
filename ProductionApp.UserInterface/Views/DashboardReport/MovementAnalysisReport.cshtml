@@ -85,7 +85,7 @@
                         PurchaseDateRange.Add(new SelectListItem
                         { Text = "12 Months", Value = "12" });
                     }
-                    @Html.DropDownListFor(model => model.MonthFilter, PurchaseDateRange, "---  Filter  ---", new { @class = "form-control", style = "padding:4px 12px;", @onchange = "FilterOnchange();" })
+                    @Html.DropDownListFor(model => model.MonthFilter, PurchaseDateRange, new { @class = "form-control", style = "padding:4px 12px;", @onchange = "FilterOnchange();" })
                 </div>
             </div>
 
@@ -160,8 +160,16 @@
 
         </div>
     </div>*@
-
+    <div>
+        &nbsp;<br /> 
+    </div>
     <div id="divMovementAnalysisReport" class="col-md-12">
+
+    </div>
+    <div>
+        &nbsp;<br />
+        &nbsp;<br />
+        &nbsp;<br />
 
     </div>
 </section>
