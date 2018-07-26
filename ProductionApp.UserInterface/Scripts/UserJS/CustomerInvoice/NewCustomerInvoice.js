@@ -23,8 +23,7 @@
 // ##15--Edit Popup Modal Update Customer Invoice Details
 // ##16--DELETE Customer Invoice 
 // ##17--DELETE Customer Invoice Details 
-// ##18--Discount Amount Changed
-// ##19--Email and Print
+// 
 //******************************************************************************
 
 //##1--Global Declaration---------------------------------------------##1 
@@ -277,7 +276,7 @@ $(document).ready(function () {
             var rowData = _dataTables.PackingSlipListDetailTable.row($(this).parents('tr')).data();
 
             var tr = $(this).closest('tr');
-            var row = _DataTables.PackingSlipListDetailTable.row(tr);
+            var row = _dataTables.PackingSlipListDetailTable.row(tr);
             if (row.child.isShown()) {
                 // This row is already open - close it
                 row.child.hide();
@@ -395,7 +394,7 @@ $(document).ready(function () {
                                 var first = _taxDropdownScript.slice(0, _taxDropdownScript.indexOf('value="' + data + '"'));
                                 var second = _taxDropdownScript.slice(_taxDropdownScript.indexOf('value="' + data + '"'), _taxDropdownScript.length);
                                 if (row.GroupID != EmptyGuid) {
-                                    return '<select class="form-control" id="EditTaxTypeDesc_' + row.GroupID + row.SlipNo + '"   onchange="EditLinkTableTextBoxValue(this,5);" >' +first + ' selected="selected" ' +second + '</select>';
+                                    return '<select class="form-control" id="EditTaxTypeDesc_' + row.GroupID + row.SlipNo + '"   onchange="EditLinkTableTextBoxValue(this,5);" >' + first + ' selected="selected" ' + second + '</select>';
                                 }
                                 else {
                                     return '<select class="form-control" id="EditTaxTypeDesc_' + row.ProductID + '"  onchange="EditLinkTableTextBoxValue(this,5);" >' + first + ' selected="selected" ' + second + '</select>';
@@ -412,14 +411,14 @@ $(document).ready(function () {
                             }
                         }
                     }
-            ] 
+            ]
         });
         $('#tblPackingSlipListDetailEdit tbody').on('click', 'td.details-control', function () {
             debugger;
             var rowData = _dataTables.EditPackingSlipListDetailTable.row($(this).parents('tr')).data();
 
             var tr = $(this).closest('tr');
-            var row = _DataTables.EditPackingSlipListDetailTable.row(tr);
+            var row = _dataTables.EditPackingSlipListDetailTable.row(tr);
             if (row.child.isShown()) {
                 // This row is already open - close it
                 row.child.hide();
@@ -447,15 +446,15 @@ $(document).ready(function () {
         debugger;
         $("#CustomerID").change(function () {
             BindCustomerDetails(this.value);
-        }); 
+        });
         $("#PaymentTermCode").change(function () {
             GetDueDate(this.value);
         });
-        
-        if ($('#IsUpdate').val() == 'True')  {
+
+        if ($('#IsUpdate').val() == 'True') {
             BindCustomerInvoiceByID()
         }
-        else  {
+        else {
             $('#lblCustomerInvoiceNo').text('Customer Invoice# : New');
         }
     }
@@ -470,9 +469,9 @@ function BindCustomerDetails(customerId) {
         var customerVM = GetCustomerDetails(customerId)
         $('#BillingAddress').val(customerVM.BillingAddress)
         $('#PaymentTermCode').val(customerVM.PaymentTermCode)
-        GetDueDate( $('#PaymentTermCode').val());
+        GetDueDate($('#PaymentTermCode').val());
     }
-    else   {
+    else {
         $('#BillingAddress').val('');
     }
 }
@@ -496,16 +495,13 @@ function GetCustomerDetails(customerId) {
 }
 
 //##4--Customer Invoice Detail Modal Popup----------------------------##4
-function ShowCustomerInvoiceDetailsModal()
-{
-    if ($('#CustomerInvoiceForm').valid())
-    {
+function ShowCustomerInvoiceDetailsModal() {
+    if ($('#CustomerInvoiceForm').valid()) {
         ViewPackingSlipList(1);         //##6
         BindPackingSlipListTable();     //##5
         $('#CustomerInvoiceDetailsModal').modal('show');
     }
-    else
-    {
+    else {
         notyAlert('warning', "Please Fill Required Fields");
     }
 }
@@ -515,10 +511,9 @@ function BindPackingSlipListTable() {
     var packingSlipList = GetPackingSlipList();
     _dataTables.PackingSlipListTable.clear().rows.add(packingSlipList).draw(false);
 }
-function GetPackingSlipList()
-{
+function GetPackingSlipList() {
     try {
-        var customerID=$("#CustomerID").val();
+        var customerID = $("#CustomerID").val();
         var data = { "customerID": customerID };
         var PackingSlipDetailVM = new Object();
         jsonData = GetDataFromServer("CustomerInvoice/GetPackingSlipList/", data);
@@ -566,7 +561,7 @@ function ViewPackingSlipListDetails(value) {
             $('#btnAdd').show();
         }
         else {
-           $('#tabDetail').attr('data-toggle', '');
+            $('#tabDetail').attr('data-toggle', '');
             _dataTables.PackingSlipListDetailTable.clear().draw(false);
             notyAlert('warning', "Please Select Packing Slip");
         }
@@ -587,19 +582,17 @@ function GetSelectedRowPackingSlipIds() {
 }
 
 //##7--Bind Packing Slip Selected List Details-------------------------##7
-function BindPackingSlipListDetailTable(packingSlipIDs)
-{
+function BindPackingSlipListDetailTable(packingSlipIDs) {
     debugger;
     TaxtypeDropdown(); //##8
-    if (packingSlipIDs != "")
-    {
+    if (packingSlipIDs != "") {
         _dataTables.PackingSlipListDetailTable.clear().rows.add(GetPackingSlipListDetail(packingSlipIDs)).draw(false);
     }
 }
 function GetPackingSlipListDetail(packingSlipIDs) {
     try {
         var id = $('#ID').val();
-        var data = { "packingSlipIDs": packingSlipIDs,"id":id };
+        var data = { "packingSlipIDs": packingSlipIDs, "id": id };
         var PackingSlipDetailVM = new Object();
         jsonData = GetDataFromServer("CustomerInvoice/GetPackingSlipListDetail/", data);
         if (jsonData != '') {
@@ -622,19 +615,16 @@ function GetPackingSlipListDetail(packingSlipIDs) {
 }
 
 //##8-- PackingSlipListDetail DataTable: Dropdown,TextBoxes,CheckBox Binding-----------------##8
-function TaxtypeDropdown()
-{
+function TaxtypeDropdown() {
     var taxTypeVM = GetTaxtypeDropdown()
-    _taxDropdownScript = "<option value="+''+">-Select-</option>";
-    for (i = 0; i < taxTypeVM.length; i++)
-    {
+    _taxDropdownScript = "<option value=" + '' + ">-Select-</option>";
+    for (i = 0; i < taxTypeVM.length; i++) {
         _taxDropdownScript = _taxDropdownScript + '<option value="' + taxTypeVM[i].Code + '">' + taxTypeVM[i].Description + '</option>'
     }
 }
-function GetTaxtypeDropdown()
-{
+function GetTaxtypeDropdown() {
     try {
-        var data = { };
+        var data = {};
         var taxTypeVM = new Object();
         jsonData = GetDataFromServer("CustomerInvoice/GetTaxTypeForSelectList/", data);
         if (jsonData != '') {
@@ -656,16 +646,13 @@ function GetTaxtypeDropdown()
     }
 
 }
-function EdittextBoxValue(thisObj, textBoxCode)
-{
+function EdittextBoxValue(thisObj, textBoxCode) {
     debugger;
- //   var IDs = selectedRowIDs();//identify the selected rows 
+    //   var IDs = selectedRowIDs();//identify the selected rows 
     _customerInvoiceDetailVM = _dataTables.PackingSlipListDetailTable.rows().data();
     var rowtable = _dataTables.PackingSlipListDetailTable.row($(thisObj).parents('tr')).data();
-    for (var i = 0; i < _customerInvoiceDetailVM.length; i++)
-    {
-        if (_customerInvoiceDetailVM[i].ProductID == rowtable.ProductID && _customerInvoiceDetailVM[i].GroupID == rowtable.GroupID && _customerInvoiceDetailVM[i].SlipNo == rowtable.SlipNo)
-        {
+    for (var i = 0; i < _customerInvoiceDetailVM.length; i++) {
+        if (_customerInvoiceDetailVM[i].ProductID == rowtable.ProductID && _customerInvoiceDetailVM[i].GroupID == rowtable.GroupID && _customerInvoiceDetailVM[i].SlipNo == rowtable.SlipNo) {
             //if (textBoxCode == 1)rowtable.GroupID
             //    if (thisObj.value <= _customerInvoiceDetailVM[i].QuantityCheck)
             //        _customerInvoiceDetailVM[i].Quantity = thisObj.value;
@@ -679,8 +666,7 @@ function EdittextBoxValue(thisObj, textBoxCode)
 
             if (textBoxCode == 3) {
                 _customerInvoiceDetailVM[i].Rate = thisObj.value;
-                if (_customerInvoiceDetailVM[i].TradeDiscountPerc != 0)
-                {
+                if (_customerInvoiceDetailVM[i].TradeDiscountPerc != 0) {
                     if (_customerInvoiceDetailVM[i].IsInvoiceInKG)
                         _customerInvoiceDetailVM[i].TradeDiscountAmount = parseFloat(_customerInvoiceDetailVM[i].Weight * _customerInvoiceDetailVM[i].Rate * (_customerInvoiceDetailVM[i].TradeDiscountPerc / 100));
                     else
@@ -693,8 +679,7 @@ function EdittextBoxValue(thisObj, textBoxCode)
                 }
             }
 
-            if (textBoxCode == 4)
-            {
+            if (textBoxCode == 4) {
                 _customerInvoiceDetailVM[i].TradeDiscountAmount = thisObj.value;
                 _customerInvoiceDetailVM[i].TradeDiscountPerc = 0;
                 //textboxvalue set as 0 
@@ -702,9 +687,8 @@ function EdittextBoxValue(thisObj, textBoxCode)
                     $('#DiscPerc_' + rowtable.GroupID).val(0);
                 else
                     $('#DiscPerc_' + rowtable.ProductID).val(0);
-            }               
-            if (textBoxCode == 5)
-            {
+            }
+            if (textBoxCode == 5) {
                 var taxTypeVM = GetTaxtypeDropdown();
                 _customerInvoiceDetailVM[i].TaxTypeCode = thisObj.value;
                 for (j = 0; j < taxTypeVM.length; j++) {
@@ -716,15 +700,13 @@ function EdittextBoxValue(thisObj, textBoxCode)
                     }
                 }
             }
-            if(textBoxCode==6)
-            {
-                if (thisObj.value <= 100 && thisObj.value!="")
-                {
+            if (textBoxCode == 6) {
+                if (thisObj.value <= 100 && thisObj.value != "") {
                     _customerInvoiceDetailVM[i].TradeDiscountPerc = thisObj.value;
                     if (_customerInvoiceDetailVM[i].IsInvoiceInKG)
                         _customerInvoiceDetailVM[i].TradeDiscountAmount = parseFloat(_customerInvoiceDetailVM[i].Weight * _customerInvoiceDetailVM[i].Rate * (thisObj.value / 100));
                     else
-                        _customerInvoiceDetailVM[i].TradeDiscountAmount = parseFloat(_customerInvoiceDetailVM[i].Quantity* _customerInvoiceDetailVM[i].Rate * (thisObj.value / 100));
+                        _customerInvoiceDetailVM[i].TradeDiscountAmount = parseFloat(_customerInvoiceDetailVM[i].Quantity * _customerInvoiceDetailVM[i].Rate * (thisObj.value / 100));
                     //  SET TEXTBOX VALUE
                     if (rowtable.GroupID != EmptyGuid)
                         $('#TradeDisc_' + rowtable.GroupID).val(parseFloat(_customerInvoiceDetailVM[i].TradeDiscountAmount));
@@ -741,19 +723,18 @@ function EdittextBoxValue(thisObj, textBoxCode)
         }
     }
     // if group item bind child table
-    if(rowtable.GroupID!=EmptyGuid)
-    {
+    if (rowtable.GroupID != EmptyGuid) {
         $('#GroupChildTable' + rowtable.GroupID).DataTable().clear().rows.add(GetGroupProductListForCustomerInvoiceDetail(rowtable.GroupID, rowtable.SlipNo)).draw(false);
-    } 
- //   _DataTables.PackingSlipListDetailTable.clear().rows.add(_customerInvoiceDetailVM).draw(false);
- //   selectCheckbox(IDs); //Selecting the checked rows with their ids taken 
+    }
+    //   _dataTables.PackingSlipListDetailTable.clear().rows.add(_customerInvoiceDetailVM).draw(false);
+    //   selectCheckbox(IDs); //Selecting the checked rows with their ids taken 
 }
 function selectedRowIDs() {
     var allData = _dataTables.PackingSlipListDetailTable.rows(".selected").data();
     var arrIDs = "";
     var id;
     for (var r = 0; r < allData.length; r++) {
-        id= allData[r].ProductID != EmptyGuid ? allData[r].ProductID : allData[r].GroupID;
+        id = allData[r].ProductID != EmptyGuid ? allData[r].ProductID : allData[r].GroupID;
         if (r == 0)
             arrIDs = id;
         else
@@ -774,35 +755,32 @@ function selectCheckbox(IDs) {
 }
 
 //##9--Add Customer Invoice Details ---------------------------------------##9
-function AddCustomerInvoiceDetails()
-{
-   
+function AddCustomerInvoiceDetails() {
+    debugger;
     var customerInvoiceDetailVM = _dataTables.PackingSlipListDetailTable.rows(".selected").data();
-    if (customerInvoiceDetailVM.length > 0)
-    {
+    if (customerInvoiceDetailVM.length > 0) {
         AddCustomerInvoiceDetailList(customerInvoiceDetailVM)
         var result = JSON.stringify(_CustomerInvoiceDetail);
         $("#DetailJSON").val(result);
         Save();
         $('#CustomerInvoiceDetailsModal').modal('hide');
     }
-    else
-    {
+    else {
         notyAlert('warning', "No Rows Selected");
     }
 }
 
 function BindingPackingSlipListDetailTableWithChangedValues() {
-       var IDs = selectedRowIDs();//identify the selected rows 
-       _dataTables.PackingSlipListDetailTable.clear().rows.add(_customerInvoiceDetailVM).draw(false);
-       selectCheckbox(IDs); //Selecting the checked rows with their ids taken 
+    var IDs = selectedRowIDs();//identify the selected rows 
+    _dataTables.PackingSlipListDetailTable.clear().rows.add(_customerInvoiceDetailVM).draw(false);
+    selectCheckbox(IDs); //Selecting the checked rows with their ids taken 
 }
 
 
 function AddCustomerInvoiceDetailList(customerInvoiceDetailVM) {
     debugger;
     for (var r = 0; r < customerInvoiceDetailVM.length; r++) {
-        CustomerInvoiceDetail = new Object(); 
+        CustomerInvoiceDetail = new Object();
 
         //IF NOT GROUP
         if (customerInvoiceDetailVM[r].GroupID == EmptyGuid) {
@@ -855,7 +833,7 @@ function AddCustomerInvoiceDetailList(customerInvoiceDetailVM) {
 function GetDueDate(Code) {
     try {
         debugger;
-          var PaymentTermViewModel = GetPaymentTermDetails(Code);
+        var PaymentTermViewModel = GetPaymentTermDetails(Code);
         $('#PaymentDueDateFormatted').val(PaymentTermViewModel);
     }
     catch (e) {
@@ -884,16 +862,14 @@ function GetPaymentTermDetails(Code) {
 }
 
 //##11--Save  Customer Invoice----------------------------##11
-function Save()
-{
+function Save() {
     debugger;
     _SlNo = 1;
     $('#btnSave').trigger('click');
 }
 
 //##12--Save Success Customer Invoice----------------------------##12
-function SaveSuccessCustomerInvoice(data, status)
-{
+function SaveSuccessCustomerInvoice(data, status) {
     _jsonData = JSON.parse(data)
     switch (_jsonData.Result) {
         case "OK":
@@ -914,8 +890,7 @@ function SaveSuccessCustomerInvoice(data, status)
 }
 
 //##13--Bind Customer Invoice By ID----------------------------##13
-function BindCustomerInvoiceByID()
-{
+function BindCustomerInvoiceByID() {
     debugger;
     ChangeButtonPatchView('CustomerInvoice', 'divbuttonPatchAddCustomerInvoice', 'Edit');
     var ID = $('#ID').val();
@@ -936,9 +911,9 @@ function BindCustomerInvoiceByID()
     $('#lblPaymentReceived').text(roundoff(customerInvoiceVM.PaymentReceived));
     $('#lblBalance').text(roundoff(roundoff(customerInvoiceVM.InvoiceAmount - customerInvoiceVM.Discount) - customerInvoiceVM.PaymentReceived));
     $('#lblInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount - customerInvoiceVM.Discount));
-    $('#lblStatusInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount-customerInvoiceVM.Discount));
+    $('#lblStatusInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount - customerInvoiceVM.Discount));
     $('#InvoiceAmount').val(roundoff(customerInvoiceVM.InvoiceAmount));
-    $('#CustomerInvoiceMailPreview_SentToEmails').val(customerInvoiceVM.Customer.ContactEmail)
+
     //detail Table values binding with header id
     BindCustomerInvoiceDetailTable(ID);
     PaintImages(ID);//bind attachments written in custom js
@@ -961,34 +936,31 @@ function GetCustomerInvoiceByID(ID) {
         notyAlert('error', e.message);
     }
 }
-function BindCustomerInvoiceDetailTable(ID)
-{
+function BindCustomerInvoiceDetailTable(ID) {
     _dataTables.CustomerInvoiceDetailTable.clear().rows.add(GetCustomerInvoiceDetail(ID)).draw(false);
 }
-function GetCustomerInvoiceDetail(ID)
-{
-   try {
+function GetCustomerInvoiceDetail(ID) {
+    try {
         debugger;
         var data = { "ID": ID };
         _jsonData = GetDataFromServer("CustomerInvoice/GetCustomerInvoiceDetail/", data);
-    if (_jsonData != '') {
-        _jsonData = JSON.parse(_jsonData);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+        }
+        if (_jsonData.Result == "OK") {
+            return _jsonData.Records;
+        }
+        if (_jsonData.Result == "ERROR") {
+            alert(_jsonData.Message);
+        }
     }
-    if (_jsonData.Result == "OK") {
-        return _jsonData.Records;
-    }
-    if (_jsonData.Result == "ERROR") {
-        alert(_jsonData.Message);
-    }
-   }
     catch (e) {
         notyAlert('error', e.message);
     }
 }
 
 //##14--Reset Button Click-----------------------------------------------------##14
-function Reset()
-{
+function Reset() {
     BindCustomerInvoiceByID();
 }
 
@@ -998,7 +970,7 @@ function ItemDetailsEdit(thisObj) {
 
     var rowData = _dataTables.CustomerInvoiceDetailTable.row($(thisObj).parents('tr')).data();
     TaxtypeDropdown(); //##8
-    if (rowData.ID!=EmptyGuid)
+    if (rowData.ID != EmptyGuid)
         _dataTables.EditPackingSlipListDetailTable.clear().rows.add(GetCustomerInvoiceDetailLinkForEdit(rowData.ID)).draw(false);
     else
         _dataTables.EditPackingSlipListDetailTable.clear().rows.add(GetCustomerInvoiceDetailLinkForEditGroup(rowData.GroupID)).draw(false);
@@ -1063,11 +1035,10 @@ function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
             //        customerInvoiceDetailVM[i].Weight = thisObj.value;
             //    else
             //        customerInvoiceDetailVM[i].Weight = customerInvoiceDetailVM[i].WeightCheck;
-          
+
             if (textBoxCode == 3) {
                 customerInvoiceDetailVM[i].Rate = thisObj.value;
-                if (customerInvoiceDetailVM[i].TradeDiscountPerc != 0)
-                {
+                if (customerInvoiceDetailVM[i].TradeDiscountPerc != 0) {
                     if (customerInvoiceDetailVM[i].IsInvoiceInKG)
                         customerInvoiceDetailVM[i].TradeDiscountAmount = parseFloat(customerInvoiceDetailVM[i].Weight * customerInvoiceDetailVM[i].Rate * (customerInvoiceDetailVM[i].TradeDiscountPerc / 100));
                     else
@@ -1080,9 +1051,8 @@ function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
                 }
             }
 
-            
-            if (textBoxCode == 4)
-            {
+
+            if (textBoxCode == 4) {
                 customerInvoiceDetailVM[i].TradeDiscountAmount = thisObj.value;
                 customerInvoiceDetailVM[i].TradeDiscountPerc = 0;
                 //textboxvalue set as 0 
@@ -1092,8 +1062,7 @@ function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
                     $('#EditDiscPerc_' + rowtable.ProductID).val(0);
             }
 
-            if (textBoxCode == 5) 
-            {
+            if (textBoxCode == 5) {
                 var taxTypeVM = GetTaxtypeDropdown();
                 customerInvoiceDetailVM[i].TaxTypeCode = thisObj.value;
                 for (j = 0; j < taxTypeVM.length; j++) {
@@ -1105,15 +1074,13 @@ function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
                     }
                 }
             }
-            if(textBoxCode==6)
-            {
-                if (thisObj.value <= 100 && thisObj.value!="")
-                {
+            if (textBoxCode == 6) {
+                if (thisObj.value <= 100 && thisObj.value != "") {
                     customerInvoiceDetailVM[i].TradeDiscountPerc = thisObj.value;
                     if (customerInvoiceDetailVM[i].IsInvoiceInKG)
                         customerInvoiceDetailVM[i].TradeDiscountAmount = parseFloat(customerInvoiceDetailVM[i].Weight * customerInvoiceDetailVM[i].Rate * (thisObj.value / 100));
                     else
-                        customerInvoiceDetailVM[i].TradeDiscountAmount = parseFloat(customerInvoiceDetailVM[i].Quantity* customerInvoiceDetailVM[i].Rate * (thisObj.value / 100));
+                        customerInvoiceDetailVM[i].TradeDiscountAmount = parseFloat(customerInvoiceDetailVM[i].Quantity * customerInvoiceDetailVM[i].Rate * (thisObj.value / 100));
                     //  SET TEXTBOX VALUE
                     if (rowtable.GroupID != EmptyGuid)
                         $('#EditTradeDisc_' + rowtable.GroupID + rowtable.SlipNo).val(parseFloat(customerInvoiceDetailVM[i].TradeDiscountAmount));
@@ -1133,10 +1100,9 @@ function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
     if (rowtable.GroupID != EmptyGuid) {
         $('#GroupChildTable' + rowtable.GroupID + rowtable.SlipNo).DataTable().clear().rows.add(GetGroupProductListForCustomerInvoiceDetail(rowtable.GroupID, rowtable.SlipNo)).draw(false);
     }
-   // _dataTables.EditPackingSlipListDetailTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
+    // _dataTables.EditPackingSlipListDetailTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
 }
-function UpdateCustomerInvoiceDetails()
-{
+function UpdateCustomerInvoiceDetails() {
     debugger;
     var CustomerInvoiceDetailVM = _dataTables.EditPackingSlipListDetailTable.rows().data();
     _CustomerInvoiceDetailLink = [];
@@ -1154,7 +1120,7 @@ function UpdateCustomerInvoiceDetails()
         switch (JsonResult.Result) {
             case "OK":
                 notyAlert('success', JsonResult.Records.Message);
-                BindCustomerInvoiceByID() 
+                BindCustomerInvoiceByID()
                 break;
             case "Error":
                 notyAlert('error', JsonResult.Message);
@@ -1194,8 +1160,7 @@ function UpdateCustomerInvoiceDetailLinkVM(CustomerInvoiceDetailLinkVM) {
             var result = GetGroupCustomerInvoiceDetailLink(CustomerInvoiceDetailLinkVM[r].GroupID);
             for (var j = 0; j < result.length; j++) {
                 debugger;
-                if(CustomerInvoiceDetailLinkVM[r].SlipNo==result[j].SlipNo)
-                {
+                if (CustomerInvoiceDetailLinkVM[r].SlipNo == result[j].SlipNo) {
                     CustomerInvoiceDetail = new Object();
 
                     CustomerInvoiceDetail.ID = result[j].ID;
@@ -1209,7 +1174,7 @@ function UpdateCustomerInvoiceDetailLinkVM(CustomerInvoiceDetailLinkVM) {
                     CustomerInvoiceDetail.Rate = CustomerInvoiceDetailLinkVM[r].Rate;
                     CustomerInvoiceDetail.GroupID = CustomerInvoiceDetailLinkVM[r].GroupID;
                     CustomerInvoiceDetail.GroupName = CustomerInvoiceDetailLinkVM[r].GroupName;
-                    CustomerInvoiceDetail.TaxTypeCode = CustomerInvoiceDetailLinkVM[r].TaxTypeCode == "" ? null: CustomerInvoiceDetailLinkVM[r].TaxTypeCode;
+                    CustomerInvoiceDetail.TaxTypeCode = CustomerInvoiceDetailLinkVM[r].TaxTypeCode == "" ? null : CustomerInvoiceDetailLinkVM[r].TaxTypeCode;
                     CustomerInvoiceDetail.IGSTPerc = CustomerInvoiceDetailLinkVM[r].IGSTPerc;
                     CustomerInvoiceDetail.SGSTPerc = CustomerInvoiceDetailLinkVM[r].SGSTPerc;
                     CustomerInvoiceDetail.CGSTPerc = CustomerInvoiceDetailLinkVM[r].CGSTPerc;
@@ -1226,8 +1191,7 @@ function UpdateCustomerInvoiceDetailLinkVM(CustomerInvoiceDetailLinkVM) {
 
 
 //##16--DELETE Customer Invoice -----------------------------------------------------##16
-function DeleteClick()
-{
+function DeleteClick() {
     notyConfirm('Are you sure to delete?', 'DeleteCustomerInvoice()');
 }
 function DeleteCustomerInvoice() {
@@ -1259,9 +1223,8 @@ function DeleteCustomerInvoice() {
 }
 
 //##17--DELETE Customer Invoice Details------------------------------------------------##17
-function DeleteDetail(curobj)
-{
-    var rowData = _DataTables.CustomerInvoiceDetailTable.row($(curobj).parents('tr')).data();
+function DeleteDetail(curobj) {
+    var rowData = _dataTables.CustomerInvoiceDetailTable.row($(curobj).parents('tr')).data();
     var isGroupItem = 0;
     if (rowData.ID == EmptyGuid) {
         rowData.ID = rowData.GroupID;
@@ -1271,11 +1234,12 @@ function DeleteDetail(curobj)
 }
 function DeleteCustomerInvoiceDetail(id, isGroupItem) {
     try {
-      
+        debugger;
         if (id != '' && id != null) {
             var invoiceID = $('#ID').val();
-            var data = { "id": id, "invoiceID": invoiceID, "isGroupItem": isGroupItem
-        };
+            var data = {
+                "id": id, "invoiceID": invoiceID, "isGroupItem": isGroupItem
+            };
             _jsonData = GetDataFromServer("CustomerInvoice/DeleteCustomerInvoiceDetail/", data);
             if (_jsonData != '') {
                 _jsonData = JSON.parse(_jsonData);
@@ -1287,7 +1251,7 @@ function DeleteCustomerInvoiceDetail(id, isGroupItem) {
                 BindCustomerInvoiceByID();
             }
             if (_result == "ERROR") {
-                  notyAlert('error', _message); 
+                notyAlert('error', _message);
             }
             return 1;
         }
@@ -1299,22 +1263,19 @@ function DeleteCustomerInvoiceDetail(id, isGroupItem) {
 }
 
 //##18--Discount Amount Changed -------------------------------------------------------##18
-function DiscountAmountChanged(thisObj)
-{
+function DiscountAmountChanged(thisObj) {
     debugger;
-    if (thisObj.value != "" && thisObj.value != ".")
-    {
-            var InvoiceAmount = $('#InvoiceAmount').val();
-            var calculatedAmount = parseFloat(InvoiceAmount) - parseFloat(thisObj.value);
-            $('#lblInvoiceAmount').text(roundoff(calculatedAmount));
-            $('#lblStatusInvoiceAmount').text(roundoff(calculatedAmount));
+    if (thisObj.value != "" && thisObj.value != ".") {
+        var InvoiceAmount = $('#InvoiceAmount').val();
+        var calculatedAmount = parseFloat(InvoiceAmount) - parseFloat(thisObj.value);
+        $('#lblInvoiceAmount').text(roundoff(calculatedAmount));
+        $('#lblStatusInvoiceAmount').text(roundoff(calculatedAmount));
     }
-    else
-    {
+    else {
         $('#Discount').val(roundoff(0));
         $('#Discount').select();
     }
-   
+
 }
 
 //##19--Email and Print------------------------------------------------------------------##19
@@ -1326,7 +1287,7 @@ function EmailPreview(flag) {
         if (headerID) {
             //Bind mail html into model
             GetMailPreview(headerID, flag);
-            $("#MailPreviewModel").modal('show'); 
+            $("#MailPreviewModel").modal('show');
         }
     }
     catch (e) {
@@ -1336,7 +1297,7 @@ function EmailPreview(flag) {
 
 function GetMailPreview(ID) {
     debugger;
-    var data = { "ID": ID};
+    var data = { "ID": ID };
     var jsonData = {};
     jsonData = GetDataFromServer("CustomerInvoice/GetMailPreview/", data);
     if (jsonData == "Nochange") {
@@ -1346,11 +1307,11 @@ function GetMailPreview(ID) {
     $("#mailmodelcontent").html(jsonData);
     $("#mailBodyText").val(jsonData);
 }
- 
+
 function SendMailClick() {
     debugger;
-        $('#btnFormSendMail').trigger('click');
-        $('#btnMail').hide();
+    $('#btnFormSendMail').trigger('click');
+    $('#btnMail').hide();
 }
 
 function ValidateEmail() {
@@ -1381,11 +1342,11 @@ function MailSuccess(data, status) {
     switch (JsonResult.Result) {
         case "OK":
             notyAlert('success', JsonResult.Message);
-            OnServerCallComplete(); 
+            OnServerCallComplete();
             Reset();
             break;
         case "ERROR":
-            notyAlert('error', JsonResult.Message); 
+            notyAlert('error', JsonResult.Message);
             break;
         default:
             notyAlert('error', JsonResult.Message);
@@ -1394,9 +1355,9 @@ function MailSuccess(data, status) {
 }
 //To trigger PDF download button
 function DownloadPDF() {
-    debugger; 
-        GetHtmlData();
-        $('#btnSendDownload').trigger('click');
+    debugger;
+    GetHtmlData();
+    $('#btnSendDownload').trigger('click');
 }
 
 //To download file in PDF
@@ -1431,8 +1392,8 @@ function CreateGroupChildTable(d) {
 
 
 function BindBodyGroupChildDatatable(rowdata) {
-    debugger;   
-    _DataTables.ProductChildTable = $('#GroupChildTable' + rowdata.data().GroupID + '').DataTable(
+    debugger;
+    _dataTables.ProductChildTable = $('#GroupChildTable' + rowdata.data().GroupID + '').DataTable(
          {
              dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
              ordering: false,
@@ -1443,7 +1404,7 @@ function BindBodyGroupChildDatatable(rowdata) {
              scrollCollapse: true,
              data: GetGroupProductListForCustomerInvoiceDetail(rowdata.data().GroupID, rowdata.data().SlipNo),
              columns: [
-                         { 
+                         {
                              "data": "ProductName", "defaultContent": "<i>-</i>", "width": "35%",
                              'render': function (data, type, row) {
                                  debugger;
@@ -1458,7 +1419,7 @@ function BindBodyGroupChildDatatable(rowdata) {
                         { "data": "Weight", "defaultContent": "<i></i>", "width": "8%", },
                         {
                             "data": "Rate", "defaultContent": "<i></i>", "width": "13%",
-                            'render': function (data, type, row) { 
+                            'render': function (data, type, row) {
                                 return $('#Rate_' + rowdata.data().GroupID).val();
                             }
                         },
@@ -1471,7 +1432,7 @@ function BindBodyGroupChildDatatable(rowdata) {
                         {
                             "data": "TradeDiscountAmount", "defaultContent": "<i></i>", "width": "11%",
                             'render': function (data, type, row) {
-                                return $('#TradeDisc_' + rowdata.data().GroupID).val(); 
+                                return $('#TradeDisc_' + rowdata.data().GroupID).val();
                             }
                         },
                         {
@@ -1480,11 +1441,11 @@ function BindBodyGroupChildDatatable(rowdata) {
                                 return $('#TaxTypeDesc_' + rowdata.data().GroupID + ' option:selected').text();
                             }
                         }
-                      
+
              ],
              columnDefs:
                  [{ "targets": [], "visible": false, "searchable": false },
-                 { className: "text-right", "targets": [2,3,4,5] },
+                 { className: "text-right", "targets": [2, 3, 4, 5] },
                  { className: "text-left", "targets": [] },
                  { className: "text-center", "targets": [] }],
          });
@@ -1492,9 +1453,9 @@ function BindBodyGroupChildDatatable(rowdata) {
 
 
 
- 
+
 function CreateEditGroupChildTable(d) {
-    return '<table id="GroupChildTable' + d.GroupID +d.SlipNo+ '" class="table table-striped table-bordered table-hover" style="width:100%" > ' +
+    return '<table id="GroupChildTable' + d.GroupID + d.SlipNo + '" class="table table-striped table-bordered table-hover" style="width:100%" > ' +
     ' <thead>' +
     '<tr>' +
         '<th>Product</th>' +
@@ -1511,7 +1472,7 @@ function CreateEditGroupChildTable(d) {
 }
 function EditBindBodyGroupChildDatatable(rowdata) {
     debugger;
-    _DataTables.ProductChildTable = $('#GroupChildTable' + rowdata.data().GroupID + rowdata.data().SlipNo + '').DataTable(
+    _dataTables.ProductChildTable = $('#GroupChildTable' + rowdata.data().GroupID + rowdata.data().SlipNo + '').DataTable(
          {
              dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
              ordering: false,
@@ -1538,25 +1499,25 @@ function EditBindBodyGroupChildDatatable(rowdata) {
                         {
                             "data": "Rate", "defaultContent": "<i></i>", "width": "13%",
                             'render': function (data, type, row) {
-                                return $('#EditRate_' + rowdata.data().GroupID+ rowdata.data().SlipNo ).val();
+                                return $('#EditRate_' + rowdata.data().GroupID + rowdata.data().SlipNo).val();
                             }
                         },
                          {
                              "data": "", "defaultContent": "<i></i>", "width": "8%",
                              'render': function (data, type, row) {
-                                 return $('#EditDiscPerc_' + rowdata.data().GroupID +rowdata.data().SlipNo).val();
+                                 return $('#EditDiscPerc_' + rowdata.data().GroupID + rowdata.data().SlipNo).val();
                              }
                          },
                         {
                             "data": "TradeDiscountAmount", "defaultContent": "<i></i>", "width": "11%",
                             'render': function (data, type, row) {
-                                return $('#EditTradeDisc_' + rowdata.data().GroupID +rowdata.data().SlipNo).val();
+                                return $('#EditTradeDisc_' + rowdata.data().GroupID + rowdata.data().SlipNo).val();
                             }
                         },
                         {
                             "data": "taxTypeDesc", "defaultContent": "<i></i>", "width": "10%", 'render': function (data, type, row) {
                                 debugger;
-                                return $('#EditTaxTypeDesc_' + rowdata.data().GroupID + rowdata.data().SlipNo +  ' option:selected').text();
+                                return $('#EditTaxTypeDesc_' + rowdata.data().GroupID + rowdata.data().SlipNo + ' option:selected').text();
                             }
                         }
 
