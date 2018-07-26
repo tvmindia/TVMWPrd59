@@ -36,10 +36,6 @@ $(document).ready(function () {
 function ProductionTrackingInit() {
     try{
         debugger;
-        $('.input-group-addon').each(function () {
-            $(this).parent().css("width", "100%");
-            $(this).remove();
-        });
 
         $('#ProductionTrackingSearch').keydown(function (event) {
             if (event.which === 13) {

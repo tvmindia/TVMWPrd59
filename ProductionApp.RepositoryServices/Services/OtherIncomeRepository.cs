@@ -258,7 +258,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion GetAllAccountSubHeadForSelectList
 
         #region DeleteOtherIncome
-        public object DeleteOtherIncome(Guid id)
+        public object DeleteOtherIncome(Guid id,string UserName)
         {
             SqlParameter outputStatus = null;
             try

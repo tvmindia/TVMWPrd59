@@ -107,6 +107,7 @@ namespace ProductionApp.RepositoryServices.Services
                         //cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar, -1).Value = model.order[0].column;
                         cmd.Parameters.Add("@UnitCode", SqlDbType.VarChar,15).Value = productAdvanceSearch.Unit.Code;
                         cmd.Parameters.Add("@ProductCategoryCode", SqlDbType.VarChar,20).Value = productAdvanceSearch.ProductCategory.Code;
+                        cmd.Parameters.Add("@Type", SqlDbType.NVarChar, 20).Value = productAdvanceSearch.Type;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -343,7 +344,7 @@ namespace ProductionApp.RepositoryServices.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public object DeleteProduct(Guid id)
+        public object DeleteProduct(Guid id ,string deletedBy)
         {
             SqlParameter outputStatus = null;
             try
@@ -361,6 +362,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[DeleteProduct]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 255).Value = deletedBy;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.Int);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

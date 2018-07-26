@@ -25,5 +25,6 @@ namespace ProductionApp.BusinessService.Contracts
         bool CheckLineNameExist(string lineName);
         bool CheckBillOfMaterialExist(Guid productID);
         List<BillOfMaterial> GetRecentBillOfMaterial(string BaseURL);
+        List<BOMTree> GetBOMTree(Guid ProductID);
     }
 }

@@ -36,7 +36,7 @@ namespace ProductionApp.UserInterface.Controllers
             assemblyVM.IsUpdate = id == null ? false : true;
             assemblyVM.AssemblyDateFormatted = _common.GetCurrentDateTime().ToString(settings.DateFormat);
             assemblyVM.Product = new ProductViewModel();
-            assemblyVM.Product.ProductSelectList = _productBusiness.GetProductForSelectList();
+            assemblyVM.Product.ProductSelectList = _productBusiness.GetProductForSelectList("PRO");
             return View(assemblyVM);
         }
         [AuthSecurityFilter(ProjectObject = "Assembly", Mode = "R")]
@@ -45,7 +45,7 @@ namespace ProductionApp.UserInterface.Controllers
             ViewBag.SysModuleCode = code;
             AssemblyAdvanceSearchViewModel AssemblyAdvanceSearchVM = new AssemblyAdvanceSearchViewModel();
             AssemblyAdvanceSearchVM.Product = new ProductViewModel();
-            AssemblyAdvanceSearchVM.Product.ProductSelectList = _productBusiness.GetProductForSelectList();
+            AssemblyAdvanceSearchVM.Product.ProductSelectList = _productBusiness.GetProductForSelectList("PRO");
             AssemblyAdvanceSearchVM.Employee = new EmployeeViewModel();
             AssemblyAdvanceSearchVM.Employee.SelectList = _employeeBusiness.GetEmployeeSelectList();
             return View(AssemblyAdvanceSearchVM);

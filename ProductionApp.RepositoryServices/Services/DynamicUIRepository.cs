@@ -213,7 +213,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     Production.Year = (sdr["Year"].ToString() != "" ? int.Parse(sdr["Year"].ToString()) : Production.Year);
                                     Production.Material = (sdr["Material"].ToString() != "" ? decimal.Parse(sdr["Material"].ToString()) : Production.Material);
                                     Production.Product = (sdr["Product"].ToString() != "" ? decimal.Parse(sdr["Product"].ToString()) : Production.Product);
-                                    Production.Wastage = (sdr["Wastage"].ToString() != "" ? decimal.Parse(sdr["Wastage"].ToString()) : Production.Wastage);
+                                    Production.InProduction = (sdr["InProduction"].ToString() != "" ? decimal.Parse(sdr["InProduction"].ToString()) : Production.InProduction);
                                     Production.Damage = (sdr["Damage"].ToString() != "" ? decimal.Parse(sdr["Damage"].ToString()) : Production.Damage);
 
                                     result.Add(Production);

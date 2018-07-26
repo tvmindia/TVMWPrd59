@@ -82,4 +82,15 @@ namespace ProductionApp.DataAccessObject.DTO
         public Material Material { get; set; }
         public SubComponent SubComponent { get; set; }
     }
+
+    public class BOMTree
+    {
+        public Guid ID { get; set; }
+        public Guid? ParentID { get; set; }
+        public int Level { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string Qty { get; set; }
+        public string Icon { get; set; }
+    }
 }

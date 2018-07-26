@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -41,7 +42,7 @@ namespace ProductionApp.UserInterface.Models
         public int Year { get; set; }
         public decimal Material { get; set; }
         public decimal Product { get; set; }
-        public decimal Wastage { get; set; }
+        public decimal InProduction { get; set; }
         public decimal Damage { get; set; }
     }
 
@@ -74,6 +75,20 @@ namespace ProductionApp.UserInterface.Models
 
     public class DispatchSummaryViewModel
     {
+
+    } 
+    
+    public class DayBookViewModel
+    {
+        
+        public string TransactionName { get; set; }
+        public int Count { get; set; }
+        public List<DayBookViewModel> DayBookList { get; set; }
+
+        [Display(Name = "Date")]
+        public string dayBookDate { get; set; }
+        public string TransactionCode { get; set; }
+        public string SearchTerm { get; set; }
 
     }
 

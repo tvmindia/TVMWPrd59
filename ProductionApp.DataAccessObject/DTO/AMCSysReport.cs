@@ -121,7 +121,227 @@ namespace ProductionApp.DataAccessObject.DTO
         public int FilteredCount { get; set; }
     }
 
+    public class  PurchaseRegisterReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public Supplier Supplier { get; set; }
+        public Guid SupplierID { get; set; }
+        public string Status { get; set; }
+        public string InvoiceStatus{ get; set; }
+        public string PaymentStatus { get; set; }
+        public string DateFilter { get; set; }
+        public Guid MaterialID { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+        public string PurchaseOrderNo { get; set; }
+        public DateTime PurchaseOrderDate { get; set; }
+        public string PurchaseOrderDateFormatted { get; set; }
+        public decimal GSTPerc { get; set; }
+        public decimal GSTAmt { get; set; }
+        public decimal Discount { get; set; }
+        public decimal GrossAmount { get; set; }
+        public decimal InvoicedAmount { get; set; }
+        public decimal PaidAmount { get; set; }
+        public decimal NetAmount { get; set; }
+        public decimal TaxableAmount { get; set; }
+        public List<PurchaseRegisterReport> PurchaseRegisterReportList { get; set; }
+    }
+
+    public class InventoryReorderStatusReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }        
+        public int ItemStatus { get; set; }       
+        public int TotalCount { get; set; }
+        public Guid MaterialID { get; set; }
+        public Material Material { get; set; }
+
+        public string Code { get; set; }       
+        public MaterialType MaterialType { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+        public string Description { get; set; }
+        public decimal ReorderQty { get; set; }
+        public decimal CurrentStock { get; set; }
+        public decimal PODueQty { get; set; }
+        public decimal NetAvailableQty { get; set; }
+        public decimal ShortFall { get; set; }
+        public List<InventoryReorderStatusReport> InventoryReorderStatusList { get; set; }
+    }
 
 
+    public class StockRegisterReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public Guid MaterialID { get; set; }
+        public Material Material { get; set; }
+        public string MaterialTypeCode { get; set; }
+        public MaterialType MaterialType { get; set; }        
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+        public string Description { get; set; }
+        public string TypeDescription { get; set; }
+        public decimal CostPrice { get; set; }
+        public decimal CurrentStock { get; set; }
+        public string UnitCode { get; set; }
+        public decimal StockValue { get; set; }
+        public List<StockRegisterReport> StockRegisterReportList { get; set; }
+        public string Location { get; set; }
+    }
+
+    public class  StockLedgerReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public Guid MaterialID { get; set; }
+        public Material Material { get; set; }
+        public string MaterialTypeCode { get; set; }
+        public MaterialType MaterialType { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string DateFilter { get; set; }
+        public string TransactionType { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public string Description { get; set; }
+        public string UnitCode { get; set; }
+        public decimal OpeningStock { get; set; }
+        public decimal ClosingStock { get; set; }       
+        public DateTime TransactionDate { get; set; }
+        public string TransactionDateFormatted { get; set; }
+        public string DocumentNo { get; set; }
+        public decimal StockIn { get; set; }
+        public decimal StockOut { get; set; }
+        public List<StockLedgerReport> StockLedgerReportList { get; set; }
+    }
+
+    public class InventoryReOrderStatusFGReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public int ItemStatus { get; set; }
+        public int TotalCount { get; set; }
+        public Guid ProductID { get; set; }
+        public Product Product { get; set; }
+        public string ProductType { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+        public string Description { get; set; }
+        public decimal ReorderQty { get; set; }
+        public decimal CurrentStock { get; set; }
+        public decimal SalesOrderDueQty { get; set; }
+        public decimal NetAvailableQty { get; set; }
+        public decimal ShortFall { get; set; }
+        public List<InventoryReOrderStatusFGReport> InventoryReorderStatusFGList { get; set; }
+    }
+
+    public class StockRegisterFGReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public Guid ProductID { get; set; }
+        public Product Product { get; set; }
+        public string ProductType { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+        public string Description { get; set; }
+        public string TypeDescription { get; set; }
+        public decimal CostPrice { get; set; }
+        public decimal CurrentStock { get; set; }
+        public string UnitCode { get; set; }
+        public decimal CostAmount { get; set; }
+        public decimal SellingRate { get; set; }
+        public decimal SellingAmount { get; set; }
+        public string StockCostAmount { get; set; }
+        public string StockSellingAmount { get; set; }        
+        public List<StockRegisterFGReport> StockRegisterFGReportList { get; set; }
+    }
+
+    public class StockLedgerFGReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public Guid ProductID { get; set; }
+        public Product Product { get; set; }
+        public string ProductType{ get; set; }      
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string DateFilter { get; set; }       
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public string TransactionType { get; set; }
+        public string Description { get; set; }
+        public string UnitCode { get; set; }
+        public decimal OpeningStock { get; set; }
+        public decimal ClosingStock { get; set; }
+        public DateTime TransactionDate { get; set; }
+        public string TransactionDateFormatted { get; set; }
+        public string DocumentNo { get; set; }
+        public decimal StockIn { get; set; }
+        public decimal StockOut { get; set; }      
+        public List<StockLedgerFGReport> StockLedgerFGReportList { get; set; }
+    }
+
+    public class ProductStageWiseStockReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public Guid ProductID { get; set; }
+        public Product Product { get; set; }
+        public string Description { get;set;}
+        public string Stage { get; set; }
+        public decimal CurrentStock { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public List<ProductStageWiseStockReport> ProductStagewiseReportList { get; set; }
+
+    }
+
+    public class SalesAnalysisReport
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+
+        [Display(Name = "From Date")]
+        public string FromDate { get; set; }
+        [Display(Name = "To Date")]
+        public string ToDate { get; set; }
+
+        [Display(Name = "Quick Filter")]
+        public string DateFilter { get; set; }
+
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+
+        public List<SalesAnalysisReport> SalesAnalysisReportList { get; set; }
+
+    }
+
+
+    public class MovementAnalysisReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+        public string MonthFilter { get; set; }
+        public Guid EmployeeID { get; set; }
+        public Guid ProductID { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public Guid ID { get; set; }
+
+        public List<MovementAnalysisReport> MovementAnalysisReportList { get; set; }
+
+    }
 
 }

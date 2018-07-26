@@ -31,6 +31,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public bool IsUpdate { get; set; }
         public Common Common { get; set; }
         public CustomerAdvanceSearch CustomerAdvanceSearch { get; set; }
+        public decimal? OutStanding { get; set; } 
 
     }
     public class CustomerAdvanceSearch

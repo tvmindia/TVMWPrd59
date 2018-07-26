@@ -3,7 +3,7 @@
 //*****************************************************************************
 //Author: Jais
 //CreatedDate: 17-Feb-2018 
-//LastModified: 5-Mar-2018 
+//LastModified: 11-jun-2018 
 //FileName: Product.js
 //Description: Client side coding for Product
 //******************************************************************************
@@ -26,7 +26,8 @@ $(document).ready(function () {
     });
     $("#ProductCategory_Code").select2({
     });
-    
+    $("#Type").select2({
+    });
 });
 
 //--function bind the Product list checking search and filter--//
@@ -45,6 +46,7 @@ function BindOrReloadProductTable(action) {
                 $('#SearchTerm').val('');
                 $('#Unit_Code').val('').select2();
                 $('#ProductCategory_Code').val('').select2();
+                $('#Type').val('PRO').select2();
                 break;
             case 'Init':
                 break;
@@ -61,7 +63,9 @@ function BindOrReloadProductTable(action) {
         ProductAdvanceSearchViewModel.Unit = UnitViewModel;
         ProductCategoryViewModel.Code = $("#ProductCategory_Code").val();
         ProductAdvanceSearchViewModel.ProductCategory = ProductCategoryViewModel;
-        ProductAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+        ProductAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();      
+        ProductAdvanceSearchViewModel.Type = $('#Type').val();
+
         debugger;
         //apply datatable plugin on Raw Material table
         _dataTable.productList = $('#tblProduct').DataTable(

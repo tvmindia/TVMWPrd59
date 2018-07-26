@@ -64,7 +64,7 @@ function BindOrReloadCustomerTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [0,1, 2, 3, 4]
+                                 columns: [0,1, 2, 3, 4,5]
                              }
             }],
             ordering: false,
@@ -89,6 +89,12 @@ function BindOrReloadCustomerTable(action) {
             { "data": "Mobile", "defaultContent": "<i>-<i>", "width": "10%" },
             { "data": "TaxRegNo", "defaultContent": "<i>-<i>", "width": "10%" },
             { "data": "PANNo", "defaultContent": "<i>-<i>", "width": "10%" },
+            {
+                "data": "OutStanding", render: function (data, type, row) {
+                    return roundoff(data)
+                }, "defaultContent": "<i></i>", 
+                "width": "10%"
+            },
              {
                  "data": "ID", "orderable": false, render: function (data, type, row) {
                      return '<a href="/Customer/NewCustomer?code=MSTR&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
@@ -96,9 +102,9 @@ function BindOrReloadCustomerTable(action) {
              }
             ],
             columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                { className: "text-right", "targets": [] },
+                { className: "text-right", "targets": [5] },
                 { className: "text-left", "targets": [0,1, 2, 3, 4] },
-                { className: "text-center", "targets": [5] }],
+                { className: "text-center", "targets": [6] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {

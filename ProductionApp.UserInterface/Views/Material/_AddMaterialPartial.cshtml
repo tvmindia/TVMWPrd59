@@ -1,23 +1,23 @@
 ﻿@model ProductionApp.UserInterface.Models.MaterialViewModel
 
 @*<style>
-    /*To Set Only Vertical Scrollbar*/
-.verticalscroll
-{
-overflow-x: hidden;
-overflow-y: auto;
-height:550px;
-border-top:30px;
-/*background-color:#2d80e8;
-width:350px;
-height:150px;*/
-}
-#divFooter
-{
-    position: fixed;
-    bottom: 2px;
-}
-</style>*@
+        /*To Set Only Vertical Scrollbar*/
+    .verticalscroll
+    {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height:550px;
+    border-top:30px;
+    /*background-color:#2d80e8;
+    width:350px;
+    height:150px;*/
+    }
+    #divFooter
+    {
+        position: fixed;
+        bottom: 2px;
+    }
+    </style>*@
 <style>
     /*To Set Only Vertical Scrollbar*/
     .verticalscroll {
@@ -45,135 +45,135 @@ height:150px;*/
 {
     @Html.AntiForgeryToken()
     @*<div class="verticalscroll">*@
-        <div class="form-horizontal">
-            @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
-            @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
+        @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="form-group col-md-12">
-                <div class="col-md-6">
+        <div class="form-group col-md-12">
+            <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="col-md-12">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.MaterialCode, htmlAttributes: new { @class = "control-label lblrequired" })
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-12">
-                            @if (Model.IsUpdate)
-                            {
-                                @Html.EditorFor(model => model.MaterialCode, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
-                                @Html.ValidationMessageFor(model => model.MaterialCode, "", new { @class = "text-danger" })
-                            }
-                            else
-                            {
-                                @Html.EditorFor(model => model.MaterialCode, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MaterialCode, "", new { @class = "text-danger" })
-                            }
-                         
-                        </div>
+                        @Html.LabelFor(model => model.MaterialCode, htmlAttributes: new { @class = "control-label lblrequired" })
                     </div>
                 </div>
-                    <div class="col-md-6">
-                        <div class="col-md-12">
-                            <div class="col-md-12">
-                                @Html.LabelFor(model => model.Rate, htmlAttributes: new { @class = "control-label lblrequired" })
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-12">
-                                @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency",@onkeypress = "return isNumber(event)" } })
-                                @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @if (Model.IsUpdate)
+                        {
+                            @Html.EditorFor(model => model.MaterialCode, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                            @Html.ValidationMessageFor(model => model.MaterialCode, "", new { @class = "text-danger" })
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => model.MaterialCode, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MaterialCode, "", new { @class = "text-danger" })
+                        }
 
-           
-
-            <div class="form-group col-md-12">
-                <div class="col-md-6">
-                    <div class="col-md-12">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label lblrequired" })
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-12">
-                            @Html.TextAreaFor(model => model.Description, 4, 80, new { @class = "form-control HeaderBox textareafix" })
-                            @*@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })*@
-                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="col-md-12">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.MaterialTypeCode, htmlAttributes: new { @class = "control-label lblrequired" })
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-12">
-                            <div id="divMaterialTypeDropdown">
-                                @Html.DropDownListFor(model => model.MaterialTypeCode, Model.MaterialType.MaterialTypeSelectList, "--- Select Material Type ---", new { @class = "form-control", @style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.MaterialTypeCode, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="col-md-12">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.UnitCode, htmlAttributes: new { @class = "control-label lblrequired" })
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-12">
-                            <div id="divUnitDropdown">
-                                @Html.DropDownListFor(model => model.UnitCode, Model.Unit.UnitSelectList, "--- Select Unit ---", new { @class = "form-control", @style = "width:100%" })
-                                @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-               
             </div>
-
-            
-
-            <div class="form-group col-md-12">
-               
-                <div class="col-md-6">
+            <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="col-md-12">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.ReorderQty, htmlAttributes: new { @class = "control-label" })
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-12">
-                            @Html.EditorFor(model => model.ReorderQty, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumber(event)" } })
-                            @Html.ValidationMessageFor(model => model.ReorderQty, "", new { @class = "text-danger" })
-                        </div>
+                        @Html.LabelFor(model => model.MaterialTypeCode, htmlAttributes: new { @class = "control-label lblrequired" })
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="col-md-12">
-                        <div class="col-md-12">
-                            @Html.LabelFor(model => model.WeightInKG, htmlAttributes: new { @class = "control-label" })
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-12">
-                            @Html.EditorFor(model => model.WeightInKG, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumber(event)" } })
-                            @Html.ValidationMessageFor(model => model.WeightInKG, "", new { @class = "text-danger" })
+                        <div id="divMaterialTypeDropdown">
+                            @Html.DropDownListFor(model => model.MaterialTypeCode, Model.MaterialType.MaterialTypeSelectList, "--- Select Material Type ---", new { @class = "form-control CalculateOpeningStockInNos", @style = "width:100%" })
+                            @Html.ValidationMessageFor(model => model.MaterialTypeCode, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
             </div>
-
            
+        </div>
 
-            @*<div class="form-group col-md-12">
+
+
+        <div class="form-group col-md-12">
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label lblrequired" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(model => model.Description, 4, 80, new { @class = "form-control HeaderBox textareafix" })
+                        @*@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.UnitCode, htmlAttributes: new { @class = "control-label lblrequired" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <div id="divUnitDropdown">
+                            @Html.DropDownListFor(model => model.UnitCode, Model.Unit.UnitSelectList, "--- Select Unit ---", new { @class = "form-control", @style = "width:100%" })
+                            @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Rate, htmlAttributes: new { @class = "control-label lblrequired" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency", @onkeypress = "return isNumber(event)" } })
+                        @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="form-group col-md-12">
+
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.ReorderQty, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.ReorderQty, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumber(event)" } })
+                        @Html.ValidationMessageFor(model => model.ReorderQty, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.WeightInKG, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.WeightInKG, new { htmlAttributes = new { @class = "form-control CalculateOpeningStockInNos", @onkeypress = "return isNumber(event)" } })
+                        @Html.ValidationMessageFor(model => model.WeightInKG, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        @*<div class="form-group col-md-12">
                 <div class="col-md-12">
                     <div class="col-md-12">
                         @Html.LabelFor(model => model.CurrentStock, htmlAttributes: new { @class = "control-label" })
@@ -187,7 +187,24 @@ height:150px;*/
                 </div>
             </div>*@
 
-            @*<div class="form-group col-md-12">
+
+
+
+        <div class="form-group col-md-12">
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.OpeningStockInKG, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.OpeningStockInKG, new { htmlAttributes = new { @class = "form-control CalculateOpeningStockInNos" } })
+                        @Html.ValidationMessageFor(model => model.OpeningStockInKG, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div> 
+            <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="col-md-12">
                         @Html.LabelFor(model => model.OpeningStock, htmlAttributes: new { @class = "control-label" })
@@ -195,70 +212,90 @@ height:150px;*/
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-12">
-                        @Html.EditorFor(model => model.OpeningStock, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.EditorFor(model => model.OpeningStock, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.OpeningStock, "", new { @class = "text-danger" })
                     </div>
                 </div>
-            </div>*@
-
-           
-            <div class="form-group col-md-12">
-                <div class="col-md-6">
+            </div>
+            @*<div class="col-md-6">
                     <div class="col-md-12">
                         <div class="col-md-12">
-                            @Html.LabelFor(model => model.HSNNo, htmlAttributes: new { @class = "control-label" })
+                            @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label" })
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.HSNNo, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.HSNNo, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency", @onkeypress = "return isNumber(event)" } })
+                            @Html.ValidationMessageFor(model => model.CostPrice, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    </div>
-                    @*<div class="col-md-6">
-                        <div class="col-md-12">
-                            <div class="col-md-12">
-                                @Html.LabelFor(model => model.CostPrice, htmlAttributes: new { @class = "control-label" })
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-12">
-                                @Html.EditorFor(model => model.CostPrice, new { htmlAttributes = new { @class = "form-control Amount ApplyCurrency", @onkeypress = "return isNumber(event)" } })
-                                @Html.ValidationMessageFor(model => model.CostPrice, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>*@
-                </div>
-
-          
-
-
-            @*<div class="form-group "id="divFooter">*@
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <div class="col-md-11" style="margin-bottom: 2%;margin-top: 1.5%;">
-                            <button type="submit" id="btnSaveMaster" class="btn btn-info pull-right" style="margin-right:-7px;">Save Changes <i class="fa fa-spinner fa-spin" id="imgMasterLoading" style="display:none;"></i></button>
-                        </div>
-                    </div>
-                </div>
-
-                @*<div class="col-md-12">
-                    <input type="submit" value="Save Changes" id="btnSaveMaster" class="btn btn-info" style="margin-left:5%" />
-                    <img src="~/Content/images/MasterLoading.gif" id="imgMasterLoading" style="display:none" />
                 </div>*@
-        @*</div>*@
         </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.HSNNo, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.HSNNo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.HSNNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+
+
+        @*<div class="form-group "id="divFooter">*@
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="col-md-11" style="margin-bottom: 2%;margin-top: 1.5%;">
+                    <button type="submit" id="btnSaveMaster" class="btn btn-info pull-right" style="margin-right:-7px;">Save Changes <i class="fa fa-spinner fa-spin" id="imgMasterLoading" style="display:none;"></i></button>
+                </div>
+            </div>
+        </div>
+
+        @*<div class="col-md-12">
+                <input type="submit" value="Save Changes" id="btnSaveMaster" class="btn btn-info" style="margin-left:5%" />
+                <img src="~/Content/images/MasterLoading.gif" id="imgMasterLoading" style="display:none" />
+            </div>*@
+        @*</div>*@
+    </div>
+}
+<script>
+    $(document).ready(function () {
+
+        $('#UnitCode').select2({
+            dropdownParent: $("#FormMaterial")
+        });
+        $("#MaterialTypeCode").select2({
+            dropdownParent: $("#FormMaterial")
+        });
+        $.validator.unobtrusive.parse("#FormMaterial");
+
+        $(".CalculateOpeningStockInNos").change(function () {
+            MaterialTypeOnChange();
+        });
+        
+    });
+    function MaterialTypeOnChange() {
+        debugger;
+        if($('#MaterialTypeCode').val()=='CRC'){
+            debugger;
+            $("#WeightInKG").attr("required", "required");
+            $('#WeightInKG').attr('title', 'Weight In KG is missing');
+                var openingStockInNo, openingStockInKG, weightInKG;
+                openingStockInKG = $('#OpeningStockInKG').val();
+                weightInKG = $('#WeightInKG').val();
+                openingStockInNo = weightInKG != 0 ? Math.floor(openingStockInKG / weightInKG) : "";
+                $('#OpeningStock').val(openingStockInNo)
         }
-        <script>
-            $(document).ready(function () {
-                
-                $('#UnitCode').select2({
-                    dropdownParent: $("#FormMaterial")
-                });
-                $("#MaterialTypeCode").select2({
-                    dropdownParent: $("#FormMaterial")
-                });
-                $.validator.unobtrusive.parse("#FormMaterial");
-            });
-        </script>
+        else {
+            $("#WeightInKG").removeAttr("required");
+            $('#WeightInKG').removeAttr('title');
+        }
+    }
+</script>

@@ -12,9 +12,10 @@ namespace ProductionApp.BusinessService.Contracts
         List<SupplierInvoice> GetAllSupplierInvoice(SupplierInvoiceAdvanceSearch supplierInvoiceAdvanceSearch);
         SupplierInvoice GetSupplierInvoice(Guid id);
         object InsertUpdateSupplierInvoice(SupplierInvoice SupplierInvoice);
-        object DeleteSupplierInvoice(Guid id);
-        object DeleteSupplierInvoiceDetail(Guid id);
+        object DeleteSupplierInvoice(Guid id, string userName);
+        object DeleteSupplierInvoiceDetail(Guid id, string userName);
         List<SupplierInvoiceDetail> GetAllSupplierInvoiceDetail(Guid id);
         SupplierInvoiceDetail GetSupplierInvoiceDetail(Guid id);
+        decimal GetOutstandingSupplierInvoice();
     }
 }

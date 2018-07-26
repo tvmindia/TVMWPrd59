@@ -6,22 +6,29 @@
     ViewBag.Title = "Reports";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
-<style>
+ <style>
     .todo-list {
         margin: 5px;
     }
 
         .todo-list > li {
-            background: #E5E8E8;
+            background: #f9f8f8;
         }
+
+            .todo-list > li:hover {
+                background: #add7e485;
+                color: white !important;
+            }
 
     .text {
         font-size: 16px;
     }
 
     .info-box-icon {
-        width: 30px !important;
-        height: 20px !important;
+        width: 40px !important;
+        height: 40px !important;
+        margin-left: -11px;
+        margin-top: -10px;
     }
 
     .search box-body {
@@ -38,12 +45,13 @@
         background-color: rgba(2, 166, 143, 0.06);
         background-color: #E5E8E8;
     }
-    .box.box-primary{
-        border-top-color:white;
+
+    .box.box-primary {
+        border-top-color: white;
     }
 
-    .fa{
-        font-size:15px;
+    .fa {
+        font-size: 15px;
     }
 </style>
 <div style="width:100%;">

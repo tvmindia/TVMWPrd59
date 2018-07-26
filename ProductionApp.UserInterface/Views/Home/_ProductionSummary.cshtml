@@ -20,7 +20,7 @@
         var lblProduction=@Html.Raw(Json.Encode( salesList.Select(s => (s.Month + s.Year)).ToList()));
     var dta1=@Html.Raw(Json.Encode( salesList.Select(s => s.Material).ToList()));
     var dta2=@Html.Raw(Json.Encode( salesList.Select(s => s.Product).ToList()));
-    var dta3=@Html.Raw(Json.Encode( salesList.Select(s => s.Wastage).ToList()));
+    var dta3=@Html.Raw(Json.Encode( salesList.Select(s => s.InProduction).ToList()));
     var dta4=@Html.Raw(Json.Encode( salesList.Select(s => s.Damage).ToList()));
 
 

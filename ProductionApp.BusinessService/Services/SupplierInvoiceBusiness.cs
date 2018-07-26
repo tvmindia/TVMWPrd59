@@ -46,14 +46,14 @@ namespace ProductionApp.BusinessService.Services
 
             salesOrder.DetailXML = result;
         }
-        public object DeleteSupplierInvoice(Guid id)
+        public object DeleteSupplierInvoice(Guid id,string userName)
         {
-            return _supplierInvoiceRepository.DeleteSupplierInvoice(id);
+            return _supplierInvoiceRepository.DeleteSupplierInvoice(id,userName);
         }
 
-        public object DeleteSupplierInvoiceDetail(Guid id)
+        public object DeleteSupplierInvoiceDetail(Guid id, string userName)
         {
-            return _supplierInvoiceRepository.DeleteSupplierInvoiceDetail(id);
+            return _supplierInvoiceRepository.DeleteSupplierInvoiceDetail(id, userName);
         }
 
         public List<SupplierInvoiceDetail> GetAllSupplierInvoiceDetail(Guid id)
@@ -63,6 +63,11 @@ namespace ProductionApp.BusinessService.Services
         public SupplierInvoiceDetail GetSupplierInvoiceDetail(Guid id)
         {
             return _supplierInvoiceRepository.GetSupplierInvoiceDetail(id);
+        }
+
+        public decimal GetOutstandingSupplierInvoice()
+        {
+            return _supplierInvoiceRepository.GetOutstandingSupplierInvoice();
         }
     }
 }

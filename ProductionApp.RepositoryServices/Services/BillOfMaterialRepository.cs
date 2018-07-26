@@ -783,6 +783,57 @@ namespace ProductionApp.RepositoryServices.Services
             return billOfMaterialList;
         }
         #endregion GetRecentBillOfMaterial
+
+
+
+        #region GetBOMTree
+        public List<BOMTree> GetBOMTree(Guid ProductID )
+        {
+            List<BOMTree> billOfMaterialList = new List<BOMTree>();
+            BOMTree billOfMaterial = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetBOMTree]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ProductID", SqlDbType.UniqueIdentifier).Value = ProductID;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    billOfMaterial = new BOMTree();                                     
+                                    billOfMaterial.ID = (sdr["ID"].ToString() != "" ? Guid.Parse( sdr["ID"].ToString() ): billOfMaterial.ID);
+                                    billOfMaterial.ParentID = (sdr["ParentID"].ToString() != "" ? Guid.Parse(sdr["ParentID"].ToString()) : billOfMaterial.ParentID);
+                                    billOfMaterial.Name = (sdr["Name"].ToString() != "" ? (sdr["Name"].ToString()) : billOfMaterial.Name);
+                                    billOfMaterial.Level = (sdr["Level"].ToString() != "" ? int.Parse(sdr["Level"].ToString()) : billOfMaterial.Level);
+                                    billOfMaterial.Type = (sdr["Type"].ToString() != "" ? (sdr["Type"].ToString()) : billOfMaterial.Type);
+                                    billOfMaterial.Qty = (sdr["Qty"].ToString() != "" ?  (sdr["Qty"].ToString()) : billOfMaterial.Qty);
+
+                                    billOfMaterialList.Add(billOfMaterial);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return billOfMaterialList;
+        }
+        #endregion GetRecentBillOfMaterial
+
     }
 }
 

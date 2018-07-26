@@ -126,7 +126,7 @@ function BindOrReloadSupplierInvoiceTable(action) {
                     { "data": "Status", "defaultContent": "<i>-</i>" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
-                            return '<a href="/SupplierInvoice/NewSupplierInvoice?code=SALE&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
+                            return '<a href="/SupplierInvoice/NewSupplierInvoice?code=ACC&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
                         }, "defaultContent": "<i>-</i>", "width": "3%"
                     }
                 ],

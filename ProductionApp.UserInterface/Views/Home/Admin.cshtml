@@ -6,23 +6,24 @@
 <div class="col-md-12"></div>
 <div class="col-md-12"></div>
 
-    <div class="col-md-12 DashboardContainer">
-        <div class="col-md-6">
-            @{
+<div class="col-md-12 DashboardContainer">
+    <div class="col-md-6">
+        @{
 
-                @Html.Action("SalesSummary", "Home");
+            @Html.Action("SalesSummary", "Home");
 
-            }
+        }
 
-        </div>
-        <div class="col-md-6">
+    </div>
+    <div class="col-md-6">
 
-            @{
+        @{
 
-                @Html.Action("PurchaseSummary", "Home");
+            @Html.Action("PurchaseSummary", "Home");
 
-            }
-        </div></div>
+        }
+    </div>
+</div>
 <div class="col-md-12 DashboardContainer">
     <div class="col-md-8">
 
@@ -45,50 +46,57 @@
 </div>
 
 
-    <div class="col-md-12 DashboardContainer" >
-      
-        <div class="col-md-6">
+<div class="col-md-12 DashboardContainer">
 
-            @{
+    <div class="col-md-6">
 
-                @Html.Action("FGInventorySummary", "Home");
+        @{
 
-            }
-        </div>
-        <div class="col-md-6">
-            @{
+            @Html.Action("FGInventorySummary", "Home");
 
-                @Html.Action("InventorySummary", "Home");
+        }
+    </div>
+    <div class="col-md-6">
+        @{
 
-            }
+            @Html.Action("InventorySummary", "Home");
 
-        </div>
-         
+        }
 
     </div>
 
- 
 
-    <div class="col-md-12 DashboardContainer">
-        <div class="col-md-6">
+</div>
 
-            @{
 
-                @Html.Action("ProductionSummary", "Home");
 
-            }
-        </div>
-        <div class="col-md-6">
-            @{
+<div class="col-md-12 DashboardContainer">
+    <div class="col-md-6">
 
-                @Html.Action("DispatchSummary", "Home");
+        @{
 
-            }
+            @Html.Action("ProductionSummary", "Home");
 
-        </div>
+        }
+    </div>
+    <div class="col-md-6" style="display:none">
+        @{
 
+            @Html.Action("DispatchSummary", "Home");
+
+        }
 
     </div>
+
+
+</div>
+<div class="col-md-12 DashboardContainer">
+    <div class="col-md-12"> 
+        @{ 
+            @Html.Action("DayBook", "Home"); 
+        }
+    </div> 
+</div>
 @section scripts{
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJS/Home")
 

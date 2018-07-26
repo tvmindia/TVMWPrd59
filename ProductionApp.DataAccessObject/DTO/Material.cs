@@ -20,6 +20,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal OpeningStock { get; set; }
         public decimal WeightInKG { get; set; }
         public decimal CostPrice { get; set; }
+        public decimal OpeningStockInKG { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }

@@ -23,11 +23,12 @@
 // ##15--Edit Popup Modal Update Customer Invoice Details
 // ##16--DELETE Customer Invoice 
 // ##17--DELETE Customer Invoice Details 
-// 
+// ##18--Discount Amount Changed
+// ##19--Email and Print
 //******************************************************************************
 
 //##1--Global Declaration---------------------------------------------##1 
-var _DataTables = {};
+var _dataTables = {};
 var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 var _SlNo = 1;
 var _result = "";
@@ -63,7 +64,7 @@ $(document).ready(function () {
             UploadFile(FileObject);
         });
 
-        _DataTables.CustomerInvoiceDetailTable = $('#tblCustomerInvoiceDetail').DataTable({
+        _dataTables.CustomerInvoiceDetailTable = $('#tblCustomerInvoiceDetail').DataTable({
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
             ordering: false,
             searching: false,
@@ -112,7 +113,7 @@ $(document).ready(function () {
                 { className: "text-left", "targets": [4, 6] }
             ]
         });
-        _DataTables.PackingSlipListTable = $('#tblPackingSlipList').DataTable({
+        _dataTables.PackingSlipListTable = $('#tblPackingSlipList').DataTable({
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
             ordering: false,
             searching: true,
@@ -141,7 +142,7 @@ $(document).ready(function () {
             select: { style: 'multi', selector: 'td:first-child' },
             destroy: true
         });
-        _DataTables.PackingSlipListDetailTable = $('#tblPackingSlipListDetail').DataTable({
+        _dataTables.PackingSlipListDetailTable = $('#tblPackingSlipListDetail').DataTable({
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
             ordering: false,
             searching: false,
@@ -273,7 +274,7 @@ $(document).ready(function () {
         // Add event listener for opening and closing details
         $('#tblPackingSlipListDetail tbody').on('click', 'td.details-control', function () {
             debugger;
-            var rowData = _DataTables.PackingSlipListDetailTable.row($(this).parents('tr')).data();
+            var rowData = _dataTables.PackingSlipListDetailTable.row($(this).parents('tr')).data();
 
             var tr = $(this).closest('tr');
             var row = _DataTables.PackingSlipListDetailTable.row(tr);
@@ -300,7 +301,7 @@ $(document).ready(function () {
 
 
 
-        _DataTables.EditPackingSlipListDetailTable = $('#tblPackingSlipListDetailEdit').DataTable({
+        _dataTables.EditPackingSlipListDetailTable = $('#tblPackingSlipListDetailEdit').DataTable({
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
             ordering: false,
             searching: false,
@@ -415,7 +416,7 @@ $(document).ready(function () {
         });
         $('#tblPackingSlipListDetailEdit tbody').on('click', 'td.details-control', function () {
             debugger;
-            var rowData = _DataTables.EditPackingSlipListDetailTable.row($(this).parents('tr')).data();
+            var rowData = _dataTables.EditPackingSlipListDetailTable.row($(this).parents('tr')).data();
 
             var tr = $(this).closest('tr');
             var row = _DataTables.EditPackingSlipListDetailTable.row(tr);
@@ -512,7 +513,7 @@ function ShowCustomerInvoiceDetailsModal()
 //##5--Bind Packing Slip List ----------------------------------------##5
 function BindPackingSlipListTable() {
     var packingSlipList = GetPackingSlipList();
-    _DataTables.PackingSlipListTable.clear().rows.add(packingSlipList).draw(false);
+    _dataTables.PackingSlipListTable.clear().rows.add(packingSlipList).draw(false);
 }
 function GetPackingSlipList()
 {
@@ -559,20 +560,20 @@ function ViewPackingSlipListDetails(value) {
         var packingSlipIds = GetSelectedRowPackingSlipIds();
         if (packingSlipIds) {
             BindPackingSlipListDetailTable(packingSlipIds);
-            _DataTables.PackingSlipListDetailTable.rows().select();
+            _dataTables.PackingSlipListDetailTable.rows().select();
             $('#btnForward').hide();
             $('#btnBackward').show();
             $('#btnAdd').show();
         }
         else {
            $('#tabDetail').attr('data-toggle', '');
-            _DataTables.PackingSlipListDetailTable.clear().draw(false);
+            _dataTables.PackingSlipListDetailTable.clear().draw(false);
             notyAlert('warning', "Please Select Packing Slip");
         }
     }
 }
 function GetSelectedRowPackingSlipIds() {
-    var SelectedRows = _DataTables.PackingSlipListTable.rows(".selected").data();
+    var SelectedRows = _dataTables.PackingSlipListTable.rows(".selected").data();
     if ((SelectedRows) && (SelectedRows.length > 0)) {
         var arrIDs = "";
         for (var r = 0; r < SelectedRows.length; r++) {
@@ -592,7 +593,7 @@ function BindPackingSlipListDetailTable(packingSlipIDs)
     TaxtypeDropdown(); //##8
     if (packingSlipIDs != "")
     {
-        _DataTables.PackingSlipListDetailTable.clear().rows.add(GetPackingSlipListDetail(packingSlipIDs)).draw(false);
+        _dataTables.PackingSlipListDetailTable.clear().rows.add(GetPackingSlipListDetail(packingSlipIDs)).draw(false);
     }
 }
 function GetPackingSlipListDetail(packingSlipIDs) {
@@ -659,8 +660,8 @@ function EdittextBoxValue(thisObj, textBoxCode)
 {
     debugger;
  //   var IDs = selectedRowIDs();//identify the selected rows 
-    _customerInvoiceDetailVM = _DataTables.PackingSlipListDetailTable.rows().data();
-    var rowtable = _DataTables.PackingSlipListDetailTable.row($(thisObj).parents('tr')).data();
+    _customerInvoiceDetailVM = _dataTables.PackingSlipListDetailTable.rows().data();
+    var rowtable = _dataTables.PackingSlipListDetailTable.row($(thisObj).parents('tr')).data();
     for (var i = 0; i < _customerInvoiceDetailVM.length; i++)
     {
         if (_customerInvoiceDetailVM[i].ProductID == rowtable.ProductID && _customerInvoiceDetailVM[i].GroupID == rowtable.GroupID && _customerInvoiceDetailVM[i].SlipNo == rowtable.SlipNo)
@@ -748,7 +749,7 @@ function EdittextBoxValue(thisObj, textBoxCode)
  //   selectCheckbox(IDs); //Selecting the checked rows with their ids taken 
 }
 function selectedRowIDs() {
-    var allData = _DataTables.PackingSlipListDetailTable.rows(".selected").data();
+    var allData = _dataTables.PackingSlipListDetailTable.rows(".selected").data();
     var arrIDs = "";
     var id;
     for (var r = 0; r < allData.length; r++) {
@@ -761,13 +762,13 @@ function selectedRowIDs() {
     return arrIDs;
 }
 function selectCheckbox(IDs) {
-    var customerInvoiceDetailVM = _DataTables.PackingSlipListDetailTable.rows().data()
+    var customerInvoiceDetailVM = _dataTables.PackingSlipListDetailTable.rows().data()
     for (var i = 0; i < customerInvoiceDetailVM.length; i++) {
         if (IDs.includes(customerInvoiceDetailVM[i].ProductID) || (IDs.includes(customerInvoiceDetailVM[i].GroupID))) {
-            _DataTables.PackingSlipListDetailTable.rows(i).select();
+            _dataTables.PackingSlipListDetailTable.rows(i).select();
         }
         else {
-            _DataTables.PackingSlipListDetailTable.rows(i).deselect();
+            _dataTables.PackingSlipListDetailTable.rows(i).deselect();
         }
     }
 }
@@ -775,8 +776,8 @@ function selectCheckbox(IDs) {
 //##9--Add Customer Invoice Details ---------------------------------------##9
 function AddCustomerInvoiceDetails()
 {
-    debugger;
-    var customerInvoiceDetailVM = _DataTables.PackingSlipListDetailTable.rows(".selected").data();
+   
+    var customerInvoiceDetailVM = _dataTables.PackingSlipListDetailTable.rows(".selected").data();
     if (customerInvoiceDetailVM.length > 0)
     {
         AddCustomerInvoiceDetailList(customerInvoiceDetailVM)
@@ -793,7 +794,7 @@ function AddCustomerInvoiceDetails()
 
 function BindingPackingSlipListDetailTableWithChangedValues() {
        var IDs = selectedRowIDs();//identify the selected rows 
-       _DataTables.PackingSlipListDetailTable.clear().rows.add(_customerInvoiceDetailVM).draw(false);
+       _dataTables.PackingSlipListDetailTable.clear().rows.add(_customerInvoiceDetailVM).draw(false);
        selectCheckbox(IDs); //Selecting the checked rows with their ids taken 
 }
 
@@ -937,7 +938,7 @@ function BindCustomerInvoiceByID()
     $('#lblInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount - customerInvoiceVM.Discount));
     $('#lblStatusInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount-customerInvoiceVM.Discount));
     $('#InvoiceAmount').val(roundoff(customerInvoiceVM.InvoiceAmount));
-    
+    $('#CustomerInvoiceMailPreview_SentToEmails').val(customerInvoiceVM.Customer.ContactEmail)
     //detail Table values binding with header id
     BindCustomerInvoiceDetailTable(ID);
     PaintImages(ID);//bind attachments written in custom js
@@ -962,7 +963,7 @@ function GetCustomerInvoiceByID(ID) {
 }
 function BindCustomerInvoiceDetailTable(ID)
 {
-    _DataTables.CustomerInvoiceDetailTable.clear().rows.add(GetCustomerInvoiceDetail(ID)).draw(false);
+    _dataTables.CustomerInvoiceDetailTable.clear().rows.add(GetCustomerInvoiceDetail(ID)).draw(false);
 }
 function GetCustomerInvoiceDetail(ID)
 {
@@ -995,12 +996,12 @@ function Reset()
 function ItemDetailsEdit(thisObj) {
     debugger;
 
-    var rowData = _DataTables.CustomerInvoiceDetailTable.row($(thisObj).parents('tr')).data();
+    var rowData = _dataTables.CustomerInvoiceDetailTable.row($(thisObj).parents('tr')).data();
     TaxtypeDropdown(); //##8
     if (rowData.ID!=EmptyGuid)
-        _DataTables.EditPackingSlipListDetailTable.clear().rows.add(GetCustomerInvoiceDetailLinkForEdit(rowData.ID)).draw(false);
+        _dataTables.EditPackingSlipListDetailTable.clear().rows.add(GetCustomerInvoiceDetailLinkForEdit(rowData.ID)).draw(false);
     else
-        _DataTables.EditPackingSlipListDetailTable.clear().rows.add(GetCustomerInvoiceDetailLinkForEditGroup(rowData.GroupID)).draw(false);
+        _dataTables.EditPackingSlipListDetailTable.clear().rows.add(GetCustomerInvoiceDetailLinkForEditGroup(rowData.GroupID)).draw(false);
 
     $('#EditCustomerInvoiceDetailModal').modal('show');
 
@@ -1047,8 +1048,8 @@ function GetCustomerInvoiceDetailLinkForEditGroup(groupID) {
 
 function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
     debugger;
-    var customerInvoiceDetailVM = _DataTables.EditPackingSlipListDetailTable.rows().data();
-    var rowtable = _DataTables.EditPackingSlipListDetailTable.row($(thisObj).parents('tr')).data();
+    var customerInvoiceDetailVM = _dataTables.EditPackingSlipListDetailTable.rows().data();
+    var rowtable = _dataTables.EditPackingSlipListDetailTable.row($(thisObj).parents('tr')).data();
     for (var i = 0; i < customerInvoiceDetailVM.length; i++) {
 
         if (customerInvoiceDetailVM[i].ProductID == rowtable.ProductID && customerInvoiceDetailVM[i].GroupID == rowtable.GroupID && customerInvoiceDetailVM[i].SlipNo == rowtable.SlipNo) {
@@ -1132,12 +1133,12 @@ function EditLinkTableTextBoxValue(thisObj, textBoxCode) {
     if (rowtable.GroupID != EmptyGuid) {
         $('#GroupChildTable' + rowtable.GroupID + rowtable.SlipNo).DataTable().clear().rows.add(GetGroupProductListForCustomerInvoiceDetail(rowtable.GroupID, rowtable.SlipNo)).draw(false);
     }
-   // _DataTables.EditPackingSlipListDetailTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
+   // _dataTables.EditPackingSlipListDetailTable.clear().rows.add(customerInvoiceDetailVM).draw(false);
 }
 function UpdateCustomerInvoiceDetails()
 {
     debugger;
-    var CustomerInvoiceDetailVM = _DataTables.EditPackingSlipListDetailTable.rows().data();
+    var CustomerInvoiceDetailVM = _dataTables.EditPackingSlipListDetailTable.rows().data();
     _CustomerInvoiceDetailLink = [];
     UpdateCustomerInvoiceDetailLinkVM(CustomerInvoiceDetailVM)
     customerInvoiceVM = new Object();
@@ -1270,7 +1271,7 @@ function DeleteDetail(curobj)
 }
 function DeleteCustomerInvoiceDetail(id, isGroupItem) {
     try {
-        debugger;
+      
         if (id != '' && id != null) {
             var invoiceID = $('#ID').val();
             var data = { "id": id, "invoiceID": invoiceID, "isGroupItem": isGroupItem

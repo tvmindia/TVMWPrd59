@@ -70,6 +70,9 @@ namespace ProductionApp.UserInterface.Models
         public DataTablePagingViewModel DataTablePaging { get; set; }
         public UnitViewModel Unit { get; set; }
         public ProductCategoryViewModel ProductCategory { get; set; }
+        [Display(Name = "Type")]
+        public string Type { get; set; }
+
     }
 
 

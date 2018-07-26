@@ -80,9 +80,9 @@ namespace ProductionApp.BusinessService.Services
             return _customerInvoiceRepository.UpdateCustomerInvoiceDetail(customerInvoice);
         }
 
-        public object DeleteCustomerInvoice(Guid id)
+        public object DeleteCustomerInvoice(Guid id, string userName)
         {
-            return _customerInvoiceRepository.DeleteCustomerInvoice(id);
+            return _customerInvoiceRepository.DeleteCustomerInvoice(id,userName);
 
         }
 
@@ -115,7 +115,7 @@ namespace ProductionApp.BusinessService.Services
                     {
                         Mail _mail = new Mail();
                         _mail.Body = customerInvoice.CustomerInvoiceMailPreview.MailBody;
-                        _mail.Subject = "Purchase Order";
+                        _mail.Subject = "Customer Invoice";
                         _mail.To = email;
                         sendsuccess = await _mailBusiness.MailSendAsync(_mail);
                     }
@@ -143,7 +143,7 @@ namespace ProductionApp.BusinessService.Services
                     {
                         customerInvoice.CustomerInvoiceDetailList = GetCustomerInvoiceDetail(ID);
                     }
-                    customerInvoice.InvoiceAmountWords = _commonBusiness.NumberToWords(double.Parse(customerInvoice.InvoiceAmount.ToString()));
+                    customerInvoice.InvoiceAmountWords = _commonBusiness.NumberToWords(double.Parse((customerInvoice.InvoiceAmount- customerInvoice.Discount).ToString()));
                 }
             }
             catch (Exception ex)
@@ -162,6 +162,11 @@ namespace ProductionApp.BusinessService.Services
         {
             return _customerInvoiceRepository.GetGroupCustomerInvoiceDetailLink(id, groupID);
             
+        }
+
+        public decimal GetOutstandingCustomerInvoice()
+        {
+            return _customerInvoiceRepository.GetOutstandingCustomerInvoice();
         }
     }
 }

@@ -341,7 +341,8 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     throw new Exception("ID Missing");
                 }
-                result = _customerInvoiceBusiness.DeleteCustomerInvoice(Guid.Parse(ID));
+                AppUA appUA = Session["AppUA"] as AppUA;
+                result = _customerInvoiceBusiness.DeleteCustomerInvoice(Guid.Parse(ID), appUA.UserName);
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)
@@ -498,7 +499,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "Add";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewCustomerInvoice", "CustomerInvoice", new { Code = "ACC" });
+                    toolboxVM.addbtn.Href = Url.Action("NewCustomerInvoice", "CustomerInvoice", new { code = "ACC" });
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
@@ -517,7 +518,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.addbtn.Visible = true;
                     toolboxVM.addbtn.Text = "New";
                     toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("NewCustomerInvoice", "CustomerInvoice", new { Code = "ACC" });
+                    toolboxVM.addbtn.Href = Url.Action("NewCustomerInvoice", "CustomerInvoice", new { code = "ACC" });
 
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
@@ -542,7 +543,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewCustomerInvoice", "CustomerInvoice", new { Code = "ACC" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewCustomerInvoice", "CustomerInvoice", new { code = "ACC" });
 
                     break; 
               
@@ -556,7 +557,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
                     toolboxVM.ListBtn.Title = "List";
-                    toolboxVM.ListBtn.Href = Url.Action("ViewCustomerInvoice", "CustomerInvoice", new { Code = "ACC" });
+                    toolboxVM.ListBtn.Href = Url.Action("ViewCustomerInvoice", "CustomerInvoice", new { code = "ACC" });
                     break;
                 default:
                     return Content("Nochange");

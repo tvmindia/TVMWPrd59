@@ -406,6 +406,26 @@
 
     }
 
+    @if (Model.PostBtn.Visible && Model.PostBtn.HasAccess)
+    {
+        if (Model.PostBtn.Disable)
+        {
+            <a class="thr_disbtn" title="@Model.PostBtn.Title-@Model.PostBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/navigation.PNG")">
+                <span class="btnText">@Model.PostBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a href="@Model.PostBtn.Href" title="@Model.PostBtn.Title" class="thr_btn" onclick=@Model.PostBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/navigation.PNG")">
+                <span class="btnText">@Model.PostBtn.Text</span>
+            </a>
+        }
+
+    }
+
     @if (Model.ListBtn.Visible && Model.ListBtn.HasAccess)
     {
         if (Model.ListBtn.Disable)

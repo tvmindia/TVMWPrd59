@@ -58,6 +58,14 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.AddWithValue("@StageID", DBNull.Value);
                         else
                             cmd.Parameters.Add("@StageID", SqlDbType.UniqueIdentifier).Value = productionTrackingAdvanceSearch.StageID;
+                        if (productionTrackingAdvanceSearch.Status == null)
+                            cmd.Parameters.AddWithValue("@IsPosted", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@IsPosted", SqlDbType.Bit).Value = productionTrackingAdvanceSearch.Status;
+                        if (productionTrackingAdvanceSearch.IsDamaged == null)
+                            cmd.Parameters.AddWithValue("@IsDamaged", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@IsDamaged", SqlDbType.Bit).Value = productionTrackingAdvanceSearch.IsDamaged;
                         cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(productionTrackingAdvanceSearch.SearchTerm) ? "" : productionTrackingAdvanceSearch.SearchTerm;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -77,6 +85,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     productionTracking.AcceptedWt = (sdr["AcceptedWt"].ToString() != "" ? decimal.Parse(sdr["AcceptedWt"].ToString()) : productionTracking.AcceptedWt);
                                     productionTracking.DamagedQty = (sdr["DamagedQty"].ToString() != "" ? int.Parse(sdr["DamagedQty"].ToString()) : productionTracking.DamagedQty);
                                     productionTracking.DamagedWt = (sdr["DamagedWt"].ToString() != "" ? decimal.Parse(sdr["DamagedWt"].ToString()) : productionTracking.DamagedWt);
+                                    productionTracking.PostedBy= (sdr["PostedBy"].ToString() != "" ? sdr["PostedBy"].ToString() : productionTracking.PostedBy);
 
                                     productionTracking.Employee = new Employee();
                                     productionTracking.Employee.ID = productionTracking.ForemanID= (sdr["ForemanID"].ToString() != "" ? Guid.Parse(sdr["ForemanID"].ToString()) : productionTracking.ForemanID);
@@ -396,6 +405,272 @@ namespace ProductionApp.RepositoryServices.Services
             return productionTrackingList;
         }
         #endregion GetRecentProductionTracking
+
+        #region GetPendingProductionTracking
+        public List<ProductionTracking> GetPendingProductionTracking(string postDate)
+        {
+            List<ProductionTracking> productionTrackingList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetPendingProductionTracking]";
+                        cmd.Parameters.Add("@PostDate", SqlDbType.DateTime).Value = postDate;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                productionTrackingList = new List<ProductionTracking>();
+                                while (sdr.Read())
+                                {
+                                    ProductionTracking productionTracking = new ProductionTracking();
+                                    productionTracking.AcceptedQty = (sdr["AcceptedQty"].ToString() != "" ? int.Parse(sdr["AcceptedQty"].ToString()) : productionTracking.AcceptedQty);
+                                    productionTracking.DamagedQty = (sdr["DamagedQty"].ToString() != "" ? int.Parse(sdr["DamagedQty"].ToString()) : productionTracking.DamagedQty);
+
+                                    productionTracking.SlNo = (sdr["RowNum"].ToString() != "" ? int.Parse(sdr["RowNum"].ToString()) : productionTracking.SlNo);
+                                    productionTracking.PreviousQty = (sdr["Qty"].ToString() != "" ? int.Parse(sdr["Qty"].ToString()) : productionTracking.PreviousQty);
+                                    productionTracking.TotalQty = (sdr["TotalQty"].ToString() != "" ? int.Parse(sdr["TotalQty"].ToString()) : productionTracking.TotalQty);
+                                    productionTracking.IsValid = (sdr["isValid"].ToString() != "" ? bool.Parse(sdr["isValid"].ToString()) : productionTracking.IsValid);
+                                    productionTracking.ErrorMessage = (sdr["InvalidationMsg"].ToString() != "" ? sdr["InvalidationMsg"].ToString() : productionTracking.ErrorMessage);
+
+                                    productionTracking.LineStageDetailID = (sdr["LineStageDetailID"].ToString() != "" ? Guid.Parse(sdr["LineStageDetailID"].ToString()) : productionTracking.LineStageDetailID);
+                                    productionTracking.Product = new Product();
+                                    productionTracking.ProductID = productionTracking.Product.ID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : productionTracking.Product.ID);
+                                    productionTracking.Product.Name = (sdr["Product"].ToString() != "" ? sdr["Product"].ToString() : productionTracking.Product.Description);
+
+                                    productionTracking.SubComponent = new SubComponent();
+                                    productionTracking.SubComponent.Description = (sdr["SubComponent"].ToString() != "" ? sdr["SubComponent"].ToString() : productionTracking.SubComponent.Description);
+                                    productionTracking.OutputComponent = new Product();
+                                    productionTracking.OutputComponent.Name = (sdr["Output"].ToString() != "" ? sdr["Output"].ToString() : productionTracking.OutputComponent.Description);
+
+                                    productionTrackingList.Add(productionTracking);
+                                }
+                            }
+                        }
+                        con.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return productionTrackingList;
+        }
+        #endregion GetPendingProductionTracking
+
+        #region GetPendingProductionTrackingDetail
+        public List<ProductionTracking> GetPendingProductionTrackingDetail(ProductionTrackingAdvanceSearch productionTrackingAdvanceSearch)
+        {
+            List<ProductionTracking> productionTrackingList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetPendingProductionTrackingDetail]";
+                        cmd.Parameters.Add("@PostDate", SqlDbType.DateTime).Value = productionTrackingAdvanceSearch.PostDate;
+                        if (productionTrackingAdvanceSearch.LineStageDetailID == Guid.Empty)
+                            cmd.Parameters.AddWithValue("@LineStageDetailID", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@LineStageDetailID", SqlDbType.UniqueIdentifier).Value = productionTrackingAdvanceSearch.LineStageDetailID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                productionTrackingList = new List<ProductionTracking>();
+                                while (sdr.Read())
+                                {
+                                    ProductionTracking productionTracking = new ProductionTracking();
+                                    productionTracking.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : productionTracking.ID);
+                                    productionTracking.Remarks = (sdr["Remarks"].ToString() != "" ? sdr["Remarks"].ToString() : productionTracking.Remarks);
+                                    productionTracking.ProductionRefNo = (sdr["ProductionRefNo"].ToString() != "" ? sdr["ProductionRefNo"].ToString() : productionTracking.ProductionRefNo);
+                                    productionTracking.AcceptedQty = (sdr["AcceptedQty"].ToString() != "" ? int.Parse(sdr["AcceptedQty"].ToString()) : productionTracking.AcceptedQty);
+                                    productionTracking.AcceptedWt = (sdr["AcceptedWt"].ToString() != "" ? decimal.Parse(sdr["AcceptedWt"].ToString()) : productionTracking.AcceptedWt);
+                                    productionTracking.DamagedQty = (sdr["DamagedQty"].ToString() != "" ? int.Parse(sdr["DamagedQty"].ToString()) : productionTracking.DamagedQty);
+                                    productionTracking.DamagedWt = (sdr["DamagedWt"].ToString() != "" ? decimal.Parse(sdr["DamagedWt"].ToString()) : productionTracking.DamagedWt);
+                                    productionTracking.LineStageDetailID = (sdr["LineStageDetailID"].ToString() != "" ? Guid.Parse(sdr["LineStageDetailID"].ToString()) : productionTracking.LineStageDetailID);
+                                    productionTracking.EntryDateFormatted= (sdr["EntryDate"].ToString() != "" ? (DateTime.Parse(sdr["EntryDate"].ToString()).ToString(settings.DateFormat)) : productionTracking.EntryDateFormatted);
+                                    productionTracking.Employee = new Employee();
+                                    productionTracking.Employee.ID = productionTracking.ForemanID = (sdr["ForemanID"].ToString() != "" ? Guid.Parse(sdr["ForemanID"].ToString()) : productionTracking.ForemanID);
+                                    productionTracking.Employee.Name = (sdr["Employee"].ToString() != "" ? sdr["Employee"].ToString() : productionTracking.Employee.Name);
+
+                                    productionTrackingList.Add(productionTracking);
+                                }
+                            }
+                        }
+                        con.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return productionTrackingList;
+        }
+        #endregion GetPendingProductionTrackingDetail
+
+        #region GetAllAvailableProductionTrackingEntryDate()
+        public List<string> GetAllAvailableProductionTrackingEntryDate()
+        {
+            List<string> dateList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetAllAvailableProductionTrackingEntryDate]";
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                dateList = new List<string>();
+                                while (sdr.Read())
+                                {
+                                    string entryDate = (sdr["EntryDate"].ToString() != "" ? (DateTime.Parse(sdr["EntryDate"].ToString()).Date.ToString("dd-MM-yyyy")) : "");
+                                    dateList.Add(entryDate);
+                                }
+                            }
+                        }
+                        con.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dateList;
+        }
+        #endregion GetAllAvailableProductionTrackingEntryDate()
+
+        #region UpdateProductionTrackingByXML
+        public object UpdateProductionTrackingByXML(Common common,string productionTrackingXML)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[UpdateProductionTrackingByXML]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.VarChar, 50).Value = common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.SmallDateTime).Value = common.UpdatedDate;
+                        cmd.Parameters.Add("@DetailXML", SqlDbType.Xml).Value = productionTrackingXML;
+
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(_appConst.UpdateFailure);
+                    case "1":
+                        return new
+                        {
+                            Status = outputStatus.Value.ToString(),
+                            Message = _appConst.UpdateSuccess
+                        };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = _appConst.UpdateSuccess
+            };
+        }
+        #endregion UpdateProductionTrackingByXML
+
+        #region ProductionTrackingPosting
+        public object ProductionTrackingPosting(Common common, string postDate)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[ProductionTrackingPosting]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.VarChar, 50).Value = common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.SmallDateTime).Value = common.UpdatedDate;
+                        cmd.Parameters.Add("@PostDate", SqlDbType.SmallDateTime).Value = postDate;
+
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(_appConst.UpdateFailure);
+                    case "1":
+                        return new
+                        {
+                            Status = outputStatus.Value.ToString(),
+                            Message = _appConst.UpdateSuccess
+                        };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = _appConst.UpdateSuccess
+            };
+        }
+        #endregion
 
     }
 }

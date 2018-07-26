@@ -231,6 +231,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     customerInvoice.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : customerInvoice.CustomerID);
                                     customerInvoice.Customer = new Customer();
                                     customerInvoice.Customer.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : customerInvoice.Customer.CompanyName);
+                                    customerInvoice.Customer.ContactEmail = (sdr["ContactEmail"].ToString() != "" ? sdr["ContactEmail"].ToString() : customerInvoice.Customer.ContactEmail);
                                     customerInvoice.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : customerInvoice.GeneralNotes);
                                     customerInvoice.BillingAddress = (sdr["BillingAddress"].ToString() != "" ? sdr["BillingAddress"].ToString() : customerInvoice.BillingAddress);
                                     customerInvoice.PaymentTermCode = (sdr["PaymentTermCode"].ToString() != "" ? sdr["PaymentTermCode"].ToString() : customerInvoice.PaymentTermCode);
@@ -558,7 +559,7 @@ namespace ProductionApp.RepositoryServices.Services
 
         }
 
-        public object DeleteCustomerInvoice(Guid id)
+        public object DeleteCustomerInvoice(Guid id, string userName)
         {
             SqlParameter outputStatus = null;
             try
@@ -575,6 +576,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[DeleteCustomerInvoice]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = userName;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -748,7 +750,43 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return customerInvoiceDetailList;
 
+        #region GetOutstandingCustomerInvoice
+        public decimal GetOutstandingCustomerInvoice()
+        {
+            decimal outstandingCustomerInvoice = 0;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetOutstandingCustomerInvoice]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                    outstandingCustomerInvoice = (sdr["OutstandingInvoice"].ToString() != "" ? decimal.Parse(sdr["OutstandingInvoice"].ToString()) : outstandingCustomerInvoice);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return outstandingCustomerInvoice;
         }
+        #endregion GetOutstandingCustomerInvoice
 
         public List<CustomerInvoiceDetail> GetGroupCustomerInvoiceDetailLink(Guid id, Guid groupID)
         {

@@ -188,6 +188,11 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult MasterPartial(string masterCode)
         {
             MaterialViewModel materialVM = string.IsNullOrEmpty(masterCode) ? new MaterialViewModel() : Mapper.Map<Material, MaterialViewModel>(_materialBusiness.GetMaterial(Guid.Parse(masterCode)));
+
+            if (materialVM.MaterialTypeCode != "CRC")
+            {
+                materialVM.WeightInKG = materialVM.WeightInKG == 0 ? null : materialVM.WeightInKG;
+            }
             materialVM.IsUpdate = string.IsNullOrEmpty(masterCode) ? false : true;
             materialVM.MaterialType = new MaterialTypeViewModel();
             materialVM.MaterialType.MaterialTypeSelectList = _materialTypeBusiness.GetMaterialTypeForSelectList();
@@ -204,7 +209,9 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                var result = _materialBusiness.DeleteMaterial(id);
+                AppUA appUA = Session["AppUA"] as AppUA;
+                string deletedBy = appUA.UserName;
+                var result = _materialBusiness.DeleteMaterial(id, deletedBy);
                 return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
             }
             catch (Exception ex)
@@ -215,6 +222,27 @@ namespace ProductionApp.UserInterface.Controllers
 
         }
         #endregion DeleteMaterial
+
+        #region CheckMaterialWeight
+        [AcceptVerbs("Get", "Post")]
+        public ActionResult CheckMaterialWeight(MaterialViewModel materialVM)
+       {
+            try
+            {
+                if (materialVM.MaterialTypeCode == "CRC"&& (materialVM.WeightInKG)==0)
+                {
+                    return Json("<p><span style='vertical-align: 2px'>Weight In KG should not be 0 </span> <i class='fa fa-close' style='font-size:19px; color: red'></i></p>", JsonRequestBehavior.AllowGet);
+                }
+              
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return Json(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion CheckMaterialWeight
 
         #region ButtonStyling
         [HttpGet]

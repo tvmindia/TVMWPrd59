@@ -1,0 +1,53 @@
+﻿@model ProductionApp.UserInterface.Models.DayBookViewModel
+@{
+    List<ProductionApp.UserInterface.Models.DayBookViewModel> DayBookList = Model.DayBookList;
+
+}
+
+<div class="col-md-12 GraphCaption"> Daily Log </div>
+<div class="col-md-12 Summary box">
+    <div class="box-body">
+        <div style="display:block;overflow-y:scroll;max-height:300px;height:300px;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;text-align:center;">No.</th>
+                        <th style="width: 70%;text-align:left;">Transaction</th>
+                        <th style="width: 20%;text-align:center;">Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (DayBookList != null)
+                        {
+                            for (int i = 0; i < DayBookList.Count; i++)
+                            {
+                                var count = i + 1;
+                            <tr>
+                                <td style="text-align:center;">@count</td>
+                                <td style="text-align:left;">@Model.DayBookList[i].TransactionName </td>
+                                <td style="text-align:center;"><b>@Model.DayBookList[i].Count</b></td>
+                            </tr>
+                            }
+                        }
+                       }
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer no-padding">
+            <div class="row">
+                <div class="col-sm-4">
+
+                </div>
+                <div class="col-sm-4">
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="description-block" > 
+                        <div type="button" class="btn bg-orange margin"><a href="/DashboardReport/DayBookReport?Code=RPT">View More</a></div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>

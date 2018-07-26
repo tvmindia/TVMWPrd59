@@ -423,6 +423,8 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\123.jpg" />
     <Content Include="Content\images\abhiramiindustry.png" />
+    <Content Include="Content\images\add-button-no-items.png" />
+    <Content Include="Content\images\add-button.png" />
     <Content Include="Content\images\add.png" />
     <Content Include="Content\images\add1.png" />
     <Content Include="Content\images\Assign.png" />
@@ -432,10 +434,12 @@
     <Content Include="Content\images\bg.png" />
     <Content Include="Content\images\bg123.png" />
     <Content Include="Content\images\bgTest1.JPG" />
+    <Content Include="Content\images\bom.png" />
     <Content Include="Content\images\browser-window.png" />
     <Content Include="Content\images\calendar.png" />
     <Content Include="Content\images\circle.png" />
     <Content Include="Content\images\close.png" />
+    <Content Include="Content\images\component.png" />
     <Content Include="Content\images\delete.png" />
     <Content Include="Content\images\deposit.png" />
     <Content Include="Content\images\details_close.png" />
@@ -447,6 +451,8 @@
     <Content Include="Content\images\history.png" />
     <Content Include="Content\images\hourglass.png" />
     <Content Include="Content\images\indian-rupee.png" />
+    <Content Include="Content\images\input.png" />
+    <Content Include="Content\images\line.png" />
     <Content Include="Content\images\List1.png" />
     <Content Include="Content\images\listdlt.png" />
     <Content Include="Content\images\loading.gif" />
@@ -454,7 +460,9 @@
     <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\MasterLoading.gif" />
     <Content Include="Content\images\MaxLimit.png" />
+    <Content Include="Content\images\minus-sign.png" />
     <Content Include="Content\images\Notification.png" />
+    <Content Include="Content\images\output.png" />
     <Content Include="Content\images\paperclip.png" />
     <Content Include="Content\images\percentage.png" />
     <Content Include="Content\images\printer.png" />
@@ -467,10 +475,22 @@
     <Content Include="Content\images\save.png" />
     <Content Include="Content\images\save1.png" />
     <Content Include="Content\images\searchdefault.png" />
+    <Content Include="Content\images\stage.png" />
     <Content Include="Content\images\suryapetpreforms.png" />
     <Content Include="Content\images\Transfer.png" />
     <Content Include="Content\images\wheel.png" />
     <Content Include="Content\images\withdraw.png" />
+    <Content Include="Content\jsTree\docs.css" />
+    <Content Include="Content\jsTree\themes\default-dark\32px.png" />
+    <Content Include="Content\jsTree\themes\default-dark\40px.png" />
+    <Content Include="Content\jsTree\themes\default-dark\style.css" />
+    <Content Include="Content\jsTree\themes\default-dark\style.min.css" />
+    <Content Include="Content\jsTree\themes\default-dark\throbber.gif" />
+    <Content Include="Content\jsTree\themes\default\32px.png" />
+    <Content Include="Content\jsTree\themes\default\40px.png" />
+    <Content Include="Content\jsTree\themes\default\style.css" />
+    <Content Include="Content\jsTree\themes\default\style.min.css" />
+    <Content Include="Content\jsTree\themes\default\throbber.gif" />
     <Content Include="Content\MailTemplate\DocumentApproved.html" />
     <Content Include="Content\MailTemplate\DocumentRejected.html" />
     <Content Include="Content\MailTemplate\SendForApproval.html" />
@@ -664,6 +684,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jsTree3\jstree.js" />
+    <Content Include="Scripts\jsTree3\jstree.min.js" />
     <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\PDF.js" />
     <Content Include="Scripts\Report.js" />
@@ -729,10 +751,21 @@
     <Content Include="Scripts\UserJS\Product.js" />
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\NewRecieveFromProduction.js" />
     <Content Include="Scripts\UserJS\MaterialReturnFromProductionJS\ViewRecieveFromProduction.js" />
+    <Content Include="Scripts\UserJS\Report\DayBookReport.js" />
+    <Content Include="Scripts\UserJS\Report\InventoryReOrderStatusFGReport.js" />
+    <Content Include="Scripts\UserJS\Report\InventoryReOrderStatusReport.js" />
+    <Content Include="Scripts\UserJS\Report\MovementAnalysisReport.js" />
+    <Content Include="Scripts\UserJS\Report\ProductStageWiseStockReport.js" />
     <Content Include="Scripts\UserJS\Report\PurchaseDetailReport.js" />
+    <Content Include="Scripts\UserJS\Report\PurchaseRegisterReport.js" />
     <Content Include="Scripts\UserJS\Report\PurchaseSummaryReport.js" />
     <Content Include="Scripts\UserJS\Report\Report.js" />
     <Content Include="Scripts\UserJS\Report\RequisitionSummaryReport.js" />
+    <Content Include="Scripts\UserJS\Report\SalesAnalysisReport.js" />
+    <Content Include="Scripts\UserJS\Report\StockLedgerFGReport.js" />
+    <Content Include="Scripts\UserJS\Report\StockLedgerReport.js" />
+    <Content Include="Scripts\UserJS\Report\StockRegisterFGReport.js" />
+    <Content Include="Scripts\UserJS\Report\StockRegisterReport.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\NewRequisition.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\RequisitionApproval.js" />
     <Content Include="Scripts\UserJS\RequisitionJS\ViewRequisition.js" />
@@ -750,7 +783,9 @@
     <Content Include="Scripts\UserJS\SupplierPayment\NewSupplierPayment.js" />
     <Content Include="Scripts\UserJS\SupplierPayment\ViewSupplierPayment.js" />
     <Content Include="Scripts\UserJS\User.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -787,6 +822,7 @@
     <Compile Include="Controllers\DashboardStoreController.cs" />
     <Compile Include="Controllers\DashboardReportController.cs" />
     <Compile Include="Controllers\IssueToProductionController.cs" />
+    <Compile Include="Controllers\jsTree3Controller.cs" />
     <Compile Include="Controllers\ManageAccessController.cs" />
     <Compile Include="Controllers\MaterialReceiptController.cs" />
     <Compile Include="Controllers\MaterialReturnController.cs" />
@@ -846,6 +882,7 @@
     <Compile Include="Models\FinishedGoodStockAdjViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\AMCSysModuleViewModel.cs" />
+    <Compile Include="Models\jsTree3Node.cs" />
     <Compile Include="Models\ManageAccessViewModel.cs" />
     <Compile Include="Models\AMCSysMenuViewModel.cs" />
     <Compile Include="Models\MastersCountViewModel.cs" />
@@ -1053,6 +1090,21 @@
     <Content Include="Views\DashboardReport\PurchaseSummaryReport.cshtml" />
     <Content Include="Views\CustomerInvoice\_CustomerInvoiceMailPreview.cshtml" />
     <Content Include="Views\DashboardReport\PurchaseDetailReport.cshtml" />
+    <Content Include="Views\DashboardReport\PurchaseRegisterReport.cshtml" />
+    <Content Include="Views\DashboardReport\InventoryReorderStatusReport.cshtml" />
+    <Content Include="Views\DashboardReport\StockRegisterReport.cshtml" />
+    <Content Include="Views\Shared\_jsTreeDemo.cshtml" />
+    <Content Include="Views\jsTree3\Demo.cshtml" />
+    <Content Include="Views\jsTree3\AJAXDemo.cshtml" />
+    <Content Include="Views\DashboardReport\StockLedgerReport.cshtml" />
+    <Content Include="Views\DashboardReport\InventoryReorderStatusFGReport.cshtml" />
+    <Content Include="Views\DashboardReport\StockRegisterFGReport.cshtml" />
+    <Content Include="Views\DashboardReport\StockLedgerFGReport.cshtml" />
+    <Content Include="Views\DashboardReport\ProductStageWiseStockReport.cshtml" />
+    <Content Include="Views\Home\_DayBook.cshtml" />
+    <Content Include="Views\DashboardReport\DayBookReport.cshtml" />
+    <Content Include="Views\DashboardReport\SalesAnalysisReport.cshtml" />
+    <Content Include="Views\DashboardReport\MovementAnalysisReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1093,7 +1145,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>14521</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:14521/</IISUrl>
+          <IISUrl>http://localhost:14522/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

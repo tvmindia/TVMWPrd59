@@ -45,7 +45,7 @@
             </div>
         </div>
 
-        @*<div class="form-group col-md-12">
+        <div class="form-group col-md-12">
             <div class="col-md-12">
                 <div class="col-md-12">
                     @Html.LabelFor(model => model.OpeningQty, htmlAttributes: new { @class = "control-label" })
@@ -53,11 +53,11 @@
             </div>
             <div class="col-md-12">
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.OpeningQty, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.OpeningQty, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumber(event)" } })
                     @Html.ValidationMessageFor(model => model.OpeningQty, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>*@
+        </div>
 
         <div class="form-group col-md-12">
             <div class="col-md-12">
@@ -98,7 +98,7 @@
             </div>
             <div class="col-md-12">
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.WeightInKG, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.WeightInKG, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumber(event)" } })
                     @Html.ValidationMessageFor(model => model.WeightInKG, "", new { @class = "text-danger" })
                 </div>
             </div>

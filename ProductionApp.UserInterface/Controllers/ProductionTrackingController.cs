@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using Newtonsoft.Json;
 using ProductionApp.UserInterface.SecurityFilter;
+using System.Globalization;
 
 namespace ProductionApp.UserInterface.Controllers
 {
@@ -19,13 +20,13 @@ namespace ProductionApp.UserInterface.Controllers
         Settings settings = new Settings();
         Common _common = new Common();
         AppConst _appConst = new AppConst();
-        private IProductionTrackingBusiness _ProductionTrackingBusiness;
+        private IProductionTrackingBusiness _productionTrackingBusiness;
         private IProductBusiness _productBusiness;
         private IEmployeeBusiness _employeeBusiness;
         private IStageBusiness _StageBusiness;
-        public ProductionTrackingController(IProductionTrackingBusiness ProductionTrackingBusiness, IEmployeeBusiness employeeBusiness, IProductBusiness productBusiness, IStageBusiness StageBusiness)
+        public ProductionTrackingController(IProductionTrackingBusiness productionTrackingBusiness, IEmployeeBusiness employeeBusiness, IProductBusiness productBusiness, IStageBusiness StageBusiness)
         {
-            _ProductionTrackingBusiness = ProductionTrackingBusiness;
+            _productionTrackingBusiness = productionTrackingBusiness;
             _productBusiness = productBusiness;
             _employeeBusiness = employeeBusiness;
             _StageBusiness = StageBusiness;
@@ -59,6 +60,7 @@ namespace ProductionApp.UserInterface.Controllers
         [AuthSecurityFilter(ProjectObject = "ProductionTracking", Mode = "R")]
         public ActionResult ViewProductionTracking(string code)
         {
+            List<string> dateList = _productionTrackingBusiness.GetAllAvailableProductionTrackingEntryDate();
             ViewBag.SysModuleCode = code;
             List<StageViewModel> stageList = Mapper.Map<List<Stage>, List<StageViewModel>>(_StageBusiness.GetStageForSelectList());
             List<SelectListItem> selectList = new List<SelectListItem>();
@@ -84,8 +86,9 @@ namespace ProductionApp.UserInterface.Controllers
                 Product = new ProductViewModel()
                 {
                     ProductSelectList = _productBusiness.GetProductForSelectList("PRO")
-                }
-            };
+                },
+                PostDate = dateList!=null? DateTime.ParseExact(dateList[dateList.Count - 1], "dd-MM-yyyy", CultureInfo.InvariantCulture).ToString(settings.DateFormat):_common.GetCurrentDateTime().ToString(settings.DateFormat)
+        };
             return View(productionTrackingAdvanceSearchVM);
         }
         #endregion ViewProductionTracking
@@ -98,7 +101,7 @@ namespace ProductionApp.UserInterface.Controllers
             {
                 productionTrackingAdvanceSearchVM.DataTablePaging.Start = model.start;
                 productionTrackingAdvanceSearchVM.DataTablePaging.Length = (productionTrackingAdvanceSearchVM.DataTablePaging.Length == 0) ? model.length : productionTrackingAdvanceSearchVM.DataTablePaging.Length;
-                List<ProductionTrackingViewModel> productionTrackingList = Mapper.Map<List<ProductionTracking>, List<ProductionTrackingViewModel>>(_ProductionTrackingBusiness.GetAllProductionTracking(Mapper.Map<ProductionTrackingAdvanceSearchViewModel, ProductionTrackingAdvanceSearch>(productionTrackingAdvanceSearchVM)));
+                List<ProductionTrackingViewModel> productionTrackingList = Mapper.Map<List<ProductionTracking>, List<ProductionTrackingViewModel>>(_productionTrackingBusiness.GetAllProductionTracking(Mapper.Map<ProductionTrackingAdvanceSearchViewModel, ProductionTrackingAdvanceSearch>(productionTrackingAdvanceSearchVM)));
                 if (productionTrackingAdvanceSearchVM.DataTablePaging.Length == -1)
                 {
                     int totalResult = productionTrackingList.Count != 0 ? productionTrackingList[0].TotalCount : 0;
@@ -130,11 +133,12 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetAllProductionTracking
 
         #region GetProductionTrackingSearchList
+        [AuthSecurityFilter(ProjectObject = "ProductionTracking", Mode = "R")]
         public string GetProductionTrackingSearchList(string searchTerm)
         {
             try
             {
-                List<ProductionTrackingViewModel> productionTrackingList = Mapper.Map<List<ProductionTracking>, List<ProductionTrackingViewModel>>(_ProductionTrackingBusiness.GetProductionTrackingSearchList(searchTerm));
+                List<ProductionTrackingViewModel> productionTrackingList = Mapper.Map<List<ProductionTracking>, List<ProductionTrackingViewModel>>(_productionTrackingBusiness.GetProductionTrackingSearchList(searchTerm));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = productionTrackingList, Message = "Success" });
             }
             catch (Exception ex)
@@ -146,6 +150,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetProductionTrackingSearchList
 
         #region InsertUpdateProductionTracking
+        [AuthSecurityFilter(ProjectObject = "ProductionTracking", Mode = "R")]
         public string InsertUpdateProductionTracking(ProductionTrackingViewModel productionTrackingVM)
         {
             try
@@ -160,18 +165,19 @@ namespace ProductionApp.UserInterface.Controllers
                 };
 
 
-                object result = _ProductionTrackingBusiness.InsertUpdateProductionTracking(Mapper.Map<ProductionTrackingViewModel, ProductionTracking>(productionTrackingVM));
+                object result = _productionTrackingBusiness.InsertUpdateProductionTracking(Mapper.Map<ProductionTrackingViewModel, ProductionTracking>(productionTrackingVM));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = _appConst.InsertSuccess });
             }
             catch (Exception ex)
             {
                 AppConstMessage cm = _appConst.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = cm, Message = ex.Message });
             }
         }
         #endregion InsertUpdateProductionTracking
 
         #region DeleteProductionTracking
+        [AuthSecurityFilter(ProjectObject = "ProductionTracking", Mode = "R")]
         public string DeleteProductionTracking(string id, string lineStageID)
         {
             try
@@ -189,7 +195,7 @@ namespace ProductionApp.UserInterface.Controllers
                     UpdatedBy = appUA.UserName,
                     UpdatedDate = _common.GetCurrentDateTime()
                 };
-                object result = _ProductionTrackingBusiness.DeleteProductionTracking(Mapper.Map<ProductionTrackingViewModel, ProductionTracking>(productionTrackingVM));
+                object result = _productionTrackingBusiness.DeleteProductionTracking(Mapper.Map<ProductionTrackingViewModel, ProductionTracking>(productionTrackingVM));
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)
@@ -202,11 +208,12 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion DeleteProductionTracking
 
         #region GetProductionTracking
+        [AuthSecurityFilter(ProjectObject = "ProductionTracking", Mode = "R")]
         public string GetProductionTracking(string id)
         {
             try
             {
-                ProductionTracking productionTracking = _ProductionTrackingBusiness.GetProductionTracking(Guid.Parse(id));
+                ProductionTracking productionTracking = _productionTrackingBusiness.GetProductionTracking(Guid.Parse(id));
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = productionTracking, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)
@@ -216,6 +223,110 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion
+
+        #region GetPendingProductionTracking
+        [AuthSecurityFilter(ProjectObject = "ProductionTracking", Mode = "R")]
+        public string GetPendingProductionTracking(string postDate)
+        {
+            try
+            {
+                List<ProductionTrackingViewModel> productionTrackingList = Mapper.Map<List<ProductionTracking>, List<ProductionTrackingViewModel>>(_productionTrackingBusiness.GetPendingProductionTracking(postDate));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = productionTrackingList, Message = "success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+        }
+        #endregion GetPendingProductionTracking
+
+        #region GetPendingProductionTrackingDetail
+        [AuthSecurityFilter(ProjectObject = "ProductionTracking", Mode = "R")]
+        public string GetPendingProductionTrackingDetail(string postDate,string lineStageDetailID)
+        {
+            try
+            {
+                ProductionTrackingAdvanceSearchViewModel productionTrackingAdvanceSearchVM = new ProductionTrackingAdvanceSearchViewModel()
+                {
+                    PostDate = postDate,
+                    LineStageDetailID= Guid.Parse(lineStageDetailID)
+                };
+                List<ProductionTrackingViewModel> productionTrackingList = Mapper.Map<List<ProductionTracking>, List<ProductionTrackingViewModel>>(_productionTrackingBusiness.GetPendingProductionTrackingDetail(Mapper.Map<ProductionTrackingAdvanceSearchViewModel, ProductionTrackingAdvanceSearch>(productionTrackingAdvanceSearchVM)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = productionTrackingList, Message = "success" });
+
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+        }
+        #endregion GetPendingProductionTrackingDetail
+
+        #region GetAllAvailableProductionTrackingEntryDate
+        public string GetAllAvailableProductionTrackingEntryDate()
+        {
+            try
+            {
+                List<string> dateList = _productionTrackingBusiness.GetAllAvailableProductionTrackingEntryDate();
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = dateList, Message = "success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+        }
+        #endregion GetAllAvailableProductionTrackingEntryDate
+
+        #region UpdateProductionTrackingByXML
+        public string UpdateProductionTrackingByXML(string productionTrackingJSONList)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                CommonViewModel common = new CommonViewModel
+                {
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                //Deserialize items
+                object resultFromJS = JsonConvert.DeserializeObject(productionTrackingJSONList);
+                string readableFormat = JsonConvert.SerializeObject(resultFromJS);
+                List<ProductionTrackingViewModel> productionTrackingList = JsonConvert.DeserializeObject<List<ProductionTrackingViewModel>>(readableFormat);
+                object result = _productionTrackingBusiness.UpdateProductionTrackingByXML(Mapper.Map<CommonViewModel, Common>(common), Mapper.Map<List<ProductionTrackingViewModel>, List<ProductionTracking>>(productionTrackingList));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = _appConst.UpdateSuccess });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+        }
+        #endregion UpdateProductionTrackingByXML
+
+        #region ProductionTrackingPosting
+        public string ProductionTrackingPosting(string postDate)
+        {
+            try
+            {
+                AppUA appUA = Session["AppUA"] as AppUA;
+                CommonViewModel common = new CommonViewModel
+                {
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                object result = _productionTrackingBusiness.ProductionTrackingPosting(Mapper.Map<CommonViewModel, Common>(common), postDate);
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = "success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+        }
+        #endregion ProductionTrackingPosting
 
         #region ButtonStyling
         [HttpGet]
@@ -235,12 +346,17 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset All";
-                    toolboxVM.resetbtn.Event = "Reset();";
+                    toolboxVM.resetbtn.Event = "BindOrReloadProductionTrackingTable('Reset');";
 
                     toolboxVM.PrintBtn.Visible = true;
                     toolboxVM.PrintBtn.Text = "Export";
                     toolboxVM.PrintBtn.Title = "Export";
-                    toolboxVM.PrintBtn.Event = "Export();";
+                    toolboxVM.PrintBtn.Event = "BindOrReloadProductionTrackingTable('Export');";
+
+                    toolboxVM.PostBtn.Visible = true;
+                    toolboxVM.PostBtn.Text = "Post";
+                    toolboxVM.PostBtn.Title = "Post to Ledger";
+                    toolboxVM.PostBtn.Event = "LoadPendingProductionTrackingPopUp()";
 
                     break;
                 case "Edit":

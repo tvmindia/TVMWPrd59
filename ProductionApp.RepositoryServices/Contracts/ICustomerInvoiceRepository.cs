@@ -24,5 +24,6 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<CustomerInvoiceDetail> GetGroupProductListForCustomerInvoiceDetail(string slipNo, Guid groupID);
         List<CustomerInvoiceDetail> GetGroupCustomerInvoiceDetailLink(Guid id, Guid groupID);
 
+        decimal GetOutstandingCustomerInvoice();
     }
 }

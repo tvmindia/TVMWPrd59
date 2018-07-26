@@ -25,6 +25,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public string OrderDateFormatted { get; set; }
+        public string SOStatus { get; set; }
+        public decimal NetAmount { get; set; }
+        public decimal DispatchedQty { get; set; }
+        public string DispatchedDates { get; set; }
         public string ExpectedDeliveryDateFormatted { get; set; }
         public string DetailXML { get; set; }
         public decimal OrderAmount { get; set; }

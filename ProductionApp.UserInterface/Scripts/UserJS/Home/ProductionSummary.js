@@ -1,6 +1,6 @@
 ﻿function CreateProductionSummary() {
     var chrt = document.getElementById("Productionchart").getContext("2d");
-    
+    debugger;
     var data = {
         labels: lblProduction, //x-axis
         datasets: [
@@ -19,34 +19,34 @@
              stack: "stanck1",
              legendText: "FG Prodcd",
              label: "FG Produced", //optional
-             fillColor: "rgba(111, 218, 7,0.8)",
-             strokeColor: "rgba(111, 218, 7,0.8)",
-             highlightFill: "rgba(111, 218, 7,0.75)",
-             highlightStroke: "rgba(111, 218, 7,1)",
+             fillColor: "rgba(50, 115, 25,0.8)",
+             strokeColor: "rgba(50, 115, 25,0.8)",
+             highlightFill: "rgba(50, 115, 25,0.75)",
+             highlightStroke: "rgba(50, 115, 25,1)",
              data: dta2,// y-axis
-             backgroundColor: "rgba(111, 218, 7,0.8)"
+             backgroundColor: "rgba(50, 115, 25,0.8)"
          },
           {
               stack: "stanck1",
               legendText: "In Progress",
               label: "In Progr.", //optional
-              fillColor: "rgba(211, 111, 7,0.8)",
-              strokeColor: "rgba(211, 111, 7,0.8)",
-              highlightFill: "rgba(211, 111, 7,0.75)",
-              highlightStroke: "rgba(211, 111, 7,1)",
+              fillColor: "rgba(120, 240, 120,0.8)",
+              strokeColor: "rgba(120, 240, 120,0.8)",
+              highlightFill: "rgba(120, 240, 120,0.75)",
+              highlightStroke: "rgba(120, 240, 120,1)",
               data: dta3,// y-axis
-              backgroundColor: "rgba(211, 111, 7,0.8)"
+              backgroundColor: "rgba(120, 240, 120,0.8)"
           },
            {
                stack: "stanck1",
                legendText: "Damage&Wastage",
                label: "Damg & Wstg", //optional
-               fillColor: "rgba(211, 218, 111,0.8)",
-               strokeColor: "rgba(211, 218, 111,0.8)",
-               highlightFill: "rgba(211, 218, 111,0.75)",
-               highlightStroke: "rgba(211, 218, 111,1)",
+               fillColor: "rgba(211, 130, 30,0.8)",
+               strokeColor: "rgba(211, 130, 30,0.8)",
+               highlightFill: "rgba(211, 130, 30,0.75)",
+               highlightStroke: "rgba(211, 130, 30,1)",
                data: dta4, // y-axis
-               backgroundColor: "rgba(211, 218, 111,1)"
+               backgroundColor: "rgba(211, 130, 30,1)"
            }
         ]
 

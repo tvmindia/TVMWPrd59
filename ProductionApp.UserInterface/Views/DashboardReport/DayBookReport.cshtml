@@ -1,0 +1,109 @@
+﻿@using ProductionApp.UserInterface.App_Start
+@model ProductionApp.UserInterface.Models.DayBookViewModel
+
+
+@{
+    ViewBag.Title = "Daily Log";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+@section styles {
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatable")
+    @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableButtons")
+    @*@Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")*@
+}
+
+<style>
+
+       td.details-control {
+        background: url('../../Content/images/add-button.png') no-repeat center;
+        cursor: pointer;
+    }
+           td.details-control-disable {
+        background: url('../../Content/images/add-button-no-items.png') no-repeat center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('../../Content/images/minus-sign.png') no-repeat center;
+    }
+    table.dataTable tr.odd {
+        background-color: #ebf2f5;
+    }
+
+    table.dataTable tr.even {
+        background-color: white;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 20px !important;
+    }
+</style>
+
+<div style="width:100%;">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-cogs"></i>Reports</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+<section class="content">
+
+    <div class="form-horizontal">
+        <div class="col-md-9" style="margin-top:10px;"> 
+            <div class="col-md-9">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.SearchTerm, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-12">
+                    <div class="input-group">
+                        @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "SearchTerm"} })
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="DayBookDateChanged()"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="col-md-3">
+                <div class="col-md-12">
+                    @Html.LabelFor(model => model.dayBookDate, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.dayBookDate, new { htmlAttributes = new { @class = "form-control datepicker HeaderBox BlockEnter col-md-3", @id = "dayBookDate", @Value = ViewBag.Date, @onchange = "DayBookDateChanged();" } })
+                </div>
+            </div> 
+        </div>
+
+        <div class="col-md-3" style="min-height:25px">
+            @{
+                var data = new { actionType = "ListDayBook" };
+                @Html.Action("ChangeButtonStyle", "DashboardReport", data);
+            }
+        </div>
+    </div>
+    <div class="col-md-12">
+        <table id="tblDayBookReport" class="table stripe" cellspacing="0" width="100%">
+            <thead>
+                <tr class="text-center TableHead">
+                    <th></th>
+                    <th>Transaction</th>
+                    <th>Transaction Count</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @*@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")*@
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/Report/DayBookReport")
+}
+
+
+
+
+
+

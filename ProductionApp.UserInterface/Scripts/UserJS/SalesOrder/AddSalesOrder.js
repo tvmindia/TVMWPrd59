@@ -10,7 +10,7 @@
 
 //--Global Declaration--//
 var DataTables = {};
-var EmptyGuid = "00000000-0000-0000-0000-000000000000";
+var _emptyGuid = "00000000-0000-0000-0000-000000000000";
 var _SalesOrderDetail = [];
 var _SalesOrderDetailList = [];
 var _SlNo = 1;
@@ -29,11 +29,11 @@ $(document).ready(function () {
         $('#btnUpload').click(function () {
             //Pass the controller name
             var FileObject = new Object;
-            if ($('#hdnFileDupID').val() != EmptyGuid) {
-                FileObject.ParentID = (($('#ID').val()) != EmptyGuid ? ($('#ID').val()) : $('#hdnFileDupID').val());
+            if ($('#hdnFileDupID').val() != _emptyGuid) {
+                FileObject.ParentID = (($('#ID').val()) != _emptyGuid ? ($('#ID').val()) : $('#hdnFileDupID').val());
             }
             else {
-                FileObject.ParentID = ($('#ID').val() == EmptyGuid) ? "" : $('#ID').val();
+                FileObject.ParentID = ($('#ID').val() == _emptyGuid) ? "" : $('#ID').val();
             }
             FileObject.ParentType = "SalesOrder";
             FileObject.Controller = "FileUpload";
@@ -529,7 +529,7 @@ function AddSalesOrderDetails()
     {
         _SalesOrderDetail = [];
         SalesOrderDetailVM = new Object();
-       // SalesOrderDetailVM.ID = EmptyGuid;
+       // SalesOrderDetailVM.ID = _emptyGuid;
         SalesOrderDetailVM.ProductID = $("#ProductID").val();
         SalesOrderDetailVM.Product = new Object();
         SalesOrderDetailVM.Product.Name = $('#lblProductName').text();
@@ -661,6 +661,7 @@ function BindSalesOrderByID()
     $('#OrderNo').val(salesOrderVM.OrderNo);
     $('#OrderDateFormatted').val(salesOrderVM.OrderDateFormatted);
     $('#ExpectedDeliveryDateFormatted').val(salesOrderVM.ExpectedDeliveryDateFormatted);
+    if (salesOrderVM.SalesPerson!=_emptyGuid)
     $('#hdnEmployeeID').val(salesOrderVM.SalesPerson);
     $('#hdnCustomerID').val(salesOrderVM.CustomerID);
     $('#ReferenceCustomer').val(salesOrderVM.ReferenceCustomer).select2();

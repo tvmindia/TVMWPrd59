@@ -144,7 +144,7 @@ namespace ProductionApp.DataAccessObject.DTO
 
         public AppConstMessage GetMessage(string messageCode)
         {
-            AppConstMessage result = new AppConstMessage(messageCode, "", "ERROR");
+            AppConstMessage result = new AppConstMessage(messageCode, messageCode, "ERROR");
 
             try
             {
@@ -189,8 +189,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public string Type;
         public AppConstMessage(string message, string code, string type)
         {
-            Message = (code == "" ? "" :  message);
-           // Message = (code == "" ? "" : code + "-") + message;
+            //Message = (code == "" ? "" :  message);
+            Message = (code == "" ? "" : code + "-") + message;
             Code = code;
             Type = type;
 
@@ -228,8 +228,19 @@ namespace ProductionApp.DataAccessObject.DTO
         public int Year { get; set; }
         public decimal Material { get; set; }
         public decimal Product { get; set; }
-        public decimal Wastage { get; set; }
+        public decimal InProduction { get; set; }
         public decimal Damage { get; set; }
+    }
+
+    public class DayBook
+    {
+        public string TransactionName { get; set; }
+        public int Count { get; set; }
+        public List<DayBook> DayBookList { get; set; }
+        public string dayBookDate { get; set; }
+        public string TransactionCode { get; set; }
+        public string SearchTerm { get; set; }
+
     }
 
 }

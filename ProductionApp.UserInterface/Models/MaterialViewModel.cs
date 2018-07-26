@@ -30,18 +30,21 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Unit is missing")]
         [Display(Name = "Unit")]
         public string UnitCode { get; set; }
-        [Display(Name = "Reorder Quantity")]
+        [Display(Name = "Reorder Quantity In Nos.")]
         public decimal? ReorderQty { get; set; }
         //additional fields 
         public Guid MaterialID { get; set; }
         [Display(Name = "Current Stock (Nos.)")]
         public decimal? CurrentStock { get; set; }
-        [Display(Name = "Opening Stock")]
+        [Display(Name = "Opening Stock In Nos.")]
         public decimal? OpeningStock { get; set; }
+        [Remote(action: "CheckMaterialWeight", controller: "Material", AdditionalFields = "OpeningStockInKG,MaterialTypeCode")]
         [Display(Name = "Weight In KG")]
         public decimal? WeightInKG { get; set; }
         [Display(Name = "Cost Price")]
         public decimal? CostPrice { get; set; }
+        [Display(Name = "Opening Stock In KG")]
+        public decimal? OpeningStockInKG { get; set; }
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }

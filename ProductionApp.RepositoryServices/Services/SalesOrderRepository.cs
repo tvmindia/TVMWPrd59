@@ -142,6 +142,9 @@ namespace ProductionApp.RepositoryServices.Services
                                         salesOrder.SalesOrderDetail.Product = new Product();
                                         salesOrder.SalesOrderDetail.Product.Name = (sdr["ProductName"].ToString() != "" ? sdr["ProductName"].ToString() : salesOrder.SalesOrderDetail.Product.Name);
                                         salesOrder.SalesOrderDetail.Product.HSNNo = (sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : salesOrder.SalesOrderDetail.Product.HSNNo);
+                                        salesOrder.SOStatus = (sdr["SOStatus"].ToString() != "" ? sdr["SOStatus"].ToString() : salesOrder.SOStatus);
+                                        salesOrder.DispatchedDates = (sdr["DispatchedDates"].ToString() != "" ? sdr["DispatchedDates"].ToString() : salesOrder.DispatchedDates);
+                                        salesOrder.DispatchedQty = (sdr["DISPATCHEDQTY"].ToString() != "" ? decimal.Parse(sdr["DISPATCHEDQTY"].ToString()) : salesOrder.DispatchedQty);
                                         salesOrder.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : salesOrder.TotalCount);
                                         salesOrder.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : salesOrder.FilteredCount);
                                         salesOrder.DispatchedQty = (sdr["DISPATCHEDQTY"].ToString() != "" ? decimal.Parse(sdr["DISPATCHEDQTY"].ToString()) : salesOrder.DispatchedQty);
@@ -445,7 +448,7 @@ namespace ProductionApp.RepositoryServices.Services
                                 salesOrderList = new List<SalesOrderDetail>();
                                 while (sdr.Read())
                                 {
-                                    SalesOrderDetail salesOrder = new SalesOrderDetail();
+                                    SalesOrderDetail salesOrderDetail = new SalesOrderDetail();
                                     {
                                         salesOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : salesOrder.ID);
                                         salesOrder.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : salesOrder.ProductID);
@@ -466,7 +469,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         salesOrder.GroupID = (sdr["GroupID"].ToString() != "" ? Guid.Parse(sdr["GroupID"].ToString()) : salesOrder.GroupID);
                                         salesOrder.PkgWt = (sdr["PkgWt"].ToString() != "" ? decimal.Parse(sdr["PkgWt"].ToString()) : salesOrder.PkgWt);
                                     }
-                                    salesOrderList.Add(salesOrder);
+                                    salesOrderList.Add(salesOrderDetail);
                                 }
                             }
                         }

@@ -24,6 +24,7 @@ namespace ProductionApp.BusinessService.Contracts
         object UpdateCustomerInvoiceMailStatus(CustomerInvoice CustomerInvoice);
         Task<bool> EmailPush(CustomerInvoice CustomerInvoice);
         CustomerInvoice GetMailPreview(Guid ID);
+        decimal GetOutstandingCustomerInvoice();
         List<CustomerInvoiceDetail> GetGroupProductListForCustomerInvoiceDetail(string slipNo,Guid groupID);
         List<CustomerInvoiceDetail> GetGroupCustomerInvoiceDetailLink(Guid id, Guid groupID);
     }

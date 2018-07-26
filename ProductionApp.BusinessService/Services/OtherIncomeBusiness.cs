@@ -62,9 +62,9 @@ namespace ProductionApp.BusinessService.Services
             return selectList;
         }
 
-        public object DeleteOtherIncome(Guid id)
+        public object DeleteOtherIncome(Guid id,string UserName)
         {
-            return _otherIncomeRepository.DeleteOtherIncome(id);
+            return _otherIncomeRepository.DeleteOtherIncome(id, UserName);
         }
     }
 }
