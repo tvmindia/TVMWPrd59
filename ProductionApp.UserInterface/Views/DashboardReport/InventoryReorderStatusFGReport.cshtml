@@ -113,11 +113,9 @@
                             ProductTypeStatus.Add(new SelectListItem
                             { Text = "Component", Value = "COM" });
                             ProductTypeStatus.Add(new SelectListItem
-                            { Text = "Product", Value = "PRO"});
-                            ProductTypeStatus.Add(new SelectListItem
-                            { Text = "SubComponent", Value = "SUB" });
+                            { Text = "Product", Value = "PRO",Selected=true}); 
                         }
-                        @Html.DropDownListFor(model => model.ProductType, ProductTypeStatus, "--Select Type--", new { @class = "form-control", style = "padding:4px 12px;", @id = "Type" })
+                        @Html.DropDownListFor(model => model.ProductType, ProductTypeStatus, new { @class = "form-control", style = "padding:4px 12px;", @id = "Type" })
                     </div>
                 </div>
 
@@ -163,6 +161,7 @@
 
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableFixedColumns")   
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")

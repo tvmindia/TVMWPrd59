@@ -52,7 +52,7 @@ function
             case 'Reset':
                 $('#SearchTerm').val('');
                 $('#Status').val('');               
-                $('#Type').val('');
+                $('#Type').val('PRO');
                 break;
             case 'Init':
                 break;
@@ -84,7 +84,9 @@ function
                                      columns: [0,1, 2, 3, 4, 5, 6]
                                  }
                 }],
-
+                //fixedHeader: {
+                //header: true
+                //},
                 order: false,
                 ordering: false,
                 searching: false,
