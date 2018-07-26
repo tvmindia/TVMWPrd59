@@ -49,6 +49,8 @@ namespace ProductionApp.UserInterface.Models
         public SalesOrderViewModel SalesOrder { get; set; }
         public PackingSlipDetailViewModel PackingSlipDetail { get; set; }
         public List<PackingSlipDetailViewModel> PackingSlipDetailList { get; set; }
+        public List<PackingSlipDetailViewModel> PackingSlipDetailList_Group { get; set; }
+        public List<PackingSlipDetailViewModel> PackingSlipDetailList_Product { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         [Display(Name = "Date")]
@@ -65,6 +67,8 @@ namespace ProductionApp.UserInterface.Models
         public bool ShowDispatcherSec { get; set; }
         public string DetailXML { get; set; }
         public string DetailJSON { get; set; }
+        public string GroupDetailJSON { get; set; }
+        public string ProductDetailJSON { get; set; }
         public List<PackingSlipViewModel> PackingSlipList { get; set; }
         public string BaseURL { get; set; }        
     }
@@ -75,6 +79,9 @@ namespace ProductionApp.UserInterface.Models
         public Guid ProductID { get; set; }
         public decimal Qty { get; set; }
         public decimal Weight { get; set; }
+
+        public Guid GroupID { get; set; }
+        public string GroupName { get; set; }
         //Additional properties
         public string Name { get; set; }
     }

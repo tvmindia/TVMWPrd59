@@ -19,17 +19,22 @@ namespace ProductionApp.UserInterface.Controllers
         private ICustomerBusiness _customerBusiness;
         private IEmployeeBusiness _employeeBusiness;
         private IProductBusiness _productBusiness;
+        private IProductCategoryBusiness _productCategoryBusiness;
+        private ITaxTypeBusiness _taxTypeBusiness;
         Common _common = new Common();
         AppConst _appConst = new AppConst();
         public SalesOrderController(ISalesOrderBusiness salesOrderBusiness,
             ICustomerBusiness customerBusiness,IEmployeeBusiness employeeBusiness,
-            IProductBusiness productBusiness)
+            IProductBusiness productBusiness, IProductCategoryBusiness productCategoryBusiness,
+            ITaxTypeBusiness taxTypeBusiness)
 
         {
             _salesOrderBusiness = salesOrderBusiness;
             _customerBusiness = customerBusiness;
             _employeeBusiness = employeeBusiness;
             _productBusiness = productBusiness;
+            _productCategoryBusiness = productCategoryBusiness;
+            _taxTypeBusiness = taxTypeBusiness;
         }
         [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
         public ActionResult AddSalesOrder(string code, Guid? id)
@@ -39,11 +44,12 @@ namespace ProductionApp.UserInterface.Controllers
             {
                 ID = id == null ? Guid.Empty : (Guid)id,
                 IsUpdate = id == null ? false : true,
-                
-            };
+        };
+            salesOrderVM.ProductCategory = new ProductCategoryViewModel();
+            salesOrderVM.ProductCategory.ProductCategorySelectList = _productCategoryBusiness.GetProductCategoryForSelectList();
             salesOrderVM.SalesOrderDetail = new SalesOrderDetailViewModel();
             salesOrderVM.SalesOrderDetail.Product = new ProductViewModel();
-            salesOrderVM.SalesOrderDetail.Product.ProductSelectList=_productBusiness.GetProductForSelectList();
+            salesOrderVM.SalesOrderDetail.Product.ProductSelectList=_productBusiness.GetProductForSelectList("PRO");
             salesOrderVM.Customer = new CustomerViewModel();
 
             CustomerViewModel customerVM = new CustomerViewModel();
@@ -60,6 +66,19 @@ namespace ProductionApp.UserInterface.Controllers
                     });
                 }
             salesOrderVM.Customer = customerVM;
+            salesOrderVM.SalesOrderDetail.TaxType = new TaxTypeViewModel();
+            salesOrderVM.SalesOrderDetail.TaxType.SelectList = new List<SelectListItem>();
+            List<TaxTypeViewModel> taxTypeList = Mapper.Map<List<TaxType>, List<TaxTypeViewModel>>(_taxTypeBusiness.GetTaxTypeForSelectList());
+            if (taxTypeList != null)
+                foreach (TaxTypeViewModel taxType in taxTypeList)
+                {
+                    salesOrderVM.SalesOrderDetail.TaxType.SelectList.Add(new SelectListItem
+                    {
+                        Text = taxType.Description,
+                        Value = taxType.Code,
+                        Selected = false
+                    });
+                }
 
             return View(salesOrderVM);
         }
@@ -285,6 +304,40 @@ namespace ProductionApp.UserInterface.Controllers
         }
 
         #endregion DeleteSalesOrder
+
+        #region GetProductListByCategoryCode
+        public string GetProductListByCategoryCode(string code)
+        {
+            try
+            {
+                List<ProductViewModel> productList = Mapper.Map<List<Product>, List<ProductViewModel>>(_productBusiness.GetProductListByCategoryCode(code));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = productList, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+        }
+        #endregion GetProductListByCategoryCode
+
+        #region GetSaleOrderDetaiByGroupId
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
+        public string GetSaleOrderDetaiByGroupId(string ID)
+        {
+            try
+            {
+                List<SalesOrderDetailViewModel> salesOrderDetailVM = new List<SalesOrderDetailViewModel>();
+                salesOrderDetailVM = Mapper.Map<List<SalesOrderDetail>, List<SalesOrderDetailViewModel>>(_salesOrderBusiness.GetSaleOrderDetaiByGroupId(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = salesOrderDetailVM });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex });
+            }
+        }
+
+        #endregion GetSaleOrderDetaiByGroupId
 
         #region ButtonStyling
         [HttpGet]

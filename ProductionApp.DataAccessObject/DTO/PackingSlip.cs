@@ -30,6 +30,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public SalesOrder SalesOrder { get; set; }
         public PackingSlipDetail PackingSlipDetail { get; set; }
         public List<PackingSlipDetail> PackingSlipDetailList { get; set; }
+        public List<PackingSlipDetail> PackingSlipDetailList_Group { get; set; }
+        public List<PackingSlipDetail> PackingSlipDetailList_Product { get; set; }
         public string DetailXML { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
@@ -41,6 +43,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public string DispatchedByEmployeeName { get; set; }
         public bool IsUpdate { get; set; }
         public string DetailJSON { get; set; }
+        public string GroupDetailJSON { get; set; }
+        public string ProductDetailJSON { get; set; }
+        public string GroupDetailXML { get; set; }
+        public string ProductDetailXML { get; set; }
         public List<PackingSlip> PackingSlipList { get; set; }
         public string BaseURL { get; set; }        
     }
@@ -53,6 +59,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal Qty { get; set; }
         public decimal Weight { get; set; }
         //Additional properties
+        public Guid GroupID { get; set; }
+        public string GroupName { get; set; }
         public string Name { get; set; }
     }
     public class PackingSlipAdvanceSearch

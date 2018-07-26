@@ -438,6 +438,8 @@
     <Content Include="Content\images\close.png" />
     <Content Include="Content\images\delete.png" />
     <Content Include="Content\images\deposit.png" />
+    <Content Include="Content\images\details_close.png" />
+    <Content Include="Content\images\details_open.png" />
     <Content Include="Content\images\download.jpg" />
     <Content Include="Content\images\Download.png" />
     <Content Include="Content\images\Email.png" />

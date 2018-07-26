@@ -290,7 +290,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetProduct]";
+                        cmd.CommandText = "[AMC].[GetProductStockDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -322,6 +322,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     product.Type = sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : product.Type;
                                     product.HSNNo = sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : product.HSNNo;
                                     product.Rate = sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : product.Rate;
+                                    product.OrderDue = (sdr["OrderDue"].ToString() != "" ? decimal.Parse(sdr["OrderDue"].ToString()) : product.OrderDue);
                                 }
                             }
                         }
@@ -503,6 +504,57 @@ namespace ProductionApp.RepositoryServices.Services
             return productList;
         }
         #endregion GetProductListForBillOfMaterial
+
+        #region GetProductListByCategoryCode
+        public List<Product> GetProductListByCategoryCode(string code)
+        {
+            List<Product> productList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetProductListByCategoryCode]";
+                        cmd.Parameters.Add("@Code", SqlDbType.NVarChar).Value = code;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                productList = new List<Product>();
+                                while (sdr.Read())
+                                {
+                                    Product product = new Product();
+                                    {
+                                        product.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : product.ID);
+                                        product.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : product.Name);
+                                        product.CostPrice = (sdr["SellingPrice"].ToString() != "" ? decimal.Parse(sdr["SellingPrice"].ToString()) : product.CostPrice);
+                                        product.UnitCode = sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : product.UnitCode;
+                                        product.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : product.CurrentStock);
+                                        product.WeightInKG = (sdr["WeightInKG"].ToString() != "" ? decimal.Parse(sdr["WeightInKG"].ToString()) : product.WeightInKG);
+                                        product.IsInvoiceInKG = sdr["IsInvoiceInKG"].ToString() != "" ? bool.Parse(sdr["IsInvoiceInKG"].ToString()) : product.IsInvoiceInKG;
+                                        product.OrderDue = (sdr["OrderDue"].ToString() != "" ? decimal.Parse(sdr["OrderDue"].ToString()) : product.OrderDue);
+                                    }
+                                    productList.Add(product);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return productList;
+        }
+        #endregion GetProductListByCategoryCode
 
     }
 }

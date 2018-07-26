@@ -17,7 +17,6 @@ namespace ProductionApp.DataAccessObject.DTO
         public DateTime ExpectedDeliveryDate { get; set; }
         public string BillingAddress { get; set; }
         public string ShippingAddress { get; set; }
-       // public string OrderStatus { get; set; }
         public string Remarks { get; set; }
 
         //additional properties
@@ -28,6 +27,11 @@ namespace ProductionApp.DataAccessObject.DTO
         public string OrderDateFormatted { get; set; }
         public string ExpectedDeliveryDateFormatted { get; set; }
         public string DetailXML { get; set; }
+        public decimal OrderAmount { get; set; }
+        public string OrderStatus { get; set; }
+        public string DispatchedDates { get; set; }
+        public decimal DispatchedQty { get; set; }
+        
         public string CustomerName { get; set; }
         public string SalesPersonName { get; set; }
         public string ReferenceCustomerName { get; set; }
@@ -36,6 +40,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public SalesOrderDetail SalesOrderDetail { get; set; }
         public List<SalesOrder> SalesOrderList { get; set; }
         public string BaseURL { get; set; }
+        public ProductCategory ProductCategory { get; set; }
+        public string ProductCategoryCode { get; set; }
 
     }
     public class SalesOrderDetail
@@ -64,6 +70,26 @@ namespace ProductionApp.DataAccessObject.DTO
         public Common Common { get; set; }
         public Product Product { get; set; }
 
+        public Guid? GroupID { get; set; }
+        public string GroupName { get; set; }
+        public decimal NumOfSet { get; set; }
+        public decimal CostPrice { get; set; }
+        public string Name { get; set; }
+        public bool IsInvoiceInKG { get; set; }
+        public decimal OrderDue { get; set; }
+        public decimal CurrentStock { get; set; }
+        public DateTime GroupItemExpectedDeliveryDate { get; set; }
+        public string GroupItemExpectedDeliveryDateFormatted { get; set; }
+        public TaxType TaxType { get; set; }
+        public string GroupTaxTypeCode { get; set; }
+        public decimal GroupItemDiscountPercent { get; set; }
+        public decimal GroupItemTradeDiscountAmount { get; set; }
+        public decimal GroupGrossAmount { get; set; }
+        public int ChildCount { get; set; }
+        public int PkgSlipChildCount { get; set; }
+        public Guid PackingSlipID { get; set; }
+        public Guid PackingSlipDetailID { get; set; }
+        public bool isExists { get; set; }
     }
 
     public class SalesOrderAdvanceSearch

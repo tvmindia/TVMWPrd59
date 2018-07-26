@@ -88,5 +88,16 @@ namespace ProductionApp.BusinessService.Services
         {
             return _salesOrderRepository.GetRecentSalesOrder();
         }
+
+        public List<SalesOrderDetail> GetSaleOrderDetaiByGroupId(Guid id)
+        {
+            return _salesOrderRepository.GetSaleOrderDetaiByGroupId(id);
+        }
+
+        public List<SalesOrderDetail> GetProductListForPackingSlipByGroupID(Guid salesOrderId, Guid packingSlipId, Guid groupId)
+        {
+            return _salesOrderRepository.GetProductListForPackingSlipByGroupID(salesOrderId, packingSlipId, groupId);
+
+        }
     }
 }

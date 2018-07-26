@@ -17,6 +17,16 @@
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableSelect")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Selectmin")
+<style>
+    td.details-control {
+        background: url('../../Content/images/details_open.png') no-repeat center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('../../Content/images/details_close.png') no-repeat center;
+    }
+</style>
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
@@ -48,6 +58,8 @@
             @Html.HiddenFor(model => model.ShowPkgSec, htmlAttributes: new { @class = "" })
             @Html.HiddenFor(model => model.ShowDispatcherSec, htmlAttributes: new { @class = "" })
             @Html.HiddenFor(model => model.DetailJSON, htmlAttributes: new { @class = "" })
+            @Html.HiddenFor(model => model.GroupDetailJSON, htmlAttributes: new { @class = "" })
+            @Html.HiddenFor(model => model.ProductDetailJSON, htmlAttributes: new { @class = "" })
             <div class="col-md-12">
                 <div class="form-group col-md-8" id="divPack">
                     <div class="form-group col-md-6">
@@ -290,15 +302,16 @@
                                 <thead>
                                     <tr class="text-center">
 
-                                        <th>ID</th>
+                                        <th></th>
                                         <th></th>
                                         <th>Product</th>
                                         <th>Current Stock</th>
-                                        <th>Ordered Qty</th>
-                                        <th>Prev Pkg Qty</th>
-                                        <th>Bal Order Qty</th>
-                                        <th>Current Pkg Qty</th>
-                                        <th>Current Pkg Weight (KGs)</th>
+                                        <th>Sale Order Qty (A)</th>
+                                        <th>Prev. Pckd. Qty (B)</th>
+                                        <th>Bal. To Pck. Qty (A-B)</th>
+                                        <th>Current Pkg. Qty</th>
+                                        <th>Current Pkg. Weight (KGs)</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                             </table>
@@ -307,7 +320,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="height: 50px;padding: 7px;">
-                <a id="btnAddetails" class="btn btn-info" onclick="AddPackingSlipDetailTbl()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
+                <a id="btnAddetails" class="btn btn-info" onclick="AddPackingSlipDetailFromSaleOrderGroups()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
             </div>
         </div>
     </div>
@@ -333,29 +346,29 @@
                     <table id="tblPkgSlipDetailsEdit" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                         <thead>
                             <tr class="text-center">
-                                <th>ID</th>
-                                <th>Product ID</th>
+                                <th> </th>
+                                <th> </th>
                                 <th>Product</th>
                                 <th>Current Stock</th>
-                                <th>Ordered Qty</th>
-                                <th>Prev Pkg Qty</th>
-                                <th>Bal Order Qty</th>
-                                <th>Current Pkg Qty</th>
-                                <th>Current Pkg Weight (KGs)</th>
+                                <th>Sale Order Qty (A)</th>
+                                <th>Prev. Pckd. Qty (B)</th>
+                                <th>Bal. To Pck. Qty (A-B)</th>
+                                <th>Current Pkg. Qty</th>
+                                <th>Current Pkg. Weight (KGs)</th>
                             </tr>
                         </thead>
                     </table>
                 </div>
             </div>
             <div class="modal-footer" style="height: 50px;padding: 7px;">
-                <a class="btn btn-info" onclick="AddPackingSlipDetailEditTbl()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
+                <a class="btn btn-info" onclick="EditPackingSlipDetailProduct()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
             </div>
         </div>
     </div>
 </div>
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")
+    @*@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableSelect")*@
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")

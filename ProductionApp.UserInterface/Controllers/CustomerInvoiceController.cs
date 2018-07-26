@@ -286,6 +286,24 @@ namespace ProductionApp.UserInterface.Controllers
 
         #endregion GetCustomerInvoiceDetailLinkForEdit
 
+        #region GetCustomerInvoiceDetailLinkForEditGroup
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
+        public string GetCustomerInvoiceDetailLinkForEditGroup(string id,string groupID)
+        {
+            try
+            {
+                List<CustomerInvoiceDetailViewModel> customerInvoiceDetailVM = new List<CustomerInvoiceDetailViewModel>();
+                customerInvoiceDetailVM = Mapper.Map<List<CustomerInvoiceDetail>, List<CustomerInvoiceDetailViewModel>>(_customerInvoiceBusiness.GetCustomerInvoiceDetailLinkForEditGroup(id,groupID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerInvoiceDetailVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+
+        #endregion GetCustomerInvoiceDetailLinkForEditGroup
+
         #region UpdateCustomerInvoiceDetail
         [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
         public string UpdateCustomerInvoiceDetail(CustomerInvoiceViewModel customerInvoiceVM)
@@ -336,7 +354,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeleteCustomerInvoiceDetail
         [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "D")]
-        public string DeleteCustomerInvoiceDetail(string ID)
+        public string DeleteCustomerInvoiceDetail(string ID,string invoiceID, string isGroupItem)
         {
             object result = null;
             try
@@ -345,7 +363,7 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     throw new Exception("ID Missing");
                 }
-                result = _customerInvoiceBusiness.DeleteCustomerInvoiceDetail(Guid.Parse(ID));
+                result = _customerInvoiceBusiness.DeleteCustomerInvoiceDetail(Guid.Parse(ID), isGroupItem,Guid.Parse(invoiceID));
                 return JsonConvert.SerializeObject(new { Result = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)
@@ -425,6 +443,48 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion EmailSent
 
+
+        //grouping
+        #region GetGroupProductListForCustomerInvoiceDetail
+
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
+        public string GetGroupProductListForCustomerInvoiceDetail(string slipNo, string groupID)
+        {
+            try
+            {
+               
+                List<CustomerInvoiceDetailViewModel> customerInvoiceDetailVM = new List<CustomerInvoiceDetailViewModel>();
+                customerInvoiceDetailVM = Mapper.Map<List<CustomerInvoiceDetail>, List<CustomerInvoiceDetailViewModel>>(_customerInvoiceBusiness.GetGroupProductListForCustomerInvoiceDetail(slipNo, Guid.Parse(groupID)));
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerInvoiceDetailVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetGroupProductListForCustomerInvoiceDetail
+
+        // 
+        #region GetGroupCustomerInvoiceDetailLink
+
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
+        public string GetGroupCustomerInvoiceDetailLink(string id, string groupID)
+        {
+            try
+            {   
+
+                List<CustomerInvoiceDetailViewModel> customerInvoiceDetailVM = new List<CustomerInvoiceDetailViewModel>();
+                customerInvoiceDetailVM = Mapper.Map<List<CustomerInvoiceDetail>, List<CustomerInvoiceDetailViewModel>>(_customerInvoiceBusiness.GetGroupCustomerInvoiceDetailLink(Guid.Parse(id), Guid.Parse(groupID)));
+
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerInvoiceDetailVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetGroupCustomerInvoiceDetailLink
 
         #region ButtonStyling
         [HttpGet]

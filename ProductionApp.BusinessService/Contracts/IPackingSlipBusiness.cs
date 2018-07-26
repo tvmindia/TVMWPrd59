@@ -14,9 +14,10 @@ namespace ProductionApp.BusinessService.Contracts
         PackingSlip GetPackingSlip(Guid id);
         List<PackingSlipDetail> GetPackingSlipDetail(Guid id);
         List<PackingSlip> PackingSlipDetailByPackingSlipDetailID(Guid PkgSlipDetailID);
-        object DeletePackingSlipDetail(Guid id);
+        object DeletePackingSlipDetail(Guid id, string isGroupItem);
         object DeletePackingSlip(Guid id);
         List<PackingSlip> GetPackingSlipForSelectList();
         List<PackingSlip> GetRecentPackingSlip(string BaseURL);
+        List<SalesOrderDetail> GetPackingSlipDetailGroupEdit(Guid groupID, Guid packingSlipID,Guid saleOrderID);
     }
 }

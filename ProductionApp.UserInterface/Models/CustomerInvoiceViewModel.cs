@@ -96,6 +96,8 @@ namespace ProductionApp.UserInterface.Models
         public decimal TradeDiscountAmount { get; set; }
         public bool IsInvoiceInKG { get; set; }
         //additional properties
+        public Guid GroupID { get; set; }
+        public string GroupName { get; set; }
         public string ProductName { get; set; }
         public string TaxTypeDescription { get; set; }
         public string SlipNo { get; set; }

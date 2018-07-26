@@ -69,6 +69,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _customerInvoiceRepository.GetCustomerInvoiceDetailLinkForEdit(id);
         }
+        public List<CustomerInvoiceDetail> GetCustomerInvoiceDetailLinkForEditGroup(string id, string groupID)
+        {
+            return _customerInvoiceRepository.GetCustomerInvoiceDetailLinkForEditGroup(id, groupID);
+        }
 
         public object UpdateCustomerInvoiceDetail(CustomerInvoice customerInvoice)
         {
@@ -82,9 +86,9 @@ namespace ProductionApp.BusinessService.Services
 
         }
 
-        public object DeleteCustomerInvoiceDetail(Guid id)
+        public object DeleteCustomerInvoiceDetail(Guid id,string isGroupItem,Guid invoiceID)
         {
-            return _customerInvoiceRepository.DeleteCustomerInvoiceDetail(id);
+            return _customerInvoiceRepository.DeleteCustomerInvoiceDetail(id, isGroupItem, invoiceID);
 
         }
 
@@ -147,6 +151,17 @@ namespace ProductionApp.BusinessService.Services
                 throw ex;
             }
             return customerInvoice;
+        }
+
+        public List<CustomerInvoiceDetail> GetGroupProductListForCustomerInvoiceDetail(string slipNo, Guid groupID)
+        {
+            return _customerInvoiceRepository.GetGroupProductListForCustomerInvoiceDetail(slipNo, groupID);
+        }
+
+        public List<CustomerInvoiceDetail> GetGroupCustomerInvoiceDetailLink(Guid id, Guid groupID)
+        {
+            return _customerInvoiceRepository.GetGroupCustomerInvoiceDetailLink(id, groupID);
+            
         }
     }
 }
