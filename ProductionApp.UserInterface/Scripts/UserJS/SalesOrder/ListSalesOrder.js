@@ -92,7 +92,7 @@ function BindOrReloadSalesOrderTable(action) {
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [1, 2, 3, 4, 5, 6]
+                                     columns: [0,1, 2, 3, 4, 5]
                                  }
                 }],
                 order: false,
@@ -109,25 +109,26 @@ function BindOrReloadSalesOrderTable(action) {
                 },
                 pageLength: 10,
                 columns: [
-                    { "data": "CustomerName", "defaultContent": "<i>-</i>", "width": "10%" },
-                    { "data": "OrderNo", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "CustomerName", "defaultContent": "<i>-</i>", "width": "25%" },
+                    { "data": "OrderNo", "defaultContent": "<i>-</i>", "width": "8%" },
                     { "data": "OrderDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
-                    { "data": "NetAmount", render: function (data, type, row) {
-                        return roundoff(data) 
-                    }, "defaultContent": "<i>-</i>", "width": "20%"
+                    {
+                        "data": "OrderAmount", render: function (data, type, row) {
+                            return roundoff(data);
+                        }, "defaultContent": "<i>-</i>", "width": "24%"
                     },
-                    { "data": "SOStatus", "defaultContent": "<i>-</i>", "width": "20%" },
-                    { "data": "ExpectedDeliveryDateFormatted", "defaultContent": "<i>-</i>", "width": "27%" },
+                    { "data": "OrderStatus", "defaultContent": "<i>-</i>", "width": "20%" },
+                    { "data": "ExpectedDeliveryDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" }, 
                     {
                          "data": "ID", "orderable": false, render: function (data, type, row) {
                              return '<a href="/SalesOrder/AddSalesOrder?code=SALE&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
                          }, "defaultContent": "<i>-</i>", "width": "3%"
                     }
                 ],
-                columnDefs: [{ "targets": [], "visible": false, "searchable": false },
+                columnDefs: [{ "targets": [ ], "visible": false, "searchable": false },
                     { className: "text-left", "targets": [0,1,4] },
                     { className: "text-right", "targets": [3] },
-                    { className: "text-center", "targets": [2,5,6] }],
+                    { className: "text-center", "targets": [2, 5] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
@@ -185,7 +186,7 @@ function BindOrReloadSalesOrderDetailTable(action) {
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [1, 2, 3, 4, 5, 6]
+                                     columns: [0,1, 2, 3, 4, 5, 6,7,8]
                                  }
                 }],
                 order: false,
@@ -201,20 +202,20 @@ function BindOrReloadSalesOrderDetailTable(action) {
                     type: 'POST'
                 },
                 pageLength: 10,
-                columns: [
-                    { "data": "CustomerName", "defaultContent": "<i>-</i>", "width": "10%" },
-                    { "data": "OrderNo", "defaultContent": "<i>-</i>", "width": "10%" },
+                columns: [ 
+                    { "data": "CustomerName", "defaultContent": "<i>-</i>" ,"width": "25%" },
+                    { "data": "OrderNo", "defaultContent": "<i>-</i>", "width": "8%" },
                     { "data": "OrderDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
                     { "data": "SalesOrderDetail.Product.Name", render: function (data, type, row) {
                         row.SalesOrderDetail.Product.HSNNo = row.SalesOrderDetail.Product.HSNNo == null ? "Nill" : row.SalesOrderDetail.Product.HSNNo
                         return data + '</br><b>HSNNo: </b>' + row.SalesOrderDetail.Product.HSNNo
                         }
-                        , "defaultContent": "<i>-</i>", "width": "17%"
+                        , "defaultContent": "<i>-</i>", "width": "10%"
                     },
-                    { "data": "SalesOrderDetail.Quantity", "defaultContent": "<i>-</i>", "width": "10%" },
-                    { "data": "DispatchedQty", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "SalesOrderDetail.Quantity", "defaultContent": "<i>-</i>", "width": "7%" },
+                    { "data": "DispatchedQty", "defaultContent": "<i>-</i>", "width": "7%" },
                     { "data": "DispatchedDates", "defaultContent": "<i>-</i>", "width": "10%" },
-                    { "data": "SOStatus", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "OrderStatus", "defaultContent": "<i>-</i>", "width": "10%" },
                     { "data": "SalesOrderDetail.ExpectedDeliveryDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
@@ -223,9 +224,9 @@ function BindOrReloadSalesOrderDetailTable(action) {
                     }
                 ],
                 columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [0,1,3,6,7]},
-                    { className: "text-center", "targets": [ 2,8,9] },
-                    { className: "text-right", "targets": [4,5] }],
+                    { className: "text-left", "targets": [0,1,3,6,7] },
+                    { className: "text-center", "targets": [2,9,8] },
+                    { className: "text-right", "targets": [4,5,] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {

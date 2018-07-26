@@ -15,8 +15,9 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<PackingSlipDetail> GetPackingSlipDetail(Guid id);
         List<PackingSlip> PackingSlipDetailByPackingSlipDetailID(Guid PkgSlipDetailID);
         object DeletePackingSlip(Guid id);
-        object DeletePackingSlipDetail(Guid id);
+        object DeletePackingSlipDetail(Guid id, string isGroupItem);
         List<PackingSlip> GetPackingSlipForSelectList();
         List<PackingSlip> GetRecentPackingSlip();
+        List<SalesOrderDetail> GetPackingSlipDetailGroupEdit(Guid groupID, Guid packingSlipID,Guid saleOrderID);
     }
 }

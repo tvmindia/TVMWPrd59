@@ -17,6 +17,16 @@
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/DataTables/css/datatableSelect")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Select2")
     @Styles.RenderFormat(SiteKeys.StyleVersion, "~/Content/css/Selectmin")
+<style>
+    td.details-control {
+        background: url('../../Content/images/details_open.png') no-repeat center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('../../Content/images/details_close.png') no-repeat center;
+    }
+</style>
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
@@ -281,11 +291,13 @@
                                 <thead>
                                     <tr class="text-center TableHead">
                                         <th></th>
+                                        <th></th>
                                         <th>Product</th>
                                         <th>Slip No.</th>
                                         <th>Quantity</th>
                                         <th>Weight</th>
                                         <th>Rate</th>
+                                        <th>Disc %</th>
                                         <th>Discount</th>
                                         <th>GST %</th>
                                     </tr>
@@ -337,6 +349,7 @@
                                 <th>Quantity</th>
                                 <th>Weight</th>
                                 <th>Rate</th>
+                                <th>Disc %</th>
                                 <th>Discount</th>
                                 <th>GST %</th>
                             </tr>

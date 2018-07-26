@@ -16,13 +16,16 @@ namespace ProductionApp.BusinessService.Contracts
         List<CustomerInvoiceDetail> GetCustomerInvoiceDetail(Guid id);
         List<CustomerInvoice> GetAllCustomerInvoice(CustomerInvoiceAdvanceSearch customerInvoiceAdvanceSearch);
         List<CustomerInvoiceDetail> GetCustomerInvoiceDetailLinkForEdit(string id);
+        List<CustomerInvoiceDetail> GetCustomerInvoiceDetailLinkForEditGroup(string id, string groupID);
         object UpdateCustomerInvoiceDetail(CustomerInvoice customerInvoice);
-        object DeleteCustomerInvoice(Guid id, string userName);
-        object DeleteCustomerInvoiceDetail(Guid id, string userName);
+        object DeleteCustomerInvoice(Guid id);
+        object DeleteCustomerInvoiceDetail(Guid id,string isGroupItem,Guid invoiceID);
         List<CustomerInvoice> GetRecentCustomerInvoice(string BaseURL);
         object UpdateCustomerInvoiceMailStatus(CustomerInvoice CustomerInvoice);
         Task<bool> EmailPush(CustomerInvoice CustomerInvoice);
         CustomerInvoice GetMailPreview(Guid ID);
         decimal GetOutstandingCustomerInvoice();
+        List<CustomerInvoiceDetail> GetGroupProductListForCustomerInvoiceDetail(string slipNo,Guid groupID);
+        List<CustomerInvoiceDetail> GetGroupCustomerInvoiceDetailLink(Guid id, Guid groupID);
     }
 }

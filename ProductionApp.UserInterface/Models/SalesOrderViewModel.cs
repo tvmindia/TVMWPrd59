@@ -25,7 +25,6 @@ namespace ProductionApp.UserInterface.Models
         public string BillingAddress { get; set; }
         [Display(Name = "Shipping Address")]
         public string ShippingAddress { get; set; }
-        //public string OrderStatus { get; set; }
         public string Remarks { get; set; }
 
         //additional properties
@@ -34,15 +33,16 @@ namespace ProductionApp.UserInterface.Models
         public Guid hdnFileID { get; set; }
         public int TotalCount { get; set; }
         public string DetailJSON { get; set; }
-
+        public string DispatchedDates { get; set; }
+        public decimal DispatchedQty { get; set; }
+        public string OrderStatus { get; set; }
+        public decimal OrderAmount { get; set; }
         [Display(Name = "Sales Person")]
         public string CustomerName { get; set; }
         public string ReferenceCustomerName { get; set; }
         public string SalesPersonName { get; set; }
         public string SOStatus { get; set; }
         public decimal NetAmount { get; set; }
-        public decimal DispatchedQty { get; set; }
-        public string DispatchedDates { get; set; }
         public int FilteredCount { get; set; }
         [Display(Name = "Order Date")]
         [Required(ErrorMessage = "Order Date required")]
@@ -57,12 +57,15 @@ namespace ProductionApp.UserInterface.Models
         public List<SelectListItem> SelectList { get; set; }
         public List<SalesOrderViewModel> SalesOrderList { get; set; }
         public string BaseURL { get; set; }
-
-
+        public ProductCategoryViewModel ProductCategory { get; set; }
+        [Display(Name = "Product Category")]
+        [Required(ErrorMessage = "Category is missing")]
+        public string ProductCategoryCode { get; set; }
     }
     public class SalesOrderDetailViewModel
     {
         public Guid ID { get; set; }
+
         public Guid SalesOrderID { get; set; }
         public Guid ProductID { get; set; }
         [Display(Name = "Tax %")]
@@ -97,6 +100,38 @@ namespace ProductionApp.UserInterface.Models
         public CommonViewModel Common { get; set; }
         public ProductViewModel Product { get; set; }
 
+        public Guid? GroupID { get; set; }
+
+        [Display(Name = "Group Name")]
+        [Required(ErrorMessage = "Group Name is missing")]
+        public string GroupName { get; set; }
+        [Display(Name = "No. Of Sets")]
+        public decimal NumOfSet { get; set; }
+        public decimal CostPrice { get; set; }
+        public string   Name { get; set; }
+        public decimal CurrentStock { get; set; }
+        public bool IsInvoiceInKG { get; set; }
+        public DateTime GroupItemExpectedDeliveryDate { get; set; }
+        public decimal OrderDue { get; set; }
+        [Display(Name = "Expected Delivery Date")]
+        public string GroupItemExpectedDeliveryDateFormatted { get; set; }
+        public TaxTypeViewModel TaxType { get; set; }
+        public string GroupTaxTypeCode { get; set; }
+        [Display(Name = "Discount %")]
+        public decimal GroupItemDiscountPercent { get; set; }
+        [Display(Name = "Discount Amount")]
+        public decimal GroupItemTradeDiscountAmount { get; set; }
+        [Display(Name = "Gross Amount")]
+        public decimal GroupGrossAmount { get; set; }
+
+        public string GroupIdString { get; set; }
+        public string ProductIdString { get; set; }
+        public int ChildCount { get; set; }
+        public int PkgSlipChildCount { get; set; }
+        public Guid PackingSlipID { get; set; }
+        public Guid PackingSlipDetailID { get; set; }
+        public bool isExists { get; set; }
+
     }
     public class SalesOrderAdvanceSearchViewModel
     {
@@ -114,6 +149,5 @@ namespace ProductionApp.UserInterface.Models
         public EmployeeViewModel Employee { get; set; }
 
         public DataTablePagingViewModel DataTablePaging { get; set; }
-
     }
 }

@@ -20,5 +20,9 @@ namespace ProductionApp.BusinessService.Contracts
         object DeleteSalesOrder(Guid id);
         SalesOrder GetCustomerOfSalesOrderForPackingSlip(Guid salesOrderId);
         List<SalesOrder> GetRecentSalesOrder(string BaseURL);
+        List<SalesOrderDetail> GetSaleOrderDetaiByGroupId(Guid id);
+
+        List<SalesOrderDetail> GetProductListForPackingSlipByGroupID(Guid salesOrderId,Guid packingSlipId,Guid groupId);
+
     }
 }

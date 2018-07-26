@@ -35,6 +35,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Unit Unit { get; set; }
         public ProductCategory ProductCategory { get; set; }
         public Customer Customer { get; set; }
+        public decimal OrderDue { get; set; }
     }
     public class ProductAdvanceSearch
     {

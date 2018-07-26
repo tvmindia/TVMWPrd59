@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.RepositoryServices.Services
 {
-    public class CustomerInvoiceRepository: ICustomerInvoiceRepository
+    public class CustomerInvoiceRepository : ICustomerInvoiceRepository
     {
         private IDatabaseFactory _databaseFactory;
 
@@ -36,10 +36,10 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetPackingSlipListDetailForCustomerInvoice]";
-                        cmd.Parameters.Add("@PackingSlipIDs", SqlDbType.NVarChar,-1).Value = packingSlipIDs;
-                        if(id!=null)
-                         cmd.Parameters.Add("@CustomerInvoiceID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(id);
+                        cmd.CommandText = "[AMC].[GetPackingSlipListDetailForCustomerInvoice_grouping]";
+                        cmd.Parameters.Add("@PackingSlipIDs", SqlDbType.NVarChar, -1).Value = packingSlipIDs;
+                        if (id != null && Guid.Parse(id) != Guid.Empty)
+                            cmd.Parameters.Add("@CustomerInvoiceID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(id);
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -49,9 +49,12 @@ namespace ProductionApp.RepositoryServices.Services
                                 while (sdr.Read())
                                 {
                                     CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
+
                                     {
                                         customerInvoiceDetail.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : customerInvoiceDetail.ProductID);
                                         customerInvoiceDetail.ProductName = (sdr["ProductName"].ToString() != "" ? sdr["ProductName"].ToString() : customerInvoiceDetail.ProductName);
+                                        customerInvoiceDetail.GroupID = (sdr["GroupID"].ToString() != "" ? Guid.Parse(sdr["GroupID"].ToString()) : customerInvoiceDetail.GroupID);
+                                        customerInvoiceDetail.GroupName = (sdr["GroupName"].ToString() != "" ? sdr["GroupName"].ToString() : customerInvoiceDetail.GroupName);
                                         customerInvoiceDetail.SlipNo = (sdr["SlipNo"].ToString() != "" ? sdr["SlipNo"].ToString() : customerInvoiceDetail.SlipNo);
                                         customerInvoiceDetail.Quantity = (sdr["Quantity"].ToString() != "" ? decimal.Parse(sdr["Quantity"].ToString()) : customerInvoiceDetail.Quantity);
                                         customerInvoiceDetail.Weight = (sdr["Weight"].ToString() != "" ? decimal.Parse(sdr["Weight"].ToString()) : customerInvoiceDetail.Weight);
@@ -67,7 +70,8 @@ namespace ProductionApp.RepositoryServices.Services
                                         customerInvoiceDetail.CGSTPerc = (sdr["CGSTPerc"].ToString() != "" ? decimal.Parse(sdr["CGSTPerc"].ToString()) : customerInvoiceDetail.CGSTPerc);
                                         customerInvoiceDetail.IGSTPerc = (sdr["IGSTPerc"].ToString() != "" ? decimal.Parse(sdr["IGSTPerc"].ToString()) : customerInvoiceDetail.IGSTPerc);
                                         customerInvoiceDetail.Total = (sdr["Total"].ToString() != "" ? decimal.Parse(sdr["Total"].ToString()) : customerInvoiceDetail.Total);
-                                        
+                                      //  customerInvoiceDetail.TaxTypeDescription = (sdr["TaxTypeDesc"].ToString() != "" ? sdr["TaxTypeDesc"].ToString() : customerInvoiceDetail.TaxTypeDescription);
+
                                     }
                                     customerInvoiceDetailList.Add(customerInvoiceDetail);
                                 }
@@ -83,7 +87,7 @@ namespace ProductionApp.RepositoryServices.Services
             return customerInvoiceDetailList;
         }
 
-        public object InsertUpdateCustomerInvoice(CustomerInvoice customerInvoice )
+        public object InsertUpdateCustomerInvoice(CustomerInvoice customerInvoice)
         {
             SqlParameter outputStatus, IDOut = null;
             try
@@ -97,21 +101,21 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[InsertUpdateCustomerInvoice]";
+                        cmd.CommandText = "[AMC].[InsertUpdateCustomerInvoice_Grouping]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = customerInvoice.IsUpdate;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = customerInvoice.ID;
-                        if(customerInvoice.CustomerID!=Guid.Empty)
-                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = customerInvoice.CustomerID;
+                        if (customerInvoice.CustomerID != Guid.Empty)
+                            cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = customerInvoice.CustomerID;
                         cmd.Parameters.Add("@FileDupID", SqlDbType.UniqueIdentifier).Value = customerInvoice.hdnFileID;
-                        cmd.Parameters.Add("@PaymentTermCode", SqlDbType.VarChar,10 ).Value = customerInvoice.PaymentTermCode;
+                        cmd.Parameters.Add("@PaymentTermCode", SqlDbType.VarChar, 10).Value = customerInvoice.PaymentTermCode;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = customerInvoice.InvoiceDateFormatted;
                         cmd.Parameters.Add("@PaymentDueDate", SqlDbType.DateTime).Value = customerInvoice.PaymentDueDateFormatted;
                         cmd.Parameters.Add("@DetailXML", SqlDbType.VarChar, -1).Value = customerInvoice.DetailXML;
                         cmd.Parameters.Add("@Discount", SqlDbType.Decimal).Value = customerInvoice.Discount;
-                        
-                        cmd.Parameters.Add("@BillingAddress", SqlDbType.VarChar,-1 ).Value = customerInvoice.BillingAddress;
-                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.VarChar,-1 ).Value = customerInvoice.GeneralNotes;
+
+                        cmd.Parameters.Add("@BillingAddress", SqlDbType.VarChar, -1).Value = customerInvoice.BillingAddress;
+                        cmd.Parameters.Add("@GeneralNotes", SqlDbType.VarChar, -1).Value = customerInvoice.GeneralNotes;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = customerInvoice.Common.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = customerInvoice.Common.CreatedDate;
                         cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = customerInvoice.Common.UpdatedBy;
@@ -269,7 +273,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetCustomerInvoiceDetail]";
+                        cmd.CommandText = "[AMC].[GetCustomerInvoiceDetail_Group]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@customerInvoiceId", SqlDbType.UniqueIdentifier).Value = id;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
@@ -295,6 +299,8 @@ namespace ProductionApp.RepositoryServices.Services
                                         customerInvoiceDetail.TradeDiscountAmount = (sdr["TradeDiscountAmount"].ToString() != "" ? decimal.Parse(sdr["TradeDiscountAmount"].ToString()) : customerInvoiceDetail.TradeDiscountAmount);
                                         customerInvoiceDetail.Total = (sdr["Total"].ToString() != "" ? decimal.Parse(sdr["Total"].ToString()) : customerInvoiceDetail.Total);
                                         customerInvoiceDetail.TaxableAmount = (sdr["TaxableAmount"].ToString() != "" ? decimal.Parse(sdr["TaxableAmount"].ToString()) : customerInvoiceDetail.TaxableAmount);
+                                        customerInvoiceDetail.GroupID = (sdr["GroupID"].ToString() != "" ? Guid.Parse(sdr["GroupID"].ToString()) : customerInvoiceDetail.GroupID);
+                                        customerInvoiceDetail.GroupName = (sdr["GroupName"].ToString() != "" ? sdr["GroupName"].ToString() : customerInvoiceDetail.GroupName);
 
                                     }
                                     customerInvoiceDetailList.Add(customerInvoiceDetail);
@@ -437,7 +443,70 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return customerInvoiceDetailList;
         }
+        public List<CustomerInvoiceDetail> GetCustomerInvoiceDetailLinkForEditGroup(string id, string groupID)
+        {
+            List<CustomerInvoiceDetail> customerInvoiceDetailList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetCustomerInvoiceDetailLinkForEdit_Group]";
+                        if (groupID != null)
+                            cmd.Parameters.Add("@GroupID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(groupID);
+                        if (id != null)
+                            cmd.Parameters.Add("@InvoiceID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(id);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                customerInvoiceDetailList = new List<CustomerInvoiceDetail>();
+                                while (sdr.Read())
+                                {
+                                    CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
+                                    {
+                                        customerInvoiceDetail.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : customerInvoiceDetail.ID);
+                                        customerInvoiceDetail.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : customerInvoiceDetail.ProductID);
+                                        customerInvoiceDetail.ProductName = (sdr["ProductName"].ToString() != "" ? sdr["ProductName"].ToString() : customerInvoiceDetail.ProductName);
+                                        customerInvoiceDetail.SlipNo = (sdr["SlipNo"].ToString() != "" ? sdr["SlipNo"].ToString() : customerInvoiceDetail.SlipNo);
+                                        customerInvoiceDetail.Quantity = (sdr["Quantity"].ToString() != "" ? decimal.Parse(sdr["Quantity"].ToString()) : customerInvoiceDetail.Quantity);
+                                        customerInvoiceDetail.Weight = (sdr["Weight"].ToString() != "" ? decimal.Parse(sdr["Weight"].ToString()) : customerInvoiceDetail.Weight);
+                                        customerInvoiceDetail.PackingSlipDetailID = (sdr["PackingSlipDetailID"].ToString() != "" ? Guid.Parse(sdr["PackingSlipDetailID"].ToString()) : customerInvoiceDetail.PackingSlipDetailID);
+                                        customerInvoiceDetail.CustomerInvoiceDetailLinkID = (sdr["LinkID"].ToString() != "" ? Guid.Parse(sdr["LinkID"].ToString()) : customerInvoiceDetail.CustomerInvoiceDetailLinkID);
+                                        customerInvoiceDetail.QuantityCheck = (sdr["QuantityCheck"].ToString() != "" ? decimal.Parse(sdr["QuantityCheck"].ToString()) : customerInvoiceDetail.QuantityCheck);
+                                        customerInvoiceDetail.WeightCheck = (sdr["WeightCheck"].ToString() != "" ? decimal.Parse(sdr["WeightCheck"].ToString()) : customerInvoiceDetail.WeightCheck);
+                                        customerInvoiceDetail.IsInvoiceInKG = (sdr["IsInvoiceInKG"].ToString() != "" ? bool.Parse(sdr["IsInvoiceInKG"].ToString()) : customerInvoiceDetail.IsInvoiceInKG);
+                                        customerInvoiceDetail.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : customerInvoiceDetail.Rate);
+                                        customerInvoiceDetail.TradeDiscountAmount = (sdr["TradeDiscountAmount"].ToString() != "" ? decimal.Parse(sdr["TradeDiscountAmount"].ToString()) : customerInvoiceDetail.TradeDiscountAmount);
+                                        customerInvoiceDetail.TradeDiscountPerc = (sdr["TradeDiscountPerc"].ToString() != "" ? decimal.Parse(sdr["TradeDiscountPerc"].ToString()) : customerInvoiceDetail.TradeDiscountPerc);
+                                        customerInvoiceDetail.TaxTypeCode = (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : customerInvoiceDetail.TaxTypeCode);
+                                        customerInvoiceDetail.GroupID = (sdr["GroupID"].ToString() != "" ? Guid.Parse(sdr["GroupID"].ToString()) : customerInvoiceDetail.GroupID);
+                                        customerInvoiceDetail.GroupName = (sdr["GroupName"].ToString() != "" ? sdr["GroupName"].ToString() : customerInvoiceDetail.GroupName);
+                                        customerInvoiceDetail.SGSTPerc = (sdr["SGSTPerc"].ToString() != "" ? decimal.Parse(sdr["SGSTPerc"].ToString()) : customerInvoiceDetail.SGSTPerc);
+                                        customerInvoiceDetail.CGSTPerc = (sdr["CGSTPerc"].ToString() != "" ? decimal.Parse(sdr["CGSTPerc"].ToString()) : customerInvoiceDetail.CGSTPerc);
+                                        customerInvoiceDetail.IGSTPerc = (sdr["IGSTPerc"].ToString() != "" ? decimal.Parse(sdr["IGSTPerc"].ToString()) : customerInvoiceDetail.IGSTPerc);
 
+                                    }
+                                    customerInvoiceDetailList.Add(customerInvoiceDetail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return customerInvoiceDetailList;
+        }
         public object UpdateCustomerInvoiceDetail(CustomerInvoice customerInvoice)
         {
             SqlParameter outputStatus = null;
@@ -490,7 +559,7 @@ namespace ProductionApp.RepositoryServices.Services
 
         }
 
-        public object DeleteCustomerInvoice(Guid id, string userName)
+        public object DeleteCustomerInvoice(Guid id)
         {
             SqlParameter outputStatus = null;
             try
@@ -507,7 +576,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[DeleteCustomerInvoice]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = userName;
+                       // cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = userName;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -534,7 +603,7 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
 
-        public object DeleteCustomerInvoiceDetail(Guid id, string userName)
+        public object DeleteCustomerInvoiceDetail(Guid id,string isGroupItem,Guid invoiceID)
         {
             SqlParameter outputStatus = null;
             try
@@ -551,7 +620,15 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandText = "[AMC].[DeleteCustomerInvoiceDetail]";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
-                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = userName;
+                        cmd.Parameters.Add("@InvoiceID", SqlDbType.UniqueIdentifier).Value = invoiceID;
+                        if (isGroupItem == "1")
+                        {
+                            cmd.Parameters.Add("@isGroupItem", SqlDbType.Bit).Value = true;
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add("@isGroupItem", SqlDbType.Bit).Value = false;
+                        }
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();
@@ -609,7 +686,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     customerInvoice.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString(settings.DateFormat) : customerInvoice.InvoiceDateFormatted);
 
                                     customerInvoice.Customer = new Customer();
-                                    customerInvoice.Customer.CompanyName = (sdr["Customer"].ToString() != "" ? sdr["Customer"].ToString() : customerInvoice.Customer.CompanyName);                                   
+                                    customerInvoice.Customer.CompanyName = (sdr["Customer"].ToString() != "" ? sdr["Customer"].ToString() : customerInvoice.Customer.CompanyName);
                                     customerInvoiceList.Add(customerInvoice);
                                 }
                             }
@@ -623,7 +700,56 @@ namespace ProductionApp.RepositoryServices.Services
             }
             return customerInvoiceList;
         }
+
+
         #endregion GetRecentCustomerInvoice
+        public List<CustomerInvoiceDetail> GetGroupProductListForCustomerInvoiceDetail(string slipNo, Guid groupID)
+        {
+            List<CustomerInvoiceDetail> customerInvoiceDetailList = new List<CustomerInvoiceDetail>();
+            CustomerInvoiceDetail customerInvoiceDetail = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetGroupProductListForCustomerInvoiceDetail]";
+                        cmd.Parameters.Add("@GroupID", SqlDbType.UniqueIdentifier).Value = groupID;
+                        cmd.Parameters.Add("@SlipNo", SqlDbType.NVarChar, 50).Value = slipNo;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                while (sdr.Read())
+                                {
+                                    customerInvoiceDetail = new CustomerInvoiceDetail(); 
+                                    customerInvoiceDetail.ProductName = (sdr["ProductName"].ToString() != "" ? sdr["ProductName"].ToString() : customerInvoiceDetail.ProductName);
+                                    customerInvoiceDetail.SlipNo = (sdr["SlipNo"].ToString() != "" ? sdr["SlipNo"].ToString() : customerInvoiceDetail.SlipNo);
+                                    customerInvoiceDetail.Quantity = (sdr["Quantity"].ToString() != "" ? decimal.Parse(sdr["Quantity"].ToString()) : customerInvoiceDetail.Quantity);
+                                    customerInvoiceDetail.Weight = (sdr["Weight"].ToString() != "" ? decimal.Parse(sdr["Weight"].ToString()) : customerInvoiceDetail.Weight);
+                                    customerInvoiceDetail.PackingSlipDetailID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : Guid.Empty);
+                                    customerInvoiceDetail.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : Guid.Empty);
+                                    // customerInvoiceDetail.TaxTypeDescription = (sdr["TaxTypeDesc"].ToString() != "" ? sdr["TaxTypeDesc"].ToString() : customerInvoiceDetail.TaxTypeDescription);
+                                    //
+                                    customerInvoiceDetailList.Add(customerInvoiceDetail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return customerInvoiceDetailList;
+        }
 
         #region GetOutstandingCustomerInvoice
         public decimal GetOutstandingCustomerInvoice()
@@ -663,5 +789,56 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetOutstandingCustomerInvoice
 
+        public List<CustomerInvoiceDetail> GetGroupCustomerInvoiceDetailLink(Guid id, Guid groupID)
+        {
+            List<CustomerInvoiceDetail> customerInvoiceDetailList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetGroupCustomerInvoiceDetailLink]";
+                        if (groupID != null)
+                            cmd.Parameters.Add("@GroupID", SqlDbType.UniqueIdentifier).Value = groupID;
+                        if (id != null)
+                            cmd.Parameters.Add("@InvoiceID", SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                customerInvoiceDetailList = new List<CustomerInvoiceDetail>();
+                                while (sdr.Read())
+                                {
+                                    CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
+                                    {
+                                        customerInvoiceDetail.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : customerInvoiceDetail.ID);
+                                        customerInvoiceDetail.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : customerInvoiceDetail.ProductID);
+                                        //customerInvoiceDetail.ProductName = (sdr["ProductName"].ToString() != "" ? sdr["ProductName"].ToString() : customerInvoiceDetail.ProductName);
+                                        customerInvoiceDetail.SlipNo = (sdr["SlipNo"].ToString() != "" ? sdr["SlipNo"].ToString() : customerInvoiceDetail.SlipNo);
+                                        customerInvoiceDetail.Quantity = (sdr["Quantity"].ToString() != "" ? decimal.Parse(sdr["Quantity"].ToString()) : customerInvoiceDetail.Quantity);
+                                        customerInvoiceDetail.Weight = (sdr["Weight"].ToString() != "" ? decimal.Parse(sdr["Weight"].ToString()) : customerInvoiceDetail.Weight);
+                                        customerInvoiceDetail.PackingSlipDetailID = (sdr["PackingSlipDetailID"].ToString() != "" ? Guid.Parse(sdr["PackingSlipDetailID"].ToString()) : customerInvoiceDetail.PackingSlipDetailID);
+                                        customerInvoiceDetail.CustomerInvoiceDetailLinkID = (sdr["LinkID"].ToString() != "" ? Guid.Parse(sdr["LinkID"].ToString()) : customerInvoiceDetail.CustomerInvoiceDetailLinkID);
+                                      }
+                                    customerInvoiceDetailList.Add(customerInvoiceDetail);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return customerInvoiceDetailList;
+        }
     }
 }

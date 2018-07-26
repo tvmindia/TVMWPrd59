@@ -27,21 +27,49 @@ namespace ProductionApp.BusinessService.Services
 
         public object InsertUpdatePackingSlip(PackingSlip packingSlip)
         {
-            DetailsXMl(packingSlip);
-            return _packingSlipRepository.InsertUpdatePackingSlip(packingSlip);
+            try
+            {
+                DetailsXMl(packingSlip);
+                return _packingSlipRepository.InsertUpdatePackingSlip(packingSlip);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            } 
         }
 
         public void DetailsXMl(PackingSlip packingSlip)
         {
+            //string result = "<Details>";
+            //int totalRows = 0;
+            //foreach (object some_object in packingSlip.PackingSlipDetailList)
+            //{
+            //    _commonBusiness.XML(some_object, ref result, ref totalRows);
+            //}
+            //result = result + "</Details>";
+
+            //packingSlip.DetailXML = result;
+
             string result = "<Details>";
             int totalRows = 0;
-            foreach (object some_object in packingSlip.PackingSlipDetailList)
+            foreach (object some_object in packingSlip.PackingSlipDetailList_Group)
             {
                 _commonBusiness.XML(some_object, ref result, ref totalRows);
             }
             result = result + "</Details>";
 
-            packingSlip.DetailXML = result;
+            packingSlip.GroupDetailXML = result;
+
+            result = "<Details>";
+            totalRows = 0;
+            foreach (object some_object in packingSlip.PackingSlipDetailList_Product)
+            {
+                _commonBusiness.XML(some_object, ref result, ref totalRows);
+            }
+            result = result + "</Details>";
+
+            packingSlip.ProductDetailXML = result;
+
         }
 
         public PackingSlip GetPackingSlip(Guid id)
@@ -59,9 +87,9 @@ namespace ProductionApp.BusinessService.Services
             return _packingSlipRepository.PackingSlipDetailByPackingSlipDetailID(PkgSlipDetailID);
         }
 
-        public object DeletePackingSlipDetail(Guid id)
+        public object DeletePackingSlipDetail(Guid id, string isGroupItem)
         {
-            return _packingSlipRepository.DeletePackingSlipDetail(id);
+            return _packingSlipRepository.DeletePackingSlipDetail(id, isGroupItem);
         }
 
         public object DeletePackingSlip(Guid id)
@@ -79,5 +107,9 @@ namespace ProductionApp.BusinessService.Services
             return _packingSlipRepository.GetRecentPackingSlip();
         }
 
+        public List<SalesOrderDetail> GetPackingSlipDetailGroupEdit(Guid groupID, Guid packingSlipID,Guid saleOrderID)
+        {
+            return _packingSlipRepository.GetPackingSlipDetailGroupEdit(groupID, packingSlipID, saleOrderID);
+        }
     }
 }

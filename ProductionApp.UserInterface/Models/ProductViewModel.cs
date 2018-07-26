@@ -60,6 +60,7 @@ namespace ProductionApp.UserInterface.Models
         public UnitViewModel Unit { get; set; }
         public ProductCategoryViewModel ProductCategory { get; set; }
         public List<SelectListItem> ProductSelectList { get; set; }
+        public decimal OrderDue { get; set; }
     }
 
     public class ProductAdvanceSearchViewModel

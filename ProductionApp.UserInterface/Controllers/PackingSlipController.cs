@@ -138,9 +138,22 @@ namespace ProductionApp.UserInterface.Controllers
                     UpdatedDate = _common.GetCurrentDateTime(),
                 };
                 //Deserialize items
-                object ResultFromJS = JsonConvert.DeserializeObject(packingSlipVM.DetailJSON);
-                string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
-                packingSlipVM.PackingSlipDetailList = JsonConvert.DeserializeObject<List<PackingSlipDetailViewModel>>(ReadableFormat);
+                object ResultFromJS ;//= JsonConvert.DeserializeObject(packingSlipVM.DetailJSON);
+                string ReadableFormat ;//= JsonConvert.SerializeObject(ResultFromJS);
+                //packingSlipVM.PackingSlipDetailList = JsonConvert.DeserializeObject<List<PackingSlipDetailViewModel>>(ReadableFormat);
+
+                if (packingSlipVM.GroupDetailJSON != null)
+                {
+                     ResultFromJS = JsonConvert.DeserializeObject(packingSlipVM.GroupDetailJSON);
+                     ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                    packingSlipVM.PackingSlipDetailList_Group = JsonConvert.DeserializeObject<List<PackingSlipDetailViewModel>>(ReadableFormat);
+                }
+                if (packingSlipVM.ProductDetailJSON != null)
+                {
+                    ResultFromJS = JsonConvert.DeserializeObject(packingSlipVM.ProductDetailJSON);
+                    ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                    packingSlipVM.PackingSlipDetailList_Product = JsonConvert.DeserializeObject<List<PackingSlipDetailViewModel>>(ReadableFormat);
+                }
                 var result = _packingSlipBusiness.InsertUpdatePackingSlip(Mapper.Map<PackingSlipViewModel, PackingSlip>(packingSlipVM));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = "Success" });
 
@@ -150,8 +163,8 @@ namespace ProductionApp.UserInterface.Controllers
             }
             catch (Exception ex)
             {
-                AppConstMessage cm = _appConst.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+              //  AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex.Message });
             }
 
         }
@@ -235,7 +248,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeletePackingSlipDetail
         [AuthSecurityFilter(ProjectObject = "PackingSlip", Mode = "R")]
-        public string DeletePackingSlipDetail(string id)
+        public string DeletePackingSlipDetail(string id,string isGroupItem)
         {
             object result = null;
             try
@@ -244,7 +257,7 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     throw new Exception("ID Missing");
                 }
-                result = _packingSlipBusiness.DeletePackingSlipDetail(Guid.Parse(id));
+                result = _packingSlipBusiness.DeletePackingSlipDetail(Guid.Parse(id),isGroupItem);
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)
@@ -302,6 +315,17 @@ namespace ProductionApp.UserInterface.Controllers
             {
 
                 List<SalesOrderDetailViewModel> salesOrderDetailVM = Mapper.Map<List<SalesOrderDetail>, List<SalesOrderDetailViewModel>>(_salesOrderBusiness.GetSalesOrderProductList(Guid.Parse(id),Guid.Parse(packingSlipID)));
+                foreach (SalesOrderDetailViewModel sodVM in salesOrderDetailVM)
+                {
+                    if (sodVM.GroupID != Guid.Empty && sodVM.GroupID != null)
+                    {
+                        sodVM.GroupIdString = "G_" + sodVM.GroupID.ToString();
+                    }
+                    else
+                    {
+                        sodVM.ProductIdString = "P_" + sodVM.ProductID.ToString();
+                    }
+                } 
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = salesOrderDetailVM, Message = "Success" });
             }
             catch (Exception ex)
@@ -310,6 +334,36 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion GetProductList
+
+        #region GetPackingSlipDetailGroupEdit
+        [AuthSecurityFilter(ProjectObject = "PackingSlip", Mode = "R")]
+        public string GetPackingSlipDetailGroupEdit(string groupID, string packingSlipID, string saleOrderID)
+        {
+            try
+            {
+                List<SalesOrderDetailViewModel> salesOrderDetailVM = Mapper.Map<List<SalesOrderDetail>, List<SalesOrderDetailViewModel>>(_packingSlipBusiness.GetPackingSlipDetailGroupEdit(Guid.Parse(groupID), Guid.Parse(packingSlipID), Guid.Parse(saleOrderID)));
+                foreach (SalesOrderDetailViewModel sodVM in salesOrderDetailVM)
+                {
+                    if (sodVM.GroupID != Guid.Empty && sodVM.GroupID != null)
+                    {
+                        sodVM.GroupIdString = "G_" + sodVM.GroupID.ToString();
+                    }
+                    else
+                    {
+                        sodVM.ProductIdString = "P_" + sodVM.ProductID.ToString();
+                    }
+                }
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = salesOrderDetailVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+
+
+
+        #endregion GetPackingSlipDetailGroupEdit
 
         #region PackingSlipDropdown
         public ActionResult PackingSlipDropdown()
@@ -331,6 +385,28 @@ namespace ProductionApp.UserInterface.Controllers
 
         }
         #endregion PackingSlipDropdown
+
+
+        #region GetProductListForPackingSlipByGroupID
+
+        [AuthSecurityFilter(ProjectObject = "PackingSlip", Mode = "R")]
+        public string GetProductListForPackingSlipByGroupID(string id, string packingSlipID, string groupID)
+        {
+            try
+            {
+                List<SalesOrderDetailViewModel> salesOrderDetailVM = Mapper.Map<List<SalesOrderDetail>, List<SalesOrderDetailViewModel>>(_salesOrderBusiness.GetProductListForPackingSlipByGroupID(Guid.Parse(id), Guid.Parse(packingSlipID), Guid.Parse(groupID)));
+                foreach (SalesOrderDetailViewModel sodVM in salesOrderDetailVM)
+                { 
+                        sodVM.ProductIdString = "C_" + sodVM.ProductID.ToString(); 
+                }
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = salesOrderDetailVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        } 
+        #endregion GetProductListForPackingSlipByGroupID
 
 
         #region ButtonStyling
