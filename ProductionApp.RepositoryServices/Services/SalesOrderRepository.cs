@@ -634,7 +634,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         salesOrder.GroupName = (sdr["GroupName"].ToString() != "" ? sdr["GroupName"].ToString() : salesOrder.GroupName);
                                         salesOrder.Product = new Product();
                                         salesOrder.Product.ProductCategoryCode= (sdr["ProductCategoryCode"].ToString() != "" ? sdr["ProductCategoryCode"].ToString() : salesOrder.Product.ProductCategoryCode);
-                                        salesOrder.Product.WeightInKG = (sdr["WeightInKG"].ToString() != "" ? decimal.Parse(sdr["WeightInKG"].ToString()) : salesOrder.Product.WeightInKG);
+                                        salesOrder.WeightInKG = (sdr["WeightInKG"].ToString() != "" ? decimal.Parse(sdr["WeightInKG"].ToString()) : salesOrder.WeightInKG);
                                         salesOrder.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : salesOrder.CurrentStock);
                                         salesOrder.GroupItemExpectedDeliveryDateFormatted = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()).ToString(settings.DateFormat) : salesOrder.GroupItemExpectedDeliveryDateFormatted);
                                         salesOrder.GroupTaxTypeCode = (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : salesOrder.GroupTaxTypeCode);

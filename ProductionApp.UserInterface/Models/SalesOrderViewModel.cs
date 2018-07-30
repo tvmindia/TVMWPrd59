@@ -111,6 +111,7 @@ namespace ProductionApp.UserInterface.Models
         public string   Name { get; set; }
         public decimal CurrentStock { get; set; }
         public bool IsInvoiceInKG { get; set; }
+        public decimal? WeightInKG { get; set; }
         public DateTime GroupItemExpectedDeliveryDate { get; set; }
         public decimal OrderDue { get; set; }
         [Display(Name = "Expected Delivery Date")]

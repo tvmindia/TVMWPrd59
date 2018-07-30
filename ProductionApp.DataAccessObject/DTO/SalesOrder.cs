@@ -78,6 +78,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal CostPrice { get; set; }
         public string Name { get; set; }
         public bool IsInvoiceInKG { get; set; }
+        public decimal? WeightInKG { get; set; }
         public decimal OrderDue { get; set; }
         public decimal CurrentStock { get; set; }
         public DateTime GroupItemExpectedDeliveryDate { get; set; }
