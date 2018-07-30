@@ -183,14 +183,19 @@ $(document).ready(function () {
                  {
                      "data": "Amount",
                      'render': function (data, type, row) {
-                         if (row.Quantity != "" && row.Quantity != undefined && row.Quantity != null && row.WeightInKG != "" && row.WeightInKG != undefined && row.WeightInKG != null) {
-                             if (row.IsInvoiceInKG)
-                                 return (row.Quantity * row.WeightInKG) * row.CostPrice;
+                         if (row.IsInvoiceInKG)
+                         {
+                             if (row.Quantity != "" && row.Quantity != undefined && row.Quantity != null && row.WeightInKG != "" && row.WeightInKG != undefined && row.WeightInKG != null) 
+                                 return roundoff((row.Quantity * row.WeightInKG) * row.CostPrice);
                              else
-                                 return row.Quantity * row.CostPrice;
-                         }
-                         else
-                             return 0;
+                                 return 0;
+                         }  
+                         else{
+                             if (row.Quantity != "" && row.Quantity != undefined && row.Quantity != null) 
+                                 return roundoff(row.Quantity * row.CostPrice);
+                             else
+                                 return 0;
+                         } 
                      },
                      "defaultContent": "<i>-</i>", "width": "10%"
                  }
