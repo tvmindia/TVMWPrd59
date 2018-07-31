@@ -50,7 +50,11 @@ namespace ProductionApp.BusinessService.Services
         }
 
         public string NumberToWords(double number)
-        { 
+        {
+
+            try
+            {
+
                 string[] numbersArr = new string[] { "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen" };
                 string[] tensArr = new string[] { "Twenty", "Thirty", "Fourty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninty" };
                 string[] suffixesArr = new string[] { "Thousand", "Million", "Billion", "Trillion", "Quadrillion", "Quintillion", "Sextillion", "Septillion", "Octillion", "Nonillion", "Decillion", "Undecillion", "Duodecillion", "Tredecillion", "Quattuordecillion", "Quindecillion", "Sexdecillion", "Septdecillion", "Octodecillion", "Novemdecillion", "Vigintillion" };
@@ -98,23 +102,28 @@ namespace ProductionApp.BusinessService.Services
                     }
                     if ((int)number / 10 > 1)
                     {
-                    if (words != "")
-                        words += " and ";
+                        if (words != "")
+                            words += " and ";
                         words += tensArr[(int)number / 10 - 2];
                         tens = true;
                         number %= 10;
                     }
 
-                    if (number < 20 && number > 0)
+                    if (number < 20 && number >= 1)
                     {
                         if (words != "" && tens == false)
-                        words += " and ";
-                    words += (tens ? "-" + numbersArr[(int)number - 1] : numbersArr[(int)number - 1]);
+                            words += " and ";
+                        words += (tens ? "-" + numbersArr[(int)number - 1] : numbersArr[(int)number - 1]);
                         number -= Math.Floor(number);
                     }
                 }
 
                 return words;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
