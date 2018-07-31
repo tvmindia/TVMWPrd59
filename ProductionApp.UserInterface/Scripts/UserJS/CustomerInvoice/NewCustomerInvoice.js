@@ -36,6 +36,8 @@ var _jsonData = {};
 var _taxDropdownScript = '';
 var _CustomerInvoiceDetail = [];
 var _CustomerInvoiceDetailLink = [];
+var _WarningWeight = 0;
+var _WarningWeightItems = "";
 
 var _customerInvoiceDetailVM;
 
@@ -176,13 +178,32 @@ $(document).ready(function () {
                         'render': function (data, type, row) {
                             if (row.GroupID != EmptyGuid) {
                                 if (row.IsInvoiceInKG)
+                                {
+                                    if (row.Weight == 0)
+                                    {
+                                        _WarningWeight = 1;
+                                        if (_WarningWeightItems == "")
+                                            _WarningWeightItems = row.GroupName;
+                                        else
+                                            _WarningWeightItems = _WarningWeightItems + ", " + row.GroupName;
+                                    }
                                     return row.GroupName + '</br>(<b>Invoice in Kg </b>)'
+                                }
                                 else
                                     return row.GroupName
                             }
                             else {
-                                if (row.IsInvoiceInKG)
+                                if (row.IsInvoiceInKG) {
+                                    if (row.Weight == 0)
+                                    {
+                                        _WarningWeight = 1;
+                                        if (_WarningWeightItems == "")
+                                            _WarningWeightItems = row.GroupName;
+                                        else
+                                            _WarningWeightItems = _WarningWeightItems + ", " + data;
+                                    }
                                     return data + '</br>(<b>Invoice in Kg </b>)'
+                                }
                                 else
                                     return data
                             }
@@ -586,7 +607,12 @@ function BindPackingSlipListDetailTable(packingSlipIDs) {
     debugger;
     TaxtypeDropdown(); //##8
     if (packingSlipIDs != "") {
+        _WarningWeight = 0;
+        _WarningWeightItems = "";
         _dataTables.PackingSlipListDetailTable.clear().rows.add(GetPackingSlipListDetail(packingSlipIDs)).draw(false);
+        debugger;
+        if(_WarningWeight==1)
+            notyAlert('warning', "Weight is missing for the following  Packing Slip Items. (" + _WarningWeightItems + ")");
     }
 }
 function GetPackingSlipListDetail(packingSlipIDs) {
@@ -759,11 +785,30 @@ function AddCustomerInvoiceDetails() {
     debugger;
     var customerInvoiceDetailVM = _dataTables.PackingSlipListDetailTable.rows(".selected").data();
     if (customerInvoiceDetailVM.length > 0) {
-        AddCustomerInvoiceDetailList(customerInvoiceDetailVM)
-        var result = JSON.stringify(_CustomerInvoiceDetail);
-        $("#DetailJSON").val(result);
-        Save();
-        $('#CustomerInvoiceDetailsModal').modal('hide');
+        _WarningWeight = 0;
+        _WarningWeightItems = "";
+
+        for (var r = 0; r < customerInvoiceDetailVM.length; r++) {
+            if (customerInvoiceDetailVM[r].IsInvoiceInKG && customerInvoiceDetailVM[r].Weight==0)
+            {
+                _WarningWeight = 1;
+                if (_WarningWeightItems == "")
+                    _WarningWeightItems = customerInvoiceDetailVM[r].ProductName;
+                else
+                    _WarningWeightItems = _WarningWeightItems + ", " + customerInvoiceDetailVM[r].ProductName;
+            }
+        }
+      
+
+        if (_WarningWeight == 0) {
+            AddCustomerInvoiceDetailList(customerInvoiceDetailVM)
+            var result = JSON.stringify(_CustomerInvoiceDetail);
+            $("#DetailJSON").val(result);
+            Save();
+            $('#CustomerInvoiceDetailsModal').modal('hide');
+        }
+        else
+            notyAlert('warning', "Cannot add selected Items Weight is missing.");
     }
     else {
         notyAlert('warning', "No Rows Selected");
@@ -1445,7 +1490,7 @@ function BindBodyGroupChildDatatable(rowdata) {
              ],
              columnDefs:
                  [{ "targets": [], "visible": false, "searchable": false },
-                 { className: "text-right", "targets": [2, 3, 4, 5] },
+                 { className: "text-right", "targets": [2, 3, 4, 5,6] },
                  { className: "text-left", "targets": [] },
                  { className: "text-center", "targets": [] }],
          });
