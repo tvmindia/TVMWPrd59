@@ -23,18 +23,39 @@ namespace ProductionApp.BusinessService.Services
 
         public List<SalesOrder> GetAllSalesOrder(SalesOrderAdvanceSearch salesOrderAdvanceSearch)
         {
-            return _salesOrderRepository.GetAllSalesOrder(salesOrderAdvanceSearch);
+            try
+            {
+                return _salesOrderRepository.GetAllSalesOrder(salesOrderAdvanceSearch);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<SalesOrder> GetAllSalesOrderDetail(SalesOrderAdvanceSearch salesOrderAdvanceSearch)
         {
-            return _salesOrderRepository.GetAllSalesOrderDetail(salesOrderAdvanceSearch);
+            try
+            {
+                return _salesOrderRepository.GetAllSalesOrderDetail(salesOrderAdvanceSearch);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public object InsertUpdateSalesOrder(SalesOrder salesOrder)
         {
-            DetailsXMl(salesOrder);
-            return _salesOrderRepository.InsertUpdateSalesOrder(salesOrder);
+            try
+            {
+                DetailsXMl(salesOrder);
+                return _salesOrderRepository.InsertUpdateSalesOrder(salesOrder);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void DetailsXMl(SalesOrder salesOrder)
@@ -52,52 +73,121 @@ namespace ProductionApp.BusinessService.Services
 
         public List<SalesOrder> GetAllSalesOrderForSelectList()
         {
-            return _salesOrderRepository.GetAllSalesOrderForSelectList();
+            try
+            {
+                return _salesOrderRepository.GetAllSalesOrderForSelectList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
-        public List<SalesOrderDetail> GetSalesOrderProductList(Guid salesOrderId,Guid packingSlipID)
+        public List<SalesOrderDetail> GetSalesOrderProductList(Guid salesOrderId, Guid packingSlipID)
         {
-            return _salesOrderRepository.GetSalesOrderProductList(salesOrderId, packingSlipID);
+            try
+            {
+                return _salesOrderRepository.GetSalesOrderProductList(salesOrderId, packingSlipID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public SalesOrder GetSalesOrder(Guid id)
         {
-            return _salesOrderRepository.GetSalesOrder(id);
+            try
+            {
+                return _salesOrderRepository.GetSalesOrder(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<SalesOrderDetail> GetSalesOrderDetail(Guid salesOrderId)
         {
-            return _salesOrderRepository.GetSalesOrderDetail(salesOrderId);
+            try
+            {
+                return _salesOrderRepository.GetSalesOrderDetail(salesOrderId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public object DeleteSalesOrderDetail(Guid id)
         {
-            return _salesOrderRepository.DeleteSalesOrderDetail(id);
+            try
+            {
+                return _salesOrderRepository.DeleteSalesOrderDetail(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public object DeleteSalesOrder(Guid id)
         {
-            return _salesOrderRepository.DeleteSalesOrder(id);
+            try
+            {
+                return _salesOrderRepository.DeleteSalesOrder(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public SalesOrder GetCustomerOfSalesOrderForPackingSlip(Guid salesOrderId)
         {
-            return _salesOrderRepository.GetCustomerOfSalesOrderForPackingSlip(salesOrderId);
+            try
+            {
+                return _salesOrderRepository.GetCustomerOfSalesOrderForPackingSlip(salesOrderId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<SalesOrder> GetRecentSalesOrder(string BaseURL)
         {
-            return _salesOrderRepository.GetRecentSalesOrder();
+            try
+            {
+                return _salesOrderRepository.GetRecentSalesOrder();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<SalesOrderDetail> GetSaleOrderDetaiByGroupId(Guid id)
         {
-            return _salesOrderRepository.GetSaleOrderDetaiByGroupId(id);
+            try
+            {
+                return _salesOrderRepository.GetSaleOrderDetaiByGroupId(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<SalesOrderDetail> GetProductListForPackingSlipByGroupID(Guid salesOrderId, Guid packingSlipId, Guid groupId)
         {
-            return _salesOrderRepository.GetProductListForPackingSlipByGroupID(salesOrderId, packingSlipId, groupId);
-
+            try
+            {
+                return _salesOrderRepository.GetProductListForPackingSlipByGroupID(salesOrderId, packingSlipId, groupId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

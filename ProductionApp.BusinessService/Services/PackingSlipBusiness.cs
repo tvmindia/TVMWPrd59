@@ -22,7 +22,14 @@ namespace ProductionApp.BusinessService.Services
 
         public List<PackingSlip> GetAllPackingSlip(PackingSlipAdvanceSearch paySlipAdvanceSearch)
         {
-            return _packingSlipRepository.GetAllPackingSlip(paySlipAdvanceSearch);
+            try
+            {
+                return _packingSlipRepository.GetAllPackingSlip(paySlipAdvanceSearch);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public object InsertUpdatePackingSlip(PackingSlip packingSlip)
@@ -74,42 +81,98 @@ namespace ProductionApp.BusinessService.Services
 
         public PackingSlip GetPackingSlip(Guid id)
         {
-            return _packingSlipRepository.GetPackingSlip(id);
+            try
+            {
+                return _packingSlipRepository.GetPackingSlip(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<PackingSlipDetail> GetPackingSlipDetail(Guid id)
         {
-            return _packingSlipRepository.GetPackingSlipDetail(id);
+            try
+            {
+                return _packingSlipRepository.GetPackingSlipDetail(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<PackingSlip> PackingSlipDetailByPackingSlipDetailID(Guid PkgSlipDetailID)
         {
-            return _packingSlipRepository.PackingSlipDetailByPackingSlipDetailID(PkgSlipDetailID);
+            try
+            {
+                return _packingSlipRepository.PackingSlipDetailByPackingSlipDetailID(PkgSlipDetailID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public object DeletePackingSlipDetail(Guid id, string isGroupItem)
         {
-            return _packingSlipRepository.DeletePackingSlipDetail(id, isGroupItem);
+            try
+            {
+                return _packingSlipRepository.DeletePackingSlipDetail(id, isGroupItem);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public object DeletePackingSlip(Guid id)
         {
-            return _packingSlipRepository.DeletePackingSlip(id);
+            try
+            {
+                return _packingSlipRepository.DeletePackingSlip(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<PackingSlip> GetPackingSlipForSelectList()
         {
-            return _packingSlipRepository.GetPackingSlipForSelectList();
+            try
+            {
+                return _packingSlipRepository.GetPackingSlipForSelectList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<PackingSlip>GetRecentPackingSlip(string BaseURL)
         {
-            return _packingSlipRepository.GetRecentPackingSlip();
+            try
+            {
+                return _packingSlipRepository.GetRecentPackingSlip();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<SalesOrderDetail> GetPackingSlipDetailGroupEdit(Guid groupID, Guid packingSlipID,Guid saleOrderID)
         {
-            return _packingSlipRepository.GetPackingSlipDetailGroupEdit(groupID, packingSlipID, saleOrderID);
+            try
+            {
+                return _packingSlipRepository.GetPackingSlipDetailGroupEdit(groupID, packingSlipID, saleOrderID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

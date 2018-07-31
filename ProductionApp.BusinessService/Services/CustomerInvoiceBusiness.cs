@@ -24,13 +24,27 @@ namespace ProductionApp.BusinessService.Services
 
         public List<CustomerInvoiceDetail> GetPackingSlipListDetail(string packingSlipIDs, string id)
         {
-            return _customerInvoiceRepository.GetPackingSlipListDetail(packingSlipIDs,id);
+            try
+            {
+                return _customerInvoiceRepository.GetPackingSlipListDetail(packingSlipIDs,id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public object InsertUpdateCustomerInvoice(CustomerInvoice customerInvoice)
         {
-            DetailsXMl(customerInvoice);
-            return _customerInvoiceRepository.InsertUpdateCustomerInvoice(customerInvoice);
+            try
+            {
+                DetailsXMl(customerInvoice);
+                return _customerInvoiceRepository.InsertUpdateCustomerInvoice(customerInvoice);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            } 
         }
         public void DetailsXMl(CustomerInvoice customerInvoice)
         {
@@ -47,50 +61,112 @@ namespace ProductionApp.BusinessService.Services
 
         public List<PackingSlip> GetPackingSlipList(Guid customerID)
         {
-            return _customerInvoiceRepository.GetPackingSlipList(customerID);
+            try
+            {
+                return _customerInvoiceRepository.GetPackingSlipList(customerID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public CustomerInvoice GetCustomerInvoice(Guid id)
         {
-            return _customerInvoiceRepository.GetCustomerInvoice(id);
+            try
+            {
+                return _customerInvoiceRepository.GetCustomerInvoice(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<CustomerInvoiceDetail> GetCustomerInvoiceDetail(Guid id)
         {
-            return _customerInvoiceRepository.GetCustomerInvoiceDetail(id);
+            try
+            {
+                return _customerInvoiceRepository.GetCustomerInvoiceDetail(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<CustomerInvoice> GetAllCustomerInvoice(CustomerInvoiceAdvanceSearch customerInvoiceAdvanceSearch)
         {
-            return _customerInvoiceRepository.GetAllCustomerInvoice(customerInvoiceAdvanceSearch);
+            try
+            {
+                return _customerInvoiceRepository.GetAllCustomerInvoice(customerInvoiceAdvanceSearch);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<CustomerInvoiceDetail> GetCustomerInvoiceDetailLinkForEdit(string id)
         {
-            return _customerInvoiceRepository.GetCustomerInvoiceDetailLinkForEdit(id);
+            try
+            {
+                return _customerInvoiceRepository.GetCustomerInvoiceDetailLinkForEdit(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<CustomerInvoiceDetail> GetCustomerInvoiceDetailLinkForEditGroup(string id, string groupID)
         {
-            return _customerInvoiceRepository.GetCustomerInvoiceDetailLinkForEditGroup(id, groupID);
+            try
+            {
+                return _customerInvoiceRepository.GetCustomerInvoiceDetailLinkForEditGroup(id, groupID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public object UpdateCustomerInvoiceDetail(CustomerInvoice customerInvoice)
         {
-            DetailsXMl(customerInvoice);
+            try
+            {
+                DetailsXMl(customerInvoice);
             return _customerInvoiceRepository.UpdateCustomerInvoiceDetail(customerInvoice);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
 
 
         public object DeleteCustomerInvoiceDetail(Guid id,string isGroupItem,Guid invoiceID)
         {
-            return _customerInvoiceRepository.DeleteCustomerInvoiceDetail(id, isGroupItem, invoiceID);
-
+            try
+            {
+                return _customerInvoiceRepository.DeleteCustomerInvoiceDetail(id, isGroupItem, invoiceID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<CustomerInvoice> GetRecentCustomerInvoice(string BaseURL)
         {
-            return _customerInvoiceRepository.GetRecentCustomerInvoice();
+            try
+            {
+                return _customerInvoiceRepository.GetRecentCustomerInvoice();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public object UpdateCustomerInvoiceMailStatus(CustomerInvoice CustomerInvoice)
@@ -151,23 +227,51 @@ namespace ProductionApp.BusinessService.Services
 
         public List<CustomerInvoiceDetail> GetGroupProductListForCustomerInvoiceDetail(string slipNo, Guid groupID)
         {
-            return _customerInvoiceRepository.GetGroupProductListForCustomerInvoiceDetail(slipNo, groupID);
+            try
+            {
+                return _customerInvoiceRepository.GetGroupProductListForCustomerInvoiceDetail(slipNo, groupID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<CustomerInvoiceDetail> GetGroupCustomerInvoiceDetailLink(Guid id, Guid groupID)
         {
-            return _customerInvoiceRepository.GetGroupCustomerInvoiceDetailLink(id, groupID);
-            
+            try
+            {
+                return _customerInvoiceRepository.GetGroupCustomerInvoiceDetailLink(id, groupID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         public decimal GetOutstandingCustomerInvoice()
         {
-            return _customerInvoiceRepository.GetOutstandingCustomerInvoice();
+            try
+            {
+                return _customerInvoiceRepository.GetOutstandingCustomerInvoice();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public object DeleteCustomerInvoice(Guid id)
-        { 
-            return _customerInvoiceRepository.DeleteCustomerInvoice(id);
+        {
+            try
+            {
+                return _customerInvoiceRepository.DeleteCustomerInvoice(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
