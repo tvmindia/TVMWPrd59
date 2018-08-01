@@ -228,10 +228,10 @@ $(document).ready(function () {
                         "data": "Rate", "defaultContent": "<i>-</i>", "width": "13%",
                         'render': function (data, type, row) {
                             if (row.GroupID != EmptyGuid) {
-                                return '<input class="form-control text-right" id="Rate_' + row.GroupID + '"  name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onkeyup="EdittextBoxValue(this,3);"style="width:100%">';
+                                return '<input class="form-control text-right" id="Rate_' + row.GroupID + '"  name="Markup" value="' + data + '" type="text" onfocus="SelectAllValue(this)" onkeypress = "return isNumber(event)"  onkeyup="EdittextBoxValue(this,3);"style="width:100%">';
                             }
                             else {
-                                return '<input class="form-control text-right" id="Rate_' + row.ProductID + '"  name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onkeyup="EdittextBoxValue(this,3);"style="width:100%">';
+                                return '<input class="form-control text-right" id="Rate_' + row.ProductID + '"  name="Markup" value="' + data + '" type="text" onfocus="SelectAllValue(this)" onkeypress = "return isNumber(event)"  onkeyup="EdittextBoxValue(this,3);"style="width:100%">';
                             }
 
                         }
@@ -240,10 +240,10 @@ $(document).ready(function () {
                         "data": "TradeDiscountPerc", "defaultContent": "<i>-</i>", "width": "8%",
                         'render': function (data, type, row) {
                             if (row.GroupID != EmptyGuid) {
-                                return '<input class="form-control text-right" id="DiscPerc_' + row.GroupID + '"  name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onkeyup="EdittextBoxValue(this,6);"style="width:100%">';
+                                return '<input class="form-control text-right" id="DiscPerc_' + row.GroupID + '"  name="Markup" value="' + data + '" type="text" onfocus="SelectAllValue(this)" onkeypress = "return isNumber(event)"  onkeyup="EdittextBoxValue(this,6);"style="width:100%">';
                             }
                             else {
-                                return '<input class="form-control text-right" id="DiscPerc_' + row.ProductID + '"  name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onkeyup="EdittextBoxValue(this,6);"style="width:100%">';
+                                return '<input class="form-control text-right" id="DiscPerc_' + row.ProductID + '"  name="Markup" value="' + data + '" type="text"  onfocus="SelectAllValue(this)" onkeypress = "return isNumber(event)"  onkeyup="EdittextBoxValue(this,6);"style="width:100%">';
                             }
 
                         }
@@ -252,10 +252,10 @@ $(document).ready(function () {
                         "data": "TradeDiscountAmount", "defaultContent": "<i>-</i>", "width": "13%",
                         'render': function (data, type, row) {
                             if (row.GroupID != EmptyGuid) {
-                                return '<input class="form-control text-right" id="TradeDisc_' + row.GroupID + '" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onkeyup="EdittextBoxValue(this,4);" style="width:100%">';
+                                return '<input class="form-control text-right" id="TradeDisc_' + row.GroupID + '" name="Markup" value="' + roundoff(data) + '" type="text"  onfocus="SelectAllValue(this)" onkeypress = "return isNumber(event)"  onkeyup="EdittextBoxValue(this,4);" style="width:100%">';
                             }
                             else {
-                                return '<input class="form-control text-right" id="TradeDisc_' + row.ProductID + '"  name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onkeyup="EdittextBoxValue(this,4);" style="width:100%">';
+                                return '<input class="form-control text-right" id="TradeDisc_' + row.ProductID + '"  name="Markup" value="' + roundoff(data) + '" type="text"  onfocus="SelectAllValue(this)" onkeypress = "return isNumber(event)"  onkeyup="EdittextBoxValue(this,4);" style="width:100%">';
                             }
                         }
                     },

@@ -74,6 +74,7 @@ namespace ProductionApp.UserInterface.Models
         public decimal Quantity { get; set; }
         [Display(Name = "Unit")]
         public string UnitCode { get; set; }
+        [Display(Name = "Selling Price Per Piece")]
         public decimal Rate { get; set; }
         [Display(Name = "Discount Amount")]
         public decimal TradeDiscountAmount { get; set; }

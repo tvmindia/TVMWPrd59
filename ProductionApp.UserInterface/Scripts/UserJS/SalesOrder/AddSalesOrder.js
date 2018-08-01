@@ -377,6 +377,9 @@ function ClearSalesOrderDetailsModalFields() {
     $('#lblOrderDue').text('0');
     $('#lblNetAvailQty').text('0');
     $('#lbl_WeightInKG').text('0');
+    $('#lblSellingPriceInKG').text('0');
+    $('#lblWeightInKG').text('0');
+    $('#lblSellingPricePerPiece').text('0');
 }
 
 function BindProductDetails(ID) {
@@ -392,14 +395,21 @@ function BindProductDetails(ID) {
         $('#lblCurrentStock').text(result.CurrentStock);
         if (result.IsInvoiceInKG) {
             $('#tr_weightinkg').show();
+            $('#divIsInvoiceKg').show();
             $('#lbl_WeightInKG').text(result.WeightInKG);
             $('#lblProductName').text(result.Name + ' (Invoice In KG)');
+            
         }
         else {
             $('#tr_weightinkg').hide();
+            $('#divIsInvoiceKg').hide(); 
             $('#lbl_WeightInKG').text('');
             $('#lblProductName').text(result.Name);
         }
+        $('#lblSellingPriceInKG').text(result.SellingPriceInKG);
+        $('#lblWeightInKG').text(result.WeightInKG); 
+        $('#lblSellingPricePerPiece').text(result.SellingPricePerPiece);
+         
         $('#lblHSN').text(result.HSNNo);
         $('#lblUnit').text(result.UnitCode);
         if (quantity != "")
@@ -445,7 +455,7 @@ function ProductValueCalculation() {
 
     if (rate != "" && qty != "" && product != "") {
         //--------------------Gross Amount-----------------------//
-        GrossAmt = rate * qty * weight;
+        GrossAmt = rate * qty;
         $('#lblSalesOrderDetail_GrossAmount').text(roundoff(GrossAmt));
 
         //--------------------Discount Amount--------------------//
@@ -987,7 +997,7 @@ function GroupValueCalculation() {
         else
             GrossAmt = parseFloat(GrossAmt) + (parseFloat(SalesOrderDetailList[r].Quantity) * parseFloat(SalesOrderDetailList[r].CostPrice));
     }
-    $('#SalesOrderDetail_GroupGrossAmount').val(parseFloat(GrossAmt));
+    $('#SalesOrderDetail_GroupGrossAmount').val(roundoff(parseFloat(GrossAmt)));
     //--------------------Discount Amount--------------------//
     discpercent = $('#SalesOrderDetail_GroupItemDiscountPercent').val();
     if (discpercent > 100)//if greater than 100% set percentage to 0%

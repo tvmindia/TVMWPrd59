@@ -19,13 +19,14 @@
 
 }
 <style>
-.textSize{
-    font-size: 13px!important;
-}
-.tableSize{
-    padding: 0px !important;
-    margin-bottom: 0px !important;
-}
+    .textSize {
+        font-size: 13px !important;
+    }
+
+    .tableSize {
+        padding: 0px !important;
+        margin-bottom: 0px !important;
+    }
 </style>
 <div style="width:100%;">
     <ol class="breadcrumb">
@@ -259,7 +260,7 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    
+
                     <div class="form-group col-md-6">
                         <div class="form-group col-md-12">
                             <div class="col-md-12">
@@ -282,7 +283,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
-                                <div class="form-group col-md-5"style="padding-left: 0px;">
+                                <div class="form-group col-md-5" style="padding-left: 0px;">
                                     <div class="textSize">HSNNo</div>
                                 </div>
                                 <div class="form-group col-md-2">:</div>
@@ -291,7 +292,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
-                                <div class="form-group col-md-5"style="padding-left: 0px;">
+                                <div class="form-group col-md-5" style="padding-left: 0px;">
                                     <div class="textSize">Unit</div>
                                 </div>
                                 <div class="form-group col-md-2">:</div>
@@ -300,7 +301,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
-                                <div class="form-group col-md-5"style="padding-left: 0px;">
+                                <div class="form-group col-md-5" style="padding-left: 0px;">
                                     <div class="textSize">Current Stock</div>
                                 </div>
                                 <div class="form-group col-md-2">:</div>
@@ -309,7 +310,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
-                                <div class="form-group col-md-5"style="padding-left: 0px;">
+                                <div class="form-group col-md-5" style="padding-left: 0px;">
                                     <div class="textSize">Order Due</div>
                                 </div>
                                 <div class="form-group col-md-2">:</div>
@@ -318,12 +319,42 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
-                                <div class="form-group col-md-5"style="padding-left: 0px;">
+                                <div class="form-group col-md-5" style="padding-left: 0px;">
                                     <div class="textSize">Available Quantity</div>
                                 </div>
                                 <div class="form-group col-md-2">:</div>
                                 <div class="form-group col-md-5">
                                     <div style="font-weight:bold" class="textSize" id="lblNetAvailQty">0</div>
+                                </div>
+                            </div>
+                            <div id="divIsInvoiceKg">
+                                <div class="form-group col-md-12">
+                                    <div class="form-group col-md-5" style="padding-left: 0px;">
+                                        <div class="textSize">Selling Price In KG</div>
+                                    </div>
+                                    <div class="form-group col-md-2">:</div>
+                                    <div class="form-group col-md-5">
+                                        <div style="font-weight:bold" class="textSize" id="lblSellingPriceInKG">0</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <div class="form-group col-md-5" style="padding-left: 0px;">
+                                        <div class="textSize">Product Weight</div>
+                                    </div>
+                                    <div class="form-group col-md-2">:</div>
+                                    <div class="form-group col-md-5">
+                                        <div style="font-weight:bold" class="textSize" id="lblWeightInKG">0</div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="form-group col-md-5" style="padding-left: 0px;">
+                                        <div class="textSize">Selling Price Per Piece</div>
+                                    </div>
+                                    <div class="form-group col-md-2">:</div>
+                                    <div class="form-group col-md-5">
+                                        <div style="font-weight:bold" class="textSize" id="lblSellingPricePerPiece">0</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -376,7 +407,7 @@
                                         @Html.LabelFor(model => model.SalesOrderDetail.DiscountPercent, htmlAttributes: new { @class = "control-label tableSize" })
                                     </td>
                                     <td style="text-align: right">
-                                       @Html.EditorFor(model => model.SalesOrderDetail.DiscountPercent, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)", onfocus = "SelectAllValue(this);" } })
+                                        @Html.EditorFor(model => model.SalesOrderDetail.DiscountPercent, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)", onfocus = "SelectAllValue(this);" } })
                                     </td>
                                 </tr>
                                 <tr style="max-height:15%">
@@ -453,7 +484,7 @@
                             @Html.LabelFor(model => model.ProductCategoryCode, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
                         <div class="col-md-12">
-                            @Html.DropDownListFor(model => model.ProductCategoryCode, Model.ProductCategory.ProductCategorySelectList, "--- Select Product Category ---", new { @class = "form-control", @style = "width:100%",@onChange="ProductList()" })
+                            @Html.DropDownListFor(model => model.ProductCategoryCode, Model.ProductCategory.ProductCategorySelectList, "--- Select Product Category ---", new { @class = "form-control", @style = "width:100%", @onChange = "ProductList()" })
                         </div>
                     </div>
                     <div class="form-group col-md-8">
@@ -469,7 +500,7 @@
                             @Html.LabelFor(model => model.SalesOrderDetail.NumOfSet, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
                         <div class="col-md-12">
-                           @Html.EditorFor(model => model.SalesOrderDetail.NumOfSet, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)", onchange = "QuantityChanged()" } })
+                            @Html.EditorFor(model => model.SalesOrderDetail.NumOfSet, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)", onchange = "QuantityChanged()" } })
                             @Html.HiddenFor(model => model.SalesOrderDetail.GroupID, htmlAttributes: new { @class = "", @value = Guid.Empty })
                         </div>
                     </div>
@@ -495,7 +526,7 @@
                             @Html.LabelFor(model => model.SalesOrderDetail.GroupGrossAmount, htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.SalesOrderDetail.GroupGrossAmount, new { htmlAttributes = new { @class = "form-control HeaderBox ", @disabled = "disabled" } })
+                            @Html.EditorFor(model => model.SalesOrderDetail.GroupGrossAmount, new { htmlAttributes = new { @class = "form-control text-right HeaderBox ", @disabled = "disabled" } })
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -514,14 +545,14 @@
                             @Html.EditorFor(model => model.SalesOrderDetail.GroupItemTradeDiscountAmount, new { htmlAttributes = new { @class = "form-control text-right GroupCalculation", onkeypress = "return isNumber(event)", onkeyup = "ClearGroupDiscountPercentage();", onfocus = "SelectAllValue(this);" } })
                         </div>
                     </div>
-                    
+
                     <div class="col-md-12">&nbsp;</div>
                     <div class="col-md-12 headSeperator"></div>
                     <div class="col-md-12">
                         <table id="tblGroupProductDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" style="width:100%">
                             <thead>
                                 <tr class="text-center TableHead" style="width:100%">
-                                   
+
                                     <th></th>
                                     <th>Product</th>
                                     <th>Unit</th>
