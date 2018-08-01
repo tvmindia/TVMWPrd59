@@ -907,7 +907,7 @@ namespace ProductionApp.UserInterface.Controllers
         //GetSalesAnalysisReport
         #region GetSalesAnalysisReport
 
-        [AuthSecurityFilter(ProjectObject = "DayBook", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SalesAnalysisReport", Mode = "R")]
         public string GetSalesAnalysisReport(string IsInvoicedOnly, string FromDate, string ToDate, string DateFilter)
         {
             try
@@ -963,7 +963,7 @@ namespace ProductionApp.UserInterface.Controllers
         //MovementAnalysisReport
         #region MovementAnalysisReport
 
-        [AuthSecurityFilter(ProjectObject = "DayBook", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "MovementAnalysisReport", Mode = "R")]
         public string GetMovementAnalysisReport(string SalesPerson, string FromDate, string ToDate, string MonthFilter,string ProductID)
         {
             try
