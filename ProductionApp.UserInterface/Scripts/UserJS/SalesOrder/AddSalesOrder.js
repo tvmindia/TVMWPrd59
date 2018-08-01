@@ -413,7 +413,7 @@ function BindProductDetails(ID) {
         $('#lblHSN').text(result.HSNNo);
         $('#lblUnit').text(result.UnitCode);
         if (quantity != "")
-            orderDue = parseFloat(orderDue) - parseFloat(quantity);
+            orderDue = parseFloat(orderDue);
         $('#lblOrderDue').text(orderDue);
         var AvailQty = parseFloat(result.CurrentStock) - parseFloat(orderDue);
         $('#lblNetAvailQty').text(AvailQty);
@@ -422,6 +422,7 @@ function BindProductDetails(ID) {
         ClearSalesOrderDetailsModalFields();
     }
 }
+
 function GetProduct(ID) {
     try {
         var data = { "ID": ID };
