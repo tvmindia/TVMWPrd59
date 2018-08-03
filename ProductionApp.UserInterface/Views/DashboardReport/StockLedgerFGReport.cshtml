@@ -147,13 +147,15 @@
                         @{
                             List<SelectListItem> transactionTypeList = new List<SelectListItem>();
                             transactionTypeList.Add(new SelectListItem
-                            { Text = "Packing & Dispatch Entry", Value = "Packing & Dispatch Entry" });
-                            transactionTypeList.Add(new SelectListItem
-                            //{ Text = "Sales Return", Value = "Sales Return" });
+                            { Text = "Packing & Dispatch Entry", Value = "PSLP" });
                             //transactionTypeList.Add(new SelectListItem
-                            { Text = "Assembly Entry", Value = "Assembly Entry" });
+                            //{ Text = "Sales Return", Value = "Sales Return" });
                             transactionTypeList.Add(new SelectListItem
-                            { Text = "Stock Adjustment", Value = "Stock adjustment" });
+                            { Text = "Production Tracking", Value = "PTRK" });
+                            transactionTypeList.Add(new SelectListItem
+                            { Text = "Assembly Entry", Value = "ASM" });
+                            transactionTypeList.Add(new SelectListItem
+                            { Text = "Stock Adjustment", Value = "FGADJ" });
                             transactionTypeList.Add(new SelectListItem
                             { Text = "All IN", Value = "All IN" });
                             transactionTypeList.Add(new SelectListItem

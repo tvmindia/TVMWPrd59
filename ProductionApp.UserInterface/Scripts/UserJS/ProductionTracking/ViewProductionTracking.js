@@ -22,10 +22,10 @@ $(document).ready(function () {
         BindPendingProductionTrackingDetailTable();
         BindPendingProductionTrackingTable();
         debugger;
+        var _dateList = GetAllAvailableProductionTrackingEntryDate()
         if (_dateList === null) {
             _dateList = [$('#PostDate').val()]
         }
-        var _dateList = GetAllAvailableProductionTrackingEntryDate()
         $('#PostDate').datepicker({
             startDate: _dateList[0],
             endDate: _dateList[_dateList.length - 1],
@@ -34,7 +34,7 @@ $(document).ready(function () {
             autoclose: true,
             todayBtn: true,
             clearBtn: true,
-            //enabledDates: _dateList,
+            //datesDisabled: _dateList,
             //beforeShowDay:
             //  function (date) {
             //      return {"enabled": FetchAvailableDates(date)};
