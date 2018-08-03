@@ -207,9 +207,13 @@ function BindOrReloadSalesOrderDetailTable(action) {
                     { "data": "OrderNo", "defaultContent": "<i>-</i>", "width": "8%" },
                     { "data": "OrderDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
                     { "data": "SalesOrderDetail.Product.Name", render: function (data, type, row) {
+
                         row.SalesOrderDetail.Product.HSNNo = row.SalesOrderDetail.Product.HSNNo == null ? "Nill" : row.SalesOrderDetail.Product.HSNNo
-                        return data + '</br><b>HSNNo: </b>' + row.SalesOrderDetail.Product.HSNNo
-                        }
+                        if (row.SalesOrderDetail.GroupName == null || row.SalesOrderDetail.GroupName == "")
+                            return data + '</br><b>HSNNo: </b>' + row.SalesOrderDetail.Product.HSNNo
+                        else
+                            return '<b>' + row.SalesOrderDetail.GroupName + '</b></br>' + data + '</br><b>HSNNo: </b>' + row.SalesOrderDetail.Product.HSNNo
+                    }
                         , "defaultContent": "<i>-</i>", "width": "10%"
                     },
                     { "data": "SalesOrderDetail.Quantity", "defaultContent": "<i>-</i>", "width": "7%" },

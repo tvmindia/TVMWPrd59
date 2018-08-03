@@ -136,6 +136,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         salesOrder.CustomerName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : salesOrder.CustomerName);
                                         salesOrder.SalesOrderDetail = new SalesOrderDetail();
                                         salesOrder.SalesOrderDetail.ID = (sdr["DetailID"].ToString() != "" ? Guid.Parse(sdr["DetailID"].ToString()) : salesOrder.SalesOrderDetail.ID);
+                                        salesOrder.SalesOrderDetail.GroupName = (sdr["GroupName"].ToString() != "" ? sdr["GroupName"].ToString() : salesOrder.SalesOrderDetail.GroupName);
                                         salesOrder.SalesOrderDetail.Quantity = (sdr["Quantity"].ToString() != "" ? decimal.Parse(sdr["Quantity"].ToString()) : salesOrder.SalesOrderDetail.Quantity);
                                         salesOrder.SalesOrderDetail.ExpectedDeliveryDate = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()) : salesOrder.SalesOrderDetail.ExpectedDeliveryDate);
                                         salesOrder.SalesOrderDetail.ExpectedDeliveryDateFormatted = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()).ToString(settings.DateFormat) : salesOrder.SalesOrderDetail.ExpectedDeliveryDateFormatted);
