@@ -198,7 +198,7 @@ $(document).ready(function () {
                                     {
                                         _WarningWeight = 1;
                                         if (_WarningWeightItems == "")
-                                            _WarningWeightItems = row.GroupName;
+                                            _WarningWeightItems = data;
                                         else
                                             _WarningWeightItems = _WarningWeightItems + ", " + data;
                                     }
