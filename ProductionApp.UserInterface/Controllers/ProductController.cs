@@ -4,6 +4,7 @@ using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
 using ProductionApp.UserInterface.SecurityFilter;
+using SAMTool.DataAccessObject.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace ProductionApp.UserInterface.Controllers
     public class ProductController : Controller
     {
         AppConst _appConst = new AppConst();
-        private Common _common = new Common();
+        private DataAccessObject.DTO.Common _common = new DataAccessObject.DTO.Common();
         private IProductBusiness _productBusiness;
         private IUnitBusiness _unitBusiness;
         private IProductCategoryBusiness _productCategoryBusiness;
@@ -158,6 +159,15 @@ namespace ProductionApp.UserInterface.Controllers
             productVM.ProductCategory.ProductCategorySelectList = _productCategoryBusiness.GetProductCategoryForSelectList();
             productVM.Unit = new UnitViewModel();
             productVM.Unit.UnitSelectList = _unitBusiness.GetUnitForSelectList();
+
+            Permission permission = Session["UserRights"] as Permission;
+            string p = permission.SubPermissionList.Where(li => li.Name == "OpeningAccess").First().AccessCode;
+            @ViewBag.OpeningAccess = false;
+            if (p.Contains("R") || p.Contains("W"))
+            {
+                @ViewBag.OpeningAccess = true;
+            }
+
             return PartialView("_AddProductPartial", productVM);
         }
         #endregion MasterPartial

@@ -45,19 +45,37 @@
             </div>
         </div>
 
-        <div class="form-group col-md-12">
-            <div class="col-md-12">
+        @if (@ViewBag.OpeningAccess == true)
+        {
+            <div class="form-group col-md-12">
                 <div class="col-md-12">
-                    @Html.LabelFor(model => model.OpeningQty, htmlAttributes: new { @class = "control-label" })
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.OpeningQty, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.OpeningQty, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumber(event)" } })
+                        @Html.ValidationMessageFor(model => model.OpeningQty, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
+        }
+        else
+        {
             <div class="col-md-12">
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.OpeningQty, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumber(event)" } })
-                    @Html.ValidationMessageFor(model => model.OpeningQty, "", new { @class = "text-danger" })
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.OpeningQty, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.OpeningQty, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumber(event)", @disabled = "disabled" } })
+                    </div>
                 </div>
             </div>
-        </div>
+        }
 
         <div class="form-group col-md-12">
             <div class="col-md-12">
@@ -116,6 +134,12 @@
 <script>
     $(document).ready(function () {
         $.validator.unobtrusive.parse("#FormSubComponent");
+        $('#btnSaveMaster').click(function () {
+            $('#OpeningQty').prop('disabled', false);
+            $('#OpeningQty').val(parseFloat($('#OpeningQty').val()));
+            //$("#FormSubComponent").submit();
+            return true;
+        });
         $('#UnitCode').select2({
             dropdownParent: $("#FormSubComponent")
         });
