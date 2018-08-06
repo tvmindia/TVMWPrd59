@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    @*<div class="row">
+    <div class="row">
         <div class="form-group col-md-12" style="padding-top:5px;">
             <div class="col-md-12">
                 <p id="filter" style="float:right;font-size:small"><i class="fa fa-filter advanceFilterLink" aria-hidden="true"></i>&nbsp;<a href="#demo" class="accordion" data-toggle="collapse" aria-expanded="false" aria-controls="demo">Advanced Filter</a></p>
@@ -129,7 +129,7 @@
                 </div>                                         
                        
         </div>
-    </div>*@
+    </div>
     <div>
         <br />
         &nbsp;
@@ -140,12 +140,13 @@
                 <tr class="text-center TableHead">
                    @* <th>ID</th>*@
                     <th>Item<br /> &nbsp;</th>
-                    <th>Closing Stock<br />(A)</th>
-                    <th>Sale Orders Due<br />(B)</th>
-                    <th>Net Available<br />(C=A-B)</th>
+                    <th>Current Stock<br />(A)</th>
+                    @*<th>Sale Orders Due<br />(B)</th>*@
+                    <th>PO Due Qty<br />(B)</th>
+                    <th>Net Available<br />(C=A+B)</th>
                     <th>Reorder Level<br />(D)</th>
-                    <th>Shortfall<br />(E=D-C)</th>   
-                    <th>Order To be Placed <br />(F=Same as E)</th>        @*Order To be Place F=Same as E*@        
+                    <th>Shortfall/Order To be Placed<br />(E=C-D)</th>   
+                    <!-- <th>Order To be Placed <br />(F=Same as E)</th>-->        @*Order To be Place F=Same as E*@        
                 </tr>
             </thead>
         </table>

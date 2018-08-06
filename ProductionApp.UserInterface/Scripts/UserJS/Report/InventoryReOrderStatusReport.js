@@ -82,7 +82,7 @@ function
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [0,1, 2, 3, 4, 5, 6]
+                                     columns: [0,1, 2, 3, 4, 5]
                                  }
                 }],
 
@@ -107,13 +107,13 @@ function
                     { "data": "NetAvailableQty", "defaultContent": "<i>-</i>" },
                     { "data": "ReorderQty", "defaultContent": "<i>-</i>" },
                     { "data": "ShortFall", "defaultContent": "<i>-</i>" },
-                    { "data": "ShortFall", "defaultContent": "<i>-</i>"}
+                    //{ "data": "ShortFall", "defaultContent": "<i>-</i>"}
                    
 
                 ],
                 columnDefs: [//{ "targets": [0], "visible": false, "searchable": false },
                     { className: "text-left", "targets": [0] },
-                    { className: "text-center", "targets": [1,2,3,4,5,6] }
+                    { className: "text-center", "targets": [1,2,3,4,5] }
 
                 ],
 
