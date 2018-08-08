@@ -136,6 +136,8 @@ namespace ProductionApp.UserInterface.Models
 
         [Display(Name = "Customer")]
         public Guid CustomerID { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
         public CustomerViewModel Customer { get; set; }
         public ServiceItemsViewModel ServiceItems { get; set; }
 

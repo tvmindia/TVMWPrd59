@@ -113,6 +113,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public Guid CustomerID { get; set; }
+        public string InvoiceType { get; set; }
     }
 
     public class CustomerInvoiceMailPreview

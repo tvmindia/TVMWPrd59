@@ -350,8 +350,8 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = customerInvoiceAdvanceSearch.ToDate;
                         if (customerInvoiceAdvanceSearch.CustomerID != Guid.Empty)
                             cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = customerInvoiceAdvanceSearch.CustomerID;
-                        //if (customerInvoiceAdvanceSearch.EmployeeID != Guid.Empty)
-                        //    cmd.Parameters.Add("@EmployeeID", SqlDbType.UniqueIdentifier).Value = salesOrderAdvanceSearch.EmployeeID;
+                        if(customerInvoiceAdvanceSearch.InvoiceType != "")
+                            cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar,2).Value = customerInvoiceAdvanceSearch.InvoiceType;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -364,6 +364,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     {
                                         customerInvoice.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : customerInvoice.ID);
                                         customerInvoice.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : customerInvoice.InvoiceNo);
+                                        customerInvoice.InvoiceType = (sdr["InvoiceType"].ToString() != "" ? sdr["InvoiceType"].ToString() : customerInvoice.InvoiceType);
                                         customerInvoice.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString(settings.DateFormat) : customerInvoice.InvoiceDateFormatted);
                                         customerInvoice.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.DateFormat) : customerInvoice.PaymentDueDateFormatted);
                                         customerInvoice.Customer = new Customer();
