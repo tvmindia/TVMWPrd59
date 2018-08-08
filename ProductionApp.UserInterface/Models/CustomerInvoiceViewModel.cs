@@ -12,6 +12,8 @@ namespace ProductionApp.UserInterface.Models
         public Guid ID { get; set; }
         [Display(Name = "Invoice No")]
         public string InvoiceNo { get; set; }
+        [Display(Name = "Invoice Type")]
+        public string InvoiceType { get; set; }
         [Required(ErrorMessage = "Customer is missing")]
         [Display(Name = "Customer")]
         public Guid CustomerID  { get; set; }
@@ -31,6 +33,7 @@ namespace ProductionApp.UserInterface.Models
         //additional properties
         public bool IsUpdate { get; set; }
         public Guid hdnFileID { get; set; }
+        public bool hdnIsRegular { get; set; }
         public int TotalCount { get; set; }
         public string DetailJSON { get; set; }
         public string Status { get; set; }
@@ -78,7 +81,7 @@ namespace ProductionApp.UserInterface.Models
         public string BankAccDetail { get; set; }
         public string InvoiceDeclaration { get; set; }
         public string InvoiceAmountWords { get; set; }
-
+        public ServiceItemsViewModel ServiceItems { get; set; }
     }
     public class CustomerInvoiceDetailViewModel
     {
@@ -108,6 +111,8 @@ namespace ProductionApp.UserInterface.Models
         public decimal QuantityCheck { get; set; }
         public decimal WeightCheck { get; set; }
         public ProductViewModel Product { get; set; }
+        public Guid ServiceItemID { get; set; }
+        public string ServiceName { get; set; }
     }
 
     public class CustomerInvoiceDetailLinkViewModel
@@ -132,6 +137,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Customer")]
         public Guid CustomerID { get; set; }
         public CustomerViewModel Customer { get; set; }
+        public ServiceItemsViewModel ServiceItems { get; set; }
 
     }
     public class CustomerInvoiceMailPreviewViewModel

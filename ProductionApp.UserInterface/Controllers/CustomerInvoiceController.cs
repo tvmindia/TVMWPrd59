@@ -20,17 +20,19 @@ namespace ProductionApp.UserInterface.Controllers
         private IPackingSlipBusiness _packingSlipBusiness;
         private ITaxTypeBusiness _taxTypeBusiness;
         private IPaymentTermBusiness _paymentTermBusiness;
+        private IServiceItemsBusiness _serviceItemsBusiness;
 
         Common _common = new Common();
         AppConst _appConst = new AppConst();
 
-        public CustomerInvoiceController(ICustomerInvoiceBusiness customerInvoiceBusiness, ICustomerBusiness customerBusiness, IPackingSlipBusiness packingSlipBusiness, ITaxTypeBusiness taxTypeBusiness, IPaymentTermBusiness paymentTermBusiness)
+        public CustomerInvoiceController(ICustomerInvoiceBusiness customerInvoiceBusiness, ICustomerBusiness customerBusiness, IPackingSlipBusiness packingSlipBusiness, ITaxTypeBusiness taxTypeBusiness, IPaymentTermBusiness paymentTermBusiness, IServiceItemsBusiness serviceItemsBusiness)
         {
             _customerInvoiceBusiness = customerInvoiceBusiness;
             _customerBusiness = customerBusiness;
             _packingSlipBusiness = packingSlipBusiness;
             _taxTypeBusiness = taxTypeBusiness;
             _paymentTermBusiness = paymentTermBusiness;
+            _serviceItemsBusiness = serviceItemsBusiness;
         }
         // GET: CustomerInvoice
         [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
@@ -53,6 +55,9 @@ namespace ProductionApp.UserInterface.Controllers
                     });
                 }
             customerInvoiceAdvanceSearchVM.Customer = customerVM;
+
+  
+
             return View(customerInvoiceAdvanceSearchVM);
         }
         [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
@@ -79,6 +84,38 @@ namespace ProductionApp.UserInterface.Controllers
                     });
                 }
             customerInvoiceVM.Customer = customerVM;
+
+            ServiceItemsViewModel serviceItemsVM = new ServiceItemsViewModel();
+            serviceItemsVM.SelectList = new List<SelectListItem>();
+            List<ServiceItemsViewModel> serviceItemsList = Mapper.Map<List<ServiceItems>, List<ServiceItemsViewModel>>(_serviceItemsBusiness.GetServiceItemsForSelectList());
+            if (serviceItemsList != null)
+                foreach (ServiceItemsViewModel Items in serviceItemsList)
+                {
+                    serviceItemsVM.SelectList.Add(new SelectListItem
+                    {
+                        Text = Items.ServiceName,
+                        Value = Items.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            customerInvoiceVM.ServiceItems = serviceItemsVM;
+
+            customerInvoiceVM.ServiceItems.TaxType = new TaxTypeViewModel();
+            customerInvoiceVM.ServiceItems.TaxType.SelectList = new List<SelectListItem>();
+            List<TaxTypeViewModel> taxTypeList = Mapper.Map<List<TaxType>, List<TaxTypeViewModel>>(_taxTypeBusiness.GetTaxTypeForSelectList());
+            if (taxTypeList != null)
+                foreach (TaxTypeViewModel taxType in taxTypeList)
+                {
+                    customerInvoiceVM.ServiceItems.TaxType.SelectList.Add(new SelectListItem
+                    {
+                        Text = taxType.Description,
+                        Value = taxType.Code,
+                        Selected = false
+                    });
+                }
+            customerInvoiceVM.ServiceItems.Quantity = 1;
+
+
             return View(customerInvoiceVM);
         }
 
@@ -445,7 +482,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion EmailSent
 
 
-        //grouping
+        //Grouping
         #region GetGroupProductListForCustomerInvoiceDetail
 
         [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
@@ -466,7 +503,6 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetGroupProductListForCustomerInvoiceDetail
 
-        // 
         #region GetGroupCustomerInvoiceDetailLink
 
         [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
@@ -486,6 +522,68 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion GetGroupCustomerInvoiceDetailLink
+
+        //Service Invoice
+        #region GetServiceItem
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
+        public string GetServiceItem(string ID)
+        {
+            try
+            {
+                ServiceItemsViewModel serviceItemsVM = Mapper.Map<ServiceItems, ServiceItemsViewModel>(_serviceItemsBusiness.GetServiceItem(Guid.Parse(ID)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = serviceItemsVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetServiceItem
+
+        #region GetCustomerServiceInvoiceEdit
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
+        public string GetCustomerServiceInvoiceEdit(string id)
+        {
+            try
+            {
+                CustomerInvoiceDetailViewModel customerInvoiceDetailVM = new CustomerInvoiceDetailViewModel();
+                customerInvoiceDetailVM = Mapper.Map<CustomerInvoiceDetail, CustomerInvoiceDetailViewModel>(_customerInvoiceBusiness.GetCustomerServiceInvoiceEdit(id));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerInvoiceDetailVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+
+        #endregion GetCustomerInvoiceDetailLinkForEdit
+
+
+        #region UpdateCustomerInvoiceDetailService
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
+        public string UpdateCustomerInvoiceDetailService(CustomerInvoiceViewModel customerInvoiceVM)
+        {
+            try
+            {
+                object result = null;
+                AppUA appUA = Session["AppUA"] as AppUA;
+                customerInvoiceVM.Common = new CommonViewModel
+                {
+                    UpdatedBy = appUA.UserName,
+                    UpdatedDate = _common.GetCurrentDateTime(),
+                };
+                result = _customerInvoiceBusiness.UpdateCustomerInvoiceDetailService(Mapper.Map<CustomerInvoiceViewModel, CustomerInvoice>(customerInvoiceVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+
+
+        #endregion UpdateCustomerInvoiceDetailService
 
         #region ButtonStyling
         [HttpGet]

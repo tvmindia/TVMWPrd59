@@ -908,6 +908,7 @@
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\SalesInvoiceViewModel.cs" />
     <Compile Include="Models\SalesOrderViewModel.cs" />
+    <Compile Include="Models\ServiceItemsViewModel.cs" />
     <Compile Include="Models\StageViewModel.cs" />
     <Compile Include="Models\SubComponentViewModel.cs" />
     <Compile Include="Models\SupplierInvoiceViewModel.cs" />

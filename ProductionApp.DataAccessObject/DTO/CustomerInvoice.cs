@@ -10,6 +10,7 @@ namespace ProductionApp.DataAccessObject.DTO
     {
         public Guid ID { get; set; }
         public string InvoiceNo { get; set; }
+        public string InvoiceType { get; set; }
         public Guid CustomerID { get; set; }
         public Guid? ReferenceCustomer { get; set; }
         public string PaymentTermCode { get; set; }
@@ -22,6 +23,7 @@ namespace ProductionApp.DataAccessObject.DTO
         //additional properties
         public bool IsUpdate { get; set; }
         public Guid hdnFileID { get; set; }
+        public bool hdnIsRegular { get; set; }
         public int TotalCount { get; set; }
         public string DetailJSON { get; set; }
         public string DetailXML { get; set; }
@@ -57,7 +59,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public string BankAccDetail { get; set; }
         public string InvoiceDeclaration { get; set; }
         public string InvoiceAmountWords { get; set; }
-        
+        public ServiceItems ServiceItems { get; set; }
+        public TaxType TaxType { get; set; }
     }
     public class CustomerInvoiceDetail
     {
@@ -88,7 +91,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal WeightCheck { get; set; }
 
         public Product Product { get; set; }
-
+        public Guid ServiceItemID { get; set; }
+        public string ServiceName { get; set; }
 
     }
 
