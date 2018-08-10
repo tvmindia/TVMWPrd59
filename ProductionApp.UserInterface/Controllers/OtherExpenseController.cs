@@ -169,6 +169,41 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion DeleteOtherExpense
 
+        #region GetExpenseVoucherPreview
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
+        public ActionResult GetExpenseVoucherPreview(string ID)
+        {
+            OtherExpenseViewModel otherExpenseVM = null;
+            try
+            {
+                otherExpenseVM = new OtherExpenseViewModel();
+
+               
+                if (string.IsNullOrEmpty(ID))
+                {
+                    throw new Exception("ID is missing");
+                }
+                otherExpenseVM = Mapper.Map<OtherExpense, OtherExpenseViewModel>(_otherExpenseBusiness.GetOtherExpense(Guid.Parse(ID)));
+                AppUA appUA = Session["AppUA"] as AppUA;
+                otherExpenseVM.Common = new CommonViewModel
+                {
+                    CreatedBy = appUA.UserName,
+                    CreatedDate = _common.GetCurrentDateTime()
+                };
+                ViewBag.path = "http://" + HttpContext.Request.Url.Authority + otherExpenseVM.LogoURL;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+            return PartialView("_OtherExpenseVoucherPreview", otherExpenseVM);
+        }
+        #endregion GetMailPreview
+
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "")]
@@ -221,6 +256,11 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.SendForApprovalBtn.Text = "Send";
                     toolboxVM.SendForApprovalBtn.Title = "Send For Approval";
                     toolboxVM.SendForApprovalBtn.Event = "ShowSendForApproval('OE');";
+
+                    toolboxVM.VoucherBtn.Visible = true;
+                    toolboxVM.VoucherBtn.Text = "Voucher";
+                    toolboxVM.VoucherBtn.Title = "Voucher Generation";
+                    toolboxVM.VoucherBtn.Event = "VoucherGeneration();";
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";
@@ -285,6 +325,11 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.resetbtn.Text = "Reset";
                     toolboxVM.resetbtn.Title = "Reset";
                     toolboxVM.resetbtn.Event = "Reset();";
+
+                    toolboxVM.VoucherBtn.Visible = true;
+                    toolboxVM.VoucherBtn.Text = "Voucher";
+                    toolboxVM.VoucherBtn.Title = "Voucher Generation";
+                    toolboxVM.VoucherBtn.Event = "VoucherGeneration();";
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";

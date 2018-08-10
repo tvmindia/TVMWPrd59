@@ -33,6 +33,7 @@ namespace ProductionApp.UserInterface.Models
         public ToolBoxStructure EmailBtn;
         public ToolBoxStructure AboutBtn;
         public ToolBoxStructure PostBtn;
+        public ToolBoxStructure VoucherBtn;
 
         public ToolboxViewModel()
         {
@@ -61,6 +62,7 @@ namespace ProductionApp.UserInterface.Models
             EmailBtn.SecurityObject = "ButtonEmail";
             AboutBtn.SecurityObject = "ButtonAbout";
             PostBtn.SecurityObject = "ButtonPost";
+            VoucherBtn.SecurityObject = "ButtonVoucher";
 
             backbtn.HasAccess = true;
             addbtn.HasAccess = true;
@@ -88,6 +90,7 @@ namespace ProductionApp.UserInterface.Models
             EmailBtn.HasAccess = true;
             AboutBtn.HasAccess = true;
             PostBtn.HasAccess = true;
+            VoucherBtn.HasAccess = true;
 
         }
 

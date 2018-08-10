@@ -44,6 +44,8 @@ $(document).ready(function () {
             $('#lblOtherExpenseEntryNo').text('Entry No. # : New');
         }
 
+        $('#btnSendDownload').hide();
+
         _dataTable.RefSearchTable = $('#RefSearchTable').DataTable({
             dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
             ordering: false,
@@ -483,4 +485,43 @@ function AccountCodeOnChange() {
 function Reset()
 {
     BindOtherExpense();
+}
+
+function VoucherGeneration()
+{
+    var expenseID = $("#ID").val();
+    PreviewExpenseVoucher(expenseID);
+    $("#VoucherPreviewModel").modal('show');
+}
+
+function PreviewExpenseVoucher(expenseID)
+{
+    var data = { "ID": expenseID };
+    var jsonData = {};
+    jsonData = GetDataFromServer("OtherExpense/GetExpenseVoucherPreview/", data);
+    if (jsonData == "Nochange") {
+        return; 0
+    }
+    $("#vouchermodelcontent").empty();
+    $("#vouchermodelcontent").html(jsonData);
+   // $("#mailBodyText").val(jsonData);
+}
+
+//To trigger PDF download button
+function DownloadPDF() {
+    debugger;
+    GetHtmlData();
+    $('#btnSendDownload').trigger('click');
+}
+
+//To download file in PDF
+function GetHtmlData() {
+    debugger;
+    var bodyContent = $('#vouchermodelcontent').html();
+    var headerContent = $('#hdnHeadContent').html();
+    $('#hdnContent').val(bodyContent);
+    $('#hdnHeadContent').val(headerContent);
+    //var customerName = $("#CustomerID option:selected").text();
+    //$('#hdnCustomerName').val(customerName);
+
 }

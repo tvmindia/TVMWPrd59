@@ -211,6 +211,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     otherExpense.RequiredApprovalLimit = (sdr["RequiredApprovalLimit"].ToString() != "" ? Decimal.Parse(sdr["RequiredApprovalLimit"].ToString()) : otherExpense.RequiredApprovalLimit);
                                     otherExpense.LatestApprovalStatus = (sdr["LatestApprovalStatus"].ToString() != "" ? int.Parse(sdr["LatestApprovalStatus"].ToString()) : otherExpense.LatestApprovalStatus);
                                     otherExpense.LatestApprovalID = (sdr["LatestApprovalID"].ToString() != "" ? Guid.Parse(sdr["LatestApprovalID"].ToString()) : otherExpense.LatestApprovalID);
+                                    otherExpense.LogoURL = (sdr["Logo"].ToString() != "" ? sdr["Logo"].ToString() : otherExpense.LogoURL);
                                 }
                             }
                         }

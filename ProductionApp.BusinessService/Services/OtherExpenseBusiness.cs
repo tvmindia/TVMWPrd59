@@ -29,7 +29,18 @@ namespace ProductionApp.BusinessService.Services
         }
         public OtherExpense GetOtherExpense(Guid id)
         {
-            return _otherExpenseRepository.GetOtherExpense(id);
+
+            OtherExpense otherExpense = null;
+            try
+            {
+                otherExpense = _otherExpenseRepository.GetOtherExpense(id);
+                otherExpense.InvoiceAmountWords = _commonBusiness.NumberToWords(double.Parse((otherExpense.Amount).ToString()));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return otherExpense; 
         }
         public List<SelectListItem> GetAccountSubHeadForSelectList()
         {

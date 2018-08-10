@@ -271,7 +271,13 @@ namespace UserInterface.Controllers
                 bytes = memoryStream.ToArray();
                 memoryStream.Close();
             }
-            string contentFileName = PDFTools.ContentFileName.ToString() == null ? "Report.pdf" : (PDFTools.ContentFileName.ToString() + " - " + PDFTools.CustomerName.ToString() + ".pdf");
+            string contentFileName;
+            if(PDFTools.CustomerName!=null)
+                contentFileName = PDFTools.ContentFileName.ToString() == null ? "Report.pdf" : (PDFTools.ContentFileName.ToString() + " - " + PDFTools.CustomerName.ToString() + ".pdf");
+            else
+                contentFileName = PDFTools.ContentFileName.ToString() == null ? "Report.pdf" : (PDFTools.ContentFileName.ToString() + ".pdf");
+
+
             string fname = Path.Combine(Server.MapPath("~/Content/Uploads/"), contentFileName);
             System.IO.File.WriteAllBytes(fname, bytes);
             string contentType = "application/pdf";

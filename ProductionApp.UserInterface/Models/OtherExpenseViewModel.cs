@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UserInterface.Models;
+
 
 namespace ProductionApp.UserInterface.Models
 {
@@ -60,6 +62,9 @@ namespace ProductionApp.UserInterface.Models
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
 
+        public PDFTools PDFTools { get; set; }
+        public string LogoURL { get; set; }
+        public string InvoiceAmountWords { get; set; }
     }
     public class OtherExpenseAdvanceSearchViewModel
     {
