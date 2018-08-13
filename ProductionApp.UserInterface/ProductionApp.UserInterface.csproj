@@ -460,6 +460,7 @@
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\MasterLoading.gif" />
+    <Content Include="Content\images\material.png" />
     <Content Include="Content\images\MaxLimit.png" />
     <Content Include="Content\images\minus-sign.png" />
     <Content Include="Content\images\Notification.png" />
@@ -496,7 +497,6 @@
     <Content Include="Content\MailTemplate\DocumentApproved.html" />
     <Content Include="Content\MailTemplate\DocumentRejected.html" />
     <Content Include="Content\MailTemplate\SendForApproval.html" />
-    <Content Include="Content\Site.css" />
     <Content Include="Content\sweetalert.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.min.css" />
@@ -690,7 +690,6 @@
     <Content Include="Scripts\jsTree3\jstree.min.js" />
     <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\PDF.js" />
-    <Content Include="Scripts\Report.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />

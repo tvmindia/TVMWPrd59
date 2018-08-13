@@ -1,89 +1,92 @@
 ﻿@model ProductionApp.UserInterface.Models.OtherExpenseViewModel
 
 <div id="mailcontainerDiv">
-    <div style="max-width: 1100px; font-size: 16px; line-height: 24px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #555; margin: auto; padding: 10px 40px 10px 40px; border: 3px solid #adadad;">
-        <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit; text-align: left;border-bottom-color:#0094ff!important;border-bottom:thin solid">
-            <tr class="top" valign="top">
-                    <td style="width:40%;"><img src="@ViewBag.path" style="width:100px !important; workAround:image"></td>
-                <td style="width:20%;" colspan="2"></td>
-                <td style="width:40%;text-align:right">
-                    <table style="width:100%;font-size:14px">
-                        <tr>
-                            <td colspan="3" style="text-align:right;">
-                                <span style="font-size:25px">Other Expense Voucher</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="text-align:right;">
-                                &nbsp;
-                            </td>
-                        </tr>
-                        <tr style="padding-top:10px">
-                            <td style="text-align:left;"><b>Entry No. #</b> </td>
-                            <td>:</td>
-                            <td style="text-align:right;font-weight:bold; padding-left:5px">@Model.EntryNo</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:left;"><b>Expense Date</b></td>
-                            <td>:</td>
-                            <td style="text-align:right;padding-left:5px">@Model.ExpenseDateFormatted</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-        <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit;">
-            <tr>
-                <td style="vertical-align: top; width:20%;padding-top: 5px;font-size:15px;" valign="top">Particulars</td>
+    <div style="max-width: 1100px; font-size: 16px; line-height: 24px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #555; margin: auto; padding: 10px 40px 10px 40px; border: 3px solid #adadad!important;">
+       <div>
 
-                <td style="vertical-align: top;  width:80%; text-align: left; padding-top: 5px;font-size:15px;" align="right" valign="top">
-                    <b>: @Model.AccountSubHead</b>
-                </td>
-            </tr>
-            <tr>
-                <td style="vertical-align: top; width:20%; padding-top: 5px;font-size:15px;" valign="top">Payment Mode</td>
-                <td style="vertical-align: top; width:80%; text-align: left; padding-top: 5px;font-size:15px;" align="right" valign="top">
-                    : @Model.PaymentMode
-                </td>
-            </tr>
-            <tr>
-                <td style="vertical-align: top; width:20%;padding-top: 5px;font-size:15px;" valign="top">Amount</td>
-                <td style="vertical-align: top; width:80%;font-weight:bold; text-align: left; padding-top: 5px;font-size:15px;" align="right" valign="top">
-                    : @Model.Amount
-                </td>
-            </tr> 
-        </table>
-        <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit;">
-            <tr>
-                <td style="width:20%;padding-top: 5px; font-size:15px;">
-                    Amount In Words
-                </td> 
-                <td style="width:80%;padding-top: 5px; font-size:15px;">
-                   <b>: @Model.InvoiceAmountWords &nbsp;Only </b>
-                </td>
-            </tr>
-        </table>
-        <br />
-        <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit;">
-            <tr>
-                <td style="width:20%">
-                    <b>Singnature</b>
-                </td>
-                <td style="border-bottom:1px dotted black;width:80%;">
-                  :
-                </td>
-            </tr>
-        </table>
-        <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit;">
-            <tr>
-                <td style="vertical-align: top; width:20%;padding: 5px;font-size:15px;" valign="top"></td>
-                <td style="vertical-align: top;  width:80%;font-weight:bold; text-align: right; padding: 5px;font-size:10px;" align="right" valign="top">
-                     Created By:  @Model.Common.CreatedBy   &nbsp; &nbsp; &nbsp;On :  @Model.Common.CreatedDate 
-                </td>
-            </tr> 
-        </table>
+           <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit; text-align: left;border-bottom-color:#0094ff!important;border-bottom:thin solid">
+               <tr class="top" valign="top">
+                   <td style="width:40%;"><img src="@ViewBag.path" style="width:100px !important; workAround:image"></td>
+                   <td style="width:20%;" colspan="2"></td>
+                   <td style="width:40%;text-align:right">
+                       <table style="width:100%;font-size:14px">
+                           <tr>
+                               <td colspan="3" style="text-align:right;">
+                                   <span style="font-size:25px">Expense Voucher</span>
+                               </td>
+                           </tr>
+                           <tr>
+                               <td colspan="3" style="text-align:right;">
+                                   &nbsp;
+                               </td>
+                           </tr>
+                           <tr style="padding-top:10px">
+                               <td style="text-align:left;"><b>Entry No. #</b> </td>
+                               <td>:</td>
+                               <td style="text-align:right;font-weight:bold; padding-left:5px">@Model.EntryNo</td>
+                           </tr>
+                           <tr>
+                               <td style="text-align:left;"><b>Expense Date</b></td>
+                               <td>:</td>
+                               <td style="text-align:right;padding-left:5px">@Model.ExpenseDateFormatted</td>
+                           </tr>
+                       </table>
+                   </td>
+               </tr>
+           </table>
+           <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit;">
+               <tr>
+                   <td style="vertical-align: top; width:20%;padding-top: 5px;font-size:15px;" valign="top">Particulars</td>
 
-     
+                   <td style="vertical-align: top;  width:80%; text-align: left; padding-top: 5px;font-size:15px;" align="right" valign="top">
+                       <b>: @Model.AccountSubHead</b>
+                   </td>
+               </tr>
+               <tr>
+                   <td style="vertical-align: top; width:20%; padding-top: 5px;font-size:15px;" valign="top">Payment Mode</td>
+                   <td style="vertical-align: top; width:80%; text-align: left; padding-top: 5px;font-size:15px;" align="right" valign="top">
+                       : @Model.PaymentMode
+                   </td>
+               </tr>
+               <tr>
+                   <td style="vertical-align: top; width:20%;padding-top: 5px;font-size:15px;" valign="top">Amount</td>
+                   <td style="vertical-align: top; width:80%;font-weight:bold; text-align: left; padding-top: 5px;font-size:15px;" align="right" valign="top">
+                       : @Model.Amount
+                   </td>
+               </tr>
+           </table>
+           <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit;">
+               <tr>
+                   <td style="width:20%;padding-top: 5px; font-size:15px;">
+                       Amount In Words
+                   </td>
+                   <td style="width:80%;padding-top: 5px; font-size:15px;">
+                       <b>: @Model.InvoiceAmountWords &nbsp;Only </b>
+                   </td>
+               </tr>
+           </table>
+           <br />
+           <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit;">
+               <tr>
+                   <td style="width:20%">
+                       <b>Singnature</b>
+                   </td>
+                   <td style="border-bottom:1px dotted black;width:80%;">
+                       :
+                   </td>
+               </tr>
+           </table>
+           <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit;">
+               <tr>
+                   <td style="vertical-align: top; width:20%;padding: 5px;font-size:15px;" valign="top"></td>
+                   <td style="vertical-align: top;  width:80%;font-weight:bold; text-align: right; padding: 5px;font-size:10px;" align="right" valign="top">
+                       Created By:  @Model.Common.CreatedBy   &nbsp; &nbsp; &nbsp;On :  @Model.Common.CreatedDate
+                   </td>
+               </tr>
+           </table>
+
+       </div>
+      
     </div>
 </div>
 
