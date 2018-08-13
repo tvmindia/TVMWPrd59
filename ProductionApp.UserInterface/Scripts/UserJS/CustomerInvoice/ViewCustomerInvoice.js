@@ -60,10 +60,11 @@ function BindOrReloadCustomerInvoiceTable(action) {
                 break;
             case 'Init':
                 break;
-            case 'Search': 
+            case 'Search':
                 CustomerInvoiceAdvanceSearchViewModel.FromDate = $('#FromDate').val();
                 CustomerInvoiceAdvanceSearchViewModel.ToDate = $('#ToDate').val();
                 CustomerInvoiceAdvanceSearchViewModel.CustomerID = $('#CustomerID').val();
+                CustomerInvoiceAdvanceSearchViewModel.InvoiceType = $('#InvoiceType').val();
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
@@ -80,7 +81,7 @@ function BindOrReloadCustomerInvoiceTable(action) {
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [0,1, 2, 3, 4, 5,6,7]
+                                     columns: [0, 1, 2, 3, 4, 5, 6, 7]
                                  }
                 }],
                 order: false,
@@ -97,24 +98,33 @@ function BindOrReloadCustomerInvoiceTable(action) {
                 },
                 pageLength: 10,
                 columns: [
-                    { "data": "InvoiceNo", "defaultContent": "<i>-</i>" },
-                    { "data": "Customer.CompanyName", "defaultContent": "<i>-</i>" },
-                    { "data": "InvoiceDateFormatted", "defaultContent": "<i>-</i>" },
-                    { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>" },
+                    { "data": "InvoiceNo", "defaultContent": "<i>-</i>","width": "7%" },
+                    {
+                        "data": "InvoiceType", "defaultContent": "<i>-</i>",
+                        'render': function (data, type, row) {
+                            if (row.InvoiceType == 'RI')
+                                return 'Regular'
+                            else
+                                return  'Service'
+                        }, "width": "5%"
+                    },
+                    { "data": "Customer.CompanyName", "defaultContent": "<i>-</i>", "width": "30%" },
+                    { "data": "InvoiceDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "PaymentDueDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
                     {
                         "data": "InvoiceAmount", "defaultContent": "<i>-</i>",
                         'render': function (data, type, row) {
-                                return roundoff(data)
-                        }
+                            return roundoff(data)
+                        }, "width": "9%"
                     },
                       {
                           "data": "BalanceDue", "defaultContent": "<i>-</i>",
                           'render': function (data, type, row) {
                               return roundoff(data)
-                          }
+                          }, "width": "9%"
                       },
-                    { "data": "LastPaymentDateFormatted", "defaultContent": "<i>-</i>" },
-                    { "data": "Status", "defaultContent": "<i>-</i>" },
+                    { "data": "LastPaymentDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "Status", "defaultContent": "<i>-</i>", "width": "7%" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {
                             return '<a href="/CustomerInvoice/NewCustomerInvoice?code=ACC&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
@@ -122,9 +132,9 @@ function BindOrReloadCustomerInvoiceTable(action) {
                     }
                 ],
                 columnDefs: [{ "targets": [], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [0,1, 7] },
-                    { className: "text-right", "targets": [5,4] },
-                    { className: "text-center", "targets": [2,3,6,8] }],
+                    { className: "text-left", "targets": [0, 1,2, 8] },
+                    { className: "text-right", "targets": [5,6] },
+                    { className: "text-center", "targets": [ 3,4, 7, 9] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
@@ -141,4 +151,3 @@ function BindOrReloadCustomerInvoiceTable(action) {
     }
 }
 
- 

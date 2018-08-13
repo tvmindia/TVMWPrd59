@@ -35,11 +35,13 @@ namespace ProductionApp.DataAccessObject.DTO
     {
         public Guid ID { get; set; }
         public Guid BillOfMaterialID { get; set; }
-        public Guid ComponentID { get; set; }
+        public Guid? ComponentID { get; set; }
+        public Guid? MaterialID { get; set; }
         public decimal Qty { get; set; }
         public Common Common { get; set; }
         //Additional
         public Product Product { get; set; }
+        public Material Material { get; set; }
     }
     public class BOMComponentLine
     {

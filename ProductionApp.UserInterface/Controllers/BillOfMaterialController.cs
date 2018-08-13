@@ -18,13 +18,15 @@ namespace ProductionApp.UserInterface.Controllers
         private IBillOfMaterialBusiness _billOfMaterialBusiness;
         private IProductBusiness _productBusiness;
         private IStageBusiness _stageBusiness;
+        private IMaterialBusiness _materialBusiness;
         AppConst _appConst = new AppConst();
         Common _common = new Common();
-        public BillOfMaterialController(IBillOfMaterialBusiness billOfMaterialBusiness, IProductBusiness productBusiness, IStageBusiness stageBusiness)
+        public BillOfMaterialController(IBillOfMaterialBusiness billOfMaterialBusiness, IProductBusiness productBusiness, IStageBusiness stageBusiness, IMaterialBusiness materialBusiness)
         {
             _billOfMaterialBusiness = billOfMaterialBusiness;
             _productBusiness = productBusiness;
             _stageBusiness = stageBusiness;
+            _materialBusiness = materialBusiness;
         }
         #endregion Constructor Injection
 
@@ -112,6 +114,23 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion GetProductListForBillOfMaterial
+
+        #region GetMaterialListForBillOfMaterial
+        public string GetMaterialListForBillOfMaterial(string materialIDs)
+        {
+            try
+            {
+                materialIDs = (materialIDs != "" ? materialIDs : null);
+                List<MaterialViewModel> materialList = Mapper.Map<List<Material>, List<MaterialViewModel>>(_materialBusiness.GetMaterialListForBillOfMaterial(materialIDs));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = materialList, Message ="Success" });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = _appConst.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+            }
+        }
+        #endregion
 
         #region CheckBillOfMaterialExist
         public string CheckBillOfMaterialExist(string productID)
@@ -248,6 +267,9 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult AddProductionLine(BillOfMaterialViewModel billOfMaterialVM)
         {
             billOfMaterialVM.BillOfMaterialDetailList = Mapper.Map<List<BillOfMaterialDetail>, List<BillOfMaterialDetailViewModel>>(_billOfMaterialBusiness.GetBillOfMaterialDetail(billOfMaterialVM.ID));
+            billOfMaterialVM.BillOfMaterialDetailList = (from BillOfMaterialDetailViewModel detail in billOfMaterialVM.BillOfMaterialDetailList
+                                                         where detail.ComponentID != null
+                                                         select detail).ToList();
             return PartialView("_AddProductionLine", billOfMaterialVM);
         }
 

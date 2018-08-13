@@ -87,5 +87,10 @@ namespace ProductionApp.BusinessService.Services
         {
             return _materialRepository.GetMaterialListForReorderAlert();
         }
+
+        public List<Material> GetMaterialListForBillOfMaterial(string materialIDs)
+        {
+            return _materialRepository.GetMaterialListForBillOfMaterial(materialIDs);
+        }
     }
 }

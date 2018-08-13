@@ -16,8 +16,10 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<CustomerInvoiceDetail> GetCustomerInvoiceDetail(Guid id);
         List<CustomerInvoice> GetAllCustomerInvoice(CustomerInvoiceAdvanceSearch customerInvoiceAdvanceSearch);
         List<CustomerInvoiceDetail> GetCustomerInvoiceDetailLinkForEdit(string id);
+        CustomerInvoiceDetail GetCustomerServiceInvoiceEdit(string id); 
         List<CustomerInvoiceDetail> GetCustomerInvoiceDetailLinkForEditGroup(string id,string groupID);
         object UpdateCustomerInvoiceDetail(CustomerInvoice customerInvoice);
+        object UpdateCustomerInvoiceDetailService(CustomerInvoice customerInvoice);
         object DeleteCustomerInvoice(Guid id);
         object DeleteCustomerInvoiceDetail(Guid id, string isGroupItem,Guid invoiceID);
         List<CustomerInvoice> GetRecentCustomerInvoice(); 

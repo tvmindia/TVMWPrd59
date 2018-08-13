@@ -40,6 +40,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public string Account { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
+        public string LogoURL { get; set; }
+        public string InvoiceAmountWords { get; set; }
     }
     public class OtherExpenseAdvanceSearch
     {

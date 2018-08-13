@@ -434,6 +434,7 @@
     <Content Include="Content\images\bg.png" />
     <Content Include="Content\images\bg123.png" />
     <Content Include="Content\images\bgTest1.JPG" />
+    <Content Include="Content\images\bill.png" />
     <Content Include="Content\images\bom.png" />
     <Content Include="Content\images\browser-window.png" />
     <Content Include="Content\images\calendar.png" />
@@ -478,6 +479,7 @@
     <Content Include="Content\images\stage.png" />
     <Content Include="Content\images\suryapetpreforms.png" />
     <Content Include="Content\images\Transfer.png" />
+    <Content Include="Content\images\voucher.png" />
     <Content Include="Content\images\wheel.png" />
     <Content Include="Content\images\withdraw.png" />
     <Content Include="Content\jsTree\docs.css" />
@@ -909,6 +911,7 @@
     <Compile Include="Models\RolesViewModel.cs" />
     <Compile Include="Models\SalesInvoiceViewModel.cs" />
     <Compile Include="Models\SalesOrderViewModel.cs" />
+    <Compile Include="Models\ServiceItemsViewModel.cs" />
     <Compile Include="Models\StageViewModel.cs" />
     <Compile Include="Models\SubComponentViewModel.cs" />
     <Compile Include="Models\SupplierInvoiceViewModel.cs" />
@@ -1106,6 +1109,7 @@
     <Content Include="Views\ChartOfAccount\Index.cshtml" />
     <Content Include="Views\ChartOfAccount\_AddChartOfAccountPartial.cshtml" />
     <Content Include="Views\ChartOfAccount\_ChartOfAccountDropdown.cshtml" />
+    <Content Include="Views\OtherExpense\_OtherExpenseVoucherPreview.cshtml" />
     <Content Include="Views\DashboardReport\SalesRegisterReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

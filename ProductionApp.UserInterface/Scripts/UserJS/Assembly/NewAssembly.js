@@ -43,7 +43,15 @@ $(document).ready(function () {
                     searchPlaceholder: "Search"
                 },
                 columns: [
-                  { "data": "Product.Name", "defaultContent": "<i>-</i>", "width": "30%" },
+                  {
+                      "data": "Product.Name", render: function (data, type, row) {
+                          debugger;
+                          if (data !== null && data !== "")
+                              return data;
+                          else
+                              return row.Material.Description
+                      }, "defaultContent": "<i>-</i>", "width": "30%"
+                  },
                   { "data": "BOMQty", "defaultContent": "<i>-</i>", "width": "14%" },
                   { "data": "Stock", "defaultContent": "<i>-</i>", "width": "14%" },
                   { "data": "ReaquiredQty", "defaultContent": "<i>-</i>", "width": "14%" },

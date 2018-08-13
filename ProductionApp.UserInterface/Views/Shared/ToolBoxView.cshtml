@@ -426,6 +426,28 @@
 
     }
 
+
+    @if (Model.VoucherBtn.Visible && Model.VoucherBtn.HasAccess)
+    {
+        if (Model.VoucherBtn.Disable)
+        {
+
+            <a class="thr_disbtn" title="@Model.VoucherBtn.Title-@Model.VoucherBtn.DisableReason">
+                <img class="btnImg" src="@Url.Content("~/Content/images/voucher.png")">
+                <span class="btnText">@Model.VoucherBtn.Text</span>
+            </a>
+        }
+        else
+        {
+
+            <a href="@Model.VoucherBtn.Href" title="@Model.VoucherBtn.Title" class="thr_btn" onclick=@Model.VoucherBtn.Event>
+                <img class="btnImg" src="@Url.Content("~/Content/images/voucher.png")">
+                <span class="btnText">@Model.VoucherBtn.Text</span>
+            </a>
+        }
+
+    }
+
     @if (Model.ListBtn.Visible && Model.ListBtn.HasAccess)
     {
         if (Model.ListBtn.Disable)

@@ -296,6 +296,46 @@
         </div>
     </div>
 </div>
+
+<!--Voucher Preview model-->
+<div class="modal fade" id="VoucherPreviewModel" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="min-width:900px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 36px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-9 ">
+                        <div class="col-md-12 modelIcon">
+                            <h3 class="modal-title SCHeader" id="modelContextLabel">Expense Voucher</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" style="max-height:510px !important;overflow-y:scroll"> 
+                <div class="col-md-12" style="margin-top:1%" id="vouchermodelcontent">
+                @* content displays here *@
+                </div>
+            </div>
+            <div class="modal-footer" style="background-image: url('');background-repeat: repeat;height: 50px;padding: 7px;">
+                <a class="btn btn-info" onclick="DownloadPDF()" id="btnSend"><i class="glyphicon glyphicon-download-alt"></i> Download</a>
+
+                @using (Html.BeginForm("Download", "PDFGenerator", new { HttpMethod = "POST", @class = "form-horizontal", role = "form", @id = "PDFForm" }))
+                {
+                    @Html.HiddenFor(model => model.PDFTools.Content, htmlAttributes: new { @class = "", Value = "", @id = "hdnContent" })
+                    @Html.HiddenFor(model => model.PDFTools.Headcontent, htmlAttributes: new { @class = "", Value = "", @id = "hdnHeadContent" })
+                    @Html.HiddenFor(model => model.PDFTools.HeaderText, htmlAttributes: new { @class = "", Value = "" })
+                    @Html.HiddenFor(model => model.PDFTools.ContentFileName, htmlAttributes: new { @class = "", Value = "ExpenseVoucher", @id = "hdnContentFileName" })
+                    @Html.HiddenFor(model => model.PDFTools.CustomerName, htmlAttributes: new { @class = "", Value = "", @id = "hdnCustomerName" })
+                    <input type="submit" id="btnSendDownload" value="Download" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")

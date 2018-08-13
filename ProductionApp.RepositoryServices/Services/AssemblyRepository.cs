@@ -123,10 +123,12 @@ namespace ProductionApp.RepositoryServices.Services
                                     {
                                         //assembly.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : assembly.ID);
                                         assembly.Product = new Product();
+                                        assembly.Material = new Material();
                                         assembly.Product.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : assembly.Product.Name);
                                         assembly.BOMQty = (sdr["Qty"].ToString() != "" ? Decimal.Parse(sdr["Qty"].ToString()) : assembly.BOMQty);
                                         assembly.Stock = (sdr["Stock"].ToString() != "" ? Decimal.Parse(sdr["Stock"].ToString()) : assembly.Stock);
                                         assembly.ReaquiredQty = (sdr["RequiredQty"].ToString() != "" ? Decimal.Parse(sdr["RequiredQty"].ToString()) : assembly.ReaquiredQty);
+                                        assembly.Material.Description = (sdr["Description"].ToString() != "" ? sdr["Description"].ToString() : assembly.Material.Description);
                                         assembly.Balance = assembly.Stock - assembly.ReaquiredQty;
                                     }
                                     assemblyList.Add(assembly);

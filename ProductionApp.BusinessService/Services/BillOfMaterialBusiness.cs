@@ -175,6 +175,7 @@ namespace ProductionApp.BusinessService.Services
                 foreach (BOMTree F in result) {
                     if (F.Type == "BOM") F.Icon = "../Content/images/bom.png";
                     if (F.Type == "Component") { F.Icon = "../Content/images/component.png"; }
+                    if (F.Type == "Material") { F.Icon = "../Content/images/material.png"; }
                     if (F.Type == "Line") F.Icon = "../Content/images/line.png";
                     if (F.Type == "Stage") F.Icon = "../Content/images/stage.png";
                     if (F.Type.Contains("| Input")) F.Icon = "../Content/images/input.png";

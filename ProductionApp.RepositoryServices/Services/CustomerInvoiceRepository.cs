@@ -101,7 +101,11 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[InsertUpdateCustomerInvoice_Grouping]";
+                        if (customerInvoice.hdnIsRegular)
+                            cmd.CommandText = "[AMC].[InsertUpdateCustomerInvoice_Grouping]";
+                        else
+                            cmd.CommandText = "[AMC].[InsertUpdateCustomerServiceInvoice]";
+
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = customerInvoice.IsUpdate;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = customerInvoice.ID;
@@ -109,6 +113,7 @@ namespace ProductionApp.RepositoryServices.Services
                             cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = customerInvoice.CustomerID;
                         cmd.Parameters.Add("@FileDupID", SqlDbType.UniqueIdentifier).Value = customerInvoice.hdnFileID;
                         cmd.Parameters.Add("@PaymentTermCode", SqlDbType.VarChar, 10).Value = customerInvoice.PaymentTermCode;
+                        cmd.Parameters.Add("@InvoiceType", SqlDbType.VarChar, 2).Value = customerInvoice.InvoiceType;
                         cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = customerInvoice.InvoiceDateFormatted;
                         cmd.Parameters.Add("@PaymentDueDate", SqlDbType.DateTime).Value = customerInvoice.PaymentDueDateFormatted;
                         cmd.Parameters.Add("@DetailXML", SqlDbType.VarChar, -1).Value = customerInvoice.DetailXML;
@@ -226,6 +231,7 @@ namespace ProductionApp.RepositoryServices.Services
                                 if (sdr.Read())
                                 {
                                     customerInvoice.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : customerInvoice.InvoiceNo);
+                                    customerInvoice.InvoiceType = (sdr["InvoiceType"].ToString() != "" ? sdr["InvoiceType"].ToString() : customerInvoice.InvoiceType);
                                     customerInvoice.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString(settings.DateFormat) : customerInvoice.InvoiceDateFormatted);
                                     customerInvoice.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.DateFormat) : customerInvoice.PaymentDueDateFormatted);
                                     customerInvoice.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : customerInvoice.CustomerID);
@@ -287,6 +293,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     {
                                         customerInvoiceDetail.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : customerInvoiceDetail.ID);
                                         customerInvoiceDetail.ProductID = (sdr["ProductID"].ToString() != "" ? Guid.Parse(sdr["ProductID"].ToString()) : customerInvoiceDetail.ProductID);
+                                        customerInvoiceDetail.ServiceItemID = (sdr["ServiceItemID"].ToString() != "" ? Guid.Parse(sdr["ServiceItemID"].ToString()) : customerInvoiceDetail.ServiceItemID);
                                         customerInvoiceDetail.TaxTypeCode = (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : customerInvoiceDetail.TaxTypeCode);
                                         customerInvoiceDetail.TaxTypeDescription = (sdr["TaxTypeDescription"].ToString() != "" ? sdr["TaxTypeDescription"].ToString() : customerInvoiceDetail.TaxTypeDescription);
                                         customerInvoiceDetail.ProductName = (sdr["ProductName"].ToString() != "" ? sdr["ProductName"].ToString() : customerInvoiceDetail.ProductName);
@@ -343,8 +350,8 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = customerInvoiceAdvanceSearch.ToDate;
                         if (customerInvoiceAdvanceSearch.CustomerID != Guid.Empty)
                             cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = customerInvoiceAdvanceSearch.CustomerID;
-                        //if (customerInvoiceAdvanceSearch.EmployeeID != Guid.Empty)
-                        //    cmd.Parameters.Add("@EmployeeID", SqlDbType.UniqueIdentifier).Value = salesOrderAdvanceSearch.EmployeeID;
+                        if(customerInvoiceAdvanceSearch.InvoiceType != "")
+                            cmd.Parameters.Add("@InvoiceType", SqlDbType.NVarChar,2).Value = customerInvoiceAdvanceSearch.InvoiceType;
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -357,6 +364,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     {
                                         customerInvoice.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : customerInvoice.ID);
                                         customerInvoice.InvoiceNo = (sdr["InvoiceNo"].ToString() != "" ? sdr["InvoiceNo"].ToString() : customerInvoice.InvoiceNo);
+                                        customerInvoice.InvoiceType = (sdr["InvoiceType"].ToString() != "" ? sdr["InvoiceType"].ToString() : customerInvoice.InvoiceType);
                                         customerInvoice.InvoiceDateFormatted = (sdr["InvoiceDate"].ToString() != "" ? DateTime.Parse(sdr["InvoiceDate"].ToString()).ToString(settings.DateFormat) : customerInvoice.InvoiceDateFormatted);
                                         customerInvoice.PaymentDueDateFormatted = (sdr["PaymentDueDate"].ToString() != "" ? DateTime.Parse(sdr["PaymentDueDate"].ToString()).ToString(settings.DateFormat) : customerInvoice.PaymentDueDateFormatted);
                                         customerInvoice.Customer = new Customer();
@@ -541,6 +549,58 @@ namespace ProductionApp.RepositoryServices.Services
                     case "1":
                         return new
                         { 
+                            Status = outputStatus.Value.ToString(),
+                            Message = _appConst.UpdateSuccess
+                        };
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return new
+            {
+                Status = outputStatus.Value.ToString(),
+                Message = _appConst.UpdateSuccess
+            };
+
+        }
+
+        public object UpdateCustomerInvoiceDetailService(CustomerInvoice customerInvoice)
+        {
+            SqlParameter outputStatus = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[UpdateCustomerInvoiceDetailService]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = customerInvoice.ID;
+                        cmd.Parameters.Add("@InvoiceDate", SqlDbType.DateTime).Value = customerInvoice.InvoiceDateFormatted;
+                        cmd.Parameters.Add("@DetailXML", SqlDbType.VarChar, -1).Value = customerInvoice.DetailXML;
+                        cmd.Parameters.Add("@UpdatedBy", SqlDbType.NVarChar, 250).Value = customerInvoice.Common.UpdatedBy;
+                        cmd.Parameters.Add("@UpdatedDate", SqlDbType.DateTime).Value = customerInvoice.Common.UpdatedDate;
+                        outputStatus = cmd.Parameters.Add("@Status", SqlDbType.SmallInt);
+                        outputStatus.Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                switch (outputStatus.Value.ToString())
+                {
+                    case "0":
+                        throw new Exception(_appConst.UpdateFailure);
+                    case "1":
+                        return new
+                        {
                             Status = outputStatus.Value.ToString(),
                             Message = _appConst.UpdateSuccess
                         };
@@ -839,6 +899,56 @@ namespace ProductionApp.RepositoryServices.Services
                 throw ex;
             }
             return customerInvoiceDetailList;
+        }
+
+        public CustomerInvoiceDetail GetCustomerServiceInvoiceEdit(string id)
+        {
+            CustomerInvoiceDetail customerInvoiceDetail = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetCustomerServiceInvoiceEdit]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@DetailID", SqlDbType.UniqueIdentifier).Value = Guid.Parse(id); 
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                customerInvoiceDetail = new CustomerInvoiceDetail();
+                                if (sdr.Read())
+                                {
+                                    customerInvoiceDetail.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : customerInvoiceDetail.ID);
+                                    customerInvoiceDetail.ServiceItemID = (sdr["ServiceItemID"].ToString() != "" ? Guid.Parse(sdr["ServiceItemID"].ToString()) : customerInvoiceDetail.ServiceItemID);
+                                    customerInvoiceDetail.TaxTypeCode = (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : customerInvoiceDetail.TaxTypeCode);
+                                    customerInvoiceDetail.Quantity = (sdr["Quantity"].ToString() != "" ? decimal.Parse(sdr["Quantity"].ToString()) : customerInvoiceDetail.Quantity);
+                                    customerInvoiceDetail.Weight = (sdr["Weight"].ToString() != "" ? decimal.Parse(sdr["Weight"].ToString()) : customerInvoiceDetail.Weight);
+                                    customerInvoiceDetail.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : customerInvoiceDetail.Rate);
+                                    customerInvoiceDetail.TradeDiscountAmount = (sdr["TradeDiscountAmount"].ToString() != "" ? decimal.Parse(sdr["TradeDiscountAmount"].ToString()) : customerInvoiceDetail.TradeDiscountAmount);
+                                    customerInvoiceDetail.TradeDiscountPerc = (sdr["TradeDiscountPerc"].ToString() != "" ? decimal.Parse(sdr["TradeDiscountPerc"].ToString()) : customerInvoiceDetail.TradeDiscountPerc);
+                                    customerInvoiceDetail.SGSTPerc = (sdr["SGSTPerc"].ToString() != "" ? decimal.Parse(sdr["SGSTPerc"].ToString()) : customerInvoiceDetail.SGSTPerc);
+                                    customerInvoiceDetail.CGSTPerc = (sdr["CGSTPerc"].ToString() != "" ? decimal.Parse(sdr["CGSTPerc"].ToString()) : customerInvoiceDetail.CGSTPerc);
+                                    customerInvoiceDetail.IGSTPerc = (sdr["IGSTPerc"].ToString() != "" ? decimal.Parse(sdr["IGSTPerc"].ToString()) : customerInvoiceDetail.IGSTPerc);
+                                    customerInvoiceDetail.Total = (sdr["Total"].ToString() != "" ? decimal.Parse(sdr["Total"].ToString()) : customerInvoiceDetail.Total);
+                                    customerInvoiceDetail.TaxableAmount = (sdr["TaxableAmount"].ToString() != "" ? decimal.Parse(sdr["TaxableAmount"].ToString()) : customerInvoiceDetail.TaxableAmount);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return customerInvoiceDetail;
         }
     }
 }

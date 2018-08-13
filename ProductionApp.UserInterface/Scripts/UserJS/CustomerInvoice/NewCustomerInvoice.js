@@ -23,7 +23,10 @@
 // ##15--Edit Popup Modal Update Customer Invoice Details
 // ##16--DELETE Customer Invoice 
 // ##17--DELETE Customer Invoice Details 
-// 
+// ##18--Discount Amount Changed
+// ##19--Email and Print
+// ##20--Grouping
+// ##21--Invoice Type on Change
 //******************************************************************************
 
 //##1--Global Declaration---------------------------------------------##1 
@@ -38,6 +41,7 @@ var _CustomerInvoiceDetail = [];
 var _CustomerInvoiceDetailLink = [];
 var _WarningWeight = 0;
 var _WarningWeightItems = "";
+var _IsEditServiceDetailID;
 
 var _customerInvoiceDetailVM;
 
@@ -49,6 +53,19 @@ $(document).ready(function () {
         $("#PackingSlipID").select2({ dropdownParent: $("#CustomerInvoiceDetailsModal") });
         $("#CustomerID").select2({});
         $("#ReferenceCustomer").select2({});
+        $("#ServiceItemID").select2({});
+        $(".ServiceItemCalculation").change(function () {
+            ServiceItemCalculation();
+        });
+        $("#TaxTypeCode").change(function () {
+            ServiceItemCalculation();
+        });
+        $("#ServiceItemID").change(function () {
+            GetServiceItemDetails();
+        });
+        
+
+
         $('#btnSendDownload').hide();
         $('#btnUpload').click(function () {
             debugger;
@@ -958,7 +975,9 @@ function BindCustomerInvoiceByID() {
     $('#lblInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount - customerInvoiceVM.Discount));
     $('#lblStatusInvoiceAmount').text(roundoff(customerInvoiceVM.InvoiceAmount - customerInvoiceVM.Discount));
     $('#InvoiceAmount').val(roundoff(customerInvoiceVM.InvoiceAmount));
-
+    $('#InvoiceType').val(customerInvoiceVM.InvoiceType);
+    $('#InvoiceType').prop('disabled', true);
+    InvoiceTypeOnChange()
     //detail Table values binding with header id
     BindCustomerInvoiceDetailTable(ID);
     PaintImages(ID);//bind attachments written in custom js
@@ -1015,13 +1034,20 @@ function ItemDetailsEdit(thisObj) {
 
     var rowData = _dataTables.CustomerInvoiceDetailTable.row($(thisObj).parents('tr')).data();
     TaxtypeDropdown(); //##8
-    if (rowData.ID != EmptyGuid)
-        _dataTables.EditPackingSlipListDetailTable.clear().rows.add(GetCustomerInvoiceDetailLinkForEdit(rowData.ID)).draw(false);
+    if (rowData.ServiceItemID == EmptyGuid) {
+        if (rowData.ID != EmptyGuid)
+            _dataTables.EditPackingSlipListDetailTable.clear().rows.add(GetCustomerInvoiceDetailLinkForEdit(rowData.ID)).draw(false);
+        else
+            _dataTables.EditPackingSlipListDetailTable.clear().rows.add(GetCustomerInvoiceDetailLinkForEditGroup(rowData.GroupID)).draw(false);
+
+        $('#EditCustomerInvoiceDetailModal').modal('show');
+    }
     else
-        _dataTables.EditPackingSlipListDetailTable.clear().rows.add(GetCustomerInvoiceDetailLinkForEditGroup(rowData.GroupID)).draw(false);
-
-    $('#EditCustomerInvoiceDetailModal').modal('show');
-
+    {
+        ClearServiceItemFields();
+        BindServiceItemEdit(rowData.ServiceItemID, rowData.ID);
+        $('#ServiceInvoiceModal').modal('show');
+    }
 }
 function GetCustomerInvoiceDetailLinkForEdit(id) {
     try {
@@ -1324,7 +1350,7 @@ function DiscountAmountChanged(thisObj) {
 }
 
 //##19--Email and Print------------------------------------------------------------------##19
-//Email Sending
+
 function EmailPreview(flag) {
     try {
         debugger;
@@ -1416,7 +1442,7 @@ function GetHtmlData() {
     $('#hdnCustomerName').val(customerName);
 
 }
-//---------------------------------Grouping---------------------------------------//
+//##20--Grouping------------------------------------------------------------------------##20
 
 function CreateGroupChildTable(d) {
     return '<table id="GroupChildTable' + d.GroupID + '" class="table table-striped table-bordered table-hover" style="width:100%" > ' +
@@ -1434,7 +1460,6 @@ function CreateGroupChildTable(d) {
     '</thead>' +
     ' </table>'
 }
-
 
 function BindBodyGroupChildDatatable(rowdata) {
     debugger;
@@ -1496,9 +1521,6 @@ function BindBodyGroupChildDatatable(rowdata) {
          });
 }
 
-
-
-
 function CreateEditGroupChildTable(d) {
     return '<table id="GroupChildTable' + d.GroupID + d.SlipNo + '" class="table table-striped table-bordered table-hover" style="width:100%" > ' +
     ' <thead>' +
@@ -1515,6 +1537,7 @@ function CreateEditGroupChildTable(d) {
     '</thead>' +
     ' </table>'
 }
+
 function EditBindBodyGroupChildDatatable(rowdata) {
     debugger;
     _dataTables.ProductChildTable = $('#GroupChildTable' + rowdata.data().GroupID + rowdata.data().SlipNo + '').DataTable(
@@ -1618,4 +1641,325 @@ function GetGroupCustomerInvoiceDetailLink(groupID) {
     catch (e) {
         notyAlert('error', e.message);
     }
+}
+
+//##21--Invoice Type on Change------------------------------------------------------------------------##21
+function InvoiceTypeOnChange()
+{
+    if ($('#InvoiceType').val() == 'RI')
+    { 
+        $('#hdnIsRegular').val('True');
+        $('#divRegularInvoice').show();
+        $('#divServiceInvoice').hide();
+    }
+    else {
+        $('#hdnIsRegular').val('False');
+        $('#divRegularInvoice').hide();
+        $('#divServiceInvoice').show();
+    }
+}
+
+function ShowCustomerServiceInvoiceModal()
+{
+    $('#modelServiceItems').text('Add Service Invoice');
+    if ($('#CustomerInvoiceForm').valid()) {
+        ClearServiceItemFields();
+        $('#EditService').hide();
+        $('#AddService').show();
+        $('#ServiceInvoiceModal').modal('show');
+    }
+    else {
+        notyAlert('warning', "Please Fill Required Fields");
+    } 
+}
+
+function ServiceItemOnChange() {
+
+
+    $('#ServiceItems_Rate').val();
+}
+
+function ServiceItemCalculation() {
+    debugger;
+    var ServiceItem, rate, qty, discpercent, disc = 0, taxTypeCode, taxableAmt = 0, taxAmt = 0, netAmt = 0, GrossAmt = 0
+    ServiceItem = $('#ServiceItemID').val();
+    rate = $('#ServiceItems_Rate').val(); 
+    qty = $('#ServiceItems_Quantity').val();
+
+    if (rate != "" && qty != "" && ServiceItem != "") {
+        //--------------------Gross Amount-----------------------//
+        GrossAmt = rate * qty;
+        $('#lblServiceItems_GrossAmount').text(roundoff(GrossAmt));
+
+        //--------------------Discount Amount--------------------//
+        discpercent = $('#ServiceItems_DiscountPercent').val();
+        if (discpercent > 100)//if greater than 100% set percentage to 0%
+        {
+            $('#ServiceItems_DiscountPercent').val(0);
+            discpercent = 0;
+        }
+        if (discpercent != "" && discpercent != 0) {
+            disc = GrossAmt * (discpercent / 100);
+            $('#ServiceItems_TradeDiscountAmount').val(roundoff(disc));
+        }
+        else {
+            disc = $('#ServiceItems_TradeDiscountAmount').val() == "" ? 0 : $('#ServiceItems_TradeDiscountAmount').val();
+            if (GrossAmt < disc) {
+                $('#ServiceItems_TradeDiscountAmount').val(roundoff(0));
+                disc = 0;
+            }
+        }
+        //--------------------Taxable Amount---------------------//
+        taxableAmt = roundoff(parseFloat(GrossAmt) - parseFloat(disc));
+        $('#lblServiceItems_TaxableAmount').text(taxableAmt);
+
+        //--------------------Tax Amount------------------------//
+        taxTypeCode = $('#TaxTypeCode').val();
+        if (taxTypeCode != "") {
+            var taxTypeVM = GetTaxTypeByCode(taxTypeCode);
+            var CGSTAmt = parseFloat(taxableAmt) * parseFloat(parseFloat(taxTypeVM.CGSTPercentage) / 100);
+            var SGSTAmt = parseFloat(taxableAmt) * parseFloat(parseFloat(taxTypeVM.SGSTPercentage) / 100);
+            var IGSTAmt = parseFloat(taxableAmt) * parseFloat(parseFloat(taxTypeVM.IGSTPercentage) / 100);
+            taxAmt = CGSTAmt + SGSTAmt + IGSTAmt;
+        }
+        //----------------------Net Amount---------------------//
+        $('#lblServiceItems_TaxAmount').text(roundoff(taxAmt));
+        netAmt = parseFloat(taxableAmt) + parseFloat(taxAmt);
+        $('#lblServiceItems_NetAmount').text(roundoff(netAmt));
+    }
+    else
+    {
+        $('#ServiceItems_DiscountPercent').val(roundoff(0));
+        $('#ServiceItems_TradeDiscountAmount').val(roundoff(0));
+        $('#lblServiceItems_TaxAmount').text(roundoff(0));
+        $('#lblServiceItems_NetAmount').text(roundoff(0));
+        $('#lblServiceItems_TaxableAmount').text(roundoff(0));
+        $('#TaxTypeCode').val('');
+        $('#lblServiceItems_GrossAmount').text(roundoff(0));
+    }
+
+    if ($('#ServiceItems_DiscountPercent').val() == "")
+        $('#ServiceItems_DiscountPercent').val(roundoff(0));
+    if ($('#ServiceItems_TradeDiscountAmount').val() == "")
+        $('#ServiceItems_TradeDiscountAmount').val(roundoff(0));
+}
+
+function ClearServiceItemFields()
+{
+    $('#ServiceItems_DiscountPercent').val(roundoff(0));
+    $('#ServiceItems_TradeDiscountAmount').val(roundoff(0));
+    $('#lblServiceItems_TaxAmount').text(roundoff(0));
+    $('#lblServiceItems_NetAmount').text(roundoff(0));
+    $('#lblServiceItems_TaxableAmount').text(roundoff(0));
+    $('#TaxTypeCode').val('');
+    $('#lblServiceItems_GrossAmount').text(roundoff(0));
+    $('#ServiceItems_Rate').val(roundoff(0));
+    $('#ServiceItems_Quantity').val(roundoff(1));
+    $('#ServiceItemID').val('').select2();
+}
+
+function ClearDiscountPercentage() {
+    $('#ServiceItems_DiscountPercent').val(roundoff(0));
+}
+
+function GetTaxTypeByCode(Code) {
+    try {
+        var data = { "Code": Code };
+
+        var taxTypeVM = new Object();
+        _jsonData = GetDataFromServer("TaxType/GetTaxtype/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+            result = _jsonData.Result;
+            message = _jsonData.Message;
+            taxTypeVM = _jsonData.Records;
+        }
+        if (result == "OK") {
+            return taxTypeVM;
+        }
+        if (result == "ERROR") {
+            alert(Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function GetServiceItemDetails()
+{
+    debugger;
+    if ($('#ServiceItemID').val() != "") {
+        var result = GetServiceItem();
+        $('#ServiceItems_Rate').val(roundoff(result.Rate));
+    }
+    else
+    {
+        $('#ServiceItems_Rate').val(roundoff(0));
+    }
+    ServiceItemCalculation();
+   
+}
+
+function GetServiceItem()
+{
+    try {
+        var serviceItemID = $('#ServiceItemID').val();
+     
+        var data = { "ID": serviceItemID };
+
+        var serviceItemVM = new Object();
+        _jsonData = GetDataFromServer("CustomerInvoice/GetServiceItem/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+            result = _jsonData.Result;
+            message = _jsonData.Message;
+            serviceItemVM = _jsonData.Records;
+        }
+        if (result == "OK") {
+            return serviceItemVM;
+        }
+        if (result == "ERROR") {
+            alert(Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function AddServiceInvoice()
+{
+    debugger;
+    var rate = $('#ServiceItems_Rate').val();
+    var qty = $('#ServiceItems_Quantity').val();
+    var ServiceItemID = $('#ServiceItemID').val(); 
+    if (rate != "" && qty != "" && ServiceItemID != "" && qty != 0) {
+    
+        AddServiceItems();
+        var result = JSON.stringify(_CustomerInvoiceDetail);
+        $("#DetailJSON").val(result);
+        Save();
+        $('#ServiceInvoiceModal').modal('hide'); 
+    }
+    else {
+        notyAlert('warning', "Please check the Required Fields");
+    }
+
+   
+}
+
+function AddServiceItems(isEdit)
+{
+    _CustomerInvoiceDetail = [];
+    ServiceItemVM = new Object();
+    if (isEdit == 1)
+        ServiceItemVM.ID = _IsEditServiceDetailID;
+    ServiceItemVM.ProductID = EmptyGuid;
+    ServiceItemVM.ServiceItemID = $("#ServiceItemID").val();
+    ServiceItemVM.GroupID = EmptyGuid;
+    ServiceItemVM.GroupName = null;
+    ServiceItemVM.Quantity = $('#ServiceItems_Quantity').val();
+    ServiceItemVM.Weight = 0;
+    ServiceItemVM.Rate = $('#ServiceItems_Rate').val();
+    ServiceItemVM.TaxTypeCode = $('#TaxTypeCode').val() == "" ? null : $('#TaxTypeCode').val();
+    if (ServiceItemVM.TaxTypeCode != "") {
+        var taxTypeVM = GetTaxTypeByCode(ServiceItemVM.TaxTypeCode);
+        ServiceItemVM.IGSTPerc = taxTypeVM.IGSTPercentage;
+        ServiceItemVM.SGSTPerc = taxTypeVM.SGSTPercentage;
+        ServiceItemVM.CGSTPerc = taxTypeVM.CGSTPercentage;
+    }
+    ServiceItemVM.TradeDiscountPerc = $('#ServiceItems_DiscountPercent').val();
+    ServiceItemVM.TradeDiscountAmount = $('#ServiceItems_TradeDiscountAmount').val();
+    ServiceItemVM.IsInvoiceInKG = false;
+    // 
+    _CustomerInvoiceDetail.push(ServiceItemVM);
+}
+
+function BindServiceItemEdit(serviceItemID,ID)
+{
+    debugger;
+    
+    $('#modelServiceItems').text('Edit Service Invoice');
+    $('#EditService').show();
+    $('#AddService').hide();
+    _IsEditServiceDetailID = ID;//using for edit update
+
+    var result = GetCustomerServiceInvoiceEdit(ID);
+    $('#ServiceItems_Rate').val(roundoff(result.Rate));
+    $('#ServiceItems_Quantity').val(roundoff(result.Quantity));
+    $('#ServiceItemID').val(serviceItemID).select2(); 
+    $('#ServiceItems_DiscountPercent').val(roundoff(result.TradeDiscountPerc));
+    $('#ServiceItems_TradeDiscountAmount').val(roundoff(result.TradeDiscountAmount));
+    $('#TaxTypeCode').val(result.TaxTypeCode);
+    $('#lblServiceItems_NetAmount').text(roundoff(result.Total));
+    $('#lblServiceItems_TaxableAmount').text(roundoff(result.TaxableAmount));
+
+    var grossAmt = roundoff((result.Rate) * (result.Quantity));
+    $('#lblServiceItems_GrossAmount').text(grossAmt);
+
+    var CGSTAmt = parseFloat(result.TaxableAmount) * parseFloat(parseFloat(result.CGSTPerc) / 100);
+    var SGSTAmt = parseFloat(result.TaxableAmount) * parseFloat(parseFloat(result.SGSTPerc) / 100);
+    var IGSTAmt = parseFloat(result.TaxableAmount) * parseFloat(parseFloat(result.IGSTPerc) / 100);
+    var taxAmt = CGSTAmt + SGSTAmt + IGSTAmt;
+    $('#lblServiceItems_TaxAmount').text(roundoff(taxAmt));
+
+ 
+}
+
+function GetCustomerServiceInvoiceEdit(ID) {
+    try {
+        debugger;
+        var data = { "id": ID };
+        _jsonData = GetDataFromServer("CustomerInvoice/GetCustomerServiceInvoiceEdit/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+        }
+        if (_jsonData.Result == "OK") {
+            return _jsonData.Records;
+        }
+        if (_jsonData.Result == "ERROR") {
+            alert(_jsonData.Message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+function EditServiceInvoice()
+{
+    AddServiceItems(1);
+    UpdateCustomerInvoiceDetailService();
+}
+
+function UpdateCustomerInvoiceDetailService() {
+    debugger;
+   
+    customerInvoiceVM = new Object();
+    customerInvoiceVM.CustomerInvoiceDetailList = new Object();
+    customerInvoiceVM.CustomerInvoiceDetailList = _CustomerInvoiceDetail;
+    customerInvoiceVM.ID = $('#ID').val();
+    customerInvoiceVM.InvoiceDateFormatted = $('#InvoiceDateFormatted').val();
+    var data = "{'customerInvoiceVM':" + JSON.stringify(customerInvoiceVM) + "}";
+
+    PostDataToServer("CustomerInvoice/UpdateCustomerInvoiceDetailService/", data, function (JsonResult) {
+
+        debugger;
+        switch (JsonResult.Result) {
+            case "OK":
+                notyAlert('success', JsonResult.Records.Message);
+                BindCustomerInvoiceByID()
+                break;
+            case "Error":
+                notyAlert('error', JsonResult.Message);
+                break;
+            case "ERROR":
+                notyAlert('error', JsonResult.Message);
+                break;
+            default:
+                break;
+        }
+    })
+    $('#ServiceInvoiceModal').modal('hide');
 }

@@ -75,11 +75,20 @@
                     @Html.DropDownListFor(model => model.CustomerID, Model.Customer.SelectList, "--Select Customer--", new { @class = "form-control BlockEnter", @style = "width:100%" })
                     @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
                 </div>
-            </div>
+            </div> 
             <div class="col-md-5">
                 <div class="col-md-12">
+                    @Html.LabelFor(model => model.InvoiceType, htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="col-md-12">
+                    @{
+                        List<SelectListItem> TypeList = new List<SelectListItem>();
+                        TypeList.Add(new SelectListItem
+                        { Text = "Regular Invoice", Value = "RI" });
+                        TypeList.Add(new SelectListItem
+                        { Text = "Service Invoice", Value = "SI" });
+                    }
+                    @Html.DropDownListFor(model => model.InvoiceType, TypeList, "--Select Type--", new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;width:100 %"})
                 </div>
             </div>
             <div class="col-md-2">
@@ -92,6 +101,7 @@
             <thead>
                 <tr class="text-center TableHead">
                     <th>Invoice#</th>
+                    <th>Type</th>
                     <th>Customer</th>
                     <th>Invoice Date</th>
                     <th>Payment Due Date</th> 

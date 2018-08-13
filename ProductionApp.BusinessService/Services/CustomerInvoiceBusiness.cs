@@ -118,6 +118,17 @@ namespace ProductionApp.BusinessService.Services
                 throw ex;
             }
         }
+        public CustomerInvoiceDetail GetCustomerServiceInvoiceEdit(string id)
+        {
+            try
+            {
+                return _customerInvoiceRepository.GetCustomerServiceInvoiceEdit(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<CustomerInvoiceDetail> GetCustomerInvoiceDetailLinkForEditGroup(string id, string groupID)
         {
             try
@@ -142,7 +153,18 @@ namespace ProductionApp.BusinessService.Services
                 throw ex;
             }
         }
-
+        public object UpdateCustomerInvoiceDetailService(CustomerInvoice customerInvoice)
+        {
+            try
+            {
+                DetailsXMl(customerInvoice);
+                return _customerInvoiceRepository.UpdateCustomerInvoiceDetailService(customerInvoice);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
         public object DeleteCustomerInvoiceDetail(Guid id,string isGroupItem,Guid invoiceID)
