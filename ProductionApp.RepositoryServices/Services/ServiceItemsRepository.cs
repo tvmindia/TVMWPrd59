@@ -41,7 +41,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetAllServiceItems]"; 
+                        cmd.CommandText = "[AMC].[GetServiceItemsForSelectList]"; 
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
