@@ -28,6 +28,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public int FilteredCount { get; set; }
         public List<Assembly> AssemblyList { get; set; }
         public string BaseURL { get; set; }
+        public Material Material { get; set; }
     }
     public class AssemblyAdvanceSearch
     {

@@ -36,6 +36,7 @@ namespace ProductionApp.UserInterface.Models
         public int FilteredCount { get; set; }
         public List<AssemblyViewModel> AssemblyList { get; set; }
         public string BaseURL { get; set; }
+        public MaterialViewModel Material { get; set; }
     }
     public class AssemblyAdvanceSearchViewModel
     {
