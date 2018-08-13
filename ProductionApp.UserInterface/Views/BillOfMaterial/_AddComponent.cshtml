@@ -37,16 +37,19 @@
                 <div class="col-md-12 headSeperator"><i class="fa fa-th ig-yellow" aria-hidden="true"></i> Component Details</div>
 
                 <div class="col-md-12">
-                    <div class="col-md-6"></div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3">
+                        <a class="btn btn-openid" onclick="LoadMaterial()" style="color:white;font-weight:bold;"><i class="fa fa-archive"></i> Add Accessories</a>@*margin-left:70px;*@
+                    </div>
                     <div class="col-md-4">
-                        <a class="btn btn-openid" onclick="LoadComponents()" style="color:white;font-weight:bold;"><i class="fa fa-arrow-down"></i> Load Existing Components</a>@*margin-left:70px;*@
+                        <a class="btn btn-openid" onclick="LoadComponents()" style="color:white;font-weight:bold;"><i class="fa fa-arrow-down"></i> Add Existing Components</a>@*margin-left:70px;*@
                     </div>
                     <div class="col-md-2">
                         <a class="btn btn-openid" onclick="AddComponent()" style="color:white;font-weight:bold;float:right;"><i class="fa fa-plus"></i> Add New Component</a>@*//margin-left:20px;*@
                     </div>
-                </div>
+                    </div>
 
-                <div class="col-md-12" style="height:230px;">
+                <div class="col-md-12" style="height:237px;">
                     <table id="tblBOMComponentDetail" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
                         <thead>
                             <tr class="text-center TableHead">
@@ -107,7 +110,7 @@
                                         <th>Component</th>
                                         <th>Description</th>
                                         <th>Unit</th>
-                                        <th>Type</th>
+                                        @*<th>Current Stock</th>*@
                                 </thead>
                             </table>
                         </div>
@@ -118,6 +121,54 @@
 
             <div class="modal-footer" style="height: 50px;padding: 7px;">
                 <a id="btnAddComponents" class="btn btn-primary" onclick="BindComponentToTable()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade bs-example-modal-lg" id="MaterialListModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="min-width:1150px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-9">
+                        <div class="col-md-12 modelIcon">
+                            <h3 class="modal-title" id="modelContextLabel">Add Accessories</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    <div class="tab-content clearfix">
+                        <div class="tab-pane fade in active">
+                            <table id="tblMaterialList" class="table table-striped table-bordered table-hover customgrd" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>MaterialID</th>
+                                        <th></th>
+                                        <th>Accessory</th>
+                                        <th>Type</th>
+                                        <th>Unit</th>
+                                        @*<th>Current Stock</th>*@
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer" style="height: 50px;padding: 7px;">
+                <a id="btnAddMaterial" class="btn btn-primary" onclick="BindMaterialToTable()"><i class="glyphicon glyphicon-floppy-disk"></i> Add</a>
             </div>
 
         </div>
