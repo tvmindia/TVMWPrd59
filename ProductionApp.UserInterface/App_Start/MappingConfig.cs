@@ -158,6 +158,7 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<StockRegisterFGReportViewModel, StockRegisterFGReport>().ReverseMap();
                 config.CreateMap<StockLedgerFGReportViewModel, StockLedgerFGReport>().ReverseMap();
                 config.CreateMap<ProductStageWiseStockReport, ProductStageWiseStockReportViewModel>().ReverseMap();
+                config.CreateMap<SalesRegisterReport, SalesRegisterReportViewModel>().ReverseMap();
                 //Approval Status
                 config.CreateMap<ApprovalStatusViewModel, ApprovalStatus>().ReverseMap();
                 //Day Book

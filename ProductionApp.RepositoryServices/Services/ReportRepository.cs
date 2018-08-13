@@ -1264,6 +1264,78 @@ namespace ProductionApp.RepositoryServices.Services
 
             return ds;
         }
+
+
+        public List<SalesRegisterReport> GetSalesRegisterReport(SalesRegisterReport salesRegisterReport)
+        {
+            List<SalesRegisterReport> salesRegisterReportList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetSalesRegisterReport]";
+                        cmd.Parameters.Add("@SearchTerm", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(salesRegisterReport.SearchTerm) ? "" : salesRegisterReport.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = salesRegisterReport.DataTablePaging.Start;
+                        cmd.Parameters.Add("@Length", SqlDbType.Int).Value = salesRegisterReport.DataTablePaging.Length;
+                        //cmd.Parameters.Add("@OrderDir", SqlDbType.VarChar).Value = salesRegisterReport.DataTablePaging.OrderDir;
+                        //cmd.Parameters.Add("@OrderColumn", SqlDbType.NVarChar).Value = salesRegisterReport.DataTablePaging.OrderColumn;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.VarChar).Value = salesRegisterReport.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.NVarChar).Value = salesRegisterReport.ToDate;
+                        if (salesRegisterReport.CustomerID != Guid.Empty)
+                            cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = salesRegisterReport.CustomerID;
+                     
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                salesRegisterReportList = new List<SalesRegisterReport>();
+                                while (sdr.Read())
+                                {
+                                    SalesRegisterReport salesRegisterObj = new SalesRegisterReport();
+                                    {
+                                        salesRegisterObj.Date = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()) : salesRegisterObj.Date);
+                                        salesRegisterObj.DateFormatted = (sdr["Date"].ToString() != "" ? DateTime.Parse(sdr["Date"].ToString()).ToString(settings.DateFormat) : salesRegisterObj.DateFormatted);                                       
+                                        salesRegisterObj.Particulars = (sdr["Particulars"].ToString() != "" ? (sdr["Particulars"].ToString()) : salesRegisterObj.Particulars);
+                                        salesRegisterObj.Buyer = (sdr["Buyer"].ToString() != "" ? (sdr["Buyer"].ToString()) : salesRegisterObj.Buyer);
+                                        salesRegisterObj.VoucherType = (sdr["VoucherType"].ToString() != "" ? (sdr["VoucherType"].ToString()) : salesRegisterObj.VoucherType);
+                                        salesRegisterObj.VoucherRef = (sdr["VoucherRef"].ToString() != "" ? (sdr["VoucherRef"].ToString()) : salesRegisterObj.VoucherRef);
+                                        salesRegisterObj.VoucherNo = (sdr["VoucherNo"].ToString() != "" ? (sdr["VoucherNo"].ToString()) : salesRegisterObj.VoucherNo);
+                                        salesRegisterObj.GSTIN = (sdr["GSTIN"].ToString() != "" ? (sdr["GSTIN"].ToString()) : salesRegisterObj.GSTIN);
+                                        salesRegisterObj.Quantity = (sdr["Quantity"].ToString() != "" ?(sdr["Quantity"].ToString()) : salesRegisterObj.Quantity);
+                                        salesRegisterObj.Value = (sdr["Value"].ToString() != "" ? decimal.Parse(sdr["Value"].ToString()) : salesRegisterObj.Value);
+                                        salesRegisterObj.CGST = (sdr["CGST"].ToString() != "" ? decimal.Parse(sdr["CGST"].ToString()) : salesRegisterObj.CGST);
+                                        salesRegisterObj.SGST = (sdr["SGST"].ToString() != "" ? decimal.Parse(sdr["SGST"].ToString()) : salesRegisterObj.SGST);
+                                        salesRegisterObj.GrossAmount = (sdr["GrossAmount"].ToString() != "" ? decimal.Parse(sdr["GrossAmount"].ToString()) : salesRegisterObj.GrossAmount);
+                                        salesRegisterObj.RoundOffAmount = (sdr["RoundAmount"].ToString() != "" ? decimal.Parse(sdr["RoundAmount"].ToString()) : salesRegisterObj.RoundOffAmount);
+
+                                        salesRegisterObj.SaleGST = (sdr["SaleGST"].ToString() != "" ? decimal.Parse(sdr["SaleGST"].ToString()) : salesRegisterObj.SaleGST);
+                                        salesRegisterObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : salesRegisterObj.TotalCount);
+                                        salesRegisterObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : salesRegisterObj.FilteredCount);
+                                    }
+                                    salesRegisterReportList.Add(salesRegisterObj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return salesRegisterReportList;
+        }
+
+
     }
      
 }

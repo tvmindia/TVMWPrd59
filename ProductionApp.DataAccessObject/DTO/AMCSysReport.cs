@@ -344,4 +344,32 @@ namespace ProductionApp.DataAccessObject.DTO
 
     }
 
+    public class SalesRegisterReport
+    {
+        public string SearchTerm { get; set; }
+        public DataTablePaging DataTablePaging { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }       
+        public Guid CustomerID { get; set; }
+        public Customer Customer { get; set; }        
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public decimal? Value { get; set; }
+        public decimal? SaleGST { get; set; }
+        public decimal? CGST { get; set; }
+        public decimal? SGST { get; set; }
+        public decimal? GrossAmount { get; set; }
+        public string Quantity { get; set; }
+        public decimal? RoundOffAmount { get; set; }
+        public string GSTIN { get; set; }
+        public string VoucherRef { get; set; }
+        public string VoucherType { get; set; }
+        public string VoucherNo { get; set; }
+        public string Buyer { get; set; }
+        public string Particulars { get; set; }
+        public DateTime Date { get; set; }
+        public string DateFormatted { get; set; }
+        public List<SalesRegisterReport> SalesRegisterReportList { get; set; }
+    }
+
 }
