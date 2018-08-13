@@ -153,5 +153,10 @@ namespace ProductionApp.BusinessService.Services
             return _reportRepository.GetMovementAnalysisReport(movementAnalysisReport);
 
         }
+
+        public List<SalesRegisterReport> GetSalesRegisterReport(SalesRegisterReport salesRegisterReport)
+        {
+            return _reportRepository.GetSalesRegisterReport(salesRegisterReport);
+        }
     }
 }

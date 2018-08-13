@@ -26,7 +26,9 @@ namespace ProductionApp.UserInterface.Controllers
         IApprovalStatusBusiness _approvalStatusBusiness;
         IMaterialTypeBusiness _materialTypeBusiness;
         IProductBusiness _productBusiness;
-        public DashboardReportController(IReportBusiness reportBusiness,IEmployeeBusiness employeeBusiness,IRequisitionBusiness requisitionBusiness,ICommonBusiness commonBusiness,IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness,IApprovalStatusBusiness approvalStatusBusiness, IMaterialTypeBusiness materialTypeBusiness, IProductBusiness productBusiness)
+        ICustomerBusiness _customerBusiness;
+        public DashboardReportController(IReportBusiness reportBusiness,IEmployeeBusiness employeeBusiness,IRequisitionBusiness requisitionBusiness,ICommonBusiness commonBusiness,IMaterialBusiness materialBusiness, ISupplierBusiness supplierBusiness,IApprovalStatusBusiness approvalStatusBusiness, 
+            IMaterialTypeBusiness materialTypeBusiness, IProductBusiness productBusiness,ICustomerBusiness customerBusiness)
         {
             _reportBusiness = reportBusiness;
             _employeeBusiness = employeeBusiness;
@@ -37,6 +39,7 @@ namespace ProductionApp.UserInterface.Controllers
             _approvalStatusBusiness = approvalStatusBusiness;
             _materialTypeBusiness = materialTypeBusiness;
             _productBusiness = productBusiness;
+            _customerBusiness = customerBusiness;
         }
         #endregion Constructor Injection
 
@@ -992,8 +995,69 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion MovementAnalysisReport
 
 
-        #region ButtonStyling
         [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SalesRegisterReport", Mode = "R")]
+        public ActionResult SalesRegisterReport(string Code)
+        {
+            ViewBag.SysModuleCode = Code;
+            SalesRegisterReportViewModel salesRegisterReportVM = new SalesRegisterReportViewModel();
+            salesRegisterReportVM.Customer = new CustomerViewModel();
+            List<SelectListItem> selectListItem = new List<SelectListItem>();
+            salesRegisterReportVM.Customer.SelectList = new List<SelectListItem>();
+            List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetCustomerForSelectList());
+            if (customerList != null)
+                foreach (CustomerViewModel customer in customerList)
+                {
+                    selectListItem.Add(new SelectListItem
+                    {
+                        Text = customer.CompanyName,
+                        Value = customer.ID.ToString(),
+                        Selected = false
+                    });
+                }
+            salesRegisterReportVM.Customer.SelectList = selectListItem;
+
+            return View(salesRegisterReportVM);
+        }
+            #region GetSalesRegisterReport
+            [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "SalesRegisterReport", Mode = "R")]
+        public JsonResult GetSalesRegisterReport(DataTableAjaxPostModel model, SalesRegisterReportViewModel salesRegisterReportVM)
+        {
+            salesRegisterReportVM.DataTablePaging.Start = model.start;
+            salesRegisterReportVM.DataTablePaging.Length = (salesRegisterReportVM.DataTablePaging.Length == 0 ? model.length : salesRegisterReportVM.DataTablePaging.Length);
+
+            List<SalesRegisterReportViewModel> salesRegisterReportList = Mapper.Map<List<SalesRegisterReport>, List<SalesRegisterReportViewModel>>(_reportBusiness.GetSalesRegisterReport(Mapper.Map<SalesRegisterReportViewModel, SalesRegisterReport>(salesRegisterReportVM)));
+
+            if (salesRegisterReportVM.DataTablePaging.Length == -1)
+            {
+                int totalResult = salesRegisterReportList.Count != 0 ? salesRegisterReportList[0].TotalCount : 0;
+                int filteredResult = salesRegisterReportList.Count != 0 ? salesRegisterReportList[0].FilteredCount : 0;
+                salesRegisterReportList = salesRegisterReportList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+            }
+            var settings = new JsonSerializerSettings
+            {
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.None
+            };
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = salesRegisterReportList.Count != 0 ? salesRegisterReportList[0].TotalCount : 0,
+                recordsFiltered = salesRegisterReportList.Count != 0 ? salesRegisterReportList[0].FilteredCount : 0,
+                data = salesRegisterReportList
+            });
+        }
+        #endregion GetSalesRegisterReport
+
+
+    
+
+
+
+    #region ButtonStyling
+    [HttpGet]
         [AuthSecurityFilter(ProjectObject = "dashboardReport", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {

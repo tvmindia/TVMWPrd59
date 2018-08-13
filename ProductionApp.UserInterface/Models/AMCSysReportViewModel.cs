@@ -418,5 +418,39 @@ namespace ProductionApp.UserInterface.Models
 
     }
 
+    public class SalesRegisterReportViewModel
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
+        [Display(Name = "From Date")]
+        public string FromDate { get; set; }
+        [Display(Name = "To Date")]
+        public string ToDate { get; set; }
+        [Display(Name = "Customer")]
+        public Guid CustomerID { get; set; }
+        public CustomerViewModel Customer { get; set; }       
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public decimal? Value { get; set; }
+        public decimal? SaleGST { get; set; }
+        public decimal? CGST { get; set; }
+        public decimal? SGST { get; set; }
+        public decimal GrossAmount { get; set; }
+        public string Quantity { get; set; }
+        public decimal? RoundOffAmount { get; set; }
+        public string GSTIN { get; set; }
+        public string VoucherRef { get; set; }
+        public string VoucherType { get; set; }
+        public string VoucherNo { get; set; }
+        public string Buyer { get; set; }
+        public string Particulars { get; set; }
+        public DateTime Date { get; set; }
+        public string DateFormatted { get; set; }
+        public List<SalesRegisterReportViewModel> SalesRegisterReportList { get; set; }
+    }
+
+
+
 
 }

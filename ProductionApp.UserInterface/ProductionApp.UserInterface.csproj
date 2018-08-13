@@ -763,6 +763,7 @@
     <Content Include="Scripts\UserJS\Report\Report.js" />
     <Content Include="Scripts\UserJS\Report\RequisitionSummaryReport.js" />
     <Content Include="Scripts\UserJS\Report\SalesAnalysisReport.js" />
+    <Content Include="Scripts\UserJS\Report\SalesRegisterReport.js" />
     <Content Include="Scripts\UserJS\Report\StockLedgerFGReport.js" />
     <Content Include="Scripts\UserJS\Report\StockLedgerReport.js" />
     <Content Include="Scripts\UserJS\Report\StockRegisterFGReport.js" />
@@ -1108,6 +1109,7 @@
     <Content Include="Views\ChartOfAccount\_AddChartOfAccountPartial.cshtml" />
     <Content Include="Views\ChartOfAccount\_ChartOfAccountDropdown.cshtml" />
     <Content Include="Views\OtherExpense\_OtherExpenseVoucherPreview.cshtml" />
+    <Content Include="Views\DashboardReport\SalesRegisterReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
