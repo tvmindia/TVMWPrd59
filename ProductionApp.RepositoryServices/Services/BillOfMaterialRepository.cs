@@ -243,11 +243,21 @@ namespace ProductionApp.RepositoryServices.Services
                                     BillOfMaterialDetail billOfMaterialDetail = new BillOfMaterialDetail();
                                     {
                                         billOfMaterialDetail.Product = new Product();
+                                        billOfMaterialDetail.Material = new Material();
                                         billOfMaterialDetail.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : billOfMaterialDetail.ID);
-                                        billOfMaterialDetail.Product.ID = billOfMaterialDetail.ComponentID = (sdr["ComponentID"].ToString() != "" ? Guid.Parse(sdr["ComponentID"].ToString()) : billOfMaterialDetail.ComponentID);
-                                        billOfMaterialDetail.Product.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : billOfMaterialDetail.Product.Name);
+                                        billOfMaterialDetail.ComponentID = (sdr["ComponentID"].ToString() != "" ? Guid.Parse(sdr["ComponentID"].ToString()) : billOfMaterialDetail.ComponentID);
+                                        billOfMaterialDetail.MaterialID = (sdr["MaterialID"].ToString() != "" ? Guid.Parse(sdr["MaterialID"].ToString()) : billOfMaterialDetail.MaterialID);
                                         billOfMaterialDetail.Qty = (sdr["Qty"].ToString() != "" ? decimal.Parse(sdr["Qty"].ToString()) : billOfMaterialDetail.Qty);
-                                        billOfMaterialDetail.Product.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : billOfMaterialDetail.Product.UnitCode);
+                                        if (billOfMaterialDetail.ComponentID != null)
+                                        {
+                                            billOfMaterialDetail.Product.ID = (Guid)billOfMaterialDetail.ComponentID;
+                                            billOfMaterialDetail.Product.Name = (sdr["Name"].ToString() != "" ? sdr["Name"].ToString() : billOfMaterialDetail.Product.Name);
+                                            billOfMaterialDetail.Product.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : billOfMaterialDetail.Product.UnitCode);
+                                        } else {
+                                            billOfMaterialDetail.Material.ID = (Guid)billOfMaterialDetail.MaterialID;
+                                            billOfMaterialDetail.Material.Description = (sdr["Material"].ToString() != "" ? sdr["Material"].ToString() : billOfMaterialDetail.Material.Description);
+                                            billOfMaterialDetail.Material.UnitCode = (sdr["UnitCode"].ToString() != "" ? sdr["UnitCode"].ToString() : billOfMaterialDetail.Material.UnitCode);
+                                        }
                                     }
                                     billOfMaterialDetailList.Add(billOfMaterialDetail);
                                 }

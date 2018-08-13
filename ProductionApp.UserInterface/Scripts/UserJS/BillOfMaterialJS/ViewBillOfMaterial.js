@@ -82,9 +82,11 @@ function BindOrReloadBOMTable(action) {
                     
                     var componentList = [];
                     for (var i = 0; i < row.BillOfMaterialDetailList.length; i++) {
-                        componentList.push("<b><strong> * </strong></b>" + row.BillOfMaterialDetailList[i].Product.Name + " : " + row.BillOfMaterialDetailList[i].Qty + " Nos")
+                        componentList.push("<b><strong> * </strong></b>" +
+                            (row.BillOfMaterialDetailList[i].Product.Name !== null ? row.BillOfMaterialDetailList[i].Product.Name : row.BillOfMaterialDetailList[i].Material.Description)
+                       + " : " + row.BillOfMaterialDetailList[i].Qty + " Nos")
                     }
-                    return componentList
+                    return componentList;
                 },
                 "defaultContent": "<i>-</i>"
             },

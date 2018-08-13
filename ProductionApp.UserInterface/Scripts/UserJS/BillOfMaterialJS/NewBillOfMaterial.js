@@ -51,15 +51,45 @@ function AddComponentInit() {
                 },
                 columns: [
                   { "data": "ID" },
-                  { "data": "ComponentID", "defaultContent": "<i>-</i>" },
-                  { "data": "Product.Name", "defaultContent": "<i>-</i>" },
-                  { "data": "Product.UnitCode", "defaultContent": "<i>-</i>" },
+                  {
+                      "data": "ComponentID", render: function (data, type, row) {
+                          debugger;
+                          if (data !== null && data !== "")
+                              return data;
+                          else
+                              return row.MaterialID
+                      }, "defaultContent": "<i>-</i>"
+                  },
+                  { "data": "Product.Name", render: function (data, type, row) {
+                      debugger;
+                      if (row.ComponentID !== null && row.ComponentID !== "")
+                          return data;
+                      else
+                          return row.Material.Description
+                  }, "defaultContent": "<i>-</i>" },
+                  {
+                      "data": "Product.UnitCode", render: function (data, type, row) {
+                          debugger;
+                          if (row.ComponentID !== null && row.ComponentID !== "")
+                              return data;
+                          else
+                              return row.Material.UnitCode
+                      }, "defaultContent": "<i>-</i>"
+                  },
                   {
                       "data": "Qty", render: function (data, type, row) {
                           return '<input class="form-control text-left " name="Markup" value="' + row.Qty + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="TextBoxValueChanged(this);">';
                       }, "defaultContent": "<i>-</i>"
                   },
-                  { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  |  <a href="#" onclick="LoadPartialAddProductionLine(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
+                  {
+                      "data": "ComponentID", render: function (data, type, row) {
+                          debugger;
+                          if (data !== null && data !== "")
+                              return '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  |  <a href="#" onclick="LoadPartialAddProductionLine(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>';
+                          else
+                              return '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>';
+                      }, "defaultContent": "<i>-</i>"
+                  },
                 ],
                 columnDefs: [{ orderable: false, className: 'select-checkbox', "targets": 1 },
                     { "targets": [0, 1], "visible": false, "searchable": false },
@@ -163,7 +193,7 @@ function BindOrReloadProductTable() {//BindOrReloadProductTable('Reset')BindProd
             { "data": "Name", "defaultContent": "<i>-</i>" },
             { "data": "Description", "defaultContent": "<i>-<i>" },
             { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
-            { "data": "Type", "defaultContent": "<i>-<i>" }
+            //{ "data": "CurrentStock", "defaultContent": "<i>-<i>" }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { orderable: false, className: 'select-checkbox', "targets": 1 },
@@ -193,8 +223,10 @@ function GetProductListForBillOfMaterial() {
     try{
         debugger;
         var IDs = [];
-        for (var i = 0; i < DataTables.ComponentList.rows().data().length; i++) {
-            IDs.push(DataTables.ComponentList.rows().data()[i].ComponentID);
+        var billOfMaterialDetailList = DataTables.ComponentList.rows().data();
+        for (var i = 0; i < billOfMaterialDetailList.length; i++) {
+            if (billOfMaterialDetailList[i].ComponentID!==null)
+                IDs.push(billOfMaterialDetailList[i].ComponentID);
         }
         var data = { "componentIDs": String(IDs) };
 
@@ -305,6 +337,7 @@ function BindComponentToTable() {
             _BillOfMaterialDetail = new Object();
             _BillOfMaterialDetail.ID = EmptyGuid;
             _BillOfMaterialDetail.ComponentID = componentList[i].ID;
+            _BillOfMaterialDetail.MaterialID = null;
             _BillOfMaterialDetail.Product = new Object();
             _BillOfMaterialDetail.Product.Name = componentList[i].Name;
             _BillOfMaterialDetail.Product.UnitCode = componentList[i].UnitCode;
@@ -427,6 +460,7 @@ function GetDetailsFromTable() {
             var billOfMaterialDetailVM = new Object();
             billOfMaterialDetailVM.ID = billOfMaterialDetailList[r].ID;
             billOfMaterialDetailVM.ComponentID = billOfMaterialDetailList[r].ComponentID;
+            billOfMaterialDetailVM.MaterialID = billOfMaterialDetailList[r].MaterialID;
             billOfMaterialDetailVM.Qty = billOfMaterialDetailList[r].Qty;
             _BillOfMaterialDetailList.push(billOfMaterialDetailVM);
         }
@@ -520,9 +554,15 @@ function TextBoxValueChanged(thisObj) {
         var billOfMaterialDetailVM = DataTables.ComponentList.row($(thisObj).parents('tr')).data();
         var billOfMaterialDetailList = DataTables.ComponentList.rows().data();
         for (var i = 0; i < billOfMaterialDetailList.length; i++) {
-            if (billOfMaterialDetailList[i].ComponentID === billOfMaterialDetailVM.ComponentID) {
-                billOfMaterialDetailList[i].Qty = parseFloat(thisObj.value);
+            if (billOfMaterialDetailList[i].ComponentID !== null) {
+                if (billOfMaterialDetailList[i].ComponentID === billOfMaterialDetailVM.ComponentID) {
+                    billOfMaterialDetailList[i].Qty = parseFloat(thisObj.value);
+                }
             }
+            else
+                if (billOfMaterialDetailList[i].MaterialID === billOfMaterialDetailVM.MaterialID) {
+                    billOfMaterialDetailList[i].Qty = parseFloat(thisObj.value);
+                }
         }
         DataTables.ComponentList.clear().rows.add(billOfMaterialDetailList).draw(false);
     }
@@ -653,8 +693,129 @@ function Reset() {
     }
 }
 
-///________________________________________________________________________________//
-//*****************************Production Line************************************//
+//------------------------------Accessory List Pop Up---------------------------------//
+function LoadMaterial() {
+    //Bind MaterialList Table
+    try {
+        $('#MaterialListModal').modal('show');
+        BindOrReloadMaterialTable();
+    } catch (ex) {
+        console.log(ex.message);
+    }
+}
+
+//Bind Values into Product List DataTable for Pop Up
+function BindOrReloadMaterialTable() {//BindOrReloadProductTable('Reset')BindProductList
+    try {
+        debugger;
+        try {
+            DataTables.MaterialList = $('#tblMaterialList').DataTable({
+                dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+                order: [],
+                searching: true,
+                paging: true,
+                //pageLength: 10,
+                data: GetMaterialListForBillOfMaterial(),
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search"
+                },
+                columns: [
+                { "data": "ID", "defaultContent": "<i>-</i>" },
+                { "data": "Checkbox", "defaultContent": "" },
+                { "data": "Description", "defaultContent": "<i>-</i>" },
+                { "data": "MaterialType.Description", "defaultContent": "<i>-<i>" },
+                { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
+                //{ "data": "CurrentStock", "defaultContent": "<i>-<i>" }
+                ],
+                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
+                    { orderable: false, className: 'select-checkbox', "targets": 1 },
+                    { className: "text-right", "targets": [] },
+                    { className: "text-left", "targets": [1, 2, 3] },
+                    { className: "text-center", "targets": [] }],
+                select: { style: 'multi', selector: 'td:first-child' },
+                destroy: true
+            });
+        }
+        catch (ex) {
+            console.log(ex.message);
+        }
+        if (_IsInput === true) {
+            $(".close").click();
+            //AddProduct()
+        }
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+
+}
+
+//---------------------Get ProductList For BillOfMaterial---------------------------//
+function GetMaterialListForBillOfMaterial() {
+    try {
+        debugger;
+        var IDs = [];
+        for (var i = 0; i < DataTables.ComponentList.rows().data().length; i++) {
+            IDs.push(DataTables.ComponentList.rows().data()[i].ComponentID);
+        }
+        var data = { "componentIDs": String(IDs) };
+
+        var result = "";
+        var message = "";
+        materialList = [];
+
+        var jsonData = GetDataFromServer("BillOfMaterial/GetMaterialListForBillOfMaterial/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            materialList = jsonData.Records;
+        }
+
+        switch (result) {
+            case "OK":
+                return materialList;
+                break;
+            case "ERROR":
+                notyAlert('error', message);
+                break;
+            default:
+                break;
+        }
+        return materialList;
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+
+//--------Load selected Product from List DataTable into Deatails DataTable--------//
+function BindMaterialToTable() {
+    try {
+        debugger;
+        var componentList = DataTables.MaterialList.rows(".selected").data();
+        _BillOfMaterialDetailList = [];
+        for (var i = 0; i < componentList.length; i++) {
+            _BillOfMaterialDetail = new Object();
+            _BillOfMaterialDetail.ID = EmptyGuid;
+            _BillOfMaterialDetail.ComponentID = null;
+            _BillOfMaterialDetail.MaterialID = componentList[i].ID;
+            _BillOfMaterialDetail.Material = new Object();
+            _BillOfMaterialDetail.Material.Description = componentList[i].Description;
+            _BillOfMaterialDetail.Material.UnitCode = componentList[i].UnitCode;
+            _BillOfMaterialDetail.Qty = 1;
+            _BillOfMaterialDetailList.push(_BillOfMaterialDetail);
+        }
+        RebindComponentList(_BillOfMaterialDetailList);
+        $(".close").click();
+    } catch (ex) {
+        console.log(ex.message);
+    }
+}
+
+////________________________________________________________________________________//
+///*****************************Production Line************************************//
 //Load AddProductionLine Partial View
 function LoadPartialAddProductionLine(curobj) {
     try {
