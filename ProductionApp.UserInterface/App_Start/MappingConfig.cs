@@ -114,7 +114,7 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<AssemblyViewModel, Assembly>().ReverseMap();
                 config.CreateMap<AssemblyAdvanceSearchViewModel, AssemblyAdvanceSearch>().ReverseMap();
                 //CustomerInvoice 
-                config.CreateMap<ServiceItemsViewModel, ServiceItems>().ReverseMap();
+                config.CreateMap<ServiceItemViewModel, ServiceItem>().ReverseMap();
                 config.CreateMap<CustomerInvoiceViewModel,CustomerInvoice>().ReverseMap();
                 config.CreateMap<CustomerInvoiceDetailViewModel, CustomerInvoiceDetail>().ReverseMap();
                 config.CreateMap<CustomerInvoiceDetailLinkViewModel, CustomerInvoiceDetailLink>().ReverseMap();
@@ -164,6 +164,7 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<ApprovalStatusViewModel, ApprovalStatus>().ReverseMap();
                 //Day Book
                 config.CreateMap<DayBookViewModel, DayBook>().ReverseMap();
+                config.CreateMap<ServiceItemAdvanceSearchViewModel, ServiceItemAdvanceSearch>().ReverseMap();
 
             });
         }

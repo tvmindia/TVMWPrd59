@@ -81,7 +81,7 @@ namespace ProductionApp.UserInterface.Models
         public string BankAccDetail { get; set; }
         public string InvoiceDeclaration { get; set; }
         public string InvoiceAmountWords { get; set; }
-        public ServiceItemsViewModel ServiceItems { get; set; }
+        public ServiceItemViewModel ServiceItems { get; set; }
     }
     public class CustomerInvoiceDetailViewModel
     {
@@ -139,7 +139,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Invoice Type")]
         public string InvoiceType { get; set; }
         public CustomerViewModel Customer { get; set; }
-        public ServiceItemsViewModel ServiceItems { get; set; }
+        public ServiceItemViewModel ServiceItems { get; set; }
 
     }
     public class CustomerInvoiceMailPreviewViewModel

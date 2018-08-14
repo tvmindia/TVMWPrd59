@@ -85,7 +85,7 @@
     <Compile Include="Contracts\IMaterialBusiness.cs" />
     <Compile Include="Contracts\ISalesInvoieBusiness.cs" />
     <Compile Include="Contracts\ISalesOrderBusiness.cs" />
-    <Compile Include="Contracts\IServiceItemsBusiness.cs" />
+    <Compile Include="Contracts\IServiceItemBusiness.cs" />
     <Compile Include="Contracts\IStageBusiness.cs" />
     <Compile Include="Contracts\ISubComponentBusiness.cs" />
     <Compile Include="Contracts\ISupplierBusiness.cs" />
@@ -134,7 +134,7 @@
     <Compile Include="Services\MaterialBusiness.cs" />
     <Compile Include="Services\SalesInvoieBusiness.cs" />
     <Compile Include="Services\SalesOrderBusiness.cs" />
-    <Compile Include="Services\ServiceItemsBusiness.cs" />
+    <Compile Include="Services\ServiceItemBusiness.cs" />
     <Compile Include="Services\StageBusiness.cs" />
     <Compile Include="Services\SubComponentBusiness.cs" />
     <Compile Include="Services\SupplierBusiness.cs" />

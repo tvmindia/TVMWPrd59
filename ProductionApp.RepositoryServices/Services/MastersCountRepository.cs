@@ -55,6 +55,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     mastersCount.ProductStage = (sdr["ProductStageCount"].ToString() != "" ? int.Parse(sdr["ProductStageCount"].ToString()) : mastersCount.ProductStage);
                                     mastersCount.SubComponents = (sdr["SubComponentCount"].ToString() != "" ? int.Parse(sdr["SubComponentCount"].ToString()) : mastersCount.SubComponents);
                                     mastersCount.Supplier = (sdr["SupplierCount"].ToString() != "" ? int.Parse(sdr["SupplierCount"].ToString()) : mastersCount.Supplier);
+                                    mastersCount.ServiceItem = (sdr["ServiceItemCount"].ToString() != "" ? int.Parse(sdr["ServiceItemCount"].ToString()) : mastersCount.ServiceItem);
                                     mastersCountList.Add(mastersCount);
                                 }
                             }

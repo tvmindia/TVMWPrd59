@@ -149,7 +149,8 @@ namespace ProductionApp.UserInterface.App_Start
             //OtherExpense
             bundles.Add(new ScriptBundle("~/bundles/UserJs/OtherExpense/ViewOtherExpense").Include("~/Scripts/UserJS/OtherExpense/ViewOtherExpense.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/OtherExpense/NewOtherExpense").Include("~/Scripts/UserJS/OtherExpense/NewOtherExpense.js"));
-            
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/ServiceItem").Include("~/Scripts/UserJS/ServiceItem.js"));
+
         }
     }
 }

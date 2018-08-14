@@ -20,12 +20,12 @@ namespace ProductionApp.UserInterface.Controllers
         private IPackingSlipBusiness _packingSlipBusiness;
         private ITaxTypeBusiness _taxTypeBusiness;
         private IPaymentTermBusiness _paymentTermBusiness;
-        private IServiceItemsBusiness _serviceItemsBusiness;
+        private IServiceItemBusiness _serviceItemsBusiness;
 
         Common _common = new Common();
         AppConst _appConst = new AppConst();
 
-        public CustomerInvoiceController(ICustomerInvoiceBusiness customerInvoiceBusiness, ICustomerBusiness customerBusiness, IPackingSlipBusiness packingSlipBusiness, ITaxTypeBusiness taxTypeBusiness, IPaymentTermBusiness paymentTermBusiness, IServiceItemsBusiness serviceItemsBusiness)
+        public CustomerInvoiceController(ICustomerInvoiceBusiness customerInvoiceBusiness, ICustomerBusiness customerBusiness, IPackingSlipBusiness packingSlipBusiness, ITaxTypeBusiness taxTypeBusiness, IPaymentTermBusiness paymentTermBusiness, IServiceItemBusiness serviceItemsBusiness)
         {
             _customerInvoiceBusiness = customerInvoiceBusiness;
             _customerBusiness = customerBusiness;
@@ -85,11 +85,11 @@ namespace ProductionApp.UserInterface.Controllers
                 }
             customerInvoiceVM.Customer = customerVM;
 
-            ServiceItemsViewModel serviceItemsVM = new ServiceItemsViewModel();
+            ServiceItemViewModel serviceItemsVM = new ServiceItemViewModel();
             serviceItemsVM.SelectList = new List<SelectListItem>();
-            List<ServiceItemsViewModel> serviceItemsList = Mapper.Map<List<ServiceItems>, List<ServiceItemsViewModel>>(_serviceItemsBusiness.GetServiceItemsForSelectList());
+            List<ServiceItemViewModel> serviceItemsList = Mapper.Map<List<ServiceItem>, List<ServiceItemViewModel>>(_serviceItemsBusiness.GetServiceItemsForSelectList());
             if (serviceItemsList != null)
-                foreach (ServiceItemsViewModel Items in serviceItemsList)
+                foreach (ServiceItemViewModel Items in serviceItemsList)
                 {
                     serviceItemsVM.SelectList.Add(new SelectListItem
                     {
@@ -530,7 +530,7 @@ namespace ProductionApp.UserInterface.Controllers
         {
             try
             {
-                ServiceItemsViewModel serviceItemsVM = Mapper.Map<ServiceItems, ServiceItemsViewModel>(_serviceItemsBusiness.GetServiceItem(Guid.Parse(ID)));
+                ServiceItemViewModel serviceItemsVM = Mapper.Map<ServiceItem, ServiceItemViewModel>(_serviceItemsBusiness.GetServiceItem(Guid.Parse(ID)));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = serviceItemsVM, Message = "Success" });
             }
             catch (Exception ex)

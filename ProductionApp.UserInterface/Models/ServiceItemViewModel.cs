@@ -7,12 +7,18 @@ using System.Web.Mvc;
 
 namespace ProductionApp.UserInterface.Models
 {
-    public class ServiceItemsViewModel
+    public class ServiceItemViewModel
     {
         public Guid ID { get; set; }
         [Display(Name = "Service Name")]
         public string ServiceName { get; set; }
         public decimal Rate { get; set; }
+
+        //additional fields 
+        public bool IsUpdate { get; set; }
+        public int TotalCount { get; set; }
+        public int FilteredCount { get; set; }
+        public CommonViewModel Common { get; set; }
 
         [Display(Name = "Discount Amount")]
         public decimal TradeDiscountAmount { get; set; }
@@ -37,5 +43,12 @@ namespace ProductionApp.UserInterface.Models
         public TaxTypeViewModel TaxType { get; set; }
         public List<SelectListItem> SelectList { get; set; }
 
+    }
+
+    public class ServiceItemAdvanceSearchViewModel
+    {
+        [Display(Name = "Search")]
+        public string SearchTerm { get; set; }
+        public DataTablePagingViewModel DataTablePaging { get; set; }
     }
 }
