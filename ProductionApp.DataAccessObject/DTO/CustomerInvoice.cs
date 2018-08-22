@@ -59,7 +59,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string BankAccDetail { get; set; }
         public string InvoiceDeclaration { get; set; }
         public string InvoiceAmountWords { get; set; }
-        public ServiceItems ServiceItems { get; set; }
+        public ServiceItem ServiceItems { get; set; }
         public TaxType TaxType { get; set; }
     }
     public class CustomerInvoiceDetail

@@ -112,7 +112,7 @@
     <Compile Include="DTO\Material.cs" />
     <Compile Include="DTO\SalesInvoice.cs" />
     <Compile Include="DTO\SalesOrder.cs" />
-    <Compile Include="DTO\ServiceItems.cs" />
+    <Compile Include="DTO\ServiceItem.cs" />
     <Compile Include="DTO\Stage.cs" />
     <Compile Include="DTO\SubComponent.cs" />
     <Compile Include="DTO\Supplier.cs" />

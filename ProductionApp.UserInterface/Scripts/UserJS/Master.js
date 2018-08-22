@@ -437,3 +437,34 @@ function SaveSuccessChartOfAccount(data, status) {
     }
     $('#divModelMasterPopUp').modal('hide');
 }
+//add ServiceItem 
+function AddServiceItemMaster(flag) {
+    GetMasterPartial("ServiceItem", "");
+    $('#h3ModelMasterContextLabel').text('Add Service Item')
+    $('#divModelMasterPopUp').modal('show');
+    $('#hdnMasterCall').val(flag);
+}
+//onsuccess function for formsubmitt
+function SaveSuccessServiceItem(data, status) {
+    debugger;
+    var JsonResult = JSON.parse(data)
+    switch (JsonResult.Result) {
+        case "OK":
+            if ($('#hdnMasterCall').val() == "MSTR") {
+                $('#IsUpdate').val('True');
+                BindOrReloadServiceItemTable('Reset');
+            }
+            else if ($('#hdnMasterCall').val() == "OTR") {
+                $('#divServiceItemDropdown').load('/ServiceItem/ServiceItemDropdown');
+            }
+            MasterAlert("success", JsonResult.Records.Message)
+            break;
+        case "ERROR":
+            MasterAlert("danger", JsonResult.Message)
+            break;
+        default:
+            MasterAlert("danger", JsonResult.Message)
+            break;
+    }
+    $('#divModelMasterPopUp').modal('hide');
+}

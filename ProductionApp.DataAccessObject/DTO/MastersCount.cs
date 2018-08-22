@@ -18,6 +18,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public int ProductStage { get; set; }
         public int SubComponents { get; set; }
         public int Supplier { get; set; }
+        public int ServiceItem { get; set; }
         public List<MastersCount> MasterCountList { get; set; }
     }
 }

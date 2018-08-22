@@ -20,6 +20,7 @@ namespace ProductionApp.UserInterface.Models
         public int ProductStage { get; set; }
         public int SubComponents { get; set; }
         public int Supplier { get; set; }
+        public int ServiceItem { get; set; }
         public List<MastersCountViewModel> MasterCountList { get; set; }
     }
 }
