@@ -53,6 +53,7 @@
     <Compile Include="Contracts\IChartOfAccountBusiness.cs" />
     <Compile Include="Contracts\ICommonBusiness.cs" />
     <Compile Include="Contracts\ICustomerBusiness.cs" />
+    <Compile Include="Contracts\ICustomerCreditNoteBusiness.cs" />
     <Compile Include="Contracts\ICustomerInvoiceBusiness.cs" />
     <Compile Include="Contracts\ICustomerPaymentBusiness.cs" />
     <Compile Include="Contracts\IDepartmentBusiness.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Contracts\IStageBusiness.cs" />
     <Compile Include="Contracts\ISubComponentBusiness.cs" />
     <Compile Include="Contracts\ISupplierBusiness.cs" />
+    <Compile Include="Contracts\ISupplierCreditNoteBusiness.cs" />
     <Compile Include="Contracts\ISupplierInvoiceBusiness.cs" />
     <Compile Include="Contracts\ISupplierPaymentBusiness.cs" />
     <Compile Include="Contracts\ITaxTypeBusiness.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Services\ChartOfAccountBusiness.cs" />
     <Compile Include="Services\CommonBusiness.cs" />
     <Compile Include="Services\CustomerBusiness.cs" />
+    <Compile Include="Services\CustomerCreditNoteBusiness.cs" />
     <Compile Include="Services\CustomerInvoiceBusiness.cs" />
     <Compile Include="Services\CustomerPaymentBusiness.cs" />
     <Compile Include="Services\DepartmentBusiness.cs" />
@@ -138,6 +141,7 @@
     <Compile Include="Services\StageBusiness.cs" />
     <Compile Include="Services\SubComponentBusiness.cs" />
     <Compile Include="Services\SupplierBusiness.cs" />
+    <Compile Include="Services\SupplierCreditNoteBusiness.cs" />
     <Compile Include="Services\SupplierInvoiceBusiness.cs" />
     <Compile Include="Services\SupplierPaymentBusiness.cs" />
     <Compile Include="Services\TaxTypeBusiness.cs" />

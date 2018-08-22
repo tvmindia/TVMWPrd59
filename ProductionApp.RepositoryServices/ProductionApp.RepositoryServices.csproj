@@ -51,6 +51,7 @@
     <Compile Include="Contracts\IBankRepository.cs" />
     <Compile Include="Contracts\IBillOfMaterialRepository.cs" />
     <Compile Include="Contracts\IChartOfAccountRepository.cs" />
+    <Compile Include="Contracts\ICustomerCreditNoteRepository.cs" />
     <Compile Include="Contracts\ICustomerInvoiceRepository.cs" />
     <Compile Include="Contracts\ICustomerPaymentRepository.cs" />
     <Compile Include="Contracts\ICustomerRepository.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Contracts\IServiceItemsRepository.cs" />
     <Compile Include="Contracts\IStageRepository.cs" />
     <Compile Include="Contracts\ISubComponentRepository.cs" />
+    <Compile Include="Contracts\ISupplierCreditNoteRepository.cs" />
     <Compile Include="Contracts\ISupplierInvoiceRepository.cs" />
     <Compile Include="Contracts\ISupplierPaymentRepository.cs" />
     <Compile Include="Contracts\ISupplierRepository.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="Services\BankRepository.cs" />
     <Compile Include="Services\BillOfMaterialRepository.cs" />
     <Compile Include="Services\ChartOfAccountRepository.cs" />
+    <Compile Include="Services\CustomerCreditNoteRepository.cs" />
     <Compile Include="Services\CustomerInvoiceRepository.cs" />
     <Compile Include="Services\CustomerPaymentRepository.cs" />
     <Compile Include="Services\CustomerRepository.cs" />
@@ -135,6 +138,7 @@
     <Compile Include="Services\ServiceItemsRepository.cs" />
     <Compile Include="Services\StageRepository.cs" />
     <Compile Include="Services\SubComponentRepository.cs" />
+    <Compile Include="Services\SupplierCreditNoteRepository.cs" />
     <Compile Include="Services\SupplierInvoiceRepository.cs" />
     <Compile Include="Services\SupplierPaymentRepository.cs" />
     <Compile Include="Services\SupplierRepository.cs" />

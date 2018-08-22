@@ -80,6 +80,7 @@
     <Compile Include="DTO\AMCSysModule.cs" />
     <Compile Include="DTO\AMCSysMenu.cs" />
     <Compile Include="DTO\Customer.cs" />
+    <Compile Include="DTO\CustomerCreditNote.cs" />
     <Compile Include="DTO\CustomerInvoice.cs" />
     <Compile Include="DTO\CustomerPayment.cs" />
     <Compile Include="DTO\DataTablePaging.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="DTO\Stage.cs" />
     <Compile Include="DTO\SubComponent.cs" />
     <Compile Include="DTO\Supplier.cs" />
+    <Compile Include="DTO\SupplierCreditNote.cs" />
     <Compile Include="DTO\SupplierInvoice.cs" />
     <Compile Include="DTO\SupplierPayment.cs" />
     <Compile Include="DTO\TaxType.cs" />

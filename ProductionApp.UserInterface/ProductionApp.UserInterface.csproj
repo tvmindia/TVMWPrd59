@@ -706,6 +706,8 @@
     <Content Include="Scripts\UserJS\BillOfMaterialJS\ViewBillOfMaterial.js" />
     <Content Include="Scripts\UserJS\ChartOfAccount.js" />
     <Content Include="Scripts\UserJS\Customer.js" />
+    <Content Include="Scripts\UserJS\CustomerCreditNote\NewCustomerCreditNote.js" />
+    <Content Include="Scripts\UserJS\CustomerCreditNote\ViewCustomerCreditNote.js" />
     <Content Include="Scripts\UserJS\CustomerInvoice\NewCustomerInvoice.js" />
     <Content Include="Scripts\UserJS\CustomerInvoice\ViewCustomerInvoice.js" />
     <Content Include="Scripts\UserJS\CustomerJS\NewCustomer.js" />
@@ -778,6 +780,8 @@
     <Content Include="Scripts\UserJS\SalesOrder\ListSalesOrder.js" />
     <Content Include="Scripts\UserJS\Stage.js" />
     <Content Include="Scripts\UserJS\SubComponent.js" />
+    <Content Include="Scripts\UserJS\SupplierCreditNote\NewSupplierCreditNote.js" />
+    <Content Include="Scripts\UserJS\SupplierCreditNote\ViewSupplierCreditNote.js" />
     <Content Include="Scripts\UserJS\SupplierInvoice\NewSupplierInvoice.js" />
     <Content Include="Scripts\UserJS\SupplierInvoice\ViewSupplierInvoice.js" />
     <Content Include="Scripts\UserJS\SupplierJS\NewSupplier.js" />
@@ -807,6 +811,7 @@
     <Compile Include="Controllers\BillOfMaterialController.cs" />
     <Compile Include="Controllers\ChartOfAccountController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\CustomerCreditNoteController.cs" />
     <Compile Include="Controllers\CustomerInvoiceController.cs" />
     <Compile Include="Controllers\CustomerPaymentController.cs" />
     <Compile Include="Controllers\DashboardAccountController.cs" />
@@ -851,6 +856,7 @@
     <Compile Include="Controllers\StageController.cs" />
     <Compile Include="Controllers\SubComponentController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\SupplierCreditNoteController.cs" />
     <Compile Include="Controllers\SupplierInvoiceController.cs" />
     <Compile Include="Controllers\SupplierPaymentController.cs" />
     <Compile Include="Controllers\TaxTypeController.cs" />
@@ -870,6 +876,7 @@
     <Compile Include="Models\BillOfMaterialViewModel.cs" />
     <Compile Include="Models\ChartOfAccountViewModel.cs" />
     <Compile Include="Models\CommonViewModel.cs" />
+    <Compile Include="Models\CustomerCreditNoteViewModel.cs" />
     <Compile Include="Models\CustomerInvoiceViewModel.cs" />
     <Compile Include="Models\CustomerPaymentViewModel.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
@@ -913,6 +920,7 @@
     <Compile Include="Models\ServiceItemsViewModel.cs" />
     <Compile Include="Models\StageViewModel.cs" />
     <Compile Include="Models\SubComponentViewModel.cs" />
+    <Compile Include="Models\SupplierCreditNoteViewModel.cs" />
     <Compile Include="Models\SupplierInvoiceViewModel.cs" />
     <Compile Include="Models\SupplierPaymentViewModel.cs" />
     <Compile Include="Models\SupplierViewModel.cs" />
@@ -1110,6 +1118,10 @@
     <Content Include="Views\ChartOfAccount\_ChartOfAccountDropdown.cshtml" />
     <Content Include="Views\OtherExpense\_OtherExpenseVoucherPreview.cshtml" />
     <Content Include="Views\DashboardReport\SalesRegisterReport.cshtml" />
+    <Content Include="Views\SupplierCreditNote\NewSupplierCreditNote.cshtml" />
+    <Content Include="Views\SupplierCreditNote\ViewSupplierCreditNote.cshtml" />
+    <Content Include="Views\CustomerCreditNote\ViewCustomerCreditNote.cshtml" />
+    <Content Include="Views\CustomerCreditNote\NewCustomerCreditNote.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

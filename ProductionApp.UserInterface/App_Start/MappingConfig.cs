@@ -164,6 +164,13 @@ namespace ProductionApp.UserInterface.App_Start
                 config.CreateMap<ApprovalStatusViewModel, ApprovalStatus>().ReverseMap();
                 //Day Book
                 config.CreateMap<DayBookViewModel, DayBook>().ReverseMap();
+                //Supplier Credit Note
+                config.CreateMap<SupplierCreditNoteViewModel, SupplierCreditNote>().ReverseMap();
+                config.CreateMap<SupplierCreditNoteAdvanceSearchViewModel, SupplierCreditNoteAdvanceSearch>().ReverseMap();
+
+                //Customer Credit Note
+                config.CreateMap<CustomerCreditNoteViewModel,CustomerCreditNote>().ReverseMap();
+                config.CreateMap<CustomerCreditNoteAdvanceSearchViewModel, CustomerCreditNoteAdvanceSearch>().ReverseMap();
 
             });
         }
