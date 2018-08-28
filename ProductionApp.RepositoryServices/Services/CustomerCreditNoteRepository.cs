@@ -67,7 +67,7 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
 
-        public List<CustomerCreditNote> GetAllCustomerCreditNote()
+        public List<CustomerCreditNote> GetAllCustomerCreditNote(CustomerCreditNoteAdvanceSearch customerCreditNoteAdvanceSearch)
         {
             List<CustomerCreditNote> customerCreditNoteList = null;
             try
@@ -83,6 +83,16 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetAllCustomerCreditNote]";
 
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(customerCreditNoteAdvanceSearch.SearchTerm) ? "" : customerCreditNoteAdvanceSearch.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = customerCreditNoteAdvanceSearch.DataTablePaging.Start;
+                        if (customerCreditNoteAdvanceSearch.DataTablePaging.Length == -1)
+                            cmd.Parameters.AddWithValue("@Length", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@Length", SqlDbType.Int).Value = customerCreditNoteAdvanceSearch.DataTablePaging.Length;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = customerCreditNoteAdvanceSearch.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = customerCreditNoteAdvanceSearch.ToDate;
+                        if (customerCreditNoteAdvanceSearch.CustomerID != Guid.Empty)
+                            cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = customerCreditNoteAdvanceSearch.CustomerID;
 
 
                         cmd.CommandType = CommandType.StoredProcedure;

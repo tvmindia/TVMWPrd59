@@ -71,7 +71,7 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
 
-        public List<SupplierCreditNote> GetAllSupplierCreditNote()
+        public List<SupplierCreditNote> GetAllSupplierCreditNote(SupplierCreditNoteAdvanceSearch supplierCreditNoteAdvanceSearch)
         {
             List<SupplierCreditNote> SupplierCreditNoteList = null;
             try
@@ -86,6 +86,18 @@ namespace ProductionApp.RepositoryServices.Services
                         }
                         cmd.Connection = con;
                         cmd.CommandText = "[AMC].[GetAllSupplierCreditNote]";
+
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar, -1).Value = string.IsNullOrEmpty(supplierCreditNoteAdvanceSearch.SearchTerm) ? "" : supplierCreditNoteAdvanceSearch.SearchTerm;
+                        cmd.Parameters.Add("@RowStart", SqlDbType.Int).Value = supplierCreditNoteAdvanceSearch.DataTablePaging.Start;
+                        if (supplierCreditNoteAdvanceSearch.DataTablePaging.Length == -1)
+                            cmd.Parameters.AddWithValue("@Length", DBNull.Value);
+                        else
+                            cmd.Parameters.Add("@Length", SqlDbType.Int).Value = supplierCreditNoteAdvanceSearch.DataTablePaging.Length;
+                        cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = supplierCreditNoteAdvanceSearch.FromDate;
+                        cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = supplierCreditNoteAdvanceSearch.ToDate;
+                        if (supplierCreditNoteAdvanceSearch.SupplierID != Guid.Empty)
+                            cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = supplierCreditNoteAdvanceSearch.SupplierID;
+
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {

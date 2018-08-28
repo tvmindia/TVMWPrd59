@@ -9,7 +9,7 @@ namespace ProductionApp.RepositoryServices.Contracts
 {
     public interface ICustomerCreditNoteRepository
     {
-        List<CustomerCreditNote> GetAllCustomerCreditNote();
+        List<CustomerCreditNote> GetAllCustomerCreditNote(CustomerCreditNoteAdvanceSearch customerCreditNoteAdvanceSearch);
         //List<CustomerCreditNotes> GetCreditNoteByCustomer(Guid ID);
         //List<CustomerCreditNotes> GetCreditNoteByPaymentID(Guid ID, Guid PaymentID);
         //CustomerCreditNotes GetCreditNoteAmount(Guid CreditID, Guid CustomerID);

@@ -98,7 +98,9 @@ namespace ProductionApp.UserInterface.Controllers
         public JsonResult GetAllSupplierCreditNote(DataTableAjaxPostModel model, SupplierCreditNoteAdvanceSearchViewModel supplierCreditNoteAdvanceSearchVM)
         {
 
-            List<SupplierCreditNoteViewModel> SupplierCreditNotesList = Mapper.Map<List<SupplierCreditNote>, List<SupplierCreditNoteViewModel>>(_supplierCreditNoteBusiness.GetAllSupplierCreditNote());
+            supplierCreditNoteAdvanceSearchVM.DataTablePaging.Start = model.start;
+            supplierCreditNoteAdvanceSearchVM.DataTablePaging.Length = (supplierCreditNoteAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : supplierCreditNoteAdvanceSearchVM.DataTablePaging.Length);
+            List<SupplierCreditNoteViewModel> SupplierCreditNotesList = Mapper.Map<List<SupplierCreditNote>, List<SupplierCreditNoteViewModel>>(_supplierCreditNoteBusiness.GetAllSupplierCreditNote(Mapper.Map<SupplierCreditNoteAdvanceSearchViewModel, SupplierCreditNoteAdvanceSearch>(supplierCreditNoteAdvanceSearchVM)));
             return Json(new
             {
                 draw = model.draw,

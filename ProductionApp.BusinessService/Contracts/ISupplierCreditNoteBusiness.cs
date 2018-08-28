@@ -9,7 +9,7 @@ namespace ProductionApp.BusinessService.Contracts
 {
     public interface ISupplierCreditNoteBusiness
     {
-        List<SupplierCreditNote> GetAllSupplierCreditNote();
+        List<SupplierCreditNote> GetAllSupplierCreditNote(SupplierCreditNoteAdvanceSearch supplierCreditNoteAdvanceSearch);
         //List<SupplierCreditNotes> GetCreditNoteBySupplier(Guid ID);
         //List<SupplierCreditNotes> GetCreditNoteByPaymentID(Guid ID, Guid PaymentID);
         //SupplierCreditNotes GetCreditNoteAmount(Guid CreditID, Guid SupplierID);

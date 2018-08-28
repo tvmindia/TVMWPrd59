@@ -18,9 +18,9 @@ namespace ProductionApp.BusinessService.Services
         }
 
 
-        public List<SupplierCreditNote> GetAllSupplierCreditNote()
+        public List<SupplierCreditNote> GetAllSupplierCreditNote(SupplierCreditNoteAdvanceSearch supplierCreditNoteAdvanceSearch)
         {
-            return _supplierCreditNoteRepository.GetAllSupplierCreditNote();
+            return _supplierCreditNoteRepository.GetAllSupplierCreditNote(supplierCreditNoteAdvanceSearch);
         }
         public SupplierCreditNote GetSupplierCreditNote(Guid ID)
         {

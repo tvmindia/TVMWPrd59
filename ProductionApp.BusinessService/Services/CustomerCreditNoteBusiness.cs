@@ -19,9 +19,9 @@ namespace ProductionApp.BusinessService.Services
             _customerCreditNoteRepository = customerCreditNoteRepository;
         }
 
-        public List<CustomerCreditNote> GetAllCustomerCreditNote()
+        public List<CustomerCreditNote> GetAllCustomerCreditNote(CustomerCreditNoteAdvanceSearch customerCreditNoteAdvanceSearch)
         {
-            return _customerCreditNoteRepository.GetAllCustomerCreditNote();
+            return _customerCreditNoteRepository.GetAllCustomerCreditNote(customerCreditNoteAdvanceSearch);
         }
         public CustomerCreditNote GetCustomerCreditNote(Guid ID)
         {
