@@ -252,6 +252,9 @@ namespace ProductionApp.RepositoryServices.Services
                                     customerInvoice.BankName = (sdr["BankName"].ToString() != "" ? sdr["BankName"].ToString() : customerInvoice.BankName);
                                     customerInvoice.BankAccDetail = (sdr["BankAccDetail"].ToString() != "" ? sdr["BankAccDetail"].ToString() : customerInvoice.BankAccDetail);
                                     customerInvoice.InvoiceDeclaration = (sdr["InvoiceDeclaration"].ToString() != "" ? sdr["InvoiceDeclaration"].ToString() : customerInvoice.InvoiceDeclaration);
+                                    customerInvoice.TotalCGSTAmount = (sdr["TotalCGST"].ToString() != "" ? decimal.Parse(sdr["TotalCGST"].ToString()) : customerInvoice.TotalCGSTAmount);
+                                    customerInvoice.TotalSGSTAmount = (sdr["TotalSGST"].ToString() != "" ? decimal.Parse(sdr["TotalSGST"].ToString()) : customerInvoice.TotalSGSTAmount);
+                                    customerInvoice.TotalIGSTAmount = (sdr["TotalIGST"].ToString() != "" ? decimal.Parse(sdr["TotalIGST"].ToString()) : customerInvoice.TotalIGSTAmount);
                                 }
                             }
                         }
@@ -296,6 +299,9 @@ namespace ProductionApp.RepositoryServices.Services
                                         customerInvoiceDetail.ServiceItemID = (sdr["ServiceItemID"].ToString() != "" ? Guid.Parse(sdr["ServiceItemID"].ToString()) : customerInvoiceDetail.ServiceItemID);
                                         customerInvoiceDetail.TaxTypeCode = (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : customerInvoiceDetail.TaxTypeCode);
                                         customerInvoiceDetail.TaxTypeDescription = (sdr["TaxTypeDescription"].ToString() != "" ? sdr["TaxTypeDescription"].ToString() : customerInvoiceDetail.TaxTypeDescription);
+                                        customerInvoiceDetail.CGSTPerc = (sdr["CGSTPerc"].ToString() != "" ? decimal.Parse(sdr["CGSTPerc"].ToString()) : customerInvoiceDetail.CGSTPerc);
+                                        customerInvoiceDetail.IGSTPerc = (sdr["IGSTPerc"].ToString() != "" ? decimal.Parse(sdr["IGSTPerc"].ToString()) : customerInvoiceDetail.IGSTPerc);
+                                        customerInvoiceDetail.SGSTPerc = (sdr["SGSTPerc"].ToString() != "" ? decimal.Parse(sdr["SGSTPerc"].ToString()) : customerInvoiceDetail.SGSTPerc);
                                         customerInvoiceDetail.ProductName = (sdr["ProductName"].ToString() != "" ? sdr["ProductName"].ToString() : customerInvoiceDetail.ProductName);
                                         customerInvoiceDetail.Product = new Product();
                                         customerInvoiceDetail.Product.HSNNo = (sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : customerInvoiceDetail.Product.HSNNo);

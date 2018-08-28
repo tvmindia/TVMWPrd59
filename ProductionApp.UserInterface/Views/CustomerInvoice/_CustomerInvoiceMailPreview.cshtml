@@ -2,7 +2,7 @@
 
 <div id="mailcontainerDiv">
     <div style="max-width: 1100px; font-size: 16px; line-height: 24px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #555; margin: auto; padding: 10px 40px 10px 40px; border: 3px solid #adadad;">
-        <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit; text-align: left;border-bottom-color:#0094ff!important;border-bottom:thin solid">
+        <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit; text-align: left;border-bottom:solid .2px #0094ff">
             <tr class="top" valign="top">
                 <td style="width:40%;"><img src="@ViewBag.path" style="width:100px !important; workAround:image"></td>
                 <td style="width:20%;" colspan="2"></td>
@@ -25,6 +25,9 @@
                         </tr>
                     </table>
                 </td>
+            </tr>
+            <tr>
+                <td colspan="6"> </td>@*Please note that the space given betwwen td is alt[Gr]+255. given so that the image wont override over border line *@
             </tr>
         </table>
 
@@ -56,6 +59,9 @@
                     <th style="width:5%; text-align: left;padding: 8px;font-size:12px; ">Sl No.</th>
                     <th style="width:30%; text-align: left;padding: 8px;font-size:12px;">Product</th>
                     <th style="width:10%; text-align: left;padding: 8px;font-size:12px;">GST%</th>
+                    @*<th style="width:7%; text-align: left;padding: 8px;font-size:12px;">SGST%</th>
+                    <th style="width:7%; text-align: left;padding: 8px;font-size:12px;">CGST%</th>
+                    <th style="width:7%; text-align: left;padding: 8px;font-size:12px;">IGST%</th>*@
                     <th style="width:7%; text-align: right;padding: 8px;font-size:12px;">Qty</th>
                     <th style="width:7%; text-align: right;padding: 8px;font-size:12px;">Weight</th>
                     <th style="width:7%; text-align: right;padding: 8px;font-size:12px;">Rate</th>
@@ -79,7 +85,10 @@
                                 @mp.ProductName @(mp.IsInvoiceInKG ? "(Invoice In KG)" : "")
                                 <br /><b>HSNNo :</b>@mp.Product.HSNNo
                             </td>
-                            <td style="text-align: left;padding: 8px;font-size:12px;">@mp.TaxTypeDescription</td>
+                            <td style="text-align: left;padding: 8px;font-size:12px;"> @mp.TaxTypeDescription.Replace("GST","")</td>
+                            @*<td style="text-align: left;padding: 8px;font-size:12px;">@mp.SGSTPerc</td>
+                            <td style="text-align: left;padding: 8px;font-size:12px;">@mp.CGSTPerc</td>
+                            <td style="text-align: left;padding: 8px;font-size:12px;">@mp.IGSTPerc</td>*@
                             <td style="text-align: right;padding: 8px;font-size:12px;">@mp.Quantity</td>
                             <td style="text-align: right;padding: 8px;font-size:12px;">@mp.Weight</td>
                             <td style="text-align: right;padding: 8px;font-size:12px;">@mp.Rate</td>
@@ -112,11 +121,35 @@
                 <td style="vertical-align: top; padding: 5px;font-size:12px;" valign="top"></td>
                 <td style="vertical-align: top; padding: 5px;font-size:12px;" valign="top"></td>
                 <td style="vertical-align: top; padding: 5px;font-size:12px;" valign="top">
-                    Total Tax Amount
+                    Total CGST Amount
                 </td>
 
                 <td style="vertical-align: top; text-align: right; padding: 5px;font-size:12px;" align="right" valign="top">
-                    @Model.CustomerInvoice.TotalTaxAmount
+                    @Model.CustomerInvoice.TotalCGSTAmount
+                </td>
+            </tr>
+
+            <tr class="">
+                <td style="vertical-align: top; padding: 5px;font-size:12px;" valign="top"></td>
+                <td style="vertical-align: top; padding: 5px;font-size:12px;" valign="top"></td>
+                <td style="vertical-align: top; padding: 5px;font-size:12px;" valign="top">
+                    Total SGST Amount
+                </td>
+
+                <td style="vertical-align: top; text-align: right; padding: 5px;font-size:12px;" align="right" valign="top">
+                    @Model.CustomerInvoice.TotalSGSTAmount
+                </td>
+            </tr>
+
+            <tr class="">
+                <td style="vertical-align: top; padding: 5px;font-size:12px;" valign="top"></td>
+                <td style="vertical-align: top; padding: 5px;font-size:12px;" valign="top"></td>
+                <td style="vertical-align: top; padding: 5px;font-size:12px;" valign="top">
+                    Total IGST Amount
+                </td>
+
+                <td style="vertical-align: top; text-align: right; padding: 5px;font-size:12px;" align="right" valign="top">
+                    @Model.CustomerInvoice.TotalIGSTAmount
                 </td>
             </tr>
 
