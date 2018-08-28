@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
@@ -17,17 +18,16 @@ namespace ProductionApp.UserInterface.Controllers
 
         AppConst c = new AppConst();
         ISupplierBusiness _supplierBusiness;
-        ISupplierCreditNoteBusiness _supplierCreditNotesBusiness;
+        ISupplierCreditNoteBusiness _supplierCreditNoteBusiness;
 
         public SupplierCreditNoteController(ISupplierCreditNoteBusiness SupplierCreditNoteBusiness, ISupplierBusiness SupplierBusiness)
         {
-            _supplierCreditNotesBusiness = SupplierCreditNoteBusiness;
+            _supplierCreditNoteBusiness = SupplierCreditNoteBusiness;
             _supplierBusiness = SupplierBusiness;
         }
         #endregion Constructor_Injection 
 
         // GET: SupplierCreditNote
-        [HttpGet]
         [AuthSecurityFilter(ProjectObject = "SupplierCreditNote", Mode = "R")]
         public ActionResult NewSupplierCreditNote(string code, Guid? id)
         {
@@ -39,9 +39,7 @@ namespace ProductionApp.UserInterface.Controllers
                 IsUpdate = id == null ? false : true
             };
             try
-            {
-
-                supplierCreditNoteVM = new SupplierCreditNoteViewModel();
+            { 
                 List<SelectListItem> selectListItem = new List<SelectListItem>();
                 List<SupplierViewModel> SupplierList = Mapper.Map<List<Supplier>, List<SupplierViewModel>>(_supplierBusiness.GetSupplierForSelectList());
                 foreach (SupplierViewModel Supplier in SupplierList)
@@ -92,6 +90,101 @@ namespace ProductionApp.UserInterface.Controllers
             }
             return View(supplierCreditNoteVM);
         }
+
+
+        #region GetAllSupplierCreditNote
+
+        [AuthSecurityFilter(ProjectObject = "SupplierCreditNote", Mode = "R")]
+        public JsonResult GetAllSupplierCreditNote(DataTableAjaxPostModel model, SupplierCreditNoteAdvanceSearchViewModel supplierCreditNoteAdvanceSearchVM)
+        {
+
+            supplierCreditNoteAdvanceSearchVM.DataTablePaging.Start = model.start;
+            supplierCreditNoteAdvanceSearchVM.DataTablePaging.Length = (supplierCreditNoteAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : supplierCreditNoteAdvanceSearchVM.DataTablePaging.Length);
+            List<SupplierCreditNoteViewModel> SupplierCreditNotesList = Mapper.Map<List<SupplierCreditNote>, List<SupplierCreditNoteViewModel>>(_supplierCreditNoteBusiness.GetAllSupplierCreditNote(Mapper.Map<SupplierCreditNoteAdvanceSearchViewModel, SupplierCreditNoteAdvanceSearch>(supplierCreditNoteAdvanceSearchVM)));
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = SupplierCreditNotesList.Count != 0 ? SupplierCreditNotesList[0].TotalCount : 0,
+                recordsFiltered = SupplierCreditNotesList.Count != 0 ? SupplierCreditNotesList[0].FilteredCount : 0,
+                data = SupplierCreditNotesList
+            });
+
+        }
+        #endregion  GetAllSupplierCreditNote
+
+        #region GetSupplierCreditNote 
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierCreditNote", Mode = "R")]
+        public string GetSupplierCreditNote(string ID)
+        {
+            try
+            {
+                SupplierCreditNoteViewModel supplierCreditNoteObj = Mapper.Map<SupplierCreditNote, SupplierCreditNoteViewModel>(_supplierCreditNoteBusiness.GetSupplierCreditNote(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = supplierCreditNoteObj });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetSupplierCreditNote 
+
+        #region InsertUpdateSupplierCreditNote
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "SupplierCreditNote", Mode = "W")]
+        public string InsertUpdateSupplierCreditNote(SupplierCreditNoteViewModel supplierCreditNoteVM)
+        {
+            try
+            {
+
+                object result = null;
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                Common _common = new Common();
+
+                supplierCreditNoteVM.Common = new CommonViewModel();
+                supplierCreditNoteVM.Common.CreatedBy = _appUA.UserName;
+                supplierCreditNoteVM.Common.CreatedDate = _common.GetCurrentDateTime();
+                supplierCreditNoteVM.Common.UpdatedBy = _appUA.UserName;
+                supplierCreditNoteVM.Common.UpdatedDate = _common.GetCurrentDateTime();
+
+                result = _supplierCreditNoteBusiness.InsertUpdateSupplierCreditNote(Mapper.Map<SupplierCreditNoteViewModel, SupplierCreditNote>(supplierCreditNoteVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion InsertUpdateSupplierCreditNote
+
+        #region DeleteSupplierCreditNote
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "SupplierCreditNote", Mode = "D")]
+        public string DeleteSupplierCreditNote(string ID)
+        {
+
+            try
+            {
+                object result = null;
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                result = _supplierCreditNoteBusiness.DeleteSupplierCreditNote(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty, _appUA.UserName);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
+
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion DeleteSupplierCreditNote
+
+
 
 
         #region ButtonStyling

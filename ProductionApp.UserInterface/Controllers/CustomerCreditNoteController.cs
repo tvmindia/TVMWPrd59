@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using ProductionApp.BusinessService.Contracts;
 using ProductionApp.DataAccessObject.DTO;
 using ProductionApp.UserInterface.Models;
@@ -19,11 +20,11 @@ namespace ProductionApp.UserInterface.Controllers
 
         AppConst c = new AppConst();
         ICustomerBusiness _customerBusiness;
-        ICustomerCreditNoteBusiness _customerCreditNotesBusiness; 
+        ICustomerCreditNoteBusiness _customerCreditNoteBusiness; 
 
         public CustomerCreditNoteController(ICustomerCreditNoteBusiness customerCreditNoteBusiness, ICustomerBusiness customerBusiness)
         {
-            _customerCreditNotesBusiness = customerCreditNoteBusiness;
+            _customerCreditNoteBusiness = customerCreditNoteBusiness;
             _customerBusiness = customerBusiness;
         }
         #endregion Constructor_Injection 
@@ -32,7 +33,6 @@ namespace ProductionApp.UserInterface.Controllers
 
 
         // GET: CustomerCreditNote
-        [HttpGet]
         [AuthSecurityFilter(ProjectObject = "CustomerCreditNote", Mode = "R")]
         public ActionResult NewCustomerCreditNote(string code, Guid? id)
         {
@@ -42,10 +42,9 @@ namespace ProductionApp.UserInterface.Controllers
                 ID = id == null ? Guid.Empty : (Guid)id,
                 IsUpdate = id == null ? false : true
             };
-          
+
             try
             {
-                customerCreditNoteVM = new CustomerCreditNoteViewModel();
                 List<SelectListItem> selectListItem = new List<SelectListItem>();
                 List<CustomerViewModel> customerList = Mapper.Map<List<Customer>, List<CustomerViewModel>>(_customerBusiness.GetCustomerForSelectList());
                 foreach (CustomerViewModel customer in customerList)
@@ -97,7 +96,97 @@ namespace ProductionApp.UserInterface.Controllers
             return View(customerCreditNoteVM);
         }
 
+        #region GetAllCustomerCreditNote
+       
+        [AuthSecurityFilter(ProjectObject = "CustomerCreditNote", Mode = "R")]
+        public JsonResult GetAllCustomerCreditNote(DataTableAjaxPostModel model, CustomerCreditNoteAdvanceSearchViewModel customerCreditNoteAdvanceSearchVM)
+        {
 
+            customerCreditNoteAdvanceSearchVM.DataTablePaging.Start = model.start;
+            customerCreditNoteAdvanceSearchVM.DataTablePaging.Length = (customerCreditNoteAdvanceSearchVM.DataTablePaging.Length == 0 ? model.length : customerCreditNoteAdvanceSearchVM.DataTablePaging.Length);
+            List<CustomerCreditNoteViewModel> CustomerCreditNotesList = Mapper.Map<List<CustomerCreditNote>, List<CustomerCreditNoteViewModel>>(_customerCreditNoteBusiness.GetAllCustomerCreditNote(Mapper.Map<CustomerCreditNoteAdvanceSearchViewModel, CustomerCreditNoteAdvanceSearch>(customerCreditNoteAdvanceSearchVM)));
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = CustomerCreditNotesList.Count != 0 ? CustomerCreditNotesList[0].TotalCount : 0,
+                recordsFiltered = CustomerCreditNotesList.Count != 0 ? CustomerCreditNotesList[0].FilteredCount : 0,
+                data = CustomerCreditNotesList
+            });
+
+        }
+        #endregion  GetAllCustomerCreditNote
+
+        #region GetCustomerCreditNote 
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "CustomerCreditNote", Mode = "R")]
+        public string GetCustomerCreditNote (string ID)
+        {
+            try
+            {
+                CustomerCreditNoteViewModel customerCreditNoteObj = Mapper.Map<CustomerCreditNote, CustomerCreditNoteViewModel>(_customerCreditNoteBusiness.GetCustomerCreditNote(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = customerCreditNoteObj });
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion  GetCustomerCreditNote 
+
+        #region InsertUpdateCustomerCreditNote
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthSecurityFilter(ProjectObject = "CustomerCreditNote", Mode = "W")]
+        public string InsertUpdateCustomerCreditNote(CustomerCreditNoteViewModel customersCreditNoteVM)
+        {
+            try
+            {
+
+                object result = null;
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                Common _common = new Common();
+
+                customersCreditNoteVM.Common = new CommonViewModel();
+                customersCreditNoteVM.Common.CreatedBy = _appUA.UserName;
+                customersCreditNoteVM.Common.CreatedDate = _common.GetCurrentDateTime();
+                customersCreditNoteVM.Common.UpdatedBy = _appUA.UserName;
+                customersCreditNoteVM.Common.UpdatedDate = _common.GetCurrentDateTime();
+
+                result = _customerCreditNoteBusiness.InsertUpdateCustomerCreditNote(Mapper.Map<CustomerCreditNoteViewModel, CustomerCreditNote>(customersCreditNoteVM));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
+
+            }
+            catch (Exception ex)
+            {
+
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion InsertUpdateCustomerCreditNote
+
+        #region DeleteCustomerCreditNote
+        [HttpGet]
+        [AuthSecurityFilter(ProjectObject = "CustomerCreditNote", Mode = "D")]
+        public string DeleteCustomerCreditNote(string ID)
+        {
+
+            try
+            {
+                object result = null;
+                AppUA _appUA = Session["AppUA"] as AppUA;
+                result = _customerCreditNoteBusiness.DeleteCustomerCreditNote(ID != null && ID != "" ? Guid.Parse(ID) : Guid.Empty, _appUA.UserName);
+                return JsonConvert.SerializeObject(new { Result = "OK", Message = result });
+
+            }
+            catch (Exception ex)
+            {
+                AppConstMessage cm = c.GetMessage(ex.Message);
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+            }
+        }
+        #endregion DeleteCustomerCreditNote
 
         #region ButtonStyling
         [HttpGet]

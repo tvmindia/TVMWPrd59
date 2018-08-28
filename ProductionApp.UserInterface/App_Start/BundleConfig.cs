@@ -150,6 +150,12 @@ namespace ProductionApp.UserInterface.App_Start
             bundles.Add(new ScriptBundle("~/bundles/UserJs/OtherExpense/ViewOtherExpense").Include("~/Scripts/UserJS/OtherExpense/ViewOtherExpense.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/OtherExpense/NewOtherExpense").Include("~/Scripts/UserJS/OtherExpense/NewOtherExpense.js"));
             bundles.Add(new ScriptBundle("~/bundles/UserJs/ServiceItem").Include("~/Scripts/UserJS/ServiceItem.js"));
+            //CustomerCreditNote
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/CustomerCreditNote/ViewCustomerCreditNote").Include("~/Scripts/UserJS/CustomerCreditNote/ViewCustomerCreditNote.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/CustomerCreditNote/NewCustomerCreditNote").Include("~/Scripts/UserJS/CustomerCreditNote/NewCustomerCreditNote.js"));
+            //SupplierCreditNote
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/SupplierCreditNote/ViewSupplierCreditNote").Include("~/Scripts/UserJS/SupplierCreditNote/ViewSupplierCreditNote.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserJs/SupplierCreditNote/NewSupplierCreditNote").Include("~/Scripts/UserJS/SupplierCreditNote/NewSupplierCreditNote.js"));
 
         }
     }

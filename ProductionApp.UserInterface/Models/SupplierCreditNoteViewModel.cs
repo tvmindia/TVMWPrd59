@@ -13,14 +13,14 @@ namespace ProductionApp.UserInterface.Models
 
         public Guid? ID { get; set; }
 
-        [Display(Name = "Credit Note No")]
+        [Display(Name = "Credit Note#")]
         [Required(ErrorMessage = "Please enter Credit Note No")]
         [MaxLength(20)]
         public string CreditNoteNo { get; set; }
 
         [Display(Name = "Supplier Name")]
         [Required(ErrorMessage = "Please select Supplier")]
-        public string SupplierID { get; set; }
+        public Guid SupplierID { get; set; }
         public string SupplierName { get; set; }
         public DateTime? CreditNoteDate { get; set; }
 

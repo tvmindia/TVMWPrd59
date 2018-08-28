@@ -10,7 +10,7 @@ namespace ProductionApp.DataAccessObject.DTO
     {
         public Guid? ID { get; set; }
         public string CreditNoteNo { get; set; }
-        public string SupplierID { get; set; }
+        public Guid SupplierID { get; set; }
         public string SupplierName { get; set; }
         public DateTime? CreditNoteDate { get; set; }
         public string CreditNoteDateFormatted { get; set; }
