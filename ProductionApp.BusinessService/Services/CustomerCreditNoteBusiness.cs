@@ -62,28 +62,28 @@ namespace ProductionApp.BusinessService.Services
             return result;
         }
 
-        //public List<CustomerCreditNote> GetCreditNoteByCustomer(Guid ID)
-        //{
-        //    List<CustomerCreditNote> customerCreditNotelist = new List<CustomerCreditNote>();
-        //    customerCreditNotelist = _customerCreditNoteRepository.GetCreditNoteByCustomer(ID);
-        //    return customerCreditNotelist;
-        //}
+        public List<CustomerCreditNote> GetCreditNoteByCustomer(Guid ID)
+        {
+            List<CustomerCreditNote> customerCreditNotelist = new List<CustomerCreditNote>();
+            customerCreditNotelist = _customerCreditNoteRepository.GetCreditNoteByCustomer(ID);
+            return customerCreditNotelist;
+        }
 
-        //public List<CustomerCreditNote> GetCreditNoteByPaymentID(Guid ID, Guid PaymentID)
-        //{
-        //    return _customerCreditNoteRepository.GetCreditNoteByPaymentID(ID, PaymentID);
+        public List<CustomerCreditNote> GetCreditNoteByPaymentID(Guid ID, Guid PaymentID)
+        {
+            return _customerCreditNoteRepository.GetCreditNoteByPaymentID(ID, PaymentID);
 
-        //}
+        }
 
-        //public CustomerCreditNote GetCreditNoteAmount(Guid CreditID, Guid CustomerID)
-        //{
-        //    CustomerCreditNote customerCreditNote = new CustomerCreditNote();
-        //    List<CustomerCreditNote> custcreditlist = new List<CustomerCreditNote>();
-        //    custcreditlist = _customerCreditNoteRepository.GetCreditNoteByCustomer(CustomerID);
-        //    custcreditlist = custcreditlist.Where(m => m.ID == CreditID).ToList();
-        //    customerCreditNote = custcreditlist[0];
-        //    return customerCreditNote;
-        //}
+        public CustomerCreditNote GetCreditNoteAmount(Guid CreditID, Guid CustomerID)
+        {
+            CustomerCreditNote customerCreditNote = new CustomerCreditNote();
+            List<CustomerCreditNote> custcreditlist = new List<CustomerCreditNote>();
+            custcreditlist = _customerCreditNoteRepository.GetCreditNoteByCustomer(CustomerID);
+            custcreditlist = custcreditlist.Where(m => m.ID == CreditID).ToList();
+            customerCreditNote = custcreditlist[0];
+            return customerCreditNote;
+        }
 
     }
 }

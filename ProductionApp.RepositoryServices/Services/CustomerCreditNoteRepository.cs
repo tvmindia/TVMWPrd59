@@ -242,5 +242,106 @@ namespace ProductionApp.RepositoryServices.Services
                 Message = customerCreditNote.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
             };
         }
+
+        public List<CustomerCreditNote> GetCreditNoteByCustomer(Guid ID)
+        {
+            List<CustomerCreditNote> customerCreditNotesList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetCreditNotesBYCustomer]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                customerCreditNotesList = new List<CustomerCreditNote>();
+                                while (sdr.Read())
+                                {
+                                    CustomerCreditNote customerCreditNote = new CustomerCreditNote();
+                                    {
+                                        customerCreditNote.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : customerCreditNote.ID);
+                                        customerCreditNote.CreditNoteNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : customerCreditNote.CreditNoteNo);
+                                        customerCreditNote.CreditNoteDate = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()) : customerCreditNote.CreditNoteDate);
+                                        customerCreditNote.CreditAmount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : customerCreditNote.CreditAmount);
+                                        customerCreditNote.AvailableCredit = (sdr["AvailableCredit"].ToString() != "" ? decimal.Parse(sdr["AvailableCredit"].ToString()) : customerCreditNote.AvailableCredit);
+                                        customerCreditNote.CreditNoteDateFormatted = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()).ToString(settings.DateFormat) : customerCreditNote.CreditNoteDateFormatted);
+                                    }
+                                    customerCreditNotesList.Add(customerCreditNote);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return customerCreditNotesList;
+
+
+        }
+
+        public List<CustomerCreditNote> GetCreditNoteByPaymentID(Guid ID, Guid PaymentID)
+        {
+            List<CustomerCreditNote> customerCreditNoteList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetCreditNoteByPaymentID]";
+                        cmd.Parameters.Add("@CustomerID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.Parameters.Add("@PaymentID", SqlDbType.UniqueIdentifier).Value = PaymentID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                customerCreditNoteList = new List<CustomerCreditNote>();
+                                while (sdr.Read())
+                                {
+                                    CustomerCreditNote customerCreditNote = new CustomerCreditNote();
+                                    {
+                                        customerCreditNote.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : customerCreditNote.ID);
+                                        customerCreditNote.CreditNoteNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : customerCreditNote.CreditNoteNo);
+                                        customerCreditNote.CreditNoteDate = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()) : customerCreditNote.CreditNoteDate);
+                                        customerCreditNote.CreditAmount = (sdr["CreditAmount"].ToString() != "" ? decimal.Parse(sdr["CreditAmount"].ToString()) : customerCreditNote.CreditAmount);
+                                        customerCreditNote.AvailableCredit = (sdr["AvailableCredit"].ToString() != "" ? decimal.Parse(sdr["AvailableCredit"].ToString()) : customerCreditNote.AvailableCredit);
+                                        customerCreditNote.CreditNoteDateFormatted = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()).ToString(settings.DateFormat) : customerCreditNote.CreditNoteDateFormatted);
+                                    }
+                                    customerCreditNoteList.Add(customerCreditNote);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return customerCreditNoteList;
+        }
     }
 }

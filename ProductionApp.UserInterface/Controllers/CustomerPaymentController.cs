@@ -16,12 +16,14 @@ namespace ProductionApp.UserInterface.Controllers
     {
         private ICustomerPaymentBusiness _customerPaymentBusiness;
         private ICustomerBusiness _customerBusiness;
+        private ICustomerCreditNoteBusiness _customerCreditNoteBusiness;
         AppConst _appConst = new AppConst();
         Common _common = new Common();
-        public CustomerPaymentController(ICustomerPaymentBusiness customerPaymentBusiness, ICustomerBusiness customerBusiness)
+        public CustomerPaymentController(ICustomerPaymentBusiness customerPaymentBusiness, ICustomerBusiness customerBusiness, ICustomerCreditNoteBusiness customerCreditNoteBusiness)
         {
             _customerPaymentBusiness = customerPaymentBusiness;
             _customerBusiness = customerBusiness;
+            _customerCreditNoteBusiness = customerCreditNoteBusiness;
         }
         [AuthSecurityFilter(ProjectObject = "CustomerPayment", Mode = "R")]
         public ActionResult NewCustomerPayment(string code, Guid? id)
@@ -92,6 +94,21 @@ namespace ProductionApp.UserInterface.Controllers
 
             try
             {
+                if ((customerPaymentVM.TotalRecievedAmt == null|| customerPaymentVM.TotalRecievedAmt == 0)  && customerPaymentVM.Type == "C" || customerPaymentVM.hdfType == "C")
+                {
+                    customerPaymentVM.TotalRecievedAmt = Decimal.Parse(customerPaymentVM.hdfCreditAmount);
+                    customerPaymentVM.AdvanceAmount = 0;
+
+                    if (customerPaymentVM.TotalRecievedAmt == 0)
+                    {
+                        throw new Exception("Please Check Credit Notes");
+                    }
+                }
+                else if (customerPaymentVM.TotalRecievedAmt == 0)
+                {
+                    throw new Exception("Please Enter Amount");
+                }
+
                 AppUA appUA = Session["AppUA"] as AppUA;
                 customerPaymentVM.Common = new CommonViewModel
                 {
@@ -207,6 +224,38 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion DeleteCustomerPayment
+
+
+        #region GetCustomerCreditNote
+        [AuthSecurityFilter(ProjectObject = "CustomerPayment", Mode = "R")]
+        [HttpGet]
+        public string GetCustomerCreditNote(string ID)
+        {
+            List<CustomerCreditNoteViewModel> CreditList = Mapper.Map<List<CustomerCreditNote>, List<CustomerCreditNoteViewModel>>(_customerCreditNoteBusiness.GetCreditNoteByCustomer(Guid.Parse(ID)));
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = CreditList });
+        }
+        #endregion GetCustomerCreditNote
+
+        #region GetCreditNoteAmount
+        [AuthSecurityFilter(ProjectObject = "CustomerPayment", Mode = "R")]
+        [HttpGet]
+        public string GetCreditNoteAmount(string CreditID, string CustomerID)
+        {
+            CustomerCreditNoteViewModel CustomerCreditNoteVM = Mapper.Map<CustomerCreditNote,CustomerCreditNoteViewModel>(_customerCreditNoteBusiness.GetCreditNoteAmount(Guid.Parse(CreditID),Guid.Parse(CustomerID)));
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = CustomerCreditNoteVM });
+        }
+        #endregion GetCreditNoteAmount
+
+        #region GetCreditNoteByPaymentID
+        [AuthSecurityFilter(ProjectObject = "CustomerPayments", Mode = "R")]
+        [HttpGet]
+        public string GetCreditNoteByPaymentID(string ID, string PaymentID)
+        {
+            List<CustomerCreditNoteViewModel> CreditList = Mapper.Map<List<CustomerCreditNote>, List<CustomerCreditNoteViewModel>>(_customerCreditNoteBusiness.GetCreditNoteByPaymentID(Guid.Parse(ID), Guid.Parse(PaymentID)));
+
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = CreditList });
+        }
+        #endregion GetCreditNoteByPaymentID
 
         #region ButtonStyling
         [HttpGet]

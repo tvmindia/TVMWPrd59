@@ -10,9 +10,8 @@ namespace ProductionApp.RepositoryServices.Contracts
     public interface ICustomerCreditNoteRepository
     {
         List<CustomerCreditNote> GetAllCustomerCreditNote(CustomerCreditNoteAdvanceSearch customerCreditNoteAdvanceSearch);
-        //List<CustomerCreditNotes> GetCreditNoteByCustomer(Guid ID);
-        //List<CustomerCreditNotes> GetCreditNoteByPaymentID(Guid ID, Guid PaymentID);
-        //CustomerCreditNotes GetCreditNoteAmount(Guid CreditID, Guid CustomerID);
+        List<CustomerCreditNote> GetCreditNoteByCustomer(Guid ID);
+        List<CustomerCreditNote> GetCreditNoteByPaymentID(Guid ID, Guid PaymentID);
         CustomerCreditNote GetCustomerCreditNote(Guid ID);
         object InsertUpdateCustomerCreditNote(CustomerCreditNote customerCreditNote);
         object DeleteCustomerCreditNote(Guid ID, string userName);

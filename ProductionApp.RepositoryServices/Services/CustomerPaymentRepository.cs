@@ -116,7 +116,8 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@TotalRecdAmt", SqlDbType.Decimal).Value = customerPayment.TotalRecievedAmt;
                         cmd.Parameters.Add("@AdvanceAmount", SqlDbType.Decimal).Value = customerPayment.AdvanceAmount;
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 1).Value = customerPayment.Type;
-                        //cmd.Parameters.Add("@CreditID", SqlDbType.UniqueIdentifier).Value = customerPayment.CreditID;
+                        if(customerPayment.CreditID!=Guid.Empty)
+                            cmd.Parameters.Add("@CreditID", SqlDbType.UniqueIdentifier).Value = customerPayment.CreditID;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = customerPayment.GeneralNotes; 
                         cmd.Parameters.Add("@DepWithdID", SqlDbType.UniqueIdentifier).Value = customerPayment.DepositWithdrawalID;
                         cmd.Parameters.Add("@DetailXML", SqlDbType.Xml).Value = customerPayment.DetailXML;

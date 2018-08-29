@@ -13,7 +13,7 @@ var _dataTable = {};
 var _emptyGuid = "00000000-0000-0000-0000-000000000000";
 var _CustomerPaymentDetailList= [];
 $(document).ready(function () {
-    debugger;
+    
     try {
         //$("#PaymentMode").select2({
         //});
@@ -26,7 +26,7 @@ $(document).ready(function () {
         $('#advAmt').hide();
         $('#lblAdvAmt').hide();
         $('#btnUpload').click(function () {
-            debugger;
+            
             //Pass the controller name
             var FileObject = new Object;
             if ($('#hdnFileDupID').val() != _emptyGuid) {
@@ -103,7 +103,7 @@ $(document).ready(function () {
             CustomerChange(this.value)
         });
         if ($('#IsUpdate').val() == 'True') {
-            debugger;
+            
             BindCustomerPayment()
         }
         else {
@@ -120,20 +120,24 @@ function TypeOnChange() {
         $('#PaymentMode').val('');
         $('#BankCode').val('');
         $('#PaymentMode').prop('disabled', true);
-        $('#TotalRecdAmt').prop('disabled', true);
+        $('#TotalRecievedAmt').prop('disabled', true);
         $('#BankCode').prop('disabled', true);
         $('#ChequeDate').prop('disabled', true);
         $('#CreditID').prop('disabled', false);
-        CaptionChangeCredit()
+        $('#ChequeDateFormatted').prop('disabled', true);
+        $('#ReferenceBank').prop('disabled', true);
+        CaptionChangeCredit();
     }
     else {
         $("#ddlCreditDiv").css("visibility", "hidden");
         $('#PaymentMode').prop('disabled', false);
         $('#BankCode').prop('disabled', true);
-        $('#TotalRecdAmt').val(0);
-        $('#TotalRecdAmt').prop('disabled', false);
-        $('#CreditID').val(_emptyGuid);
-        CaptionChangePayment()
+        $('#TotalRecievedAmt').val(0);
+        $('#TotalRecievedAmt').prop('disabled', false);
+        $('#CreditID').val(_emptyGuid); 
+        $('#ChequeDateFormatted').prop('disabled', false);
+        $('#ReferenceBank').prop('disabled', false);
+        CaptionChangePayment();
         AmountChanged();
     }
 }
@@ -158,12 +162,12 @@ function PaymentModeChanged() {
 
 }
 function CustomerChange() {
-    debugger;
+    
     if ($('#CustomerID').val() != "") {
-    //    BindCreditDropDown();
+        BindCreditDropDown();
         BindOutstandingAmount();
         $('#TotalRecievedAmt').val('');
-    //    AmountChanged();
+        AmountChanged();
     }
     BindOutstanding();
 }
@@ -173,7 +177,7 @@ function BindOutstanding() {
 }
 function GetOutStandingInvoices() {
     try {
-        debugger;
+        
         var custId = $('#CustomerID').val() == "" ? _emptyGuid : $('#CustomerID').val();
         var paymentId = $('#ID').val() == "" ? _emptyGuid : $('#ID').val();
         var data = { "CustomerId": custId, "paymentId": paymentId };
@@ -206,7 +210,7 @@ function paymentAmountFocus(event) {
     event.select();
 }
 function AmountChanged() {
-    debugger;
+    
     var sum = 0;
     _dataTable.OutStandingInvoices.rows().deselect();
     if ($('#TotalRecievedAmt').val() < 0 || $('#TotalRecievedAmt').val() == "") {
@@ -252,7 +256,7 @@ function AmountChanged() {
 }
 
 function PaymentAmountChanged(this_Obj) {
-    debugger;
+    
     AmountReceived = parseFloat($('#TotalRecievedAmt').val())
     sum = 0;
     var allData = _dataTable.OutStandingInvoices.rows().data();
@@ -303,7 +307,7 @@ function PaymentAmountChanged(this_Obj) {
     Selectcheckbox();
 }
 function Selectcheckbox() {
-    debugger;
+    
     var table = $('#tblOutStandingDetails').DataTable();
     var allData = table.rows().data();
     for (var i = 0; i < allData.length; i++) {
@@ -324,7 +328,7 @@ function BindOutstandingAmount() {
 }
 function GetOutstandingAmountByCustomer() {
     try {
-        debugger;
+        
         var custId = $('#CustomerID').val() == "" ? _emptyGuid : $('#CustomerID').val();
         var data = { "Id": custId };
         var jsonData = {};
@@ -354,7 +358,7 @@ function GetOutstandingAmountByCustomer() {
 }
 // Save CustomerPayment
 function Save() {
-    debugger; 
+     
     var $form = $('#CustomerPaymentForm');
     if ($form.valid())
     {
@@ -367,7 +371,7 @@ function Save() {
 }
 function ValidatePaymentRefNo() {
     try {
-        debugger;
+        
         var PaymentID = $('#ID').val();
         var paymentRefNo=$("#PaymentRef").val();
         var data = { "id": PaymentID, "paymentRefNo": paymentRefNo };
@@ -411,7 +415,7 @@ function SaveValidatedData()
     _SlNo = 1;
 }
 function AddCustomerPaymentDetailList() {
-    debugger;
+    
     var PaymentInvoices = _dataTable.OutStandingInvoices.rows(".selected").data();
     var appliedAmountSum = 0;
     var totalAmtReceived = parseFloat($('#TotalRecievedAmt').val())
@@ -428,7 +432,7 @@ function AddCustomerPaymentDetailList() {
     $('#AdvanceAmount').val(totalAmtReceived - appliedAmountSum);
 }
 function SaveSuccessCustomerPayment(data, status) {
-    debugger;
+    
     var JsonResult = JSON.parse(data)
     switch (JsonResult.Result) {
         case "OK":
@@ -487,11 +491,11 @@ function BindCustomerPayment() {
         $("#CreditID").html("");
         //Get Available Credit and Add with  TotalRecdAmt
         debugger;
-        var thisObj = GetCreditNoteByPaymentID(thisitem.customerObj.ID, PaymentID)
+        var thisObj = GetCreditNoteByPaymentID(thisitem.CustomerID, PaymentID)
         if (thisObj.length > 0)
-            var CreditAmount = parseFloat(thisitem.TotalRecdAmt) + parseFloat(thisObj[0].AvailableCredit);
+            var CreditAmount = parseFloat(thisitem.TotalRecievedAmt) + parseFloat(thisObj[0].AvailableCredit);
         else
-            var CreditAmount = parseFloat(thisitem.TotalRecdAmt);
+            var CreditAmount = parseFloat(thisitem.TotalRecievedAmt);
 
         $('#TotalRecievedAmt').val(roundoff(CreditAmount))
         $('#lblTotalRecdAmt').text(roundoff(CreditAmount))
@@ -537,9 +541,17 @@ function CaptionChangePayment() {
     $("#lblTotalAmtRecdCptn").text('Amount Received');
     $("#lblpaidAmt").text('Amount Received');
 }
+function CaptionChangeCredit() {
+    $("#lblTotalRecdAmtCptn").text('Credit Amount');
+    $("#lblPaymentAppliedCptn").text('Total Credit Used');
+    $("#lblCreditCptn").text('Credit Remaining');
+    $("#lblTotalAmtRecdCptn").text('Credit Amount');
+    $("#lblpaidAmt").text('Credit Amount');
+}
+
 function GetCustomerPayments() {
     try {
-        debugger;
+        
         var paymentId = $('#ID').val() == "" ? _emptyGuid : $('#ID').val();
         var data = {"Id": paymentId };
         var jsonData = {};
@@ -569,13 +581,13 @@ function GetCustomerPayments() {
 }
 //Bind CreditDropDown
 function BindCreditDropDown() {
-    debugger;
+    
     var ID = $("#CustomerID").val() == "" ? null : $("#CustomerID").val();
     if (ID != null) {
         var ds = GetCreditNoteByCustomer(ID);
         if (ds.length > 0) {
             $("#CreditID").html(""); // clear before appending new list 
-            $("#CreditID").append($('<option></option>').val(emptyGUID).html('--Select Credit Note--'));
+            $("#CreditID").append($('<option></option>').val(_emptyGuid).html('--Select Credit Note--'));
             $.each(ds, function (i, credit) {
                 $("#CreditID").append(
                     $('<option></option>').val(credit.ID).html(credit.CreditNoteNo + ' ( Credit Amt: ₹' + credit.AvailableCredit + ')'));
@@ -583,13 +595,13 @@ function BindCreditDropDown() {
         }
         else {
             $("#CreditID").html("");
-            $("#CreditID").append($('<option></option>').val(emptyGUID).html('No Credit Notes Available'));
+            $("#CreditID").append($('<option></option>').val(_emptyGuid).html('No Credit Notes Available'));
         }
     }
 }
 function GetCreditNoteByCustomer(ID) {
     try {
-        debugger;
+        
         var data = { "Id": ID };
         var jsonData = {};
         var result = "";
@@ -601,7 +613,7 @@ function GetCreditNoteByCustomer(ID) {
             jsonData = JSON.parse(jsonData);
             result = jsonData.Result;
             message = jsonData.Message;
-            customerCreditNoteVM = jsonData.Record;
+            customerCreditNoteVM = jsonData.Records;
         }
         if (result == "OK") {
 
@@ -622,7 +634,7 @@ function DeleteClick() {
 }
 function DeleteCustomerPayment() {
     try {
-        debugger;
+        
         var id = $('#ID').val();
         if (id != '' && id != null) {
             var data = { "id": id };
@@ -655,4 +667,61 @@ function DeleteCustomerPayment() {
 }
 function Reset() {
     BindCustomerPayment();
+}
+
+//
+function ddlCreditOnChange(event) {
+    
+    var creditID = $("#CreditID").val();
+    var CustomerID = $("#CustomerID").val();
+    if (creditID != _emptyGuid) {
+        var ds = GetCreditNoteAmount(creditID, CustomerID);
+        $('#TotalRecievedAmt').val(ds.AvailableCredit);
+        $('#TotalRecievedAmt').prop('disabled', true);
+        AmountChanged();
+    }
+
+}
+
+function GetCreditNoteAmount(ID, CustomerID) {
+    try {
+        var data = { "CreditID": ID, "CustomerID": CustomerID };
+        var ds = {};
+        ds = GetDataFromServer("CustomerPayment/GetCreditNoteAmount/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+function GetCreditNoteByPaymentID(ID, PaymentID) {
+    try {
+        var data = { "ID": ID, "PaymentID": PaymentID };
+        var ds = {};
+        ds = GetDataFromServer("CustomerPayment/GetCreditNoteByPaymentID/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }

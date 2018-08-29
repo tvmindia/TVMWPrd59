@@ -30,6 +30,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Amount Received")]
         [Required(ErrorMessage = "Amount Received is required")]
         public decimal? TotalRecievedAmt { get; set; }
+        [Display(Name = "Credit Note To Adjust")]
         public Guid? CreditID { get; set; }
         public string Type { get; set; }
         [Display(Name = "Cheque Date")]
@@ -52,6 +53,10 @@ namespace ProductionApp.UserInterface.Models
         public bool IsUpdate { get; set; }
         public string DetailJSON { get; set; }
         public Guid hdnFileID { get; set; }
+        public string hdfCustomerID { get; set; }
+        public string hdfCreditAmount { get; set; }
+        public string hdfType { get; set; }
+        public string hdfCreditID { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public List<CustomerPaymentViewModel> CustomerPaymentList { get; set; }
