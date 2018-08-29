@@ -426,15 +426,12 @@ namespace ProductionApp.UserInterface.Controllers
                 }
                 CustomerInvoiceMailPreviewVM = new CustomerInvoiceMailPreviewViewModel();
                 CustomerInvoiceMailPreviewVM.CustomerInvoice = Mapper.Map<CustomerInvoice, CustomerInvoiceViewModel>(_customerInvoiceBusiness.GetMailPreview(Guid.Parse(ID)));
-              
                 ViewBag.path = "http://" + HttpContext.Request.Url.Authority + CustomerInvoiceMailPreviewVM.CustomerInvoice.LogoURL;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
-
             return PartialView("_CustomerInvoiceMailPreview", CustomerInvoiceMailPreviewVM);
         }
         #endregion GetMailPreview

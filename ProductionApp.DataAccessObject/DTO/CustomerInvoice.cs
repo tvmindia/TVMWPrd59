@@ -61,6 +61,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public string InvoiceAmountWords { get; set; }
         public ServiceItem ServiceItems { get; set; }
         public TaxType TaxType { get; set; }
+        public decimal TotalCGSTAmount { get; set; }
+        public decimal TotalSGSTAmount { get; set; }
+        public decimal TotalIGSTAmount { get; set; }
     }
     public class CustomerInvoiceDetail
     {

@@ -82,6 +82,9 @@ namespace ProductionApp.UserInterface.Models
         public string InvoiceDeclaration { get; set; }
         public string InvoiceAmountWords { get; set; }
         public ServiceItemViewModel ServiceItems { get; set; }
+        public decimal TotalCGSTAmount { get; set; }
+        public decimal TotalSGSTAmount { get; set; }
+        public decimal TotalIGSTAmount { get; set; }
     }
     public class CustomerInvoiceDetailViewModel
     {
