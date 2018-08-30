@@ -52,6 +52,8 @@
             @Html.HiddenFor(model => model.IsUpdate, htmlAttributes: new { @class = "" })
             @Html.HiddenFor(model => model.ID, htmlAttributes: new { @class = "", @value = Guid.Empty })
             @Html.HiddenFor(model => model.hdnFileID, htmlAttributes: new { @class = "", @id = "hdnFileDupID", @value = Guid.Empty })
+            @Html.HiddenFor(model => model.hdfCreditAmount, htmlAttributes: new { @class = "", value = "" })
+            @Html.HiddenFor(model => model.hdfType, htmlAttributes: new { @class = "", value = "" })
             @Html.HiddenFor(model => model.LatestApprovalStatus)
             @Html.HiddenFor(model => model.LatestApprovalID)
             @Html.HiddenFor(model => model.AdvanceAmount, htmlAttributes: new { @class = "" })
@@ -99,8 +101,8 @@
                                 List<SelectListItem> TypeList = new List<SelectListItem>();
                                 TypeList.Add(new SelectListItem
                                 { Text = "Payment", Value = "P" });
-                                //TypeList.Add(new SelectListItem
-                                //{ Text = "Credit Adujustment", Value = "C" });
+                                TypeList.Add(new SelectListItem
+                                { Text = "Credit Adujustment", Value = "C" });
                             }
                             @Html.DropDownListFor(model => model.Type, TypeList, new { @class = "form-control BlockEnter", value = -1, style = "padding:4px 12px;width:100 %", onchange = "TypeOnChange();" })
                         </div>

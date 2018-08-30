@@ -16,18 +16,20 @@ namespace ProductionApp.UserInterface.Controllers
     {
         private ISupplierPaymentBusiness _supplierPaymentBusiness;
         private ISupplierBusiness _supplierBusiness;
-      //  private IChartOfAccountBusiness _chartOfAccountBusiness;
-      //  private IPaymentTermBusiness _paymentTermBusiness;
-      //  private IPurchaseOrderBusiness _purchaseOrderBusiness;
+        private ISupplierCreditNoteBusiness _supplierCreditNoteBusiness;
+        //  private IChartOfAccountBusiness _chartOfAccountBusiness;
+        //  private IPaymentTermBusiness _paymentTermBusiness;
+        //  private IPurchaseOrderBusiness _purchaseOrderBusiness;
 
         Common _common = new Common();
         AppConst _appConst = new AppConst();
 
         public SupplierPaymentController(ISupplierPaymentBusiness supplierPaymentBusiness,
-            ISupplierBusiness supplierBusiness)
+            ISupplierBusiness supplierBusiness,ISupplierCreditNoteBusiness supplierCreditNoteBusiness)
         {
             _supplierPaymentBusiness = supplierPaymentBusiness;
             _supplierBusiness = supplierBusiness;
+            _supplierCreditNoteBusiness = supplierCreditNoteBusiness;
         }
         // GET: SupplierPayment
         [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
@@ -110,6 +112,22 @@ namespace ProductionApp.UserInterface.Controllers
         [HttpPost]
         public string InsertUpdateSupplierPayment(SupplierPaymentViewModel SupplierPaymentVM)
         {
+           
+
+            if ((SupplierPaymentVM.TotalPaidAmt == 0 || SupplierPaymentVM.TotalPaidAmt == null) && SupplierPaymentVM.Type == "C" || SupplierPaymentVM.hdfType == "C")
+            {
+                SupplierPaymentVM.TotalPaidAmt = Decimal.Parse(SupplierPaymentVM.hdfCreditAmount);
+                SupplierPaymentVM.AdvanceAmount = 0;
+                if (SupplierPaymentVM.TotalPaidAmt == 0)
+                {
+                    throw new Exception("Please Check Credit Notes");
+                }
+            }
+            else if (SupplierPaymentVM.TotalPaidAmt == 0)
+            {
+                throw new Exception("Please Enter Amount");
+            }
+
 
             try
             {
@@ -230,6 +248,52 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion DeleteSupplierPayment
+
+        
+        #region GetSupplierCreditNote
+        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [HttpGet]
+        public string GetSupplierCreditNote(string ID)
+        {
+            List<SupplierCreditNoteViewModel> CreditList = Mapper.Map<List<SupplierCreditNote>, List<SupplierCreditNoteViewModel>>(_supplierCreditNoteBusiness.GetCreditNoteBySupplier(Guid.Parse(ID)));
+
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = CreditList });
+        }
+        #endregion GetSupplierCreditNote
+
+
+        #region GetCreditNoteByPaymentID
+        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [HttpGet]
+        public string GetCreditNoteByPaymentID(string ID, string PaymentID)
+        {
+            List<SupplierCreditNoteViewModel> CreditList = Mapper.Map<List<SupplierCreditNote>, List<SupplierCreditNoteViewModel>>(_supplierCreditNoteBusiness.GetCreditNoteByPaymentID(Guid.Parse(ID), Guid.Parse(PaymentID)));
+
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = CreditList });
+        }
+        #endregion GetCreditNoteByPaymentID
+
+        #region GetCreditNoteAmount
+        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [HttpGet]
+        public string GetCreditNoteAmount(string CreditID, string SupplierID)
+        {
+            SupplierCreditNoteViewModel CreditNote = Mapper.Map<SupplierCreditNote, SupplierCreditNoteViewModel>(_supplierCreditNoteBusiness.GetCreditNoteAmount(Guid.Parse(CreditID), Guid.Parse(SupplierID)));
+
+            return JsonConvert.SerializeObject(new { Result = "OK", Records = CreditNote });
+
+        }
+        #endregion GetCreditNoteAmount
+
+        //#region GetOutstandingAmountBySupplier
+        //[AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
+        //[HttpGet]
+        //public string GetOutstandingAmountBySupplier(string CreditID, string SupplierID)
+        //{
+        //    SupplierPaymentViewModel Cus_pay = Mapper.Map<SupplierPayment, SupplierPaymentViewModel>(_supplierPaymentBusiness.GetOutstandingAmountBySupplier(SupplierID));
+        //    return JsonConvert.SerializeObject(new { Result = "OK", Records = Cus_pay });
+        //}
+        //#endregion GetOutstandingAmountBySupplier
 
         #region ButtonStyling
         [HttpGet]

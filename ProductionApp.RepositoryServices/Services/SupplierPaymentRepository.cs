@@ -213,7 +213,8 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@TotalPaidAmt", SqlDbType.Decimal).Value = supplierPayment.TotalPaidAmt;
                         cmd.Parameters.Add("@AdvanceAmount", SqlDbType.Decimal).Value = supplierPayment.AdvanceAmount;
                         cmd.Parameters.Add("@Type", SqlDbType.VarChar, 1).Value = supplierPayment.Type;
-                        //cmd.Parameters.Add("@CreditID", SqlDbType.UniqueIdentifier).Value = supplierPayment.CreditID;
+                        if(supplierPayment.CreditID!=Guid.Empty)
+                            cmd.Parameters.Add("@CreditID", SqlDbType.UniqueIdentifier).Value = supplierPayment.CreditID;
                         cmd.Parameters.Add("@GeneralNotes", SqlDbType.NVarChar, -1).Value = supplierPayment.GeneralNotes;
                         cmd.Parameters.Add("@DepWithdID", SqlDbType.UniqueIdentifier).Value = supplierPayment.DepositWithdrawalID;
                         cmd.Parameters.Add("@DetailXML", SqlDbType.Xml).Value = supplierPayment.DetailXML;

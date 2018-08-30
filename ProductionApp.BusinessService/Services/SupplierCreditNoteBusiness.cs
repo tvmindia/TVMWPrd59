@@ -60,5 +60,54 @@ namespace ProductionApp.BusinessService.Services
             }
             return result;
         }
+
+        public List<SupplierCreditNote> GetCreditNoteBySupplier(Guid ID)
+        {
+            List<SupplierCreditNote> Creditlist = new List<SupplierCreditNote>(); 
+            try
+            {
+            Creditlist = _supplierCreditNoteRepository.GetCreditNoteBySupplier(ID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Creditlist;
+        }
+
+        public List<SupplierCreditNote> GetCreditNoteByPaymentID(Guid ID, Guid PaymentID)
+        {
+            List<SupplierCreditNote> Creditlist = new List<SupplierCreditNote>();
+
+            try
+            {
+                Creditlist= _supplierCreditNoteRepository.GetCreditNoteByPaymentID(ID, PaymentID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Creditlist;
+
+        }
+
+        public SupplierCreditNote GetCreditNoteAmount(Guid CreditID, Guid SupplierID)
+        {
+            SupplierCreditNote creditnote = new SupplierCreditNote();
+
+            try
+            {
+                List<SupplierCreditNote> creditlist = new List<SupplierCreditNote>();
+                creditlist = _supplierCreditNoteRepository.GetCreditNoteBySupplier(SupplierID);
+                creditlist = creditlist.Where(m => m.ID == CreditID).ToList();
+                creditnote = creditlist[0];
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return creditnote;
+
+        }
     }
 }

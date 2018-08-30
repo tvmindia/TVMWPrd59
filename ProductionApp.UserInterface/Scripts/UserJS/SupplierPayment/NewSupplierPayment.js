@@ -31,7 +31,9 @@ var _jsonData = {};
 //##2--Document Ready function-----------------------------------------##2  
 $(document).ready(function () {
     try {
-        
+        debugger;
+        $("#SupplierID").select2({});
+
         $('#btnUpload').click(function () {
             //Pass the controller name
             var FileObject = new Object;
@@ -122,29 +124,33 @@ $(document).ready(function () {
 
 // ##3-- On Change: Payment Type,Payment Mode--------------------------------##3
 
-//function TypeOnChange() {
-//    if ($('#Type').val() == "C") {
-//        $("#ddlCreditDiv").css("visibility", "visible");
-//        $('#PaymentMode').val('');
-//        $('#BankCode').val('');
-//        $('#PaymentMode').prop('disabled', true);
-//        $('#TotalRecdAmt').prop('disabled', true);
-//        $('#BankCode').prop('disabled', true);
-//        $('#ChequeDate').prop('disabled', true);
-//        $('#CreditID').prop('disabled', false);
-//      //  CaptionChangeCredit()
-//    }
-//    else {
-//        $("#ddlCreditDiv").css("visibility", "hidden");
-//        $('#PaymentMode').prop('disabled', false);
-//        $('#BankCode').prop('disabled', true);
-//        $('#TotalRecdAmt').val(0);
-//        $('#TotalRecdAmt').prop('disabled', false);
-//        $('#CreditID').val(_emptyGuid);
-//       // CaptionChangePayment()
-//        AmountChanged();
-//    }
-//}
+function TypeOnChange() {
+    debugger;
+    if ($('#Type').val() == "C") {
+        $("#ddlCreditDiv").css("visibility", "visible");
+        $('#PaymentMode').val('');
+        $('#BankCode').val('');
+        $('#PaymentMode').prop('disabled', true);
+        $('#TotalRecdAmt').prop('disabled', true);
+        $('#BankCode').prop('disabled', true);
+        $('#ChequeDateFormatted').prop('disabled', true);
+        $('#ReferenceBank').prop('disabled', true);
+        $('#CreditID').prop('disabled', false);
+        CaptionChangeCredit()
+    }
+    else {
+        $("#ddlCreditDiv").css("visibility", "hidden");
+        $('#PaymentMode').prop('disabled', false);
+        $('#BankCode').prop('disabled', true);
+        $('#ChequeDateFormatted').prop('disabled', false);
+        $('#ReferenceBank').prop('disabled', false);
+        $('#TotalRecdAmt').val(0);
+        $('#TotalRecdAmt').prop('disabled', false);
+        $('#CreditID').val(_emptyGuid);
+        CaptionChangePayment()
+        AmountChanged();
+    }
+}
 
 function PaymentModeChanged() {
     if ($('#PaymentMode').val() == "ONLINE") {
@@ -170,10 +176,10 @@ function PaymentModeChanged() {
 // ##4-- Onchange: Supplier,Bind Outstanding Invocies and Amount--------------------------------------------------##4
 function SupplierOnChange() {
     if ($('#SupplierID').val() != "") {
-        //    BindCreditDropDown();
+        BindCreditDropDown();
         BindOutstandingAmount();
         $('#TotalPaidAmt').val('');
-        //    AmountChanged();
+        AmountChanged();
     } 
     BindOutstanding();
 }
@@ -480,11 +486,11 @@ function BindSupplierPayment() {
     if ($('#Type').val() == 'C') {
         $("#CreditID").html("");
         //Get Available Credit and Add with  TotalRecdAmt
-        var thisObj = GetCreditNoteByPaymentID(SupplierPaymentVM.SupplierObj.ID, PaymentID)
+        var thisObj = GetCreditNoteByPaymentID(SupplierPaymentVM.SupplierID, PaymentID)
         if (thisObj.length > 0)
-            var CreditAmount = parseFloat(SupplierPaymentVM.TotalRecdAmt) + parseFloat(thisObj[0].AvailableCredit);
+            var CreditAmount = parseFloat(SupplierPaymentVM.TotalPaidAmt) + parseFloat(thisObj[0].AvailableCredit);
         else
-            var CreditAmount = parseFloat(SupplierPaymentVM.TotalRecdAmt);
+            var CreditAmount = parseFloat(SupplierPaymentVM.TotalPaidAmt);
 
         $('#TotalPaidAmt').val(roundoff(CreditAmount))
         $('#lblTotalRecdAmt').text(roundoff(CreditAmount))
@@ -530,9 +536,11 @@ function BindSupplierPayment() {
         ChangeButtonPatchView('SupplierPayment', 'divbuttonPatchSupplierPayment', 'Disable');
         EnableDisableFields(true)
         $("#fileUploadControlDiv").hide();
-
     }
     PaymentModeChanged();
+    if ($('#Type').val() == 'C') {
+        $('#PaymentMode').prop('disabled', true);
+    }
 }
 function EnableDisableFields(value) {
     $('#PaymentMode').attr("disabled", value);
@@ -551,6 +559,14 @@ function CaptionChangePayment() {
     $("#lblCreditCptn").text('Credit Received');
     $("#lblTotalAmtRecdCptn").text('Amount Received');
     $("#lblpaidAmt").text('Amount Received');
+}
+
+function CaptionChangeCredit() {
+    $("#lblTotalPaidAmtCptn").text('Credit Amount');
+    $("#lblPaymentAppliedCptn").text('Total Credit Used');
+    $("#lblCreditCptn").text('Credit Remaining');
+    $("#lblTotalAmtPaidCptn").text('Credit Amount');
+    $("#lblpaidAmt").text('Credit Amount');
 }
 function GetSupplierPayments() {
     try {
@@ -580,50 +596,107 @@ function GetSupplierPayments() {
     }
 }
 
-// CURRENTLY NOT USING, UNCOMMENT THESE LINE WHILE USING CREDIT NOTE
-// ##8-- Bind CreditDropDown---------------------------------------------------------##8
 
-//function BindCreditDropDown() {
-//    var ID = $("#SupplierID").val() == "" ? null : $("#SupplierID").val();
-//    if (ID != null) {
-//        var ds = GetCreditNoteBySupplier(ID);
-//        if (ds.length > 0) {
-//            $("#CreditID").html(""); // clear before appending new list 
-//            $("#CreditID").append($('<option></option>').val(_emptyGuid).html('--Select Credit Note--'));
-//            $.each(ds, function (i, credit) {
-//                $("#CreditID").append(
-//                    $('<option></option>').val(credit.ID).html(credit.CreditNoteNo + ' ( Credit Amt: ₹' + credit.AvailableCredit + ')'));
-//            });
-//        }
-//        else {
-//            $("#CreditID").html("");
-//            $("#CreditID").append($('<option></option>').val(_emptyGuid).html('No Credit Notes Available'));
-//        }
-//    }
-//}
-//function GetCreditNoteBySupplier(ID) {
-//    try {
-//        var data = { "Id": ID }; 
-//        var SupplierCreditNoteVM = new Object();
-//        _jsonData = GetDataFromServer("SupplierPayment/GetSupplierCreditNote/", data);
-//        if (_jsonData != '') {
-//            _jsonData = JSON.parse(_jsonData);
-//            _result = _jsonData.Result;
-//            _message = _jsonData.Message;
-//            SupplierCreditNoteVM = _jsonData.Record;
-//        }
-//        if (_result == "OK") {
-//            return SupplierCreditNoteVM;
-//        }
-//        if (_result == "ERROR") {
-//            notyAlert('error', _message);
-//        }
-//    }
-//    catch (e) {
-//        //this will show the error msg in the browser console(F12) 
-//        console.log(e.message);
-//    }
-//}
+function GetCreditNoteByPaymentID(ID, PaymentID) {
+    try {
+        var data = { "ID": ID, "PaymentID": PaymentID };
+        var ds = {};
+        ds = GetDataFromServer("SupplierPayment/GetCreditNoteByPaymentID/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+ //##8-- Bind CreditDropDown---------------------------------------------------------##8
+
+function BindCreditDropDown() {
+    debugger;
+    var ID = $("#SupplierID").val() == "" ? null : $("#SupplierID").val();
+    if (ID != null) {
+        var ds = GetCreditNoteBySupplier(ID);
+        if (ds.length > 0) {
+            $("#CreditID").html(""); // clear before appending new list 
+            $("#CreditID").append($('<option></option>').val(_emptyGuid).html('--Select Credit Note--'));
+            $.each(ds, function (i, credit) {
+                $("#CreditID").append(
+                    $('<option></option>').val(credit.ID).html(credit.CreditNoteNo + ' ( Credit Amt: ₹' + credit.AvailableCredit + ')'));
+            });
+        }
+        else {
+            $("#CreditID").html("");
+            $("#CreditID").append($('<option></option>').val(_emptyGuid).html('No Credit Notes Available'));
+        }
+    }
+}
+function GetCreditNoteBySupplier(ID) {
+    try {
+        var data = { "Id": ID }; 
+        var SupplierCreditNoteVM = new Object();
+        _jsonData = GetDataFromServer("SupplierPayment/GetSupplierCreditNote/", data);
+        if (_jsonData != '') {
+            _jsonData = JSON.parse(_jsonData);
+            _result = _jsonData.Result;
+            _message = _jsonData.Message;
+            SupplierCreditNoteVM = _jsonData.Records;
+        }
+        if (_result == "OK") {
+            return SupplierCreditNoteVM;
+        }
+        if (_result == "ERROR") {
+            notyAlert('error', _message);
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
+    }
+}
+
+function ddlCreditOnChange(event) {
+    debugger;
+    var creditID = $("#CreditID").val();
+    var SupplierID = $("#SupplierID").val();
+    if (creditID != _emptyGuid) {
+        var ds = GetCreditNoteAmount(creditID, SupplierID);
+        $('#TotalPaidAmt').val(ds.AvailableCredit);
+        $('#TotalPaidAmt').prop('disabled', true);
+        AmountChanged();
+        }
+        }
+
+function GetCreditNoteAmount(ID, SupplierID) {
+    try {
+        var data = { "CreditID": ID, "SupplierID": SupplierID };
+        var ds = {};
+        ds = GetDataFromServer("SupplierPayment/GetCreditNoteAmount/", data);
+        if (ds != '') {
+            ds = JSON.parse(ds);
+        }
+        if (ds.Result == "OK") {
+            return ds.Records;
+        }
+        if (ds.Result == "ERROR") {
+            notyAlert('error', ds.Message);
+            var emptyarr = [];
+            return emptyarr;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
 
 // ##9-- Delete Supplier Payments---------------------------------------------------##9
 function DeleteClick() {

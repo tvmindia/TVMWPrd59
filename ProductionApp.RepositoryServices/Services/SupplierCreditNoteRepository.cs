@@ -245,5 +245,105 @@ namespace ProductionApp.RepositoryServices.Services
                 Message = SupplierCreditNote.IsUpdate ? _appConst.UpdateSuccess : _appConst.InsertSuccess
             };
         }
+
+        public List<SupplierCreditNote> GetCreditNoteBySupplier(Guid ID)
+        {
+            List<SupplierCreditNote> supplierCreditNoteList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetCreditNoteBySupplier]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                supplierCreditNoteList = new List<SupplierCreditNote>();
+                                while (sdr.Read())
+                                {
+                                    SupplierCreditNote supplierCreditNote = new SupplierCreditNote();
+                                    {
+                                        supplierCreditNote.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : supplierCreditNote.ID);
+                                        supplierCreditNote.CreditNoteNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : supplierCreditNote.CreditNoteNo);
+                                        supplierCreditNote.CreditNoteDate = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()) : supplierCreditNote.CreditNoteDate);
+                                        supplierCreditNote.CreditAmount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : supplierCreditNote.CreditAmount);
+                                        supplierCreditNote.AvailableCredit = (sdr["AvailableCredit"].ToString() != "" ? decimal.Parse(sdr["AvailableCredit"].ToString()) : supplierCreditNote.AvailableCredit);
+                                        supplierCreditNote.CreditNoteDateFormatted = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()).ToString(settings.DateFormat) : supplierCreditNote.CreditNoteDateFormatted);
+                                    }
+                                    supplierCreditNoteList.Add(supplierCreditNote);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return supplierCreditNoteList;
+        }
+
+        public List<SupplierCreditNote> GetCreditNoteByPaymentID(Guid ID, Guid PaymentID)
+        {
+            List<SupplierCreditNote> supplierCreditNoteList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetSupplierCreditNoteByPaymentID]";
+                        cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = ID;
+                        cmd.Parameters.Add("@PaymentID", SqlDbType.UniqueIdentifier).Value = PaymentID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                supplierCreditNoteList = new List<SupplierCreditNote>();
+                                while (sdr.Read())
+                                {
+                                    SupplierCreditNote supplierCreditNote = new SupplierCreditNote();
+                                    {
+                                        supplierCreditNote.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : supplierCreditNote.ID);
+                                        supplierCreditNote.CreditNoteNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : supplierCreditNote.CreditNoteNo);
+                                        supplierCreditNote.CreditNoteDate = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()) : supplierCreditNote.CreditNoteDate);
+                                        supplierCreditNote.CreditAmount = (sdr["CreditAmount"].ToString() != "" ? decimal.Parse(sdr["CreditAmount"].ToString()) : supplierCreditNote.CreditAmount);
+                                        supplierCreditNote.AvailableCredit = (sdr["AvailableCredit"].ToString() != "" ? decimal.Parse(sdr["AvailableCredit"].ToString()) : supplierCreditNote.AvailableCredit);
+                                        supplierCreditNote.CreditNoteDateFormatted = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()).ToString(settings.DateFormat) : supplierCreditNote.CreditNoteDateFormatted);
+                                    }
+                                    supplierCreditNoteList.Add(supplierCreditNote);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return supplierCreditNoteList;
+
+        }
     }
 }

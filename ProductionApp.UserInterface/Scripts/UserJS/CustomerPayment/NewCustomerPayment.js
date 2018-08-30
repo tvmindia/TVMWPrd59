@@ -454,36 +454,36 @@ function SaveSuccessCustomerPayment(data, status) {
 function BindCustomerPayment() {
     var PaymentID = $('#ID').val();
     ChangeButtonPatchView('CustomerPayment', 'divbuttonPatchCustomerPayment', 'Edit');
-    var thisitem = GetCustomerPayments();
-    $('#lblReturnSlipNo').text('Customer Payment# : ' + thisitem.EntryNo); 
-    $('#EntryNo').val(thisitem.EntryNo);
+    var customerPaymentVM = GetCustomerPayments();
+    $('#lblReturnSlipNo').text('Customer Payment# : ' + customerPaymentVM.EntryNo); 
+    $('#EntryNo').val(customerPaymentVM.EntryNo);
     $('#ID').val(PaymentID);
     $('#deleteId').val(PaymentID);
     $("#CustomerID").select2();
-    $("#CustomerID").val(thisitem.CustomerID).trigger('change');
+    $("#CustomerID").val(customerPaymentVM.CustomerID).trigger('change');
     $('#CustomerID').prop('disabled', true);
-    $('#ReferenceBank').val(thisitem.ReferenceBank);
-    $('#PaymentDateFormatted').val(thisitem.PaymentDateFormatted);
-    $('#ChequeDateFormatted').val(thisitem.ChequeDateFormatted);
-    $('#PaymentRef').val(thisitem.PaymentRef);
-    $('#PaymentMode').val(thisitem.PaymentMode);
-    $('#BankCode').val(thisitem.BankCode).select2();
-    $('#DepositWithdrawalID').val(thisitem.DepositWithdrawalID);
-    $('#GeneralNotes').val(thisitem.GeneralNotes);
-    $('#TotalRecievedAmt').val(roundoff(thisitem.TotalRecievedAmt));
-    $('#lblTotalRecdAmt').text(roundoff(thisitem.TotalRecievedAmt));
-    $('#paidAmt').text("₹" + roundoff(thisitem.TotalRecievedAmt));
-    $('#Type').val(thisitem.Type);
-    $('#hdfType').val(thisitem.Type);
+    $('#ReferenceBank').val(customerPaymentVM.ReferenceBank);
+    $('#PaymentDateFormatted').val(customerPaymentVM.PaymentDateFormatted);
+    $('#ChequeDateFormatted').val(customerPaymentVM.ChequeDateFormatted);
+    $('#PaymentRef').val(customerPaymentVM.PaymentRef);
+    $('#PaymentMode').val(customerPaymentVM.PaymentMode);
+    $('#BankCode').val(customerPaymentVM.BankCode).select2();
+    $('#DepositWithdrawalID').val(customerPaymentVM.DepositWithdrawalID);
+    $('#GeneralNotes').val(customerPaymentVM.GeneralNotes);
+    $('#TotalRecievedAmt').val(roundoff(customerPaymentVM.TotalRecievedAmt));
+    $('#lblTotalRecdAmt').text(roundoff(customerPaymentVM.TotalRecievedAmt));
+    $('#paidAmt').text("₹" + roundoff(customerPaymentVM.TotalRecievedAmt));
+    $('#Type').val(customerPaymentVM.Type);
+    $('#hdfType').val(customerPaymentVM.Type);
     $('#Type').prop('disabled', true);
-    if (thisitem.AdvanceAmount == 0) {
+    if (customerPaymentVM.AdvanceAmount == 0) {
         $('#advAmt').hide();
         $('#lblAdvAmt').hide();
     }
     else {
         $('#advAmt').show();
         $('#lblAdvAmt').show();
-        $('#advAmt').text( "₹" + roundoff(thisitem.AdvanceAmount));
+        $('#advAmt').text( "₹" + roundoff(customerPaymentVM.AdvanceAmount));
     }
     BindOutstandingAmount();
 
@@ -491,20 +491,20 @@ function BindCustomerPayment() {
         $("#CreditID").html("");
         //Get Available Credit and Add with  TotalRecdAmt
         debugger;
-        var thisObj = GetCreditNoteByPaymentID(thisitem.CustomerID, PaymentID)
+        var thisObj = GetCreditNoteByPaymentID(customerPaymentVM.CustomerID, PaymentID)
         if (thisObj.length > 0)
-            var CreditAmount = parseFloat(thisitem.TotalRecievedAmt) + parseFloat(thisObj[0].AvailableCredit);
+            var CreditAmount = parseFloat(customerPaymentVM.TotalRecievedAmt) + parseFloat(thisObj[0].AvailableCredit);
         else
-            var CreditAmount = parseFloat(thisitem.TotalRecievedAmt);
+            var CreditAmount = parseFloat(customerPaymentVM.TotalRecievedAmt);
 
         $('#TotalRecievedAmt').val(roundoff(CreditAmount))
         $('#lblTotalRecdAmt').text(roundoff(CreditAmount))
         $('#paidAmt').text("₹" + roundoff(CreditAmount));
-        $("#CreditID").append($('<option></option>').val(thisitem.CreditID).html(thisitem.CreditNo + ' ( Credit Amt: ₹' + CreditAmount + ')'));
-        $('#CreditID').val(thisitem.CreditID)
+        $("#CreditID").append($('<option></option>').val(customerPaymentVM.CreditID).html(customerPaymentVM.CreditNo + ' ( Credit Amt: ₹' + CreditAmount + ')'));
+        $('#CreditID').val(customerPaymentVM.CreditID)
         $('#CreditID').prop('disabled', true);
         $('#TotalRecievedAmt').prop('disabled', true);
-        $('#hdfCreditID').val(thisitem.CreditID);
+        $('#hdfCreditID').val(customerPaymentVM.CreditID);
         $('#PaymentMode').prop('disabled', true);
         $("#ddlCreditDiv").css("visibility", "visible");
         CaptionChangeCredit();
