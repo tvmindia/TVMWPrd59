@@ -101,7 +101,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        if (customerInvoice.hdnIsRegular)
+                        if (customerInvoice.hdnIsRegular || customerInvoice.InvoiceType=="RI")
                             cmd.CommandText = "[AMC].[InsertUpdateCustomerInvoice_Grouping]";
                         else
                             cmd.CommandText = "[AMC].[InsertUpdateCustomerServiceInvoice]";

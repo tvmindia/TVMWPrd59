@@ -540,6 +540,8 @@ function BindSupplierPayment() {
     PaymentModeChanged();
     if ($('#Type').val() == 'C') {
         $('#PaymentMode').prop('disabled', true);
+        $('#TotalPaidAmt').attr("disabled", true);
+
     }
 }
 function EnableDisableFields(value) {
