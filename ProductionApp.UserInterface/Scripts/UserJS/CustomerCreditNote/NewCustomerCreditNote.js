@@ -110,7 +110,7 @@ function BindCustomerCreditNoteByID() {
    
 
     $('#lblCreditAmount').text(roundoff(customerCreditNoteVM.CreditAmount));
-    $('#lblAvailableCredit').text(roundoff(customerCreditNoteVM.AvailableCredit));
+    $('#lblAvailableCredit').text(roundoff(customerCreditNoteVM.CreditAmount -customerCreditNoteVM.adjustedAmount));
     $('#lblAdjustedAmount').text(roundoff(customerCreditNoteVM.adjustedAmount));
    
   

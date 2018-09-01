@@ -111,7 +111,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         customerCreditNote.CreditNoteNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : customerCreditNote.CreditNoteNo);
                                         customerCreditNote.CreditNoteDateFormatted = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()).ToString(settings.DateFormat) : customerCreditNote.CreditNoteDateFormatted);
                                         customerCreditNote.CreditAmount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : customerCreditNote.CreditAmount);
-                                      //  customerCreditNote.AvailableCredit = (sdr["AvailableCredit"].ToString() != "" ? decimal.Parse(sdr["AvailableCredit"].ToString()) : customerCreditNote.AvailableCredit);
+                                        customerCreditNote.AvailableCredit = (sdr["AvailableCredit"].ToString() != "" ? decimal.Parse(sdr["AvailableCredit"].ToString()) : customerCreditNote.AvailableCredit);
                                         //  _customerCreditNotesObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : _customerCreditNotesObj.Type);
                                         //  _customerCreditNotesObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _customerCreditNotesObj.GeneralNotes);
                                     }
@@ -153,14 +153,13 @@ namespace ProductionApp.RepositoryServices.Services
                             if ((sdr != null) && (sdr.HasRows))
                                 if (sdr.Read())
                                 {
-                                   // customerCreditNote.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : customerCreditNote.ID);
                                     customerCreditNote.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : customerCreditNote.CustomerName);
                                     customerCreditNote.CustomerID = (sdr["CustomerID"].ToString() != "" ? Guid.Parse(sdr["CustomerID"].ToString()) : customerCreditNote.CustomerID);
                                     customerCreditNote.CreditNoteNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : customerCreditNote.CreditNoteNo);
                                     customerCreditNote.CreditNoteDateFormatted = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()).ToString(settings.DateFormat) : customerCreditNote.CreditNoteDateFormatted);
                                     customerCreditNote.CreditAmount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : customerCreditNote.CreditAmount);
                                     //_customerCreditNoteObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : _customerCreditNoteObj.Type);
-                                //    customerCreditNote.adjustedAmount = (sdr["AdjAmount"].ToString() != "" ? decimal.Parse(sdr["AdjAmount"].ToString()) : customerCreditNote.adjustedAmount);
+                                    customerCreditNote.adjustedAmount = (sdr["AdjAmount"].ToString() != "" ? decimal.Parse(sdr["AdjAmount"].ToString()) : customerCreditNote.adjustedAmount);
                                     customerCreditNote.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : customerCreditNote.GeneralNotes);
 
                                 }

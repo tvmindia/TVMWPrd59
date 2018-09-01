@@ -362,8 +362,7 @@ function Save() {
     var $form = $('#CustomerPaymentForm');
     if ($form.valid())
     {
-            ValidatePaymentRefNo();
-           
+        ValidatePaymentRefNo();
     }
     else {
         notyAlert('warning', "Please Fill Required Fields,To Add Items ");
@@ -415,7 +414,6 @@ function SaveValidatedData()
     _SlNo = 1;
 }
 function AddCustomerPaymentDetailList() {
-    
     var PaymentInvoices = _dataTable.OutStandingInvoices.rows(".selected").data();
     var appliedAmountSum = 0;
     var totalAmtReceived = parseFloat($('#TotalRecievedAmt').val())
@@ -426,10 +424,10 @@ function AddCustomerPaymentDetailList() {
             paymentDetail.PaymentID = $('#ID').val() == "" ? _emptyGuid : $('#ID').val();
             paymentDetail.PaidAmount = PaymentInvoices[r].CustomerPayment.CustomerPaymentDetail.PaidAmount;
             _CustomerPaymentDetailList.push(paymentDetail);
-            appliedAmountSum = appliedAmountSum + PaymentInvoices[r].CustomerPayment.CustomerPaymentDetail.PaidAmount;
+            appliedAmountSum = parseFloat(appliedAmountSum) + parseFloat(PaymentInvoices[r].CustomerPayment.CustomerPaymentDetail.PaidAmount);
         }
     $('#hdfCreditAmount').val(appliedAmountSum);
-    $('#AdvanceAmount').val(totalAmtReceived - appliedAmountSum);
+    $('#AdvanceAmount').val(parseFloat(totalAmtReceived) - parseFloat(appliedAmountSum));
 }
 function SaveSuccessCustomerPayment(data, status) {
     
