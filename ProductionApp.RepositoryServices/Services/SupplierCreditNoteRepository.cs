@@ -114,7 +114,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         SupplierCreditNote.CreditNoteNo = (sdr["CRNRefNo"].ToString() != "" ? sdr["CRNRefNo"].ToString() : SupplierCreditNote.CreditNoteNo);
                                         SupplierCreditNote.CreditNoteDateFormatted = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()).ToString(settings.DateFormat) : SupplierCreditNote.CreditNoteDateFormatted);
                                         SupplierCreditNote.CreditAmount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : SupplierCreditNote.CreditAmount);
-                                        // SupplierCreditNote.AvailableCredit = (sdr["AvailableCredit"].ToString() != "" ? decimal.Parse(sdr["AvailableCredit"].ToString()) : SupplierCreditNote.AvailableCredit);
+                                        SupplierCreditNote.AvailableCredit = (sdr["AvailableCredit"].ToString() != "" ? decimal.Parse(sdr["AvailableCredit"].ToString()) : SupplierCreditNote.AvailableCredit);
                                         // _SupplierCreditNotesObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : _SupplierCreditNotesObj.Type);
                                         // _SupplierCreditNotesObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _SupplierCreditNotesObj.GeneralNotes);
                                     }
@@ -163,7 +163,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     SupplierCreditNote.CreditNoteDateFormatted = (sdr["CRNDate"].ToString() != "" ? DateTime.Parse(sdr["CRNDate"].ToString()).ToString(settings.DateFormat) : SupplierCreditNote.CreditNoteDateFormatted);
                                     SupplierCreditNote.CreditAmount = (sdr["Amount"].ToString() != "" ? decimal.Parse(sdr["Amount"].ToString()) : SupplierCreditNote.CreditAmount);
                                     //_SupplierCreditNoteObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : _SupplierCreditNoteObj.Type);
-                                    //    SupplierCreditNote.adjustedAmount = (sdr["AdjAmount"].ToString() != "" ? decimal.Parse(sdr["AdjAmount"].ToString()) : SupplierCreditNote.adjustedAmount);
+                                    SupplierCreditNote.adjustedAmount = (sdr["AdjAmount"].ToString() != "" ? decimal.Parse(sdr["AdjAmount"].ToString()) : SupplierCreditNote.adjustedAmount);
                                     SupplierCreditNote.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : SupplierCreditNote.GeneralNotes);
 
                                 }

@@ -108,9 +108,10 @@ function BindOrReloadSupplierCreditNoteTable(action) {
                         }, "width": "20%"
                     },
                       {
-                          "data": "BalanceDue", "defaultContent": "<i>-</i>",
+                          "data": "", "defaultContent": "<i>-</i>",
                           'render': function (data, type, row) {
-                              return roundoff(data)
+                              debugger;
+                              return roundoff(row.CreditAmount - row.AvailableCredit)
                           }, "width": "20%"
                       },
                   //  { "data": "Status", "defaultContent": "<i>-</i>", "width": "7%" },
