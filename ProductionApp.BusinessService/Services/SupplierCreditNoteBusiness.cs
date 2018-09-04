@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProductionApp.BusinessService.Services
 {
-    public class SupplierCreditNoteBusiness: ISupplierCreditNoteBusiness
+    public class SupplierCreditNoteBusiness : ISupplierCreditNoteBusiness
     {
         private ISupplierCreditNoteRepository _supplierCreditNoteRepository;
         public SupplierCreditNoteBusiness(ISupplierCreditNoteRepository supplierCreditNoteRepository)
@@ -20,17 +20,31 @@ namespace ProductionApp.BusinessService.Services
 
         public List<SupplierCreditNote> GetAllSupplierCreditNote(SupplierCreditNoteAdvanceSearch supplierCreditNoteAdvanceSearch)
         {
-            return _supplierCreditNoteRepository.GetAllSupplierCreditNote(supplierCreditNoteAdvanceSearch);
+            try
+            {
+                return _supplierCreditNoteRepository.GetAllSupplierCreditNote(supplierCreditNoteAdvanceSearch);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public SupplierCreditNote GetSupplierCreditNote(Guid ID)
         {
             SupplierCreditNote SupplierCreditNote = new SupplierCreditNote();
-            SupplierCreditNote = _supplierCreditNoteRepository.GetSupplierCreditNote(ID);
-            //if (SupplierCreditNote != null)
-            //{
-            //    SupplierCreditNote.creditAmountFormatted = _commonBusiness.ConvertCurrency(SupplierCreditNote.CreditAmount, 2);
-            //    SupplierCreditNote.adjustedAmountFormatted = _commonBusiness.ConvertCurrency(SupplierCreditNote.adjustedAmount, 2);
-            //}
+            try
+            {
+                SupplierCreditNote = _supplierCreditNoteRepository.GetSupplierCreditNote(ID);
+                //if (SupplierCreditNote != null)
+                //{
+                //    SupplierCreditNote.creditAmountFormatted = _commonBusiness.ConvertCurrency(SupplierCreditNote.CreditAmount, 2);
+                //    SupplierCreditNote.adjustedAmountFormatted = _commonBusiness.ConvertCurrency(SupplierCreditNote.adjustedAmount, 2);
+                //}
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             return SupplierCreditNote;
         }
         public object InsertUpdateSupplierCreditNote(SupplierCreditNote SupplierCreditNote)
@@ -63,10 +77,10 @@ namespace ProductionApp.BusinessService.Services
 
         public List<SupplierCreditNote> GetCreditNoteBySupplier(Guid ID)
         {
-            List<SupplierCreditNote> Creditlist = new List<SupplierCreditNote>(); 
+            List<SupplierCreditNote> Creditlist = new List<SupplierCreditNote>();
             try
             {
-            Creditlist = _supplierCreditNoteRepository.GetCreditNoteBySupplier(ID);
+                Creditlist = _supplierCreditNoteRepository.GetCreditNoteBySupplier(ID);
             }
             catch (Exception ex)
             {
@@ -81,7 +95,7 @@ namespace ProductionApp.BusinessService.Services
 
             try
             {
-                Creditlist= _supplierCreditNoteRepository.GetCreditNoteByPaymentID(ID, PaymentID);
+                Creditlist = _supplierCreditNoteRepository.GetCreditNoteByPaymentID(ID, PaymentID);
             }
             catch (Exception ex)
             {

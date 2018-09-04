@@ -21,17 +21,34 @@ namespace ProductionApp.BusinessService.Services
 
         public List<CustomerCreditNote> GetAllCustomerCreditNote(CustomerCreditNoteAdvanceSearch customerCreditNoteAdvanceSearch)
         {
-            return _customerCreditNoteRepository.GetAllCustomerCreditNote(customerCreditNoteAdvanceSearch);
+
+            List<CustomerCreditNote> CustomerCreditNoteList = new List<CustomerCreditNote>();
+            try
+            {
+                CustomerCreditNoteList = _customerCreditNoteRepository.GetAllCustomerCreditNote(customerCreditNoteAdvanceSearch);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return CustomerCreditNoteList;
         }
         public CustomerCreditNote GetCustomerCreditNote(Guid ID)
         {
             CustomerCreditNote customerCreditNote = new CustomerCreditNote();
-            customerCreditNote = _customerCreditNoteRepository.GetCustomerCreditNote(ID);
-            //if (customerCreditNote != null)
-            //{
-            //    customerCreditNote.creditAmountFormatted = _commonBusiness.ConvertCurrency(customerCreditNote.CreditAmount, 2);
-            //    customerCreditNote.adjustedAmountFormatted = _commonBusiness.ConvertCurrency(customerCreditNote.adjustedAmount, 2);
-            //}
+            try
+            {
+                customerCreditNote = _customerCreditNoteRepository.GetCustomerCreditNote(ID);
+                //if (customerCreditNote != null)
+                //{
+                //    customerCreditNote.creditAmountFormatted = _commonBusiness.ConvertCurrency(customerCreditNote.CreditAmount, 2);
+                //    customerCreditNote.adjustedAmountFormatted = _commonBusiness.ConvertCurrency(customerCreditNote.adjustedAmount, 2);
+                //}
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             return customerCreditNote;
         }
         public object InsertUpdateCustomerCreditNote(CustomerCreditNote customerCreditNote)
@@ -65,23 +82,45 @@ namespace ProductionApp.BusinessService.Services
         public List<CustomerCreditNote> GetCreditNoteByCustomer(Guid ID)
         {
             List<CustomerCreditNote> customerCreditNotelist = new List<CustomerCreditNote>();
-            customerCreditNotelist = _customerCreditNoteRepository.GetCreditNoteByCustomer(ID);
+            try
+            {
+                customerCreditNotelist = _customerCreditNoteRepository.GetCreditNoteByCustomer(ID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             return customerCreditNotelist;
         }
 
         public List<CustomerCreditNote> GetCreditNoteByPaymentID(Guid ID, Guid PaymentID)
         {
-            return _customerCreditNoteRepository.GetCreditNoteByPaymentID(ID, PaymentID);
-
+            List<CustomerCreditNote> customerCreditNotelist = new List<CustomerCreditNote>();
+            try
+            {
+                customerCreditNotelist = _customerCreditNoteRepository.GetCreditNoteByPaymentID(ID, PaymentID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return customerCreditNotelist;
         }
 
         public CustomerCreditNote GetCreditNoteAmount(Guid CreditID, Guid CustomerID)
         {
             CustomerCreditNote customerCreditNote = new CustomerCreditNote();
             List<CustomerCreditNote> custcreditlist = new List<CustomerCreditNote>();
-            custcreditlist = _customerCreditNoteRepository.GetCreditNoteByCustomer(CustomerID);
-            custcreditlist = custcreditlist.Where(m => m.ID == CreditID).ToList();
-            customerCreditNote = custcreditlist[0];
+            try
+            {
+                custcreditlist = _customerCreditNoteRepository.GetCreditNoteByCustomer(CustomerID);
+                custcreditlist = custcreditlist.Where(m => m.ID == CreditID).ToList();
+                customerCreditNote = custcreditlist[0];
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             return customerCreditNote;
         }
 
