@@ -15,5 +15,8 @@ namespace ProductionApp.RepositoryServices.Contracts
         Assembly GetAssembly(Guid id);
         object DeleteAssembly(Guid id, string createdBy);
         List<Assembly> GetRecentAssemblyProduct();
+        List<Assembly> GetPossibleItemQuantityForAssembly(Guid id);
+
+        
     }
 }

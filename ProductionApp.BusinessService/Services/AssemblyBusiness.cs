@@ -44,5 +44,13 @@ namespace ProductionApp.BusinessService.Services
         {
             return _assemblyRepository.GetRecentAssemblyProduct();
         }
+
+        #region GetPossibleItemQuantityForAssembly
+        public List<Assembly> GetPossibleItemQuantityForAssembly(Guid id)
+        {
+            return _assemblyRepository.GetPossibleItemQuantityForAssembly(id);
+        }
+        #endregion GetPossibleItemQuantityForAssembly
+
     }
 }

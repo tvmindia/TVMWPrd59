@@ -154,6 +154,23 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion DeleteAssembly
 
+        #region GetPossibleItemQuantityForAssembly
+        [AuthSecurityFilter(ProjectObject = "Assembly", Mode = "R")]
+        public string GetPossibleItemQuantityForAssembly(string id)
+        {
+            try
+            {
+                List<AssemblyViewModel> assemblyList = Mapper.Map<List<Assembly>, List<AssemblyViewModel>>(_assemblyBusiness.GetPossibleItemQuantityForAssembly(Guid.Parse(id)));
+                return JsonConvert.SerializeObject(new { Result = "OK", Records = assemblyList, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex });
+            }
+        }
+        #endregion GetPossibleItemQuantityForAssembly
+
+
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "Assembly", Mode = "")]
