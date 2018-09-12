@@ -138,7 +138,7 @@ $(document).ready(function () {
                   { "data": "MaterialCode", "defaultContent": "<i>-</i>", "width": "10%" },
                   { "data": "MaterialDesc", "defaultContent": "<i>-</i>" },
                   { "data": "UnitCode", "defaultContent": "<i>-</i>", "width": "5%" },
-                  { "data": "Qty", "defaultContent": "<i>-</i>", "width": "4%" },
+                  { "data": "POQty", "defaultContent": "<i>-</i>", "width": "4%" },
                   {
                       "data": "Rate", "defaultContent": "<i>-</i>",
                       'render': function (data, type, row) {

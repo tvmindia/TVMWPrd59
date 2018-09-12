@@ -20,6 +20,14 @@ var _packingSlipDetailList = [];
 var _packingSlipViewModel = new Object();
 var colorFlag = 0;
 var EditFlag = 0, selected = 1;
+
+// while changing ApplyCurrentStock Please unComment/Comment  
+//"if (salesOrder.Product.CurrentStock >= Bal)" in GetSalesOrderProductList method SalesOrderRepository
+// used for allow negative stock
+var ApplyCurrentStock = 1; //1 means current stock is not checked //0 means current stock is checked
+
+var _isEditPkgSlipDetail = 0;
+var _currentPkgQtyEdit = 0;
 //Grouping 
 var CheckedProducts = [];
 var CheckedGroups = [];
@@ -99,7 +107,13 @@ $(document).ready(function () {
                  { "data": "Product.CurrentStock", "defaultContent": "<i>-</i>", "width": "10%",
                  'render': function (data, type, row) {
                      if (row.Product.Name != null)
-                         return data;
+                         //   return data;
+                     {
+                         if (data <= 0)
+                             return '<i class="lblrequired">' + data + '</i>';
+                         else
+                             return data;
+                     }
                      else
                          return ' <i data-toggle="tooltip" title="Expand Group to view!">...</i>'
 
@@ -130,10 +144,11 @@ $(document).ready(function () {
                  },
                  { "data": "CurrentPkgQty", "defaultContent": "<i>-</i>", "width": "10%",
                      'render': function (data, type, row) {
-                     if (row.GroupID == EmptyGuid || row.GroupID == null)
-                         return '<input class="form-control description text-right" name="Markup" value="' + data + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" id="txt2_' + row.ProductID + '"  onkeyup="textBoxValueOnChanged(this,2);"style="width:100%">';
-                     else
-                         return '<input class="form-control description text-right" name="Markup" value="' + data + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" id="txt2_' + row.GroupID + '"  onkeyup="textBoxValueOnChanged(this,2);"style="width:100%" >';//disabled="disabled"
+                         debugger;
+                         if (row.GroupID == EmptyGuid || row.GroupID == null)
+                            return '<input class="form-control description text-right" name="Markup" value="' + data + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" id="txt2_' + row.ProductID + '"  onkeyup="textBoxValueOnChanged(this,2);"style="width:100%">';
+                         else
+                            return '<input class="form-control description text-right" name="Markup" value="' + data + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" id="txt2_' + row.GroupID + '"  onkeyup="textBoxValueOnChanged(this,2);"style="width:100%" >';//disabled="disabled"
                      }
                  },
                  {
@@ -262,7 +277,7 @@ $(document).ready(function () {
                  {
                      "data": "SalesOrder.SalesOrderDetail.CurrentPkgQty", "defaultContent": "<i>-</i>",
                      'render': function (data, type, row) {
-                         return '<input class="form-control description text-right" name="Markup" value="' + data + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" id="txt' + row.ProductID + '" onchange="textBoxValueChangedEditTbl(this,1);"style="width:100%">';
+                         return '<input class="form-control description text-right" name="Markup" value="' + data + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" id="Edttxt2_' + row.SalesOrder.SalesOrderDetail.ProductID + '" onchange="textBoxValueChangedEditTbl(this,1);"style="width:100%">';
                      }
                  },
                  {
@@ -375,34 +390,38 @@ function GetProductList() {
     }
 }
 //TextBox value change in datatable
-function textBoxValueChanged(thisObj, textBoxCode) {
-    var IDs = selectedRowIDs();//identify the selected rows 
-    var productDetailsVM = DataTables.ProductListTable.rows().data();
-    var productDetailstable = DataTables.ProductListTable;
-    var rowtable = productDetailstable.row($(thisObj).parents('tr')).data();
-    for (var i = 0; i < productDetailsVM.length; i++) {
-        if (productDetailsVM[i].ProductID == rowtable.ProductID) {
-            if (textBoxCode == 1)//textBoxCode is the code to know, which textbox changed is triggered
-                {
-                if ((thisObj.value <= productDetailsVM[i].Product.CurrentStock) && (thisObj.value != ""))
-                    productDetailsVM[i].CurrentPkgQty = parseFloat(thisObj.value);
-                else
-                    productDetailsVM[i].CurrentPkgQty = parseFloat(productDetailsVM[i].Product.CurrentStock) - parseFloat(productDetailsVM[i].PrevPkgQty)
-            }
-            if (textBoxCode == 2)
-            {
-                if (thisObj.value != "")
-                    productDetailsVM[i].PkgWt = parseFloat(thisObj.value);
-                else
-                    productDetailsVM[i].PkgWt = 0;
-            }
-        }
-    }
-    DataTables.ProductListTable.clear().rows.add(productDetailsVM).draw(false);
-    selectCheckbox(IDs); //Selecting the checked rows with their ids taken 
-    productDetailsVM = DataTables.ProductListTable.rows(".selected").data();
-    CheckProductDetails(productDetailsVM);
-}
+//function textBoxValueChanged(thisObj, textBoxCode) {
+//    debugger;
+
+//    var IDs = selectedRowIDs();//identify the selected rows 
+//    var productDetailsVM = DataTables.ProductListTable.rows().data();
+//    var productDetailstable = DataTables.ProductListTable;
+//    var rowtable = productDetailstable.row($(thisObj).parents('tr')).data();
+//    for (var i = 0; i < productDetailsVM.length; i++) {
+//        if (productDetailsVM[i].ProductID == rowtable.ProductID) {
+//            if (textBoxCode == 1)//textBoxCode is the code to know, which textbox changed is triggered
+//                {
+//                if (((thisObj.value <= productDetailsVM[i].Product.CurrentStock)||ApplyCurrentStock) && (thisObj.value != ""))
+//                    productDetailsVM[i].CurrentPkgQty = parseFloat(thisObj.value);
+//                else
+//                    productDetailsVM[i].CurrentPkgQty = parseFloat(productDetailsVM[i].Product.CurrentStock) - parseFloat(productDetailsVM[i].PrevPkgQty)
+//            }
+//            if (textBoxCode == 2)
+//            {
+//                if (thisObj.value != "")
+//                    productDetailsVM[i].PkgWt = parseFloat(thisObj.value);
+//                else
+//                    productDetailsVM[i].PkgWt = 0;
+//            }
+//        }
+//    }
+//    debugger;
+
+//    DataTables.ProductListTable.clear().rows.add(productDetailsVM).draw(false);
+//    selectCheckbox(IDs); //Selecting the checked rows with their ids taken 
+//    productDetailsVM = DataTables.ProductListTable.rows(".selected").data();
+//    CheckProductDetails(productDetailsVM);
+//}
 //selected Checkbox
 function selectCheckbox(IDs) {
     var productDetailsVM = DataTables.ProductListTable.rows().data()
@@ -709,6 +728,7 @@ function GetPkgDetail(id)
 
 //Edit PkgDetail
 function EditPkgSlipDetailTable(curObj) {
+    _isEditPkgSlipDetail = 1;
     CheckedGroups = [];
     CheckedProducts = [];
     var rowData = DataTables.PackingSlipDetailTable.row($(curObj).parents('tr')).data();
@@ -764,14 +784,38 @@ function GetEditPkgSlipDetail(ID) {
 }
 //TextBox value change in EditPkgSlipdatatable
 function textBoxValueChangedEditTbl(thisObj, textBoxCode) {
+    debugger;
     var productDetailsVM = DataTables.PkgSlipDetailEditTable.rows().data();
     var productDetailstable = DataTables.PkgSlipDetailEditTable;
             if (textBoxCode == 1)//textBoxCode is the code to know, which textbox changed is triggered
             {
-                if (thisObj.value <= productDetailsVM[0].SalesOrder.SalesOrderDetail.Product.CurrentStock)
-                    productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty = parseFloat(thisObj.value);
-                else
-                    productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty = parseFloat(productDetailsVM[0].SalesOrder.SalesOrderDetail.Product.CurrentStock) - parseFloat(productDetailsVM[0].SalesOrder.SalesOrderDetail.PrevPkgQty)
+                var currStock = productDetailsVM[0].SalesOrder.SalesOrderDetail.Product.CurrentStock;
+                var balPkgQty =productDetailsVM[0].SalesOrder.SalesOrderDetail.Quantity - productDetailsVM[0].SalesOrder.SalesOrderDetail.PrevPkgQty;
+               // var currPkgQty = productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty;//has to tak bal packing qty right
+                var prodID = productDetailsVM[0].SalesOrder.SalesOrderDetail.ProductID;
+
+                //currStock is negative  tak as 0
+                if(currStock<0)
+                    currStock=0;
+
+                if ((parseFloat(thisObj.value) <= currStock || ApplyCurrentStock) && parseFloat(thisObj.value) <= balPkgQty) {
+                    if (currStock > balPkgQty || ApplyCurrentStock)
+                        productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty = parseFloat(thisObj.value);
+                    else {
+                        productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty = currStock;
+                        $('#Edttxt2_' + prodID).val(currStock);
+                    }
+                }
+                else {
+                    if (currStock > balPkgQty || ApplyCurrentStock) {
+                        productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty = balPkgQty;
+                        $('#Edttxt2_' + prodID).val(balPkgQty);
+                    }
+                    else {
+                        productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty = currStock;
+                        $('#Edttxt2_' + prodID).val(currStock);
+                    }
+                } 
             }
             if (textBoxCode == 2)
                 productDetailsVM[0].SalesOrder.SalesOrderDetail.PkgWt = parseFloat(thisObj.value);
@@ -947,7 +991,7 @@ function ApplyProductChildDatatable(row) {
                                  } 
                              });
                              var currentEnteredValue = $('#txt2_' + row.GroupID).val();
-                             if (currentEnteredValue <= row.Product.CurrentStock && currentEnteredValue <= (row.Quantity - row.PrevPkgQty)) {
+                             if ((currentEnteredValue <= row.Product.CurrentStock||ApplyCurrentStock) && currentEnteredValue <= (row.Quantity - row.PrevPkgQty)) {
                                  if (groupChecked) {
                                      return '<input parent="G_' + row.GroupID + '" type="checkbox" id="' + row.ProductIdString + '" name="unitrow" style="vertical-align: -3px;margin-left: 20%;"  onchange="CheckCategory(this)"  checked >';
                                  }
@@ -1096,7 +1140,7 @@ function CheckCategory(this_Obj) {
                     groupQtyCheck = rowData.CurrentPkgQty; //to check while child rows added
                     for (i = 0; i < packingSlipDetailVM.length ; i++)
                     {
-                        if (groupQtyCheck <= packingSlipDetailVM[i].Product.CurrentStock && groupQtyCheck <= packingSlipDetailVM[i].Quantity-packingSlipDetailVM[i].PrevPkgQty)
+                        if ((groupQtyCheck <= packingSlipDetailVM[i].Product.CurrentStock||ApplyCurrentStock) && groupQtyCheck <= packingSlipDetailVM[i].Quantity-packingSlipDetailVM[i].PrevPkgQty)
                         {
                             productExists =productExists+1;
                             packingSlipDetail = new Object();
@@ -1282,18 +1326,17 @@ function textBoxValueOnChanged(curObj, textboxNo)
 
     if (curObj.value != "")
     {
-      
+
         if (rowData.GroupID == EmptyGuid || rowData.GroupID == null)
         {//Case Product row(Parent Table)
-            
             for (i = 0; i < _productListTableData.data().count() ; i++) {
                 if (_productListTableData[i].ProductID == rowData.ProductID) {
                     if (textboxNo == 2)//textboxNo is the code to know, which textbox changed is triggered
                     {
                         var balOrderQty = parseFloat(_productListTableData[i].Quantity) - parseFloat(_productListTableData[i].PrevPkgQty)
-                        if (parseFloat(curObj.value) <= _productListTableData[i].Product.CurrentStock && parseFloat(curObj.value) <= balOrderQty)
+                        if ((parseFloat(curObj.value) <= _productListTableData[i].Product.CurrentStock||ApplyCurrentStock) && parseFloat(curObj.value) <= balOrderQty)
                         {
-                            if (rowData.Product.CurrentStock > balOrderQty)
+                            if (rowData.Product.CurrentStock > balOrderQty ||ApplyCurrentStock)
                                 _productListTableData[i].CurrentPkgQty = parseFloat(curObj.value);
                             else
                             {
@@ -1303,7 +1346,7 @@ function textBoxValueOnChanged(curObj, textboxNo)
                         }
                         else
                         {
-                            if (rowData.Product.CurrentStock > balOrderQty )
+                            if (rowData.Product.CurrentStock > balOrderQty ||ApplyCurrentStock)
                             {
                                 _productListTableData[i].CurrentPkgQty = balOrderQty;
                                 $('#txt2_' + rowData.ProductID).val(balOrderQty);
@@ -1326,21 +1369,27 @@ function textBoxValueOnChanged(curObj, textboxNo)
         {// case  Group Head row (Parent Table)
             var productChildTable = $('#ProductChildTable' + rowData.GroupID).DataTable().rows().data();
             if (textboxNo != 1) {
+                if (!_isEditPkgSlipDetail)
+                    var balOrderQty = parseFloat(rowData.Quantity) - parseFloat(rowData.PrevPkgQty)
+                else
+                    var balOrderQty = parseFloat(rowData.Quantity) - parseFloat(rowData.PrevPkgQty) + parseFloat(_currentPkgQtyEdit)
+
                 if (productChildTable.data().count() > 0)
                 {//while Child Table Exisitng
                     for (i = 0; i < productChildTable.data().count() ; i++)
                     {
-                        var balOrderQty = parseFloat(rowData.Quantity) - parseFloat(rowData.PrevPkgQty)
+                    
+
                         if (textboxNo == 2)//textboxNo is the code to know, which textbox is changed
                         {
-                            if (parseFloat(curObj.value) <= rowData.Product.CurrentStock && parseFloat(curObj.value) <= balOrderQty)
-                                if (rowData.Product.CurrentStock > balOrderQty)
+                            if ((parseFloat(curObj.value) <= rowData.Product.CurrentStock||ApplyCurrentStock) && parseFloat(curObj.value) <= balOrderQty)
+                                if (rowData.Product.CurrentStock > balOrderQty||ApplyCurrentStock)
                                     productChildTable[i].CurrentPkgQty = parseFloat(curObj.value);
                                 else
                                     productChildTable[i].CurrentPkgQty = rowData.Product.CurrentStock;
                             else
                             {
-                                if (rowData.Product.CurrentStock > balOrderQty) {
+                                if (rowData.Product.CurrentStock > balOrderQty||ApplyCurrentStock) {
                                     productChildTable[i].CurrentPkgQty = parseFloat(balOrderQty);
                                     $('#txt2_' + rowData.GroupID).val(balOrderQty)
                                 }
@@ -1370,12 +1419,11 @@ function textBoxValueOnChanged(curObj, textboxNo)
                 else//
                 { //while Child Table Not Exisitng.
                     
-                    var balOrderQty = parseFloat(rowData.Quantity) - parseFloat(rowData.PrevPkgQty) 
                     if (textboxNo == 2)
                     {
-                        if (parseFloat(curObj.value) <= rowData.Product.CurrentStock && parseFloat(curObj.value) <= balOrderQty)
+                        if ((parseFloat(curObj.value) <= rowData.Product.CurrentStock || ApplyCurrentStock) && parseFloat(curObj.value) <= balOrderQty)
                         {
-                            if (rowData.Product.CurrentStock > balOrderQty) {
+                            if (rowData.Product.CurrentStock > balOrderQty||ApplyCurrentStock) {
                                 rowData.CurrentPkgQty = parseFloat(curObj.value);
                                 $('#txt2_' + rowData.GroupID).val(parseFloat(curObj.value));
                             }
@@ -1388,7 +1436,7 @@ function textBoxValueOnChanged(curObj, textboxNo)
                         }
                         else
                         {
-                            if (rowData.Product.CurrentStock > balOrderQty) {
+                            if (rowData.Product.CurrentStock > balOrderQty || ApplyCurrentStock) {
                                 rowData.CurrentPkgQty = parseFloat(balOrderQty);
                                 $('#txt2_' + rowData.GroupID).val(balOrderQty)
                             }
@@ -1496,6 +1544,7 @@ function AddPackingSlipDetailFromSaleOrderGroups() {
                         isDataVaild = 0;
                         message = 'Have no Quantity';
                     }
+                    if(!ApplyCurrentStock)
                     if (element.CurrentStock < _productListTableData[i].CurrentPkgQty)
                     {
                         isDataVaild = 0;
@@ -1514,6 +1563,9 @@ function AddPackingSlipDetailFromSaleOrderGroups() {
     {
         $('#PackingSlipModal').modal('hide');
         Save();
+        _isEditPkgSlipDetail = 0;
+        _currentPkgQtyEdit = 0;
+
     }
     else {
         if (CheckedGroups.length == 0 && CheckedProducts.length == 0)
@@ -1530,6 +1582,8 @@ function BindEditGroupProductListTable(groupID) {
 
     $('#modelContextLabel').text('Edit Packing Slip Details');
     var productList = GetProductListForGroupEdit(groupID);
+    debugger;
+    _currentPkgQtyEdit = productList[0].CurrentPkgQty;
     DataTables.ProductListTable.clear().rows.add(productList).draw(false);
     //loop datatable for checkbox checking by the child count
     var pkgDetailVM = DataTables.ProductListTable.rows().data();

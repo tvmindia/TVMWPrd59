@@ -317,10 +317,10 @@ namespace ProductionApp.RepositoryServices.Services
                                         salesOrder.PkgWt = (sdr["PkgWt"].ToString() != "" ? decimal.Parse(sdr["PkgWt"].ToString()) : salesOrder.PkgWt);
                                         salesOrder.ChildCount = (sdr["ChildCount"].ToString() != "" ? int.Parse(sdr["ChildCount"].ToString()) : salesOrder.ChildCount);
                                         decimal Bal = salesOrder.Quantity - salesOrder.PrevPkgQty;
-                                        if (salesOrder.Product.CurrentStock >= Bal)
+                                        //if (salesOrder.Product.CurrentStock >= Bal)
                                             salesOrder.CurrentPkgQty = Bal;
-                                        else
-                                            salesOrder.CurrentPkgQty = salesOrder.Product.CurrentStock; 
+                                        //else
+                                           // salesOrder.CurrentPkgQty = salesOrder.Product.CurrentStock; 
                                         
                                     }
                                     salesOrderList.Add(salesOrder);
