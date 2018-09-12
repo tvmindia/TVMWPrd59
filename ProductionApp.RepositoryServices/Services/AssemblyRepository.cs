@@ -337,5 +337,50 @@ namespace ProductionApp.RepositoryServices.Services
         }
         #endregion GetRecentAssemblyProduct
 
+        #region GetPossibleItemQuantityForAssembly
+        public List<Assembly> GetPossibleItemQuantityForAssembly(Guid id)
+        {
+            List<Assembly> assemblyList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetMaximumPossibleQuantityForAssembly]";
+                        cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;                      
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                assemblyList = new List<Assembly>();
+                                while (sdr.Read())
+                                {
+                                    Assembly assembly = new Assembly();
+                                    {                                       
+                                        assembly.MaxAvailableQuantity = (sdr["MaxQtyAvailable"].ToString() != "" ? Decimal.Parse(sdr["MaxQtyAvailable"].ToString()) : assembly.MaxAvailableQuantity);
+                                    }
+                                    assemblyList.Add(assembly);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return assemblyList;
+        }
+        #endregion GetPossibleItemQuantityForAssembly
+
+
     }
 }

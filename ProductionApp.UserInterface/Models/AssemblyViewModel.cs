@@ -37,6 +37,8 @@ namespace ProductionApp.UserInterface.Models
         public List<AssemblyViewModel> AssemblyList { get; set; }
         public string BaseURL { get; set; }
         public MaterialViewModel Material { get; set; }
+        public decimal MaxAvailableQuantity { get; set; }
+
     }
     public class AssemblyAdvanceSearchViewModel
     {

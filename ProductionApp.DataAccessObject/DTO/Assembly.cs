@@ -29,6 +29,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public List<Assembly> AssemblyList { get; set; }
         public string BaseURL { get; set; }
         public Material Material { get; set; }
+        public decimal MaxAvailableQuantity { get; set; }
     }
     public class AssemblyAdvanceSearch
     {

@@ -87,7 +87,7 @@ $(document).ready(function () {
         else {
             $('#lblEntryNo').text('Entry No. # : New');
         }
-
+        $('#lblText').hide();
     }
     catch (e) {
         console.log(e.message);
@@ -138,6 +138,44 @@ function GetProductComponentDetails(productid, qty, assemId) {
         console.log(e.message);
     }
 }
+
+function CallChangefunc(productid)
+{
+    debugger;
+    try {
+        debugger;
+        var productid = $("#ProductID").val();
+        var data = { "id": productid};
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var componentListVM = new Object();
+
+        jsonData = GetDataFromServer("Assembly/GetPossibleItemQuantityForAssembly/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+            result = jsonData.Result;
+            message = jsonData.Message;
+            componentListVM = jsonData.Records;
+            $('#lblText').show();
+            $('#lblValue').text(jsonData.Records[0].MaxAvailableQuantity);
+        }
+        if (result == "OK") {
+           
+            return componentListVM;
+        }
+        if (result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        //this will show the error msg in the browser console(F12) 
+        console.log(e.message);
+    }
+}
+
+
+
 //##4--Save---------------------------------------------------------------##4
 function Save() {
     debugger;
@@ -145,6 +183,8 @@ function Save() {
     if (res)
     {
         $('#btnSave').trigger('click');
+        $('#lblText').hide();
+        $('#lblValue').hide();
     }
     else
     {
@@ -197,7 +237,9 @@ function BindAssembling()
     $('#ProductID').val(assemblyVM.ProductID).select2();
     $('#Qty').val(assemblyVM.Qty);
     $('#lblEntryNo').text('Entry No. # : ' + assemblyVM.EntryNo);
+    $('#lblText').hide();
     LoadComponentDetail();
+   
 }
 function GetAssembly(ID)
 {
