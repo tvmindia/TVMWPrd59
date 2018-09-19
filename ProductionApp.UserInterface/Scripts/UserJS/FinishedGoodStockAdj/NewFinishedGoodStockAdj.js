@@ -9,9 +9,11 @@ debugger;
     {
         $('#EmployeeID').select2({
         });
+        $('#divUnpostedProduct').hide();
 
         $('#ProuctID').select2({ dropdownParent: $('#finishedGoodStockAdjDetailsModal') });
-    DataTables.FinishedGoodStockAdjTable=$('#tblFinishedGoodStockAdjDetail').DataTable({
+
+        DataTables.FinishedGoodStockAdjTable=$('#tblFinishedGoodStockAdjDetail').DataTable({
         dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
         ordering: false,
         searching: false,
@@ -20,7 +22,7 @@ debugger;
         autoWidth: false,
         "bInfo": false,
         columns: [
-            { "data": "ID", "defaultContent": "<i></i>" },
+         { "data": "ID", "defaultContent": "<i></i>" },
          { "data": "ProductID", "defaultContent": "<i></i>" },
          { "data": "", render: function (data, type, row) { return _SlNo++}, "defaultContent": "<i></i>" },
          { "data": "Product.Code", render: function (data, type, row) { return data }, "defaultContent": "<i></i>"},
@@ -48,6 +50,35 @@ debugger;
     else {
         $('#lblFGStockAdjNo').text('Finished Good Stock Adj.No# : New');
     }
+        
+       
+        DataTables.FinishedGoodStockAdjTableUnpostedProduct = $('#tblDetailUnpostedProduct').DataTable({
+        dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+        ordering: false,
+        searching: false,
+        paging: false,
+        data: null,
+        autoWidth: false,
+        //"bInfo": false,
+        columns: [           
+         { "data": "AdjustmentDateFormatted", "defaultContent": "<i></i>" },
+         { "data": "Product.Description", "defaultContent": "<i></i>" },
+         { "data": "SubComponent.Description", "defaultContent": "<i></i>" },
+        { "data": "ProductionTracking.AcceptedQty", "defaultContent": "<i></i>" },
+         
+        ],
+        columnDefs: [
+         { "targets": [0], "width": "12%" },
+            { "targets": [1], "width": "15%" },
+            { "targets": [2], "width": "20%" },
+            { "targets": [3], "width": "12%" },
+            { className: "text-right", "targets": [3] },
+            { className: "text-center", "targets": [0] },
+            { className: "text-left", "targets": [1, 2] }
+        ]
+    });
+   
+    
 }
 catch(e)
 {
@@ -79,9 +110,9 @@ function ShowFinishedGoodStockAdjDetailsModal() {
 function ProductEdit(curObj)
 {
     try{
-        debugger;
+        debugger;       
         $('#finishedGoodStockAdjDetailsModal').modal('show');
-
+        
         var finishedGoodStockAdjDetailVM = DataTables.FinishedGoodStockAdjTable.row($(curObj).parents('tr')).data();
         _SlNo = 1;
         BindFinishedGoodStockAdjDetails(finishedGoodStockAdjDetailVM.ProductID);
@@ -200,14 +231,14 @@ function AddFinishedGoodStockAdjDetails()
 
 function Save() {
     try{
-        debugger;
+        debugger;       
         $("#DetailJSON").val('');
         _FinishedGoodStockAdjDetailList = [];
         AddFinishedGoodStockAdjDetailList();
         if (_FinishedGoodStockAdjDetailList.length > 0) {
-            var result = JSON.stringify(_FinishedGoodStockAdjDetailList);
-            $("#DetailJSON").val(result);
-            $('#btnSave').trigger('click');
+            var result = JSON.stringify(_FinishedGoodStockAdjDetailList);        
+            $("#DetailJSON").val(result);           
+            $('#btnSave').trigger('click');           
             _SlNo = 1;
         }
         else {
@@ -218,6 +249,88 @@ function Save() {
         console.log(e.message);
     }
 }
+
+//unpostedproductsexists
+function BindUnpostedData() {
+    debugger;
+    $('#UnpostedProductDetailModel').modal('show');   
+    DataTables.FinishedGoodStockAdjTableUnpostedProduct.clear().rows.add(GetAllUnpostedData()).draw(true);
+}
+function UnpostedProductExists(adjustmentID) {
+    try {
+        debugger;     
+        var data = { "AdjustmentID": adjustmentID };
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        var productViewModel = new Object();
+        jsonData = GetDataFromServer("FinishedGoodStockAdj/CheckUnpostedProductExists/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);          
+        }       
+
+
+        if (jsonData.Result == "OK") {
+            if (jsonData.Record.Count > 0) {
+                $('#txtValue').text(jsonData.Record.Count);
+                $('#divUnpostedProduct').show();
+            }
+            else {
+                $('#divUnpostedProduct').hide();
+                $('#txtText').hide();
+            }
+            return jsonData.Record;
+        }
+        if (jsonData.Result == "ERROR") {
+            alert(message);
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+//
+
+
+
+
+function GetAllUnpostedData(adjustmentID)
+{
+    try {
+        debugger;
+        var adjustmentID = $('#ID').val();
+        var data = { "AdjustmentID": adjustmentID };
+        var jsonData = {};
+        var result = "";
+        var message = "";       
+        jsonData = GetDataFromServer("FinishedGoodStockAdj/GetAllUnpostedData/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+           
+        }
+       
+
+        if (jsonData.Result == "OK") {
+            return jsonData.Record;
+          
+        }
+        if (jsonData.Result == "ERROR") {
+            jsonData.Message;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
+}
+
+
+
+
+
+
+
+
+
 
 function AddFinishedGoodStockAdjDetailList()
 {
@@ -250,7 +363,8 @@ function SaveSuccessFinishedGoodStockAdj(data,status)
             case "OK":
                 $('#IsUpdate').val('True');
                 $('#ID').val(JsonResult.Records.ID)
-                BindFinishedGoodStockAdjByID();
+                UnpostedProductExists(JsonResult.Records.ID);
+                BindFinishedGoodStockAdjByID();                
                 _SlNo = 1;
                 notyAlert("success", JsonResult.Records.Message)
 
@@ -298,7 +412,9 @@ function BindFinishedGoodStockAdjByID()
             ChangeButtonPatchView('FinishedGoodStockAdj', 'divbuttonPatchAddFGStockAdj', 'Disable');
             EnableDisableFields(true)
         }
+
         BindFinishedGoodStockAdjDetailTable(id);
+        UnpostedProductExists(result.ID);
     }
     catch (e) {
         console.log(e.message);

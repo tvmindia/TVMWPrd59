@@ -313,5 +313,103 @@ namespace ProductionApp.RepositoryServices.Services
             };
         }
         #endregion
+
+        #region CheckUnpostedProductExists
+
+        public FinishedGoodStockAdj CheckUnpostedProductExists(Guid adjustmentID)
+        {      
+
+            FinishedGoodStockAdj finishedGoodStockAdj = new FinishedGoodStockAdj();
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[CheckUnpostedProductExists]";
+                        cmd.Parameters.Add("@AdjustmentID", SqlDbType.UniqueIdentifier).Value = adjustmentID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                if (sdr.Read())
+                                {
+                                  
+                                    finishedGoodStockAdj.Count = (sdr["Count"].ToString() != "" ? int.Parse(sdr["Count"].ToString()) : finishedGoodStockAdj.Count);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return finishedGoodStockAdj;
+        }
+        #endregion CheckUnpostedProductExists
+
+        #region GetAllUnpostedData
+        public List<FinishedGoodStockAdj> GetAllUnpostedData(Guid adjustmentID)
+        {
+            List<FinishedGoodStockAdj> finishedGoodStockAdjList = null;
+            try
+            {
+                using (SqlConnection con = _databaseFactory.GetDBConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        if (con.State == ConnectionState.Closed)
+                        {
+                            con.Open();
+                        }
+                        cmd.Connection = con;
+                        cmd.CommandText = "[AMC].[GetAllUnpostedProductsForStockAdjustment]";
+                        cmd.Parameters.Add("@AdjustmentID", SqlDbType.UniqueIdentifier).Value = adjustmentID;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            if ((sdr != null) && (sdr.HasRows))
+                            {
+                                finishedGoodStockAdjList = new List<FinishedGoodStockAdj>();
+                                while (sdr.Read())
+                                {
+                                    FinishedGoodStockAdj finishedStockAdj = new FinishedGoodStockAdj();
+                                    {
+                                        finishedStockAdj.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : finishedStockAdj.ID);
+                                        finishedStockAdj.Date = (sdr["EntryDate"].ToString() != "" ? DateTime.Parse(sdr["EntryDate"].ToString()) : finishedStockAdj.Date);
+                                        finishedStockAdj.AdjustmentDateFormatted = (sdr["EntryDate"].ToString() != "" ? DateTime.Parse(sdr["EntryDate"].ToString()).ToString(settings.DateFormat) : finishedStockAdj.AdjustmentDateFormatted);
+                                      
+                                        finishedStockAdj.Product = new Product();
+                                        finishedStockAdj.Product.Description = (sdr["Product"].ToString() != "" ? sdr["Product"].ToString() : finishedStockAdj.Product.Name);
+                                        finishedStockAdj.SubComponent = new SubComponent();
+                                        finishedStockAdj.SubComponent.Description= (sdr["SubComponent"].ToString() != "" ? sdr["SubComponent"].ToString() : finishedStockAdj.SubComponent.Description);
+                                        finishedStockAdj.ProductionTracking = new ProductionTracking();
+                                        finishedStockAdj.ProductionTracking.AcceptedQty = (sdr["AcceptedQty"].ToString() != "" ? int.Parse(sdr["AcceptedQty"].ToString()) : finishedStockAdj.ProductionTracking.AcceptedQty);
+                                       
+                                    }
+                                    finishedGoodStockAdjList.Add(finishedStockAdj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return finishedGoodStockAdjList;
+        }
+
+
+        #endregion
     }
 }

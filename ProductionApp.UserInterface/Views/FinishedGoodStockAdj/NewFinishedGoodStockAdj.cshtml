@@ -79,17 +79,21 @@
 
                 <div class="form-group col-md-4">
                     <div class="form-group col-md-12 box-header figuresummary rounded">
-                       
+
                         <div class="form-group col-md-12">
                             <div class="rightAmtCaption">Approval Status</div>
                         </div>
                         <div class="form-group col-md-12">
                             <div class="lblStatusDisplay" id="lblApprovalStatus">N/A</div>
                         </div>
+
+                        <div class="form-group col-md-12">                            
+                            <div id="divUnpostedProduct"  hidden="hidden"><a href="#" class="actionLink" onclick="BindUnpostedData();" style="text-decoration:none;color:red; border-bottom:1px solid red;"><label id="txtValue" style="font-size:14px;"></label><label id="lblText" style="font-size:14px;">&nbsp;Unposted Tracking Entry Exists</label></a></div>
+                        </div>
                     </div>
                 </div>
 
-            </div>
+            </div>         
 
             <div class="form-group" hidden="hidden">
                 <div class="col-md-offset-2 col-md-10">
@@ -132,7 +136,7 @@
                     @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="col-md-12">
-                    @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control HeaderBox", rows = "10",@style="width:700px"} })
+                    @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control HeaderBox", rows = "10", @style = "width:700px" } })
                 </div>
             </div>
         }
@@ -163,7 +167,7 @@
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.FinishedGoodStockAdjDetail.ProductID, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
-                        <div class="col-md-12" >
+                        <div class="col-md-12">
                             <div class="col-md-12" id="divProductDropdown">
                                 @Html.Action("ProductDropdown", "Product", new { required = "" })
                             </div>
@@ -258,12 +262,55 @@
     </div>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" id="UnpostedProductDetailModel" @*tabindex="-1"*@ role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document" style="min-width:1000px !important;">
+        <div class="modal-content" style="margin-top:4%;">
+            <div class="modal-header" style="background-image: url('');background-repeat: repeat;height: 40px;padding: 3px;border-bottom:2px solid rgb(91, 192, 222)!important;">
+                <div class="container-fluid" style="padding-right: 0px;">
+                    <div class="col-md-9">
+                        <h3 class="modal-title" id="modelContextLabel">Unposted Product Details</h3>
+                    </div>
+                    <div class="col-md-3" style="padding-right: 4px;">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><i style="font-size: 33px;" class="fa fa-times-circle" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="form-group col-md-12"></div>
+
+                    <div class="container-fluid">
+                        <table id="tblDetailUnpostedProduct" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>Entry Date</th>
+                                    <th>Product</th>
+                                    <th>Sub Component / Output</th>
+                                    <th>Accepted Quantity</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/FinishedGoodStockAdj/NewFinishedGoodStockAdj")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jqueryunobtrusiveajaxvalidate")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/DocumentApproval/ApprovalHistory")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/FinishedGoodStockAdj/NewFinishedGoodStockAdj")
+
+
 }

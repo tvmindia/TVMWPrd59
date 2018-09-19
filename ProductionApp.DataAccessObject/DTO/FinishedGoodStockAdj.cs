@@ -29,6 +29,10 @@ namespace ProductionApp.DataAccessObject.DTO
         public int FilteredCount { get; set; }
         public string DetailXML { get; set; }
         public bool IsUpdate { get; set; }
+        public ProductionTracking ProductionTracking { get; set; }
+        public int Count { get; set; }
+        public Product Product { get; set; }
+        public SubComponent SubComponent { get; set; }
     }
 
     public class FinishedGoodStockAdjDetail
