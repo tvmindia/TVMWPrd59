@@ -52,75 +52,75 @@ namespace ProductionApp.DataAccessObject.DTO
 
         public string LoginAndEmailExist
         {
-            get { return "Login or Email Exist! "; }
+            get { return "Login or Email exist! "; }
         }
 
         public string ApprovalSuccess
         {
-            get { return "Document Approved! "; }
+            get { return "Document approved! "; }
         }
         public string ApprovalFailure
         {
-            get { return "Approval Failed! "; }
+            get { return "Approval failed! "; }
         }
         public string SendForApproval
         {
-            get { return "Document Sent For Approval! "; }
+            get { return "Document sent for approval! "; }
         }
         public string SendForApprovalFailure
         {
-            get { return "Sending For Approval Failed! "; }
+            get { return "Sending for approval failed! "; }
         }
 
         public string RejectSuccess
         {
-            get { return "Document Rejected! "; }
+            get { return "Document rejected! "; }
         }
         public string RejectFailure
         {
-            get { return "Rejection Failed! "; }
+            get { return "Rejection failed! "; }
         }
         public string InsertFailure
         {
-            get { return "Insertion Not Successfull! "; }
+            get { return "Insertion not successfull! "; }
         }
 
         public string InsertSuccess
         {
-            get { return "Values Saved Successfully ! "; }
+            get { return "Values saved successfully ! "; }
         }
 
         public string UpdateFailure
         {
-            get { return "Updation Not Successfull! "; }
+            get { return "Updation not successfull! "; }
         }
 
         public string UpdateSuccess
         {
-            get { return "Updation Successfull! "; }
+            get { return "Updation successfull! "; }
         }
 
         public string NotificationSuccess
         {
-            get { return "Notification Send Successfully ! "; }
+            get { return "Notification send successfully ! "; }
         }
 
 
         public string DeleteFailure
         {
-            get { return "Deletion Not Successfull! "; }
+            get { return "Deletion not successfull! "; }
         }
         public string DeleteSuccess
         {
-            get { return "Deletion Successfull! "; }
+            get { return "Deletion successfull! "; }
         }
         public string FKviolation
         {
-            get { return "Deletion Not Successfull!-Already In Use"; }
+            get { return "Deletion not successfull!-already in use"; }
         }
         public string Duplicate
         {
-            get { return "Already Exist.."; }
+            get { return "Already exist.."; }
         }
         
         public string NoItems
@@ -134,12 +134,12 @@ namespace ProductionApp.DataAccessObject.DTO
         }
         public string MailFailure
         {
-            get { return "Mail Sending Failed! "; }
+            get { return "Mail sending failed! "; }
         }
 
         public string MailSuccess
         {
-            get { return "Mail Send Successfully ! "; }
+            get { return "Mail send successfully ! "; }
         }
 
         public AppConstMessage GetMessage(string messageCode)

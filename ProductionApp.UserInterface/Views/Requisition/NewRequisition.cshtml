@@ -20,7 +20,7 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i> Requisitions</a></li>
+        <li><a href="@Url.Action("NewRequisition", "Requisition", new { Code = "PURCH" })"><i class="fa fa-cogs"></i> Requisitions</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -39,8 +39,9 @@
     </div>
 
     @* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
-    @Html.Action("AboutApprovalHistory", "DocumentApproval", new { id=Model.ID, docType="REQ" })
-
+    <div id="divApprovalHistory">
+        @Html.Action("AboutApprovalHistory", "DocumentApproval", new { id = Model.ID, docType = "REQ" })
+    </div>
     <div class="row tableContainer">
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
         @using (Ajax.BeginForm("InsertUpdateRequisition", "Requisition", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessRequisition", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "RequisitionForm" }))
@@ -139,7 +140,7 @@
             <div class="col-md-10">
             </div>
             <div class="col-md-2">
-                <a class="btn btn-openid" onclick="ShowRequisitionDetailsModal()" id="btnAddRequisitionItems" style="color:white;font-weight:bold;float:right"><i class="glyphicon glyphicon-plus"></i> Add Item </a>
+                <a class="btn btn-openid" onclick="ShowRequisitionDetailsModal()" id="btnAddRequisitionItems" title="Add Item" style="color:white;font-weight:bold;float:right"><i class="glyphicon glyphicon-plus"></i> Add Item </a>
             </div>
         </div>
         <div class="col-md-12">
@@ -228,7 +229,7 @@
                             @Html.LabelFor(model => model.RequisitionDetail.ApproximateRate, htmlAttributes: new { @class = "control-label " })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.RequisitionDetail.ApproximateRate, new { htmlAttributes = new { @class = "form-control HeaderBox text-right", @disabled = "disabled" } })
+                            @Html.EditorFor(model => model.RequisitionDetail.ApproximateRate, new { htmlAttributes = new { @class = "form-control HeaderBox text-right" } })
                         </div>
                     </div>
                     <div class="col-md-6">

@@ -38,13 +38,27 @@
             <tr style="width:100%;">
                 <td style="width:400px;text-align:left;font-size:14px;vertical-align:top;">
                     @Model.PurchaseOrder.CompanyName<br />
-                    @Model.PurchaseOrder.CompanyAddress<br />
+                    @{
+                        if (@Model.PurchaseOrder.CompanyAddress != null)
+                        {
+                            @Html.Raw(@Model.PurchaseOrder.CompanyAddress.Replace("\n", "<br />"))<br />
+                            }
+                        }
                 </td>
                 <td style="width:200px;"></td>
                 <td style="width:400px;text-align:left;font-size:14px;vertical-align:top;">
-                    @Model.PurchaseOrder.Supplier<br />
-                    @Model.PurchaseOrder.MailingAddress<br />
-                    @Model.PurchaseOrder.ShippingAddress<br />
+                    @*@Model.PurchaseOrder.Supplier<br />*@
+                    @{
+                        if (@Model.PurchaseOrder.MailingAddress != null) {
+                            <b>Billing Address:</b><br />
+                            @Html.Raw(@Model.PurchaseOrder.MailingAddress.Replace("\n", "<br />"))<br />
+                        }
+                        if (@Model.PurchaseOrder.ShippingAddress != null)
+                        {
+                            <b>Shipping Address:</b><br />
+                            @Html.Raw(@Model.PurchaseOrder.ShippingAddress.Replace("\n", "<br />"))<br />
+                        }
+                    }
                 </td>
             </tr>
         </table>

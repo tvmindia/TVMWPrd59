@@ -83,12 +83,12 @@ function BindOrReloadRequisitionTable(action) {
                 pageLength: 10,
                 columns: [
                     { "data": "ID", "defaultContent": "<i>-</i>" },
-                    { "data": "ReqNo", "defaultContent": "<i>-</i>" },
-                    { "data": "Title", "defaultContent": "<i>-</i>" },
-                    { "data": "ReqDateFormatted", "defaultContent": "<i>-</i>" },
-                    { "data": "ReqStatus", "defaultContent": "<i>-</i>" },
-                    { "data": "RequisitionBy", "defaultContent": "<i>-</i>" },
-                    { "data": "ApprovalStatus", "defaultContent": "<i>-</i>" },
+                    { "data": "ReqNo", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "Title", "defaultContent": "<i>-</i>", "width": "45%" },
+                    { "data": "ReqDateFormatted", "defaultContent": "<i>-</i>", "width": "5%" },
+                    { "data": "ReqStatus", "defaultContent": "<i>-</i>", "width": "5%" },
+                    { "data": "RequisitionBy", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "ApprovalStatus", "defaultContent": "<i>-</i>", "width": "15%" },
                      {
                          "data": "ID", "orderable": false, render: function (data, type, row) {
                              return '<a href="/Requisition/NewRequisition?code=PURCH&ID=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'

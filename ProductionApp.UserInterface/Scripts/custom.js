@@ -564,7 +564,6 @@ function SearchOnkeyPress(e ,this_obj) {
 
 function UploadFile(FileObject)
 {
-    
    // $('#btnUpload').click(function () {
 
         // Checking whether FormData is available in browser  
@@ -664,7 +663,6 @@ function DeleteNow(this_Obj)
 function PaintImages(ID)
 {
     try {
-        
         var data = { "ID": ID };
         var ds = {};
         ds = GetDataFromServer("FileUpload/GetAttachments/", data);
@@ -673,7 +671,6 @@ function PaintImages(ID)
         }
         if (ds.Result == "OK") {
             //ds.Records
-            
             if (ds.Records != null)
             {
                 $('#ExistingPreview').empty();

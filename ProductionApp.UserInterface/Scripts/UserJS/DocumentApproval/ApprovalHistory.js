@@ -58,6 +58,7 @@ function GetApprovalHistory() {
 function ShowApprovalHistory() {
     try {
         debugger;
+        $('#modelContextLabel').text("Approval History");
         $('#ApprovalHistoryModal').modal('show');
         //TableOverflowResize();
         //BindApprovalHistoryTable();

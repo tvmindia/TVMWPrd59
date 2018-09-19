@@ -32,6 +32,7 @@ namespace ProductionApp.UserInterface.Models
             public string ShippingAddress { get; set; }
             [Display(Name = "Cash Discount")]
             public decimal Discount { get; set; }
+            [Display(Name = "General Notes")]
             [DataType(DataType.MultilineText)]
             public string GeneralNotes { get; set; }
             [Display(Name = "PO Status")]

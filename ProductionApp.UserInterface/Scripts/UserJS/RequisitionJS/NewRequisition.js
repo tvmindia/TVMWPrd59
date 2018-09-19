@@ -119,7 +119,7 @@ function MaterialEdit(curObj)
     $("#MaterialID").val(rowData.MaterialID).trigger('change');
     $('#RequisitionDetail_RequestedQty').val(rowData.RequestedQty);
     $('#RequisitionDetail_Description').val(rowData.Description);
-
+    $('#RequisitionDetail_ApproximateRate').val(rowData.ApproximateRate);
 }
 
 function BindMaterialDetails(ID)
@@ -190,6 +190,7 @@ function AddRequisitionDetails()
                     DataTables.RequisitionDetailTable.rows.add(_RequistionDetail).draw(false);
                 }
                 else {
+                    _SlNo = 1;
                     DataTables.RequisitionDetailTable.clear().rows.add(allData).draw(false);
                 }
             }
@@ -201,7 +202,7 @@ function AddRequisitionDetails()
     }
     else
     {
-        notyAlert('warning', "Material and Quantity fields are required ");
+        notyAlert('warning', "Mandatory fields are missing ");
     }
 }
 
@@ -218,7 +219,7 @@ function Save()
         _SlNo = 1;
     }
     else {
-        notyAlert('warning', 'Please Add Requistion Details!');
+        notyAlert('warning', 'Please add item details!');
     }
 
 }
@@ -292,6 +293,7 @@ function BindRequisitionByID()
         $("#fileUploadControlDiv").hide();
 
     }
+    $('#divApprovalHistory').load("../DocumentApproval/AboutApprovalHistory?id=" + $('#ID').val() + "&docType=REQ");
     //detail Table values binding with header id
     BindRequisitionDetailTable(ID);
     PaintImages(ID);//bind attachments
@@ -377,7 +379,7 @@ function DeleteTempItem(Rowindex)
     var Itemtabledata = DataTables.RequisitionDetailTable.rows().data();
     Itemtabledata.splice(Rowindex, 1);
     DataTables.RequisitionDetailTable.clear().rows.add(Itemtabledata).draw(false);
-    notyAlert('success', 'Deleted Successfully');
+    notyAlert('success', 'Deleted successfully');
 }
 
 function DeleteItem(ID) {
@@ -474,4 +476,3 @@ function SendForApproval(documentTypeCode) {
     $('#SendApprovalModal').modal('hide');
     BindRequisitionByID();
 }
-

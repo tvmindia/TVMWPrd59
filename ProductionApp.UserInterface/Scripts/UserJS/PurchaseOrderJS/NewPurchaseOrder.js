@@ -321,7 +321,7 @@ function AddPurchaseOrderDetail() {
             BindRequisitionListTable();
         }
         else {
-            notyAlert('warning', "Please Fill Required Fields,To Add Items ");
+            notyAlert('warning', "Please fill required fields,to add items ");
         }
     }
 }
@@ -424,7 +424,7 @@ function ViewRequisitionDetails(value) {
         else {
             $('#tabDetail').attr('data-toggle', '');
             DataTables.RequisitionDetailsTable.clear().draw(false);
-            notyAlert('warning', "Please Select Requisition");
+            notyAlert('warning', "Please select Requisition");
         }
     }
 }
@@ -704,7 +704,7 @@ function AddRequsitionDetail(mergedRows) {
         return true;
     }
     else {
-        notyAlert('warning', "Please Select Requisition");
+        notyAlert('warning', "Please select Requisition");
         return false;
     }
 }
@@ -826,7 +826,7 @@ function Save() {
         })
     }
 else {
-        notyAlert('warning', 'Please Add item Details!');
+        notyAlert('warning', 'Please add item details!');
     }
 }
 //POD data checking
@@ -1264,7 +1264,7 @@ function DeleteTempItem(Rowindex) {
     debugger;
     _SlNo = 1;
     DataTables.PurchaseOrderDetailTable.row(Rowindex).remove().draw(false);
-    notyAlert('success', 'Deleted Successfully');
+    notyAlert('success', 'Deleted successfully');
 }
 function DeleteItem(ID) {
 
@@ -1397,7 +1397,7 @@ function ValidateEmail() {
         var atpos = ste.indexOf("@");
         var dotpos = ste.lastIndexOf(".");
         if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= ste.length) {
-            notyAlert('error', 'Invalid Email');
+            notyAlert('error', 'Invalid email');
             return false;
         }
             //not valid
