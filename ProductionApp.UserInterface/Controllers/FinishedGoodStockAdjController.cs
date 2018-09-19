@@ -214,6 +214,43 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion
 
+
+        #region CheckUnpostedProductExists
+        [HttpGet]
+        
+        public string CheckUnpostedProductExists(Guid adjustmentID)
+        {          
+            try
+            {
+                FinishedGoodStockAdjViewModel finishedGoodStockAdjVM = new FinishedGoodStockAdjViewModel();
+                finishedGoodStockAdjVM = Mapper.Map<FinishedGoodStockAdj, FinishedGoodStockAdjViewModel>(_finishedGoodStockAdjBusiness.CheckUnpostedProductExists(adjustmentID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = finishedGoodStockAdjVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex });
+            }
+        }
+
+
+        #endregion CheckUnpostedProductExists
+
+        #region GetAllUnpostedData        
+        public string GetAllUnpostedData(Guid adjustmentID)
+        {
+            try
+            {
+                List<FinishedGoodStockAdjViewModel> finishedGoodStockAdjVM = new List<FinishedGoodStockAdjViewModel>();
+                finishedGoodStockAdjVM = Mapper.Map<List<FinishedGoodStockAdj>, List<FinishedGoodStockAdjViewModel>>(_finishedGoodStockAdjBusiness.GetAllUnpostedData(adjustmentID));
+                return JsonConvert.SerializeObject(new { Result = "OK", Record = finishedGoodStockAdjVM, Message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Record = "", Message = ex });
+            }
+        }
+        #endregion GetAllUnpostedData
+
         #region ButtonStyling
         [HttpGet]
         //[AuthSecurityFilter(ProjectObject = "MaterialStockAdjustment", Mode = "")]

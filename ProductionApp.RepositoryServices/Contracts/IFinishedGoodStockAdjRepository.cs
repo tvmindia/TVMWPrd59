@@ -15,5 +15,8 @@ namespace ProductionApp.RepositoryServices.Contracts
         List<FinishedGoodStockAdjDetail> GetFinishedGoodStockAdjDetail(Guid id);
         object DeleteFinishedGoodStockAdj(Guid id);
         object DeleteFinishedGoodStockAdjDetail(Guid id);
+        FinishedGoodStockAdj CheckUnpostedProductExists(Guid adjustmentID);
+       List<FinishedGoodStockAdj> GetAllUnpostedData(Guid adjustmentID);
+        
     }
 }

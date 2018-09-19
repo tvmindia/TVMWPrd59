@@ -20,6 +20,7 @@ namespace ProductionApp.UserInterface.Models
         public int LatestApprovalStatus { get; set; }
         public bool IsFinalApproved { get; set; }
         public string ApprovalStatus { get; set; }
+        [Display(Name = "Adjustment No")]
         public string AdjustmentNo { get; set; }
         public CommonViewModel Common { get; set; }
 
@@ -36,6 +37,12 @@ namespace ProductionApp.UserInterface.Models
         public int FilteredCount { get; set; }
         public string DetailJSON { get; set; }
         public bool IsUpdate { get; set; }
+        public List<ProductionTrackingViewModel> ProductionTrackingList { get; set; }
+        public int Count { get; set; }
+        public ProductionTrackingViewModel ProductionTracking { get; set; }
+        public ProductViewModel Product { get; set; }
+        public SubComponentViewModel SubComponent { get; set; }
+
 
     }
 

@@ -63,5 +63,20 @@ namespace ProductionApp.BusinessService.Services
         {
             return _finishedGoodStockAdjRepository.DeleteFinishedGoodStockAdjDetail(id);
         }
+
+        public FinishedGoodStockAdj CheckUnpostedProductExists(Guid adjustmentID)
+        {       
+            return _finishedGoodStockAdjRepository.CheckUnpostedProductExists(adjustmentID);
+                   
+        }
+
+        #region GetAllUnpostedData
+        public List<FinishedGoodStockAdj> GetAllUnpostedData(Guid adjustmentID)
+        {
+            return _finishedGoodStockAdjRepository.GetAllUnpostedData(adjustmentID);
+        }
+        #endregion GetAllUnpostedData
+
+
     }
 }

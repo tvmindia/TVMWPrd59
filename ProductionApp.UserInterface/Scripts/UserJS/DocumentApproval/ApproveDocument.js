@@ -27,6 +27,30 @@ $(document).ready(function () {
         { className: "text-left", "targets": [0, 1, 3] }
     ]
 });
+            DataTables.ApprovalTableUnpostedProduct = $('#tblDetailUnpostedProduct').DataTable({
+            dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
+            ordering: false,
+            searching: false,
+            paging: false,
+            data: null,
+            autoWidth: false,           
+            columns: [
+             { "data": "AdjustmentDateFormatted", "defaultContent": "<i></i>" },
+             { "data": "Product.Description", "defaultContent": "<i></i>" },
+             { "data": "SubComponent.Description", "defaultContent": "<i></i>" },
+            { "data": "ProductionTracking.AcceptedQty", "defaultContent": "<i></i>" },
+
+            ],
+            columnDefs: [
+            { "targets": [0], "width": "12%" },
+            { "targets": [1], "width": "15%" },
+            { "targets": [2], "width": "20%" },
+            { "targets": [3], "width": "12%" },
+            { className: "text-right", "targets": [3] },
+            { className: "text-center", "targets": [0] },         
+            { className: "text-left", "targets": [1,2] }
+            ]
+        });
     }
     catch (e) {
         console.log(e.message);
@@ -131,4 +155,37 @@ function DisableButtons()
     $("#btnApproveDocument").prop("onclick", null);
     $("#btnRejectDocument").attr("disabled", "disabled");
     $("#btnRejectDocument").prop("onclick", null);
+}
+
+
+function BindUnpostedData(id) {
+    debugger;
+    $('#UnpostedProductDetailModel').modal('show');
+    DataTables.ApprovalTableUnpostedProduct.clear().rows.add(GetAllUnpostedData(id)).draw(true);
+}
+function GetAllUnpostedData(id) {
+    try {
+        debugger;    
+        var data = { "AdjustmentID": id };
+        var jsonData = {};
+        var result = "";
+        var message = "";
+        jsonData = GetDataFromServer("FinishedGoodStockAdj/GetAllUnpostedData/", data);
+        if (jsonData != '') {
+            jsonData = JSON.parse(jsonData);
+
+        }
+
+
+        if (jsonData.Result == "OK") {
+            return jsonData.Record;
+
+        }
+        if (jsonData.Result == "ERROR") {
+            jsonData.Message;
+        }
+    }
+    catch (e) {
+        notyAlert('error', e.message);
+    }
 }
