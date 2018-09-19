@@ -605,16 +605,20 @@ function AddSalesOrderDetails() {
     }
 }
 
-function Save() {
+function Save(isdirect) {
     $("#DetailJSON").val('');
     _SalesOrderDetailList = [];
     if (_groupInsert == 0)
         AddSalesOrderDetailList();
     else
         AddSalesOrderGroupDetailList();
+
     if (_SalesOrderDetailList.length > 0) {
         var result = JSON.stringify(_SalesOrderDetailList);
-        $("#DetailJSON").val(result);
+        if (isdirect==undefined)//to avoid duplication
+            $("#DetailJSON").val(result);
+        else
+            $("#DetailJSON").val("");
         $('#btnSave').trigger('click');
     }
     else {
@@ -669,9 +673,14 @@ function BindSalesOrderByID() {
     $('#OrderNo').val(salesOrderVM.OrderNo);
     $('#OrderDateFormatted').val(salesOrderVM.OrderDateFormatted);
     $('#ExpectedDeliveryDateFormatted').val(salesOrderVM.ExpectedDeliveryDateFormatted);
-    $('#hdnEmployeeID').val(salesOrderVM.SalesPerson);
+    if (salesOrderVM.SalesPerson != EmptyGuid)
+        $('#hdnEmployeeID').val(salesOrderVM.SalesPerson);
+    else
+        $('#hdnEmployeeID').val("");
     $('#hdnCustomerID').val(salesOrderVM.CustomerID);
     $('#ReferenceCustomer').val(salesOrderVM.ReferenceCustomer).select2();
+    $("#divCustomerDropdown").load('/Customer/CustomerDropdown')
+    $("#divEmployeeDropdown").load('/Employee/EmployeeDropdown')
     $('#Remarks').val(salesOrderVM.Remarks);
     $('#BillingAddress').val(salesOrderVM.BillingAddress);
     $('#ShippingAddress').val(salesOrderVM.ShippingAddress);

@@ -16,9 +16,14 @@ else
 @Html.ValidationMessage("CustomerID", "", new { @class = "text-danger" })
 <script>
     $(document).ready(function () {
+        debugger;
         $("#CustomerID").select2({
         });
-        $('#CustomerID').val($('#hdnCustomerID').val()).select2();
+        if ($('#hdnCustomerID').val() != "00000000-0000-0000-0000-000000000000")
+            $('#CustomerID').val($('#hdnCustomerID').val()).select2();
+        else
+            $('#CustomerID').val("").select2();
+
         try {
             $("#CustomerID").change(function () {
                 if ($('#BillingAddress').val() != undefined)

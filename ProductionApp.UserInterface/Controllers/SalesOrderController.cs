@@ -190,9 +190,14 @@ namespace ProductionApp.UserInterface.Controllers
                 //Fixing Employee ID To SalesPerson
                 salesOrderVM.SalesPerson = salesOrderVM.EmployeeID;
                 //Deserialize items
-                object ResultFromJS = JsonConvert.DeserializeObject(salesOrderVM.DetailJSON);
-                string ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
-                salesOrderVM.SalesOrderDetailList = JsonConvert.DeserializeObject<List<SalesOrderDetailViewModel>>(ReadableFormat);
+                object ResultFromJS;
+                string ReadableFormat;
+                if (salesOrderVM.DetailJSON != null)
+                {
+                    ResultFromJS = JsonConvert.DeserializeObject(salesOrderVM.DetailJSON);
+                    ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                    salesOrderVM.SalesOrderDetailList = JsonConvert.DeserializeObject<List<SalesOrderDetailViewModel>>(ReadableFormat);
+                }
                 var result =_salesOrderBusiness.InsertUpdateSalesOrder(Mapper.Map<SalesOrderViewModel, SalesOrder>(salesOrderVM));
                 return JsonConvert.SerializeObject(new { Result = "OK", Records = result });
             }
@@ -375,7 +380,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
                     toolboxVM.savebtn.Title = "Save";
-                    toolboxVM.savebtn.Event = "Save();";
+                    toolboxVM.savebtn.Event = "Save(1);";
 
                     toolboxVM.deletebtn.Visible = true;
                     toolboxVM.deletebtn.Text = "Delete";
@@ -417,7 +422,7 @@ namespace ProductionApp.UserInterface.Controllers
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
                     toolboxVM.savebtn.Title = "Save";
-                    toolboxVM.savebtn.Event = "Save();";
+                    toolboxVM.savebtn.Event = "Save(1);";
 
                     toolboxVM.ListBtn.Visible = true;
                     toolboxVM.ListBtn.Text = "List";

@@ -415,7 +415,7 @@
                                         @Html.LabelFor(model => model.SalesOrderDetail.TradeDiscountAmount, htmlAttributes: new { @class = "control-label tableSize" })
                                     </td>
                                     <td style="text-align: right">
-                                        @Html.EditorFor(model => model.SalesOrderDetail.TradeDiscountAmount, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)", onkeyup = "ClearDiscountPercentage();", onfocus = "SelectAllValue(this);" } })
+                                        @Html.EditorFor(model => model.SalesOrderDetail.TradeDiscountAmount, new { htmlAttributes = new { @class = "form-control text-right Calculation", onkeypress = "return isNumber(event)", onchange = "ClearDiscountPercentage();", onfocus = "SelectAllValue(this);" } })
                                     </td>
                                 </tr>
                                 <tr style="max-height:5%">
@@ -542,7 +542,7 @@
                             @Html.LabelFor(model => model.SalesOrderDetail.GroupItemTradeDiscountAmount, htmlAttributes: new { @class = "control-label" })
                         </div>
                         <div class="col-md-12">
-                            @Html.EditorFor(model => model.SalesOrderDetail.GroupItemTradeDiscountAmount, new { htmlAttributes = new { @class = "form-control text-right GroupCalculation", onkeypress = "return isNumber(event)", onkeyup = "ClearGroupDiscountPercentage();", onfocus = "SelectAllValue(this);" } })
+                            @Html.EditorFor(model => model.SalesOrderDetail.GroupItemTradeDiscountAmount, new { htmlAttributes = new { @class = "form-control text-right GroupCalculation", onkeypress = "return isNumber(event)", onchange = "ClearGroupDiscountPercentage();", onfocus = "SelectAllValue(this);" } })
                         </div>
                     </div>
 

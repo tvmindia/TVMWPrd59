@@ -10,6 +10,7 @@ namespace ProductionApp.UserInterface.Models
     public class SalesOrderViewModel
     {
         public Guid ID { get; set; }
+        [Display(Name = "Order#")]
         public string OrderNo { get; set; }
       
         public DateTime OrderDate { get; set; }
