@@ -241,7 +241,7 @@ function GetCustomerDetails(customerId) {
             return _jsonData.Records;
         }
         if (_jsonData.Result == "ERROR") {
-            alert(_jsonData.Message);
+            notyAlert('error',_jsonData.Message);
         }
     }
     catch (e) {
@@ -336,7 +336,7 @@ function ShowSalesOrderDetailsModal() {
         $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val($('#ExpectedDeliveryDateFormatted').val());
     }
     else {
-        notyAlert('warning', "Please Fill Required Fields,To Add Items ");
+        notyAlert('warning', "Please fill required fields,To add items ");
     }
 }
 
@@ -353,7 +353,7 @@ function ShowSalesOrderGroupItemDetailsModal() {
         $('#SalesOrderDetail_GroupItemExpectedDeliveryDateFormatted').val($('#ExpectedDeliveryDateFormatted').val());
     }
     else {
-        notyAlert('warning', "Please Fill Required Fields,To Add Group Items ");
+        notyAlert('warning', "Please fill required fields,To add group items ");
     }
 }
 
@@ -434,8 +434,9 @@ function GetProduct(ID) {
         if (_jsonData.Result == "OK") {
             return _jsonData.Records;
         }
-        if (_jsonData.Result == "ERROR") {
-            alert(_jsonData.Message);
+      
+        if (_jsonData.Result == "ERROR" || _jsonData.Result == "UNAUTH") {
+            notyAlert('error',_jsonData.Message);
         }
     }
     catch (e) {
@@ -472,7 +473,7 @@ function ProductValueCalculation() {
         }
         else {
             disc = $('#SalesOrderDetail_TradeDiscountAmount').val() == "" ? 0 : $('#SalesOrderDetail_TradeDiscountAmount').val();
-            if (GrossAmt < disc) {
+            if (GrossAmt < disc || discpercent == 0) {
                 $('#SalesOrderDetail_TradeDiscountAmount').val(roundoff(0));
                 disc = 0;
             }
@@ -503,7 +504,13 @@ function ProductValueCalculation() {
 }
 
 function ClearDiscountPercentage() {
-    $('#SalesOrderDetail_DiscountPercent').val(0);
+    var  rate, qty, discpercent, disc = 0,GrossAmt = 0
+    qty = $('#SalesOrderDetail_Quantity').val();
+    rate = $('#SalesOrderDetail_Rate').val();
+    GrossAmt = rate * qty;
+    disc= $('#SalesOrderDetail_TradeDiscountAmount').val()
+    discpercent = disc * 100 / GrossAmt;
+    $('#SalesOrderDetail_DiscountPercent').val(roundoff(discpercent));
 }
 
 function GetTaxTypeByCode(Code) {
@@ -521,8 +528,8 @@ function GetTaxTypeByCode(Code) {
         if (result == "OK") {
             return taxTypeVM;
         }
-        if (result == "ERROR") {
-            alert(Message);
+        if (_jsonData.Result == "ERROR" || _jsonData.Result == "UNAUTH") {
+            notyAlert('error', _jsonData.Message);
         }
     }
     catch (e) {
@@ -601,7 +608,7 @@ function AddSalesOrderDetails() {
         Save();
     }
     else {
-        notyAlert('warning', "Please check the Required Fields");
+        notyAlert('warning', "Please check the required fields");
     }
 }
 
@@ -622,7 +629,7 @@ function Save(isdirect) {
         $('#btnSave').trigger('click');
     }
     else {
-        notyAlert('warning', 'Please Add Item Details!');
+        notyAlert('warning', 'Please add item details!');
     }
 
 }
@@ -701,7 +708,7 @@ function GetSalesOrderByID(ID) {
             return _jsonData.Records;
         }
         if (_jsonData.Result == "ERROR") {
-            alert(_jsonData.Message);
+            notyAlert('error', _jsonData.Message);
         }
     }
     catch (e) {
@@ -724,7 +731,7 @@ function GetSalesOrderDetail(ID) {
             return _jsonData.Records;
         }
         if (_jsonData.Result == "ERROR") {
-            alert(_jsonData.Message);
+            notyAlert('error',_jsonData.Message);
         }
     }
     catch (e) {
@@ -750,7 +757,7 @@ function DeleteTempItem(Rowindex) {
     Itemtabledata.splice(Rowindex, 1);
     _SlNo = 1;
     _dataTables.SalesOrderDetailTable.clear().rows.add(Itemtabledata).draw(false);
-    notyAlert('success', 'Deleted Successfully');
+    notyAlert('success', 'Deleted successfully');
     CalculateDetailTableSummary();
 }
 
@@ -866,7 +873,7 @@ function GetProductList(code) {
             return supplierVM;
         }
         if (result == "ERROR") {
-            alert(message);
+            notyAlert('error', message);
         }
     }
     catch (e) {
@@ -918,26 +925,46 @@ function selectCheckbox(IDs) {
 }
 //SalesOrderDetailTbl Binding for GroupItems
 function AddSalesOrderDetailsOfGrouping() {
+
+
     debugger;
+
+    var detailgroupexists=0;
     var qty = $('#SalesOrderDetail_NumOfSet').val();
     var group = $('#SalesOrderDetail_GroupName').val();
     var productCategoryCode = $('#ProductCategoryCode').val();
-    var ProductGroupDetailList = _dataTables.GroupProductDetailTable.rows(".selected").data();
-    _groupInsert = 1;
-    GroupingDetailVM = new Object();
-    if (productCategoryCode != "" && qty != "" && group != "" && qty != 0) {
-        if (ProductGroupDetailList != null) {
-            if (ProductGroupDetailList.length > 0) {
-                Save();
-                $('#SalesOrderGroupItemDetailsModal').modal('hide');
-            }
-            else {
-                notyAlert('warning', "Please select Items");
-            }
-        }
+
+    var SalesOrderDetailList = _dataTables.SalesOrderDetailTable.rows().data();
+    //find productCategorycode is already existing in current  SalesOrderDetailTable
+    // where group id is not null, checking is for group items
+    for (var r = 0; r < SalesOrderDetailList.length; r++) {
+        if (SalesOrderDetailList[r].GroupID != null && SalesOrderDetailList[r].Product.ProductCategoryCode == productCategoryCode)
+        {
+            detailgroupexists = 1;
+        } 
+    }
+    if (detailgroupexists) {
+        $('#SalesOrderGroupItemDetailsModal').modal('hide');
+        notyAlert('warning', "Product category already existing in items details");
     }
     else {
-        notyAlert('warning', "Please check the Required Fields");
+        var ProductGroupDetailList = _dataTables.GroupProductDetailTable.rows(".selected").data();
+        _groupInsert = 1;
+        GroupingDetailVM = new Object();
+        if (productCategoryCode != "" && qty != "" && group != "" && qty != 0) {
+            if (ProductGroupDetailList != null) {
+                if (ProductGroupDetailList.length > 0) {
+                    Save();
+                    $('#SalesOrderGroupItemDetailsModal').modal('hide');
+                }
+                else {
+                    notyAlert('warning', "Please select items");
+                }
+            }
+        }
+        else {
+            notyAlert('warning', "Please check the required fields");
+        }
     }
 }
 //Save ProductDetailList
@@ -992,6 +1019,18 @@ function GroupValueCalculation() {
     var discpercent, disc = 0, GrossAmt = 0, taxableAmt = 0;
     //--------------------Gross Amount--------------------//
     var SalesOrderDetailList = _dataTables.GroupProductDetailTable.rows(".selected").data();
+
+    var maxCostPrice = 0;
+    for (var r = 0; r < SalesOrderDetailList.length; r++) {
+        if (SalesOrderDetailList[r].CostPrice == null || SalesOrderDetailList[r].CostPrice == "")
+            SalesOrderDetailList[r].CostPrice = 0;
+        if(SalesOrderDetailList[r].CostPrice<maxCostPrice)
+            SalesOrderDetailList[r].CostPrice = maxCostPrice;
+        else
+            maxCostPrice=SalesOrderDetailList[r].CostPrice
+    }
+
+
     for (var r = 0; r < SalesOrderDetailList.length; r++) {
         if (SalesOrderDetailList[r].WeightInKG == null || SalesOrderDetailList[r].WeightInKG == "")
             SalesOrderDetailList[r].WeightInKG = 0;
@@ -1002,11 +1041,14 @@ function GroupValueCalculation() {
 
         if (SalesOrderDetailList[r].IsInvoiceInKG)
         {
-            GrossAmt = parseFloat(GrossAmt) + (parseFloat(SalesOrderDetailList[r].Quantity) * parseFloat(SalesOrderDetailList[r].WeightInKG) * parseFloat(SalesOrderDetailList[r].CostPrice));
+             GrossAmt = parseFloat(GrossAmt) + (parseFloat(SalesOrderDetailList[r].Quantity) * parseFloat(SalesOrderDetailList[r].WeightInKG) * parseFloat(maxCostPrice));
+            //GrossAmt = parseFloat(GrossAmt) + (parseFloat(SalesOrderDetailList[r].Quantity) * parseFloat(SalesOrderDetailList[r].WeightInKG) * parseFloat(SalesOrderDetailList[r].CostPrice));
         }
         else
             GrossAmt = parseFloat(GrossAmt) + (parseFloat(SalesOrderDetailList[r].Quantity) * parseFloat(SalesOrderDetailList[r].CostPrice));
     }
+
+
     $('#SalesOrderDetail_GroupGrossAmount').val(roundoff(parseFloat(GrossAmt)));
     //--------------------Discount Amount--------------------//
     discpercent = $('#SalesOrderDetail_GroupItemDiscountPercent').val();
@@ -1021,7 +1063,7 @@ function GroupValueCalculation() {
     }
     else {
         disc = $('#SalesOrderDetail_GroupItemTradeDiscountAmount').val() == "" ? 0 : $('#SalesOrderDetail_GroupItemTradeDiscountAmount').val();
-        if (GrossAmt < disc) {
+        if (GrossAmt < disc || discpercent == 0) {
             $('#SalesOrderDetail_GroupItemTradeDiscountAmount').val(roundoff(0));
             disc = 0;
         }
@@ -1033,7 +1075,11 @@ function GroupValueCalculation() {
 }
 
 function ClearGroupDiscountPercentage() {
-    $('#SalesOrderDetail_GroupItemDiscountPercent').val(0);
+    var  discpercent, disc = 0, GrossAmt = 0 
+    GrossAmt = $('#SalesOrderDetail_GroupGrossAmount').val();
+    disc = $('#SalesOrderDetail_GroupItemTradeDiscountAmount').val()
+    discpercent = disc * 100 / GrossAmt;
+    $('#SalesOrderDetail_GroupItemDiscountPercent').val(roundoff(discpercent));
 }
 
 

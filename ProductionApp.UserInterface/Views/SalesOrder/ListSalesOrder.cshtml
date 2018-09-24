@@ -1,7 +1,7 @@
 ﻿@using ProductionApp.UserInterface.App_Start
 @model ProductionApp.UserInterface.Models.SalesOrderAdvanceSearchViewModel
 @{
-    ViewBag.Title = "Sales Order";
+    ViewBag.Title = "View Sales Order";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 @section styles {
@@ -11,7 +11,8 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i>SalesOrder</a></li>
+        <li><a href="../DashboardSale?code=SALE"><i class="fa fa-cogs"></i>Sales</a></li>
+        <li>Sale Orders</li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -103,6 +104,7 @@
                     <th>Customer</th>
                     <th>Order#</th>
                     <th>Order Date</th>
+                    <th>Sales Person</th>
                     <th>Order Amount</th>
                     <th>Order Status</th>
                     <th>Expected Delivery Date</th>

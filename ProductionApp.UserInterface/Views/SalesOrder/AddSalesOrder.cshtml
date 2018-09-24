@@ -30,7 +30,8 @@
 </style>
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i> Sales Order</a></li>
+        <li><a href="../DashboardSale?code=SALE"><i class="fa fa-cogs"></i> Sales</a></li>
+        <li>Sale Orders</li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -135,7 +136,7 @@
 
                 </div>
                 <div class="form-group col-md-4">
-                    <div class="col-md-12">
+                    @*<div class="col-md-12">
                         <div class="col-md-12  ">&nbsp;</div>
                         <div class="col-md-12  ">&nbsp;</div>
                     </div>
@@ -146,13 +147,13 @@
                         <div class="form-group col-md-12">
                             <div class="lblStatusDisplay" id="lblReqStatus">Open</div>
                         </div>
-                        @*<div class="form-group col-md-12">
+                        <div class="form-group col-md-12">
                                 <div class="rightAmtCaption">Approval Status</div>
                             </div>
                             <div class="form-group col-md-12">
                                 <div class="lblStatusDisplay" id="lblApprovalStatus">N/A</div>
-                            </div>*@
-                    </div>
+                            </div> 
+                    </div>*@
                 </div>
             </div>
             <div class="form-group" hidden="hidden">
@@ -282,6 +283,8 @@
                                     <div style="font-weight:bold" class="textSize" id="lblProductName">-</div>
                                 </div>
                             </div>
+                            @Html.Hidden("hdnIsInvocieInKg")
+                            @Html.Hidden("hdnSellingPriceInKG")
                             <div class="form-group col-md-12">
                                 <div class="form-group col-md-5" style="padding-left: 0px;">
                                     <div class="textSize">HSNNo</div>
