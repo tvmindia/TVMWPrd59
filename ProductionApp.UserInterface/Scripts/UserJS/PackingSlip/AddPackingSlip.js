@@ -14,7 +14,7 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 var _SlNo = 1;
 var _productListTableData;
 var _productListChildTableData;
-var _packingSlipDetailList1 =[];
+var _packingSlipDetailList1 = [];
 var packingDetail = [];
 var _packingSlipDetailList = [];
 var _packingSlipViewModel = new Object();
@@ -72,31 +72,33 @@ $(document).ready(function () {
                 search: "_INPUT_",
                 searchPlaceholder: "Search"
             },
-            "aoColumnDefs": [{
-                "aTargets": [0],
-                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                    if (sData.GroupID) {
-                        $(nTd).addClass('details-control')
-                    }
-                }
-            },
-            { "targets": [9], "visible": false, "searchable": false },
+            "aoColumnDefs": [
+                { "targets": [9], "visible": false, "searchable": false },
+                { className: "text-right", "targets": [3, 4, 5, 6] }
+                            , {
+                                "aTargets": [0], "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                                    if (sData.GroupID) {
+                                        $(nTd).addClass('details-control')
+                                    }
+                                }
+                            },
+
             ],
             columns: [
                  { "data": null, "defaultContent": "", "width": "5%" },
-                 { "data": "Checkbox", "defaultContent": "", "width": "5%",
+                 {
+                     "data": "Checkbox", "defaultContent": "", "width": "5%",
                      "render": function (data, type, row) {
-                         if (row.GroupName != null)
-                         {
+                         if (row.GroupName != null) {
                              return '<input type="checkbox" id="' + row.GroupIdString + '" name="grouprow" style="vertical-align: -3px;margin-left: 20%;" onchange="CheckCategory(this)">';
                          }
-                         else
-                         {
+                         else {
                              return '<input type="checkbox" id="' + row.ProductIdString + '" name="grouprow" style="vertical-align: -3px;margin-left: 20%;"  onchange="CheckCategory(this)" >'; //
                          }
                      }
                  },
-                 { "data": "Product.Name", "defaultContent": "<i>-</i>", "width": "40%",    
+                 {
+                     "data": "Product.Name", "defaultContent": "<i>-</i>", "width": "40%",
                      'render': function (data, type, row) {
                          if (row.Product.Name != null)
                              return row.Product.Name
@@ -104,27 +106,31 @@ $(document).ready(function () {
                              return '<input class="form-control description" id="GroupName_' + row.GroupID + '" name="Markup" value="' + row.GroupName + '" type="text" style="width:100%" onkeyup="textBoxValueOnChanged(this,1);">';
                      }
                  },
-                 { "data": "Product.CurrentStock", "defaultContent": "<i>-</i>", "width": "10%",
-                 'render': function (data, type, row) {
-                     if (row.Product.Name != null)
-                         //   return data;
-                     {
-                         if (data <= 0)
-                             return '<i class="lblrequired">' + data + '</i>';
+                 {
+                     "data": "Product.CurrentStock", "defaultContent": "<i>-</i>", "width": "10%",
+                     'render': function (data, type, row) {
+                         if (row.Product.Name != null)
+                             //   return data;
+                         {
+                             if (data <= 0)
+                                 return '<i class="lblrequired">' + data + '</i>';
+                             else
+                                 return data;
+                         }
                          else
-                             return data;
-                     }
-                     else
-                         return ' <i data-toggle="tooltip" title="Expand Group to view!">...</i>'
+                             return ' <i data-toggle="tooltip" title="Expand Group to view!">...</i>'
 
-                 } },
-                 { "data": "Quantity", "defaultContent": "<i>-</i>", "width": "10%", 
-                 'render': function (data, type, row) {
-                   //  if (row.Product.Name != null)
+                     }
+                 },
+                 {
+                     "data": "Quantity", "defaultContent": "<i>-</i>", "width": "10%",
+                     'render': function (data, type, row) {
+                         //  if (row.Product.Name != null)
                          return data;
-                    // else
-                   //      return '...'
-                 } },
+                         // else
+                         //      return '...'
+                     }
+                 },
                  {
                      "data": "PrevPkgQty", "defaultContent": "<i>-</i>", "width": "10%",
                      'render': function (data, type, row) {
@@ -133,8 +139,10 @@ $(document).ready(function () {
                          else
                              return ' <i data-toggle="tooltip" title="Expand Group to view!">...</i>'
 
-                 } },
-                 { "data": "ProductID", "defaultContent": "<i>-</i>", "width": "10%",
+                     }
+                 },
+                 {
+                     "data": "ProductID", "defaultContent": "<i>-</i>", "width": "10%",
                      'render': function (data, type, row) {
                          if (row.Product.Name != null)
                              return BalQty = row.Quantity - row.PrevPkgQty;
@@ -142,13 +150,14 @@ $(document).ready(function () {
                              return ' <i data-toggle="tooltip" title="Expand Group to view!">...</i>'
                      }
                  },
-                 { "data": "CurrentPkgQty", "defaultContent": "<i>-</i>", "width": "10%",
+                 {
+                     "data": "CurrentPkgQty", "defaultContent": "<i>-</i>", "width": "10%",
                      'render': function (data, type, row) {
                          debugger;
                          if (row.GroupID == EmptyGuid || row.GroupID == null)
-                            return '<input class="form-control description text-right" name="Markup" value="' + data + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" id="txt2_' + row.ProductID + '"  onkeyup="textBoxValueOnChanged(this,2);"style="width:100%">';
+                             return '<input class="form-control description text-right" name="Markup" value="' + data + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" id="txt2_' + row.ProductID + '"  onkeyup="textBoxValueOnChanged(this,2);"style="width:100%">';
                          else
-                            return '<input class="form-control description text-right" name="Markup" value="' + data + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" id="txt2_' + row.GroupID + '"  onkeyup="textBoxValueOnChanged(this,2);"style="width:100%" >';//disabled="disabled"
+                             return '<input class="form-control description text-right" name="Markup" value="' + data + '" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", type="text" id="txt2_' + row.GroupID + '"  onkeyup="textBoxValueOnChanged(this,2);"style="width:100%" >';//disabled="disabled"
                      }
                  },
                  {
@@ -162,14 +171,11 @@ $(document).ready(function () {
                  },
                  { "data": "ChildCount", "defaultContent": "<i>-</i>" },
             ],
-            columnDefs: [
-                , { className: "text-right", "targets": [] }
-                , { className: "text-left", "targets": [] }],
             destroy: true
         });
         // Add event listener for opening and closing details
         $('#tblProductList tbody').on('click', 'td.details-control', function () {
-            
+
             var rowData = DataTables.ProductListTable.row($(this).parents('tr')).data();
 
             var tr = $(this).closest('tr');
@@ -226,7 +232,7 @@ $(document).ready(function () {
          { "data": "ProductID", "defaultContent": "<i></i>" },
          {
              "data": "", render: function (data, type, row) {
-                
+
                  return _SlNo++
              }, "defaultContent": "<i></i>"
          },
@@ -235,7 +241,7 @@ $(document).ready(function () {
          { "data": "Weight", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditPkgSlipDetailTable(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> | <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
          ],
-         columnDefs: [{ "targets": [0,1], "visible": false, searchable: false },
+         columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false },
              { className: "text-left", "targets": [2, 3] },
              { className: "text-right", "targets": [4, 5] },
              { className: "text-center", "targets": [6] },
@@ -291,7 +297,7 @@ $(document).ready(function () {
             columnDefs: [
                   { className: "text-right", "targets": [3, 4, 5, 6, 7] }
                 , { className: "text-left", "targets": [2] }
-                , { "targets": [0,1], "visible": false, "searchable": false }
+                , { "targets": [0, 1], "visible": false, "searchable": false }
                 , { "targets": [2, 3, 4, 5, 6], "bSortable": false }],
             destroy: true
         });
@@ -306,13 +312,15 @@ $(document).ready(function () {
     }
 });
 
-function AddPackingSlipDetail()
-{
+function AddPackingSlipDetail() {
     CheckedProducts = [];
     CheckedGroups = [];
+    var saleno=$("#SalesOrderID option:selected").text();
+    var saleOrderNo=saleno.split("-");
     $('#modelContextLabel').text('Add Packing Slip Details');
-    if($('#DateFormatted').val() && $('#SalesOrderID').val()){
-        $('#lblOrderNo').text("SalesOrder# : " + $("#SalesOrderID option:selected").text());
+    if ($('#DateFormatted').val() && $('#SalesOrderID').val()) {
+        debugger;
+        $('#lblOrderNo').text("SalesOrder# : " + saleOrderNo[0]);
         $('#PackingSlipModal').modal('show');
         BindProductListTable();
     }
@@ -322,10 +330,16 @@ function AddPackingSlipDetail()
 }
 //SalesOrder Details
 function OrderDetails() {
-    var saleId = $('#SalesOrderID').val();
-    var SalesOrderVm = GetOrderDetails(saleId);
-    $('#lblCustomer').text(SalesOrderVm.CustomerName);
-    $('#lblExpDate').text(SalesOrderVm.ExpectedDeliveryDateFormatted);
+    debugger;
+    try{
+        var saleId = $('#SalesOrderID').val();
+        var SalesOrderVm = GetOrderDetails(saleId);
+        $('#lblCustomer').text(SalesOrderVm.CustomerName);
+        $('#lblExpDate').text(SalesOrderVm.ExpectedDeliveryDateFormatted);
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 function GetOrderDetails(saleId) {
     try {
@@ -451,36 +465,34 @@ function AddPackingSlipDetailTbl() {
     _SlNo = 1;
     var productDetailsVM = DataTables.ProductListTable.rows(".selected").data();
     var res = CheckProductList(productDetailsVM);//Checking all details are entered or not
-    if(selected==1)
-    if (res) {
-        AddPackingSlipDetailData(productDetailsVM);// adding values to packingSlipDetail
-        _SlNo = 1;
-        DataTables.PackingSlipDetailTable.clear().rows.add(packingDetail).draw(false); //binding Detail table with new values   
-        $('#PackingSlipModal').modal('hide');
-        Save();
-    }
-    else
-        notyAlert('warning', "Please Enter Packing Quantity of Product(s)");
+    if (selected == 1)
+        if (res) {
+            AddPackingSlipDetailData(productDetailsVM);// adding values to packingSlipDetail
+            _SlNo = 1;
+            DataTables.PackingSlipDetailTable.clear().rows.add(packingDetail).draw(false); //binding Detail table with new values   
+            $('#PackingSlipModal').modal('hide');
+            Save();
+        }
+        else
+            notyAlert('warning', "Please Enter Packing Quantity of Product(s)");
 }
-function CheckProductDetails(producDetails)
-{
-   var flag = 0;
+function CheckProductDetails(producDetails) {
+    var flag = 0;
     if ((producDetails) && (producDetails.length > 0)) {
         selected = 1;
         for (var r = 0; r < producDetails.length; r++) {
-            if (producDetails[r].CurrentPkgQty == 0)  {
+            if (producDetails[r].CurrentPkgQty == 0) {
                 flag = 1;
-                $("#txt" + producDetails[r].ProductID).attr('style','border-color:red;')
+                $("#txt" + producDetails[r].ProductID).attr('style', 'border-color:red;')
             }
         }
         if (flag == 1)
             return false
         else
-        return true;
+            return true;
     }
 }
-function CheckProductList(producDetails)
-{
+function CheckProductList(producDetails) {
     if (producDetails.length == 0) {
         notyAlert('warning', "Please Select Product");
         selected = 0;
@@ -489,42 +501,41 @@ function CheckProductList(producDetails)
     var result = CheckProductDetails(producDetails);
     return result;
 }
-function AddPackingSlipDetailData(data)
-{
+function AddPackingSlipDetailData(data) {
     var flag = 0;
     //var packingDetailsVM = DataTables.PackingSlipDetailTable.rows().data();
     if ((data) && (data.length > 0)) {
-        
+
         for (var r = 0; r < data.length; r++) {
             if ((data[r].CurrentPkgQty != undefined) || (data[r].PkgWt != 0)) {
-                        pkgDetailLink = new Object();
-                        pkgDetailLink.ProductID = data[r].ProductID;
-                        pkgDetailLink.ID = EmptyGuid; //[PKGDetailID]
-                        pkgDetailLink.Name = data[r].Product.Name;
-                        pkgDetailLink.CurrentPkgQty = data[r].CurrentPkgQty;
-                        pkgDetailLink.PkgWt = data[r].PkgWt;
-                        pkgDetailLink.Qty = data[r].CurrentPkgQty;
-                        pkgDetailLink.Weight = data[r].PkgWt;
-                        packingDetail.push(pkgDetailLink);
+                pkgDetailLink = new Object();
+                pkgDetailLink.ProductID = data[r].ProductID;
+                pkgDetailLink.ID = EmptyGuid; //[PKGDetailID]
+                pkgDetailLink.Name = data[r].Product.Name;
+                pkgDetailLink.CurrentPkgQty = data[r].CurrentPkgQty;
+                pkgDetailLink.PkgWt = data[r].PkgWt;
+                pkgDetailLink.Qty = data[r].CurrentPkgQty;
+                pkgDetailLink.Weight = data[r].PkgWt;
+                packingDetail.push(pkgDetailLink);
             }
             else {
                 flag = flag + 1;
-                }
+            }
         }
         if (flag == data.length) {
             notyAlert('warning', "Please Enter Pkg Qty and Weight of Product(s)");
             return false;
         }
-       
+
     }
-    else
-    {
+    else {
         notyAlert('warning', "Please Select Product");
         return false;
     }
 }
 //Save
 function Save() {
+    debugger
     var valid = 0;
     //validation main form 
     if ($('#ShowDispatcherSec').val() == 'True' && $('#ShowPkgSec').val() == 'False') {
@@ -536,6 +547,9 @@ function Save() {
     if (valid == 0) {
         var $form = $('#AddPackingSlipForm');
         if ($form.valid()) {
+            debugger;
+            var SlipDetailCount = DataTables.PackingSlipDetailTable.rows().count();
+            if (CheckedGroups.length > 0 || CheckedProducts.length > 0 || SlipDetailCount > 0) {
                 _packingSlipViewModel.ID = $('#ID').val();
                 _packingSlipViewModel.SlipNo = $('#SlipNo').val();
                 _packingSlipViewModel.Date = $('#DateFormatted').val();
@@ -562,9 +576,8 @@ function Save() {
                 _packingSlipViewModel.GroupDetailJSON = $("#GroupDetailJSON").val();
 
                 $("#ProductDetailJSON").val('');
-                if (CheckedProducts.length > 0)
-                {
-                     result = JSON.stringify(CheckedProducts);
+                if (CheckedProducts.length > 0) {
+                    result = JSON.stringify(CheckedProducts);
                     $("#ProductDetailJSON").val(result);
                 }
                 _packingSlipViewModel.ProductDetailJSON = $("#ProductDetailJSON").val();
@@ -596,6 +609,10 @@ function Save() {
                             break;
                     }
                 })
+            }
+            else {
+                notyAlert('warning', "Item list is empty");
+            }
         }
         else {
             notyAlert('warning', "Please Fill Required Fields ");
@@ -604,21 +621,21 @@ function Save() {
 }
 //PackingSlipDetail data 
 function AddPackingSlipDetailList() {
-    if(EditFlag==0){
-    var packingSlipDetail = DataTables.PackingSlipDetailTable.rows().data();
-    for (var r = 0; r < packingSlipDetail.length; r++) {
-        pkgDetail = new Object();
-        pkgDetail.PackingSlipID = $("#ID").val();
-        pkgDetail.ID = packingSlipDetail[r].ID;
-        pkgDetail.ProductID = packingSlipDetail[r].ProductID;
-        pkgDetail.Qty = packingSlipDetail[r].Qty;
-        pkgDetail.Weight = packingSlipDetail[r].Weight;
-        _packingSlipDetailList.push(pkgDetail);
+    if (EditFlag == 0) {
+        var packingSlipDetail = DataTables.PackingSlipDetailTable.rows().data();
+        for (var r = 0; r < packingSlipDetail.length; r++) {
+            pkgDetail = new Object();
+            pkgDetail.PackingSlipID = $("#ID").val();
+            pkgDetail.ID = packingSlipDetail[r].ID;
+            pkgDetail.ProductID = packingSlipDetail[r].ProductID;
+            pkgDetail.Qty = packingSlipDetail[r].Qty;
+            pkgDetail.Weight = packingSlipDetail[r].Weight;
+            _packingSlipDetailList.push(pkgDetail);
+        }
     }
-    }
-    else{
-    var packingSlipEditDetail = DataTables.PkgSlipDetailEditTable.rows().data();
-    //for (var r = 0; r < packingSlipDetail.length; r++) {
+    else {
+        var packingSlipEditDetail = DataTables.PkgSlipDetailEditTable.rows().data();
+        //for (var r = 0; r < packingSlipDetail.length; r++) {
         packingDetail = new Object();
         packingDetail.PackingSlipID = $("#ID").val();
         packingDetail.ID = packingSlipEditDetail[0].ID;
@@ -627,8 +644,8 @@ function AddPackingSlipDetailList() {
         packingDetail.Weight = packingSlipEditDetail[0].SalesOrder.SalesOrderDetail.PkgWt;
         _packingSlipDetailList.push(packingDetail);
         EditFlag = 0;
-    //}
-}
+        //}
+    }
 }
 //Bind PkgSlipData
 function BindPkgSlip(ID) {
@@ -636,13 +653,15 @@ function BindPkgSlip(ID) {
         _SlNo = 1;
         var pkgData = GetPkgSlipByID(ID)
         if (pkgData) {
-
+            debugger;
             $('#SlipNo').val(pkgData.SlipNo);
             $('#DateFormatted').val(pkgData.DateFormatted);
             $('#PackedBy').val(pkgData.PackedBy).select2();
+            //$('#SalesOrderID').text(pkgData.SalesOrder.OrderNo + "-" + pkgData.SalesOrder.CustomerName).select2();
             $('#SalesOrderID').val(pkgData.SalesOrderID).select2();
             $('#IssueToDispatchDateFormatted').val(pkgData.IssueToDispatchDateFormatted);
             $('#TotalPackageWeight').val(pkgData.TotalPackageWeight);
+            $('#lblPaySlipNo').text("Slip # :" + pkgData.SlipNo);
             $('#PackingRemarks').val(pkgData.PackingRemarks);
             $('#CheckedPackageWeight').val(pkgData.CheckedPackageWeight);
             $('#DispatchedBy').val(pkgData.DispatchedBy).select2();
@@ -691,16 +710,14 @@ function GetPkgSlipByID(ID) {
     }
 }
 
-function BindPkgSlipDetail()
-{
+function BindPkgSlipDetail() {
+    debugger;
     var id = $("#ID").val()
     DataTables.PackingSlipDetailTable.clear().rows.add(GetPkgDetail(id)).draw(true);
 }
 
-function GetPkgDetail(id)
-{
-    try
-    {
+function GetPkgDetail(id) {
+    try {
         var data = { "id": id };
         var jsonData = {};
         var result = "";
@@ -720,8 +737,7 @@ function GetPkgDetail(id)
             alert(message);
         }
     }
-    catch (e)
-    {
+    catch (e) {
         notyAlert('error', e.message);
     }
 }
@@ -733,17 +749,15 @@ function EditPkgSlipDetailTable(curObj) {
     CheckedProducts = [];
     var rowData = DataTables.PackingSlipDetailTable.row($(curObj).parents('tr')).data();
     _SlNo = 1;
-    if (rowData.GroupID == EmptyGuid)
-    {
+    if (rowData.GroupID == EmptyGuid) {
         $('#EditPkgSlipDetailsModal').modal('show');
         EditPkgSlipDetailByID(rowData.ID)
     }
-    if (rowData.GroupID != EmptyGuid)
-    {
-        $('#PackingSlipModal').modal('show'); 
+    if (rowData.GroupID != EmptyGuid) {
+        $('#PackingSlipModal').modal('show');
         BindEditGroupProductListTable(rowData.GroupID);
     }
-    
+
 }
 function EditPkgSlipDetailByID(ID) {
     try {
@@ -787,38 +801,38 @@ function textBoxValueChangedEditTbl(thisObj, textBoxCode) {
     debugger;
     var productDetailsVM = DataTables.PkgSlipDetailEditTable.rows().data();
     var productDetailstable = DataTables.PkgSlipDetailEditTable;
-            if (textBoxCode == 1)//textBoxCode is the code to know, which textbox changed is triggered
-            {
-                var currStock = productDetailsVM[0].SalesOrder.SalesOrderDetail.Product.CurrentStock;
-                var balPkgQty =productDetailsVM[0].SalesOrder.SalesOrderDetail.Quantity - productDetailsVM[0].SalesOrder.SalesOrderDetail.PrevPkgQty;
-               // var currPkgQty = productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty;//has to tak bal packing qty right
-                var prodID = productDetailsVM[0].SalesOrder.SalesOrderDetail.ProductID;
+    if (textBoxCode == 1)//textBoxCode is the code to know, which textbox changed is triggered
+    {
+        var currStock = productDetailsVM[0].SalesOrder.SalesOrderDetail.Product.CurrentStock;
+        var balPkgQty = productDetailsVM[0].SalesOrder.SalesOrderDetail.Quantity - productDetailsVM[0].SalesOrder.SalesOrderDetail.PrevPkgQty;
+        // var currPkgQty = productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty;//has to tak bal packing qty right
+        var prodID = productDetailsVM[0].SalesOrder.SalesOrderDetail.ProductID;
 
-                //currStock is negative  tak as 0
-                if(currStock<0)
-                    currStock=0;
-
-                if ((parseFloat(thisObj.value) <= currStock || ApplyCurrentStock) && parseFloat(thisObj.value) <= balPkgQty) {
-                    if (currStock > balPkgQty || ApplyCurrentStock)
-                        productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty = parseFloat(thisObj.value);
-                    else {
-                        productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty = currStock;
-                        $('#Edttxt2_' + prodID).val(currStock);
-                    }
-                }
-                else {
-                    if (currStock > balPkgQty || ApplyCurrentStock) {
-                        productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty = balPkgQty;
-                        $('#Edttxt2_' + prodID).val(balPkgQty);
-                    }
-                    else {
-                        productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty = currStock;
-                        $('#Edttxt2_' + prodID).val(currStock);
-                    }
-                } 
+        //currStock is negative  tak as 0
+        if (currStock < 0)
+            currStock = 0;
+        
+        if ((parseFloat(thisObj.value) <= currStock || ApplyCurrentStock) && parseFloat(thisObj.value) <= balPkgQty) {
+            if (currStock > balPkgQty || ApplyCurrentStock)
+                productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty = parseFloat(thisObj.value);
+            else {
+                productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty = currStock;
+                $('#Edttxt2_' + prodID).val(currStock);
             }
-            if (textBoxCode == 2)
-                productDetailsVM[0].SalesOrder.SalesOrderDetail.PkgWt = parseFloat(thisObj.value);
+        }
+        else {
+            if (currStock > balPkgQty || ApplyCurrentStock) {
+                productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty = balPkgQty;
+                $('#Edttxt2_' + prodID).val(balPkgQty);
+            }
+            else {
+                productDetailsVM[0].SalesOrder.SalesOrderDetail.CurrentPkgQty = currStock;
+                $('#Edttxt2_' + prodID).val(currStock);
+            }
+        }
+    }
+    if (textBoxCode == 2)
+        productDetailsVM[0].SalesOrder.SalesOrderDetail.PkgWt = parseFloat(thisObj.value);
     DataTables.PkgSlipDetailEditTable.clear().rows.add(productDetailsVM).draw(false);
 }
 //Add Edited values to packingSlip detail Tbl
@@ -933,7 +947,7 @@ function DeletePackingSlip() {
                 window.location.replace("AddPackingSlip?code=SALE");
             }
             if (result == "ERROR") {
-                notyAlert('error',message);
+                notyAlert('error', message);
                 return 0;
             }
             return 1;
@@ -984,14 +998,13 @@ function ApplyProductChildDatatable(row) {
                          "data": "Checkbox", "defaultContent": "", "width": "5%",
                          "render": function (data, type, row, meta) {
                              var groupChecked = false;
-                             CheckedProducts.forEach(function (element) { 
-                                 if (row.ProductID == element.ProductID) 
-                                 {
-                                     groupChecked = true; 
-                                 } 
+                             CheckedProducts.forEach(function (element) {
+                                 if (row.ProductID == element.ProductID) {
+                                     groupChecked = true;
+                                 }
                              });
                              var currentEnteredValue = $('#txt2_' + row.GroupID).val();
-                             if ((currentEnteredValue <= row.Product.CurrentStock||ApplyCurrentStock) && currentEnteredValue <= (row.Quantity - row.PrevPkgQty)) {
+                             if ((currentEnteredValue <= row.Product.CurrentStock || ApplyCurrentStock) && currentEnteredValue <= (row.Quantity - row.PrevPkgQty)) {
                                  if (groupChecked) {
                                      return '<input parent="G_' + row.GroupID + '" type="checkbox" id="' + row.ProductIdString + '" name="unitrow" style="vertical-align: -3px;margin-left: 20%;"  onchange="CheckCategory(this)"  checked >';
                                  }
@@ -1002,42 +1015,44 @@ function ApplyProductChildDatatable(row) {
                              else {
                                  remove(CheckedProducts, row.ProductIdString);
                                  //remove group also if all group items removed from CheckedProducts
-                                 if(CheckedProducts.findIndex(x => x.GroupID === row.GroupID) == -1 )
-                                 {
+                                 if (CheckedProducts.findIndex(x => x.GroupID === row.GroupID) == -1) {
                                      remove(CheckedGroups, 'G_' + row.GroupID);
                                      $('input[id=G_' + row.GroupID + ']').prop('indeterminate', false);
                                      $('input[id=G_' + row.GroupID + ']').prop('checked', false);
-                                 } 
+                                 }
                                  return '';
                              }
                          }
                      },
-                     { "data": "Product.Name", "defaultContent": "<i>-</i>", "width": "30%",
+                     {
+                         "data": "Product.Name", "defaultContent": "<i>-</i>", "width": "30%",
                          'render': function (data, type, row) {
-                         var currentEnteredValue = $('#txt2_' + row.GroupID).val();
-                         if (currentEnteredValue <= row.Product.CurrentStock && currentEnteredValue <= (row.Quantity - row.PrevPkgQty)) {
-                             return data;
-                         }
-                         else {
-                             if ((row.Quantity - row.PrevPkgQty) == 0)
+                             var currentEnteredValue = $('#txt2_' + row.GroupID).val();
+                             if (currentEnteredValue <= row.Product.CurrentStock && currentEnteredValue <= (row.Quantity - row.PrevPkgQty)) {
                                  return data;
-                             else
-                                 return '<i class="lblrequired">' + data + '</i>';
+                             }
+                             else {
+                                 if ((row.Quantity - row.PrevPkgQty) == 0)
+                                     return data;
+                                 else
+                                     return '<i class="lblrequired">' + data + '</i>';
+                             }
                          }
-                     } },
-                     { "data": "Product.CurrentStock", "defaultContent": "<i>-</i>", "width": "10%"
-                        ,'render': function (data, type, row) {
-                         var currentEnteredValue = $('#txt2_' + row.GroupID).val();
-                         if (currentEnteredValue <= row.Product.CurrentStock && currentEnteredValue <= (row.Quantity - row.PrevPkgQty)) {
-                             return data;
-                         }
-                         else {
-                             if ((row.Quantity - row.PrevPkgQty) == 0)
-                                 return data;
-                             else
-                                 return '<i class="lblrequired">' + data + '</i>';
-                         }
-                     }
+                     },
+                     {
+                         "data": "Product.CurrentStock", "defaultContent": "<i>-</i>", "width": "10%"
+                        , 'render': function (data, type, row) {
+                            var currentEnteredValue = $('#txt2_' + row.GroupID).val();
+                            if (currentEnteredValue <= row.Product.CurrentStock && currentEnteredValue <= (row.Quantity - row.PrevPkgQty)) {
+                                return data;
+                            }
+                            else {
+                                if ((row.Quantity - row.PrevPkgQty) == 0)
+                                    return data;
+                                else
+                                    return '<i class="lblrequired">' + data + '</i>';
+                            }
+                        }
                      },
                      { "data": "Quantity", "defaultContent": "<i>-</i>", "width": "10%" },
                      { "data": "PrevPkgQty", "defaultContent": "<i>-</i>", "width": "10%" },
@@ -1061,12 +1076,11 @@ function ApplyProductChildDatatable(row) {
                          "data": "CurrentPkgQty", "defaultContent": "<i>-</i>", "width": "10%",
                          'render': function (data, type, row) {
                              var productChecked;
-                             CheckedProducts.forEach(function (element) { 
-                                 if (row.ProductID == element.ProductID) 
-                                 {
-                                     productChecked = true; 
-                                 } 
-                             }); 
+                             CheckedProducts.forEach(function (element) {
+                                 if (row.ProductID == element.ProductID) {
+                                     productChecked = true;
+                                 }
+                             });
                              if (productChecked) {
                                  return $('#txt2_' + row.GroupID).val();
                              }
@@ -1084,7 +1098,7 @@ function ApplyProductChildDatatable(row) {
              ],
              columnDefs:
                  [{ "targets": [7], "visible": false, "searchable": false },
-                 { className: "text-right", "targets": [] },
+                 { className: "text-right", "targets": [2, 3, 4, 5, 6] },
                  { className: "text-left", "targets": [] },
                  { className: "text-center", "targets": [] }],
          });
@@ -1115,34 +1129,30 @@ function GetProductListForPackingSlipByGroupID(groupID) {
 }
 
 function CheckCategory(this_Obj) {
-    
+
     switch (this_Obj.name) {
         case "grouprow":
-            if ($(this_Obj).is(":checked"))
-            {
+            if ($(this_Obj).is(":checked")) {
                 var groupQtyCheck;
                 var checkedItemsCount = 0;
                 var rowData = DataTables.ProductListTable.row($(this_Obj).parents('tr')).data();
                 var childCount = rowData.ChildCount;
-               
 
 
-                if (this_Obj.id.search('G_') !== -1)
-                { 
+
+                if (this_Obj.id.search('G_') !== -1) {
                     var productExists = 0;
                     //find child rows with group id and add 
                     var packingSlipDetailVM;
-                    if ($('#ProductChildTable' + rowData.GroupID).DataTable().rows.length==0)
+                    if ($('#ProductChildTable' + rowData.GroupID).DataTable().rows.length == 0)
                         packingSlipDetailVM = GetProductListForPackingSlipByGroupID(rowData.GroupID);
                     else
                         packingSlipDetailVM = $('#ProductChildTable' + rowData.GroupID).DataTable().rows.data();
 
                     groupQtyCheck = rowData.CurrentPkgQty; //to check while child rows added
-                    for (i = 0; i < packingSlipDetailVM.length ; i++)
-                    {
-                        if ((groupQtyCheck <= packingSlipDetailVM[i].Product.CurrentStock||ApplyCurrentStock) && groupQtyCheck <= packingSlipDetailVM[i].Quantity-packingSlipDetailVM[i].PrevPkgQty)
-                        {
-                            productExists =productExists+1;
+                    for (i = 0; i < packingSlipDetailVM.length ; i++) {
+                        if ((groupQtyCheck <= packingSlipDetailVM[i].Product.CurrentStock || ApplyCurrentStock) && groupQtyCheck <= packingSlipDetailVM[i].Quantity - packingSlipDetailVM[i].PrevPkgQty) {
+                            productExists = productExists + 1;
                             packingSlipDetail = new Object();
                             packingSlipDetail.ProductID = packingSlipDetailVM[i].ProductID == null ? EmptyGuid : packingSlipDetailVM[i].ProductID;
                             packingSlipDetail.GroupID = packingSlipDetailVM[i].GroupID == null ? EmptyGuid : packingSlipDetailVM[i].GroupID;
@@ -1165,33 +1175,32 @@ function CheckCategory(this_Obj) {
                         packingSlipDetail.RemoveID = rowData.GroupIdString;
                         packingSlipDetail.GroupName = rowData.GroupName;
                         packingSlipDetail.ID = EmptyGuid;
-                        packingSlipDetail.Qty = rowData.CurrentPkgQty; 
+                        packingSlipDetail.Qty = rowData.CurrentPkgQty;
                         packingSlipDetail.Weight = rowData.PkgWt;
                         CheckedGroups.findIndex(x => x.RemoveID === rowData.GroupIdString) == -1 ? CheckedGroups.push(packingSlipDetail) : "";
-                       // CheckedGroups.push(packingSlipDetail);
+                        // CheckedGroups.push(packingSlipDetail);
                     }
 
                     $('#ProductChildTable' + rowData.GroupID).DataTable().clear().rows.add(GetProductListForPackingSlipByGroupID(rowData.GroupID)).draw(false);
 
-                  
+
                     //proper checkbox checking after vaildation if table exists
-                   
-                        checkedItemsCount = productExists;//$('input[parent=' + rowData.GroupIdString + ']:checked').length;
-                        if (checkedItemsCount == 0) {
-                            $('input[id=' + rowData.GroupIdString + ']').prop('indeterminate', false);
-                            $('input[id=' + rowData.GroupIdString + ']').prop('checked', false);
-                        }
-                        else if (childCount > checkedItemsCount)
-                            $('input[id=' + rowData.GroupIdString + ']').prop('indeterminate', true);
-                        else if (childCount == checkedItemsCount) {
-                            $('input[id=' + rowData.GroupIdString + ']').prop('indeterminate', false);
-                            $('input[id=' + rowData.GroupIdString + ']').prop('checked', true);
-                        }
-                   
+
+                    checkedItemsCount = productExists;//$('input[parent=' + rowData.GroupIdString + ']:checked').length;
+                    if (checkedItemsCount == 0) {
+                        $('input[id=' + rowData.GroupIdString + ']').prop('indeterminate', false);
+                        $('input[id=' + rowData.GroupIdString + ']').prop('checked', false);
+                    }
+                    else if (childCount > checkedItemsCount)
+                        $('input[id=' + rowData.GroupIdString + ']').prop('indeterminate', true);
+                    else if (childCount == checkedItemsCount) {
+                        $('input[id=' + rowData.GroupIdString + ']').prop('indeterminate', false);
+                        $('input[id=' + rowData.GroupIdString + ']').prop('checked', true);
+                    }
+
                 }
 
-                if (this_Obj.id.search('P_') !== -1)
-                {
+                if (this_Obj.id.search('P_') !== -1) {
                     /*.....................add this items to CheckedProducts as PackingslipDetail Object...................*/
                     packingSlipDetail = new Object();
                     packingSlipDetail.ProductID = rowData.ProductID == null ? EmptyGuid : rowData.ProductID;
@@ -1201,15 +1210,13 @@ function CheckCategory(this_Obj) {
                     packingSlipDetail.ID = EmptyGuid;
                     packingSlipDetail.Qty = rowData.CurrentPkgQty;
                     packingSlipDetail.Weight = rowData.PkgWt;
-                   // CheckedProducts.findIndex(x => x.RemoveID === rowData.ProductIdString) !== -1 ? CheckedProducts.push(packingSlipDetail) : "";
+                    // CheckedProducts.findIndex(x => x.RemoveID === rowData.ProductIdString) !== -1 ? CheckedProducts.push(packingSlipDetail) : "";
                     CheckedProducts.push(packingSlipDetail);
-                } 
+                }
             }
-            else
-            {
+            else {
                 var rowData = DataTables.ProductListTable.row($(this_Obj).parents('tr')).data();
-                if (this_Obj.id.search('G_') !== -1)
-                {
+                if (this_Obj.id.search('G_') !== -1) {
                     //'Group items removed'
                     remove(CheckedGroups, this_Obj.id)
                     //$('input[parent=' + this_Obj.id + ']').each(function () {
@@ -1222,7 +1229,7 @@ function CheckCategory(this_Obj) {
                     $('#ProductChildTable' + rowData.GroupID).DataTable().clear().rows.add(GetProductListForPackingSlipByGroupID(rowData.GroupID)).draw(false);
                 }
                 if (this_Obj.id.search('P_') !== -1) {
-                   //'Product removed'
+                    //'Product removed'
                     remove(CheckedProducts, this_Obj.id);
                 }
             }
@@ -1235,10 +1242,9 @@ function CheckCategory(this_Obj) {
             checkedItemsCount = $('input[parent=' + groupID + ']:checked').length;
             var rowData = $('#ProductChildTable' + guid_GroupID).DataTable().row($(this_Obj).parents('tr')).data();
             var rowDataParent = DataTables.ProductListTable.row($('#' + $('#' + this_Obj.id).attr("parent")).parents('tr')).data();
-         
+
             if ($(this_Obj).is(":checked")) {
-                if (this_Obj.id.search('C_') !== -1)
-                {
+                if (this_Obj.id.search('C_') !== -1) {
                     packingSlipDetail = new Object();
                     packingSlipDetail.ProductID = rowData.ProductID == null ? EmptyGuid : rowData.ProductID;
                     packingSlipDetail.GroupID = rowData.GroupID == null ? EmptyGuid : rowData.GroupID;
@@ -1249,13 +1255,12 @@ function CheckCategory(this_Obj) {
                     packingSlipDetail.CurrentStock = rowData.Product.CurrentStock;
                     packingSlipDetail.Weight = rowData.PkgWt;
                     packingSlipDetail.BalQuantity = rowData.Quantity - rowData.PrevPkgQty;
-                   // CheckedProducts.findIndex(x => x.RemoveID === rowData.ProductIdString)==-1?CheckedProducts.push(packingSlipDetail):"";
+                    // CheckedProducts.findIndex(x => x.RemoveID === rowData.ProductIdString)==-1?CheckedProducts.push(packingSlipDetail):"";
                     CheckedProducts.push(packingSlipDetail);
 
                     if (childCount > checkedItemsCount)
                         $('input[id=' + groupID + ']').prop('indeterminate', true);
-                    else if (childCount == checkedItemsCount)
-                    {
+                    else if (childCount == checkedItemsCount) {
                         $('input[id=' + groupID + ']').prop('indeterminate', false);
                         $('input[id=' + groupID + ']').prop('checked', true);
                     }
@@ -1275,20 +1280,19 @@ function CheckCategory(this_Obj) {
                     $('#ProductChildTable' + rowDataParent.GroupID).DataTable().clear().rows.add(GetProductListForPackingSlipByGroupID(rowDataParent.GroupID)).draw(false);
                 }
             }
-            else
-            {
+            else {
 
                 //'Product removed'
                 remove(CheckedProducts, this_Obj.id);
 
-                if (this_Obj.id.search('C_') !== -1) { 
+                if (this_Obj.id.search('C_') !== -1) {
                     if (0 < checkedItemsCount && checkedItemsCount < childCount)
                         $('input[id=' + groupID + ']').prop('indeterminate', true);
                     else if (checkedItemsCount == 0) {
                         $('input[id=' + groupID + ']').prop('indeterminate', false);
                         $('input[id=' + groupID + ']').prop('checked', false);
                         //have to remove the group of this 
-                        remove(CheckedGroups,groupID);
+                        remove(CheckedGroups, groupID);
                     }
                 }
                 $('#ProductChildTable' + rowDataParent.GroupID).DataTable().clear().rows.add(GetProductListForPackingSlipByGroupID(rowDataParent.GroupID)).draw(false);
@@ -1300,13 +1304,12 @@ function CheckCategory(this_Obj) {
     }
 }
 
-function remove(arr, what) { 
-    arr.forEach(function (element) { 
-        if (element.RemoveID == what)
-        {
+function remove(arr, what) {
+    arr.forEach(function (element) {
+        if (element.RemoveID == what) {
             arr.splice(arr.indexOf(element), 1);
-        } 
-    }); 
+        }
+    });
 }
 function removeProductsList(arr, what) {
     arr.forEach(function (element) {
@@ -1315,44 +1318,36 @@ function removeProductsList(arr, what) {
         }
     });
 }
- 
- 
-function textBoxValueOnChanged(curObj, textboxNo)
-{
+
+
+function textBoxValueOnChanged(curObj, textboxNo) {
     debugger;
     var rowData = DataTables.ProductListTable.row($(curObj).parents('tr')).data();
     var rowindex = DataTables.ProductListTable.row($(curObj).parents('tr')).index();
     _productListTableData = DataTables.ProductListTable.rows().data();//parent Table
 
-    if (curObj.value != "")
-    {
+    if (curObj.value != "") {
 
-        if (rowData.GroupID == EmptyGuid || rowData.GroupID == null)
-        {//Case Product row(Parent Table)
+        if (rowData.GroupID == EmptyGuid || rowData.GroupID == null) {//Case Product row(Parent Table)
             for (i = 0; i < _productListTableData.data().count() ; i++) {
                 if (_productListTableData[i].ProductID == rowData.ProductID) {
                     if (textboxNo == 2)//textboxNo is the code to know, which textbox changed is triggered
                     {
                         var balOrderQty = parseFloat(_productListTableData[i].Quantity) - parseFloat(_productListTableData[i].PrevPkgQty)
-                        if ((parseFloat(curObj.value) <= _productListTableData[i].Product.CurrentStock||ApplyCurrentStock) && parseFloat(curObj.value) <= balOrderQty)
-                        {
-                            if (rowData.Product.CurrentStock > balOrderQty ||ApplyCurrentStock)
+                        if ((parseFloat(curObj.value) <= _productListTableData[i].Product.CurrentStock || ApplyCurrentStock) && parseFloat(curObj.value) <= balOrderQty) {
+                            if (rowData.Product.CurrentStock > balOrderQty || ApplyCurrentStock)
                                 _productListTableData[i].CurrentPkgQty = parseFloat(curObj.value);
-                            else
-                            {
+                            else {
                                 _productListTableData[i].CurrentPkgQty = rowData.Product.CurrentStock;
                                 $('#txt2_' + rowData.ProductID).val(rowData.Product.CurrentStock);
                             }
                         }
-                        else
-                        {
-                            if (rowData.Product.CurrentStock > balOrderQty ||ApplyCurrentStock)
-                            {
+                        else {
+                            if (rowData.Product.CurrentStock > balOrderQty || ApplyCurrentStock) {
                                 _productListTableData[i].CurrentPkgQty = balOrderQty;
                                 $('#txt2_' + rowData.ProductID).val(balOrderQty);
                             }
-                            else
-                            {
+                            else {
                                 _productListTableData[i].CurrentPkgQty = rowData.Product.CurrentStock;
                                 $('#txt2_' + rowData.ProductID).val(rowData.Product.CurrentStock);
                             }
@@ -1365,8 +1360,7 @@ function textBoxValueOnChanged(curObj, textboxNo)
             }
             // DataTables.ProductListTable.clear().rows.add(_productListTableData).draw(false);
         }
-        else
-        {// case  Group Head row (Parent Table)
+        else {// case  Group Head row (Parent Table)
             var productChildTable = $('#ProductChildTable' + rowData.GroupID).DataTable().rows().data();
             if (textboxNo != 1) {
                 if (!_isEditPkgSlipDetail)
@@ -1374,29 +1368,26 @@ function textBoxValueOnChanged(curObj, textboxNo)
                 else
                     var balOrderQty = parseFloat(rowData.Quantity) - parseFloat(rowData.PrevPkgQty) + parseFloat(_currentPkgQtyEdit)
 
-                if (productChildTable.data().count() > 0)
-                {//while Child Table Exisitng
-                    for (i = 0; i < productChildTable.data().count() ; i++)
-                    {
-                    
+                if (productChildTable.data().count() > 0) {//while Child Table Exisitng
+                    for (i = 0; i < productChildTable.data().count() ; i++) {
+
 
                         if (textboxNo == 2)//textboxNo is the code to know, which textbox is changed
                         {
-                            if ((parseFloat(curObj.value) <= rowData.Product.CurrentStock||ApplyCurrentStock) && parseFloat(curObj.value) <= balOrderQty)
-                                if (rowData.Product.CurrentStock > balOrderQty||ApplyCurrentStock)
+                            if ((parseFloat(curObj.value) <= rowData.Product.CurrentStock || ApplyCurrentStock) && parseFloat(curObj.value) <= balOrderQty)
+                                if (rowData.Product.CurrentStock > balOrderQty || ApplyCurrentStock)
                                     productChildTable[i].CurrentPkgQty = parseFloat(curObj.value);
                                 else
                                     productChildTable[i].CurrentPkgQty = rowData.Product.CurrentStock;
-                            else
-                            {
-                                if (rowData.Product.CurrentStock > balOrderQty||ApplyCurrentStock) {
+                            else {
+                                if (rowData.Product.CurrentStock > balOrderQty || ApplyCurrentStock) {
                                     productChildTable[i].CurrentPkgQty = parseFloat(balOrderQty);
                                     $('#txt2_' + rowData.GroupID).val(balOrderQty)
                                 }
                                 else {
                                     productChildTable[i].CurrentPkgQty = rowData.Product.CurrentStock;
                                     $('#txt2_' + rowData.GroupID).val(rowData.Product.CurrentStock);
-                                } 
+                                }
                             }
 
                             $('#txt2_' + rowData.GroupID).val(productChildTable[i].CurrentPkgQty);
@@ -1404,26 +1395,23 @@ function textBoxValueOnChanged(curObj, textboxNo)
                             if (_productListTableData[rowindex].GroupID == productChildTable[i].GroupID)
                                 _productListTableData[rowindex].CurrentPkgQty = productChildTable[i].CurrentPkgQty;
                         }
-                        if (textboxNo == 3)
-                        {
+                        if (textboxNo == 3) {
                             productChildTable[i].PkgWt = parseFloat(curObj.value);
                             //Parent Table Change
-                            if(_productListTableData[rowindex].GroupID==productChildTable[i].GroupID)
+                            if (_productListTableData[rowindex].GroupID == productChildTable[i].GroupID)
                                 _productListTableData[rowindex].PkgWt = parseFloat(curObj.value);
                             break;
-                        }   
+                        }
                     }
-                    
+
                     $('#ProductChildTable' + rowData.GroupID).DataTable().clear().rows.add(productChildTable).draw(false);
                 }
                 else//
                 { //while Child Table Not Exisitng.
-                    
-                    if (textboxNo == 2)
-                    {
-                        if ((parseFloat(curObj.value) <= rowData.Product.CurrentStock || ApplyCurrentStock) && parseFloat(curObj.value) <= balOrderQty)
-                        {
-                            if (rowData.Product.CurrentStock > balOrderQty||ApplyCurrentStock) {
+
+                    if (textboxNo == 2) {
+                        if ((parseFloat(curObj.value) <= rowData.Product.CurrentStock || ApplyCurrentStock) && parseFloat(curObj.value) <= balOrderQty) {
+                            if (rowData.Product.CurrentStock > balOrderQty || ApplyCurrentStock) {
                                 rowData.CurrentPkgQty = parseFloat(curObj.value);
                                 $('#txt2_' + rowData.GroupID).val(parseFloat(curObj.value));
                             }
@@ -1434,8 +1422,7 @@ function textBoxValueOnChanged(curObj, textboxNo)
                             //Parent Table Change
                             _productListTableData[rowindex].CurrentPkgQty = rowData.CurrentPkgQty;
                         }
-                        else
-                        {
+                        else {
                             if (rowData.Product.CurrentStock > balOrderQty || ApplyCurrentStock) {
                                 rowData.CurrentPkgQty = parseFloat(balOrderQty);
                                 $('#txt2_' + rowData.GroupID).val(balOrderQty)
@@ -1444,7 +1431,7 @@ function textBoxValueOnChanged(curObj, textboxNo)
                                 _productListTableData[i].CurrentPkgQty = rowData.Product.CurrentStock;
                                 $('#txt2_' + rowData.GroupID).val(rowData.Product.CurrentStock);
                             }
-                        }                        
+                        }
                     }
                     if (textboxNo == 3) {
                         //Parent Table Change
@@ -1452,8 +1439,7 @@ function textBoxValueOnChanged(curObj, textboxNo)
                     }
                 }
             }
-            else
-            {
+            else {
                 //group name change
                 for (i = 0; i < _productListTableData.data().count() ; i++) {
                     if (_productListTableData[i].GroupID == rowData.GroupID) {
@@ -1466,10 +1452,8 @@ function textBoxValueOnChanged(curObj, textboxNo)
             }
         }
     }
-    else 
-    {
-        if (textboxNo == 2)
-        {
+    else {
+        if (textboxNo == 2) {
             _productListTableData[rowindex].CurrentPkgQty = 0;
             if (rowData.GroupID == EmptyGuid || rowData.GroupID == null) {
                 $('#txt2_' + rowData.ProductID).val(0);
@@ -1487,7 +1471,7 @@ function textBoxValueOnChanged(curObj, textboxNo)
                 $('#txt3_' + rowData.GroupID).val(0);
             }
         }
-}
+    }
 }
 
 function AddPackingSlipDetailFromSaleOrderGroups() {
@@ -1499,18 +1483,14 @@ function AddPackingSlipDetailFromSaleOrderGroups() {
     if (_productListTableData == undefined)
         _productListTableData = DataTables.ProductListTable.rows().data();
 
-    if (CheckedGroups.length > 0)
-    {
+    if (CheckedGroups.length > 0) {
         CheckedGroups.forEach(function (element) {
-            for (i = 0; i < _productListTableData.length; i++)
-            {
-                if (_productListTableData[i].GroupID == element.GroupID)
-                {
+            for (i = 0; i < _productListTableData.length; i++) {
+                if (_productListTableData[i].GroupID == element.GroupID) {
                     element.GroupName = _productListTableData[i].GroupName;
                     element.Qty = _productListTableData[i].CurrentPkgQty;
                     element.Weight = _productListTableData[i].PkgWt;
-                    if (element.Qty == 0)
-                    {
+                    if (element.Qty == 0) {
                         isDataVaild = 0;
                         message = 'Have no Quantity';
                     }
@@ -1518,40 +1498,31 @@ function AddPackingSlipDetailFromSaleOrderGroups() {
             }
         });
     }
-    if (CheckedProducts.length > 0)
-    {
-        CheckedProducts.forEach(function (element)
-        {
-            for (i = 0; i < _productListTableData.data().count() ; i++)
-            {
-                if (_productListTableData[i].ProductID == element.ProductID)
-                {
+    if (CheckedProducts.length > 0) {
+        CheckedProducts.forEach(function (element) {
+            for (i = 0; i < _productListTableData.data().count() ; i++) {
+                if (_productListTableData[i].ProductID == element.ProductID) {
                     element.Qty = $('#txt2_' + element.ProductID).val(); //_productListTableData[i].CurrentPkgQty;
                     element.Weight = $('#txt3_' + element.ProductID).val(); // _productListTableData[i].PkgWt;
-                    if (element.Qty == 0)
-                    {
+                    if (element.Qty == 0) {
                         isDataVaild = 0;
                         message = 'Have no Quantity';
                     }
                 }
-                if (_productListTableData[i].GroupID == element.GroupID)
-                {
+                if (_productListTableData[i].GroupID == element.GroupID) {
                     element.GroupName = _productListTableData[i].GroupName;
                     element.Qty = $('#txt2_' + element.GroupID).val(); //_productListTableData[i].CurrentPkgQty;
                     element.Weight = $('#txt3_' + element.GroupID).val();//_productListTableData[i].PkgWt;
-                    if (element.Qty == 0)
-                    {
+                    if (element.Qty == 0) {
                         isDataVaild = 0;
                         message = 'Have no Quantity';
                     }
-                    if(!ApplyCurrentStock)
-                    if (element.CurrentStock < _productListTableData[i].CurrentPkgQty)
-                    {
-                        isDataVaild = 0;
-                        message = 'Have no enough Stock';
-                    }
-                    if (element.BalQuantity < _productListTableData[i].CurrentPkgQty)
-                    {
+                    if (!ApplyCurrentStock)
+                        if (element.CurrentStock < _productListTableData[i].CurrentPkgQty) {
+                            isDataVaild = 0;
+                            message = 'Have no enough Stock';
+                        }
+                    if (element.BalQuantity < _productListTableData[i].CurrentPkgQty) {
                         isDataVaild = 0;
                         message = 'Balance Order Quantity is less than entered Quantity';
                     }
@@ -1559,8 +1530,7 @@ function AddPackingSlipDetailFromSaleOrderGroups() {
             }
         });
     }
-    if (isDataVaild &&( CheckedGroups.length != 0 || CheckedProducts.length != 0))
-    {
+    if (isDataVaild && (CheckedGroups.length != 0 || CheckedProducts.length != 0)) {
         $('#PackingSlipModal').modal('hide');
         Save();
         _isEditPkgSlipDetail = 0;
@@ -1573,11 +1543,11 @@ function AddPackingSlipDetailFromSaleOrderGroups() {
         else
             notyAlert('warning', message + " for selected rows");
 
-}
+    }
 
 }
 function BindEditGroupProductListTable(groupID) {
-    
+
     CheckedGroups = [];
 
     $('#modelContextLabel').text('Edit Packing Slip Details');
@@ -1587,8 +1557,7 @@ function BindEditGroupProductListTable(groupID) {
     DataTables.ProductListTable.clear().rows.add(productList).draw(false);
     //loop datatable for checkbox checking by the child count
     var pkgDetailVM = DataTables.ProductListTable.rows().data();
-    for (i = 0; i < pkgDetailVM.length ; i++)
-    {
+    for (i = 0; i < pkgDetailVM.length ; i++) {
         if (pkgDetailVM[i].ChildCount == pkgDetailVM[i].PkgSlipChildCount) {
             $('input[id=G_' + groupID + ']').prop('checked', true);//G_6389eca3-9268-4428-8e2e-a25f222e6705
             //group row checked to checkedGroups
@@ -1610,7 +1579,7 @@ function BindEditGroupProductListTable(groupID) {
             for (j = 0; j < packingSlipDetailVM.length ; j++) {
                 if (packingSlipDetailVM[j].isExists)//if already exists else checked false
                 {
-                  
+
                     packingSlipDetail = new Object();
                     packingSlipDetail.ProductID = packingSlipDetailVM[j].ProductID == null ? EmptyGuid : packingSlipDetailVM[j].ProductID;
                     packingSlipDetail.GroupID = packingSlipDetailVM[j].GroupID == null ? EmptyGuid : packingSlipDetailVM[j].GroupID;
@@ -1674,7 +1643,7 @@ function BindEditGroupProductListTable(groupID) {
 function GetProductListForGroupEdit(groupID) {
     //GetPackingSlipDetailGroupEdit
     try {
-         
+        debugger;
         var packingSlipID = $('#ID').val();
         var id = $('#SalesOrderID').val();
         var saleOrderID = $('#SalesOrderID').val();
@@ -1709,10 +1678,10 @@ function EditPackingSlipDetailProduct() {
     _SlNo = 1;
     EditFlag = 1;
     CheckedProducts = [];
-    
+
     var pkgDetailsVM = DataTables.PkgSlipDetailEditTable.rows().data();
     var res = CheckProductDetailsEditTbl(pkgDetailsVM);//Checking all details are entered or not
-    if (res) { 
+    if (res) {
         packingSlipDetail = new Object();
         packingSlipDetail.ProductID = pkgDetailsVM[0].SalesOrder.SalesOrderDetail.ProductID;
         packingSlipDetail.ID = pkgDetailsVM[0].ID; //[PKGDetailID]
@@ -1723,7 +1692,7 @@ function EditPackingSlipDetailProduct() {
         packingSlipDetail.Weight = pkgDetailsVM[0].SalesOrder.SalesOrderDetail.PkgWt;
         CheckedProducts.push(packingSlipDetail);// adding values to packingSlipDetail
         _SlNo = 1;
-       // DataTables.PackingSlipDetailTable.clear().rows.add(packingDetail).draw(false); //binding Detail table with new values   
+        // DataTables.PackingSlipDetailTable.clear().rows.add(packingDetail).draw(false); //binding Detail table with new values   
 
         $('#EditPkgSlipDetailsModal').modal('hide');
         Save();

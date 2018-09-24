@@ -262,6 +262,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     {
                                         salesOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : salesOrder.ID);
                                         salesOrder.OrderNo = (sdr["OrderNo"].ToString() != "" ? sdr["OrderNo"].ToString() : salesOrder.OrderNo);
+                                        salesOrder.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : salesOrder.CustomerName);
                                     }
                                     salesOrderList.Add(salesOrder);
                                 }
