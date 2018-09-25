@@ -89,10 +89,10 @@ function BindOrReloadSalesOrderTable(action) {
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
                 buttons: [{
-                    extend: 'excel',
+                    extend: 'excel', className: 'excelButtonSummary',
                     exportOptions:
                                  {
-                                     columns: [0,1, 2, 3, 4, 5]
+                                     columns: [0,1, 2, 3, 4, 5,6]
                                  }
                 }],
                 order: false,
@@ -112,10 +112,11 @@ function BindOrReloadSalesOrderTable(action) {
                     { "data": "CustomerName", "defaultContent": "<i>-</i>", "width": "25%" },
                     { "data": "OrderNo", "defaultContent": "<i>-</i>", "width": "8%" },
                     { "data": "OrderDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" },
+                    { "data": "SalesPersonName", "defaultContent": "<i>-</i>", "width": "10%" },
                     {
                         "data": "OrderAmount", render: function (data, type, row) {
                             return roundoff(data);
-                        }, "defaultContent": "<i>-</i>", "width": "24%"
+                        }, "defaultContent": "<i>-</i>", "width": "14%"
                     },
                     { "data": "OrderStatus", "defaultContent": "<i>-</i>", "width": "20%" },
                     { "data": "ExpectedDeliveryDateFormatted", "defaultContent": "<i>-</i>", "width": "10%" }, 
@@ -126,19 +127,18 @@ function BindOrReloadSalesOrderTable(action) {
                     }
                 ],
                 columnDefs: [{ "targets": [ ], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [0,1,4] },
-                    { className: "text-right", "targets": [3] },
-                    { className: "text-center", "targets": [2, 5] }],
+                    { className: "text-left", "targets": [0,1,3,5] },
+                    { className: "text-right", "targets": [4] },
+                    { className: "text-center", "targets": [2, 6,7] }],
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
                     if (action === 'Export') {
-                        $(".buttons-excel").trigger('click');
-                        ResetSalesOrderList();
+                        $(".excelButtonSummary").trigger('click');
                     }
                 }
             });
-        $(".buttons-excel").hide();
+         $(".excelButtonSummary").hide();
     }
     catch (e) {
         console.log(e.message);
@@ -183,7 +183,7 @@ function BindOrReloadSalesOrderDetailTable(action) {
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
                 buttons: [{
-                    extend: 'excel',
+                    extend: 'excel', className: 'excelButtonDetail',
                     exportOptions:
                                  {
                                      columns: [0,1, 2, 3, 4, 5, 6,7,8]
@@ -235,12 +235,12 @@ function BindOrReloadSalesOrderDetailTable(action) {
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
                     if (action === 'Export') {
-                        $(".buttons-excel").trigger('click');
-                        ResetSalesOrderList();
+                        $(".excelButtonDetail").trigger('click');
+                        ResetSalesOrderList('Search'); 
                     }
                 }
             });
-        $(".buttons-excel").hide();
+          $(".excelButtonDetail").hide();
     }
     catch (e) {
         console.log(e.message);
@@ -250,14 +250,14 @@ function BindOrReloadSalesOrderDetailTable(action) {
 
 
 //function reset the list to initial
-function ResetSalesOrderList() {
-    BindOrReloadSalesOrderTable('Reset');
-    BindOrReloadSalesOrderDetailTable('Reset');
+function ResetSalesOrderList(action) {
+    BindOrReloadSalesOrderTable(action);
+    BindOrReloadSalesOrderDetailTable(action);
 }
 //function export data to excel
 function ImportSalesOrderData() {
     BindOrReloadSalesOrderTable('Export');
-   // BindOrReloadSalesOrderDetailTable('Export');
+    BindOrReloadSalesOrderDetailTable('Export');
 }
 
 function ShowHideDataTables()
