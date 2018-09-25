@@ -3,7 +3,7 @@
 @model AMCSysReportViewModel
 
 @{
-    ViewBag.Title = "Reports";
+    ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
  <style>
@@ -57,7 +57,7 @@
 <div style="width:100%;">
     <ol class="breadcrumb">
         <li><a href=@Url.Action("Index", "Home")><i class="fa fa-home"></i> Home</a></li>
-        <li>Report</li>
+        <li>Reports</li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -121,9 +121,9 @@
                                     <span class="info-box-icon bg-yellow"><i class="ion ion-ios-gear-outline"></i></span>
                              }
 
-                                <div class="col-md-11"><a href="/@subavm.Controller/@subavm.Action?Code=RPT&amp;Name=Reports"><font color="#444444"><span class="text">@subavm.ReportName</span></font></a>
+                                <div class="col-md-11" title="@subavm.ReportDescription"><a href="/@subavm.Controller/@subavm.Action?Code=RPT&amp;Name=Reports"><font color="#444444"><span class="text">@subavm.ReportName</span></font></a>
 </div>
-                                <div><a href="/@subavm.Controller/@subavm.Action?Code=RPT&amp;Name=Reports">
+                                <div title="@subavm.ReportDescription"><a href="/@subavm.Controller/@subavm.Action?Code=RPT&amp;Name=Reports">
                                     <span class="fa fa-external-link"></span></a></div>
 
                             </li>

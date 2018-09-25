@@ -2,11 +2,13 @@
 //*****************************************************************************
 //Author:Sruthi
 //CreatedDate: 28-APR-2018 
-//LastModified: 05-May-2018 
+//LastModified: 25-SEP-2018 
 //FileName: Report.js
 //Description: Client side coding for Report
 //******************************************************************************
 //******************************************************************************
+
+
 
 //Click function for search
 function RedirectSearchClick(e, this_obj) {
@@ -22,7 +24,9 @@ function RefreshReportSummary() {
         debugger;
         var search = $("#SearchTerm").val();
         //GetAllReports();
-        window.location.replace("DashboardReport?Code=RPT&searchTerm="+search);
+
+        window.location.replace("DashboardReport?Code=RPT&searchTerm=" + search);      
+       
     }
     catch (e) {
         notyAlert('error', e.message);
