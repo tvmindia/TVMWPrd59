@@ -399,12 +399,16 @@ function BindProductDetails(ID) {
             $('#lbl_WeightInKG').text(result.WeightInKG);
             $('#lblProductName').text(result.Name + ' (Invoice In KG)');
             
+            $('#hdnIsInvocieInKg').val(1);
+            $('#hdnSellingPriceInKG').val(result.SellingPriceInKG);
         }
         else {
             $('#tr_weightinkg').hide();
             $('#divIsInvoiceKg').hide(); 
             $('#lbl_WeightInKG').text('');
             $('#lblProductName').text(result.Name);
+            $('#hdnIsInvocieInKg').val(0);
+            $('#hdnSellingPriceInKG').val('');
         }
         $('#lblSellingPriceInKG').text(result.SellingPriceInKG);
         $('#lblWeightInKG').text(result.WeightInKG); 
@@ -543,72 +547,77 @@ function AddSalesOrderDetails() {
     var qty = $('#SalesOrderDetail_Quantity').val();
     var date = $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val();
     var productId = $('#ProductID').val();
-    _groupInsert = 0;
-    if (rate != "" && qty != "" && date != "" && productId != "" && qty != 0) {
-        _SalesOrderDetail = [];
-        SalesOrderDetailVM = new Object();
-        // SalesOrderDetailVM.ID = EmptyGuid;
-        SalesOrderDetailVM.ProductID = $("#ProductID").val();
-        SalesOrderDetailVM.Product = new Object();
-        SalesOrderDetailVM.Product.Name = $('#lblProductName').text();
-        SalesOrderDetailVM.Product.HSNNo = $('#lblHSN').text();
-        SalesOrderDetailVM.UnitCode = $('#lblUnit').text();
-        SalesOrderDetailVM.Quantity = $('#SalesOrderDetail_Quantity').val();
-        SalesOrderDetailVM.Rate = $('#SalesOrderDetail_Rate').val();
-        SalesOrderDetailVM.ExpectedDeliveryDateFormatted = $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val();
-        SalesOrderDetailVM.GrossAmount = $('#lblSalesOrderDetail_GrossAmount').text();
-        SalesOrderDetailVM.TradeDiscountAmount = $('#SalesOrderDetail_TradeDiscountAmount').val();
-        SalesOrderDetailVM.DiscountPercent = $('#SalesOrderDetail_DiscountPercent').val();
-        SalesOrderDetailVM.TaxAmount = $('#lblSalesOrderDetail_TaxAmount').text();
-        SalesOrderDetailVM.NetAmount = $('#lblSalesOrderDetail_NetAmount').text();
-        SalesOrderDetailVM.TaxTypeCode = $('#TaxTypeCode').val();
-        if (SalesOrderDetailVM.TaxTypeCode != "")
-            SalesOrderDetailVM.TaxTypeDescription = $('#TaxTypeCode option:selected').text();
-        else
-            SalesOrderDetailVM.TaxTypeDescription = null;
-        _SalesOrderDetail.push(SalesOrderDetailVM);
-
-        if (_SalesOrderDetail != null) {
-            //check product existing or not if soo update the new
-            var SalesOrderDetailList = _dataTables.SalesOrderDetailTable.rows().data();
-            if (SalesOrderDetailList.length > 0) {
-                var checkPoint = 0;
-                for (var i = 0; i < SalesOrderDetailList.length; i++) {
-                    if (SalesOrderDetailList[i].ProductID == $("#ProductID").val()) {
-                        SalesOrderDetailList[i].Quantity = $('#SalesOrderDetail_Quantity').val();
-                        SalesOrderDetailList[i].Rate = $('#SalesOrderDetail_Rate').val();
-                        SalesOrderDetailList[i].ExpectedDeliveryDateFormatted = $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val();
-                        SalesOrderDetailList[i].GrossAmount = $('#lblSalesOrderDetail_TaxableAmount').text();
-                        SalesOrderDetailList[i].TradeDiscountAmount = $('#SalesOrderDetail_TradeDiscountAmount').val();
-                        SalesOrderDetailList[i].DiscountPercent = $('#SalesOrderDetail_DiscountPercent').val();
-                        SalesOrderDetailList[i].TaxAmount = $('#lblSalesOrderDetail_TaxAmount').text();
-                        SalesOrderDetailList[i].NetAmount = $('#lblSalesOrderDetail_NetAmount').text();
-                        SalesOrderDetailList[i].TaxTypeCode = $('#TaxTypeCode').val();
-                        if (SalesOrderDetailList[i].TaxTypeCode != "")
-                            SalesOrderDetailList[i].TaxTypeDescription = $('#TaxTypeCode option:selected').text();
-                        else
-                            SalesOrderDetailList[i].TaxTypeDescription = null;
-                        checkPoint = 1;
-                        break;
-                    }
-                }
-                if (!checkPoint) {
-                    _dataTables.SalesOrderDetailTable.rows.add(_SalesOrderDetail).draw(false);
-                }
-                else {
-                    _dataTables.SalesOrderDetailTable.clear().rows.add(SalesOrderDetailList).draw(false);
-                }
-            }
-            else {
-                _dataTables.SalesOrderDetailTable.rows.add(_SalesOrderDetail).draw(false);
-            }
-        }
-        CalculateDetailTableSummary();
-        $('#SalesOrderDetailsModal').modal('hide');
-        Save();
+    if ($('#hdnIsInvocieInKg').val() == 1 && $('#hdnSellingPriceInKG').val() == "") {
+        notyAlert('warning', "Can't add this product,Please check the selling price in KG not given for particular product");
     }
     else {
-        notyAlert('warning', "Please check the required fields");
+        _groupInsert = 0;
+        if (rate != "" && qty != "" && date != "" && productId != "" && qty != 0) {
+            _SalesOrderDetail = [];
+            SalesOrderDetailVM = new Object();
+            // SalesOrderDetailVM.ID = EmptyGuid;
+            SalesOrderDetailVM.ProductID = $("#ProductID").val();
+            SalesOrderDetailVM.Product = new Object();
+            SalesOrderDetailVM.Product.Name = $('#lblProductName').text();
+            SalesOrderDetailVM.Product.HSNNo = $('#lblHSN').text();
+            SalesOrderDetailVM.UnitCode = $('#lblUnit').text();
+            SalesOrderDetailVM.Quantity = $('#SalesOrderDetail_Quantity').val();
+            SalesOrderDetailVM.Rate = $('#SalesOrderDetail_Rate').val();
+            SalesOrderDetailVM.ExpectedDeliveryDateFormatted = $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val();
+            SalesOrderDetailVM.GrossAmount = $('#lblSalesOrderDetail_GrossAmount').text();
+            SalesOrderDetailVM.TradeDiscountAmount = $('#SalesOrderDetail_TradeDiscountAmount').val();
+            SalesOrderDetailVM.DiscountPercent = $('#SalesOrderDetail_DiscountPercent').val();
+            SalesOrderDetailVM.TaxAmount = $('#lblSalesOrderDetail_TaxAmount').text();
+            SalesOrderDetailVM.NetAmount = $('#lblSalesOrderDetail_NetAmount').text();
+            SalesOrderDetailVM.TaxTypeCode = $('#TaxTypeCode').val();
+            if (SalesOrderDetailVM.TaxTypeCode != "")
+                SalesOrderDetailVM.TaxTypeDescription = $('#TaxTypeCode option:selected').text();
+            else
+                SalesOrderDetailVM.TaxTypeDescription = null;
+            _SalesOrderDetail.push(SalesOrderDetailVM);
+
+            if (_SalesOrderDetail != null) {
+                //check product existing or not if soo update the new
+                var SalesOrderDetailList = _dataTables.SalesOrderDetailTable.rows().data();
+                if (SalesOrderDetailList.length > 0) {
+                    var checkPoint = 0;
+                    for (var i = 0; i < SalesOrderDetailList.length; i++) {
+                        if (SalesOrderDetailList[i].ProductID == $("#ProductID").val()) {
+                            SalesOrderDetailList[i].Quantity = $('#SalesOrderDetail_Quantity').val();
+                            SalesOrderDetailList[i].Rate = $('#SalesOrderDetail_Rate').val();
+                            SalesOrderDetailList[i].ExpectedDeliveryDateFormatted = $('#SalesOrderDetail_ExpectedDeliveryDateFormatted').val();
+                            SalesOrderDetailList[i].GrossAmount = $('#lblSalesOrderDetail_TaxableAmount').text();
+                            SalesOrderDetailList[i].TradeDiscountAmount = $('#SalesOrderDetail_TradeDiscountAmount').val();
+                            SalesOrderDetailList[i].DiscountPercent = $('#SalesOrderDetail_DiscountPercent').val();
+                            SalesOrderDetailList[i].TaxAmount = $('#lblSalesOrderDetail_TaxAmount').text();
+                            SalesOrderDetailList[i].NetAmount = $('#lblSalesOrderDetail_NetAmount').text();
+                            SalesOrderDetailList[i].TaxTypeCode = $('#TaxTypeCode').val();
+                            if (SalesOrderDetailList[i].TaxTypeCode != "")
+                                SalesOrderDetailList[i].TaxTypeDescription = $('#TaxTypeCode option:selected').text();
+                            else
+                                SalesOrderDetailList[i].TaxTypeDescription = null;
+                            checkPoint = 1;
+                            break;
+                        }
+                    }
+                    if (!checkPoint) {
+                        _dataTables.SalesOrderDetailTable.rows.add(_SalesOrderDetail).draw(false);
+                    }
+                    else {
+                        _dataTables.SalesOrderDetailTable.clear().rows.add(SalesOrderDetailList).draw(false);
+                    }
+                }
+                else {
+                    _dataTables.SalesOrderDetailTable.rows.add(_SalesOrderDetail).draw(false);
+                }
+            }
+            CalculateDetailTableSummary();
+            $('#SalesOrderDetailsModal').modal('hide');
+            Save();
+        }
+        else {
+            notyAlert('warning', "Please check the required fields");
+        }
     }
 }
 
