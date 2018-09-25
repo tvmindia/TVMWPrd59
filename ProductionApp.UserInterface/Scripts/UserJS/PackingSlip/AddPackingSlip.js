@@ -38,8 +38,18 @@ $(document).ready(function () {
         });
         $("#DispatchedBy").select2({
         });
-        $("#SalesOrderID").select2({
-        });
+        if ($('#IsUpdate').val() == "False") {
+            $("#SalesOrderID").select2({
+            });
+            $('#listSaleOrder').show();
+            $('#lblSaleOrder').hide();
+
+        }
+        else {
+            $('#listSaleOrder').hide();
+            $('#lblSaleOrder').show();
+
+        }
         var PkAccess = $('#ShowPkgSec').val();
         var DispAccess = $('#ShowDispatcherSec').val();
         //disable fieds according to role
@@ -313,12 +323,18 @@ $(document).ready(function () {
 });
 
 function AddPackingSlipDetail() {
+    debugger;
     CheckedProducts = [];
     CheckedGroups = [];
-    var saleno=$("#SalesOrderID option:selected").text();
+    if ($('#IsUpdate').val() == "False") {
+        var saleno = $("#SalesOrderID option:selected").text();
+    }
+    else {
+        var saleno = $("#OrderId").val();
+    }
     var saleOrderNo=saleno.split("-");
     $('#modelContextLabel').text('Add Packing Slip Details');
-    if ($('#DateFormatted').val() && $('#SalesOrderID').val()) {
+    if ($('#DateFormatted').val() && $('#hdnSalesOrderID').val()) {
         debugger;
         $('#lblOrderNo').text("SalesOrder# : " + saleOrderNo[0]);
         $('#PackingSlipModal').modal('show');
@@ -331,8 +347,11 @@ function AddPackingSlipDetail() {
 //SalesOrder Details
 function OrderDetails() {
     debugger;
-    try{
-        var saleId = $('#SalesOrderID').val();
+    try {
+        if($("#IsUpdate").val()=="False")
+            $('#hdnSalesOrderID').val($('#SalesOrderID').val());
+
+        var saleId = $('#hdnSalesOrderID').val();
         var SalesOrderVm = GetOrderDetails(saleId);
         $('#lblCustomer').text(SalesOrderVm.CustomerName);
         $('#lblExpDate').text(SalesOrderVm.ExpectedDeliveryDateFormatted);
@@ -375,7 +394,7 @@ function BindProductListTable() {
 }
 function GetProductList() {
     try {
-        var id = $('#SalesOrderID').val();
+        var id = $('#hdnSalesOrderID').val();
         var packingSlipID = $('#ID').val();
         var data = { "id": id, "packingSlipID": packingSlipID };
         var jsonData = {};
@@ -554,7 +573,7 @@ function Save() {
                 _packingSlipViewModel.SlipNo = $('#SlipNo').val();
                 _packingSlipViewModel.Date = $('#DateFormatted').val();
                 _packingSlipViewModel.IssueToDispatchDate = $('#IssueToDispatchDateFormatted').val();
-                _packingSlipViewModel.SalesOrderID = $('#SalesOrderID').val();
+                _packingSlipViewModel.SalesOrderID = $('#hdnSalesOrderID').val();
                 _packingSlipViewModel.PackingRemarks = $('#PackingRemarks').val();
                 _packingSlipViewModel.PackedBy = $('#PackedBy').val();
                 _packingSlipViewModel.TotalPackageWeight = $('#TotalPackageWeight').val();
@@ -591,6 +610,7 @@ function Save() {
                             if (JsonResult.Records.ID) {
                                 $("#ID").val(JsonResult.Records.ID);
                                 $('#IsUpdate').val('True');
+                                
                                 BindPkgSlip($("#ID").val());
                             } else {
                                 Reset();
@@ -654,11 +674,13 @@ function BindPkgSlip(ID) {
         var pkgData = GetPkgSlipByID(ID)
         if (pkgData) {
             debugger;
+            $('#listSaleOrder').hide();
+            $('#lblSaleOrder').show();
             $('#SlipNo').val(pkgData.SlipNo);
             $('#DateFormatted').val(pkgData.DateFormatted);
             $('#PackedBy').val(pkgData.PackedBy).select2();
-            //$('#SalesOrderID').text(pkgData.SalesOrder.OrderNo + "-" + pkgData.SalesOrder.CustomerName).select2();
-            $('#SalesOrderID').val(pkgData.SalesOrderID).select2();
+            $('#OrderId').val(pkgData.SalesOrder.OrderNo + "-" + pkgData.SalesOrder.CustomerName);
+            $('#hdnSalesOrderID').val(pkgData.SalesOrderID);
             $('#IssueToDispatchDateFormatted').val(pkgData.IssueToDispatchDateFormatted);
             $('#TotalPackageWeight').val(pkgData.TotalPackageWeight);
             $('#lblPaySlipNo').text("Slip # :" + pkgData.SlipNo);
@@ -674,7 +696,7 @@ function BindPkgSlip(ID) {
             ChangeButtonPatchView('PackingSlip', 'divbuttonPatchAddPkgSlip', 'Edit');
             BindPkgSlipDetail();
             OrderDetails();
-            $('#SalesOrderID').attr("disabled", true);
+            $('#OrderId').attr("disabled", true);
         }
     }
     catch (e) {
@@ -1107,7 +1129,7 @@ function ApplyProductChildDatatable(row) {
 //--To  Get Product List For Packing Slip By GroupID from server --// 
 function GetProductListForPackingSlipByGroupID(groupID) {
     try {
-        var id = $('#SalesOrderID').val();
+        var id = $('#hdnSalesOrderID').val();
         var packingSlipID = $('#ID').val();
         var data = { "id": id, "packingSlipID": packingSlipID, "groupID": groupID };
         var ds = {};
@@ -1645,8 +1667,8 @@ function GetProductListForGroupEdit(groupID) {
     try {
         debugger;
         var packingSlipID = $('#ID').val();
-        var id = $('#SalesOrderID').val();
-        var saleOrderID = $('#SalesOrderID').val();
+        var id = $('#hdnSalesOrderID').val();
+        var saleOrderID = $('#hdnSalesOrderID').val();
         var data = { "groupID": groupID, "packingSlipID": packingSlipID, "saleOrderID": saleOrderID };
         var jsonData = {};
         var result = "";

@@ -17,7 +17,6 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Packed By ")]
         public Guid? PackedBy { get; set; }
         [Display(Name = "Sales Order")]
-        [Required(ErrorMessage = "Sales Order is required")]
         public Guid SalesOrderID { get; set; }
         [Display(Name = "Issued To Dispatch Date")]
         public DateTime? IssueToDispatchDate { get; set; }
@@ -65,12 +64,14 @@ namespace ProductionApp.UserInterface.Models
         public bool IsUpdate { get; set; }
         public bool ShowPkgSec { get; set; }
         public bool ShowDispatcherSec { get; set; }
+        public string OrderId { get; set; }
         public string DetailXML { get; set; }
         public string DetailJSON { get; set; }
         public string GroupDetailJSON { get; set; }
         public string ProductDetailJSON { get; set; }
         public List<PackingSlipViewModel> PackingSlipList { get; set; }
-        public string BaseURL { get; set; }        
+        public string BaseURL { get; set; }     
+        public Guid hdnSalesOrderID { get; set; }
     }
     public class PackingSlipDetailViewModel
     {
