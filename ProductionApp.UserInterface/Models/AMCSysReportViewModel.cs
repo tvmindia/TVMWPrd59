@@ -43,6 +43,8 @@ namespace ProductionApp.UserInterface.Models
         public EmployeeViewModel Employee { get; set; }
         [Display(Name = "Quick Filter")]
         public string DateFilter { get; set; }
+        public RequisitionViewModel Requisition { get; set; }    
+        public string HdnSearchTerm { get; set; }   
     }
 
     public class RequisitionDetailReportViewModel
@@ -145,6 +147,7 @@ namespace ProductionApp.UserInterface.Models
         public decimal POQty { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
+        public string PONo { get; set; }
     }
 
     public class PurchaseRegisterReportViewModel
@@ -185,7 +188,7 @@ namespace ProductionApp.UserInterface.Models
         public decimal NetAmount { get; set; }
         public decimal TaxableAmount { get; set; }
         public List<PurchaseRegisterReportViewModel> PurchaseRegisterReportList { get; set; }
-
+        public string PONo { get; set; }
     }
 
 

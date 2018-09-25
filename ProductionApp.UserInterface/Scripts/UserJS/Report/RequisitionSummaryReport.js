@@ -15,6 +15,7 @@ $(document).ready(function () {
     try {
         $("#RequisitionBy").select2({
         });
+        $('#SearchTerm').focus();
         BindOrReloadRequisitionTable('Init');
         
     }
@@ -37,12 +38,14 @@ function RedirectSearchClick(e, this_obj) {
 function
     BindOrReloadRequisitionTable(action) {
     try {
+        debugger;
         //creating advancesearch object       
         RequisitionSummaryReportViewModel = new Object();        
         DataTablePagingViewModel = new Object();     
         DataTablePagingViewModel.Length = 0;
-
-
+        var SearchValue = $('#hdnSearchTerm').val();
+        var SearchTerm = $('#SearchTerm').val();
+        $('#hdnSearchTerm').val($('#SearchTerm').val());
         //switch case to check the operation
         switch (action) {
             case 'Reset':
@@ -52,10 +55,23 @@ function
                 $('#ReqStatus').val('');
                 $("#RequisitionBy").val('').select2();
                 $('#DateFilter').val('');
+                $('.datepicker').datepicker('setDate', null);
                 break;
-            case 'Init':
+            case 'Init': $('#SearchTerm').val('');
+                $('#FromDate').val('');
+                $('#ToDate').val('');
+                $('#ReqStatus').val('');
+                $("#RequisitionBy").val('').select2();
+                $('#DateFilter').val('');
                 break;
             case 'Search':
+                debugger;
+               
+                if (SearchTerm == SearchValue)
+                {
+                    return false;
+                }
+               
                 break;
             case 'Apply':              
                 RequisitionSummaryReportViewModel.FromDate = $('#FromDate').val();
@@ -66,6 +82,16 @@ function
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
+                RequisitionSummaryReportViewModel.DataTablePaging = DataTablePagingViewModel;
+                RequisitionSummaryReportViewModel.SearchTerm = $('#SearchTerm').val() == "" ? null : $('#SearchTerm').val();
+                RequisitionSummaryReportViewModel.FromDate = $('#FromDate').val() == "" ? null : $('#FromDate').val();
+                RequisitionSummaryReportViewModel.ToDate = $('#ToDate').val() == "" ? null : $('#ToDate').val();
+                RequisitionSummaryReportViewModel.ReqStatus = $('#ReqStatus').val() == "" ? null : $('#ReqStatus').val();
+                RequisitionSummaryReportViewModel.EmployeeID = $('#RequisitionBy').val() == "" ? EmptyGuid : $('#RequisitionBy').val();
+                RequisitionSummaryReportViewModel.DateFilter = $('#DateFilter').val() == "" ? null : $('#DateFilter').val();
+                $('#AdvanceSearch').val(JSON.stringify(RequisitionSummaryReportViewModel));
+                $('#FormExcelExport').submit();
+                return true;
                 break;
             default:
                 break;
@@ -82,13 +108,13 @@ function
             {
                 
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
-                buttons: [{
-                    extend: 'excel',
-                    exportOptions:
-                                 {
-                                     columns: [1, 2, 3, 4, 5,6,7]
-                                 }
-                }],
+                //buttons: [{
+                //    extend: 'excel',
+                //    exportOptions:
+                //                 {
+                //                     columns: [1, 2, 3, 4, 5,6,7]
+                //                 }
+                //}],
                
                 order: false,               
                 ordering: false,
@@ -103,39 +129,50 @@ function
                     type: 'POST'
                 },
                 pageLength: 15,
-                columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
+                columns: [                    
                     { "data": "ReqNo", "defaultContent": "<i>-</i>" },
                     { "data": "ReqDateFormatted", "defaultContent": "<i>-</i>" },
-                     { "data": "RequisitionBy", "defaultContent": "<i>-</i>" },
+                    { "data": "RequisitionBy", "defaultContent": "<i>-</i>" },
                     { "data": "Title", "defaultContent": "<i>-</i>" },                    
                     { "data": "ReqStatus", "defaultContent": "<i>-</i>" },                   
                     { "data": "ReqAmount", "defaultContent": "<i>-</i>" },
                     { "data": "RequiredDateFormatted", "defaultContent": "<i>-</i>" }
                     
                 ],
-                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1, 3,4] },
-                    { className: "text-center", "targets": [2,5,7] },
-                    { className: "text-right", "targets": [6] },
-                    { width: "20%", "targets": [2] }                   
+                columnDefs: [
+                    { className: "text-left", "targets": [0,2,3,4] },
+                    { className: "text-center", "targets": [1,6] },
+                    { className: "text-right", "targets": [5] },
+                    { width: "20%", "targets": [3] }                   
                 ],
                
                 destroy: true,
                 //for performing the import operation after the data loaded
+                //initComplete: function (settings, json) {
+                //    if (action === 'Export') {
+                //        if (json.data.length > 0) {
+                //            if (json.data[0].TotalCount > 10000) {
+                //                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
+                //            }
+                //        }                       
+                //        $(".buttons-excel").trigger('click');                     
+                //        BindOrReloadRequisitionTable('Search');
+                //    }
+                //}
+
                 initComplete: function (settings, json) {
-                    if (action === 'Export') {
-                        if (json.data.length > 0) {
-                            if (json.data[0].TotalCount > 10000) {
-                                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                            }
-                        }                       
-                        $(".buttons-excel").trigger('click');                     
-                        BindOrReloadRequisitionTable('Search');
+                    debugger;
+                    $('.dataTables_wrapper div.bottom div').addClass('col-md-6');
+                    $('#tblRequisitionSummaryReport').fadeIn('slow');
+                    if (action == undefined) {
+                        $('.excelExport').hide();
+                        OnServerCallComplete();
                     }
+
                 }
+
             });
-        $(".buttons-excel").hide();
+        //$(".buttons-excel").hide();
     }
     catch (e) {
         console.log(e.message);
@@ -151,6 +188,7 @@ function ResetReportList() {
 function ExportReportData() {  
     BindOrReloadRequisitionTable('Export');
 }
+
 
 //function to filter data based on date
 function DateFilterOnchange()

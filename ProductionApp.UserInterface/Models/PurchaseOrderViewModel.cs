@@ -81,6 +81,7 @@ namespace ProductionApp.UserInterface.Models
             public PDFTools PDFTools { get; set; }
             public List<PurchaseOrderViewModel> PurchaseOrderList { get; set; }
             public string BaseURL { get; set; }
+            public string PONo { get; set; } 
     }
         public class PurchaseOrderDetailViewModel
         {

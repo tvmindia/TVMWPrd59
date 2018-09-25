@@ -47,7 +47,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string PODDetailLinkXML { get; set; }
         public List<PurchaseOrder> PurchaseOrderList { get; set; }
         public string BaseURL { get; set; }
-
+        public string PONo { get; set; }
     }
     public class PurchaseOrderDetail
     {

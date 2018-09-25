@@ -21,7 +21,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public int ReportOrder { get; set; }
         public List<AMCSysReport> AMCSysReportList { get; set; }
         public string SearchTerm { get; set; }
-
+      
     }
 
     public class RequisitionSummaryReport
@@ -36,7 +36,9 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid EmployeeID { get; set; }
         public Employee Employee { get; set; }       
         public string DateFilter { get; set; }
-        
+        public Requisition Requisition { get; set; }
+        public string HdnSearchTerm { get; set; }
+
     }
 
     public class RequisitionDetailReport
@@ -119,6 +121,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal POQty { get; set; }
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
+        public string PONo { get; set; }
     }
 
     public class  PurchaseRegisterReport
@@ -149,6 +152,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal NetAmount { get; set; }
         public decimal TaxableAmount { get; set; }
         public List<PurchaseRegisterReport> PurchaseRegisterReportList { get; set; }
+        public string PONo { get; set; }
     }
 
     public class InventoryReorderStatusReport

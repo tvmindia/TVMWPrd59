@@ -15,7 +15,8 @@ $(document).ready(function () {
     debugger;
     try {
        $("#Supplier,#Material").select2({
-        });
+       });
+       $('#SearchTerm').focus();
         BindOrReloadPurchaseDetailTable('Init');
 
     }
@@ -43,24 +44,33 @@ function
         PurchaseDetailReportViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
-
+        var SearchValue = $('#hdnSearchTerm').val();
+        var SearchTerm = $('#SearchTerm').val();
+        $('#hdnSearchTerm').val($('#SearchTerm').val());
 
         //switch case to check the operation
         switch (action) {
             case 'Reset':
+                debugger;
                 $('#SearchTerm').val('');
                 $('#FromDate').val('');
+            
                 $('#ToDate').val('');
                 $('#POStatus').val('');
                 $("#Supplier").val('').select2();
                 $('#DateFilter').val('');
                 $('#DelStatus').val('');
                 $('#ApprovalStatus').val('');
-                $('#Material').val('').select2();;
+                $('#Material').val('').select2();
+                $('.datepicker').datepicker('setDate', null);
+
                 break;
             case 'Init':
                 break;
             case 'Search':
+                if (SearchTerm == SearchValue) {
+                    return false;
+                }
                 break;
             case 'Apply':
                 PurchaseDetailReportViewModel.FromDate = $('#FromDate').val();
@@ -75,6 +85,19 @@ function
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
+                PurchaseDetailReportViewModel.DataTablePaging = DataTablePagingViewModel;
+                PurchaseDetailReportViewModel.SearchTerm = $('#SearchTerm').val() == "" ? null : $('#SearchTerm').val();
+                PurchaseDetailReportViewModel.FromDate = $('#FromDate').val() == "" ? null : $('#FromDate').val();
+                PurchaseDetailReportViewModel.ToDate = $('#ToDate').val() == "" ? null : $('#ToDate').val();
+                PurchaseDetailReportViewModel.Status = $('#POStatus').val() == "" ? null : $('#POStatus').val();
+                PurchaseDetailReportViewModel.SupplierID = $('#Supplier').val() == "" ? EmptyGuid : $('#Supplier').val();
+                PurchaseDetailReportViewModel.MaterialID = $('#Material').val() == "" ? EmptyGuid : $('#Material').val();
+                PurchaseDetailReportViewModel.DateFilter = $('#DateFilter').val() == "" ? null : $('#DateFilter').val();
+                PurchaseDetailReportViewModel.DeliveryStatus = $('#DelStatus').val() == "" ? null : $('#DelStatus').val();
+                PurchaseDetailReportViewModel.ApprovalStatus = $('#ApprovalStatus').val() == "" ? null : $('#ApprovalStatus').val();
+                $('#AdvanceSearch').val(JSON.stringify(PurchaseDetailReportViewModel));
+                $('#FormExcelExport').submit();
+                return true;
                 break;
             default:
                 break;
@@ -94,13 +117,13 @@ function
             {
 
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
-                buttons: [{
-                    extend: 'excel',
-                    exportOptions:
-                                 {
-                                     columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10]
-                                 }
-                }],
+                //buttons: [{
+                //    extend: 'excel',
+                //    exportOptions:
+                //                 {
+                //                     columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10]
+                //                 }
+                //}],
 
                 order: false,
                 ordering: false,
@@ -116,7 +139,7 @@ function
                 },
                 pageLength: 15,
                 columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
+                   // { "data": "ID", "defaultContent": "<i>-</i>" },
                     { "data": "PurchaseOrderNo", "defaultContent": "<i>-</i>" },
                    // { "data": "Title", "defaultContent": "<i>-</i>" },
                     { "data": "PurchaseOrderDateFormatted", "defaultContent": "<i>-</i>" },
@@ -129,9 +152,9 @@ function
                     { "data": "ApprovalStatus", "defaultContent": "<i>-</i>" },
                     {"data" : "DeliveryStatus" ,"defaultContent": "<i>-</i>" }
                 ],
-                columnDefs: [{ "targets": [0, 2, 3, 4,9,10], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1, 4, 5] },
-                    { className: "text-center", "targets": [6,7,8] },
+                columnDefs: [{ "targets": [1, 2, 3, 8,9], "visible": false, "searchable": false },
+                    { className: "text-left", "targets": [0, 4, 5] },
+                    { className: "text-center", "targets": [6,7] },
                    //// { className: "text-right", "targets": [10] }
                     { width: "20%", "targets": [1] },
                     { width: "20%", "targets": [5] },
@@ -144,15 +167,25 @@ function
 
                 destroy: true,
                 //for performing the import operation after the data loaded
+                //initComplete: function (settings, json) {
+                //    if (action === 'Export') {
+                //        if (json.data.length > 0) {
+                //            if (json.data[0].TotalCount > 10000) {
+                //                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
+                //            }
+                //        }
+                //        $(".buttons-excel").trigger('click');
+                //        BindOrReloadPurchaseDetailTable('Search');
+                //    }
+
+                //},
                 initComplete: function (settings, json) {
-                    if (action === 'Export') {
-                        if (json.data.length > 0) {
-                            if (json.data[0].TotalCount > 10000) {
-                                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                            }
-                        }
-                        $(".buttons-excel").trigger('click');
-                        BindOrReloadPurchaseDetailTable('Search');
+                    debugger;
+                    $('.dataTables_wrapper div.bottom div').addClass('col-md-6');
+                    $('#tblPurchaseDetailReport').fadeIn('slow');
+                    if (action == undefined) {
+                        $('.excelExport').hide();
+                        OnServerCallComplete();
                     }
 
                 },
@@ -172,7 +205,7 @@ function
                     });
                 }
             });
-        $(".buttons-excel").hide();
+       // $(".buttons-excel").hide();
 
     }
     catch (e) {
