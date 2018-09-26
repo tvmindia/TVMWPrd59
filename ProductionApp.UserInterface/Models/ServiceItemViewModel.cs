@@ -11,7 +11,10 @@ namespace ProductionApp.UserInterface.Models
     {
         public Guid ID { get; set; }
         [Display(Name = "Service Name")]
+        [Required(ErrorMessage = "Service Name field is required.")]
         public string ServiceName { get; set; }
+        public string SACCode { get; set; }
+
         public decimal Rate { get; set; }
 
         //additional fields 

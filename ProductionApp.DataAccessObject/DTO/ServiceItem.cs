@@ -11,7 +11,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public Guid ID { get; set; }
         public string ServiceName { get; set; }
         public decimal Rate { get; set; }
-
+        public string SACCode { get; set; }
         //additional fields 
         public bool IsUpdate { get; set; }
         public int TotalCount { get; set; }

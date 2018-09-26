@@ -59,7 +59,7 @@ function BindOrReloadServiceItemTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [0, 1]
+                                 columns: [0, 1,2]
                              }
             }],
             ordering: false,
@@ -81,7 +81,7 @@ function BindOrReloadServiceItemTable(action) {
             columns: [
             //{ "data": "ID", "defaultContent": "<i>-</i>", "width": "10%" },
             { "data": "ServiceName", "defaultContent": "<i>-</i>", "width": "35%" },
-            { "data": null, "defaultContent": "<i>-<i>", "width": "25%" },
+            { "data": "SACCode", "defaultContent": "<i>-<i>", "width": "25%" },
             { "data": "Rate", "defaultContent": "<i>-<i>", "width": "30%" },
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditServiceItemMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> <a href="#" onclick="DeleteServiceItemMaster(this)"<i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  ', "width": "10%" }
             ],
