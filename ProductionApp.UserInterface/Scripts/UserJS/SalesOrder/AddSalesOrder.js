@@ -15,6 +15,7 @@ var _SalesOrderDetail = [];
 var _SalesOrderDetailList = [];
 var _SlNo = 1;
 var _groupInsert = 0;
+var _groupItemUpdate = 0;
 var _result = "";
 var _message = "";
 var _jsonData = {};
@@ -274,6 +275,7 @@ function ItemDetailsEdit(curObj) {
         productVM = GetGroupProductList(rowData.GroupID);
         _dataTables.GroupProductDetailTable.clear().rows.add(productVM).draw(false);
         debugger;
+        _groupItemUpdate = 1;
         //_dataTables.GroupProductDetailTable.rows(rowData.SalesOrderID != EmptyGuid).select();
         $('#SalesOrderDetail_GroupName').val(productVM[0].GroupName);
         $('#SalesOrderDetail_NumOfSet').val(productVM[0].NumOfSet);
@@ -343,6 +345,7 @@ function ShowSalesOrderDetailsModal() {
 //-----GroupItemModal Popup---------------------------
 function ShowSalesOrderGroupItemDetailsModal() {
     debugger;
+    _groupItemUpdate = 0;
     var $form = $('#SalesOrderForm');
     if ($form.valid()) {
         $('#ProductCategoryCode').attr("disabled", false);
@@ -934,10 +937,6 @@ function selectCheckbox(IDs) {
 }
 //SalesOrderDetailTbl Binding for GroupItems
 function AddSalesOrderDetailsOfGrouping() {
-
-
-    debugger;
-
     var detailgroupexists=0;
     var qty = $('#SalesOrderDetail_NumOfSet').val();
     var group = $('#SalesOrderDetail_GroupName').val();
@@ -952,9 +951,10 @@ function AddSalesOrderDetailsOfGrouping() {
             detailgroupexists = 1;
         } 
     }
-    if (detailgroupexists) {
+    if (detailgroupexists && !_groupItemUpdate) {
         $('#SalesOrderGroupItemDetailsModal').modal('hide');
         notyAlert('warning', "Product category already existing in items details");
+        _groupItemUpdate = 0;
     }
     else {
         var ProductGroupDetailList = _dataTables.GroupProductDetailTable.rows(".selected").data();
