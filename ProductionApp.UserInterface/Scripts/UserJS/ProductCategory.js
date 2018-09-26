@@ -160,6 +160,7 @@ function DeleteProductCategory(code) {
                     notyAlert('error', message);
                     break;
                 default:
+                    notyAlert('error', message);
                     break;
             }
         }

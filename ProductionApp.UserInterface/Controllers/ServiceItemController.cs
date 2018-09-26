@@ -87,7 +87,7 @@ namespace ProductionApp.UserInterface.Controllers
         #region InsertUpdateServiceItem
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "ServiceItem", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "ServiceItem", Mode = "W")]
         public string InsertUpdateServiceItem(ServiceItemViewModel serviceItemVM)
         {
             if (ModelState.IsValid)
@@ -128,7 +128,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeleteServiceItem
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "ServiceItem", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "ServiceItem", Mode = "D")]
         public string DeleteServiceItem(Guid id)
         {
             try

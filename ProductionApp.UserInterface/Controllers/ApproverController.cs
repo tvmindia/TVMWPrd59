@@ -106,7 +106,7 @@ namespace ProductionApp.UserInterface.Controllers
         #region InsertUpdateApprover
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Approver", Mode = "W")]
         public string InsertUpdateApprover(ApproverViewModel approverVM)
         {
             if (ModelState.IsValid)
@@ -153,7 +153,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeleteApprover
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Approver", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Approver", Mode = "D")]
         public string DeleteApprover(Guid id)
         {
             try

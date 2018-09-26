@@ -144,7 +144,7 @@ namespace ProductionApp.UserInterface.Controllers
         #region InsertUpdateMaterial
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "Material", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Material", Mode = "W")]
         public string InsertUpdateMaterial(MaterialViewModel materialVM)
         {
             if (ModelState.IsValid)
@@ -214,7 +214,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeleteMaterial
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Material", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Material", Mode = "D")]
         public string DeleteMaterial(Guid id)
         {
             try

@@ -180,6 +180,7 @@ function DeleteEmployee(id) {
                     notyAlert('error', message);
                     break;
                 default:
+                    notyAlert('error', message);
                     break;
             }
         }

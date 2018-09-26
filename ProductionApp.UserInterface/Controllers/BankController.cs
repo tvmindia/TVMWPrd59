@@ -85,7 +85,7 @@ namespace ProductionApp.UserInterface.Controllers
         #region InsertUpdateBank
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "W")]
         public string InsertUpdateBank(BankViewModel bankVM)
         {
             try
@@ -111,7 +111,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion InsertUpdateBank
         #region DeleteBank
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Bank", Mode = "D")]
         public string DeleteBank(string code)
         {
             try

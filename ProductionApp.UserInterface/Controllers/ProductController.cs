@@ -123,7 +123,7 @@ namespace ProductionApp.UserInterface.Controllers
         #region InsertUpdateProduct
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "Product", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Product", Mode = "W")]
         public string InsertUpdateProduct(ProductViewModel productVM)
         {
             try
@@ -204,7 +204,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeleteProduct
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Product", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Product", Mode = "D")]
         public string DeleteProduct(Guid id)
         {
             try

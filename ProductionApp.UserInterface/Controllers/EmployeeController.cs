@@ -130,7 +130,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateEmployee
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "W")]
         public string InsertUpdateEmployee(EmployeeViewModel employeeVM)
         {
             try
@@ -156,7 +156,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeleteEmployee
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Employee", Mode = "D")]
         public string DeleteEmployee(Guid id)
         {
             try
