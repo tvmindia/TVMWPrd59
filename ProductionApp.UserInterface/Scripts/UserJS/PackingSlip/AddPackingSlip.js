@@ -43,12 +43,10 @@ $(document).ready(function () {
             });
             $('#listSaleOrder').show();
             $('#lblSaleOrder').hide();
-
         }
         else {
             $('#listSaleOrder').hide();
             $('#lblSaleOrder').show();
-
         }
         var PkAccess = $('#ShowPkgSec').val();
         var DispAccess = $('#ShowDispatcherSec').val();
@@ -610,7 +608,6 @@ function Save() {
                             if (JsonResult.Records.ID) {
                                 $("#ID").val(JsonResult.Records.ID);
                                 $('#IsUpdate').val('True');
-                                
                                 BindPkgSlip($("#ID").val());
                             } else {
                                 Reset();

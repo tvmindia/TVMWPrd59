@@ -30,7 +30,7 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i> Customer Invoice</a></li>
+        <li><a href="../DashboardAccount?code=ACC"><i class="fa fa-cogs"></i>Accounts</a></li><li>Customer Invoice</li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -450,7 +450,7 @@
                     @Html.HiddenFor(model => model.PDFTools.Content, htmlAttributes: new { @class = "", Value = "", @id = "hdnContent" })
                     @Html.HiddenFor(model => model.PDFTools.Headcontent, htmlAttributes: new { @class = "", Value = "", @id = "hdnHeadContent" })
                     @Html.HiddenFor(model => model.PDFTools.HeaderText, htmlAttributes: new { @class = "", Value = "AURA" })
-                    @Html.HiddenFor(model => model.PDFTools.ContentFileName, htmlAttributes: new { @class = "", Value = "PurchaseOrder", @id = "hdnContentFileName" })
+                    @Html.HiddenFor(model => model.PDFTools.ContentFileName, htmlAttributes: new { @class = "", Value = "CustomerInvoice", @id = "hdnContentFileName" })
                     @Html.HiddenFor(model => model.PDFTools.CustomerName, htmlAttributes: new { @class = "", @id = "hdnCustomerName" })
 
                     <input type="submit" id="btnSendDownload" value="Download" />

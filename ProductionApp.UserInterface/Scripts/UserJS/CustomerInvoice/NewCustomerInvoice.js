@@ -117,18 +117,42 @@ $(document).ready(function () {
               },
               { "data": "Quantity", "defaultContent": "<i>-</i>", "width": "9%" },
               { "data": "Weight", "defaultContent": "<i>-</i>", "width": "9%" },
-              { "data": "Rate", "defaultContent": "<i>-</i>", "width": "9%" },
-              { "data": "TradeDiscountAmount", "defaultContent": "<i>-</i>", "width": "9%" },
-              { "data": "TaxableAmount", "defaultContent": "<i>-</i>", "width": "9%" },
+              {
+                  "data": "Rate", "defaultContent": "<i>-</i>",
+                  'render': function (data, type, row) {
+                      return roundoff(data);
+                  },
+                  "width": "9%"
+              },
+              {
+                  "data": "TradeDiscountAmount", "defaultContent": "<i>-</i>",
+                  'render': function (data, type, row) {
+                      return roundoff(data);
+                  },
+                  "width": "9%"
+              },
+              {
+                  "data": "TaxableAmount", "defaultContent": "<i>-</i>",
+                  'render': function (data, type, row) {
+                      return roundoff(data);
+                  },
+                  "width": "9%"
+              },
               { "data": "TaxTypeDescription", "defaultContent": "<i>-</i>", "width": "9%" },
-              { "data": "Total", "defaultContent": "<i>-</i>", "width": "9%" },
+              {
+                  "data": "Total", "defaultContent": "<i>-</i>",
+                  'render': function (data, type, row) {
+                      return roundoff(data);
+                  },
+                  "width": "9%"
+              },
               { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="ItemDetailsEdit(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>     <a href="#" class="DeleteLink"  onclick="DeleteDetail(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>', "width": "7%" }
 
             ],
             columnDefs: [{ "targets": [0], "visible": false, searchable: false },
                 { className: "text-center", "targets": [10] },
-                { className: "text-right", "targets": [7, 8, 9] },
-                { className: "text-left", "targets": [4, 6] }
+                { className: "text-right", "targets": [3,4,5,6,7, 8, 9] },
+                { className: "text-left", "targets": [] }
             ]
         });
         _dataTables.PackingSlipListTable = $('#tblPackingSlipList').DataTable({
@@ -306,6 +330,13 @@ $(document).ready(function () {
             //    , { className: "text-right", "targets": [2, 3, 4] }
             //    ],
             select: { style: 'multi', selector: 'td:first-child' },
+            "rowCallback": function (row, data, index) {
+                debugger;
+                if (data["IsInvoiceInKG"] && data["Weight"]==0)
+                {
+                    $(row).find('td:eq(2)').css('color', 'red');
+                }
+            },
             destroy: true
         });
         // Add event listener for opening and closing details
@@ -395,10 +426,10 @@ $(document).ready(function () {
                         "data": "Rate", "defaultContent": "<i>-</i>", "width": "13%",
                         'render': function (data, type, row) {
                             if (row.GroupID != EmptyGuid) {
-                                return '<input class="form-control text-right" id="EditRate_' + row.GroupID + row.SlipNo + '"  name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onkeyup="EditLinkTableTextBoxValue(this,3);"style="width:100%">';
+                                return '<input class="form-control text-right" id="EditRate_' + row.GroupID + row.SlipNo + '"  name="Markup" value="' + roundoff(data) + '" type="text" onkeypress = "return isNumber(event)"  onkeyup="EditLinkTableTextBoxValue(this,3);"style="width:100%">';
                             }
                             else {
-                                return '<input class="form-control text-right" id="EditRate_' + row.ProductID + '"  name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onkeyup="EditLinkTableTextBoxValue(this,3);"style="width:100%">';
+                                return '<input class="form-control text-right" id="EditRate_' + row.ProductID + '"  name="Markup" value="' + roundoff(data) + '" type="text" onkeypress = "return isNumber(event)"  onkeyup="EditLinkTableTextBoxValue(this,3);"style="width:100%">';
                             }
                         }
                     },
@@ -418,10 +449,10 @@ $(document).ready(function () {
                         "data": "TradeDiscountAmount", "defaultContent": "<i>-</i>", "width": "13%",
                         'render': function (data, type, row) {
                             if (row.GroupID != EmptyGuid) {
-                                return '<input class="form-control text-right" id="EditTradeDisc_' + row.GroupID + row.SlipNo + '" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onkeyup="EditLinkTableTextBoxValue(this,4);" style="width:100%">';
+                                return '<input class="form-control text-right" id="EditTradeDisc_' + row.GroupID + row.SlipNo + '" name="Markup" value="' + roundoff(data) + '" type="text" onkeypress = "return isNumber(event)"  onkeyup="EditLinkTableTextBoxValue(this,4);" style="width:100%">';
                             }
                             else {
-                                return '<input class="form-control text-right" id="EditTradeDisc_' + row.ProductID + '"  name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onkeyup="EditLinkTableTextBoxValue(this,4);" style="width:100%">';
+                                return '<input class="form-control text-right" id="EditTradeDisc_' + row.ProductID + '"  name="Markup" value="' + roundoff(data) + '" type="text" onkeypress = "return isNumber(event)"  onkeyup="EditLinkTableTextBoxValue(this,4);" style="width:100%">';
                             }
                         }
                     },
@@ -540,7 +571,7 @@ function ShowCustomerInvoiceDetailsModal() {
         $('#CustomerInvoiceDetailsModal').modal('show');
     }
     else {
-        notyAlert('warning', "Please Fill Required Fields");
+        notyAlert('warning', "Please fill required fields");
     }
 }
 
@@ -601,7 +632,7 @@ function ViewPackingSlipListDetails(value) {
         else {
             $('#tabDetail').attr('data-toggle', '');
             _dataTables.PackingSlipListDetailTable.clear().draw(false);
-            notyAlert('warning', "Please Select Packing Slip");
+            notyAlert('warning', "Please select Packing Slip");
         }
     }
 }
@@ -629,7 +660,7 @@ function BindPackingSlipListDetailTable(packingSlipIDs) {
         _dataTables.PackingSlipListDetailTable.clear().rows.add(GetPackingSlipListDetail(packingSlipIDs)).draw(false);
         debugger;
         if(_WarningWeight==1)
-            notyAlert('warning', "Weight is missing for the following  Packing Slip Items. (" + _WarningWeightItems + ")");
+            notyAlert('warning', "Weight is missing for the following  Packing Slip items. (" + _WarningWeightItems + ")");
     }
 }
 function GetPackingSlipListDetail(packingSlipIDs) {
@@ -825,10 +856,10 @@ function AddCustomerInvoiceDetails() {
             $('#CustomerInvoiceDetailsModal').modal('hide');
         }
         else
-            notyAlert('warning', "Cannot add selected Items Weight is missing.");
+            notyAlert('warning', "Cannot add, selected Items Weight is missing.");
     }
     else {
-        notyAlert('warning', "No Rows Selected");
+        notyAlert('warning', "No rows selected");
     }
 }
 
@@ -1392,7 +1423,7 @@ function ValidateEmail() {
         var atpos = ste.indexOf("@");
         var dotpos = ste.lastIndexOf(".");
         if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= ste.length) {
-            notyAlert('error', 'Invalid Email');
+            notyAlert('error', 'Invalid email');
             return false;
         }
             //not valid
@@ -1514,7 +1545,7 @@ function BindBodyGroupChildDatatable(rowdata) {
 
              ],
              columnDefs:
-                 [{ "targets": [], "visible": false, "searchable": false },
+                 [{ "targets": [3], "visible": false, "searchable": false },
                  { className: "text-right", "targets": [2, 3, 4, 5,6] },
                  { className: "text-left", "targets": [] },
                  { className: "text-center", "targets": [] }],
@@ -1591,8 +1622,8 @@ function EditBindBodyGroupChildDatatable(rowdata) {
 
              ],
              columnDefs:
-                 [{ "targets": [], "visible": false, "searchable": false },
-                 { className: "text-right", "targets": [2, 3, 4, 5] },
+                 [{ "targets": [3], "visible": false, "searchable": false },
+                 { className: "text-right", "targets": [2, 3, 4, 5,6] },
                  { className: "text-left", "targets": [] },
                  { className: "text-center", "targets": [] }],
          });
@@ -1669,7 +1700,7 @@ function ShowCustomerServiceInvoiceModal()
         $('#ServiceInvoiceModal').modal('show');
     }
     else {
-        notyAlert('warning', "Please Fill Required Fields");
+        notyAlert('warning', "Please fill required fields");
     } 
 }
 
@@ -1704,7 +1735,7 @@ function ServiceItemCalculation() {
         }
         else {
             disc = $('#ServiceItems_TradeDiscountAmount').val() == "" ? 0 : $('#ServiceItems_TradeDiscountAmount').val();
-            if (GrossAmt < disc) {
+            if (GrossAmt < disc || discpercent == 0) {
                 $('#ServiceItems_TradeDiscountAmount').val(roundoff(0));
                 disc = 0;
             }
@@ -1834,7 +1865,7 @@ function AddServiceInvoice()
     var rate = $('#ServiceItems_Rate').val();
     var qty = $('#ServiceItems_Quantity').val();
     var ServiceItemID = $('#ServiceItemID').val(); 
-    if (rate != "" && qty != "" && ServiceItemID != "" && qty != 0) {
+    if (rate != "" && qty != "" && ServiceItemID != "" && qty != 0 && rate !=0) {
     
         AddServiceItems();
         var result = JSON.stringify(_CustomerInvoiceDetail);
@@ -1843,7 +1874,7 @@ function AddServiceInvoice()
         $('#ServiceInvoiceModal').modal('hide'); 
     }
     else {
-        notyAlert('warning', "Please check the Required Fields");
+        notyAlert('warning', "Please check the required fields");
     }
 
    
@@ -1941,25 +1972,30 @@ function UpdateCustomerInvoiceDetailService() {
     customerInvoiceVM.CustomerInvoiceDetailList = _CustomerInvoiceDetail;
     customerInvoiceVM.ID = $('#ID').val();
     customerInvoiceVM.InvoiceDateFormatted = $('#InvoiceDateFormatted').val();
-    var data = "{'customerInvoiceVM':" + JSON.stringify(customerInvoiceVM) + "}";
+    if (customerInvoiceVM.CustomerInvoiceDetailList[0].Rate != 0 &&  customerInvoiceVM.CustomerInvoiceDetailList[0].Quantity != 0) {
+        var data = "{'customerInvoiceVM':" + JSON.stringify(customerInvoiceVM) + "}";
 
-    PostDataToServer("CustomerInvoice/UpdateCustomerInvoiceDetailService/", data, function (JsonResult) {
+        PostDataToServer("CustomerInvoice/UpdateCustomerInvoiceDetailService/", data, function (JsonResult) {
 
-        debugger;
-        switch (JsonResult.Result) {
-            case "OK":
-                notyAlert('success', JsonResult.Records.Message);
-                BindCustomerInvoiceByID()
-                break;
-            case "Error":
-                notyAlert('error', JsonResult.Message);
-                break;
-            case "ERROR":
-                notyAlert('error', JsonResult.Message);
-                break;
-            default:
-                break;
-        }
-    })
-    $('#ServiceInvoiceModal').modal('hide');
+            debugger;
+            switch (JsonResult.Result) {
+                case "OK":
+                    notyAlert('success', JsonResult.Records.Message);
+                    BindCustomerInvoiceByID()
+                    break;
+                case "Error":
+                    notyAlert('error', JsonResult.Message);
+                    break;
+                case "ERROR":
+                    notyAlert('error', JsonResult.Message);
+                    break;
+                default:
+                    break;
+            }
+        })
+        $('#ServiceInvoiceModal').modal('hide');
+    }
+    else {
+        notyAlert('warning', "Please check the required fields");
+    }
 }

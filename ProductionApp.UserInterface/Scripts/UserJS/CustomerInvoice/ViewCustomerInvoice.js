@@ -74,6 +74,10 @@ function BindOrReloadCustomerInvoiceTable(action) {
         }
         CustomerInvoiceAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
         CustomerInvoiceAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+        CustomerInvoiceAdvanceSearchViewModel.FromDate = $('#FromDate').val();
+        CustomerInvoiceAdvanceSearchViewModel.ToDate = $('#ToDate').val();
+        CustomerInvoiceAdvanceSearchViewModel.CustomerID = $('#CustomerID').val();
+        CustomerInvoiceAdvanceSearchViewModel.InvoiceType = $('#InvoiceType').val();
         _dataTables.CustomerInvoiceTable = $('#tblCustomerInvoiceView').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
@@ -81,7 +85,7 @@ function BindOrReloadCustomerInvoiceTable(action) {
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                                     columns: [0, 1, 2, 3, 4, 5, 6, 7,8]
                                  }
                 }],
                 order: false,
