@@ -109,6 +109,7 @@ function SaveSuccessSupplier(data, status) {
                 notyAlert('error', message);
                 break;
             default:
+                notyAlert('error', message);
                 break;
         }
     }
@@ -151,6 +152,7 @@ function DeleteSupplier() {
                     notyAlert('error', message);
                     break;
                 default:
+                    notyAlert('error', message);
                     break;
             }
         }
