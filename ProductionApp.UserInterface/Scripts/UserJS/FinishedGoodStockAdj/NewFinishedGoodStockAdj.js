@@ -205,6 +205,7 @@ function AddFinishedGoodStockAdjDetails()
                     }
                     if(!checkPoint)
                     {
+                        _SlNo = DataTables.FinishedGoodStockAdjTable.rows().count() + 1;
                         DataTables.FinishedGoodStockAdjTable.rows.add(_FinishedGoodStockAdjDetail).draw(false);
                     }
                     else
@@ -397,7 +398,8 @@ function BindFinishedGoodStockAdjByID()
         $('#ID').val(result.ID);
         $('#AdjustmentNo').val(result.AdjustmentNo);
         $('#EmployeeID').val(result.EmployeeID).select2();
-        $('#AdjustmentDateFormatted').val(result.AdjustmentDateFormatted);
+        //$('#AdjustmentDateFormatted').val(result.AdjustmentDateFormatted);
+        $('#AdjustmentDateFormatted').datepicker('setDate', result.AdjustmentDateFormatted);
         $('#Remarks').val(result.Remarks);
         $('#lblFGStockAdjNo').text('Finished Good Stock Adj.No# :' + result.AdjustmentNo);
         $('#LatestApprovalStatus').val(result.LatestApprovalStatus);
@@ -412,7 +414,7 @@ function BindFinishedGoodStockAdjByID()
             ChangeButtonPatchView('FinishedGoodStockAdj', 'divbuttonPatchAddFGStockAdj', 'Disable');
             EnableDisableFields(true)
         }
-
+        $('#divApprovalHistory').load("../DocumentApproval/AboutApprovalHistory?id=" + $('#ID').val() + "&docType=FGADJ");
         BindFinishedGoodStockAdjDetailTable(id);
         UnpostedProductExists(result.ID);
     }
