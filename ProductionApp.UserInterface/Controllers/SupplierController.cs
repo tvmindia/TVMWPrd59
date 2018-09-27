@@ -136,7 +136,7 @@ namespace ProductionApp.UserInterface.Controllers
         #region InsertUpdateSupplier
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "Supplier", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Supplier", Mode = "W")]
         public string InsertUpdateSupplier(SupplierViewModel supplierVM)
         {
             if (ModelState.IsValid)

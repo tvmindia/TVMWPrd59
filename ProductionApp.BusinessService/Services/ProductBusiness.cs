@@ -52,9 +52,9 @@ namespace ProductionApp.BusinessService.Services
         {
             return _productRepository.GetProduct(id);
         }
-        public object DeleteProduct(Guid id,string deletedBy)
+        public object DeleteProduct(Guid id,string deletedBy, DateTime createdDate)
         {
-            return _productRepository.DeleteProduct(id, deletedBy);
+            return _productRepository.DeleteProduct(id, deletedBy,createdDate);
         }
 
         public List<FinishedGoodSummary> GetFinishGoodsSummary()

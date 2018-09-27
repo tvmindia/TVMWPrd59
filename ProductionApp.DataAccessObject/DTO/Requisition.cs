@@ -37,7 +37,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public string ReqAmount { get; set; }
         public DateTime RequiredDate { get; set; }
         public string RequiredDateFormatted { get; set; }
-
+        public string RequisitionNo { get; set; }
     }
 
 

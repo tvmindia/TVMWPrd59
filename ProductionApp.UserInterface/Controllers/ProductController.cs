@@ -123,7 +123,7 @@ namespace ProductionApp.UserInterface.Controllers
         #region InsertUpdateProduct
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "Product", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Product", Mode = "W")]
         public string InsertUpdateProduct(ProductViewModel productVM)
         {
             try
@@ -204,14 +204,15 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeleteProduct
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Product", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Product", Mode = "D")]
         public string DeleteProduct(Guid id)
         {
             try
             {
                 AppUA appUA = Session["AppUA"] as AppUA;
                 string deletedBy = appUA.UserName;
-                var result = _productBusiness.DeleteProduct(id, deletedBy);
+                DateTime createdDate = _common.GetCurrentDateTime();
+                var result = _productBusiness.DeleteProduct(id, deletedBy,createdDate);
                 return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
             }
             catch (Exception ex)

@@ -15,6 +15,7 @@ $(document).ready(function () {
     try {
         $("#Material,#MaterialType").select2({
         });
+        $('#SearchTerm').focus();
         BindOrReloadInventoryReorderTable('Init');
 
     }
@@ -42,7 +43,9 @@ function
         InventoryReorderStatusReportViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
-
+        var SearchValue = $('#hdnSearchTerm').val();
+        var SearchTerm = $('#SearchTerm').val();
+        $('#hdnSearchTerm').val($('#SearchTerm').val());
 
         //switch case to check the operation
         switch (action) {
@@ -50,11 +53,14 @@ function
                 $('#SearchTerm').val('');                   
                 $('#Status').val('');
                 $('#Material').val('').select2();
-                $('#MaterialType').val('').select2();
+                $('#MaterialType').val('').select2();               
                 break;
             case 'Init':
                 break;
             case 'Search':
+                if (SearchTerm == SearchValue) {
+                    return false;
+                }
                 break;
             case 'Apply':               
                 InventoryReorderStatusReportViewModel.ItemStatus = $('#Status').val();
@@ -63,6 +69,14 @@ function
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
+                InventoryReorderStatusReportViewModel.DataTablePaging = DataTablePagingViewModel;
+                InventoryReorderStatusReportViewModel.SearchTerm = $('#SearchTerm').val() == "" ? null : $('#SearchTerm').val();                
+                InventoryReorderStatusReportViewModel.ItemStatus = $('#Status').val() == "" ? null : $('#Status').val();
+                InventoryReorderStatusReportViewModel.MaterialID = $('#Material').val() == "" ? EmptyGuid : $('#Material').val();
+                InventoryReorderStatusReportViewModel.Code = $('#MaterialType').val() == "" ? null : $('#MaterialType').val();
+                $('#AdvanceSearch').val(JSON.stringify(InventoryReorderStatusReportViewModel));
+                $('#FormExcelExport').submit();
+                return true;
                 break;
             default:
                 break;
@@ -78,13 +92,13 @@ function
             {
 
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
-                buttons: [{
-                    extend: 'excel',
-                    exportOptions:
-                                 {
-                                     columns: [0,1, 2, 3, 4, 5]
-                                 }
-                }],
+                //buttons: [{
+                //    extend: 'excel',
+                //    exportOptions:
+                //                 {
+                //                     columns: [0,1, 2, 3, 4, 5]
+                //                 }
+                //}],
 
                 order: false,
                 ordering: false,
@@ -101,7 +115,8 @@ function
                 pageLength: 15,
                 columns: [
                    // { "data": "ID", "defaultContent": "<i>-</i>" },
-                    { "data": "Description", "defaultContent": "<i>-</i>"},
+                    { "data": "Description", "defaultContent": "<i>-</i>" },
+                    { "data": "MaterialType.Description", "defaultContent": "<i>-</i>" },
                     { "data": "CurrentStock", "defaultContent": "<i>-</i>"},
                     { "data": "PODueQty", "defaultContent": "<i>-</i>"},
                     { "data": "NetAvailableQty", "defaultContent": "<i>-</i>" },
@@ -112,26 +127,37 @@ function
 
                 ],
                 columnDefs: [//{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [0] },
-                    { className: "text-center", "targets": [1,2,3,4,5] }
+                    { className: "text-left", "targets": [0,1] },
+                    { className: "text-center", "targets": [2,3,4,5,6] }
 
                 ],
 
                 destroy: true,
                 //for performing the import operation after the data loaded
-                initComplete: function (settings, json) {
-                    if (action === 'Export') {
-                        if (json.data.length > 0) {
-                            if (json.data[0].TotalCount > 10000) {
-                                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                            }
-                        }
-                        $(".buttons-excel").trigger('click');
-                        BindOrReloadInventoryReorderTable('Search');
+                //initComplete: function (settings, json) {
+                //    if (action === 'Export') {
+                //        if (json.data.length > 0) {
+                //            if (json.data[0].TotalCount > 10000) {
+                //                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
+                //            }
+                //        }
+                //        $(".buttons-excel").trigger('click');
+                //        BindOrReloadInventoryReorderTable('Search');
+                //    }
+                //}
+
+                 initComplete: function (settings, json) {
+                    debugger;
+                    $('.dataTables_wrapper div.bottom div').addClass('col-md-6');
+                    $('#tblInventoryReOrderStatusReport').fadeIn('slow');
+                    if (action == undefined) {
+                        $('.excelExport').hide();
+                        OnServerCallComplete();
                     }
-                }
+
+                },
             });
-        $(".buttons-excel").hide();
+        //$(".buttons-excel").hide();
     }
     catch (e) {
         console.log(e.message);

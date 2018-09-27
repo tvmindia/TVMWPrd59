@@ -55,6 +55,10 @@
       <HintPath>..\packages\Unity.5.5.6\lib\net45\CommonServiceLocator.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EPPlus, Version=4.5.2.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.2.1\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="itextsharp, Version=5.5.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\iTextSharp.5.5.12\lib\itextsharp.dll</HintPath>
       <Private>True</Private>
@@ -100,6 +104,7 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="SAMTool.BusinessServices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\SAMTool.BusinessServices.dll</HintPath>
@@ -120,6 +125,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -890,6 +896,7 @@
     <Compile Include="Models\DynamicUIViewModel.cs" />
     <Compile Include="Models\EmployeeCategoryViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
+    <Compile Include="Models\ExcelExportViewModel.cs" />
     <Compile Include="Models\FinishedGoodStockAdjViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\AMCSysModuleViewModel.cs" />

@@ -106,6 +106,7 @@ function SaveSuccessCustomer(data, status) {
                 notyAlert('error', message);
                 break;
             default:
+                notyAlert('error', message);
                 break;
         }
     }
@@ -147,6 +148,7 @@ function DeleteCustomer() {
                     notyAlert('error', message);
                     break;
                 default:
+                    notyAlert('error', message);
                     break;
             }
         }

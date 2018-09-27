@@ -136,6 +136,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         requisitionObj.ReqAmount= (sdr["ReqAmount"].ToString() != "" ? sdr["ReqAmount"].ToString() : requisitionObj.ReqAmount);
                                         requisitionObj.RequiredDate = (sdr["RequiredDate"].ToString() != "" ? DateTime.Parse(sdr["RequiredDate"].ToString()) : requisitionObj.RequiredDate);
                                         requisitionObj.RequiredDateFormatted = (sdr["RequiredDate"].ToString() != "" ? DateTime.Parse(sdr["RequiredDate"].ToString()).ToString(settings.DateFormat) : requisitionObj.RequiredDateFormatted);
+                                        requisitionObj.RequisitionNo = (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : requisitionObj.RequisitionNo);
                                     }
                                     requisitionList.Add(requisitionObj);
                                 }
@@ -296,6 +297,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         purchaseOrderObj.GrossAmount = (sdr["PurchaseAmount"].ToString() != "" ? decimal.Parse(sdr["PurchaseAmount"].ToString()) : purchaseOrderObj.GrossAmount);
                                         purchaseOrderObj.PurchaseOrderIssuedDate = (sdr["PurchaseOrderIssuedDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderIssuedDate"].ToString()) : purchaseOrderObj.PurchaseOrderIssuedDate);
                                         purchaseOrderObj.PurchaseOrderIssuedDateFormatted = (sdr["PurchaseOrderIssuedDate"].ToString() != "" ? DateTime.Parse(sdr["PurchaseOrderIssuedDate"].ToString()).ToString(settings.DateFormat) : purchaseOrderObj.PurchaseOrderIssuedDateFormatted);
+                                        purchaseOrderObj.PONo = (sdr["PurchaseOrderNo"].ToString() != "" ? sdr["PurchaseOrderNo"].ToString() : purchaseOrderObj.PONo);
                                     }
                                     purchaseOrderList.Add(purchaseOrderObj);
                                 }
@@ -380,6 +382,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         purchaseOrderObj.PrevRcvQty = (sdr["ReceivedQty"].ToString() != "" ? decimal.Parse(sdr["ReceivedQty"].ToString()) : purchaseOrderObj.PrevRcvQty);
                                         purchaseOrderObj.ApprovalStatus= (sdr["ApprovalStatus"].ToString() != "" ? sdr["ApprovalStatus"].ToString() : purchaseOrderObj.ApprovalStatus);
                                         purchaseOrderObj.DeliveryStatus = (sdr["DeliveryStatus"].ToString() != "" ? sdr["DeliveryStatus"].ToString() : purchaseOrderObj.DeliveryStatus);
+                                        purchaseOrderObj.PONo= (sdr["PurchaseOrderNo"].ToString() != "" ? sdr["PurchaseOrderNo"].ToString() : purchaseOrderObj.PONo);
                                     }
                                     purchaseDetailList.Add(purchaseOrderObj);
                                 }
@@ -455,14 +458,14 @@ namespace ProductionApp.RepositoryServices.Services
                                         purchaseRegisterObj.Supplier = new Supplier();
                                         purchaseRegisterObj.Supplier.CompanyName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : purchaseRegisterObj.Supplier.CompanyName);
                                         purchaseRegisterObj.GrossAmount= (sdr["GrossAmount"].ToString() != "" ? decimal.Parse(sdr["GrossAmount"].ToString()) : purchaseRegisterObj.GrossAmount);
-                                        purchaseRegisterObj.Discount= (sdr["Discount"].ToString() != "" ? decimal.Parse(sdr["Discount"].ToString()) : purchaseRegisterObj.Discount);
+                                        purchaseRegisterObj.Discount= (sdr["CashDiscount"].ToString() != "" ? decimal.Parse(sdr["CashDiscount"].ToString()) : purchaseRegisterObj.Discount);
                                         purchaseRegisterObj.TaxableAmount = (sdr["TaxableAmount"].ToString() != "" ? decimal.Parse(sdr["TaxableAmount"].ToString()) : purchaseRegisterObj.TaxableAmount);
                                         purchaseRegisterObj.GSTPerc = (sdr["GSTPercentage"].ToString() != "" ? decimal.Parse(sdr["GSTPercentage"].ToString()) : purchaseRegisterObj.GSTPerc);
                                         purchaseRegisterObj.GSTAmt = (sdr["GSTAMOUNT"].ToString() != "" ? decimal.Parse(sdr["GSTAMOUNT"].ToString()) : purchaseRegisterObj.GSTAmt);
                                         purchaseRegisterObj.NetAmount = (sdr["NetAmt"].ToString() != "" ? decimal.Parse(sdr["NetAmt"].ToString()) : purchaseRegisterObj.NetAmount);
                                         purchaseRegisterObj.InvoicedAmount = (sdr["InvcdAmount"].ToString() != "" ? decimal.Parse(sdr["InvcdAmount"].ToString()) : purchaseRegisterObj.InvoicedAmount);
                                         purchaseRegisterObj.PaidAmount = (sdr["PaidAmunt"].ToString() != "" ? decimal.Parse(sdr["PaidAmunt"].ToString()) : purchaseRegisterObj.PaidAmount);
-
+                                        purchaseRegisterObj.PONo= (sdr["PurchaseOrderNo"].ToString() != "" ? sdr["PurchaseOrderNo"].ToString() : purchaseRegisterObj.PONo);
                                     }
                                     purchaseRegisterList.Add(purchaseRegisterObj);
                                 }
@@ -628,8 +631,8 @@ namespace ProductionApp.RepositoryServices.Services
                                         inventoryReOrderObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : inventoryReOrderObj.TotalCount);
                                         inventoryReOrderObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : inventoryReOrderObj.FilteredCount);
                                         inventoryReOrderObj.NetAvailableQty = (sdr["NetAvailableQty"].ToString() != "" ? decimal.Parse(sdr["NetAvailableQty"].ToString()) : inventoryReOrderObj.NetAvailableQty);
-                                        inventoryReOrderObj.ShortFall = (sdr["ShortFall"].ToString() != "" ? decimal.Parse(sdr["ShortFall"].ToString()) : inventoryReOrderObj.ShortFall);
-
+                                        inventoryReOrderObj.MaterialType = new MaterialType();
+                                        inventoryReOrderObj.MaterialType.Description = (sdr["Type"].ToString() != "" ? (sdr["Type"].ToString()) : inventoryReOrderObj.MaterialType.Description);
                                         ////  inventoryReOrderObj.Description = (sdr["ProductName"].ToString() != "" ? (sdr["ProductName"].ToString()) : inventoryReOrderObj.Description);
                                         //  inventoryReOrderObj.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : inventoryReOrderObj.CurrentStock);
                                         //  //SalesOrdersDue

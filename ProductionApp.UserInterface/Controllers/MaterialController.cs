@@ -144,7 +144,7 @@ namespace ProductionApp.UserInterface.Controllers
         #region InsertUpdateMaterial
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "Material", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Material", Mode = "W")]
         public string InsertUpdateMaterial(MaterialViewModel materialVM)
         {
             if (ModelState.IsValid)
@@ -214,14 +214,15 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeleteMaterial
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Material", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Material", Mode = "D")]
         public string DeleteMaterial(Guid id)
         {
             try
             {
                 AppUA appUA = Session["AppUA"] as AppUA;
                 string deletedBy = appUA.UserName;
-                var result = _materialBusiness.DeleteMaterial(id, deletedBy);
+                DateTime createdDate = _common.GetCurrentDateTime();
+                var result = _materialBusiness.DeleteMaterial(id, deletedBy, createdDate);
                 return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
             }
             catch (Exception ex)

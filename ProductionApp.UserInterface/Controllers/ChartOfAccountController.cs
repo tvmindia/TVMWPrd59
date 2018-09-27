@@ -98,7 +98,7 @@ namespace ProductionApp.UserInterface.Controllers
         #region InsertUpdateChartOfAccount
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "ChartOfAccount", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "ChartOfAccount", Mode = "W")]
         public string InsertUpdateChartOfAccount(ChartOfAccountViewModel chartOfAccountVM)
         {
             try
@@ -153,7 +153,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeleteChartOfAccount
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "ChartOfAccount", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "ChartOfAccount", Mode = "D")]
         public string DeleteChartOfAccount(string code)
         {
             try

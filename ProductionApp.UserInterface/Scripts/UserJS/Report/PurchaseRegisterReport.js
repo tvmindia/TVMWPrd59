@@ -15,6 +15,7 @@ $(document).ready(function () {
     try {
         $("#Supplier").select2({
         });
+        $('#SearchTerm').focus();
         BindOrReloadPurchaseRegisterTable('Init');
 
     }
@@ -41,7 +42,9 @@ function
         PurchaseRegisterReportViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
-
+        var SearchValue = $('#hdnSearchTerm').val();
+        var SearchTerm = $('#SearchTerm').val();
+        $('#hdnSearchTerm').val($('#SearchTerm').val());
 
         //switch case to check the operation
         switch (action) {
@@ -54,10 +57,14 @@ function
                 $("#Supplier").val('').select2();               
                 $('#DateFilter').val('');
                 $('#Status').val('');
+                $('.datepicker').datepicker('setDate', null);
                 break;
             case 'Init':
                 break;
             case 'Search':
+                if (SearchTerm == SearchValue) {
+                    return false;
+                }
                 break;
             case 'Apply':
                 PurchaseRegisterReportViewModel.FromDate = $('#FromDate').val();
@@ -70,6 +77,18 @@ function
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
+                PurchaseRegisterReportViewModel.DataTablePaging = DataTablePagingViewModel;
+                PurchaseRegisterReportViewModel.SearchTerm = $('#SearchTerm').val() == "" ? null : $('#SearchTerm').val();
+                PurchaseRegisterReportViewModel.FromDate = $('#FromDate').val() == "" ? null : $('#FromDate').val();
+                PurchaseRegisterReportViewModel.ToDate = $('#ToDate').val() == "" ? null : $('#ToDate').val();
+                PurchaseRegisterReportViewModel.InvoiceStatus = $('#InvoiceStatus').val() == "" ? null : $('#InvoiceStatus').val();
+                PurchaseRegisterReportViewModel.PaymentStatus = $('#PaymentStatus').val() == "" ? null : $('#PaymentStatus').val();
+                PurchaseRegisterReportViewModel.SupplierID = $('#Supplier').val() == "" ? EmptyGuid : $('#Supplier').val();             
+                PurchaseRegisterReportViewModel.DateFilter = $('#DateFilter').val() == "" ? null : $('#DateFilter').val();
+                PurchaseRegisterReportViewModel.Status = $('#Status').val() == "" ? null : $('#Status').val();                
+                $('#AdvanceSearch').val(JSON.stringify(PurchaseRegisterReportViewModel));
+                $('#FormExcelExport').submit();
+                return true;
                 break;
             default:
                 break;
@@ -87,15 +106,7 @@ function
 
             {
 
-                dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
-                buttons: [{
-                    extend: 'excel',
-                    exportOptions:
-                                 {
-                                     columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10,11]
-                                 }
-                }],
-
+                dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',              
                 order: false,
                 ordering: false,
                 searching: false,
@@ -110,43 +121,42 @@ function
                 },
                 pageLength: 15,
                 columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
+                    //{ "data": "ID", "defaultContent": "<i>-</i>" },
                     { "data": "PurchaseOrderNo", "defaultContent": "<i>-</i>" },
                     { "data": "PurchaseOrderDateFormatted", "defaultContent": "<i>-</i>" },
-                    { "data": "Supplier.CompanyName", "defaultContent": "<i>-</i>" },                     
-                    { "data": "Discount", "defaultContent": "<i>-</i>" },
-                    { "data": "GSTPerc", "defaultContent": "<i>-</i>" },
-                    { "data": "GSTAmt", "defaultContent": "<i>-</i>" },
-                    { "data": "NetAmount", "defaultContent": "<i>-</i>" },
+                    { "data": "Supplier.CompanyName", "defaultContent": "<i>-</i>" },
                     { "data": "TaxableAmount", "defaultContent": "<i>-</i>" },
+                    { "data": "GSTAmt", "defaultContent": "<i>-</i>" },
                     { "data": "GrossAmount", "defaultContent": "<i>-</i>" },
-                                       
+                    { "data": "Discount", "defaultContent": "<i>-</i>" },
+                    //{ "data": "GSTPerc", "defaultContent": "<i>-</i>" },                  
+                    { "data": "NetAmount", "defaultContent": "<i>-</i>" },                
+                                                          
                     { "data": "InvoicedAmount", "defaultContent": "<i>-</i>" },
                     { "data": "PaidAmount", "defaultContent": "<i>-</i>" }             
                                         
                 ],
-                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1,3]},
-                    { className: "text-center", "targets": [2] },
-                    { className: "text-right", "targets": [4,5,6,7,8,9,10,11] }
+                columnDefs: [
+                    { className: "text-left", "targets": [0,2]},
+                    { className: "text-center", "targets": [1] },
+                    { className: "text-right", "targets": [3,4,5,6,7,8,9] }
                     
                 ],
 
                 destroy: true,
-                //for performing the import operation after the data loaded
+                //for performing the import operation after the data loaded            
+
                 initComplete: function (settings, json) {
-                    if (action === 'Export') {
-                        if (json.data.length > 0) {
-                            if (json.data[0].TotalCount > 10000) {
-                                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                            }
-                        }
-                        $(".buttons-excel").trigger('click');
-                        BindOrReloadPurchaseRegisterTable('Search');
+                    debugger;
+                    $('.dataTables_wrapper div.bottom div').addClass('col-md-6');
+                    $('#tblPurchaseRegisterReport').fadeIn('slow');
+                    if (action == undefined) {
+                        $('.excelExport').hide();
+                        OnServerCallComplete();
                     }
-                }
-            });
-        $(".buttons-excel").hide();
+
+                },
+            });      
     }
     catch (e) {
         console.log(e.message);

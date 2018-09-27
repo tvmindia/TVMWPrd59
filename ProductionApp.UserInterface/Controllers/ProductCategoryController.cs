@@ -101,7 +101,7 @@ namespace ProductionApp.UserInterface.Controllers
         #region InsertUpdateProductCategory
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "ProductCategory", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "ProductCategory", Mode = "W")]
         public string InsertUpdateProductCategory(ProductCategoryViewModel productCategoryVM)
         {
             try
@@ -127,7 +127,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeleteProductCategory
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "ProductCategory", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "ProductCategory", Mode = "D")]
         public string DeleteProductCategory(string code)
         {
             try

@@ -10,6 +10,10 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using OfficeOpenXml;
+using OfficeOpenXml.Table;
+using System.IO;
+using System.Web.SessionState;
 
 namespace ProductionApp.UserInterface.Controllers
 {
@@ -1051,13 +1055,206 @@ namespace ProductionApp.UserInterface.Controllers
         }
         #endregion GetSalesRegisterReport
 
+        public void DownloadExcel(ExcelExportViewModel excelExportVM)
+        {
+            try
+            {
+                string fileName = "";
+                Common common = new Common();
+                ExcelPackage excel = new ExcelPackage();
+                object ResultFromJS = null;
+                string ReadableFormat = null;
+                switch (excelExportVM.DocumentType)
+                {
+                    case "REQ":
+                        fileName = "RequisitionSummaryReport" + common.GetCurrentDateTime().ToString("dd|MMM|yy|hh:mm:ss");
+                        RequisitionSummaryReportViewModel requisitionSummaryReportVM = new RequisitionSummaryReportViewModel();
+                        ResultFromJS = JsonConvert.DeserializeObject(excelExportVM.AdvanceSearch);
+                        ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                        requisitionSummaryReportVM = JsonConvert.DeserializeObject<RequisitionSummaryReportViewModel>(ReadableFormat);
+                      
+                        List<RequisitionViewModel> requisitionSummaryReportList = Mapper.Map<List<Requisition>, List<RequisitionViewModel>>(_reportBusiness.GetRequisitionSummaryReport(Mapper.Map<RequisitionSummaryReportViewModel, RequisitionSummaryReport>(requisitionSummaryReportVM)));
+                       
+                        var requisitionsummaryreportworkSheet = excel.Workbook.Worksheets.Add("RequisitionSummaryReport");
+                        RequisitionViewModel[] requisitionSummaryReportVMListArray = requisitionSummaryReportList.ToArray();
+                        requisitionsummaryreportworkSheet.Cells[1, 1].LoadFromCollection(requisitionSummaryReportVMListArray.Select(x => new
+                        {
+                            RequisitionNo = x.RequisitionNo,
+                            RequisitionDate = x.ReqDateFormatted,
+                            RequisitionBy = x.RequisitionBy,
+                            Title = x.Title,
+                            RequisitionStatus = x.ReqStatus,
+                            Amount = x.ReqAmount,
+                            RequiredDate = x.RequiredDateFormatted
+                           
+                        }), true, TableStyles.Light1);
+                        requisitionsummaryreportworkSheet.Column(1).AutoFit();
+                        requisitionsummaryreportworkSheet.Column(2).AutoFit();
+                        requisitionsummaryreportworkSheet.Column(3).AutoFit();
+                        requisitionsummaryreportworkSheet.Column(4).Width = 40;
+                        requisitionsummaryreportworkSheet.Column(5).AutoFit();
+                        requisitionsummaryreportworkSheet.Column(6).AutoFit();
+                        requisitionsummaryreportworkSheet.Column(7).AutoFit();
+                      
+                        break;
+                    case "PO":
+                        fileName = "PurchaseSummaryReport" + common.GetCurrentDateTime().ToString("dd|MMM|yy|hh:mm:ss");
+                        PurchaseSummaryReportViewModel purchaseSummaryReportVM = new PurchaseSummaryReportViewModel();
+                        ResultFromJS = JsonConvert.DeserializeObject(excelExportVM.AdvanceSearch);
+                        ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                        purchaseSummaryReportVM = JsonConvert.DeserializeObject<PurchaseSummaryReportViewModel>(ReadableFormat);
+                        List<PurchaseOrderViewModel> purchaseSummaryReportList = Mapper.Map<List<PurchaseOrder>, List<PurchaseOrderViewModel>>(_reportBusiness.GetPurchaseSummaryReport(Mapper.Map<PurchaseSummaryReportViewModel, PurchaseSummaryReport>(purchaseSummaryReportVM)));
+                        var purchasesummaryreportworkSheet = excel.Workbook.Worksheets.Add("PurchaseSummaryReport");
+                        PurchaseOrderViewModel[] purchaseSummaryReportVMListArray = purchaseSummaryReportList.ToArray();
+                        purchasesummaryreportworkSheet.Cells[1, 1].LoadFromCollection(purchaseSummaryReportVMListArray.Select(x => new
+                        {
+                          PurchaseOrderNo = x.PONo,
+                          PurchaseOrderDate = x.PurchaseOrderDateFormatted,
+                          PurchaseOrderIssuedDate = x.PurchaseOrderIssuedDateFormatted,
+                          Title = x.PurchaseOrderTitle,
+                          Supplier = x.Supplier,
+                          Status = x.PurchaseOrderStatus,
+                          OrderMailed = (x.EmailSentYN=="True" ? "YES" : "NO"),
+                          TotalPOValue = x.GrossAmount                          
 
-    
+                        }), true, TableStyles.Light1);
+                        purchasesummaryreportworkSheet.Column(1).AutoFit();
+                        purchasesummaryreportworkSheet.Column(2).AutoFit();
+                        purchasesummaryreportworkSheet.Column(3).AutoFit();
+                        purchasesummaryreportworkSheet.Column(4).Width = 40;
+                        purchasesummaryreportworkSheet.Column(5).Width = 40;
+                        purchasesummaryreportworkSheet.Column(6).AutoFit();
+                        purchasesummaryreportworkSheet.Column(7).AutoFit();
+                        purchasesummaryreportworkSheet.Column(8).AutoFit();
+                        break;
+                    case "POD":
+                        fileName = "PurchaseDetailReport" + common.GetCurrentDateTime().ToString("dd|MMM|yy|hh:mm:ss");
+                        PurchaseDetailReportViewModel purchaseDetailReportVM = new PurchaseDetailReportViewModel();
+                        ResultFromJS = JsonConvert.DeserializeObject(excelExportVM.AdvanceSearch);
+                        ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                        purchaseDetailReportVM = JsonConvert.DeserializeObject<PurchaseDetailReportViewModel>(ReadableFormat);
+                        List<PurchaseDetailReportViewModel> purchaseDetailReportList = Mapper.Map<List<PurchaseDetailReport>, List<PurchaseDetailReportViewModel>>(_reportBusiness.GetPurchaseDetailReport(Mapper.Map<PurchaseDetailReportViewModel, PurchaseDetailReport>(purchaseDetailReportVM)));
+                        var purchasedetailreportworkSheet = excel.Workbook.Worksheets.Add("PurchaseDetailReport");
+                        PurchaseDetailReportViewModel[] purchaseDetailReportVMListArray = purchaseDetailReportList.ToArray();
+                        purchasedetailreportworkSheet.Cells[1, 1].LoadFromCollection(purchaseDetailReportVMListArray.Select(x => new
+                        {
+                            PurchaseOrderNo = x.PONo,
+                            PurchaseOrderDate = x.PurchaseOrderDateFormatted,
+                            Item = x.Material.Description,
+                            Unit= x.Material.UnitCode,
+                            OrderedQty=x.POQty,
+                            DeliveredQty =x.PrevRcvQty,
+                            Status = x.Status,                           
+                            Supplier = x.Supplier.CompanyName,
+                            ApprovalStatus = x.ApprovalStatus,
+                            DeliveryStatus = x.DeliveryStatus                          
+
+                        }), true, TableStyles.Light1);
+                        purchasedetailreportworkSheet.Column(1).AutoFit();
+                        purchasedetailreportworkSheet.Column(2).AutoFit();
+                        purchasedetailreportworkSheet.Column(3).Width = 40;
+                        purchasedetailreportworkSheet.Column(4).AutoFit();
+                        purchasedetailreportworkSheet.Column(5).AutoFit();
+                        purchasedetailreportworkSheet.Column(6).AutoFit();
+                        purchasedetailreportworkSheet.Column(7).AutoFit();
+                        purchasedetailreportworkSheet.Column(8).Width = 30;
+                        purchasedetailreportworkSheet.Column(9).Width = 40;
+                        purchasedetailreportworkSheet.Column(10).Width = 40;
+
+                        break;
+                    case "POR":
+                        fileName = "PurchaseRegisterReport" + common.GetCurrentDateTime().ToString("dd|MMM|yy|hh:mm:ss");
+                        PurchaseRegisterReportViewModel purchaseRegisterReportVM = new PurchaseRegisterReportViewModel();
+                        ResultFromJS = JsonConvert.DeserializeObject(excelExportVM.AdvanceSearch);
+                        ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                        purchaseRegisterReportVM = JsonConvert.DeserializeObject<PurchaseRegisterReportViewModel>(ReadableFormat);
+                        List<PurchaseRegisterReportViewModel> purchaseRegisterList = Mapper.Map<List<PurchaseRegisterReport>, List<PurchaseRegisterReportViewModel>>(_reportBusiness.GetPurchaseRegisterReport(Mapper.Map<PurchaseRegisterReportViewModel, PurchaseRegisterReport>(purchaseRegisterReportVM)));
+                        var purchaseregisterreportworkSheet = excel.Workbook.Worksheets.Add("PurchaseRegisterReport");
+                        PurchaseRegisterReportViewModel[] purchaseRegisterReportVMListArray = purchaseRegisterList.ToArray();
+                        purchaseregisterreportworkSheet.Cells[1, 1].LoadFromCollection(purchaseRegisterReportVMListArray.Select(x => new
+                        {
+                            PurchaseOrderNo = x.PONo,
+                            PurchaseOrderDate = x.PurchaseOrderDateFormatted,                           
+                            Supplier = x.Supplier.CompanyName,
+                            Discount=x.Discount,
+                            GSTPercent=x.GSTPerc,
+                            GSTAmount=x.GSTAmt,
+                            NetAmount=x.NetAmount,
+                            TaxableAmount=x.TaxableAmount,
+                            GrossAmount=x.GrossAmount,
+                            InvoiceAmount=x.InvoicedAmount,
+                            PaidAmount=x.PaidAmount
+                                                      
+                          
+
+                        }), true, TableStyles.Light1);
+                        purchaseregisterreportworkSheet.Column(1).AutoFit();
+                        purchaseregisterreportworkSheet.Column(2).AutoFit();
+                        purchaseregisterreportworkSheet.Column(3).Width = 40;
+                        purchaseregisterreportworkSheet.Column(4).AutoFit();
+                        purchaseregisterreportworkSheet.Column(5).AutoFit();
+                        purchaseregisterreportworkSheet.Column(6).AutoFit();
+                        purchaseregisterreportworkSheet.Column(7).AutoFit();
+                        purchaseregisterreportworkSheet.Column(8).AutoFit();
+                        purchaseregisterreportworkSheet.Column(9).AutoFit();
+                        purchaseregisterreportworkSheet.Column(10).AutoFit();
+                        purchaseregisterreportworkSheet.Column(11).AutoFit();
+                        break;
+
+                    case "INVM":
+                        fileName = "InventoryReorderStatusReport" + common.GetCurrentDateTime().ToString("dd|MMM|yy|hh:mm:ss");
+                        InventoryReorderStatusReportViewModel inventoryReorderStatusVM = new InventoryReorderStatusReportViewModel();
+                        ResultFromJS = JsonConvert.DeserializeObject(excelExportVM.AdvanceSearch);
+                        ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                        inventoryReorderStatusVM = JsonConvert.DeserializeObject<InventoryReorderStatusReportViewModel>(ReadableFormat);
+                        List<InventoryReorderStatusReportViewModel> inventoryReOrderList = Mapper.Map<List<InventoryReorderStatusReport>, List<InventoryReorderStatusReportViewModel>>(_reportBusiness.GetInventoryReorderStatusReport(Mapper.Map<InventoryReorderStatusReportViewModel, InventoryReorderStatusReport>(inventoryReorderStatusVM)));
+
+                        var inventoryreorderreportworkSheet = excel.Workbook.Worksheets.Add("InventoryReorderStatusReport");
+                        InventoryReorderStatusReportViewModel[] inventoryReorderReportVMListArray = inventoryReOrderList.ToArray();
+                        inventoryreorderreportworkSheet.Cells[1, 1].LoadFromCollection(inventoryReorderReportVMListArray.Select(x => new
+                        {
+                            Item = x.Description,
+                            CurrentStock = x.CurrentStock,
+                            PODueQty = x.PODueQty,
+                            NetAvailable = x.NetAvailableQty,
+                            ReorderLevel = x.ReorderQty,
+                            ShortFall=x.ShortFall
+
+                        }), true, TableStyles.Light1);
+                        inventoryreorderreportworkSheet.Column(1).Width = 40;
+                        inventoryreorderreportworkSheet.Column(2).AutoFit();
+                        inventoryreorderreportworkSheet.Column(3).AutoFit();
+                        inventoryreorderreportworkSheet.Column(4).AutoFit();
+                        inventoryreorderreportworkSheet.Column(5).AutoFit();
+                        inventoryreorderreportworkSheet.Column(6).AutoFit();                        
+                        break;
+                    default: break;
+                }
+                using (var memoryStream = new MemoryStream())
+                {
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.AddHeader("content-disposition", "attachment;  filename=" + fileName + ".xlsx");
+                    excel.SaveAs(memoryStream);
+                    memoryStream.WriteTo(Response.OutputStream);
+                    Response.Flush();
+                    Response.End();
+                    memoryStream.Close();
+                    memoryStream.Dispose();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
 
 
 
-    #region ButtonStyling
-    [HttpGet]
+
+        #region ButtonStyling
+        [HttpGet]
         [AuthSecurityFilter(ProjectObject = "dashboardReport", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
