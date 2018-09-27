@@ -101,12 +101,12 @@ namespace ProductionApp.UserInterface.Controllers
 
                     if (customerPaymentVM.TotalRecievedAmt == 0)
                     {
-                        throw new Exception("Please Check Credit Notes");
+                        throw new Exception("Credit note to adjust is missing");
                     }
                 }
                 else if (customerPaymentVM.TotalRecievedAmt == 0)
                 {
-                    throw new Exception("Please Enter Amount");
+                    throw new Exception("Amount is missing");
                 }
 
                 AppUA appUA = Session["AppUA"] as AppUA;
@@ -126,8 +126,7 @@ namespace ProductionApp.UserInterface.Controllers
             }
             catch (Exception ex)
             {
-                AppConstMessage cm = _appConst.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex.Message });
             }
 
         }

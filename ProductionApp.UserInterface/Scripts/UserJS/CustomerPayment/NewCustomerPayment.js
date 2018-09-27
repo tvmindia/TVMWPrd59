@@ -173,11 +173,11 @@ function CustomerChange() {
 }
 function BindOutstanding() {
     index = 0;
+    _dataTable.OutStandingInvoices.search('').draw(); //required after
     _dataTable.OutStandingInvoices.clear().rows.add(GetOutStandingInvoices()).draw(false);
 }
 function GetOutStandingInvoices() {
     try {
-        
         var custId = $('#CustomerID').val() == "" ? _emptyGuid : $('#CustomerID').val();
         var paymentId = $('#ID').val() == "" ? _emptyGuid : $('#ID').val();
         var data = { "CustomerId": custId, "paymentId": paymentId };
@@ -365,7 +365,7 @@ function Save() {
         ValidatePaymentRefNo();
     }
     else {
-        notyAlert('warning', "Please Fill Required Fields,To Add Items ");
+        notyAlert('warning', "Please fill required fields");
     }
 }
 function ValidatePaymentRefNo() {
