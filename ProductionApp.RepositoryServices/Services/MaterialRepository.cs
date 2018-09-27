@@ -332,7 +332,7 @@ namespace ProductionApp.RepositoryServices.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public object DeleteMaterial(Guid id,string deletedBy)
+        public object DeleteMaterial(Guid id,string deletedBy, DateTime createdDate)
         {
             SqlParameter outputStatus = null;
             try
@@ -351,6 +351,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = id;
                         cmd.Parameters.Add("@DeletedBy", SqlDbType.NVarChar, 255).Value = deletedBy;
+                        cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = createdDate;
                         outputStatus = cmd.Parameters.Add("@Status", SqlDbType.Int);
                         outputStatus.Direction = ParameterDirection.Output;
                         cmd.ExecuteNonQuery();

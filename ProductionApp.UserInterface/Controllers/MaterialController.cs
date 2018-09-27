@@ -221,7 +221,8 @@ namespace ProductionApp.UserInterface.Controllers
             {
                 AppUA appUA = Session["AppUA"] as AppUA;
                 string deletedBy = appUA.UserName;
-                var result = _materialBusiness.DeleteMaterial(id, deletedBy);
+                DateTime createdDate = _common.GetCurrentDateTime();
+                var result = _materialBusiness.DeleteMaterial(id, deletedBy, createdDate);
                 return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
             }
             catch (Exception ex)
