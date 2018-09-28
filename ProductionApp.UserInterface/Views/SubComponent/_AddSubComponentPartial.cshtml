@@ -56,7 +56,6 @@
                 <div class="col-md-12">
                     <div class="col-md-12">
                         @Html.EditorFor(model => model.OpeningQty, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumber(event)" } })
-                        @Html.ValidationMessageFor(model => model.OpeningQty, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>

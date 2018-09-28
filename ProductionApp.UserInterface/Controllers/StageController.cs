@@ -79,7 +79,7 @@ namespace ProductionApp.UserInterface.Controllers
         #region InsertUpdateStage
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "Stage", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Stage", Mode = "W")]
         public string InsertUpdateStage(StageViewModel stageVM)
         {
             if (ModelState.IsValid)
@@ -131,7 +131,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeleteStage
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Stage", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Stage", Mode = "D")]
         public string DeleteStage(Guid id)
         {
             try

@@ -146,7 +146,7 @@ namespace ProductionApp.UserInterface.Controllers
         #region InsertUpdateCustomer
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "Customer", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Customer", Mode = "W")]
         public string InsertUpdateCustomer(CustomerViewModel customerVM)
         {
             if (ModelState.IsValid)

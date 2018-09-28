@@ -70,6 +70,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         salesOrder.ExpectedDeliveryDate = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()) : salesOrder.ExpectedDeliveryDate);
                                         salesOrder.ExpectedDeliveryDateFormatted = (sdr["ExpectedDeliveryDate"].ToString() != "" ? DateTime.Parse(sdr["ExpectedDeliveryDate"].ToString()).ToString(settings.DateFormat) : salesOrder.ExpectedDeliveryDateFormatted);
                                         salesOrder.CustomerName = (sdr["CustomerName"].ToString() != "" ? sdr["CustomerName"].ToString() : salesOrder.CustomerName);
+                                        salesOrder.SalesPersonName = (sdr["SalesPerson"].ToString() != "" ? sdr["SalesPerson"].ToString() : salesOrder.SalesPersonName);
                                         salesOrder.OrderAmount = (sdr["NetAmount"].ToString() != "" ? decimal.Parse(sdr["NetAmount"].ToString()) : salesOrder.OrderAmount);
                                         salesOrder.OrderStatus = (sdr["SOStatus"].ToString() != "" ? sdr["SOStatus"].ToString() : salesOrder.OrderStatus);
                                         salesOrder.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : salesOrder.TotalCount);
@@ -262,6 +263,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     {
                                         salesOrder.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : salesOrder.ID);
                                         salesOrder.OrderNo = (sdr["OrderNo"].ToString() != "" ? sdr["OrderNo"].ToString() : salesOrder.OrderNo);
+                                        salesOrder.CustomerName = (sdr["CompanyName"].ToString() != "" ? sdr["CompanyName"].ToString() : salesOrder.CustomerName);
                                     }
                                     salesOrderList.Add(salesOrder);
                                 }
@@ -459,6 +461,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         salesOrder.Product = new Product();
                                         salesOrder.Product.Name = (sdr["ProductName"].ToString() != "" ? sdr["ProductName"].ToString() : salesOrder.Product.Name);
                                         salesOrder.Product.HSNNo = (sdr["HSNNo"].ToString() != "" ? sdr["HSNNo"].ToString() : salesOrder.Product.HSNNo);
+                                        salesOrder.Product.ProductCategoryCode = (sdr["ProductCategoryCode"].ToString() != "" ? sdr["ProductCategoryCode"].ToString() : salesOrder.Product.ProductCategoryCode);
                                         salesOrder.Quantity = (sdr["Quantity"].ToString() != "" ? decimal.Parse(sdr["Quantity"].ToString()) : salesOrder.Quantity);
                                         salesOrder.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : salesOrder.Rate);
                                         salesOrder.DiscountPercent = (sdr["DiscountPercent"].ToString() != "" ? decimal.Parse(sdr["DiscountPercent"].ToString()) : salesOrder.DiscountPercent);

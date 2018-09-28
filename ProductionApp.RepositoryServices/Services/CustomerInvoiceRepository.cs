@@ -63,8 +63,17 @@ namespace ProductionApp.RepositoryServices.Services
                                         customerInvoiceDetail.WeightCheck = (sdr["Weight"].ToString() != "" ? decimal.Parse(sdr["Weight"].ToString()) : customerInvoiceDetail.WeightCheck);
                                         customerInvoiceDetail.IsInvoiceInKG = (sdr["IsInvoiceInKG"].ToString() != "" ? bool.Parse(sdr["IsInvoiceInKG"].ToString()) : customerInvoiceDetail.IsInvoiceInKG);
                                         customerInvoiceDetail.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : customerInvoiceDetail.Rate);
-                                        customerInvoiceDetail.TradeDiscountAmount = (sdr["TradeDiscountAmount"].ToString() != "" ? decimal.Parse(sdr["TradeDiscountAmount"].ToString()) : customerInvoiceDetail.TradeDiscountAmount);
                                         customerInvoiceDetail.TradeDiscountPerc = (sdr["TradeDiscountPerc"].ToString() != "" ? decimal.Parse(sdr["TradeDiscountPerc"].ToString()) : customerInvoiceDetail.TradeDiscountPerc);
+                                        if (customerInvoiceDetail.TradeDiscountPerc != 0)
+                                        {
+                                            if(customerInvoiceDetail.IsInvoiceInKG ==false)
+                                                customerInvoiceDetail.TradeDiscountAmount = customerInvoiceDetail.Quantity * customerInvoiceDetail.Rate * (customerInvoiceDetail.TradeDiscountPerc / 100);
+                                            else
+                                                customerInvoiceDetail.TradeDiscountAmount = customerInvoiceDetail.Weight * customerInvoiceDetail.Rate * (customerInvoiceDetail.TradeDiscountPerc / 100);
+                                        }
+                                            
+                                        else
+                                            customerInvoiceDetail.TradeDiscountAmount = 0;
                                         customerInvoiceDetail.TaxTypeCode = (sdr["TaxTypeCode"].ToString() != "" ? sdr["TaxTypeCode"].ToString() : customerInvoiceDetail.TaxTypeCode);
                                         customerInvoiceDetail.SGSTPerc = (sdr["SGSTPerc"].ToString() != "" ? decimal.Parse(sdr["SGSTPerc"].ToString()) : customerInvoiceDetail.SGSTPerc);
                                         customerInvoiceDetail.CGSTPerc = (sdr["CGSTPerc"].ToString() != "" ? decimal.Parse(sdr["CGSTPerc"].ToString()) : customerInvoiceDetail.CGSTPerc);

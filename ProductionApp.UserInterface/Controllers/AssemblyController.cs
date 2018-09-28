@@ -92,7 +92,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateAssembly
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "Assembly", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Assembly", Mode = "W")]
         public string InsertUpdateAssembly(AssemblyViewModel assemblyVM)
         {
             try
@@ -136,7 +136,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeleteAssembly
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Assembly", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Assembly", Mode = "D")]
         public string DeleteAssembly(Guid id)
         {
             try

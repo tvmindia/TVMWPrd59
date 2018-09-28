@@ -64,7 +64,7 @@ namespace ProductionApp.UserInterface.Controllers
                 {
                     selectListItem.Add(new SelectListItem
                     {
-                        Text = Emp.OrderNo,
+                        Text = Emp.OrderNo+'-'+Emp.CustomerName,
                         Value = Emp.ID.ToString(),
                         Selected = false,
                     });
@@ -414,13 +414,19 @@ namespace ProductionApp.UserInterface.Controllers
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();
+            Permission _permission = Session["UserRights"] as Permission;
+            string pkgAccess = _permission.SubPermissionList.Where(li => li.Name == "Packer").First().AccessCode;
+            string disAccess = _permission.SubPermissionList.Where(li => li.Name == "Dispatcher").First().AccessCode;
             switch (actionType)
             {
                 case "List":
-                    toolboxVM.addbtn.Visible = true;
-                    toolboxVM.addbtn.Text = "Add";
-                    toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("AddPackingSlip", "PackingSlip", new { code = "SALE" });
+                    if (pkgAccess.Contains("RWD") || !disAccess.Contains("R") || !disAccess.Contains("W"))
+                    {
+                        toolboxVM.addbtn.Visible = true;
+                        toolboxVM.addbtn.Text = "Add";
+                        toolboxVM.addbtn.Title = "Add New";
+                        toolboxVM.addbtn.Href = Url.Action("AddPackingSlip", "PackingSlip", new { code = "SALE" });
+                    }
                     //----added for reset button---------------
                     toolboxVM.resetbtn.Visible = true;
                     toolboxVM.resetbtn.Text = "Reset";
@@ -435,12 +441,13 @@ namespace ProductionApp.UserInterface.Controllers
 
                     break;
                 case "Edit":
-
-                    toolboxVM.addbtn.Visible = true;
-                    toolboxVM.addbtn.Text = "New";
-                    toolboxVM.addbtn.Title = "Add New";
-                    toolboxVM.addbtn.Href = Url.Action("AddPackingSlip", "PackingSlip", new { code = "SALE" });
-
+                    if (pkgAccess.Contains("RWD") || !disAccess.Contains("R") || !disAccess.Contains("W"))
+                    {
+                        toolboxVM.addbtn.Visible = true;
+                        toolboxVM.addbtn.Text = "New";
+                        toolboxVM.addbtn.Title = "Add New";
+                        toolboxVM.addbtn.Href = Url.Action("AddPackingSlip", "PackingSlip", new { code = "SALE" });
+                    }
                     toolboxVM.savebtn.Visible = true;
                     toolboxVM.savebtn.Text = "Save";
                     toolboxVM.savebtn.Title = "Save";

@@ -297,6 +297,10 @@ function DeleteAssembly() {
                 notyAlert('error', message);
                 return 0;
             }
+            if (result == "AUTH") {
+                notyAlert('error', message);
+                return 0;
+            }
             return 1;
         }
     }

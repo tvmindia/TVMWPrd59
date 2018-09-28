@@ -108,7 +108,7 @@ namespace ProductionApp.UserInterface.Controllers
         #region InsertUpdateSubComponent
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "SubComponent", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SubComponent", Mode = "W")]
         public string InsertUpdateSubComponent(SubComponentViewModel subComponentVM)
         {
             if (ModelState.IsValid)
@@ -171,7 +171,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeleteSubComponent
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "SubComponent", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SubComponent", Mode = "D")]
         public string DeleteSubComponent(Guid id)
         {
             try

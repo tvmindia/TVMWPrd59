@@ -143,6 +143,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     {
                                         serviceItem.ID = (sdr["ID"].ToString() != "" ? Guid.Parse(sdr["ID"].ToString()) : serviceItem.ID);
                                         serviceItem.ServiceName = (sdr["ServiceName"].ToString() != "" ? sdr["ServiceName"].ToString() : serviceItem.ServiceName);
+                                        serviceItem.SACCode = (sdr["SACCode"].ToString() != "" ? sdr["SACCode"].ToString() : serviceItem.SACCode);
                                         serviceItem.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : serviceItem.Rate);
                                         serviceItem.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : serviceItem.FilteredCount);
                                         serviceItem.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : serviceItem.TotalCount);
@@ -181,6 +182,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = serviceItem.IsUpdate;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = serviceItem.ID;
                         cmd.Parameters.Add("@ServiceName", SqlDbType.NVarChar, 250).Value = serviceItem.ServiceName;
+                        cmd.Parameters.Add("@SACCode", SqlDbType.NVarChar, 50).Value = serviceItem.SACCode;
                         cmd.Parameters.Add("@Rate", SqlDbType.Decimal).Value = serviceItem.Rate;
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.VarChar, 50).Value = serviceItem.Common.CreatedBy;
                         cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = serviceItem.Common.CreatedDate;

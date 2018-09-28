@@ -82,10 +82,28 @@
                         <tr style="text-align: right;padding: 8px;border-bottom-style: solid;border-bottom-width: 2px;border-bottom-color: #eee;" valign="top">
                             <td style="text-align: left;padding: 8px;font-size:12px;">@slno</td>
                             <td style="text-align: left;padding: 8px;font-size:12px;">
-                                @mp.ProductName @(mp.IsInvoiceInKG ? "(Invoice In KG)" : "")
-                                <br /><b>HSNNo :</b>@mp.Product.HSNNo
+                                @{if (mp.GroupName != null)
+                                    {
+                                        @mp.GroupName @(mp.IsInvoiceInKG ? "(Invoice In KG)" : "");
+                                    }
+                                    else
+                                    {
+                                        @mp.ProductName @(mp.IsInvoiceInKG ? "(Invoice In KG)" : "");
+                                        <br /><b>HSNNo :</b>@mp.Product.HSNNo
+                                    }
+
+
+                                }
                             </td>
-                            <td style="text-align: left;padding: 8px;font-size:12px;"> @mp.TaxTypeDescription.Replace("GST","")</td>
+                            <td style="text-align: left;padding: 8px;font-size:12px;">
+                                @{ if (mp.TaxTypeDescription != null)
+                                    {
+                                        @mp.TaxTypeDescription.Replace("GST", "")
+                                    }
+                                }
+
+                            </td>
+
                             @*<td style="text-align: left;padding: 8px;font-size:12px;">@mp.SGSTPerc</td>
                             <td style="text-align: left;padding: 8px;font-size:12px;">@mp.CGSTPerc</td>
                             <td style="text-align: left;padding: 8px;font-size:12px;">@mp.IGSTPerc</td>*@

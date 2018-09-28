@@ -175,6 +175,7 @@ function DeleteCustomer(id) {
                     notyAlert('error', message);
                     break;
                 default:
+                    notyAlert('error', message);
                     break;
             }
         }

@@ -15,8 +15,7 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage = "Sub Component Description is missing")]
         public string Description { get; set; }
         [Display(Name = "Opening Quantity")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "Opening Quantity must be numeric")]
-        public decimal? OpeningQty { get; set; }
+        public decimal OpeningQty { get; set; }
         [Display(Name = "Current Quantity")]
         public decimal CurrentQty { get; set; }
         [Required(ErrorMessage = "Unit is missing")]
