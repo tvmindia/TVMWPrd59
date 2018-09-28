@@ -95,13 +95,25 @@ function BindOrReloadMaterialReceiptTable(action) {
                 { "data": "PurchaseOrderNo", "defaultContent": "<i>-</i>", "width": "12%" },
                 { "data": "Supplier.CompanyName", "defaultContent": "<i>-</i>", "width": "20%" },
                 { "data": "Employee.Name", "defaultContent": "<i>-</i>", "width": "20%" },
-                { "data": "GeneralNotes", "defaultContent": "<i>-</i>", "width": "20%" },
+                {
+                    "data": "GeneralNotes", 
+                    render: function (data, type, row) {
+                        debugger;
+                        //var generalnotes = data;
+                        if (data != null && data.length > 50)
+                        {
+                            return '<span data-toggle="tooltip" title="' + data + '">' + data.substring(0, 50) + '...' + '</span>';
+                        }
+                    }
+                    , "defaultContent": "<i>-</i>", "width": "20%"
+                },
                 {
                     "data": "ID", "orderable": false, render: function (data, type, row) {
                         return '<a href="/MaterialReceipt/NewMaterialReceipt?code=STR&id=' + data + '" class="actionLink" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>'
                     }, "defaultContent": "<i>-</i>", "width": "3%"
                 }
             ],
+            
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { className: "text-right", "targets": [] },
                 { className: "text-left", "targets": [1, 3, 3, 4, 5, 6] },
@@ -125,6 +137,10 @@ function BindOrReloadMaterialReceiptTable(action) {
 
         $('#tblMaterialReceipt tbody').on('dblclick', 'td', function () {
             Edit(this);
+        });
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            'trigger': 'hover',
         });
     }
     catch (e) {

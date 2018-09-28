@@ -36,7 +36,7 @@ $(document).ready(function () {
                     { "data": "QtyInKG", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
                     { "data": "Qty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
                     //{ "data": "UnitCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
-                    { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="DetailEdit(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a> | <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
+                    { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="DetailEdit(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> | <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
                 ],
                 columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false },
                     { className: "text-center", "targets": [6], "width": "7%" },
@@ -74,7 +74,7 @@ $(document).ready(function () {
                   { "data": "PrevRcvQty", "defaultContent": "<i>-</i>" },//7-8
                   {
                       "data": "Material.QtyInKG", render: function (data, type, row) {
-                          return '<input class="form-control text-left " name="Markup" value="' + data + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="QtyTextBoxValueChanged(this);">';
+                          return '<input class="form-control text-right " name="Markup" value="' + data + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="QtyTextBoxValueChanged(this);">';
                       }, "defaultContent": "<i>-</i>"
                   },//9
                   {

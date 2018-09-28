@@ -39,8 +39,15 @@ debugger;
         { "targets": [4], "width": "15%" },        
         { "targets": [8], "width": "4%" }]
     });
-    $("#ProductID").change(function () {
-        BindFinishedGoodStockAdjDetails(this.value)
+        $("#ProductID").change(function () {
+            if (this.value != "") {
+                BindFinishedGoodStockAdjDetails(this.value)
+            }
+            else {
+                $('#FinishedGoodStockAdjDetail_Product_Code').val('');
+                $('#FinishedGoodStockAdjDetail_Product_UnitCode').val('');
+                $('#FinishedGoodStockAdjDetail_Product_Description').val('');
+}
     });
 
     if ($('#IsUpdate').val() == 'True') {
@@ -222,7 +229,7 @@ function AddFinishedGoodStockAdjDetails()
         }
         else
         {
-            notyAlert('warning', "Product,Quantity and Remark fields are required ");
+            notyAlert('warning', "Mandatory fields are missing");
         }
     }
     catch (e) {
@@ -243,7 +250,7 @@ function Save() {
             _SlNo = 1;
         }
         else {
-            notyAlert('warning', 'Please Add Finished Good Stock Adjustment Details!');
+            notyAlert('warning', 'Please add item details!');
         }
     }
     catch (e) {
@@ -524,7 +531,7 @@ function DeleteTempItem(finishedGoodStockAdjDetailVMIndex) {
         Itemtabledata.splice(finishedGoodStockAdjDetailVMIndex, 1);
         _SlNo = 1;
         DataTables.FinishedGoodStockAdjTable.clear().rows.add(Itemtabledata).draw(false);
-        notyAlert('success', 'Deleted Successfully');
+        notyAlert('success', 'Deleted successfully');
     }
     catch (e) {
         console.log(e.message);

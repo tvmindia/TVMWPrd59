@@ -37,7 +37,7 @@ debugger;
          { "data": "MaterialDesc", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "UnitCode", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },
          { "data": "Qty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },        
-         { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a> | <a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>' },
+         { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> | <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
          ], 
          columnDefs: [{ "targets": [0,1], "visible": false, searchable: false },                              
              { className: "text-left", "targets": [2, 3, 4, 5, 6] },
@@ -53,7 +53,15 @@ debugger;
 
             $("#MaterialID").change(function () {
                 debugger;
-            BindRawMaterialDetails(this.value)
+                if (this.value != "") {
+                    BindRawMaterialDetails(this.value)
+                }
+                else {
+                    $('#MaterialIssueDetail_Material_MaterialCode').val('');
+                    $('#MaterialIssueDetail_MaterialDesc').val('');
+                    $('#MaterialIssueDetail_UnitCode').val('');
+                    $('#MaterialIssueDetail_Qty').val('');
+                }
             });
         if ($('#IsUpdate').val() == 'True') {
             debugger;
@@ -166,7 +174,7 @@ function AddIssueToProductItem()
                     }
                     if(!checkPoint)
                     {
-                  
+                        _SlNo = DataTables.MaterialIssueDetailTable.rows().count() + 1;
                         DataTables.MaterialIssueDetailTable.rows.add(_MaterialIssueDetail).draw(false);
                     }
                     else
@@ -184,7 +192,7 @@ function AddIssueToProductItem()
         }
         else
         {
-            notyAlert('warning', "Material and Quantity fields are required ");
+            notyAlert('warning', "Mandatory fields are missing ");
         }
     }
     catch (e) {
@@ -248,7 +256,7 @@ function DeleteTempItem(materialIssueDetailVMIndex)
         Itemtabledata.splice(materialIssueDetailVMIndex, 1);
         _SlNo = 1;
         DataTables.MaterialIssueDetailTable.clear().rows.add(Itemtabledata).draw(false);    
-        notyAlert('success', 'Deleted Successfully');
+        notyAlert('success', 'Deleted successfully');
     }
     catch (e) {
         console.log(e.message);
@@ -350,7 +358,7 @@ function Save()
         }
         else
         {
-            notyAlert('warning', 'Please Add Material Details!');
+            notyAlert('warning', 'Please add item details!');
         }
     }
     catch (e) {
