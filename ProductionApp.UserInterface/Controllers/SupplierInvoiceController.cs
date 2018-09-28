@@ -185,7 +185,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateSupplierInvoice
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierInvoice", Mode = "W")]
         public string InsertUpdateSupplierInvoice(SupplierInvoiceViewModel supplierInvoiceVM)
         {
             try
