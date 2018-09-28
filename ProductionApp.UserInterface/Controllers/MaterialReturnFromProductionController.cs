@@ -140,8 +140,7 @@ namespace ProductionApp.UserInterface.Controllers
             }
             catch (Exception ex)
             {
-                AppConstMessage cm = _appConst.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = cm.Message });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Records = "", Message = ex.Message });
             }
 
         }

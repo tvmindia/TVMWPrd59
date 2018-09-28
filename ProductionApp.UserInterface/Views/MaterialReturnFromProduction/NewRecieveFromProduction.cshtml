@@ -3,11 +3,11 @@
 @{
     if (Model.IsUpdate)
     {
-        ViewBag.Title = "Edit Material Recieve";
+        ViewBag.Title = "View Recieve From Production";
     }
     else
     {
-        ViewBag.Title = "Add Material Recieve";
+        ViewBag.Title = "New Recieve From Production";
     }
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
@@ -19,7 +19,9 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="@Url.Action("NewRecieveFromProduction", "MaterialReturnFromProduction", new { Code = "STR" })"><i class="fa fa-cogs"></i> Receive From Production</a></li>
+        <li><a href=@Url.Action("Index", "DashboardStore", new { code = "STR" })><i class="fa fa-cogs"></i>Stores</a> </li>
+        <li>Raw Materials And Others</li>
+        <li>Receive From Production</li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -94,10 +96,8 @@
             <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
 
                 <div class="col-md-12" style="padding-bottom:3px">
-                    <div class="col-md-10">
-                    </div>
-                    <div class="col-md-2">
-                        <a class="btn btn-openid" onclick="ShowReturnFromProductionDetailsModal()" id="btnAddIssueToProductionItems" style="color:white;font-weight:bold;float:right"><i class="glyphicon glyphicon-plus"></i> Add Item </a>
+                    <div class="col-md-12">
+                        <a class="btn btn-openid" onclick="ShowReturnFromProductionDetailsModal()" id="btnAddIssueToProductionItems" title="Add Item" style="color:white;font-weight:bold;float:right"><i class="glyphicon glyphicon-plus"></i> Add Item </a>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -162,7 +162,7 @@
                     <div class="col-md-12">
                         <div class="form-group col-md-12">
                             <div class="col-md-12">
-                                @Html.LabelFor(model => model.MaterialReturnFromProductionDetail.MaterialID, htmlAttributes: new { @class = "control-label" })
+                                @Html.LabelFor(model => model.MaterialReturnFromProductionDetail.MaterialID, htmlAttributes: new { @class = "control-label lblrequired" })
                             </div>
                             <div class="col-md-10">
                                 <div id="divRawMaterialDropdown">

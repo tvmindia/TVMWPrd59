@@ -23,7 +23,15 @@ $(document).ready(function () {
         });
         $("#MaterialID").select2({ dropdownParent: $("#AddReturnToSupplierItemModal") });
         $("#MaterialID").change(function () {
-            BindRawMaterialDetails(this.value)
+            if (this.value != "") {
+                BindRawMaterialDetails(this.value)
+            }
+            else {
+                $('#MaterialReturnDetail_Material_MaterialCode').val('');
+                $('#MaterialReturnDetail_MaterialDesc').val('');
+                $('#MaterialReturnDetail_UnitCode').val('');
+                $('#MaterialReturnDetail_Qty').val('');
+            }
         });
 
         _dataTable.MaterialReturnToSupplierDetailTable = $('#tblReturnToSupplierDetail').DataTable(
@@ -222,7 +230,7 @@ function AddReturnToSupplierItem()
                     }
                 }
                 if (!checkPoint) {
-                    
+                    _SlNo = _dataTable.MaterialReturnToSupplierDetailTable.rows().count() + 1;
                     _dataTable.MaterialReturnToSupplierDetailTable.rows.add(_MaterialReturnDetail).draw(false);
                 }
                 else {
@@ -238,7 +246,7 @@ function AddReturnToSupplierItem()
         catlculateTotal();
     }
     else {
-        notyAlert('warning', "Material,Quantity and Rate fields are required ");
+        notyAlert('warning', "Mandatory fields are missing ");
     }
 }
 function catlculateTotal() {
@@ -311,7 +319,7 @@ function Save() {
         _SlNo = 1;
     }
     else {
-        notyAlert('warning', 'Please Add Material Details!');
+        notyAlert('warning', 'Please add item details!');
     }
 }
 function AddMaterialReturnDetailList() {
@@ -373,7 +381,8 @@ function BindReturnToSupplier() {
     var result = GetReturnToSupplier(ID);
     $('#ID').val(result.ID);
     $('#ReturnSlipNo').val(result.ReturnSlipNo);
-    $('#ReturnDateFormatted').val(result.ReturnDateFormatted);
+    //$('#ReturnDateFormatted').val(result.ReturnDateFormatted);
+    $('#ReturnDateFormatted').datepicker('setDate', result.ReturnDateFormatted);
     $('#ReturnBy').val(result.ReturnBy).select2();
     $('#SupplierID').val(result.SupplierID).select2();
     $('#GeneralNotes').val(result.GeneralNotes);
@@ -469,7 +478,7 @@ function DeleteTempItem(materialReturnDetailVMIndex) {
     Itemtabledata.splice(materialReturnDetailVMIndex, 1);
     _SlNo = 1;
     _dataTable.MaterialReturnToSupplierDetailTable.clear().rows.add(Itemtabledata).draw(false);
-    notyAlert('success', 'Deleted Successfully');
+    notyAlert('success', 'Deleted successfully');
 }
 //-------------for delete from details table which saved in db-------
 function DeleteItem(ID) {
