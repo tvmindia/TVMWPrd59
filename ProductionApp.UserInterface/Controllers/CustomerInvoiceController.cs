@@ -272,7 +272,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateCustomerInvoice
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "W")]
         public string InsertUpdateCustomerInvoice(CustomerInvoiceViewModel customerInvoiceVM)
         {
             try
@@ -342,7 +342,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetCustomerInvoiceDetailLinkForEditGroup
 
         #region UpdateCustomerInvoiceDetail
-        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "W")]
         public string UpdateCustomerInvoiceDetail(CustomerInvoiceViewModel customerInvoiceVM)
         {
             try
@@ -557,7 +557,7 @@ namespace ProductionApp.UserInterface.Controllers
 
 
         #region UpdateCustomerInvoiceDetailService
-        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "CustomerInvoice", Mode = "W")]
         public string UpdateCustomerInvoiceDetailService(CustomerInvoiceViewModel customerInvoiceVM)
         {
             try

@@ -18,7 +18,9 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="@Url.Action("NewMaterialReturn", "MaterialReturn", new { Code = "STR" })"><i class="fa fa-cogs"></i> Return To Supplier</a></li>
+        <li><a href=@Url.Action("Index", "DashboardStore", new { code = "STR" })><i class="fa fa-cogs"></i>Stores</a> </li>
+        <li>Raw Materials And Others</li>
+        <li>Return To Supplier</li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -108,11 +110,7 @@
             <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
 
             <div class="col-md-12" style="padding-bottom:3px">
-                <div class="col-md-10">
-                </div>
-                <div class="col-md-2">
-                    <a class="btn btn-openid" onclick="ShowReturnToSupplierDetailsModal()" id="btnAddReturnToSupplierItems" style="color:white;font-weight:bold;float:right;"><i class="glyphicon glyphicon-plus"></i> Add Items</a>
-                </div>
+               <a class="btn btn-openid" onclick="ShowReturnToSupplierDetailsModal()" id="btnAddReturnToSupplierItems" title="Add Items" style="color:white;font-weight:bold;float:right;"><i class="glyphicon glyphicon-plus"></i> Add Items</a>
             </div>
 
                 <div class="col-md-12">
@@ -215,7 +213,7 @@
                     <div class="col-md-12">
                         <div class="form-group col-md-12">
                             <div class="col-md-12">
-                                @Html.LabelFor(model => model.MaterialReturnDetail.MaterialID, htmlAttributes: new { @class = "control-label" })
+                                @Html.LabelFor(model => model.MaterialReturnDetail.MaterialID, htmlAttributes: new { @class = "control-label lblrequired" })
                             </div>
                             <div class="col-md-10">
                                 <div id="divRawMaterialDropdown">

@@ -18,7 +18,9 @@
 
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href=@Url.Action("Index", "DashboardStore", new { code = "STR" })><i class="fa fa-cogs"></i> Store</a></li>
+        <li><a href=@Url.Action("Index", "DashboardStore", new { code = "STR" })><i class="fa fa-cogs"></i> Stores</a></li>
+        <li>Raw Materials And Others</li>
+        <li>Material Receipt Notes</li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -128,10 +130,10 @@
             <div class="col-md-12" style="padding-bottom:3px">
                 <div class="col-md-6"></div>
                 <div class="col-md-4">
-                    <a class="btn btn-openid" onclick="LoadPODetail()" id="btnLoadPO" style="color:white;font-weight:bold;float:right;"><i class="fa fa-arrow-down"></i> Load PO Items</a>@*margin-left:70px;*@
+                    <a class="btn btn-openid" onclick="LoadPODetail()" id="btnLoadPO" title="Load PO Items" style="color:white;font-weight:bold;float:right;"><i class="fa fa-arrow-down"></i> Load PO Items</a>@*margin-left:70px;*@
                 </div>
                 <div class="col-md-2">
-                    <a class="btn btn-openid" onclick="AddMaterialReceiptDetail()" style="color:white;font-weight:bold;float:right;"><i class="fa fa-plus"></i> Add New Item</a>@*//margin-left:20px;*@
+                    <a class="btn btn-openid" onclick="AddMaterialReceiptDetail()" title="Add New Item" style="color:white;font-weight:bold;float:right;"><i class="fa fa-plus"></i> Add New Item</a>@*//margin-left:20px;*@
                 </div>
             </div>
 

@@ -270,7 +270,8 @@ function BindRequisitionByID()
     $('#ID').val(result.ID);
     $('#Title').val(result.Title);
     $('#ReqNo').val(result.ReqNo);
-    $('#ReqDateFormatted').val(result.ReqDateFormatted);
+    //$('#ReqDateFormatted').val(result.ReqDateFormatted);
+    $('#ReqDateFormatted').datepicker('setDate', result.ReqDateFormatted);
     $('#EmployeeID').val(result.EmployeeID).select2();
     $('#ReqStatus').val(result.ReqStatus);
     $('#lblReqNo').text('Requisition# : ' + result.ReqNo);

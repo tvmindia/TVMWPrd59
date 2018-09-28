@@ -21,6 +21,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Shipping Address")]
         [DataType(DataType.MultilineText)]
         public string ShippingAddress { get; set; }
+        [Display(Name = "General Notes")]
         [DataType(DataType.MultilineText)]
         public string GeneralNotes { get; set; }
         [Display(Name = "Return By")]
@@ -45,9 +46,13 @@ namespace ProductionApp.UserInterface.Models
     {
         public Guid ID { get; set; }
         public Guid MaterialReturnID { get; set; }
+        [Display(Name = "Material")]
         public Guid MaterialID { get; set; }
+        [Display(Name = "Material Description")]
         public string MaterialDesc { get; set; }
+        [Display(Name = "Unit")]
         public string UnitCode { get; set; }
+        [Display(Name = "Quantity")]
         public decimal Qty { get; set; }
         public decimal Rate { get; set; }
         [Display(Name = "CGST %")]

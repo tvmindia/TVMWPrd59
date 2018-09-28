@@ -87,7 +87,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region InsertUpdateCustomerPayment
-       [AuthSecurityFilter(ProjectObject = "CustomerPayment", Mode = "R")]
+       [AuthSecurityFilter(ProjectObject = "CustomerPayment", Mode = "W")]
         [HttpPost]
         public string InsertUpdateCustomerPayment(CustomerPaymentViewModel customerPaymentVM)
         {
@@ -201,7 +201,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetCustomerPayment
 
         #region DeleteCustomerPayment
-        [AuthSecurityFilter(ProjectObject = "CustomerPayment", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "CustomerPayment", Mode = "D")]
         public string DeleteCustomerPayment(string id)
         {
             object result = null;

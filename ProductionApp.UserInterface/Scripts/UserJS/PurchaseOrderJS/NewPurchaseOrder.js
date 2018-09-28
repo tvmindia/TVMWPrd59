@@ -849,8 +849,10 @@ function BindPurchaseOrder(ID) {
         if (result) {
 
             $('#PurchaseOrderNo').val(result.PurchaseOrderNo);
-            $('#PurchaseOrderDateFormatted').val(result.PurchaseOrderDateFormatted);
-            $('#PurchaseOrderIssuedDateFormatted').val(result.PurchaseOrderIssuedDateFormatted);
+            //$('#PurchaseOrderDateFormatted').val(result.PurchaseOrderDateFormatted);
+            //$('#PurchaseOrderIssuedDateFormatted').val(result.PurchaseOrderIssuedDateFormatted);
+            $('#PurchaseOrderDateFormatted').datepicker('setDate', result.PurchaseOrderDateFormatted);
+            $('#PurchaseOrderIssuedDateFormatted').datepicker('setDate', result.PurchaseOrderIssuedDateFormatted);
             $('#SupplierID').val(result.SupplierID).select2();
             $('#GeneralNotes').val(result.GeneralNotes);
             $('#PurchaseOrderStatus').val(result.PurchaseOrderStatus);

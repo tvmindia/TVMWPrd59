@@ -14,14 +14,16 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i> Raw Materials & Others</a></li>
+        <li><a href=@Url.Action("Index", "DashboardStore", new { code = "STR" })><i class="fa fa-cogs"></i> Stores</a></li>
+        <li>Raw Materials And Others</li>
+        <li>Stock Adjustment</li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
-
-@* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
-@Html.Action("AboutApprovalHistory", "DocumentApproval", new { id = Model.ID, docType = "SSADJ" })
-
+<div id="divApprovalHistory">
+    @* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
+    @Html.Action("AboutApprovalHistory", "DocumentApproval", new { id = Model.ID, docType = "SSADJ" })
+</div>
 <section class="content">
     <div class="row" id="OverlayHeader">
         <div class="col-md-6">
@@ -106,11 +108,7 @@
 
             <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> Item Details</div>
             <div class="col-md-12" style="padding-bottom:3px;padding-left:500px">
-                <div class="col-md-10">
-                </div>
-                <div class="col-md-2">
-                    <a class="btn btn-openid" onclick="ShowStockAdjustmentDetailsModal()" id="btnAddStockAdjustmentItems" style="color:white;font-weight:bold"><i class="glyphicon glyphicon-plus"></i> Add Item </a>
-                </div>
+                    <a class="btn btn-openid" onclick="ShowStockAdjustmentDetailsModal()" title="Add Item" id="btnAddStockAdjustmentItems" style="color:white;font-weight:bold;float:right"><i class="glyphicon glyphicon-plus"></i> Add Item </a>
             </div>
 
             <div class="col-md-12">
