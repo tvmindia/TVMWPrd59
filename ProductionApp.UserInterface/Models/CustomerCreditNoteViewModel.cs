@@ -29,8 +29,9 @@ namespace ProductionApp.UserInterface.Models
        
         [Display(Name = "Credit Amount")]
         [Required(ErrorMessage = "Please enter credit amount")]
+        [Remote(action: "CheckValue", controller: "CustomerCreditNote", AdditionalFields = "CreditAmount")]
         public decimal CreditAmount { get; set; }
-
+        
         public decimal AvailableCredit { get; set; }
 
         [Display(Name = "General Notes")]

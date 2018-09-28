@@ -17,6 +17,7 @@ $(document).ready(function () {
     {
         debugger;
         $('#ChartOfAccountCode,#PaymentMode').select2();
+        $('#SearchTerm').focus();
         BindOrReloadOtherIncomeTable('Init');
         //$('#SearchTerm').keypress(function (event) {
         //    if (event.which === 13) {
@@ -95,7 +96,7 @@ function BindOrReloadOtherIncomeTable(action) {
                     { "data": "IncomeDateFormatted", "defaultContent": "<i>-</i>", "width": "15%" },
                     { "data": "AccountCode", "defaultContent": "<i>-</i>", "width": "25%" },
                     { "data": "PaymentMode", "defaultContent": "<i>-</i>", "width": "20%" },
-                    { "data": "Amount", render: function (data, type, row) { return formatCurrency(data); }, "defaultContent": "<i>-</i>", "width": "15%" },
+                    { "data": "Amount", render: function (data, type, row) { return formatCurrency(roundoff(data,2)); }, "defaultContent": "<i>-</i>", "width": "15%" },
                     { "data": "AccountSubHead", "defaultContent": "<i>-</i>", "width": "22%" },
                     {
                         "data": "ID", "orderable": false, render: function (data, type, row) {

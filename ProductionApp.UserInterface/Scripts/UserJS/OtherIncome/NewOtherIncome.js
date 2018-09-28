@@ -104,9 +104,8 @@ function Save() {
             isInput = true;
         }
         else {
-            $('#msgAccountCode').show();
+            notyAlert("warning", "Account Code field is missing");// $('#msgAccountCode').show();
         }
-
         if ($('#PaymentMode').val() === "ONLINE") {
             if ($('#PaymentRef').val() !== "" && $('#PaymentRef').val() !== null) {
                 isInput = true;
@@ -117,15 +116,15 @@ function Save() {
                 $('#PaymentRef').change(function () { $('#msgPaymentRef').hide(); });
             }
         }
-
         if ($('#Amount').val()<=0) {
             $('#Amount').val("");
         }
 
         if (isInput) {
             $('#hdnChartOfAccountCode').val($('#ChartOfAccountCode').val().split('|')[0]);
-            $('#btnSave').click();
-        }
+           // $('#btnSave').click();
+            $('#btnSave').trigger('click');
+        } 
     } catch (ex) {
         console.log(ex);
     }
@@ -147,6 +146,7 @@ function SaveSuccess(data, status) {
                 $('#DepositWithdrawalID').val(otherIncomeVM.DepositWithdrawalID)
                 $('#EntryNo').val(otherIncomeVM.EntryNo)
                 message = otherIncomeVM.Message;
+                BindOtherIncome();
                 notyAlert("success", message);
                 ChangeButtonPatchView('OtherIncome', 'divButtonPatch', 'Edit');
                 //BindMaterialReceiptDetailTable($('#ID').val());
@@ -182,7 +182,7 @@ function BindOtherIncome() {
         $('#ReferenceBank').val(_otherIncome.ReferenceBank);
         $('#PaymentRef').val(_otherIncome.PaymentRef);
         debugger;
-        $('#Amount').val(_otherIncome.Amount);
+        $('#Amount').val(roundoff(_otherIncome.Amount));
         $('#Description').val(_otherIncome.Description);
         $('#DepositWithdrawalID').val(_otherIncome.DepositWithdrawalID)
         $('#lblRefNo').text(" Entry No#: "+_otherIncome.EntryNo);
@@ -282,7 +282,7 @@ function ClearFields() {
         $('#DepositWithdrawalID').val(_emptyGuid);
         ChangeButtonPatchView('OtherIncome', 'divButtonPatch', 'Add');
         $('#msgAccountCode').hide();
-        $('#msgPaymentRef').hide();
+        $('#msgPaymentRef').hide();     
     } catch (ex) {
         console.log("error", ex.message);
     }

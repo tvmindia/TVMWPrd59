@@ -114,6 +114,8 @@ namespace ProductionApp.RepositoryServices.Services
                                         customerCreditNote.AvailableCredit = (sdr["AvailableCredit"].ToString() != "" ? decimal.Parse(sdr["AvailableCredit"].ToString()) : customerCreditNote.AvailableCredit);
                                         //  _customerCreditNotesObj.Type = (sdr["Type"].ToString() != "" ? sdr["Type"].ToString() : _customerCreditNotesObj.Type);
                                         //  _customerCreditNotesObj.GeneralNotes = (sdr["GeneralNotes"].ToString() != "" ? sdr["GeneralNotes"].ToString() : _customerCreditNotesObj.GeneralNotes);
+                                        customerCreditNote.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : customerCreditNote.TotalCount);
+                                        customerCreditNote.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : customerCreditNote.FilteredCount);
                                     }
                                     customerCreditNoteList.Add(customerCreditNote);
                                 }

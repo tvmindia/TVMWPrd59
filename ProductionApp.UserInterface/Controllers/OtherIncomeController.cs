@@ -147,7 +147,7 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion DeleteOtherIncome
-
+    
         #region ButtonStyling
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "R")]

@@ -24,7 +24,14 @@ $(document).ready(function () {
     debugger;
     try {
         $("#CustomerID").select2({});
+        $('#SearchTerm').focus();
         BindOrReloadCustomerCreditNoteTable('Init');
+        $('#SearchTerm').keypress(function (event) {
+            if (event.which === 13) {
+                event.preventDefault();
+                BindOrReloadCustomerCreditNoteTable('Apply');
+            }
+        });
         $('#tblCustomerCreditNoteView tbody').on('dblclick', 'td', function () {
             Edit(this);
         });
@@ -74,6 +81,9 @@ function BindOrReloadCustomerCreditNoteTable(action) {
         }
         CustomerCreditNoteAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
         CustomerCreditNoteAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+        CustomerCreditNoteAdvanceSearchViewModel.FromDate = $('#FromDate').val();
+        CustomerCreditNoteAdvanceSearchViewModel.ToDate = $('#ToDate').val();
+        CustomerCreditNoteAdvanceSearchViewModel.CustomerID = $('#CustomerID').val();
         _dataTables.CustomerCreditNoteTable = $('#tblCustomerCreditNoteView').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
