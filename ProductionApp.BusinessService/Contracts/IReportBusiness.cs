@@ -20,7 +20,7 @@ namespace ProductionApp.BusinessService.Contracts
         List<StockRegisterReport> GetStockRegisterReport(StockRegisterReport stockRegisterReport);
         List<StockLedgerReport> GetStockLedgerReport(StockLedgerReport stockLedgerReport);
         List<InventoryReOrderStatusFGReport> GetInventoryReOrderStatusFGReport(InventoryReOrderStatusFGReport inventoryReOrderStatusFGReport);       
-        StockRegisterFGReport GetStockRegisterFGReport(StockRegisterFGReport stockRegisterFGReport);
+        List<StockRegisterFGReport> GetStockRegisterFGReport(StockRegisterFGReport stockRegisterFGReport);
         List<StockLedgerFGReport> GetStockLedgerFGReport(StockLedgerFGReport stockLedgerFGReport);
         List<ProductStageWiseStockReport> GetProductStageWiseStockReport(ProductStageWiseStockReport productStagewiseReport);
 

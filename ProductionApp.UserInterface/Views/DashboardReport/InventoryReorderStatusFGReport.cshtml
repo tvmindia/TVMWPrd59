@@ -28,7 +28,7 @@
 
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i>Reports</a></li>
+        <li><a href="/DashboardReport?Code=RPT&Name=Reports"><i class="fa fa-cogs"></i>Reports</a></li>
         <li class="active">Inventory Re-Order Satus - FG/Components</li>
     </ol>
 </div>
@@ -39,11 +39,12 @@
             <div class="col-md-9">
                 <div class="col-md-12">
                     @Html.LabelFor(model => model.SearchTerm, htmlAttributes: new { @class = "control-label" })
+                @Html.Hidden("hdnSearchTerm")
                 </div>
                 <div class="col-md-12">
                     <div class="input-group">
                         @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "SearchTerm", @onkeypress = "RedirectSearchClick(event,this)" } })
-                        <div class="input-group-btn">
+                        <div class="input-group-btn" title="Search">
                             <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadInventoryReorderFGTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
                         </div>
                     </div>
@@ -98,7 +99,7 @@
                             { Text = "Items without re-order level defined", Value = "3" });
 
                         }
-                        @Html.DropDownListFor(model => model.ItemStatus, InventoryItemStatus, "--Select Status--", new { @class = "form-control", style = "padding:4px 12px;", @id = "Status" })
+                        @Html.DropDownListFor(model => model.ItemStatus, InventoryItemStatus, "--Select Status--", new { @class = "form-control", @style = "padding:4px 12px;width:100%;", @id = "Status" })
                     </div>
                 </div>
              
@@ -115,7 +116,7 @@
                             ProductTypeStatus.Add(new SelectListItem
                             { Text = "Product", Value = "PRO",Selected=true}); 
                         }
-                        @Html.DropDownListFor(model => model.ProductType, ProductTypeStatus, new { @class = "form-control", style = "padding:4px 12px;", @id = "Type" })
+                        @Html.DropDownListFor(model => model.ProductType, ProductTypeStatus, new { @class = "form-control", @style = "padding:4px 12px;width:100%;", @id = "Type" })
                     </div>
                 </div>
 
@@ -131,8 +132,8 @@
 
                 </div>*@
 
-                <div class="col-md-2">
-                    <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadInventoryReorderFGTable('Apply')">Apply</a>
+                <div class="col-md-2" title="Apply">
+                    <a class="btn btn-primary" style="right:-750px;margin-top:30px" onclick="BindOrReloadInventoryReorderFGTable('Apply')">Apply</a>
                 </div>
 
 
@@ -158,12 +159,14 @@
         </table>
     </div>
 </section>
-
+@using (Html.BeginForm("DownloadExcel", "DashboardReport", FormMethod.Post, new { id = "FormExcelExport" }))
+{
+    @Html.Hidden("AdvanceSearch", null, htmlAttributes: new { @class = "control-label" })
+    @Html.Hidden("DocumentType", null, htmlAttributes: new { @class = "control-label", Value = "INVFGR" })
+}
 @section Scripts {
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableFixedColumns")   
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableFixedColumns")    
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/Report/InventoryReOrderStatusFGReport")
 }

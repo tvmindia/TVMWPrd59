@@ -122,7 +122,7 @@
 
                 </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-2" title="Apply">
                         <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadInventoryReorderTable('Apply')">Apply</a>
                     </div>
 
@@ -160,9 +160,7 @@
     @Html.Hidden("DocumentType", null, htmlAttributes: new { @class = "control-label", Value = "INVM" })
 }
 @section Scripts {
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-    @*@Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")*@
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")   
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/Report/InventoryReOrderStatusReport")
 }

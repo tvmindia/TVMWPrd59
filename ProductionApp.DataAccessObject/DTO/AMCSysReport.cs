@@ -76,6 +76,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public Common Common { get; set; }
         public string ReceivedQty { get; set; }
         public List<RequisitionDetailReport> RequisitionDetailReportList { get; set; }
+        public string RequisitionNo { get; set; }
+
     }
 
     public class PurchaseSummaryReport
@@ -265,7 +267,7 @@ namespace ProductionApp.DataAccessObject.DTO
         public decimal SellingAmount { get; set; }
         public string StockCostAmount { get; set; }
         public string StockSellingAmount { get; set; }        
-        public List<StockRegisterFGReport> StockRegisterFGReportList { get; set; }
+        public List<StockRegisterFGReport> StockRegisterFGReportList { get; set; }      
     }
 
     public class StockLedgerFGReport

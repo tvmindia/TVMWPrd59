@@ -95,28 +95,13 @@ namespace ProductionApp.BusinessService.Services
         }
         #endregion GetInventoryReOrderStatusFGReport
 
+     
         #region GetStockRegisterFGReport      
-        public StockRegisterFGReport GetStockRegisterFGReport(StockRegisterFGReport stockRegisterFGReport)
-        {
-            StockRegisterFGReport stockRegisterFGObj = new StockRegisterFGReport();
-            List<StockRegisterFGReport> stockRegisterFGReportList = null;
-
-            try
-            {
-                stockRegisterFGReportList = _reportRepository.GetStockRegisterFGReport(stockRegisterFGReport);
-                stockRegisterFGObj.StockRegisterFGReportList = stockRegisterFGReportList;           
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return stockRegisterFGObj;
-
+        public List<StockRegisterFGReport> GetStockRegisterFGReport(StockRegisterFGReport stockRegisterFGReport)
+        {            
+            return _reportRepository.GetStockRegisterFGReport(stockRegisterFGReport);
         }
         #endregion GetStockRegisterFGReport
-
-
 
 
         #region GetStockLedgerFGReport

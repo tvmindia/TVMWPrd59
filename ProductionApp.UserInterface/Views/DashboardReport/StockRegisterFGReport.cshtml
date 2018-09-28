@@ -28,7 +28,7 @@
 
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i>Reports</a></li>
+        <li><a href="/DashboardReport?Code=RPT&Name=Reports"><i class="fa fa-cogs"></i>Reports</a></li>
         <li class="active">Stock Register - FG/Components/Sub-Components</li>
     </ol>
 </div>
@@ -43,7 +43,8 @@
                 <div class="col-md-12">
                     <div class="input-group">
                         @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "SearchTerm", @onkeypress = "RedirectSearchClick(event,this)" } })
-                        <div class="input-group-btn">
+                       @Html.Hidden("hdnSearchTerm")
+                         <div class="input-group-btn" title="Search">
                             <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadStockRegisterFGTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
                         </div>
                     </div>
@@ -117,8 +118,8 @@
                     </div>
 
 
-                    <div class="col-md-2">
-                        <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadStockRegisterFGTable('Apply')">Apply</a>
+                    <div class="col-md-2" title="Apply">
+                        <a class="btn btn-primary" style="right:-750px;margin-top:30px" onclick="BindOrReloadStockRegisterFGTable('Apply')">Apply</a>
                     </div>
 
 
@@ -131,8 +132,7 @@
         <div class="col-md-12">
             <table id="tblStockRegisterFGReport" class="table stripe" cellspacing="0" width="100%">
                 <thead>
-                    <tr class="text-center TableHead">
-                        <th>ID</th>
+                    <tr class="text-center TableHead">                       
                         <th>Type</th>
                         <th>Item</th>
                         <th>Unit</th>
@@ -146,11 +146,13 @@
             </table>
         </div>
 </section>
-
+@using (Html.BeginForm("DownloadExcel", "DashboardReport", FormMethod.Post, new { id = "FormExcelExport" }))
+{
+    @Html.Hidden("AdvanceSearch", null, htmlAttributes: new { @class = "control-label" })
+    @Html.Hidden("DocumentType", null, htmlAttributes: new { @class = "control-label", Value = "SRFGR" })
+}
 @section Scripts {
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")    
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/Report/StockRegisterFGReport")
 }
