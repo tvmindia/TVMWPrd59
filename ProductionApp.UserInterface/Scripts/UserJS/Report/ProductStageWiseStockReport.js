@@ -24,6 +24,7 @@ $(document).ready(function () {
         {
             $('#lblMessage').hide();
         }
+        $('#SearchTerm').focus();
         BindOrReloadProductstagewiseStockTable('Init');
 }
         
@@ -53,7 +54,9 @@ function
         ProductStageWiseStockReportViewModel= new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
-
+        var SearchValue = $('#hdnSearchTerm').val();
+        var SearchTerm = $('#SearchTerm').val();
+        $('#hdnSearchTerm').val($('#SearchTerm').val());
 
         //switch case to check the operation
         switch (action) {
@@ -65,6 +68,9 @@ function
             case 'Init':
                 break;
             case 'Search':
+                if (SearchTerm == SearchValue) {
+                    return false;
+                }
                 break;
             case 'Apply':                
                 ProductStageWiseStockReportViewModel.ProductID = $("#Product").val();
@@ -72,6 +78,12 @@ function
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
+                ProductStageWiseStockReportViewModel.DataTablePaging = DataTablePagingViewModel;
+                ProductStageWiseStockReportViewModel.SearchTerm = $('#SearchTerm').val() == "" ? null : $('#SearchTerm').val();
+                ProductStageWiseStockReportViewModel.ProductID = $('#Product').val() == "" ? EmptyGuid : $('#Product').val();
+                $('#AdvanceSearch').val(JSON.stringify(ProductStageWiseStockReportViewModel));
+                $('#FormExcelExport').submit();
+                return true;
                 break;
             default:
                 break;
@@ -84,15 +96,7 @@ function
 
             {
 
-                dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
-                buttons: [{
-                    extend: 'excel',
-                    exportOptions:
-                                 {
-                                     columns: [1, 2, 3]
-                                 }
-                }],
-
+                dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',               
                 order: false,
                 ordering: false,
                 searching: false,
@@ -106,21 +110,19 @@ function
                     type: 'POST'
                 },
                 pageLength: 15,
-                columns: [
-                   { "data": "ID", "defaultContent": "<i>-</i>" },
+                columns: [                   
                     { "data": "Description", "defaultContent": "<i>-</i>" },
                     { "data": "Stage", "defaultContent": "<i>-</i>" },
                     { "data": "CurrentStock", "defaultContent": "<i>-</i>" }               
 
 
                 ],
-                columnDefs: [
-                    { "targets": [0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1, 2] },
-                    { className: "text-center", "targets": [3] },
-                    { width: "40%", "targets": [1] },
+                columnDefs: [                    
+                    { className: "text-left", "targets": [0,1] },
+                    { className: "text-center", "targets": [2] },
+                    { width: "40%", "targets": [0] },
+                    { width: "30%", "targets": [1] },
                     { width: "30%", "targets": [2] },
-                    { width: "30%", "targets": [3] },
 
 
                    // { className: "text-center", "targets": [3, 4, 5, 6, 7] },
@@ -132,18 +134,17 @@ function
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
-                    if (action === 'Export') {
-                        if (json.data.length > 0) {
-                            if (json.data[0].TotalCount > 10000) {
-                                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                            }
-                        }
-                        $(".buttons-excel").trigger('click');
-                        BindOrReloadProductstagewiseStockTable('Search');
+                    debugger;
+                    $('.dataTables_wrapper div.bottom div').addClass('col-md-6');
+                    $('#tblProductStagewiseStockReport').fadeIn('slow');
+                    if (action == undefined) {
+                        $('.excelExport').hide();
+                        OnServerCallComplete();
                     }
+
                 }
             });
-        $(".buttons-excel").hide();
+      
     }
     catch (e) {
         console.log(e.message);

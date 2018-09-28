@@ -217,6 +217,8 @@ namespace ProductionApp.RepositoryServices.Services
                                         requisitionObj.OrderedQty= (sdr["OrderQty"].ToString() != "" ? sdr["OrderQty"].ToString() : requisitionObj.OrderedQty);
                                         requisitionObj.ReceivedQty = (sdr["ReceivedQty"].ToString() != "" ? sdr["ReceivedQty"].ToString() : requisitionObj.ReceivedQty);
                                         requisitionObj.DeliveryStatus= (sdr["DeliveryStatus"].ToString() != "" ? sdr["DeliveryStatus"].ToString() : requisitionObj.DeliveryStatus);
+                                        requisitionObj.RequisitionNo = (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : requisitionObj.RequisitionNo);
+                                        requisitionObj.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : requisitionObj.RequisitionBy);
                                     }
                                     requisitionDetailList.Add(requisitionObj);
                                 }
@@ -788,7 +790,8 @@ namespace ProductionApp.RepositoryServices.Services
                                         stockLedgerObj.TransactionDateFormatted = (sdr["TrDate"].ToString() != "" ? DateTime.Parse(sdr["TrDate"].ToString()).ToString(settings.DateFormat) : stockLedgerObj.TransactionDateFormatted);
                                         stockLedgerObj.StockIn = (sdr["StockIn"].ToString() != "" ? decimal.Parse(sdr["StockIn"].ToString()) : stockLedgerObj.StockIn);
                                         stockLedgerObj.StockOut = (sdr["StockOut"].ToString() != "" ? decimal.Parse(sdr["StockOut"].ToString()) : stockLedgerObj.StockOut);
-
+                                        stockLedgerObj.MaterialType = new MaterialType();
+                                        stockLedgerObj.MaterialType.Description = (sdr["Description"].ToString() != "" ? (sdr["Description"].ToString()) : stockLedgerObj.MaterialType.Description);
                                     }
                                     stockLedgerReportList.Add(stockLedgerObj);
                                 }
@@ -922,8 +925,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         stockRegisterFGObj.TotalCount = (sdr["TotalCount"].ToString() != "" ? int.Parse(sdr["TotalCount"].ToString()) : stockRegisterFGObj.TotalCount);
                                         stockRegisterFGObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : stockRegisterFGObj.FilteredCount);                                       
                                         stockRegisterFGObj.StockCostAmount = (sdr["TotalCostAmount"].ToString() != "" ? (sdr["TotalCostAmount"].ToString()) : stockRegisterFGObj.StockCostAmount);
-                                        stockRegisterFGObj.StockSellingAmount = (sdr["TotalSellingAmount"].ToString() != "" ? (sdr["TotalSellingAmount"].ToString()) : stockRegisterFGObj.StockSellingAmount);
-
+                                        stockRegisterFGObj.StockSellingAmount = (sdr["TotalSellingAmount"].ToString() != "" ? (sdr["TotalSellingAmount"].ToString()) : stockRegisterFGObj.StockSellingAmount);                                     
                                     }
                                     stockRegisterFGReportList.Add(stockRegisterFGObj);
                                 }

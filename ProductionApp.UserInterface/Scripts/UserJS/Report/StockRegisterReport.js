@@ -14,7 +14,8 @@ $(document).ready(function () {
     debugger;
     try {
         $("#MaterialType,#Material").select2({
-        });       
+        });
+        $('#SearchTerm').focus();
         BindOrReloadStockRegisterTable('Init');
 
     }
@@ -42,7 +43,9 @@ function
         StockRegisterReportViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
-
+        var SearchValue = $('#hdnSearchTerm').val();
+        var SearchTerm = $('#SearchTerm').val();
+        $('#hdnSearchTerm').val($('#SearchTerm').val());
 
         //switch case to check the operation
         switch (action) {
@@ -55,6 +58,9 @@ function
             case 'Init':
                 break;
             case 'Search':
+                if (SearchTerm == SearchValue) {
+                    return false;
+                }
                 break;
             case 'Apply':                           
                 StockRegisterReportViewModel.MaterialTypeCode = $('#MaterialType').val();
@@ -64,6 +70,14 @@ function
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
+                StockRegisterReportViewModel.DataTablePaging = DataTablePagingViewModel;
+                StockRegisterReportViewModel.SearchTerm = $('#SearchTerm').val() == "" ? null : $('#SearchTerm').val();
+                StockRegisterReportViewModel.MaterialTypeCode = $('#MaterialType').val() == "" ? null : $('#MaterialType').val();
+                StockRegisterReportViewModel.MaterialID = $('#Material').val() == "" ? EmptyGuid : $('#Material').val();
+                StockRegisterReportViewModel.Location = $('#Location').val() == "" ? null : $('#Location').val();
+                $('#AdvanceSearch').val(JSON.stringify(StockRegisterReportViewModel));
+                $('#FormExcelExport').submit();
+                return true;
                 break;
             default:
                 break;
@@ -79,15 +93,7 @@ function
 
             {
 
-                dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
-                buttons: [{
-                    extend: 'excel',
-                    exportOptions:
-                                 {
-                                     columns: [1, 2, 3, 4, 5,6]
-                                 }
-                }],
-
+                dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',              
                 order: false,
                 ordering: false,
                 searching: false,
@@ -101,45 +107,44 @@ function
                     type: 'POST'
                 },
                 pageLength: 15,
-                columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
+                columns: [                   
                     { "data": "TypeDescription", "defaultContent": "<i>-</i>" },
                     { "data": "Description", "defaultContent": "<i>-</i>" },
                     { "data": "UnitCode", "defaultContent": "<i>-</i>" },
                     { "data": "CurrentStock", "defaultContent": "<i>-</i>" },
-                    { "data": "CostPrice", "defaultContent": "<i>-</i>" },
-                    { "data": "StockValue", "defaultContent": "<i>-</i>" }
+                    { "data": "CostPrice", render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i>-</i>" },
+                    { "data": "StockValue",render: function (data, type, row) { return roundoff(data) }, "defaultContent": "<i>-</i>" }
                    
 
 
                 ],
-                columnDefs: [{ "targets": [0,1], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [2] },
-                    { className: "text-center", "targets": [ 3] },
-                    { className: "text-right", "targets": [4, 5, 6] }
+                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
+                    { className: "text-left", "targets": [1] },
+                    { className: "text-center", "targets": [2 ] },
+                    { className: "text-right", "targets": [3,4,5] }
 
                 ],
 
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
-                    if (action === 'Export') {
-                        if (json.data.length > 0) {
-                            if (json.data[0].TotalCount > 10000) {
-                                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                            }
-                        }
-                        $(".buttons-excel").trigger('click');
-                        BindOrReloadStockRegisterTable('Search');
+                    debugger;
+                    $('.dataTables_wrapper div.bottom div').addClass('col-md-6');
+                    $('#tblStockRegisterReport').fadeIn('slow');
+                    if (action == undefined) {
+                        $('.excelExport').hide();
+                        OnServerCallComplete();
                     }
+
                 },
+            
                 // grouping with  columns
                 drawCallback: function (settings) {
                     var api = this.api();
                     var rows = api.rows({ page: 'current' }).nodes();
                     var last = null;
 
-                    api.column(1, { page: 'current' }).data().each(function (group, i) {
+                    api.column(0, { page: 'current' }).data().each(function (group, i) {
                         if (last !== group) {
                             debugger;
                             var rowData = api.row(i).data();
@@ -148,8 +153,7 @@ function
                         }
                     });
                 }
-            });
-        $(".buttons-excel").hide();
+            });       
     }
     catch (e) {
         console.log(e.message);

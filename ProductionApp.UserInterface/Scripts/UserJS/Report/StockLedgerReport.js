@@ -13,8 +13,9 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
-        $("#MaterialType,#MaterialID").select2({
+        $("#MaterialType,#MaterialID,#TransactionType").select2({
         });
+        $('#SearchTerm').focus();
         BindOrReloadStockLedgerTable('Init');
 
     }
@@ -42,7 +43,9 @@ function
         StockLedgerReportViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
-
+        var SearchValue = $('#hdnSearchTerm').val();
+        var SearchTerm = $('#SearchTerm').val();
+        $('#hdnSearchTerm').val($('#SearchTerm').val());
 
         //switch case to check the operation
         switch (action) {
@@ -51,13 +54,17 @@ function
                 $('#FromDate').val('');
                 $('#ToDate').val('');
                 $('#MaterialType').val('').select2();
-                $('#TransactionType').val('');               
+                $('#TransactionType').val('').select2();               
                 $('#DateFilter').val('30');
                 $('#MaterialID').val('').select2();
+                $('.datepicker').datepicker('setDate', null);
                 break;
             case 'Init':
                 break;
             case 'Search':
+                if (SearchTerm == SearchValue) {
+                    return false;
+                }
                 break;
             case 'Apply':
                 StockLedgerReportViewModel.FromDate = $('#FromDate').val();
@@ -77,6 +84,20 @@ function
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
+                StockLedgerReportViewModel.DataTablePaging = DataTablePagingViewModel;
+                StockLedgerReportViewModel.SearchTerm = $('#SearchTerm').val() == "" ? null : $('#SearchTerm').val();
+                StockLedgerReportViewModel.FromDate = $('#FromDate').val() == "" ? null : $('#FromDate').val();
+                StockLedgerReportViewModel.ToDate = $('#ToDate').val() == "" ? null : $('#ToDate').val();
+                StockLedgerReportViewModel.TransactionType = $('#TransactionType').val() == "" ? null : $('#TransactionType').val();
+                StockLedgerReportViewModel.MaterialTypeCode = $('#MaterialType').val() == "" ? null : $('#MaterialType').val();
+                StockLedgerReportViewModel.MaterialID = $('#MaterialID').val() == "" ? EmptyGuid : $('#MaterialID').val();
+                StockLedgerReportViewModel.DateFilter = $('#DateFilter').val() == "" ? null : $('#DateFilter').val();
+                //if ((StockLedgerReportViewModel.FromDate == "") && (StockLedgerReportViewModel.ToDate == "")) {
+                //    StockLedgerReportViewModel.DateFilter = $('#DateFilter').val();
+                //}
+                $('#AdvanceSearch').val(JSON.stringify(StockLedgerReportViewModel));
+                $('#FormExcelExport').submit();
+                return true;
                 break;
             default:
                 break;
@@ -93,15 +114,7 @@ function
 
             {
 
-                dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
-                buttons: [{
-                    extend: 'excel',
-                    exportOptions:
-                                 {
-                                     columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-                                 }
-                }],
-
+                dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',             
                 order: false,
                 ordering: false,
                 searching: false,
@@ -115,9 +128,9 @@ function
                     type: 'POST'
                 },
                 pageLength: 15,
-                columns: [
-                    { "data": "MaterialID", "defaultContent": "<i>-</i>" },
+                columns: [                    
                     { "data": "Description", "defaultContent": "<i>-</i>" },
+                    { "data": "MaterialType.Description", "defaultContent": "<i>-</i>" },
                     { "data": "UnitCode", "defaultContent": "<i>-</i>" },
                     { "data": "OpeningStock", "defaultContent": "<i>-</i>" },
                     { "data": "ClosingStock", "defaultContent": "<i>-</i>" },
@@ -128,24 +141,23 @@ function
                     { "data": "StockOut", "defaultContent": "<i>-</i>" },
 
                 ],
-                columnDefs: [{ "targets": [0, 3, 4], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1] },
-                    { className: "text-center", "targets": [2,5,6,7] },
-                    { className: "text-right", "targets": [8, 9] }
+                columnDefs: [{ "targets": [ 3,4], "visible": false, "searchable": false },
+                    { className: "text-left", "targets": [0,1,2,5,6] },
+                    { className: "text-center", "targets": [7] },
+                    { className: "text-right", "targets": [8,9] }
                 ],
 
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
-                    if (action === 'Export') {
-                        if (json.data.length > 0) {
-                            if (json.data[0].TotalCount > 10000) {
-                                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                            }
-                        }
-                        $(".buttons-excel").trigger('click');
-                        BindOrReloadStockLedgerTable('Search');
+                    debugger;
+                    $('.dataTables_wrapper div.bottom div').addClass('col-md-6');
+                    $('#tblStockLedgerReport').fadeIn('slow');
+                    if (action == undefined) {
+                        $('.excelExport').hide();
+                        OnServerCallComplete();
                     }
+
                 },
                 // grouping with  columns
                 drawCallback: function (settings) {
@@ -153,7 +165,7 @@ function
                     var rows = api.rows({ page: 'current' }).nodes();
                     var last = null;
 
-                    api.column(1, { page: 'current' }).data().each(function (group, i) {
+                    api.column(0, { page: 'current' }).data().each(function (group, i) {
                         if (last !== group) {
                             debugger;
                             var rowData = api.row(i).data();
@@ -166,8 +178,7 @@ function
                         }
                     });
                 }
-            });
-        $(".buttons-excel").hide();       
+            });         
     }
     catch (e) {
         console.log(e.message);

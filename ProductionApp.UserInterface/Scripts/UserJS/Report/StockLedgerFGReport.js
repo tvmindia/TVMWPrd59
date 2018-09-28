@@ -2,7 +2,7 @@
 //*****************************************************************************
 //Author:Sruthi
 //CreatedDate: 23-May-2018 
-//LastModified: 23-May-2018 
+//LastModified: 26-Sep-2018 
 //FileName: StockLedgerFGReport.js
 //Description: Client side coding for Stock Ledger FG Report
 //******************************************************************************
@@ -13,7 +13,7 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     debugger;
     try {
-        
+        $('#SearchTerm').focus();
         BindOrReloadStockLedgerFGTable('Init');
 
     }
@@ -41,7 +41,9 @@ function
         StockLedgerFGReportViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
-
+        var SearchValue = $('#hdnSearchTerm').val();
+        var SearchTerm = $('#SearchTerm').val();
+        $('#hdnSearchTerm').val($('#SearchTerm').val());
 
         //switch case to check the operation
         switch (action) {
@@ -52,10 +54,15 @@ function
                 $('#TransactionType').val('');
                 $('#Type').val('');
                 $('#DateFilter').val('30');
+                $('.datepicker').datepicker('setDate', null);
+
                 break;
             case 'Init':
                 break;
             case 'Search':
+                if (SearchTerm == SearchValue) {
+                    return false;
+                }
                 break;
             case 'Apply':
                 StockLedgerFGReportViewModel.FromDate = $('#FromDate').val();
@@ -73,6 +80,16 @@ function
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
+                StockLedgerFGReportViewModel.DataTablePaging = DataTablePagingViewModel;
+                StockLedgerFGReportViewModel.SearchTerm = $('#SearchTerm').val() == "" ? null : $('#SearchTerm').val();
+                StockLedgerFGReportViewModel.FromDate = $('#FromDate').val() == "" ? null : $('#FromDate').val();
+                StockLedgerFGReportViewModel.ToDate = $('#ToDate').val() == "" ? null : $('#ToDate').val();
+                StockLedgerFGReportViewModel.TransactionType = $('#TransactionType').val() == "" ? null : $('#TransactionType').val();
+                StockLedgerFGReportViewModel.ProductType = $('#Type').val() == "" ? null : $('#Type').val();
+                StockLedgerFGReportViewModel.DateFilter = $('#DateFilter').val() == "" ? null : $('#DateFilter').val();
+                $('#AdvanceSearch').val(JSON.stringify(StockLedgerFGReportViewModel));
+                $('#FormExcelExport').submit();
+                return true;
                 break;
             default:
                 break;
@@ -88,15 +105,7 @@ function
 
             {
 
-                dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
-                buttons: [{
-                    extend: 'excel',
-                    exportOptions:
-                                 {
-                                     columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-                                 }
-                }],
-
+                dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',               
                 order: false,
                 ordering: false,
                 searching: false,
@@ -111,7 +120,7 @@ function
                 },
                 pageLength: 15,
                 columns: [
-                    { "data": "ProductID", "defaultContent": "<i>-</i>" },
+                   
                     { "data": "Description", "defaultContent": "<i>-</i>" },
                     { "data": "UnitCode", "defaultContent": "<i>-</i>" },
                     { "data": "OpeningStock", "defaultContent": "<i>-</i>" },
@@ -123,24 +132,23 @@ function
                     { "data": "StockOut", "defaultContent": "<i>-</i>" },
 
                 ],
-                columnDefs: [{ "targets": [3, 4, 0], "visible": false, "searchable": false },
-                    { className: "text-left", "targets": [1] },
-                    { className: "text-center", "targets": [2, 5, 6, 7] },
-                    { className: "text-right", "targets": [8, 9] }
+                columnDefs: [{ "targets": [2,3], "visible": false, "searchable": false },
+                    { className: "text-left", "targets": [0,1,4,5] },
+                    { className: "text-center", "targets": [6] },
+                    { className: "text-right", "targets": [7,8] }
                 ],
 
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
-                    if (action === 'Export') {
-                        if (json.data.length > 0) {
-                            if (json.data[0].TotalCount > 10000) {
-                                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                            }
-                        }
-                        $(".buttons-excel").trigger('click');
-                        BindOrReloadStockLedgerFGTable('Search');
+                    debugger;
+                    $('.dataTables_wrapper div.bottom div').addClass('col-md-6');
+                    $('#tblStockLedgerFGReport').fadeIn('slow');
+                    if (action == undefined) {
+                        $('.excelExport').hide();
+                        OnServerCallComplete();
                     }
+
                 },
                 // grouping with  columns
                 drawCallback: function (settings) {
@@ -148,7 +156,7 @@ function
                     var rows = api.rows({ page: 'current' }).nodes();
                     var last = null;
 
-                    api.column(1, { page: 'current' }).data().each(function (group, i) {
+                    api.column(0, { page: 'current' }).data().each(function (group, i) {
                         if (last !== group) {
                             debugger;
                             var rowData = api.row(i).data();
@@ -162,7 +170,7 @@ function
                     });
                 }
             });
-        $(".buttons-excel").hide();
+       
     }
     catch (e) {
         console.log(e.message);

@@ -29,7 +29,7 @@
 
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i>Reports</a></li>
+        <li><a href="/DashboardReport?Code=RPT&Name=Reports"><i class="fa fa-cogs"></i>Reports</a></li>
         <li class="active">Product StageWise Stock Report</li>
     </ol>
 </div>
@@ -44,7 +44,8 @@
                 <div class="col-md-12">
                     <div class="input-group">
                         @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox", @id = "SearchTerm", @onkeypress = "RedirectSearchClick(event,this)" } })
-                        <div class="input-group-btn">
+                        @Html.Hidden("hdnSearchTerm")
+                        <div class="input-group-btn" title="Search">
                             <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadProductstagewiseStockTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
                         </div>
                     </div>
@@ -77,8 +78,7 @@
         <div class="col-md-12">
             <table id="tblProductStagewiseStockReport" class="table stripe" cellspacing="0" width="100%">
                 <thead>
-                    <tr class="text-center TableHead">  
-                        <th>ID</th>                     
+                    <tr class="text-center TableHead">                                     
                         <th>Component</th>
                         <th>Stage</th>                      
                         <th>Current Stock</th>
@@ -88,11 +88,13 @@
             <div><label id="lblMessage" style="font-size:18px;text-align:center;padding-left:360px;">Please select product to view this Report</label></div>
         </div>
 </section>
-
+@using (Html.BeginForm("DownloadExcel", "DashboardReport", FormMethod.Post, new { id = "FormExcelExport" }))
+{
+    @Html.Hidden("AdvanceSearch", null, htmlAttributes: new { @class = "control-label" })
+    @Html.Hidden("DocumentType", null, htmlAttributes: new { @class = "control-label", Value = "PSWSR" })
+}
 @section Scripts {
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/jsZip")
-    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatableButtons")
+    @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/datatable")  
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/select2")
     @Scripts.RenderFormat(SiteKeys.ScriptVersion, "~/bundles/UserJs/Report/ProductStageWiseStockReport")
 }

@@ -769,6 +769,7 @@
     <Content Include="Scripts\UserJS\Report\PurchaseRegisterReport.js" />
     <Content Include="Scripts\UserJS\Report\PurchaseSummaryReport.js" />
     <Content Include="Scripts\UserJS\Report\Report.js" />
+    <Content Include="Scripts\UserJS\Report\RequisitionDetailReport.js" />
     <Content Include="Scripts\UserJS\Report\RequisitionSummaryReport.js" />
     <Content Include="Scripts\UserJS\Report\SalesAnalysisReport.js" />
     <Content Include="Scripts\UserJS\Report\SalesRegisterReport.js" />
