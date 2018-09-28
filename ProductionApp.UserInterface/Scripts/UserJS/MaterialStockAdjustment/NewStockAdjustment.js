@@ -32,6 +32,8 @@ $(document).ready(function () {
           { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>  |  <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
          ],
          columnDefs: [{ "targets": [0, 1], "visible": false, searchable: false },
+             { className: "text-right", "targets": [6] },
+             { className: "text-center", "targets": [8] },
          { "targets": [7], "width": "30%" },
          { "targets": [2], "width": "5%" },
          { "targets": [3,5,6], "width": "10%" },
@@ -40,8 +42,16 @@ $(document).ready(function () {
      });
         $("#MaterialID").change(function () {
             debugger;
-           
-            BindStockAdjustmentDetails(this.value)
+            if (this.value != "") {
+                BindStockAdjustmentDetails(this.value);
+            }
+            else {
+                $('#MaterialStockAdjDetail_Material_MaterialCode').val('');
+                $('#MaterialStockAdjDetail_Material_UnitCode').val('');
+                $('#MaterialStockAdjDetail_Material_Description').val('');
+                $('#MaterialStockAdjDetail_Material_Qty').val('');
+                $('#MaterialStockAdjDetail_Material_Remarks').val('');
+        }
         });
         if ($('#IsUpdate').val() == 'True') {
             BindStockAdjustmentByID()
@@ -175,6 +185,7 @@ function AddStockAdjustmentDetails()
                     }
                     if (!checkPoint)
                     {
+                        _SlNo = DataTables.StockAdjustmentDetailTable.rows().count() + 1;
                         DataTables.StockAdjustmentDetailTable.rows.add(_StockAdjustmentDetail).draw(false);
                     }
                     else
@@ -191,7 +202,7 @@ function AddStockAdjustmentDetails()
         }
         else
         {
-            notyAlert('warning', "Material,Quantity and Remark fields are required ");
+            notyAlert('warning', "Mandatory fields are missing ");
         }
     }
     catch (e) {
@@ -212,7 +223,7 @@ function Save() {
             _SlNo = 1;
         }
         else {
-            notyAlert('warning', 'Please Add Stock Adjustment Details!');
+            notyAlert('warning', 'Please add item details!');
         }
     }
     catch (e) {
@@ -288,7 +299,8 @@ function BindStockAdjustmentByID()
         $('#ID').val(result.ID);
         $('#AdjustmentNo').val(result.AdjustmentNo);
         $('#EmployeeID').val(result.EmployeeID).select2();
-        $('#AdjustmentDateFormatted').val(result.AdjustmentDateFormatted);
+        //$('#AdjustmentDateFormatted').val(result.AdjustmentDateFormatted);
+        $('#AdjustmentDateFormatted').datepicker('setDate', result.AdjustmentDateFormatted);
         $('#Remarks').val(result.Remarks);
         $('#lblStockAdjNo').text('Stock Adj.No# :' + result.AdjustmentNo);
         $('#LatestApprovalStatus').val(result.LatestApprovalStatus);
@@ -305,6 +317,7 @@ function BindStockAdjustmentByID()
             ChangeButtonPatchView('MaterialStockAdj', 'divbuttonPatchAddStockAdj', 'Disable');
             EnableDisableFields(true)
         }
+        $('#divApprovalHistory').load("../DocumentApproval/AboutApprovalHistory?id=" + $('#ID').val() + "&docType=SSADJ");
         BindStockAdjustmentDetailTable(id);
     }
     catch (e) {
@@ -421,7 +434,7 @@ function DeleteTempItem(materialStockAdjDetailVMIndex) {
         Itemtabledata.splice(materialStockAdjDetailVMIndex, 1);
         _SlNo = 1;
         DataTables.StockAdjustmentDetailTable.clear().rows.add(Itemtabledata).draw(false);
-        notyAlert('success', 'Deleted Successfully');
+        notyAlert('success', 'Deleted successfully');
     }
     catch (e) {
         console.log(e.message);

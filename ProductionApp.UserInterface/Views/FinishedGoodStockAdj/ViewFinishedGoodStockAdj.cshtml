@@ -11,7 +11,9 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="@Url.Action("ViewFinishedGoodStockAdj", "FinishedGoodStockAdj", new { Code = "STR" })"><i class="fa fa-cogs"></i> Finished Goods</a></li>
+        <li><a href=@Url.Action("Index", "DashboardStore", new { code = "STR" })><i class="fa fa-cogs"></i>Stores</a> </li>
+        <li>Finished Goods</li>
+        <li>Stock Adjustment</li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
