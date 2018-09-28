@@ -14,6 +14,7 @@ $(document).ready(function () {
     debugger;
     try
     {
+        $('#SearchTerm').focus();
         BindOrReloadStockRegisterFGTable('Init');
       
     }
@@ -42,6 +43,9 @@ function
         StockRegisterFGReportViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
+        var SearchValue = $('#hdnSearchTerm').val();
+        var SearchTerm = $('#SearchTerm').val();
+        $('#hdnSearchTerm').val($('#SearchTerm').val());
 
 
         //switch case to check the operation
@@ -53,6 +57,9 @@ function
             case 'Init':
                 break;
             case 'Search':
+                if (SearchTerm == SearchValue) {
+                    return false;
+                }
                 break;
             case 'Apply':
                 StockRegisterFGReportViewModel.ProductType = $('#Type').val();               
@@ -60,6 +67,12 @@ function
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
+                StockRegisterFGReportViewModel.DataTablePaging = DataTablePagingViewModel;
+                StockRegisterFGReportViewModel.SearchTerm = $('#SearchTerm').val() == "" ? null : $('#SearchTerm').val();
+                StockRegisterFGReportViewModel.ProductType = $('#Type').val() == "" ? null : $('#Type').val();
+                $('#AdvanceSearch').val(JSON.stringify(StockRegisterFGReportViewModel));
+                $('#FormExcelExport').submit();
+                return true;
                 break;
             default:
                 break;
@@ -72,15 +85,7 @@ function
 
             {
 
-                dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
-                buttons: [{
-                    extend: 'excel',
-                    exportOptions:
-                                 {
-                                     columns: [1, 2, 3, 4, 5, 6,7,8]
-                                 }
-                }],
-
+                dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',               
                 order: false,
                 ordering: false,
                 searching: false,
@@ -94,8 +99,7 @@ function
                     type: 'POST'
                 },
                 pageLength: 15,
-                columns: [
-                    { "data": "ID", "defaultContent": "<i>-</i>" },
+                columns: [                   
                     { "data": "ProductType", "defaultContent": "<i>-</i>" },
                     { "data": "Description", "defaultContent": "<i>-</i>" },
                     { "data": "UnitCode", "defaultContent": "<i>-</i>" },
@@ -110,21 +114,21 @@ function
 
 
                 ],
-                columnDefs: [{ "targets": [0,1], "visible": false, "searchable": false },
+                columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                     { className: "text-left", "targets": [2] },
                     { className: "text-center", "targets": [3] },
-                    { className: "text-right", "targets": [4, 5, 6, 7, 8] },
+                    { className: "text-right", "targets": [4, 5, 6, 7] },
 
                     
 
 
                     {
-                        targets: [1],
+                        targets: [0],
                         render: function (data, type, row) {
                             switch (data) {
                                 case 'COM': return 'Component'; break;
                                 case 'PRO': return 'Product'; break;
-                                case 'SUB': return 'SubComponent'; break;
+                                case 'SUB': return 'Sub Component'; break;
                                 default: return '';
                             }
                         }
@@ -138,19 +142,17 @@ function
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
                     debugger;
-                    if (action === 'Export') {
-                        if (json.data.length > 0) {
-                            if (json.data[0].TotalCount > 10000) {
-                                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                            }
-                        }
-                        $(".buttons-excel").trigger('click');
-                        BindOrReloadStockRegisterFGTable('Search');
+                    $('.dataTables_wrapper div.bottom div').addClass('col-md-6');
+                    $('#tblStockRegisterFGReport').fadeIn('slow');
+                    if (action == undefined) {
+                        $('.excelExport').hide();
+                        OnServerCallComplete();
                     }
+
                     var totalCostAmount = json.data[0].StockCostAmount;
                     var totalSellingAmount = json.data[0].StockSellingAmount;
                     $('#stockcostamount').text("₹"+(totalCostAmount));
-                    $('#stocksellingamount').text("₹" + (totalSellingAmount));
+                    $('#stocksellingamount').text("₹" + (totalSellingAmount));                   
                 },
             
                
@@ -161,7 +163,7 @@ function
                     var rows = api.rows({ page: 'current' }).nodes();
                     var last = null;
                  
-                    api.column(1, { page: 'current' }).data().each(function (group, i) {
+                    api.column(0, { page: 'current' }).data().each(function (group, i) {
                         if (group == 'SUB') {
                             group = 'Sub Component';
                         }
@@ -181,9 +183,7 @@ function
                         }
                     });
                 }
-            });
-       
-        $(".buttons-excel").hide();
+            });      
       
       
     }

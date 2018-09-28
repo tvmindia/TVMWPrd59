@@ -14,8 +14,9 @@ $(document).ready(function () {
     debugger;
     try
     {     
-        //$('#Product').select2({
-        //});
+        $('#Type,#Status').select2({
+        });
+        $('#SearchTerm').focus();
         BindOrReloadInventoryReorderFGTable('Init');
     }
     catch (e)
@@ -45,18 +46,23 @@ function
         InventoryReOrderStatusFGReportViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
-
+        var SearchValue = $('#hdnSearchTerm').val();
+        var SearchTerm = $('#SearchTerm').val();
+        $('#hdnSearchTerm').val($('#SearchTerm').val());
 
         //switch case to check the operation
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
-                $('#Status').val('');               
-                $('#Type').val('PRO');
+                $('#Status').val('0').select2();
+                $('#Type').val('PRO').select2();
                 break;
             case 'Init':
                 break;
             case 'Search':
+                if (SearchTerm == SearchValue) {
+                    return false;
+                }
                 break;
             case 'Apply':
                 InventoryReOrderStatusFGReportViewModel.ItemStatus = $('#Status').val();             
@@ -64,8 +70,14 @@ function
                 break;
             case 'Export':
                 DataTablePagingViewModel.Length = -1;
+                InventoryReOrderStatusFGReportViewModel.DataTablePaging = DataTablePagingViewModel;
+                InventoryReOrderStatusFGReportViewModel.SearchTerm = $('#SearchTerm').val() == "" ? null : $('#SearchTerm').val();
+                InventoryReOrderStatusFGReportViewModel.ItemStatus = $('#Status').val() == "" ? null : $('#Status').val();
+                InventoryReOrderStatusFGReportViewModel.ProductType = $("#Type").val() == "" ? null : $("#Type").val();
+                $('#AdvanceSearch').val(JSON.stringify(InventoryReOrderStatusFGReportViewModel));
+                $('#FormExcelExport').submit();
                 break;
-            default:
+            default: 
                 break;
         }
         InventoryReOrderStatusFGReportViewModel.DataTablePaging = DataTablePagingViewModel;
@@ -77,13 +89,7 @@ function
             {
 
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
-                buttons: [{
-                    extend: 'excel',
-                    exportOptions:
-                                 {
-                                     columns: [0,1, 2, 3, 4, 5, 6]
-                                 }
-                }],
+               
                 //fixedHeader: {
                 //header: true
                 //},
@@ -133,18 +139,17 @@ function
                 destroy: true,
                 //for performing the import operation after the data loaded
                 initComplete: function (settings, json) {
-                    if (action === 'Export') {
-                        if (json.data.length > 0) {
-                            if (json.data[0].TotalCount > 10000) {
-                                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                            }
-                        }
-                        $(".buttons-excel").trigger('click');
-                        BindOrReloadInventoryReorderFGTable('Search');
+                    debugger;
+                    $('.dataTables_wrapper div.bottom div').addClass('col-md-6');
+                    $('#tblInventoryReOrderStatusFGReport').fadeIn('slow');
+                    if (action == undefined) {
+                        $('.excelExport').hide();
+                        OnServerCallComplete();
                     }
-                }
+
+                },
             });
-        $(".buttons-excel").hide();
+       
     }
     catch (e) {
         console.log(e.message);

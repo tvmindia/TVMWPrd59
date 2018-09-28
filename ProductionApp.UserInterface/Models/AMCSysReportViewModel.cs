@@ -88,6 +88,7 @@ namespace ProductionApp.UserInterface.Models
         public int TotalCount { get; set; }
         public int FilteredCount { get; set; }
         public List<RequisitionDetailReportViewModel> RequisitionDetailReportList { get; set; }
+        public string RequisitionNo { get; set; }
     }
 
     public class PurchaseSummaryReportViewModel
@@ -322,7 +323,8 @@ namespace ProductionApp.UserInterface.Models
         public decimal SellingAmount { get; set; }
         public string StockCostAmount { get; set; }
         public string StockSellingAmount { get; set; }        
-        public List<StockRegisterFGReportViewModel> StockRegisterFGReportList { get; set; }
+        public List<StockRegisterFGReportViewModel> StockRegisterFGReportList { get; set; }     
+
     }
 
     public class StockLedgerFGReportViewModel

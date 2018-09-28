@@ -15,6 +15,7 @@ using OfficeOpenXml.Table;
 using System.IO;
 using System.Web.SessionState;
 
+
 namespace ProductionApp.UserInterface.Controllers
 {
     public class DashboardReportController : Controller
@@ -58,7 +59,7 @@ namespace ProductionApp.UserInterface.Controllers
             AMCSysReport.AMCSysReportList = AMCSysReport.AMCSysReportList != null ? AMCSysReport.AMCSysReportList.OrderBy(s => s.GroupOrder).ToList() : null;
             return View(AMCSysReport);
         }
-
+     
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "RequisitionReport", Mode = "R")]
         public ActionResult RequisitionSummaryReport(string Code)
@@ -69,7 +70,8 @@ namespace ProductionApp.UserInterface.Controllers
             requisitionSummaryReportVM.Employee = new EmployeeViewModel();
             requisitionSummaryReportVM.Employee.SelectList = _employeeBusiness.GetEmployeeSelectList();
             return View(requisitionSummaryReportVM);
-        }
+        }      
+        
 
         #region GetRequisitionSummaryReport
         [HttpPost]
@@ -703,7 +705,7 @@ namespace ProductionApp.UserInterface.Controllers
             StockRegisterFGReportViewModel stockRegisterFGReportVM = new StockRegisterFGReportViewModel();           
             return View(stockRegisterFGReportVM);
         }
-
+                
         #region GetStockRegisterFGReport
         [HttpPost]
         [AuthSecurityFilter(ProjectObject = "StockRegisterFGReport", Mode = "R")]
@@ -712,33 +714,29 @@ namespace ProductionApp.UserInterface.Controllers
             stockRegisterFGReportVM.DataTablePaging.Start = model.start;
             stockRegisterFGReportVM.DataTablePaging.Length = (stockRegisterFGReportVM.DataTablePaging.Length == 0 ? model.length : stockRegisterFGReportVM.DataTablePaging.Length);
 
-           // List<StockRegisterFGReportViewModel> stockRegisterFGList = Mapper.Map<List<StockRegisterFGReport>, List<StockRegisterFGReportViewModel>>(_reportBusiness.GetStockRegisterFGReport(Mapper.Map<StockRegisterFGReportViewModel, StockRegisterFGReport>(stockRegisterFGReportVM)));
-            StockRegisterFGReportViewModel stockRegisterFGList = Mapper.Map<StockRegisterFGReport, StockRegisterFGReportViewModel>(_reportBusiness.GetStockRegisterFGReport(Mapper.Map<StockRegisterFGReportViewModel, StockRegisterFGReport>(stockRegisterFGReportVM)));
-
+            List<StockRegisterFGReportViewModel> stockRegisterFGList = Mapper.Map<List<StockRegisterFGReport>, List<StockRegisterFGReportViewModel>>(_reportBusiness.GetStockRegisterFGReport(Mapper.Map<StockRegisterFGReportViewModel, StockRegisterFGReport>(stockRegisterFGReportVM)));         
             if (stockRegisterFGReportVM.DataTablePaging.Length == -1)
             {
-                int totalResult = stockRegisterFGList.StockRegisterFGReportList.Count != 0 ? stockRegisterFGList.StockRegisterFGReportList[0].TotalCount : 0;
-                int filteredResult = stockRegisterFGList.StockRegisterFGReportList.Count != 0 ? stockRegisterFGList.StockRegisterFGReportList[0].FilteredCount : 0;
-                stockRegisterFGList.StockRegisterFGReportList = stockRegisterFGList.StockRegisterFGReportList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+                int totalResult = stockRegisterFGList.Count != 0 ? stockRegisterFGList[0].TotalCount : 0;
+                int filteredResult = stockRegisterFGList.Count != 0 ? stockRegisterFGList[0].FilteredCount : 0;
+                stockRegisterFGList = stockRegisterFGList.Skip(0).Take(filteredResult > 10000 ? 10000 : filteredResult).ToList();
+
             }
             var settings = new JsonSerializerSettings
             {
                 //ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 Formatting = Formatting.None
             };
-
             return Json(new
             {
                 draw = model.draw,
-                recordsTotal = stockRegisterFGList.StockRegisterFGReportList.Count != 0 ? stockRegisterFGList.StockRegisterFGReportList[0].TotalCount : 0,
-                recordsFiltered = stockRegisterFGList.StockRegisterFGReportList.Count != 0 ? stockRegisterFGList.StockRegisterFGReportList[0].FilteredCount : 0,
-                data = stockRegisterFGList.StockRegisterFGReportList,
-                TotalCostAmount= stockRegisterFGList.StockCostAmount,
-                TotalSellingAmount= stockRegisterFGList.StockSellingAmount
+                recordsTotal = stockRegisterFGList.Count != 0 ? stockRegisterFGList[0].TotalCount : 0,
+                recordsFiltered = stockRegisterFGList.Count != 0 ? stockRegisterFGList[0].FilteredCount : 0,
+                data = stockRegisterFGList,             
+
             });
         }
         #endregion GetStockRegisterFGReport
-
 
         [HttpGet]
         [AuthSecurityFilter(ProjectObject = "StockLedgerFGReport", Mode = "R")]
@@ -1097,6 +1095,44 @@ namespace ProductionApp.UserInterface.Controllers
                         requisitionsummaryreportworkSheet.Column(7).AutoFit();
                       
                         break;
+                    case "REQD":
+                        fileName = "RequisitionDetailReport" + common.GetCurrentDateTime().ToString("dd|MMM|yy|hh:mm:ss");
+                        RequisitionDetailReportViewModel requisitionDetailReportVM = new RequisitionDetailReportViewModel();
+                        ResultFromJS = JsonConvert.DeserializeObject(excelExportVM.AdvanceSearch);
+                        ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                        requisitionDetailReportVM = JsonConvert.DeserializeObject<RequisitionDetailReportViewModel>(ReadableFormat);
+                        List<RequisitionDetailReportViewModel> requisitionOrderDetailList = Mapper.Map<List<RequisitionDetailReport>, List<RequisitionDetailReportViewModel>>(_reportBusiness.GetRequisitionDetailReport(Mapper.Map<RequisitionDetailReportViewModel, RequisitionDetailReport>(requisitionDetailReportVM)));
+
+                        var requisitiondetailreportworkSheet = excel.Workbook.Worksheets.Add("RequisitionDetailReport");
+                        RequisitionDetailReportViewModel[] requisitiondetailReportVMListArray = requisitionOrderDetailList.ToArray();
+                        requisitiondetailreportworkSheet.Cells[1, 1].LoadFromCollection(requisitiondetailReportVMListArray.Select(x => new
+                        {
+                            RequisitionNo = x.RequisitionNo,
+                            Title = x.Title,
+                            RequisitionDate = x.ReqDateFormatted,                      
+                            
+                            RequisitionStatus = x.ReqStatus,
+                            RequisitionBy =x.RequisitionBy,
+                            Item =x.Material.Description,
+                            Unit= x.Material.UnitCode,
+                            ReqQty=x.RequestedQty,
+                            OrderedQty=x.OrderedQty,
+                            DeliveredQty=x.ReceivedQty,
+                            DeliveryStatus=x.DeliveryStatus
+
+                        }), true, TableStyles.Light1);
+                        requisitiondetailreportworkSheet.Column(1).AutoFit();
+                        requisitiondetailreportworkSheet.Column(2).Width = 40;
+                        requisitiondetailreportworkSheet.Column(3).AutoFit();
+                        requisitiondetailreportworkSheet.Column(4).AutoFit();
+                        requisitiondetailreportworkSheet.Column(5).Width = 40;
+                        requisitiondetailreportworkSheet.Column(6).AutoFit();
+                        requisitiondetailreportworkSheet.Column(7).AutoFit();
+                        requisitiondetailreportworkSheet.Column(8).AutoFit();
+                        requisitiondetailreportworkSheet.Column(9).AutoFit();
+                        requisitiondetailreportworkSheet.Column(10).AutoFit();
+                        requisitiondetailreportworkSheet.Column(11).AutoFit();
+                        break;
                     case "PO":
                         fileName = "PurchaseSummaryReport" + common.GetCurrentDateTime().ToString("dd|MMM|yy|hh:mm:ss");
                         PurchaseSummaryReportViewModel purchaseSummaryReportVM = new PurchaseSummaryReportViewModel();
@@ -1227,6 +1263,201 @@ namespace ProductionApp.UserInterface.Controllers
                         inventoryreorderreportworkSheet.Column(4).AutoFit();
                         inventoryreorderreportworkSheet.Column(5).AutoFit();
                         inventoryreorderreportworkSheet.Column(6).AutoFit();                        
+                        break;
+                    case "SRMR":
+                        fileName = "StockRegisterReport" + common.GetCurrentDateTime().ToString("dd|MMM|yy|hh:mm:ss");
+                        StockRegisterReportViewModel stockRegisterReportVM = new StockRegisterReportViewModel();
+                        ResultFromJS = JsonConvert.DeserializeObject(excelExportVM.AdvanceSearch);
+                        ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                        stockRegisterReportVM = JsonConvert.DeserializeObject<StockRegisterReportViewModel>(ReadableFormat);
+                        List<StockRegisterReportViewModel> stockRegisterList = Mapper.Map<List<StockRegisterReport>, List<StockRegisterReportViewModel>>(_reportBusiness.GetStockRegisterReport(Mapper.Map<StockRegisterReportViewModel, StockRegisterReport>(stockRegisterReportVM)));
+                        var stockregisterreportworkSheet = excel.Workbook.Worksheets.Add("StockRegisterReport");
+                        StockRegisterReportViewModel[] stockRegisterReportVMListArray = stockRegisterList.ToArray();
+                        stockregisterreportworkSheet.Cells[1, 1].LoadFromCollection(stockRegisterReportVMListArray.Select(x => new
+                        {
+                          Item=x.Description,
+                          MaterialType= x.TypeDescription,
+                          Unit = x.UnitCode,
+                          CurrentStock=x.CurrentStock,
+                          BaseRate =x.CostPrice,
+                          StockValue=x.StockValue
+                          
+
+                        }), true, TableStyles.Light1);
+                        stockregisterreportworkSheet.Column(1).Width = 40;
+                        stockregisterreportworkSheet.Column(2).AutoFit();
+                        stockregisterreportworkSheet.Column(3).AutoFit();
+                        stockregisterreportworkSheet.Column(4).AutoFit();
+                        stockregisterreportworkSheet.Column(5).AutoFit();
+                        stockregisterreportworkSheet.Column(6).AutoFit();
+                        break;
+                    case "SLMR":
+                        fileName = "StockLedgerReport" + common.GetCurrentDateTime().ToString("dd|MMM|yy|hh:mm:ss");
+                        StockLedgerReportViewModel stockLedgerReportVM = new StockLedgerReportViewModel();
+                        ResultFromJS = JsonConvert.DeserializeObject(excelExportVM.AdvanceSearch);
+                        ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                        stockLedgerReportVM = JsonConvert.DeserializeObject<StockLedgerReportViewModel>(ReadableFormat);
+                        List<StockLedgerReportViewModel> stockLedgerList = Mapper.Map<List<StockLedgerReport>, List<StockLedgerReportViewModel>>(_reportBusiness.GetStockLedgerReport(Mapper.Map<StockLedgerReportViewModel, StockLedgerReport>(stockLedgerReportVM)));
+                        var stockledgerreportworkSheet = excel.Workbook.Worksheets.Add("StockLedgerReport");
+                        StockLedgerReportViewModel[] stockLedgerReportVMListArray = stockLedgerList.ToArray();
+
+                        foreach (var item in stockLedgerReportVMListArray)
+                        {
+                           if (item.DocumentNo!=null)
+                                item.DocumentNo = item.DocumentNo.Split(new string[] { "_blank\">" }, StringSplitOptions.None)[1].Split(new string[] { "</a>" }, StringSplitOptions.None)[0];
+                        }
+
+                        stockledgerreportworkSheet.Cells[1, 1].LoadFromCollection(stockLedgerReportVMListArray.Select(x => new
+                        {
+                            Item = x.Description,
+                            Type=x.MaterialType.Description,
+                            Unit = x.UnitCode,
+                            TransactionType = x.TransactionType,
+                            OpeningStock = x.OpeningStock,
+                            ClosingStock = x.ClosingStock,
+                            DocumentNo = x.DocumentNo,
+                            Date = x.TransactionDateFormatted,
+                            StockIN=x.StockIn,
+                            StockOut=x.StockOut
+
+
+                        }), true, TableStyles.Light1);
+                        stockledgerreportworkSheet.Column(1).Width = 40;
+                        stockledgerreportworkSheet.Column(2).AutoFit();
+                        stockledgerreportworkSheet.Column(3).AutoFit();
+                        stockledgerreportworkSheet.Column(4).AutoFit();
+                        stockledgerreportworkSheet.Column(5).AutoFit();
+                        stockledgerreportworkSheet.Column(6).AutoFit();
+                        stockledgerreportworkSheet.Column(7).AutoFit();
+                        stockledgerreportworkSheet.Column(8).AutoFit();
+                        stockledgerreportworkSheet.Column(9).AutoFit();
+                        stockledgerreportworkSheet.Column(10).AutoFit();
+                        break;
+                    case "INVFGR":
+                        fileName = "InventoryReorderStatusFGReport" + common.GetCurrentDateTime().ToString("dd|MMM|yy|hh:mm:ss");
+                        InventoryReOrderStatusFGReportViewModel inventoryReorderStatusFGVM = new InventoryReOrderStatusFGReportViewModel();
+                        ResultFromJS = JsonConvert.DeserializeObject(excelExportVM.AdvanceSearch);
+                        ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                        inventoryReorderStatusFGVM = JsonConvert.DeserializeObject<InventoryReOrderStatusFGReportViewModel>(ReadableFormat);
+                        List<InventoryReOrderStatusFGReportViewModel> inventoryReOrderFGList = Mapper.Map<List<InventoryReOrderStatusFGReport>, List<InventoryReOrderStatusFGReportViewModel>>(_reportBusiness.GetInventoryReOrderStatusFGReport(Mapper.Map<InventoryReOrderStatusFGReportViewModel, InventoryReOrderStatusFGReport>(inventoryReorderStatusFGVM)));
+                        
+                        var inventoryreorderfgreportworkSheet = excel.Workbook.Worksheets.Add("InventoryReorderStatusFGReport");
+                        InventoryReOrderStatusFGReportViewModel[] inventoryReorderFGReportVMListArray = inventoryReOrderFGList.ToArray();
+                        inventoryreorderfgreportworkSheet.Cells[1, 1].LoadFromCollection(inventoryReorderFGReportVMListArray.Select(x => new
+                        {
+                            Item = x.Description,
+                            Type=(x.ProductType=="PRO"?"Product":"Component"),
+                            CurrentStock = x.CurrentStock,
+                            SalesOrderDue =x.SalesOrderDueQty,
+                            NetAvailable= x.NetAvailableQty,
+                            ReOrderLevel=x.ReorderQty,
+                            ShortFall=x.ShortFall
+                           
+
+                        }), true, TableStyles.Light1);
+                        inventoryreorderfgreportworkSheet.Column(1).Width = 40;
+                        inventoryreorderfgreportworkSheet.Column(2).AutoFit();
+                        inventoryreorderfgreportworkSheet.Column(3).AutoFit();
+                        inventoryreorderfgreportworkSheet.Column(4).AutoFit();
+                        inventoryreorderfgreportworkSheet.Column(5).AutoFit();
+                        inventoryreorderfgreportworkSheet.Column(6).AutoFit();
+                        inventoryreorderfgreportworkSheet.Column(7).AutoFit();
+                        break;
+                    case "SRFGR":
+                        fileName = "StockRegisterFGReport" + common.GetCurrentDateTime().ToString("dd|MMM|yy|hh:mm:ss");
+                        StockRegisterFGReportViewModel stockRegisterFGVM = new StockRegisterFGReportViewModel();
+                        ResultFromJS = JsonConvert.DeserializeObject(excelExportVM.AdvanceSearch);
+                        ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                        stockRegisterFGVM = JsonConvert.DeserializeObject<StockRegisterFGReportViewModel>(ReadableFormat);
+                        List<StockRegisterFGReportViewModel> stockRegisterFGList = Mapper.Map<List<StockRegisterFGReport>, List<StockRegisterFGReportViewModel>>(_reportBusiness.GetStockRegisterFGReport(Mapper.Map<StockRegisterFGReportViewModel, StockRegisterFGReport>(stockRegisterFGVM)));
+
+                        var stockregisterfgreportworkSheet = excel.Workbook.Worksheets.Add("StockRegisterFGReport");
+                        StockRegisterFGReportViewModel[] stockRegisterFGReportVMListArray = stockRegisterFGList.ToArray();
+                        stockregisterfgreportworkSheet.Cells[1, 1].LoadFromCollection(stockRegisterFGReportVMListArray.Select(x => new
+                        {
+                            Item = x.Description,
+                            Type = x.ProductType,
+                            Unit = x.UnitCode,
+                            CurrentStock = x.CurrentStock,
+                            CostPrice = x.CostPrice,
+                            CostAmount = x.CostAmount,
+                            SellingPrice = x.SellingRate,
+                            SellingAmount = x.SellingAmount
+
+
+                        }), true, TableStyles.Light1);
+                        stockregisterfgreportworkSheet.Column(1).Width = 40;
+                        stockregisterfgreportworkSheet.Column(2).AutoFit();
+                        stockregisterfgreportworkSheet.Column(3).AutoFit();
+                        stockregisterfgreportworkSheet.Column(4).AutoFit();
+                        stockregisterfgreportworkSheet.Column(5).AutoFit();
+                        stockregisterfgreportworkSheet.Column(6).AutoFit();
+                        stockregisterfgreportworkSheet.Column(7).AutoFit();
+                        stockregisterfgreportworkSheet.Column(8).AutoFit();
+                        break;
+                    case "SLFGR":
+                        fileName = "StockLedgerFGReport" + common.GetCurrentDateTime().ToString("dd|MMM|yy|hh:mm:ss");
+                        StockLedgerFGReportViewModel stockLedgerFGReportVM = new StockLedgerFGReportViewModel();
+                        ResultFromJS = JsonConvert.DeserializeObject(excelExportVM.AdvanceSearch);
+                        ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                        stockLedgerFGReportVM = JsonConvert.DeserializeObject<StockLedgerFGReportViewModel>(ReadableFormat);
+                       
+                        List<StockLedgerFGReportViewModel> stockLedgerFGList = Mapper.Map<List<StockLedgerFGReport>, List<StockLedgerFGReportViewModel>>(_reportBusiness.GetStockLedgerFGReport(Mapper.Map<StockLedgerFGReportViewModel, StockLedgerFGReport>(stockLedgerFGReportVM)));
+
+                        var stockledgerfgreportworkSheet = excel.Workbook.Worksheets.Add("StockLedgerFGReport");
+                        StockLedgerFGReportViewModel[] stockLedgerFGReportVMListArray = stockLedgerFGList.ToArray();
+
+                        foreach (var item in stockLedgerFGReportVMListArray)
+                        {
+                            if (item.DocumentNo != null)
+                                item.DocumentNo = item.DocumentNo.Split(new string[] { "_blank\">" }, StringSplitOptions.None)[1].Split(new string[] { "</a>" }, StringSplitOptions.None)[0];
+                        }
+
+                        stockledgerfgreportworkSheet.Cells[1, 1].LoadFromCollection(stockLedgerFGReportVMListArray.Select(x => new
+                        {
+                            Item = x.Description,
+                            Unit = x.UnitCode,
+                            TransactionType = x.TransactionType,
+                            OpeningStock = x.OpeningStock,
+                            ClosingStock = x.ClosingStock,
+                            DocumentNo = x.DocumentNo,
+                            Date = x.TransactionDateFormatted,
+                            StockIN = x.StockIn,
+                            StockOut = x.StockOut
+
+
+                        }), true, TableStyles.Light1);
+                        stockledgerfgreportworkSheet.Column(1).Width = 40;
+                        stockledgerfgreportworkSheet.Column(2).AutoFit();
+                        stockledgerfgreportworkSheet.Column(3).AutoFit();
+                        stockledgerfgreportworkSheet.Column(4).AutoFit();
+                        stockledgerfgreportworkSheet.Column(5).AutoFit();
+                        stockledgerfgreportworkSheet.Column(6).AutoFit();
+                        stockledgerfgreportworkSheet.Column(7).AutoFit();
+                        stockledgerfgreportworkSheet.Column(8).AutoFit();
+                        stockledgerfgreportworkSheet.Column(9).AutoFit();
+                        break;
+                    case "PSWSR":
+                        fileName = "ProductStageWiseStockReport" + common.GetCurrentDateTime().ToString("dd|MMM|yy|hh:mm:ss");
+                        ProductStageWiseStockReportViewModel productStageWiseStockReportVM = new ProductStageWiseStockReportViewModel();
+                        ResultFromJS = JsonConvert.DeserializeObject(excelExportVM.AdvanceSearch);
+                        ReadableFormat = JsonConvert.SerializeObject(ResultFromJS);
+                        productStageWiseStockReportVM = JsonConvert.DeserializeObject<ProductStageWiseStockReportViewModel>(ReadableFormat);
+                        List<ProductStageWiseStockReportViewModel> productStagewiseReportList = Mapper.Map<List<ProductStageWiseStockReport>, List<ProductStageWiseStockReportViewModel>>(_reportBusiness.GetProductStageWiseStockReport(Mapper.Map<ProductStageWiseStockReportViewModel, ProductStageWiseStockReport>(productStageWiseStockReportVM)));
+
+                        var productstagewisestockreportworkSheet = excel.Workbook.Worksheets.Add("ProductStageWiseStockReport");
+                        ProductStageWiseStockReportViewModel[] productStageWiseStockReportVMListArray = productStagewiseReportList.ToArray();
+                        productstagewisestockreportworkSheet.Cells[1, 1].LoadFromCollection(productStageWiseStockReportVMListArray.Select(x => new
+                        {
+                           Component =x.Description,
+                           Stage = x.Stage,
+                           CurrentStock =x.CurrentStock
+
+                        }), true, TableStyles.Light1);
+                        productstagewisestockreportworkSheet.Column(1).Width = 40;
+                        productstagewisestockreportworkSheet.Column(2).AutoFit();
+                        productstagewisestockreportworkSheet.Column(3).AutoFit();
+                        productstagewisestockreportworkSheet.Column(4).AutoFit();                      
                         break;
                     default: break;
                 }

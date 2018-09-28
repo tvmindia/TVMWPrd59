@@ -7,6 +7,17 @@
 //Description: Client side coding for Report
 //******************************************************************************
 //******************************************************************************
+$(document).ready(function () {
+    debugger;
+    try {
+        $('#SearchTerm').focus();
+       
+    }
+    catch (e) {
+        console.log(e.message);
+    }
+  
+});
 
 
 
@@ -23,9 +34,10 @@ function RefreshReportSummary() {
     try {
         debugger;
         var search = $("#SearchTerm").val();
-        //GetAllReports();
-
-        window.location.replace("DashboardReport?Code=RPT&searchTerm=" + search);      
+        //var SearchValue = $('#hdnSearchTerm').val();
+        //$('#hdnSearchTerm').val($('#SearchTerm').val());      
+        //    GetAllReports();
+          window.location.replace("DashboardReport?Code=RPT&searchTerm=" + search);
        
     }
     catch (e) {
@@ -36,9 +48,8 @@ function RefreshReportSummary() {
 
 //function GetAllReports() {
 //    try {
-//        debugger;
-//        if ($("#SearchTerm").val() != "")
-//            var search = $("#SearchTerm").val();
+//        debugger; 
+//        var search = $("#SearchTerm").val();
 //        var data = {"SearchTerm": search };
 //        var ds = {};
 //        ds = GetDataFromServer("DashboardReport/GetAllReport/", data);
@@ -56,3 +67,5 @@ function RefreshReportSummary() {
 //        notyAlert('error', e.message);
 //    }
 //}
+
+

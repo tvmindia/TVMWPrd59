@@ -117,14 +117,7 @@ function
             {
 
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
-                //buttons: [{
-                //    extend: 'excel',
-                //    exportOptions:
-                //                 {
-                //                     columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10]
-                //                 }
-                //}],
-
+               
                 order: false,
                 ordering: false,
                 searching: false,
@@ -166,19 +159,7 @@ function
                 ],
 
                 destroy: true,
-                //for performing the import operation after the data loaded
-                //initComplete: function (settings, json) {
-                //    if (action === 'Export') {
-                //        if (json.data.length > 0) {
-                //            if (json.data[0].TotalCount > 10000) {
-                //                MasterAlert("info", 'We are able to download maximum 10000 rows of data, There exist more than 10000 rows of data please filter and download')
-                //            }
-                //        }
-                //        $(".buttons-excel").trigger('click');
-                //        BindOrReloadPurchaseDetailTable('Search');
-                //    }
-
-                //},
+                //for performing the import operation after the data loaded              
                 initComplete: function (settings, json) {
                     debugger;
                     $('.dataTables_wrapper div.bottom div').addClass('col-md-6');
@@ -195,7 +176,7 @@ function
                     var rows = api.rows({ page: 'current' }).nodes();
                     var last = null;
 
-                    api.column(1, { page: 'current' }).data().each(function (group, i) {
+                    api.column(0, { page: 'current' }).data().each(function (group, i) {
                         if (last !== group) {
                             debugger;
                             var rowData = api.row(i).data();
@@ -204,8 +185,7 @@ function
                         }
                     });
                 }
-            });
-       // $(".buttons-excel").hide();
+            });      
 
     }
     catch (e) {
