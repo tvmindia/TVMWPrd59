@@ -12,8 +12,7 @@ namespace ProductionApp.UserInterface.Models
         public Guid ID { get; set; }
         [Display(Name = "Entry No")]
         public string EntryNo { get; set; }
-        [Display(Name = "Income Date")]
-        //[Required(ErrorMessage = "Income Date Required")]
+        [Display(Name = "Income Date")]       
         public DateTime IncomeDate { get; set; }
         [Display(Name = "Cheque Date")]
         public DateTime? ChequeDate { get; set; }
@@ -31,7 +30,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Description")]
         public string Description { get; set; }
         [Display(Name = "Amount")]
-        [Required(ErrorMessage = "Amount Required and greater than zero")]
+        [Required(ErrorMessage = "Amount Required and must be greater than zero")]        
         public decimal Amount { get; set; }
         [Display(Name = "Reference Bank")]
         public string ReferenceBank { get; set; }

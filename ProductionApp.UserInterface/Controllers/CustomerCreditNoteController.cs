@@ -161,7 +161,7 @@ namespace ProductionApp.UserInterface.Controllers
             {
 
                 AppConstMessage cm = c.GetMessage(ex.Message);
-                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = cm.Message });
+                return JsonConvert.SerializeObject(new { Result = "ERROR", Message = ex.Message });
             }
         }
         #endregion InsertUpdateCustomerCreditNote
@@ -187,6 +187,22 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion DeleteCustomerCreditNote
+
+        #region CheckValue
+        [AcceptVerbs("Get", "Post")]
+        public ActionResult CheckValue(decimal CreditAmount)
+        {
+            //ProductionOrderDetailViewModel prodOrderDetailVM = new ProductionOrderDetailViewModel();
+            if ((CreditAmount == 0))
+            {
+
+                return Json("<p><span style='vertical-align: 2px'>Credit Amount could not be greater than zero!</span></p>", JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion CheckValue 
 
         #region ButtonStyling
         [HttpGet]

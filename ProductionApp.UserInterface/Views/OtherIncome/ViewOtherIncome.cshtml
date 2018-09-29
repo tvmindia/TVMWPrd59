@@ -13,9 +13,8 @@
 }
 
 <div style="width:100%;">
-    <ol class="breadcrumb">
-        <li><a href=@Url.Action("Index", "Home")><i class="fa fa-cogs"></i> Home</a></li>
-        <li><a href="#">Accounts</a></li>
+    <ol class="breadcrumb">        
+        <li><a href="#">Other Income</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -41,7 +40,7 @@
                 <div class="col-md-12">
                     <div class="input-group">
                         @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox", @onkeypress = "SearchOnkeyPress(BindOrReloadOtherIncomeTable('Apply'),this)" } })
-                        <div class="input-group-btn">
+                        <div class="input-group-btn" title="Search">
                             <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadOtherIncomeTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
                         </div>
                     </div>
@@ -101,7 +100,7 @@
                     @Html.DropDownListFor(model => model.ChartOfAccount.Code, Model.ChartOfAccount.ChartOfAccountSelectList, "--Select AccountCode--", new { @class = "form-control BlockEnter", @style = "width:100%", @id = "ChartOfAccountCode" })
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2" title="Apply">
                 <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadOtherIncomeTable('Search')">Apply</a>
             </div>
         </div>

@@ -189,8 +189,8 @@ namespace ProductionApp.DataAccessObject.DTO
         public string Type;
         public AppConstMessage(string message, string code, string type)
         {
-            //Message = (code == "" ? "" :  message);
-            Message = (code == "" ? "" : code + "-") + message;
+            Message = (code == "" ? "" :  message);
+           // Message = (code == "" ? "" : code + "-") + message;
             Code = code;
             Type = type;
 
