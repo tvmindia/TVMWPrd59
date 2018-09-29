@@ -154,13 +154,16 @@ function DeleteSupplierCreditNote() {
             if (_jsonData != '') {
                 _jsonData = JSON.parse(_jsonData);
                 _result = _jsonData.Result;
-                _message = _jsonData.Message;
+                _message = _jsonData.Message.Message;
             }
             if (_result == "OK") {
                 notyAlert('success', _message);
                 window.location.replace("NewSupplierCreditNote?code=ACC");
             }
             if (_result == "ERROR") {
+                notyAlert('error', _message);
+            }
+            if (_result == "UNAUTH") {
                 notyAlert('error', _message);
             }
             return 1;

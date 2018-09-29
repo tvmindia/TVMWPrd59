@@ -134,7 +134,8 @@
                                 </div>
                                 <div class="col-md-12">
                                     @Html.HiddenFor(model => model.BankCode, new { htmlAttributes = new { @id = "hdnBankCode" } })
-                                    @Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })
+                                    @*@Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })*@
+                                    <span class="text-danger" id="msgBankCode" style="display:none;">Bank Code Required</span>
                                 </div>
                             </div>
 

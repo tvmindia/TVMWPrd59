@@ -19,7 +19,14 @@ $(document).ready(function () {
     try {
         $('#AccountCode').select2();
         $('#Status').select2();
+        $('#SearchTerm').focus();
         BindOrReloadOtherExpenseTable('Init');
+        $('#SearchTerm').keypress(function (event) {
+            if (event.which === 13) {
+                event.preventDefault();
+                BindOrReloadOtherExpenseTable('Apply');
+            }
+        });
         $('#tblOtherExpense tbody').on('dblclick', 'td', function () {
             Edit(this);
         });

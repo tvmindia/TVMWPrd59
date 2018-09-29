@@ -24,7 +24,14 @@ $(document).ready(function () {
     debugger;
     try {
         $("#SupplierID").select2({});
+        $('#SearchTerm').focus();
         BindOrReloadSupplierCreditNoteTable('Init');
+        $('#SearchTerm').keypress(function (event) {
+            if (event.which === 13) {
+                event.preventDefault();
+                BindOrReloadSupplierCreditNoteTable('Apply');
+            }
+        });
         $('#tblSupplierCreditNoteView tbody').on('dblclick', 'td', function () {
             Edit(this);
         });
@@ -57,6 +64,7 @@ function BindOrReloadSupplierCreditNoteTable(action) {
                 $('#FromDate').val('');
                 $('#ToDate').val('');
                 $('#SupplierID').val('').select2();
+                $('.datepicker').datepicker('setDate', null);
                 break;
             case 'Init':
                 break;
@@ -74,6 +82,9 @@ function BindOrReloadSupplierCreditNoteTable(action) {
         }
         SupplierCreditNoteAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
         SupplierCreditNoteAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+        SupplierCreditNoteAdvanceSearchViewModel.FromDate = $('#FromDate').val();
+        SupplierCreditNoteAdvanceSearchViewModel.ToDate = $('#ToDate').val();
+        SupplierCreditNoteAdvanceSearchViewModel.SupplierID = $('#SupplierID').val();
         _dataTables.SupplierCreditNoteTable = $('#tblSupplierCreditNoteView').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',

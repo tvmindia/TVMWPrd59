@@ -4,11 +4,11 @@
 @{
     if (Model.IsUpdate)
     {
-        ViewBag.Title = "Edit OtherExpense";
+        ViewBag.Title = "Edit Other Expense";
     }
     else
     {
-        ViewBag.Title = "New OtherExpense";
+        ViewBag.Title = "New Other Expense";
     }
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
@@ -19,7 +19,7 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="@Url.Action("NewOtherExpense", "OtherExpense", new { Code = "ACC" })"><i class="fa fa-cogs"></i> Other Expense</a></li>
+        <li><a href="@Url.Action("ViewOtherExpense", "OtherExpense", new { Code = "ACC" })"><i class="fa fa-cogs"></i> Other Expense</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -75,11 +75,13 @@
                 <div class="col-md-12">
                     @Html.LabelFor(model => model.AccountCode, htmlAttributes: new { @class = "control-label lblrequired" })
                 </div>
-                <div class="col-md-12">
-                    @Html.HiddenFor(model => model.AccountCode, htmlAttributes: new { @id = "hdnChartOfAccountCode" })
-                    @Html.Action("ChartOfAccountDropdown", "ChartOfAccount", new { required = "required", type= "EXP" })
+                <div class="col-md-12" id="divChartOfAccountDropdown">
+                    <div class="col-md-12">
+                        @Html.HiddenFor(model => model.AccountCode, htmlAttributes: new { @id = "hdnChartOfAccountCode" })
+                        @Html.Action("ChartOfAccountDropdown", "ChartOfAccount", new { required = "required", type = "EXP" })
+                    </div>
+                    </div>
                 </div>
-            </div>
             <div class="col-md-12"></div>
             <div class="form-group col-md-6">
                 <div class="col-md-12">

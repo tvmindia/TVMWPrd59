@@ -24,8 +24,8 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "Payment Mode")]
         public string PaymentMode { get; set; }
         //[Display(Name = "IncomeDate")]
-        public Guid DepositWithdrawalID { get; set; }
-        [Display(Name = "Bank Code")]
+        public Guid DepositWithdrawalID { get; set; }      
+        [Display(Name = "Bank Code")]        
         public string BankCode { get; set; }
         [Display(Name = "Description")]
         public string Description { get; set; }
