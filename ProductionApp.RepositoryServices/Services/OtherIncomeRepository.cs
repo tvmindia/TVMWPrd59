@@ -104,7 +104,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@IsUpdate", SqlDbType.Bit).Value = otherIncome.IsUpdate;
                         cmd.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = otherIncome.ID;
-                        cmd.Parameters.Add("@EntryNo", SqlDbType.NVarChar, 20).Value = otherIncome.EntryNo;
+                        //cmd.Parameters.Add("@EntryNo", SqlDbType.NVarChar, 20).Value = otherIncome.EntryNo;
                         cmd.Parameters.Add("@IncomeDate", SqlDbType.DateTime).Value = otherIncome.IncomeDateFormatted;
                         cmd.Parameters.Add("@AccountCode", SqlDbType.VarChar, 10).Value = otherIncome.AccountCode;//
                         cmd.Parameters.Add("@AccountSubHead", SqlDbType.VarChar, 50).Value = otherIncome.AccountSubHead;//
