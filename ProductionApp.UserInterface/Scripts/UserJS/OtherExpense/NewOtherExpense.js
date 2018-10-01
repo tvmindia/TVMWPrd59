@@ -401,7 +401,7 @@ function DeleteOtherExpense() {
                 message = jsonData.Message;
             }
             if (result == "OK") {
-                notyAlert('success', otherExpenseVM.message);
+                notyAlert('success', message);
                 window.location.replace("NewOtherExpense?code=ACC");
             }
             if (result == "ERROR") {
