@@ -386,6 +386,7 @@ namespace ProductionApp.RepositoryServices.Services
                                     supplierInvoiceDetail.Quantity = (sdr["Quantity"].ToString() != "" ? decimal.Parse(sdr["Quantity"].ToString()) : supplierInvoiceDetail.Quantity);
                                     supplierInvoiceDetail.Rate = (sdr["Rate"].ToString() != "" ? decimal.Parse(sdr["Rate"].ToString()) : supplierInvoiceDetail.Rate);
                                     supplierInvoiceDetail.TradeDiscountAmount = (sdr["TradeDiscountAmount"].ToString() != "" ? decimal.Parse(sdr["TradeDiscountAmount"].ToString()) : supplierInvoiceDetail.TradeDiscountAmount);
+                                    supplierInvoiceDetail.TradeDiscountPerc= (sdr["TradeDiscountPerc"].ToString() != "" ? decimal.Parse(sdr["TradeDiscountPerc"].ToString()) : supplierInvoiceDetail.TradeDiscountPerc);
                                     supplierInvoiceDetail.Total = (sdr["Total"].ToString() != "" ? decimal.Parse(sdr["Total"].ToString()) : supplierInvoiceDetail.Total);
                                     supplierInvoiceDetail.TaxableAmount = (sdr["TaxableAmount"].ToString() != "" ? decimal.Parse(sdr["TaxableAmount"].ToString()) : supplierInvoiceDetail.TaxableAmount);
                                 }

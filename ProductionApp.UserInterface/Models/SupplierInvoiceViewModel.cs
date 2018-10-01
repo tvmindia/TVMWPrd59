@@ -31,6 +31,7 @@ namespace ProductionApp.UserInterface.Models
         [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
         [Display(Name = "Account Head")]
+        [Required(ErrorMessage = "Account Head is missing")]
         public string AccountCode { get; set; }
         [Display(Name = "Purchase Order")]
         public Guid PurchaseOrderID { get; set; }
@@ -43,8 +44,11 @@ namespace ProductionApp.UserInterface.Models
         public string DetailJSON { get; set; }
         public int FilteredCount { get; set; }
 
+        [Display(Name = "Total Taxable Amount")]
         public decimal TotalTaxableAmount { get; set; }
+        [Display(Name = "Total Tax Amount")]
         public decimal TotalTaxAmount { get; set; }
+        [Display(Name = "Invoice Amount")]
         public decimal InvoiceAmount { get; set; }
         public decimal PaymentReceived { get; set; }
         public decimal Balance { get; set; }
