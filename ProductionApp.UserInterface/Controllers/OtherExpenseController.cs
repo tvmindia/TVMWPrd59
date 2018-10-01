@@ -75,7 +75,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateOtherExpense
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "W")]
         public string InsertUpdateOtherExpense(OtherExpenseViewModel otherExpense)
         {
             try
@@ -151,14 +151,14 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region DeleteOtherExpense
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "OtherExpense", Mode = "D")]
         public string DeleteOtherExpense(Guid id)
         {
             try
             {
                 AppUA appUA = Session["AppUA"] as AppUA;
                 var result = _otherExpenseBusiness.DeleteOtherExpense(id, appUA.UserName);
-                return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = "Success" });
+                return JsonConvert.SerializeObject(new { Status = "OK", Record = result, Message = _appConst.DeleteSuccess });
             }
             catch (Exception ex)
             {
