@@ -85,7 +85,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetAllOtherIncome
 
         #region InsertUpdateOtherIncome
-        [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "W")]
         public string InsertUpdateOtherIncome(OtherIncomeViewModel otherIncomeVM)
         {
             try
@@ -127,7 +127,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetOtherIncome
 
         #region DeleteOtherIncome
-        [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "OtherIncome", Mode = "D")]
         public string DeleteOtherIncome(string id)
         {
             try
