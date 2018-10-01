@@ -362,6 +362,7 @@ function Selectcheckbox() {
 
 // ##6-- Save Supplier Payment ----------------------------------------- ##6
 function Save() {
+    debugger;
     var $form = $('#SupplierPaymentForm');
     if ($form.valid()) {
         ValidatePaymentRefNo();
@@ -421,6 +422,7 @@ function AddSupplierPaymentDetailList() {
     }
 }
 function SaveSuccessSupplierPayment(data, status) {
+    debugger;
     _jsonData = JSON.parse(data)
     switch (_jsonData.Result) {
         case "OK":
@@ -456,7 +458,7 @@ function BindSupplierPayment() {
     $("#SupplierID").val(SupplierPaymentVM.SupplierID).trigger('change');
     $('#SupplierID').prop('disabled', true);
     $('#ReferenceBank').val(SupplierPaymentVM.ReferenceBank);
-    $('#PaymentDateFormatted').val(SupplierPaymentVM.PaymentDateFormatted);
+    $('#PaymentDateFormatted').val(SupplierPaymentVM.PaymentDateFormatted);   
     $('#ChequeDateFormatted').val(SupplierPaymentVM.ChequeDateFormatted);
     $('#PaymentRef').val(SupplierPaymentVM.PaymentRef);
     $('#PaymentMode').val(SupplierPaymentVM.PaymentMode);
@@ -724,6 +726,9 @@ function DeleteSupplierPayment() {
             if (_result == "ERROR") {
                 notyAlert('error', _message);
                 return 0;
+            }
+            if (_result == "UNAUTH") {
+                notyAlert('error', _message);
             }
             return 1;
         }
