@@ -17,6 +17,7 @@ var _BillOfMaterialDetail = {};
 var _BOMComponentLineList = [];
 var _BOMComponentLine = {};
 var _BOMComponentLineStageDetailList = [];
+var currentValue = 0;
 //------------------------------------------------------------------------------------
 
 $(document).ready(function () {
@@ -78,7 +79,7 @@ function AddComponentInit() {
                   },
                   {
                       "data": "Qty", render: function (data, type, row) {
-                          return '<input class="form-control text-left " name="Markup" value="' + row.Qty + '" type="text" onclick="SelectAllValue(this);" onkeypress = "return isNumber(event)", onchange="TextBoxValueChanged(this);">';
+                          return '<input class="form-control text-left " name="Markup" value="' + row.Qty + '" type="text" onclick="TextBoxValueOnClick(this);" onkeypress = "return isNumber(event)", onchange="TextBoxValueChanged(this);">';
                       }, "defaultContent": "<i>-</i>"
                   },
                   {
@@ -143,6 +144,9 @@ function LoadPartialAddComponent() {
 
         var data = { "id": ID }
         $('#divPartial').load("AddComponent", data);
+        $('#step3').removeClass('active').addClass('disabled');
+        $('#step2').removeClass('active').addClass('disabled');
+        $('#step1').removeClass('disabled').addClass('active');
 
     }
     catch (ex) {
@@ -190,6 +194,7 @@ function BindOrReloadProductTable() {//BindOrReloadProductTable('Reset')BindProd
             columns: [
             { "data": "ID", "defaultContent": "<i>-</i>" },
             { "data": "Checkbox", "defaultContent": "" },
+            { "data": "Code","defaultContent":"<i>-</i>" },
             { "data": "Name", "defaultContent": "<i>-</i>" },
             { "data": "Description", "defaultContent": "<i>-<i>" },
             { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
@@ -198,7 +203,7 @@ function BindOrReloadProductTable() {//BindOrReloadProductTable('Reset')BindProd
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { orderable: false, className: 'select-checkbox', "targets": 1 },
                 { className: "text-right", "targets": [] },
-                { className: "text-left", "targets": [1, 2, 3] },
+                { className: "text-left", "targets": [1, 2, 3,4] },
                 { className: "text-center", "targets": [] }],
             select: { style: 'multi', selector: 'td:first-child' },
             destroy: true
@@ -266,6 +271,10 @@ function AddComponent() {
         debugger;
         _IsInput = true;
         $('#hdnMasterCall').val("MSTR");
+        //AddProductMaster('MSTR', function () {
+        //    debugger;
+        //    $('#FormProduct #Type').val('COM').select2();
+        //});
         AddProductMaster('MSTR');
     } catch (ex) {
         console.log(ex.message);
@@ -551,26 +560,38 @@ function GetBillOfMaterialDetail(id) {
 function TextBoxValueChanged(thisObj) {
     try {
         debugger;
-        var billOfMaterialDetailVM = DataTables.ComponentList.row($(thisObj).parents('tr')).data();
-        var billOfMaterialDetailList = DataTables.ComponentList.rows().data();
-        for (var i = 0; i < billOfMaterialDetailList.length; i++) {
-            if (billOfMaterialDetailList[i].ComponentID !== null) {
-                if (billOfMaterialDetailList[i].ComponentID === billOfMaterialDetailVM.ComponentID) {
-                    billOfMaterialDetailList[i].Qty = parseFloat(thisObj.value);
+        if (thisObj.value > 0) {
+            var billOfMaterialDetailVM = DataTables.ComponentList.row($(thisObj).parents('tr')).data();
+            var billOfMaterialDetailList = DataTables.ComponentList.rows().data();
+            for (var i = 0; i < billOfMaterialDetailList.length; i++) {
+                if (billOfMaterialDetailList[i].ComponentID !== null) {
+                    if (billOfMaterialDetailList[i].ComponentID === billOfMaterialDetailVM.ComponentID) {
+                        billOfMaterialDetailList[i].Qty = parseFloat(thisObj.value);
+                    }
                 }
+                else
+                    if (billOfMaterialDetailList[i].MaterialID === billOfMaterialDetailVM.MaterialID) {
+                        billOfMaterialDetailList[i].Qty = parseFloat(thisObj.value);
+                    }
             }
-            else
-                if (billOfMaterialDetailList[i].MaterialID === billOfMaterialDetailVM.MaterialID) {
-                    billOfMaterialDetailList[i].Qty = parseFloat(thisObj.value);
-                }
+            DataTables.ComponentList.clear().rows.add(billOfMaterialDetailList).draw(false);
         }
-        DataTables.ComponentList.clear().rows.add(billOfMaterialDetailList).draw(false);
+        else {
+            if (currentValue > 0)
+                thisObj.value = currentValue;
+            else
+                thisObj.value = 1;
+        }
     }
     catch (ex) {
         console.log(ex.message);
     }
 }
-
+function TextBoxValueOnClick(thisObj)
+{
+    currentValue = thisObj.value;
+    SelectAllValue(this);
+}
 //---------------------------------Delete BillOfMaterial---------------------------//
 function DeleteClick() {
     try {
@@ -723,6 +744,7 @@ function BindOrReloadMaterialTable() {//BindOrReloadProductTable('Reset')BindPro
                 columns: [
                 { "data": "ID", "defaultContent": "<i>-</i>" },
                 { "data": "Checkbox", "defaultContent": "" },
+                {"data":"MaterialCode","defaultContent":"<i>-</i>"},
                 { "data": "Description", "defaultContent": "<i>-</i>" },
                 { "data": "MaterialType.Description", "defaultContent": "<i>-<i>" },
                 { "data": "Unit.Description", "defaultContent": "<i>-<i>" },
@@ -731,7 +753,7 @@ function BindOrReloadMaterialTable() {//BindOrReloadProductTable('Reset')BindPro
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                     { orderable: false, className: 'select-checkbox', "targets": 1 },
                     { className: "text-right", "targets": [] },
-                    { className: "text-left", "targets": [1, 2, 3] },
+                    { className: "text-left", "targets": [1, 2, 3,4] },
                     { className: "text-center", "targets": [] }],
                 select: { style: 'multi', selector: 'td:first-child' },
                 destroy: true
@@ -953,14 +975,14 @@ function LoadLineStageTable() {
                       return StageIDs;
                   }, "defaultContent": "<i>-</i>"
               },
-              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditLine(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a>' },
-              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="DeleteLink"  onclick="DeleteLine(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>  |  <a href="#" onclick="BindComponentLineStageDetail(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
+              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditLine(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> | <a href="#" class="DeleteLink"  onclick="DeleteLine(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
+              { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="BindComponentLineStageDetail(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' },
             ],
             columnDefs: [
                 { "targets": [0, 2, 4], "visible": false, "searchable": false },
                 { className: "text-left", "targets": [1, 3]},
-                { className: "text-center", "targets": [5], "width": "3%" },
-                { className: "text-center", "targets": [6], "width": "12%" },
+                { className: "text-center", "targets": [6], "width": "3%" },
+                { className: "text-center", "targets": [5], "width": "12%" },
                 { "targets": [0, 2, 4], "bSortable": false }
             ],
             destroy: true
@@ -1175,6 +1197,7 @@ function SaveLineSuccess(data, status) {
                 message = BOMComponentLineViewModel.Message;
                 notyAlert("success", message)
                 $('#BOMComponentLine_ComponentID').trigger('change');
+                $('#BOMComponentLine_LineName').val('');
                 //LoadPartialAddProductionLine();
                 //BindBillOfMaterial();
                 break;
@@ -1185,7 +1208,7 @@ function SaveLineSuccess(data, status) {
                 notyAlert('error', message)
                 break;
         }
-        $('#BOMComponentLine_LineName').val(LineName)
+        //$('#BOMComponentLine_LineName').val(LineName)
     } catch (ex) {
         console.log(ex.message);
     }
@@ -1389,7 +1412,7 @@ function LoadStageDetailTable() {
                   }, "defaultContent": "<i>-</i>"
               },//5
               { "data": "Qty", "defaultContent": "<i>-</i>" },
-              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditStageDetail(this)" ><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></a> | <a href="#" class="DeleteLink"  onclick="DeleteStageDetail(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
+              { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="EditStageDetail(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> | <a href="#" class="DeleteLink"  onclick="DeleteStageDetail(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
             ],
             columnDefs: [
                 { "targets": [0, 1], "visible": false, "searchable": false },
@@ -1539,7 +1562,45 @@ function SaveDetail() {
             $('#lblQty').show();
         }
         if (_IsInput) {
-            $("#btnSave").click();
+                var flag = 0;
+                var Type = $('#BOMComponentLineStageDetail_EntryType').val();
+                var ItemType = $('#BOMComponentLineStageDetail_PartType').val();
+                var productId;
+                if (ItemType == 'RAW')
+                    productId = $('#MaterialID').val();
+                else if (ItemType == 'SUB')
+                    productId = $('#SubComponentID').val();
+                else
+                    productId = $('#ProductID').val();
+            var StageDetailVM = DataTables.StageDetailTable.rows().data();
+            for (var i = 0; i < DataTables.StageDetailTable.rows().data().length; i++) {
+                if ((Type == StageDetailVM[i].EntryType) && ((ItemType == 'RAW' && StageDetailVM[i].Material != null))) {
+                    if (productId == StageDetailVM[i].Material.ID) {
+                        flag = 1;
+                        break;
+                    }
+                }
+                else if((Type == StageDetailVM[i].EntryType) && ((ItemType == 'COM' && StageDetailVM[i].Product != null)))
+                {
+                    if (productId == StageDetailVM[i].Product.ID) {
+                        flag = 1;
+                        break;
+                    }
+                }
+                else if((Type == StageDetailVM[i].EntryType) && ((ItemType == 'SUB' && StageDetailVM[i].SubComponent!=null)))
+                {
+                    if (productId == StageDetailVM[i].SubComponent.ID) {
+                        flag = 1;
+                        break;
+                    }
+                }
+            }
+            if (flag == 0)
+                $("#btnSave").click();
+            else {
+                notyAlert('error', 'Stage details already exist');
+                ClearStageDetail();
+            }
         }
     }
     catch (ex) {
@@ -1702,8 +1763,10 @@ function GoBack() {
     try {
         OnServerCallBegin();
         debugger;
-        $('#step3').removeClass('active').addClass('disabled');
-        $('#step2').removeClass('disabled').addClass('active');
+        if($("#step3").hasClass("active")){
+            $('#step3').removeClass('active').addClass('disabled');
+            $('#step2').removeClass('disabled').addClass('active');
+        }
         var BillOfMaterialViewModel = new Object();
         BillOfMaterialViewModel.ID = $('#IDBillOfMaterial').val();
         BillOfMaterialViewModel.IsUpdate = $('#IsUpdateBOM').val();
@@ -1766,6 +1829,7 @@ function DeleteBOMComponentLineStageDetail(id, rowindex) {
             case "OK":
                 notyAlert('success', message);
                 DeleteTempDetail(rowindex);
+                ClearStageDetail();
                 break;
             case "ERROR":
                 notyAlert('error', message);

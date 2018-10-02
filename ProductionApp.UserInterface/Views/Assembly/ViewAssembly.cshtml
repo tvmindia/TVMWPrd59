@@ -12,7 +12,8 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i> Assembly</a></li>
+        <li><a href=@Url.Action("Index", "DashboardProduction", new { code = "PROD" })><i class="fa fa-cogs"></i>Production</a> </li>
+        <li>Assemble Products</li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
