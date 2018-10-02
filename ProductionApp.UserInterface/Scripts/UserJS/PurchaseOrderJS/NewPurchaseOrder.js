@@ -801,7 +801,7 @@ function Save() {
 
         PostDataToServer("PurchaseOrder/InsertPurchaseOrder/", data, function (JsonResult) {
             debugger;
-            var JsonResult = JSON.parse(JsonResult);
+           // var JsonResult = JSON.parse(JsonResult); //not working while saving if uncomment
             switch (JsonResult.Result) {
                 case "OK":
                         notyAlert('success', JsonResult.Records.Message);

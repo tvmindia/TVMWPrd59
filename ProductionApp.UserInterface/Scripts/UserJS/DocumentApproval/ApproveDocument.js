@@ -58,7 +58,7 @@ $(document).ready(function () {
 });
 
 function ApproveDocument() {
-    notyConfirm('Are you sure to Approve Document?', 'ApproveDocumentConfirm()');
+    notyConfirm('Are you sure to Approve Document?', 'ApproveDocumentConfirm()', '', 'Approved');
 }
 
 function ApproveDocumentConfirm() {
@@ -96,7 +96,7 @@ function RejectDocument() {
     if (Remarks == "")
         notyAlert('warning', 'Remarks Field is Empty');
     else
-        notyConfirm('Are you sure to Reject Document?', 'RejectDocumentConfirm()');
+        notyConfirm('Are you sure to Reject Document?', 'RejectDocumentConfirm()','','Rejected');
 }
 function RejectDocumentConfirm()
 {
