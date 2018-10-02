@@ -179,18 +179,20 @@ function CallChangefunc(productid)
 //##4--Save---------------------------------------------------------------##4
 function Save() {
     debugger;
-    var res = CheckComponentList();
-    if (res)
-    {
-        $('#btnSave').trigger('click');
-        $('#lblText').hide();
-        $('#lblValue').hide();
+    if ($('#Qty').val() > 0) {
+        var res = CheckComponentList();
+        if (res) {
+            $('#btnSave').trigger('click');
+            $('#lblText').hide();
+            $('#lblValue').hide();
+        }
+        else {
+            notyAlert('warning', 'Component(s) Out Of Stock!');
+        }
     }
-    else
-    {
-        notyAlert('warning', 'Component(s) Out Of Stock!');
+    else {
+        notyAlert('warning', 'Quantity to assemble must be greater than zero!');
     }
-
 }
 //##4.1--Component Stock Checking Function-----------------------------------##4.1
 function CheckComponentList()

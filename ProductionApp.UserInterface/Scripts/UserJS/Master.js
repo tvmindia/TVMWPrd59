@@ -69,6 +69,9 @@ function AddProductMaster(flag) {
     $('#h3ModelMasterContextLabel').text('Add Product/Component')
     CheckProductInvoiceType();
     $('#divModelMasterPopUp').modal('show');
+    if (_IsInput == true) {  //To set default type as component in BOM
+        $('#FormProduct #Type').val('COM').select2();
+    }
     $('#hdnMasterCall').val(flag);
 }
 //-- Function After Product Save --//

@@ -207,7 +207,7 @@ function SaveSuccess(data, status) {
             //Reset(1);
             NewTracking();
             BindOrReloadProductionTrackingTable();
-            //ChangeButtonPatchView('ProductionTracking', 'divButtonPatch', 'Edit');
+            ChangeButtonPatchView('ProductionTracking', 'divButtonPatch', 'Add');
             break;
         case "ERROR":
             notyAlert("danger", message)
