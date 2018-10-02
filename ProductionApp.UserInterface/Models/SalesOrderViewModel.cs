@@ -29,6 +29,7 @@ namespace ProductionApp.UserInterface.Models
         public string Remarks { get; set; }
 
         //additional properties
+        [Required(ErrorMessage = "Sales person required")]
         public Guid? EmployeeID { get; set; }
         public bool IsUpdate { get; set; }
         public Guid hdnFileID { get; set; }

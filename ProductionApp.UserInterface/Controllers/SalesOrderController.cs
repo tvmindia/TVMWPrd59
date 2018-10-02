@@ -174,7 +174,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateSalesOrder
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "W")]
         public string InsertUpdateSalesOrder(SalesOrderViewModel salesOrderVM)
         {
             try
@@ -271,7 +271,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion DeleteSalesOrderDetail
 
         #region GetCustomerDetails
-        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "D")]
+        [AuthSecurityFilter(ProjectObject = "SalesOrder", Mode = "R")]
         public string GetCustomerDetails(string customerId)
         {
             try
