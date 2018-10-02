@@ -339,7 +339,7 @@ function AddPackingSlipDetail() {
         BindProductListTable();
     }
     else {
-        notyAlert('warning', "Please Fill Required Fields,To Add Items ");
+        notyAlert('warning', "Please fill required fields, To add items ");
     }
 }
 //SalesOrder Details
@@ -491,7 +491,7 @@ function AddPackingSlipDetailTbl() {
             Save();
         }
         else
-            notyAlert('warning', "Please Enter Packing Quantity of Product(s)");
+            notyAlert('warning', "Please enter Packing Quantity of product(s)");
 }
 function CheckProductDetails(producDetails) {
     var flag = 0;
@@ -511,7 +511,7 @@ function CheckProductDetails(producDetails) {
 }
 function CheckProductList(producDetails) {
     if (producDetails.length == 0) {
-        notyAlert('warning', "Please Select Product");
+        notyAlert('warning', "Please select Product");
         selected = 0;
         return false;
     }
@@ -540,13 +540,13 @@ function AddPackingSlipDetailData(data) {
             }
         }
         if (flag == data.length) {
-            notyAlert('warning', "Please Enter Pkg Qty and Weight of Product(s)");
+            notyAlert('warning', "Please enter Pkg Qty and Weight of product(s)");
             return false;
         }
 
     }
     else {
-        notyAlert('warning', "Please Select Product");
+        notyAlert('warning', "Please select product");
         return false;
     }
 }
@@ -557,7 +557,7 @@ function Save() {
     //validation main form 
     if ($('#ShowDispatcherSec').val() == 'True' && $('#ShowPkgSec').val() == 'False') {
         if (!($('#DispatchedDateFormatted').val())) {
-            notyAlert('warning', "Please Fill Dispatched date");
+            notyAlert('warning', "Please fill Dispatched date");
             valid = 1;
         }
     }
@@ -632,7 +632,7 @@ function Save() {
             }
         }
         else {
-            notyAlert('warning', "Please Fill Required Fields ");
+            notyAlert('warning', "Please fill required fields ");
         }
     }
 }
@@ -876,7 +876,7 @@ function AddPackingSlipDetailEditTbl() {
         Save();
     }
     else
-        notyAlert('warning', "Please Enter Packing Quantity");
+        notyAlert('warning', "Please enter Packing Quantity");
 }
 function CheckProductDetailsEditTbl(producDetails) {
     var flag = 0;
@@ -914,7 +914,7 @@ function Delete(curobj) {
 function DeleteTempItem(Rowindex) {
     _SlNo = 1;
     DataTables.PackingSlipDetailTable.row(Rowindex).remove().draw(false);
-    notyAlert('success', 'Deleted Successfully');
+    notyAlert('success', 'Deleted successfully');
 }
 function DeleteItem(ID, isGroupItem) {
 
@@ -1718,5 +1718,5 @@ function EditPackingSlipDetailProduct() {
 
     }
     else
-        notyAlert('warning', "Please Enter Packing Quantity");
+        notyAlert('warning', "Packing Quantity is missing");
 }
