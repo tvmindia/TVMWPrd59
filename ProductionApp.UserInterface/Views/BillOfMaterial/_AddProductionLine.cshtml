@@ -9,7 +9,7 @@
     <div class="col-md-12">
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
         
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <div class="col-md-12">
                 @Html.LabelFor(model => model.Product, htmlAttributes: new { @class = "control-label" })
             </div>
@@ -17,7 +17,7 @@
                 @Html.EditorFor(model => model.Product.Name, new { htmlAttributes = new { @class = "form-control HeaderBox ", @disabled = "disabled" } })
             </div>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <div class="col-md-12">
                 @Html.LabelFor(model => model.BOMComponentLine.ComponentID, htmlAttributes: new { @class = "control-label lblrequired" })
                 @{
@@ -35,13 +35,19 @@
                 @Html.ValidationMessageFor(model => model.BOMComponentLine.ComponentID, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <div class="col-md-12">
                 @Html.LabelFor(model => model.BOMComponentLine.LineName, htmlAttributes: new { @class = "control-label lblrequired" })
             </div>
             <div class="col-md-12">
                 @Html.EditorFor(model => model.BOMComponentLine.LineName, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
                 @Html.ValidationMessageFor(model => model.BOMComponentLine.LineName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-md-3">
+            <div class="col-md-12">&nbsp;</div>
+            <div class="col-md-12">
+                <a class="btn btn-openid" onclick="NewLine()" style="color:white;font-weight:bold;"><i class="fa fa-plus"></i> Add new line</a>@*margin-left:70px;*@
             </div>
         </div>
     </div>
@@ -80,10 +86,8 @@
         <div class="col-md-4">
             &nbsp;
         </div>
-        <div class="col-md-4">
-            <a class="btn btn-openid" onclick="NewLine()" style="color:white;font-weight:bold;"><i class="fa fa-plus"></i> Add new line</a>@*margin-left:70px;*@
-        </div>
-        <div class="col-md-4">
+        
+        <div class="col-md-8">
             <a class="btn btn-openid" onclick="SaveLine()" style="color:white;font-weight:bold;float:right;">&nbsp;&nbsp;<i class="fa fa-save"></i>&nbsp;Save Line&nbsp;&nbsp;</a>@*//margin-left:20px;*@
         </div>
 
@@ -112,11 +116,11 @@
 
         </div>
 
-        <div class="col-md-5">&nbsp;</div>
-        <div class="col-md-4">
+        <div class="col-md-2">&nbsp;</div>
+        <div class="col-md-5">
             <a class="btn btn-openid" onclick="LoadPartialAddComponent()" style="color:white;font-weight:bold;"><i class="fa fa-angle-double-left"></i> Back </a>@*//margin-left:20px;*@
         </div>
-        <div class="col-md-3">
+        <div class="col-md-5">
             <a class="btn btn-openid" onclick="SaveAndProceed()" style="color:white;font-weight:bold;float:right;">Save & Proceed <i class="fa fa-angle-double-right"></i> </a>@*//margin-left:20px;*@
         </div>
     </div>

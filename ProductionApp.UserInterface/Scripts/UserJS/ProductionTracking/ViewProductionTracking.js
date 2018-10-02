@@ -19,6 +19,12 @@ $(document).ready(function () {
         debugger;
         BindOrReloadProductionTrackingTable('Init');
         $('#ProductID,#EmployeeID,#StageID').select2({});
+        $('#SearchTerm').keypress(function (event) {
+            if (event.which === 13) {
+                event.preventDefault();
+                BindOrReloadProductionTrackingTable('Apply');
+            }
+        });
         BindPendingProductionTrackingDetailTable();
         BindPendingProductionTrackingTable();
         debugger;
@@ -41,6 +47,7 @@ $(document).ready(function () {
             //  },
         });
         $('#PostDate').addClass('datepicker');
+        
     }
     catch (ex) {
         console.log(ex.message);
