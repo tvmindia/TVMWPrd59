@@ -32,7 +32,7 @@ namespace ProductionApp.UserInterface.Controllers
             _supplierCreditNoteBusiness = supplierCreditNoteBusiness;
         }
         // GET: SupplierPayment
-        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         public ActionResult ViewSupplierPayment(string code)
         {
             ViewBag.SysModuleCode = code;
@@ -54,7 +54,7 @@ namespace ProductionApp.UserInterface.Controllers
             supplierPaymentAdvanceSearchVM.Supplier.SelectList = selectListItem;
             return View(supplierPaymentAdvanceSearchVM);
         }
-        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         public ActionResult NewSupplierPayment(string code, Guid? id)
         {
             ViewBag.SysModuleCode = code;
@@ -84,7 +84,7 @@ namespace ProductionApp.UserInterface.Controllers
        
         #region GetAllSupplierPayment
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         public JsonResult GetAllSupplierPayment(DataTableAjaxPostModel model, SupplierPaymentAdvanceSearchViewModel supplierPaymentAdvanceSearchVM)
         {
             supplierPaymentAdvanceSearchVM.DataTablePaging.Start = model.start;
@@ -108,29 +108,30 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region InsertUpdateSupplierPayment
-        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "W")]
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "W")]
         [HttpPost]
         public string InsertUpdateSupplierPayment(SupplierPaymentViewModel SupplierPaymentVM)
         {
            
 
-            if ((SupplierPaymentVM.TotalPaidAmt == 0 || SupplierPaymentVM.TotalPaidAmt == null) && SupplierPaymentVM.Type == "C" || SupplierPaymentVM.hdfType == "C")
-            {
-                SupplierPaymentVM.TotalPaidAmt = Decimal.Parse(SupplierPaymentVM.hdfCreditAmount);
-                SupplierPaymentVM.AdvanceAmount = 0;
-                if (SupplierPaymentVM.TotalPaidAmt == 0)
-                {
-                    throw new Exception("Please Check Credit Notes");
-                }
-            }
-            else if (SupplierPaymentVM.TotalPaidAmt == 0)
-            {
-                throw new Exception("Please Enter Amount");
-            }
-
+   
 
             try
             {
+                if ((SupplierPaymentVM.TotalPaidAmt == 0 || SupplierPaymentVM.TotalPaidAmt == null) && SupplierPaymentVM.Type == "C" || SupplierPaymentVM.hdfType == "C")
+                {
+                    SupplierPaymentVM.TotalPaidAmt = Decimal.Parse(SupplierPaymentVM.hdfCreditAmount);
+                    SupplierPaymentVM.AdvanceAmount = 0;
+                    if (SupplierPaymentVM.TotalPaidAmt == 0)
+                    {
+                        throw new Exception("Please Check Credit Notes");
+                    }
+                }
+                else if (SupplierPaymentVM.TotalPaidAmt == 0)
+                {
+                    throw new Exception("Please Enter Amount");
+                }
+
                 AppUA appUA = Session["AppUA"] as AppUA;
                 SupplierPaymentVM.Common = new CommonViewModel
                 {
@@ -173,7 +174,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion ValidateSupplierPayment
 
         #region GetOutStandingSupplierInvoices
-        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         public string GetOutStandingSupplierInvoices(string paymentId, string supplierId)
         {
             try
@@ -190,7 +191,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region GetOutStandingAmount
-        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         public string GetOutStandingAmount(string Id)
         {
             try
@@ -207,7 +208,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion
 
         #region GetSupplierPayment
-        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         public string GetSupplierPayment(string Id)
         {
             try
@@ -224,7 +225,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetSupplierPayment
 
         #region DeleteSupplierPayment
-        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "D")]
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "D")]
         public string DeleteSupplierPayment(string id)
         {
             object result = null;
@@ -251,7 +252,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         
         #region GetSupplierCreditNote
-        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         [HttpGet]
         public string GetSupplierCreditNote(string ID)
         {
@@ -263,7 +264,7 @@ namespace ProductionApp.UserInterface.Controllers
 
 
         #region GetCreditNoteByPaymentID
-        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         [HttpGet]
         public string GetCreditNoteByPaymentID(string ID, string PaymentID)
         {
@@ -274,7 +275,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetCreditNoteByPaymentID
 
         #region GetCreditNoteAmount
-        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         [HttpGet]
         public string GetCreditNoteAmount(string CreditID, string SupplierID)
         {
@@ -297,7 +298,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "SupplierPayment", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "SupplierPayments", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();
