@@ -12,6 +12,8 @@ namespace ProductionApp.UserInterface.Models
         [Remote(action: "CheckCodeExist", controller: "Bank", AdditionalFields =nameof(IsUpdate))]
         [Required]
         public string Code { get; set; }
+        [Required(ErrorMessage = "Bank Name Required")]
+        [Display(Name = "Bank Name")]
         public string Name { get; set; }
         public decimal Opening { get; set; }
         public decimal ActualODLimit { get; set; }
