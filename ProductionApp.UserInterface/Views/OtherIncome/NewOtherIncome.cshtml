@@ -14,7 +14,8 @@
 
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="/OtherIncome/ViewOtherIncome?code=ACC">Other Income</a></li>
+        <li><a href="../DashboardAccount?code=ACC"><i class="fa fa-cogs"></i>Accounts</a></li>
+        <li>Other Income</li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -134,7 +135,8 @@
                                 </div>
                                 <div class="col-md-12">
                                     @Html.HiddenFor(model => model.BankCode, new { htmlAttributes = new { @id = "hdnBankCode" } })
-                                    @Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })
+                                    @*@Html.ValidationMessageFor(model => model.BankCode, "", new { @class = "text-danger" })*@
+                                    <span class="text-danger" id="msgBankCode" style="display:none;">Bank Code Required</span>
                                 </div>
                             </div>
 

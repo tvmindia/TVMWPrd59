@@ -157,7 +157,7 @@ function DeleteCustomerCreditNote() {
                 _message = _jsonData.Message;
             }
             if (_result == "OK") {
-                notyAlert('success', _message);
+                notyAlert('success', _jsonData.Message.Message);
                 window.location.replace("NewCustomerCreditNote?code=ACC");
             }
             if (_result == "ERROR") {

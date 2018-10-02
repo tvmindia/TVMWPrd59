@@ -1,7 +1,7 @@
 ﻿@using ProductionApp.UserInterface.App_Start
 @model ProductionApp.UserInterface.Models.OtherExpenseAdvanceSearchViewModel
 @{
-    ViewBag.Title = "View OtherExpense";
+    ViewBag.Title = "View Other Expense";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 @section styles {
@@ -12,7 +12,8 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-cogs"></i> OtherExpense</a></li>
+        <li><a href="../DashboardAccount?code=ACC"><i class="fa fa-cogs"></i>Accounts</a></li>
+        <li> Other Expense</li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -41,7 +42,7 @@
                 <div class="col-md-12">
                     <div class="input-group">
                         @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
-                        <div class="input-group-btn">
+                        <div class="input-group-btn" title="Search">
                             <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadOtherExpenseTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
                         </div>
                     </div>
@@ -91,7 +92,7 @@
                    @Html.DropDownListFor(model => model.Status, Model.ApprovalStatus.StatusSelectList, "--Select Approval Status--", new { @class = "form-control BlockEnter", @style = "width:100%" })
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2" title="Apply">
                 <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadOtherExpenseTable('Apply')">Apply</a>
             </div>
         </div>

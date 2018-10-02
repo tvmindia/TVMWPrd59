@@ -32,7 +32,14 @@ $(document).ready(function () {
     debugger;
     try {
         $("#SupplierID").select2({});
+        $('#SearchTerm').focus();
         BindOrReloadSupplierPaymentTable('Init');
+        $('#SearchTerm').keypress(function (event) {
+            if (event.which === 13) {
+                event.preventDefault();
+                BindOrReloadSupplierPaymentTable('Apply');
+            }
+        });
         $('#tblSupplierPaymentView tbody').on('dblclick', 'td', function () {
             Edit(this);
         });
@@ -65,6 +72,7 @@ function BindOrReloadSupplierPaymentTable(action) {
                 $('#FromDate').val('');
                 $('#ToDate').val('');
                 $('#SupplierID').val('').select2();
+                $('.datepicker').datepicker('setDate', null);
                 break;
             case 'Init':
                 break;
@@ -81,6 +89,9 @@ function BindOrReloadSupplierPaymentTable(action) {
         }
         SupplierPaymentAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
         SupplierPaymentAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+        SupplierPaymentAdvanceSearchViewModel.FromDate = $('#FromDate').val();
+        SupplierPaymentAdvanceSearchViewModel.ToDate = $('#ToDate').val();
+        SupplierPaymentAdvanceSearchViewModel.SupplierID = $('#SupplierID').val();
         _dataTables.SupplierPaymentTable = $('#tblSupplierPaymentView').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
@@ -88,7 +99,7 @@ function BindOrReloadSupplierPaymentTable(action) {
                     extend: 'excel',
                     exportOptions:
                                  {
-                                     columns: [1, 2, 3, 4, 5]
+                                     columns: [0,1, 2, 3, 4, 5,6,7,8]
                                  }
                 }],
                 order: false,

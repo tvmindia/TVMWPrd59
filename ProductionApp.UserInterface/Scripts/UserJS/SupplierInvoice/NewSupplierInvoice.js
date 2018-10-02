@@ -459,7 +459,7 @@ function AddSupplierInvoiceDetails() {
         SupplierInvoiceDetailVM.Quantity = $('#SupplierInvoiceDetail_Quantity').val();
         SupplierInvoiceDetailVM.Rate = $('#SupplierInvoiceDetail_Rate').val();
         SupplierInvoiceDetailVM.TradeDiscountAmount = $('#SupplierInvoiceDetail_TradeDiscountAmount').val();
-        SupplierInvoiceDetailVM.TradeDiscountPercent = $('#SupplierInvoiceDetail_TradeDiscountPerc').val();
+        SupplierInvoiceDetailVM.TradeDiscountPerc= $('#SupplierInvoiceDetail_TradeDiscountPerc').val();
         SupplierInvoiceDetailVM.TaxTypeCode = $('#TaxTypeCode').val();
         var taxTypeVM = GetTaxTypeByCode($('#TaxTypeCode').val());
         SupplierInvoiceDetailVM.IGSTPerc =taxTypeVM.IGSTPercentage
@@ -788,7 +788,7 @@ function ItemDetailsEdit(thisObj) {
     $('#SupplierInvoiceDetail_Quantity').val(supplierInvoiceDetailVM.Quantity);
     $('#SupplierInvoiceDetail_Rate').val(supplierInvoiceDetailVM.Rate);
     $('#SupplierInvoiceDetail_TradeDiscountAmount').val(supplierInvoiceDetailVM.TradeDiscountAmount);
-    $('#SupplierInvoiceDetail_TradeDiscountPerc').val(supplierInvoiceDetailVM.TradeDiscountPercent);
+    $('#SupplierInvoiceDetail_TradeDiscountPerc').val(supplierInvoiceDetailVM.TradeDiscountPerc);
     $('#TaxTypeCode').val(supplierInvoiceDetailVM.TaxTypeCode);
     $('#SupplierInvoiceDetail_MaterialCode').val(supplierInvoiceDetailVM.MaterialCode);
     $('#SupplierInvoiceDetail_MaterialTypeDesc').val(supplierInvoiceDetailVM.MaterialTypeDesc);
@@ -838,6 +838,9 @@ function DeleteSupplierInvoice() {
                 window.location.replace("NewSupplierInvoice?code=ACC");
             }
             if (_result == "ERROR") {
+                notyAlert('error', _message);
+            }
+            if (_result == "UNAUTH") {
                 notyAlert('error', _message);
             }
             return 1;

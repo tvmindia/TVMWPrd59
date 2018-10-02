@@ -55,6 +55,7 @@ function PaymentModeOnChanged(curObj) {
     try{
         debugger;
         $('#msgPaymentRef').hide();
+        $('#msgBankCode').hide();
         $('#divBankDropdown .input-group-addon').each(function () {
             $(this).parent().css("width", "100%");
             $(this).parent().children().each(function () { $(this).prop("disabled", true); });
@@ -98,33 +99,42 @@ function PaymentModeOnChanged(curObj) {
 function Save() {
     try {
         debugger;
-        var isInput = false;
+        
+            var isInput = false;
 
-        if ($('#hdnChartOfAccountCode').val() !== "") {
-            isInput = true;
-        }
-        else {
-            notyAlert("warning", "Account Code field is missing");// $('#msgAccountCode').show();
-        }
-        if ($('#PaymentMode').val() === "ONLINE") {
-            if ($('#PaymentRef').val() !== "" && $('#PaymentRef').val() !== null) {
+            if ($('#hdnChartOfAccountCode').val() !== "") {
                 isInput = true;
             }
             else {
-                isInput = false;
-                $('#msgPaymentRef').show();
-                $('#PaymentRef').change(function () { $('#msgPaymentRef').hide(); });
+                //isInput = false;
+                //$('#msgAccountCode').show();
+                notyAlert("warning", "Account Code field is missing");// $('#msgAccountCode').show();
             }
-        }
-        if ($('#Amount').val()<=0) {
-            $('#Amount').val("");
-        }
+            if ($('#PaymentMode').val() === "ONLINE") {
+                if ($('#PaymentRef').val() !== "" && $('#PaymentRef').val() !== null && ($('#BankCode').val() !== "") && $('#BankCode').val() !== null) {
+                    isInput = true;
+                }
+                else {
+                    isInput = false;
+                    $('#msgPaymentRef').show();
+                    $('#msgBankCode').show();
+                    $('#PaymentRef').change(function () { $('#msgPaymentRef').hide(); });
+                    
+                }
+            }
+          
 
-        if (isInput) {
-            $('#hdnChartOfAccountCode').val($('#ChartOfAccountCode').val().split('|')[0]);
-           // $('#btnSave').click();
-            $('#btnSave').trigger('click');
-        } 
+            if ($('#Amount').val() <= 0) {
+                $('#Amount').val("");
+            }
+
+            if (isInput) {
+                $('#hdnChartOfAccountCode').val($('#ChartOfAccountCode').val().split('|')[0]);
+                // $('#btnSave').click();
+                $('#btnSave').trigger('click');
+            }
+        
+     
     } catch (ex) {
         console.log(ex);
     }
@@ -282,7 +292,8 @@ function ClearFields() {
         $('#DepositWithdrawalID').val(_emptyGuid);
         ChangeButtonPatchView('OtherIncome', 'divButtonPatch', 'Add');
         $('#msgAccountCode').hide();
-        $('#msgPaymentRef').hide();     
+        $('#msgPaymentRef').hide();
+        $('#msgBankCode').hide();
     } catch (ex) {
         console.log("error", ex.message);
     }

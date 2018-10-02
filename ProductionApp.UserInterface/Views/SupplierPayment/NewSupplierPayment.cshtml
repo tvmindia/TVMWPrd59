@@ -22,7 +22,8 @@
 }
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href="@Url.Action("NewSupplierPayment", "SupplierPayment", new { Code = "ACC" })"><i class="fa fa-cogs"></i> Supplier Payment</a></li>
+        <li><a href="../DashboardAccount?code=ACC"><i class="fa fa-cogs"></i>Accounts</a></li>
+        <li>Supplier Payment</></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -162,7 +163,7 @@
                         <div class="col-md-12">
                             @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label lblrequired" })
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12" id="divBankDropdown">
                             @Html.Action("BankDropdown", "Bank", new { required = "required" })
                         </div>
                     </div>
