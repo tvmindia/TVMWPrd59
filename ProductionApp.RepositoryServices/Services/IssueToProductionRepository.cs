@@ -230,6 +230,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         materialIssue.Qty= (sdr["Qty"].ToString() != "" ? Decimal.Parse(sdr["Qty"].ToString()) : materialIssue.Qty);
                                         materialIssue.Material = new Material();
                                         materialIssue.Material.MaterialCode = (sdr["MaterialCode"].ToString() != "" ? sdr["MaterialCode"].ToString() : materialIssue.Material.MaterialCode);
+                                        materialIssue.Material.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? Decimal.Parse(sdr["CurrentStock"].ToString()) : materialIssue.Material.CurrentStock);
                                     }
                                     materialIssueDetailList.Add(materialIssue);
                                 }

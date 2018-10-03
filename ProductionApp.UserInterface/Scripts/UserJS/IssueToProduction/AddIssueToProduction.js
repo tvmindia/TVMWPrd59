@@ -27,6 +27,7 @@ $(document).ready(function () {
          columns: [
          { "data": "ID", "defaultContent": "<i></i>" },
          { "data": "MaterialID", "defaultContent": "<i></i>" },
+         { "data": "CurrentStock", "defaultContent": "<i></i>" },
          {
              "data": "", render: function (data, type, row) {
 debugger;
@@ -39,14 +40,14 @@ debugger;
          { "data": "Qty", render: function (data, type, row) { return data }, "defaultContent": "<i></i>" },        
          { "data": null, "orderable": false, "defaultContent": '<a href="#" class="actionLink"  onclick="MaterialEdit(this)" ><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a> | <a href="#" class="DeleteLink"  onclick="Delete(this)" ><i class="glyphicon glyphicon-trash" aria-hidden="true"></i></a>' },
          ], 
-         columnDefs: [{ "targets": [0,1], "visible": false, searchable: false },                              
-             { className: "text-left", "targets": [2, 3, 4, 5, 6] },
-             {"targets":[2],"width":"2%",},
-             { "targets": [3], "width": "5%" },
-             { "targets": [4], "width": "15%" },
-             { "targets": [7], "width": "3%" },
-             {"targets":[6],"width":"4%"},
-             { "targets": [4,5], "width": "5%" }
+         columnDefs: [{ "targets": [0,1,2], "visible": false, searchable: false },                              
+             { className: "text-left", "targets": [3, 4, 5, 6,7] },
+             {"targets":[3],"width":"2%",},
+             { "targets": [4], "width": "5%" },
+             { "targets": [5], "width": "15%" },
+             { "targets": [8], "width": "3%" },
+             {"targets":[7],"width":"4%"},
+             { "targets": [5,6], "width": "5%" }
          ],
         
      });
@@ -82,10 +83,13 @@ function ShowIssueToProductionDetailsModal()
 {
     try{
         debugger;
+        $('#modelContextLabel').text('Add Items');
+        $('#MaterialID').attr("disabled", false);
         $('#MaterialID').val('').select2();
         $('#MaterialIssueDetail_Material_MaterialCode').val('');
         $('#MaterialIssueDetail_MaterialDesc').val('');
         $('#MaterialIssueDetail_UnitCode').val('');
+        $('#MaterialIssueDetail_Material_CurrentStock').val('');
         $('#MaterialIssueDetail_Qty').val('');
         $('#AddIssueToProductionItemModal').modal('show');
     }
@@ -104,6 +108,7 @@ function BindRawMaterialDetails(ID)
         $('#MaterialIssueDetail_Material_MaterialCode').val(result.MaterialCode);
         $('#MaterialIssueDetail_MaterialDesc').val(result.Description);
         $('#MaterialIssueDetail_UnitCode').val(result.UnitCode);
+        $('#MaterialIssueDetail_Material_CurrentStock').val(result.CurrentStock);
         $('#MaterialIssueDetail_Qty').val(result.Qty);
     }
     catch(e)
@@ -145,6 +150,10 @@ function AddIssueToProductItem()
         debugger;
         if ($('#MaterialID').val() != "" && $('#MaterialIssueDetail_Qty').val()!="")
         {
+            if ($('#MaterialIssueDetail_Qty').val() > $('#MaterialIssueDetail_Material_CurrentStock').val())
+            {
+                notyAlert('warning', "Entered Qty is greater than current stock");
+            }
             _MaterialIssueDetail = [];
             AddMaterialIssue = new Object();
             AddMaterialIssue.MaterialID = $('#MaterialID').val();
@@ -153,6 +162,7 @@ function AddIssueToProductItem()
             AddMaterialIssue.MaterialDesc = $('#MaterialIssueDetail_MaterialDesc').val();
             AddMaterialIssue.UnitCode = $('#MaterialIssueDetail_UnitCode').val();
             AddMaterialIssue.Qty = $('#MaterialIssueDetail_Qty').val();
+            AddMaterialIssue.Material.CurrentStock = $('#MaterialIssueDetail_Material_CurrentStock').val();
             _MaterialIssueDetail.push(AddMaterialIssue);
 
             if(_MaterialIssueDetail!=null)
@@ -168,6 +178,7 @@ function AddIssueToProductItem()
                             materialIssueDetailList[i].MaterialDesc = $('#MaterialIssueDetail_MaterialDesc').val();
                             materialIssueDetailList[i].UnitCode = $('#MaterialIssueDetail_UnitCode').val();
                             materialIssueDetailList[i].Qty = $('#MaterialIssueDetail_Qty').val();
+                            materialIssueDetailList[i].CurrentStock = $('#MaterialIssueDetail_Material_CurrentStock').val();
                             checkPoint = 1;
                             break;
                         }
@@ -206,7 +217,7 @@ function MaterialEdit(curObj)
     try{
         debugger;
         $('#AddIssueToProductionItemModal').modal('show');
-    
+        $('#modelContextLabel').text('Edit Items');
         var materialIssueDetailVM = DataTables.MaterialIssueDetailTable.row($(curObj).parents('tr')).data();
         _SlNo = 1;
         //DataTables.MaterialIssueDetailTable.clear().rows.add(Itemtabledata).draw(false);
@@ -214,8 +225,10 @@ function MaterialEdit(curObj)
         {
             $("#MaterialID").val(materialIssueDetailVM.MaterialID).select2();
             $('#MaterialIssueDetail_Material_MaterialCode').val(materialIssueDetailVM.Material.MaterialCode);
+            $('#MaterialID').attr("disabled", true)
             $('#MaterialIssueDetail_MaterialDesc').val(materialIssueDetailVM.MaterialDesc);
             $('#MaterialIssueDetail_UnitCode').val(materialIssueDetailVM.UnitCode);
+            $('#MaterialIssueDetail_Material_CurrentStock').val(materialIssueDetailVM.Material.CurrentStock);
             $('#MaterialIssueDetail_Qty').val(materialIssueDetailVM.Qty);
         }
     }
@@ -494,6 +507,12 @@ function GetIssueToProductionDetail(ID)
             result = jsonData.Result;
             message = jsonData.Message;
             materialIssueDetailVM = jsonData.Records;
+            if (materialIssueDetailVM.length > 0) {
+                for (i = 0; i < materialIssueDetailVM.length; i++) {
+                    materialIssueDetailVM[i].Material.CurrentStock = materialIssueDetailVM[i].Material.CurrentStock + materialIssueDetailVM[i].Qty;
+                }
+            }
+            
         }
         if (result == "OK") {
             return materialIssueDetailVM;
