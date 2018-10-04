@@ -6,6 +6,12 @@ $(document).ready(function () {
         $("#RequisitionBy").select2({
         });
         BindOrReloadRequisitionTable('Init');
+        $('#SearchTerm').keypress(function (event) {
+            if (event.which === 13) {
+                event.preventDefault();
+                BindOrReloadRequisitionTable('Apply');
+            }
+        });
 
         $('#tblRequisition tbody').on('dblclick', 'td', function () {
             Edit(this);
@@ -35,8 +41,7 @@ function BindOrReloadRequisitionTable(action) {
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
-                $('#FromDate').val('');
-                $('#ToDate').val('');
+                $('.datepicker').datepicker('setDate', null);
                 $('#ReqStatus').val('');
                 $("#RequisitionBy").val('').select2();
                 break;
@@ -58,6 +63,10 @@ function BindOrReloadRequisitionTable(action) {
         }
         RequisitionAdvanceSearchViewModel.DataTablePaging = DataTablePagingViewModel;
         RequisitionAdvanceSearchViewModel.SearchTerm = $('#SearchTerm').val();
+        RequisitionAdvanceSearchViewModel.FromDate = $('#FromDate').val();
+        RequisitionAdvanceSearchViewModel.ToDate = $('#ToDate').val();
+        RequisitionAdvanceSearchViewModel.ReqStatus = $('#ReqStatus').val();
+        RequisitionAdvanceSearchViewModel.EmployeeID = $('#RequisitionBy').val();
         DataTables.RequisitionList = $('#tblRequisition').DataTable(
             {
                 dom: '<"pull-right"Bf>rt<"bottom"ip><"clear">',
