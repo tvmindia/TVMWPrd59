@@ -34,8 +34,9 @@ function RedirectSearchClick(e, this_obj) {
 //function reset the list to initial
 function ResetReportList() {
     $("#isInvoiced").prop("checked", true);
-    $('#FromDate').val('');
-    $('#ToDate').val('');
+   // $('#FromDate').val('');
+    $('#FromDate').datepicker('setDate', null);
+    $('#ToDate').datepicker('setDate', null);
     $('#DateFilter').val('');
     DynamicTableBinding();
 }
