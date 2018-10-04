@@ -34,7 +34,7 @@
                     <div class="input-group">
                         @Html.EditorFor(model => model.SearchTerm, new { htmlAttributes = new { @class = "form-control HeaderBox" } })
                         <div class="input-group-btn">
-                            <button class="btn btn-primary" type="submit" style="height:27.5px" onclick="BindOrReloadRequisitionTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
+                            <button class="btn btn-primary" type="submit" style="height:27.5px" title="Search" onclick="BindOrReloadRequisitionTable('Search')"><i class="glyphicon glyphicon-search"></i></button>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <a class="btn btn-primary" style="right:-750px;margin-top:20px" onclick="BindOrReloadRequisitionTable('Apply')">Apply</a>
+                    <a class="btn btn-primary" style="right:-750px;margin-top:20px" title="Apply" onclick="BindOrReloadRequisitionTable('Apply')">Apply</a>
                 </div> 
         </div>
     </div>

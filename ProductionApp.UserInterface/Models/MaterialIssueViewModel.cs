@@ -24,6 +24,7 @@ namespace ProductionApp.UserInterface.Models
         [Required(ErrorMessage ="Issue Date Required")]
         public string IssueDateFormatted { get; set; }
         [DataType(DataType.MultilineText)]
+        [Display(Name = "General Notes")]
         public string GeneralNotes { get; set; }
         public CommonViewModel Common { get; set; }
 

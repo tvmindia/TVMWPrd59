@@ -14,6 +14,12 @@ var EmptyGuid = "00000000-0000-0000-0000-000000000000";
 $(document).ready(function () {
     try {
         BindOrReloadBOMTable('Init');
+        $('#SearchTerm').keypress(function (event) {
+            if (event.which === 13) {
+                event.preventDefault();
+                BindOrReloadBOMTable('Apply');
+            }
+        });
          
     }
     catch (e) {
@@ -99,7 +105,7 @@ function BindOrReloadBOMTable(action) {
                 "defaultContent": "<i>-</i>"
 
             },
-            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditBillOfMaterialMaster(this)"<i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i></a>' ,"width":'3%'}
+            { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="EditBillOfMaterialMaster(this)"<i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": '3%' }
             ],
             columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                 { className: "text-left", "targets": [3], "width": "55%" },

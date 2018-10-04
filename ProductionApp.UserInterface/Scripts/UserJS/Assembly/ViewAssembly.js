@@ -22,6 +22,12 @@ $(document).ready(function () {
         $("#AssembleBy").select2({
         });
         BindOrReloadAssembleTable('Init');
+        $('#SearchTerm').keypress(function (event) {
+            if (event.which === 13) {
+                event.preventDefault();
+                BindOrReloadAssembleTable('Apply');
+            }
+        });
     }
     catch (e) {
         console.log(e.message);

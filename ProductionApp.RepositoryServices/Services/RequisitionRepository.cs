@@ -115,6 +115,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@RequisitionBy", SqlDbType.UniqueIdentifier).Value = requisition.EmployeeID;
                         cmd.Parameters.Add("@ReqStatus", SqlDbType.VarChar, 250).Value = requisition.ReqStatus;
                         cmd.Parameters.Add("@ReqDate", SqlDbType.DateTime).Value = requisition.ReqDateFormatted;
+                        cmd.Parameters.Add("@RequiredDate", SqlDbType.DateTime).Value = requisition.RequiredDateFormatted;
                         cmd.Parameters.Add("@DetailXML", SqlDbType.VarChar, -1).Value = requisition.DetailXML;
 
                         cmd.Parameters.Add("@CreatedBy", SqlDbType.NVarChar, 250).Value = requisition.Common.CreatedBy;
@@ -300,6 +301,8 @@ namespace ProductionApp.RepositoryServices.Services
                                     requisition.ReqNo = (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : requisition.ReqNo);
                                     requisition.ReqDate = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()) : requisition.ReqDate);
                                     requisition.ReqDateFormatted = (sdr["ReqDate"].ToString() != "" ? DateTime.Parse(sdr["ReqDate"].ToString()).ToString(settings.DateFormat) : requisition.ReqDateFormatted);
+                                    requisition.RequiredDate = (sdr["RequiredDate"].ToString() != "" ? DateTime.Parse(sdr["RequiredDate"].ToString()) : requisition.RequiredDate);
+                                    requisition.RequiredDateFormatted = (sdr["RequiredDate"].ToString() != "" ? DateTime.Parse(sdr["RequiredDate"].ToString()).ToString(settings.DateFormat) : requisition.RequiredDateFormatted);
                                     requisition.Title = (sdr["Title"].ToString() != "" ? sdr["Title"].ToString() : requisition.Title);
                                     requisition.ReqStatus = (sdr["ReqStatus"].ToString() != "" ? sdr["ReqStatus"].ToString() : requisition.ReqStatus);
                                     requisition.EmployeeID = (sdr["EmployeeID"].ToString() != "" ? Guid.Parse(sdr["EmployeeID"].ToString()) : requisition.EmployeeID);

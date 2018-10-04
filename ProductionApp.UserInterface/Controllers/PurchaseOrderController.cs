@@ -68,6 +68,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertPurchaseOrder
         [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "W")]
         public string InsertPurchaseOrder(PurchaseOrderViewModel purchaseOrderVM)
         {
             try
@@ -99,6 +100,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion InsertPurchaseOrder
 
         #region UpdatePurchaseOrderDetailLink
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "W")]
         public string UpdatePurchaseOrderDetailLink(PurchaseOrderViewModel purchaseOrderVM)
         {
             try
@@ -192,6 +194,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion GetAllPurchaseOrder
 
         #region GetAllRequisitionForPurchaseOrder
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public string GetAllRequisitionForPurchaseOrder()
         {
             try { 
@@ -220,8 +223,9 @@ namespace ProductionApp.UserInterface.Controllers
             }
         }
         #endregion GetRequisitionDetailsByIDs
-       
+
         #region DeletePurchaseOrder
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "D")]
         public string DeletePurchaseOrder(string ID)
         {
             object result = null;
@@ -243,6 +247,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion DeletePurchaseOrder
 
         #region DeletePurchaseOrderDetail
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "D")]
         public string DeletePurchaseOrderDetail(string ID)
         {
             object result = null;
@@ -284,7 +289,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region GetMailPreview
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public ActionResult GetMailPreview(string ID,int flag)
         {
             PurchaseOrderMailPreviewViewModel purchaseOrderMailPreviewVM = null;
@@ -327,7 +332,7 @@ namespace ProductionApp.UserInterface.Controllers
         #region EmailSent
         [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "W")]
         public async Task <string> SendQuoteMail(PurchaseOrderViewModel purchaseOrderVM)
         {
             try
@@ -367,6 +372,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region UpdatePOMailDetails
         [HttpPost]
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public string UpdatePOMailDetails(PurchaseOrderViewModel purchaseOrderVM)
         {
             try
@@ -390,6 +396,7 @@ namespace ProductionApp.UserInterface.Controllers
         #endregion UpdatePOMailDetails
 
         #region PurchaseOrderDropdown
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public ActionResult PurchaseOrderDropdown(Guid? SupplierID)
         {
             PurchaseOrderViewModel purchaseOrderVM = new PurchaseOrderViewModel();
@@ -416,7 +423,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "")]
+        [AuthSecurityFilter(ProjectObject = "PurchaseOrder", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();

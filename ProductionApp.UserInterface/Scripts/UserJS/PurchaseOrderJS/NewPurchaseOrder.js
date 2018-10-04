@@ -801,6 +801,7 @@ function Save() {
 
         PostDataToServer("PurchaseOrder/InsertPurchaseOrder/", data, function (JsonResult) {
             debugger;
+           // var JsonResult = JSON.parse(JsonResult); //not working while saving if uncomment
             switch (JsonResult.Result) {
                 case "OK":
                         notyAlert('success', JsonResult.Records.Message);
@@ -820,7 +821,11 @@ function Save() {
                 case "ERROR":
                     notyAlert('error', JsonResult.Message);
                     break;
+                case "UNAUTH":
+                    notyAlert('error', JsonResult.Message);
+                    break;
                 default:
+                    notyAlert('error', JsonResult.Message);
                     break;
             }
         })
@@ -1162,7 +1167,11 @@ function UpdateDetailLinkSave() {
                 case "ERROR":
                     notyAlert('error', JsonResult.Message);
                     break;
+                case "UNAUTH":
+                    notyAlert('error', JsonResult.Message);
+                    break;
                 default:
+                    notyAlert('error', JsonResult.Message);
                     break;
             }
         })
@@ -1236,7 +1245,11 @@ function DeletePurchaseOrder() {
                 window.location.replace("NewPurchaseOrder?code=PURCH");
             }
             if (result == "ERROR") {
-                alert(message);
+                notyAlert('error',message);
+                return 0;
+            }
+            if (result == "UNAUTH") {
+                notyAlert('error',message);
                 return 0;
             }
             return 1;
@@ -1286,7 +1299,11 @@ function DeleteItem(ID) {
             case "ERROR":
                 notyAlert('error', ds.Message);
                 break;
+            case "UNAUTH":
+                notyAlert('error', ds.Message);
+                break;
             default:
+                notyAlert('error', ds.Message);
                 break;
         }
         return ds.Record;
@@ -1378,7 +1395,11 @@ PostDataToServer("PurchaseOrder/UpdatePOMailDetails/", data, function (JsonResul
         case "ERROR":
             notyAlert('error', JsonResult.Message);
             break;
+        case "UNAUTH":
+            notyAlert('error', JsonResult.Message);
+            break;
         default:
+            notyAlert('error', JsonResult.Message);
             break;
     }
 })

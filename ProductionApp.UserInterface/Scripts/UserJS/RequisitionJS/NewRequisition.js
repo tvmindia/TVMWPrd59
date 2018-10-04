@@ -252,6 +252,9 @@ function SaveSuccessRequisition(data, status)
         case "ERROR":
             notyAlert("danger", JsonResult.Message)
             break;
+        case "UNAUTH":
+            notyAlert("danger", JsonResult.Message)
+            break;
         default:
             notyAlert("danger", JsonResult.Message)
             break;
@@ -272,6 +275,7 @@ function BindRequisitionByID()
     $('#ReqNo').val(result.ReqNo);
     //$('#ReqDateFormatted').val(result.ReqDateFormatted);
     $('#ReqDateFormatted').datepicker('setDate', result.ReqDateFormatted);
+    $('#RequiredDateFormatted').datepicker('setDate', result.RequiredDateFormatted);
     $('#EmployeeID').val(result.EmployeeID).select2();
     $('#ReqStatus').val(result.ReqStatus);
     $('#lblReqNo').text('Requisition# : ' + result.ReqNo);
@@ -401,6 +405,9 @@ function DeleteItem(ID) {
             case "ERROR":
                 notyAlert('error', ds.Message);
                 break;
+            case "UNAUTH":
+                notyAlert('error', ds.Message);
+                break;
             default:
                 break;
         }
@@ -434,6 +441,10 @@ function DeleteRequisition() {
                 window.location.replace("NewRequisition?code=PURCH");
             }
             if (ds.Result == "ERROR") {
+                notyAlert('error', ds.Message);
+                return 0;
+            }
+            if (ds.Result == "UNAUTH") {
                 notyAlert('error', ds.Message);
                 return 0;
             }

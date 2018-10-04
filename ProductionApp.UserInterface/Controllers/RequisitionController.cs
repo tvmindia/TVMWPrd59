@@ -67,7 +67,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region InsertUpdateRequisition
         [HttpPost]
-        [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]
+        [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "W")]
         public string InsertUpdateRequisition(RequisitionViewModel requisitionVM)
         {
             try
@@ -221,7 +221,7 @@ namespace ProductionApp.UserInterface.Controllers
 
         #region ButtonStyling
         [HttpGet]
-        [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "")]
+        [AuthSecurityFilter(ProjectObject = "Requisition", Mode = "R")]
         public ActionResult ChangeButtonStyle(string actionType)
         {
             ToolboxViewModel toolboxVM = new ToolboxViewModel();

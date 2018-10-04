@@ -17,8 +17,8 @@
 
 <div style="width:100%;">
     <ol class="breadcrumb">
-        <li><a href=@Url.Action("Index", "Home")><i class="fa fa-cogs"></i> Home</a></li>
-        <li><a href="#">Production</a></li>
+        <li><a href=@Url.Action("Index", "DashboardProduction", new { code = "PROD" })><i class="fa fa-cogs"></i>Production</a> </li>
+        <li>Daily Tracking</li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
@@ -128,9 +128,9 @@
                             <div class="col-md-12">
                                 <div class="box box-primary" style="left:-1%;">
                                     <div class="box-header with-border">
-                                        <div class="box-title" style="font-size:1.1em;">
+                                        <div class="box-title" data-widget="collapse" onclick='$(this).children("i").toggleClass("fa-angle-double-up").toggleClass("fa-angle-double-down");'  style="font-size:1.1em;">
                                             <b> SubComponent : </b>
-                                            <span class="" id="lblSubComponent">N/A</span>
+                                            <span class="" id="lblSubComponent" >N/A</span>
                                         </div>
 
                                         <div class="box-tools pull-right">

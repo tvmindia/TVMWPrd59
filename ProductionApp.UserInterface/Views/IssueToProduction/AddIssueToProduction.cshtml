@@ -94,6 +94,7 @@
                             <tr class="text-center TableHead">
                                 <th>ID</th>
                                 <th>MaterialID</th>
+                                <th>Current Stock</th>
                                 <th>Sl.No</th>
                                 <th>Code</th>
                                 <th>Material Description</th>
@@ -140,7 +141,7 @@
                 <div class="container-fluid" style="padding-right: 0px;">
                     <div class="col-md-9">
                         <div class="col-md-12 modelIcon">
-                            <h3 class="modal-title SCHeader" id="modelContextLabel">Add Materials</h3>
+                            <h3 class="modal-title SCHeader" id="modelContextLabel">Add Items</h3>
                         </div>
                     </div>
                     <div class="col-md-3" style="padding-right: 4px;">
@@ -208,7 +209,21 @@
                             <div class="col-md-1"></div>
 
                         </div>
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.MaterialIssueDetail.Material.CurrentStock, htmlAttributes: new { @class = "control-label " })
+                            </div>
 
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.MaterialIssueDetail.Material.CurrentStock, new { htmlAttributes = new { @class = "form-control HeaderBox", @disabled = "disabled" } })
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group col-md-12">
+                        
                         <div class="col-md-6">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => model.MaterialIssueDetail.Qty, htmlAttributes: new { @class = "control-label lblrequired" })
@@ -222,7 +237,6 @@
 
                         </div>
                     </div>
-
                 </div>
             </div>
             <div class="modal-footer" style="height: 50px;padding: 7px;">

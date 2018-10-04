@@ -114,7 +114,7 @@ function BindOrReloadPurchaseOrderTable(action) {
                 if (action === 'Export')
                 {
                     $(".buttons-excel").trigger('click');
-                    ResetPurchaseOrderList();
+                    BindOrReloadPurchaseOrderTable('Search');
                 }
             }
         });

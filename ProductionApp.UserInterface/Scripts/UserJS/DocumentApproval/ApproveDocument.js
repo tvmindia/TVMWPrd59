@@ -57,9 +57,11 @@ $(document).ready(function () {
     }
 });
 
-
-
 function ApproveDocument() {
+    notyConfirm('Are you sure to Approve Document?', 'ApproveDocumentConfirm()', '', 'Approved');
+}
+
+function ApproveDocumentConfirm() {
     try {
         debugger;
         var DocumentID = $("#DocumentID").val();
@@ -88,7 +90,15 @@ function ApproveDocument() {
         notyAlert('error', e.message);
     }
 }
-function RejectDocument()
+
+function RejectDocument() {
+    var Remarks = $('#Remarks').val();
+    if (Remarks == "")
+        notyAlert('warning', 'Remarks Field is Empty');
+    else
+        notyConfirm('Are you sure to Reject Document?', 'RejectDocumentConfirm()','','Rejected');
+}
+function RejectDocumentConfirm()
 {
     try
     {
@@ -98,10 +108,10 @@ function RejectDocument()
         var DocumentTypeCode = $("#DocumentType").val();
         var Remarks = $('#Remarks').val();
 
-        if (Remarks == "")
-            notyAlert('warning', 'Remarks Field is Empty');
-        else
-        {
+        //if (Remarks == "")
+        //    notyAlert('warning', 'Remarks Field is Empty');
+        //else
+        //{
             var data = { "ApprovalLogID": ApprovalLogID, "DocumentID": DocumentID, "DocumentTypeCode": DocumentTypeCode, "Remarks": Remarks };
             var ds = {};
             ds = GetDataFromServer("DocumentApproval/RejectDocument/", data);
@@ -117,7 +127,7 @@ function RejectDocument()
             if (ds.Result == "ERROR") {
                 alert(ds.Message);
             }
-        }
+        //}
     }
     catch (e) {
         notyAlert('error', e.message);
