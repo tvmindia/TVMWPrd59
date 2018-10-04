@@ -619,6 +619,7 @@ function ShowSendForApproval(documentTypeCode) {
             var documentID = $('#ID').val();
             var latestApprovalID = $('#LatestApprovalID').val();
             ReSendDocForApproval(documentID, documentTypeCode, latestApprovalID);
+            BindFinishedGoodStockAdjByID();
         }
         else {
             $('#SendApprovalModal').modal('show');

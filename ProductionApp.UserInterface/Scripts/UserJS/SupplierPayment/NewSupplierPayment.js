@@ -474,6 +474,7 @@ function BindSupplierPayment() {
     $('#LatestApprovalStatus').val(SupplierPaymentVM.LatestApprovalStatus);
     $('#LatestApprovalID').val(SupplierPaymentVM.LatestApprovalID);
     $('#Type').prop('disabled', true);
+    $('#divApprovalHistory').load("../DocumentApproval/AboutApprovalHistory?id=" + $('#ID').val() + "&docType=SPAY");
     if (SupplierPaymentVM.AdvanceAmount == 0) {
         $('#advAmt').hide();
         $('#lblAdvAmt').hide();
@@ -746,6 +747,7 @@ function ShowSendForApproval(documentTypeCode) {
         var documentID = $('#ID').val();
         var latestApprovalID = $('#LatestApprovalID').val();
         ReSendDocForApproval(documentID, documentTypeCode, latestApprovalID);
+        BindSupplierPayment();
     }
     else {
         $('#SendApprovalModal').modal('show');
@@ -765,5 +767,5 @@ function SendForApproval(documentTypeCode) {
     }
     SendDocForApproval(documentID, documentTypeCode, approversCSV);
     $('#SendApprovalModal').modal('hide');
-    BindRequisitionByID();
+    BindSupplierPayment();
 }

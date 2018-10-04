@@ -171,6 +171,7 @@ function BindOtherExpense() {
     $('#LatestApprovalStatus').val(otherExpenseVM.LatestApprovalStatus); 
     $('#LatestApprovalID').val(otherExpenseVM.LatestApprovalID);
     $("#ReversalRef").val(otherExpenseVM.ReversalRef);
+    $('#divApprovalHistory').load("../DocumentApproval/AboutApprovalHistory?id=" + $('#ID').val() + "&docType=OE");
     if (otherExpenseVM.Amount < 0)
         $("#IsReverse").val('true');
     else
