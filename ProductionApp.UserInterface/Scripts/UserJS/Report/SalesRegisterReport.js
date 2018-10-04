@@ -15,6 +15,7 @@ $(document).ready(function () {
     try {
         $("#Customer").select2({
         });
+        $('#SearchTerm').focus();
         BindOrReloadSalesRegisterTable('Init');
 
     }
@@ -42,19 +43,27 @@ function
         SalesRegisterReportViewModel = new Object();
         DataTablePagingViewModel = new Object();
         DataTablePagingViewModel.Length = 0;
+        var SearchValue = $('#hdnSearchTerm').val();
+        var SearchTerm = $('#SearchTerm').val();
+        $('#hdnSearchTerm').val($('#SearchTerm').val());
 
 
         //switch case to check the operation
         switch (action) {
             case 'Reset':
                 $('#SearchTerm').val('');
-                $('#FromDate').val('');
-                $('#ToDate').val('');              
+                //$('#FromDate').val('');
+                $('#FromDate').datepicker('setDate', null);
+              //  $('#ToDate').val('');
+                $('#ToDate').datepicker('setDate', null);
                 $("#Customer").val('').select2();               
                 break;
             case 'Init':
                 break;
             case 'Search':
+                if (SearchTerm == SearchValue) {
+                    return false;
+                }
                 break;
             case 'Apply':
                 SalesRegisterReportViewModel.FromDate = $('#FromDate').val();

@@ -21,9 +21,20 @@ var _dayBookVM = new Object();
 
 
 $(document).ready(function () {
-    debugger;
+   
     try {
+        debugger;
+        var SearchValue = $('#hdnSearchTerm').val();
+        var SearchTerm = $('#SearchTerm').val();
+        $('#hdnSearchTerm').val($('#SearchTerm').val());
         _todayDate = $('#dayBookDate').val();
+        $('#SearchTerm').keypress(function (event) {
+            if (event.which === 13) {
+                event.preventDefault();                
+                 DayBookDateChanged();
+              
+            }
+        });
         //DayBookTable
         _dataTables.DayBookTable = $('#tblDayBookReport').DataTable({
           //  dom: '<"pull-right"f>rt<"bottom"ip><"clear">',
@@ -74,7 +85,7 @@ $(document).ready(function () {
             destroy: true
            
         });
-
+        $('#SearchTerm').focus();
         $(".buttons-excel").hide();
 
         // Add event listener for opening and closing details
@@ -199,8 +210,23 @@ function GetDayBookDetailByCode(code) {
 
 function DayBookDateChanged() {
     debugger;
+    var SearchValue = $('#hdnSearchTerm').val();
+    var SearchTerm = $('#SearchTerm').val();
+    $('#hdnSearchTerm').val($('#SearchTerm').val());
+    var dayBookDate = $('#dayBookDate').val();
+    var dayBookDateValue = $('#hdndayBookDate').val();
+    $('#hdndayBookDate').val($('#dayBookDate').val());
     if (_dataTables.DayBookTable != undefined)
-    _dataTables.DayBookTable.clear().rows.add(GetTransactionsList()).draw(false);
+        if ((SearchValue != SearchTerm) && (dayBookDate != dayBookDateValue)) {
+            _dataTables.DayBookTable.clear().rows.add(GetTransactionsList()).draw(false);
+        }
+    if (SearchValue != SearchTerm && dayBookDate == dayBookDateValue) {
+        _dataTables.DayBookTable.clear().rows.add(GetTransactionsList()).draw(false);
+    }
+    if ((SearchValue == SearchTerm) && dayBookDate != dayBookDateValue) {
+         _dataTables.DayBookTable.clear().rows.add(GetTransactionsList()).draw(false);
+        
+    }
 }
 
 
@@ -208,7 +234,8 @@ function DayBookDateChanged() {
 function ResetReportList() {
     debugger;
     $('#SearchTerm').val('');
-    $('#dayBookDate').val(_todayDate);
+   // $('#dayBookDate').val(_todayDate);
+    $('#dayBookDate').datepicker('setDate', _todayDate);
     DayBookDateChanged(); 
 }
 
