@@ -36,10 +36,10 @@
             }
         </div>
     </div>
-
-    @* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
-    @Html.Action("AboutApprovalHistory", "DocumentApproval", new { id = Model.ID, docType = "OE" })
-
+    <div id="divApprovalHistory">
+        @* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
+        @Html.Action("AboutApprovalHistory", "DocumentApproval", new { id = Model.ID, docType = "OE" })
+    </div>
     <div class="row tableContainer">
         <div class="col-md-12 headSeperator"><i class="fa fa-th ig-aqua" aria-hidden="true"></i> General</div>
 @using (Ajax.BeginForm("InsertUpdateOtherExpense", "OtherExpense", new AjaxOptions { HttpMethod = "POST", Confirm = "", OnSuccess = "SaveSuccessOtherExpense", OnFailure = "NetworkFailure", AllowCache = false, LoadingElementId = "", OnBegin = "", OnComplete = "" }, new { @class = "form-horizontal", role = "form", @id = "OtherExpenseForm" }))

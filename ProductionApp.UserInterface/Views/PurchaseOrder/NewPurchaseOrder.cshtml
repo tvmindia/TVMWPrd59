@@ -26,10 +26,10 @@
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
-
-@* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
-@Html.Action("AboutApprovalHistory", "DocumentApproval", new { id = Model.ID, docType = "PO" })
-
+<div id="divApprovalHistory">
+    @* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
+    @Html.Action("AboutApprovalHistory", "DocumentApproval", new { id = Model.ID, docType = "PO" })
+</div>
 <section class="content">
     <div class="row" id="OverlayHeader">
         <div class="col-md-5" style="text-align:left">

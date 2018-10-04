@@ -884,6 +884,7 @@ function BindPurchaseOrder(ID) {
                 EnableDisableFields(true)
                 $("#fileUploadControlDiv").hide();
             }
+            $('#divApprovalHistory').load("../DocumentApproval/AboutApprovalHistory?id=" + $('#ID').val() + "&docType=PO");
             PurchaseOrderDetailBindTable() //------binding Details table
             CalculateGrossAmount();
             PaintImages(ID);//bind attachments

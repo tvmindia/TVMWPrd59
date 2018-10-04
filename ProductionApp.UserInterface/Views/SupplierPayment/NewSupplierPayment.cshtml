@@ -28,10 +28,10 @@
     </ol>
 </div>
 
-
-@* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
-@Html.Action("AboutApprovalHistory", "DocumentApproval", new { id = Model.ID, docType = "SPAY" })
-
+<div id="divApprovalHistory">
+    @* THE DOCTYPE VARIES FOR EACH PAGE MAKE SURE TO ADD ApprovalHistory JS FROM SCRIPT BUNDLE IN THE SAME PAGE*@
+    @Html.Action("AboutApprovalHistory", "DocumentApproval", new { id = Model.ID, docType = "SPAY" })
+</div>
 
 <section class="content">
     <div class="row" id="OverlayHeader">
