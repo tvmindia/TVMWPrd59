@@ -18,10 +18,13 @@
         <div class="col-md-8" id="fileUploadControlDiv" style="max-height:50px;margin-top:1%;">
             <input type="hidden" id="hdnFileSizebytes" value=0 />
             <input type="file" multiple id="FileUpload1" style="display:none;" onchange="BindFiles()" />
-            <input type="button" value="SELECT FILES" onclick="$('#FileUpload1').click();" class="btn attachbutton" style="color:#246076;font-weight:500;" />
+            @*<input type="button" value="SELECT FILES" onclick="$('#FileUpload1').click();" class="btn attachbutton" style="color:#246076;font-weight:500;" />
             <input type="button" id="btnUpload" value="UPLOAD FILES" class="btn uploadbtn" />
-            <input type="button" id="btnCancel" value="CANCEL" onclick="cancelAll()" class="btn" style="color:#000000;font-weight:500;" />
+            <input type="button" id="btnCancel" value="CANCEL" onclick="cancelAll()" class="btn" style="color:#000000;font-weight:500;" />*@
             @*<a class="attachbutton" onclick="$('#FileUpload1').click();"><img src="~/Content/images/paperclip.png" style="padding:1px;border-radius:5px;" /></a>*@
+            <input type="button" id="btnSelect" value="Select Files" class="btn uploadbtn" onclick="$('#FileUpload1').click();" />
+            <input type="button" id="btnUpload" value="Upload Files" class="btn uploadbtn" />
+            <input type="button" id="btnCancel" value="Clear selected files" onclick="cancelAll()" class="btn" style="color:#000000;font-weight:500;" />
         </div>
     </div>
     
