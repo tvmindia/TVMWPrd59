@@ -150,7 +150,7 @@ function AddIssueToProductItem()
         debugger;
         if ($('#MaterialID').val() != "" && $('#MaterialIssueDetail_Qty').val()!="")
         {
-            if ($('#MaterialIssueDetail_Qty').val() > $('#MaterialIssueDetail_Material_CurrentStock').val())
+            if (parseFloat($('#MaterialIssueDetail_Qty').val()) > parseFloat($('#MaterialIssueDetail_Material_CurrentStock').val()))
             {
                 notyAlert('warning', "Entered Qty is greater than current stock");
             }

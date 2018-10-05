@@ -309,6 +309,7 @@ function EnableDisableFields(value)
     $("#btnAddRequisitionItems").attr("disabled", value);
     $('#Title').attr("disabled", value);
     $('#ReqDateFormatted').attr("disabled", value);
+    $('#RequiredDateFormatted').attr('disabled', value);
     $('#EmployeeID').attr("disabled", value);
     //$('#ReqStatus').attr("disabled", value);
     DataTables.RequisitionDetailTable.column(8).visible(!value);
