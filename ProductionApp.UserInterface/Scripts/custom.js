@@ -603,6 +603,7 @@ function UploadFile(FileObject)
                         {
                             $('#hdnFileDupID').val(result.Records.ParentID);
                             notyAlert('success', result.Message);
+                            cancelAll();
                             PaintImages(result.Records.ParentID);
                         }
                         else if(result.Result=="ERROR")
