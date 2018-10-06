@@ -68,7 +68,7 @@ $(document).ready(function () {
                   { "data": "MaterialID", "defaultContent": "<i>-</i>" },
                   { "data": "MaterialCode", "defaultContent": "<i>-</i>" },//3
                   { "data": "MaterialDesc", "defaultContent": "<i>-</i>" },
-                  { "data": "Qty", "defaultContent": "<i>-</i>" },//5
+                  { "data": "POQty", "defaultContent": "<i>-</i>" },//5
                   { "data": "UnitCode", "defaultContent": "<i>-</i>" },//6
                   { "data": "PrevRcvQtyInKG", "defaultContent": "<i>-</i>" },//7
                   { "data": "PrevRcvQty", "defaultContent": "<i>-</i>" },//7-8
@@ -423,15 +423,15 @@ function BindPurchaseOrderDetailTable(id) {
             purchaseOrderDetailList[i].Material.QtyInKG = 0;
             switch (purchaseOrderDetailList[i].UnitCode) {
                 case "kg":
-                    purchaseOrderDetailList[i].Material.QtyInKG = purchaseOrderDetailList[i].Qty;
-                    purchaseOrderDetailList[i].Material.Qty = Math.floor(purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].Qty / purchaseOrderDetailList[i].Material.WeightInKG : 0);
+                    purchaseOrderDetailList[i].Material.QtyInKG = purchaseOrderDetailList[i].POQty;
+                    purchaseOrderDetailList[i].Material.Qty = Math.floor(purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].POQty / purchaseOrderDetailList[i].Material.WeightInKG : 0);
                     break;
                 case "Ton":
-                    purchaseOrderDetailList[i].Material.QtyInKG = purchaseOrderDetailList[i].Qty*1000;
-                    purchaseOrderDetailList[i].Material.Qty = Math.floor(purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].Qty * 1000 / purchaseOrderDetailList[i].Material.WeightInKG : 0);
+                    purchaseOrderDetailList[i].Material.QtyInKG = purchaseOrderDetailList[i].POQty * 1000;
+                    purchaseOrderDetailList[i].Material.Qty = Math.floor(purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].POQty * 1000 / purchaseOrderDetailList[i].Material.WeightInKG : 0);
                     break;
                 default:
-                    purchaseOrderDetailList[i].Material.Qty = purchaseOrderDetailList[i].Qty;
+                    purchaseOrderDetailList[i].Material.Qty = purchaseOrderDetailList[i].POQty;
                     break;
             }
 
