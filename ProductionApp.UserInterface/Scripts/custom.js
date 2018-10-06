@@ -416,7 +416,7 @@ function isNumberNegative(e) {
     }
 }
 
-function notyConfirm(msg, functionIfSuccess,msg2,btnText,value) {
+function notyConfirm(msg, functionIfSuccess,msg2,btnText,value,btncolor) {
     var m = 'You will not be able to recover this action!'
     if (msg2 != undefined) {
         m = msg2 + '  ' + m;
@@ -429,12 +429,16 @@ function notyConfirm(msg, functionIfSuccess,msg2,btnText,value) {
     {
         btnText = "Yes, delete it!";
     }
+    if (btncolor == undefined)
+    {
+        btncolor = "#DD6B55";
+    }
     swal({
         title: msg,
         text: m,
         type: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
+        confirmButtonColor: btncolor,
         confirmButtonText: btnText,
         closeOnConfirm: false
     },

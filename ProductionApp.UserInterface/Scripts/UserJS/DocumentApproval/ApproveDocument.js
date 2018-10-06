@@ -58,7 +58,7 @@ $(document).ready(function () {
 });
 
 function ApproveDocument() {
-    notyConfirm('Are you sure to Approve Document?', 'ApproveDocumentConfirm()', '', 'Approved');
+    notyConfirm('Are you sure to Approve Document?', 'ApproveDocumentConfirm()', '', 'Approved', '', '#57b258');
 }
 
 function ApproveDocumentConfirm() {
