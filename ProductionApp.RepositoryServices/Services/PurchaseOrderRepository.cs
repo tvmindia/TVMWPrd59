@@ -594,8 +594,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         purchaseOrderDetail.PrevRcvQtyInKG = (sdr["PrevRcvQtyInKG"].ToString() != "" ? decimal.Parse(sdr["PrevRcvQtyInKG"].ToString()) : purchaseOrderDetail.PrevRcvQtyInKG);
                                         purchaseOrderDetail.PrevInvQty = (sdr["PrevInvQty"].ToString() != "" ? decimal.Parse(sdr["PrevInvQty"].ToString()) : purchaseOrderDetail.PrevInvQty);
                                         //calculation
-                                        //To solve TaxableAmt calculation in PO
-                                        purchaseOrderDetail.Qty = purchaseOrderDetail.POQty;// - purchaseOrderDetail.PrevInvQty > 0 ? purchaseOrderDetail.POQty - purchaseOrderDetail.PrevInvQty : 0;
+                                        purchaseOrderDetail.Qty = purchaseOrderDetail.POQty - purchaseOrderDetail.PrevInvQty > 0 ? purchaseOrderDetail.POQty - purchaseOrderDetail.PrevInvQty : 0;
                                     }
                                     PODList.Add(purchaseOrderDetail);
                                 }

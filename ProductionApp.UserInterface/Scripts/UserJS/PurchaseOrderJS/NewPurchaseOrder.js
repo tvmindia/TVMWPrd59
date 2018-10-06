@@ -154,7 +154,7 @@ $(document).ready(function () {
                   {
                       "data": "TaxableAmount", "defaultContent": "<i>-</i>",
                       'render': function (data, type, row) {
-                          Desc = parseFloat(row.Qty) * parseFloat(row.Rate) - parseFloat(row.Discount);
+                          Desc = parseFloat(row.POQty) * parseFloat(row.Rate) - parseFloat(row.Discount);
                           return roundoff(Desc);
                       }, "width": "10%"
                   },
@@ -173,7 +173,7 @@ $(document).ready(function () {
                   {
                       "data": "Total", "defaultContent": "<i>-</i>",
                       'render': function (data, type, row) {
-                          Desc = (parseFloat(row.Qty) * parseFloat(row.Rate) - parseFloat(row.Discount)) + parseFloat(row.CGSTAmt) + parseFloat(row.SGSTAmt);
+                          Desc = (parseFloat(row.POQty) * parseFloat(row.Rate) - parseFloat(row.Discount)) + parseFloat(row.CGSTAmt) + parseFloat(row.SGSTAmt);
                           return roundoff(Desc);
                       }, "width": "10%"
                   },
@@ -730,10 +730,10 @@ function CalculateGrossAmount() {
     var SGSTTotal = 0;
     var TotalTax = 0;
     for (var i = 0; i < purchaseOrderVM.length; i++) {
-        ItemTotal = ItemTotal + (parseFloat(purchaseOrderVM[i].Qty) * parseFloat(purchaseOrderVM[i].Rate) - parseFloat(purchaseOrderVM[i].Discount))
+        ItemTotal = ItemTotal + (parseFloat(purchaseOrderVM[i].POQty) * parseFloat(purchaseOrderVM[i].Rate) - parseFloat(purchaseOrderVM[i].Discount))
         CGSTTotal = CGSTTotal + parseFloat(purchaseOrderVM[i].CGSTAmt)
         SGSTTotal = SGSTTotal + parseFloat(purchaseOrderVM[i].SGSTAmt)
-        GrossAmount = GrossAmount + ((parseFloat(purchaseOrderVM[i].Qty) * parseFloat(purchaseOrderVM[i].Rate) - parseFloat(purchaseOrderVM[i].Discount)) + parseFloat(purchaseOrderVM[i].CGSTAmt) + parseFloat(purchaseOrderVM[i].SGSTAmt))
+        GrossAmount = GrossAmount + ((parseFloat(purchaseOrderVM[i].POQty) * parseFloat(purchaseOrderVM[i].Rate) - parseFloat(purchaseOrderVM[i].Discount)) + parseFloat(purchaseOrderVM[i].CGSTAmt) + parseFloat(purchaseOrderVM[i].SGSTAmt))
     }
     TotalTax = CGSTTotal + SGSTTotal
     $('#GrossAmount').text(roundoff(GrossAmount));
