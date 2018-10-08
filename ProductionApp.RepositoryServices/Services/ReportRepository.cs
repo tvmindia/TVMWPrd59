@@ -218,7 +218,9 @@ namespace ProductionApp.RepositoryServices.Services
                                         requisitionObj.ReceivedQty = (sdr["ReceivedQty"].ToString() != "" ? sdr["ReceivedQty"].ToString() : requisitionObj.ReceivedQty);
                                         requisitionObj.DeliveryStatus= (sdr["DeliveryStatus"].ToString() != "" ? sdr["DeliveryStatus"].ToString() : requisitionObj.DeliveryStatus);
                                         requisitionObj.RequisitionNo = (sdr["ReqNo"].ToString() != "" ? sdr["ReqNo"].ToString() : requisitionObj.RequisitionNo);
-                                        requisitionObj.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : requisitionObj.RequisitionBy);
+                                       // requisitionObj.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : requisitionObj.RequisitionBy);
+                                        requisitionObj.RequisitionBy = (sdr["RequisitionBy"].ToString() != "" ? sdr["RequisitionBy"].ToString() : requisitionObj.RequisitionBy == null?"": requisitionObj.RequisitionBy);                                      
+
                                     }
                                     requisitionDetailList.Add(requisitionObj);
                                 }

@@ -136,7 +136,9 @@ function
                     { "data": "OrderedQty", "defaultContent": "<i>-</i>" },
                     { "data": "ReceivedQty", "defaultContent": "<i>-</i>" },
                     { "data": "DeliveryStatus", "defaultContent": "<i>-</i>" },
-                    { "data": "RequisitionBy", "defaultContent": "<i>-</i>" }
+                    {
+                        "data": "RequisitionBy", "defaultContent": "<i>-</i>"
+                    }
                 ],
                 columnDefs: [{ "targets": [1,2,3,10], "visible": false, "searchable": false },
                     { className: "text-left", "targets": [0,4, 5,9] },
