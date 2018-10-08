@@ -406,7 +406,8 @@ function BindPurchaseOrderDetailTable(id) {
         var purchaseOrderDetailList = GetPurchaseOrderItem(id);
         var materialReceiptDetailList = DataTables.MaterialReceiptDetailTable.rows().data();
         //To exclude the materials already in Details table
-        for (j = 0; j < materialReceiptDetailList.length; j++) {//To remove the existing items in Details from PO items
+        for (j = 0; j < materialReceiptDetailList.length; j++) {
+            //To remove the existing items in Details from PO items
             for (i = 0; i < purchaseOrderDetailList.length; i++) {
                 debugger;
                 if (purchaseOrderDetailList[i].MaterialID === materialReceiptDetailList[j].MaterialID) {
@@ -424,17 +425,16 @@ function BindPurchaseOrderDetailTable(id) {
             switch (purchaseOrderDetailList[i].UnitCode) {
                 case "kg":
                     purchaseOrderDetailList[i].Material.QtyInKG = purchaseOrderDetailList[i].POQty;
-                    purchaseOrderDetailList[i].Material.Qty = Math.floor(purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].POQty / purchaseOrderDetailList[i].Material.WeightInKG : 0);
+                    purchaseOrderDetailList[i].Material.Qty = Math.floor((purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].POQty / purchaseOrderDetailList[i].Material.WeightInKG : 0) - purchaseOrderDetailList[i].PrevRcvQty) ;
                     break;
                 case "Ton":
                     purchaseOrderDetailList[i].Material.QtyInKG = purchaseOrderDetailList[i].POQty * 1000;
-                    purchaseOrderDetailList[i].Material.Qty = Math.floor(purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].POQty * 1000 / purchaseOrderDetailList[i].Material.WeightInKG : 0);
+                    purchaseOrderDetailList[i].Material.Qty = Math.floor((purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].POQty * 1000 / purchaseOrderDetailList[i].Material.WeightInKG : 0) - purchaseOrderDetailList[i].PrevRcvQty);
                     break;
                 default:
-                    purchaseOrderDetailList[i].Material.Qty = purchaseOrderDetailList[i].POQty;
+                    purchaseOrderDetailList[i].Material.Qty = purchaseOrderDetailList[i].POQty - purchaseOrderDetailList[i].PrevRcvQty;
                     break;
             }
-
         }
         DataTables.PurchaseOrderDetailTable.clear().rows.add(purchaseOrderDetailList).select().draw(false);
     }
