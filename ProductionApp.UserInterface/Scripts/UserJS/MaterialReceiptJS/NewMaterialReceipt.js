@@ -423,7 +423,7 @@ function BindPurchaseOrderDetailTable(id) {
             purchaseOrderDetailList[i].Material.UnitCode = purchaseOrderDetailList[i].UnitCode;
             purchaseOrderDetailList[i].Material.QtyInKG = 0;
             switch (purchaseOrderDetailList[i].UnitCode) {
-                case "kg":
+                case "Kg":
                     purchaseOrderDetailList[i].Material.QtyInKG = purchaseOrderDetailList[i].POQty;
                     purchaseOrderDetailList[i].Material.Qty = Math.floor((purchaseOrderDetailList[i].Material.WeightInKG !== 0 ? purchaseOrderDetailList[i].POQty / purchaseOrderDetailList[i].Material.WeightInKG : 0) - purchaseOrderDetailList[i].PrevRcvQty) ;
                     break;

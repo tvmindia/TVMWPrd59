@@ -148,7 +148,10 @@ $(document).ready(function () {
                     {
                         "data": "Discount", "defaultContent": "<i>-</i>", "width": "15%",
                         'render': function (data, type, row) {
-                            return '<input class="form-control text-right" style="width: 100%;" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,3);">';
+                            if (row.PrevInvQty > 0)//while two sale invoice for 1 SaleOrder ; Discount may be already given in previously invoiced  
+                                return '<input class="form-control text-right" style="width: 100%;" name="Markup" value="0" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,3);">';
+                            else
+                                return '<input class="form-control text-right" style="width: 100%;" name="Markup" value="' + data + '" type="text" onkeypress = "return isNumber(event)"  onchange="EdittextBoxValue(this,3);">';
                         }
                     },
                     {
