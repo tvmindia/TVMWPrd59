@@ -440,6 +440,7 @@ namespace ProductionApp.RepositoryServices.Services
                         cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = purchaseRegisterReport.ToDate;
                         cmd.Parameters.Add("@POStatus", SqlDbType.VarChar).Value = purchaseRegisterReport.Status;
                         cmd.Parameters.Add("@PaymentStatus", SqlDbType.VarChar).Value = purchaseRegisterReport.PaymentStatus;
+                        cmd.Parameters.Add("@InvoiceStatus", SqlDbType.VarChar).Value = purchaseRegisterReport.InvoiceStatus;
                         if (purchaseRegisterReport.SupplierID != Guid.Empty)
                             cmd.Parameters.Add("@SupplierID", SqlDbType.UniqueIdentifier).Value = purchaseRegisterReport.SupplierID;
 
