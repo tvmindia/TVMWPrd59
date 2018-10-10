@@ -637,16 +637,7 @@ namespace ProductionApp.RepositoryServices.Services
                                         inventoryReOrderObj.NetAvailableQty = (sdr["NetAvailableQty"].ToString() != "" ? decimal.Parse(sdr["NetAvailableQty"].ToString()) : inventoryReOrderObj.NetAvailableQty);
                                         inventoryReOrderObj.MaterialType = new MaterialType();
                                         inventoryReOrderObj.MaterialType.Description = (sdr["Type"].ToString() != "" ? (sdr["Type"].ToString()) : inventoryReOrderObj.MaterialType.Description);
-                                        ////  inventoryReOrderObj.Description = (sdr["ProductName"].ToString() != "" ? (sdr["ProductName"].ToString()) : inventoryReOrderObj.Description);
-                                        //  inventoryReOrderObj.CurrentStock = (sdr["CurrentStock"].ToString() != "" ? decimal.Parse(sdr["CurrentStock"].ToString()) : inventoryReOrderObj.CurrentStock);
-                                        //  //SalesOrdersDue
-                                        //  inventoryReOrderObj.NetAvailableQty = (sdr["NetAvailable"].ToString() != "" ? decimal.Parse(sdr["NetAvailable"].ToString()) : inventoryReOrderObj.NetAvailableQty);
-                                        //  inventoryReOrderObj.ReorderQty = (sdr["ReorderQty"].ToString() != "" ? decimal.Parse(sdr["ReorderQty"].ToString()) : inventoryReOrderObj.ReorderQty);
-                                        //  inventoryReOrderObj.ShortFall = (sdr["ShortFall"].ToString() != "" ? decimal.Parse(sdr["ShortFall"].ToString()) : inventoryReOrderObj.ShortFall);
-                                        //  inventoryReOrderObj.ShortFall = (sdr["OrderToPlace"].ToString() != "" ? decimal.Parse(sdr["OrderToPlace"].ToString()) : inventoryReOrderObj.ShortFall);
-
-                                        //  inventoryReOrderObj.FilteredCount = (sdr["FilteredCount"].ToString() != "" ? int.Parse(sdr["FilteredCount"].ToString()) : inventoryReOrderObj.FilteredCount);
-
+                                        inventoryReOrderObj.ShortFall = (sdr["ShortFall"].ToString() != "" ? decimal.Parse(sdr["ShortFall"].ToString()) : inventoryReOrderObj.ShortFall);
                                     }
                                     inventoryReOrderList.Add(inventoryReOrderObj);
                                 }
