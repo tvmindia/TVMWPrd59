@@ -23,7 +23,7 @@ var _dayBookVM = new Object();
 $(document).ready(function () {
    
     try {
-        debugger;
+        debugger;        
         var SearchValue = $('#hdnSearchTerm').val();
         var SearchTerm = $('#SearchTerm').val();
         $('#hdnSearchTerm').val($('#SearchTerm').val());
@@ -210,22 +210,28 @@ function GetDayBookDetailByCode(code) {
 
 function DayBookDateChanged() {
     debugger;
-    var SearchValue = $('#hdnSearchTerm').val();
-    var SearchTerm = $('#SearchTerm').val();
-    $('#hdnSearchTerm').val($('#SearchTerm').val());
-    var dayBookDate = $('#dayBookDate').val();
-    var dayBookDateValue = $('#hdndayBookDate').val();
-    $('#hdndayBookDate').val($('#dayBookDate').val());
-    if (_dataTables.DayBookTable != undefined)
-        if ((SearchValue != SearchTerm) && (dayBookDate != dayBookDateValue)) {
-            _dataTables.DayBookTable.clear().rows.add(GetTransactionsList()).draw(false);
+    try {
+        var SearchValue = $('#hdnSearchTerm').val();
+        var SearchTerm = $('#SearchTerm').val();
+        $('#hdnSearchTerm').val($('#SearchTerm').val());
+        var dayBookDate = $('#dayBookDate').val();
+        var dayBookDateValue = $('#hdndayBookDate').val();
+        $('#hdndayBookDate').val($('#dayBookDate').val());
+        if (_dataTables.DayBookTable != undefined) {
+            if ((SearchValue != SearchTerm) && (dayBookDate != dayBookDateValue)) {
+                _dataTables.DayBookTable.clear().rows.add(GetTransactionsList()).draw(false);
+            }
+            if (SearchValue != SearchTerm && dayBookDate == dayBookDateValue) {
+                _dataTables.DayBookTable.clear().rows.add(GetTransactionsList()).draw(false);
+            }
+            if ((SearchValue == SearchTerm) && dayBookDate != dayBookDateValue) {
+                _dataTables.DayBookTable.clear().rows.add(GetTransactionsList()).draw(false);
+
+            }
         }
-    if (SearchValue != SearchTerm && dayBookDate == dayBookDateValue) {
-        _dataTables.DayBookTable.clear().rows.add(GetTransactionsList()).draw(false);
     }
-    if ((SearchValue == SearchTerm) && dayBookDate != dayBookDateValue) {
-         _dataTables.DayBookTable.clear().rows.add(GetTransactionsList()).draw(false);
-        
+    catch (e) {
+        notyAlert('error', e.message);
     }
 }
 
@@ -234,7 +240,7 @@ function DayBookDateChanged() {
 function ResetReportList() {
     debugger;
     $('#SearchTerm').val('');
-   // $('#dayBookDate').val(_todayDate);
+    // $('#dayBookDate').val(_todayDate);    
     $('#dayBookDate').datepicker('setDate', _todayDate);
     DayBookDateChanged(); 
 }
@@ -243,3 +249,5 @@ function ResetReportList() {
 function ExportReportData() {
     $(".buttons-excel").trigger('click');
 }
+
+
