@@ -112,7 +112,12 @@ function CheckProductInvoiceType() {
         $('#CostPricePerPiece').val('');
         $('#CostPricePerPiece').prop('disabled', true);
         $('#SellingPricePerPiece').val('');
-        $('#SellingPricePerPiece').prop('disabled', true);
+        $('#SellingPricePerPiece').prop('disabled', true);       
+        $('#UnitCode').find('option[value="Nos."]').prop("disabled", true);
+        $('#UnitCode').find('option[value="kg"]').prop("disabled", false);
+        $('#UnitCode').find('option[value="Ton"]').prop("disabled", true);
+
+
     }
     else {
         $('#CostPrice').val('');
@@ -120,7 +125,12 @@ function CheckProductInvoiceType() {
         $('#SellingPriceInKG').val('');
         $('#SellingPriceInKG').prop('disabled', true);
         $('#CostPricePerPiece').prop('disabled', false);
-        $('#SellingPricePerPiece').prop('disabled', false);
+        $('#SellingPricePerPiece').prop('disabled', false);    
+       
+        $('#UnitCode').find('option[value="Nos."]').prop("disabled", false);
+        $('#UnitCode').find('option[value="kg"]').prop("disabled", false);
+        $('#UnitCode').find('option[value="Ton"]').prop("disabled", false);
+       
     }
 }
 
