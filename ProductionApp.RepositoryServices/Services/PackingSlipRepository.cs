@@ -534,7 +534,7 @@ namespace ProductionApp.RepositoryServices.Services
         #endregion GetRecentPackingSlip
 
         public List<SalesOrderDetail> GetPackingSlipDetailGroupEdit(Guid groupID, Guid packingSlipID,Guid saleOrderID)
-        {
+         {
             List<SalesOrderDetail> salesOrderList = null;
             try
             {

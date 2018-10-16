@@ -1130,7 +1130,7 @@ function GetProductListForPackingSlipByGroupID(groupID) {
         var packingSlipID = $('#ID').val();
         var data = { "id": id, "packingSlipID": packingSlipID, "groupID": groupID };
         var ds = {};
-        ds = GetDataFromServer("PackingSlip/GetProductListForPackingSlipByGroupID/", data);
+        ds = GetDataFromServer("PackingSlip/GetProductListForPackingSlipByGroupID/", data);     
         if (ds != '') {
             ds = JSON.parse(ds);
         }
@@ -1148,7 +1148,6 @@ function GetProductListForPackingSlipByGroupID(groupID) {
 }
 
 function CheckCategory(this_Obj) {
-
     switch (this_Obj.name) {
         case "grouprow":
             if ($(this_Obj).is(":checked")) {
@@ -1178,7 +1177,7 @@ function CheckCategory(this_Obj) {
                             packingSlipDetail.RemoveID = packingSlipDetailVM[i].ProductIdString;
                             packingSlipDetail.GroupName = packingSlipDetailVM[i].GroupName;
                             packingSlipDetail.ID = EmptyGuid;
-                            packingSlipDetail.Qty = packingSlipDetailVM[i].CurrentPkgQty;
+                            packingSlipDetail.Qty = packingSlipDetailVM[i].CurrentPkgQty;                          
                             packingSlipDetail.CurrentStock = packingSlipDetailVM[i].Product.CurrentStock
                             packingSlipDetail.Weight = packingSlipDetailVM[i].PkgWt;
                             packingSlipDetail.BalQuantity = packingSlipDetailVM[i].Quantity - packingSlipDetailVM[i].PrevPkgQty
@@ -1520,7 +1519,7 @@ function AddPackingSlipDetailFromSaleOrderGroups() {
     if (CheckedProducts.length > 0) {
         CheckedProducts.forEach(function (element) {
             for (i = 0; i < _productListTableData.data().count() ; i++) {
-                if (_productListTableData[i].ProductID == element.ProductID) {
+                if (_productListTableData[i].ProductID == element.ProductID &&( element.GroupID == '00000000-0000-0000-0000-000000000000'|| element.GroupID ==null)) {
                     element.Qty = $('#txt2_' + element.ProductID).val(); //_productListTableData[i].CurrentPkgQty;
                     element.Weight = $('#txt3_' + element.ProductID).val(); // _productListTableData[i].PkgWt;
                     if (element.Qty == 0) {
