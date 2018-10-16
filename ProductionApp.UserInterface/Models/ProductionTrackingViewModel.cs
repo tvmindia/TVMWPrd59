@@ -12,7 +12,7 @@ namespace ProductionApp.UserInterface.Models
         public Guid ID { get; set; }
         [Display(Name = "Entry Date")]
         public DateTime EntryDate { get; set; }
-        [Display(Name = "Production Referance No")]
+        [Display(Name = "Production Reference No")]
         public string ProductionRefNo { get; set; }
         [Display(Name = "Product")]
         public Guid ProductID { get; set; }

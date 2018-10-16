@@ -100,7 +100,7 @@ function BindOrReloadProductionTrackingTable(action) {
                 extend: 'excel',
                 exportOptions:
                              {
-                                 columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11/*, 12*/]
+                                 columns: [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                              }
             }],
             ordering: false,
@@ -120,7 +120,6 @@ function BindOrReloadProductionTrackingTable(action) {
             },
             pageLength: 10,
             columns: [
-            { "data": "ID", "defaultContent": "<i>-</i>" },
             { "data": "EntryDateFormatted", "defaultContent": "<i>-</i>", "width": '7.5%' },//1
             { "data": "Product.Name", "defaultContent": "<i>-</i>" },
             { "data": "Component.Name", "defaultContent": "<i>-</i>" },//3
@@ -154,10 +153,10 @@ function BindOrReloadProductionTrackingTable(action) {
 
             { "data": null, "orderable": false, "defaultContent": '<a href="#" onclick="Edit(this)"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i></a>', "width": '3%' }
             ],
-            columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
-                { className: "text-left", "targets": [7, 8, 9, 10], "width": '5%' },
-                { className: "text-right", "targets": [2, 3, 4, 5, 6, 11/*, 12*/] },
-                { className: "text-center", "targets": [1, 12] }],
+            columnDefs: [ 
+                { className: "text-right", "targets": [6,7, 8, 9], "width": '5%' },
+                { className: "text-left", "targets": [1,2, 3, 4, 5, 10] },
+                { className: "text-center", "targets": [0, 11] }],
             destroy: true,
             //for performing the import operation after the data loaded
             initComplete: function (settings, json) {
