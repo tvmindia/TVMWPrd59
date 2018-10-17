@@ -18,7 +18,7 @@ var PurchaseOrderDetailList = [];
 var RequisitionDetailLink = new Object();
 var PurchaseOrderViewModel = new Object();
 var EditPOdetailID;
-var ECGST, ESGST, ETotal, flag = 1;
+var ECGST, ESGST,EIGST, ETotal, flag = 1;
 var _SlNo = 1;
 var _taxDropdownScript = '';
 
@@ -158,22 +158,23 @@ $(document).ready(function () {
                           return roundoff(Desc);
                       }, "width": "10%"
                   },
-                  {
-                      "data": "CGSTAmt", "defaultContent": "<i>-</i>",
-                      'render': function (data, type, row) {
-                          return roundoff(data);
-                      }, "width": "6%"
-                  },
+                  //{
+                  //    "data": "CGSTAmt", "defaultContent": "<i>-</i>",
+                  //    'render': function (data, type, row) {
+                  //        return roundoff(data);
+                  //    }, "width": "6%"
+                  //},
                   {
                       "data": "SGSTAmt", "defaultContent": "<i>-</i>",
                       'render': function (data, type, row) {
-                          return roundoff(data);
+                          return roundoff(parseFloat(row.IGSTAmt) + parseFloat(row.CGSTAmt) + parseFloat(row.SGSTAmt));
                       }, "width": "6%"
                   },
                   {
                       "data": "Total", "defaultContent": "<i>-</i>",
                       'render': function (data, type, row) {
-                          Desc = (parseFloat(row.POQty) * parseFloat(row.Rate) - parseFloat(row.Discount)) + parseFloat(row.CGSTAmt) + parseFloat(row.SGSTAmt);
+                          debugger;
+                          Desc = (parseFloat(row.POQty) * parseFloat(row.Rate) - parseFloat(row.Discount)) + parseFloat(row.IGSTAmt) + parseFloat(row.CGSTAmt) + parseFloat(row.SGSTAmt);
                           return roundoff(Desc);
                       }, "width": "10%"
                   },
@@ -181,9 +182,9 @@ $(document).ready(function () {
                 ],
                 columnDefs: [{ "targets": [0], "visible": false, "searchable": false },
                     { "targets": [1], "width": "2%", },
-                     { className: "text-right", "targets": [5,6,7, 8,9,10,11] },
+                     { className: "text-right", "targets": [4,5,6,7, 8,9,10] },
                       { className: "text-left", "targets": [3,4] },
-                { className: "text-center", "targets": [9,12] }
+                { className: "text-center", "targets": [9,11] }
 
                 ]
             });
@@ -628,6 +629,7 @@ function AddRequsitionDetailLink(data) {
     debugger;
     ECGST = 0;
     ESGST = 0;
+    EIGST = 0;
     ETotal = 0;
     for (var r = 0; r < data.length; r++) {
         PurchaseOrderDetailLink = new Object();
@@ -648,17 +650,22 @@ function AddRequsitionDetailLink(data) {
             var taxTypeVM = GetTaxTypeByCode(PurchaseOrderDetailLink.TaxTypeCode);
             PurchaseOrderDetailLink.CGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(taxTypeVM.CGSTPercentage) / 100);
             PurchaseOrderDetailLink.SGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(taxTypeVM.SGSTPercentage) / 100);
+            PurchaseOrderDetailLink.IGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(taxTypeVM.IGSTPercentage) / 100);
 
         }
         else {
             PurchaseOrderDetailLink.CGSTAmt = 0;
             PurchaseOrderDetailLink.SGSTAmt = 0;
+            PurchaseOrderDetailLink.IGSTAmt = 0;
+
         }
         PurchaseOrderDetailLink.Total = parseFloat(PurchaseOrderDetailLink.Tax) + parseFloat(PurchaseOrderDetailLink.CGSTAmt) + parseFloat(PurchaseOrderDetailLink.SGSTAmt);
         ECGST = ECGST + parseFloat(PurchaseOrderDetailLink.CGSTAmt);
         PurchaseOrderDetailLink.ECGST = ECGST;
         ESGST = ESGST + parseFloat(PurchaseOrderDetailLink.SGSTAmt);
         PurchaseOrderDetailLink.ESGST = ESGST;
+        EIGST = EIGST + parseFloat(PurchaseOrderDetailLink.IGSTAmt);
+        PurchaseOrderDetailLink.EIGST = EIGST;
         ETotal = ETotal + parseFloat(PurchaseOrderDetailLink.Total);
         PODDetailLink.push(PurchaseOrderDetailLink);
     }
@@ -689,14 +696,17 @@ function AddRequsitionDetail(mergedRows) {
                 var taxTypeVM = GetTaxTypeByCode(PODetailViewModel.TaxTypeCode);
                 PODetailViewModel.CGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(taxTypeVM.CGSTPercentage) / 100);
                 PODetailViewModel.SGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(taxTypeVM.SGSTPercentage) / 100);
+                PODetailViewModel.IGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(taxTypeVM.IGSTPercentage) / 100);
                 PODetailViewModel.CGSTPerc = parseFloat(taxTypeVM.CGSTPercentage);
                 PODetailViewModel.SGSTPerc = parseFloat(taxTypeVM.SGSTPercentage);
+                PODetailViewModel.IGSTPerc = parseFloat(taxTypeVM.IGSTPercentage);
             }
             else {
                 PODetailViewModel.CGSTAmt = 0;
                 PODetailViewModel.SGSTAmt = 0;
+                PODetailViewModel.IGSTAmt = 0;
                 PODetailViewModel.CGSTPerc = 0;
-                PODetailViewModel.SGSTPerc = 0;
+                PODetailViewModel.IGSTPerc = 0;
             }
             PODetailViewModel.Total = parseFloat(PODetailViewModel.Tax) + parseFloat(PODetailViewModel.CGSTAmt) + parseFloat(PODetailViewModel.SGSTAmt);
             PODDetail.push(PODetailViewModel);
@@ -728,14 +738,16 @@ function CalculateGrossAmount() {
     var ItemTotal = 0;
     var CGSTTotal = 0;
     var SGSTTotal = 0;
+    var IGSTTotal = 0;
     var TotalTax = 0;
     for (var i = 0; i < purchaseOrderVM.length; i++) {
         ItemTotal = ItemTotal + (parseFloat(purchaseOrderVM[i].POQty) * parseFloat(purchaseOrderVM[i].Rate) - parseFloat(purchaseOrderVM[i].Discount))
         CGSTTotal = CGSTTotal + parseFloat(purchaseOrderVM[i].CGSTAmt)
         SGSTTotal = SGSTTotal + parseFloat(purchaseOrderVM[i].SGSTAmt)
-        GrossAmount = GrossAmount + ((parseFloat(purchaseOrderVM[i].POQty) * parseFloat(purchaseOrderVM[i].Rate) - parseFloat(purchaseOrderVM[i].Discount)) + parseFloat(purchaseOrderVM[i].CGSTAmt) + parseFloat(purchaseOrderVM[i].SGSTAmt))
+        IGSTTotal = IGSTTotal + parseFloat(purchaseOrderVM[i].IGSTAmt)
+        GrossAmount = GrossAmount + ((parseFloat(purchaseOrderVM[i].POQty) * parseFloat(purchaseOrderVM[i].Rate) - parseFloat(purchaseOrderVM[i].Discount)) + parseFloat(purchaseOrderVM[i].CGSTAmt) + parseFloat(purchaseOrderVM[i].SGSTAmt) + parseFloat(purchaseOrderVM[i].IGSTAmt))
     }
-    TotalTax = CGSTTotal + SGSTTotal
+    TotalTax = CGSTTotal + SGSTTotal + IGSTTotal
     $('#GrossAmount').text(roundoff(GrossAmount));
     $('#ItemTotal').text(roundoff(ItemTotal));
     $('#CGSTTotal').text(roundoff(CGSTTotal));
@@ -909,7 +921,7 @@ function EnableDisableFields(value) {
     $('#ShippingAddress').attr("disabled", value);
     $('#SupplierID').attr("disabled", value);
     //$('#PurchaseOrderStatus').attr("disabled", value);
-    DataTables.PurchaseOrderDetailTable.column(12).visible(!value);
+    DataTables.PurchaseOrderDetailTable.column(11).visible(!value);
     $('#Discount').attr("disabled", value);
     $('#GeneralNotes').attr("disabled", value);
 }
@@ -1082,14 +1094,18 @@ function EditPODetails() {
                 var taxTypeVM = GetTaxTypeByCode(PODetailViewModel.TaxTypeCode);
                 PODetailViewModel.CGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(taxTypeVM.CGSTPercentage) / 100);
                 PODetailViewModel.SGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(taxTypeVM.SGSTPercentage) / 100);
+                PODetailViewModel.IGSTAmt = parseFloat(PODetailViewModel.Tax) * parseFloat(parseFloat(taxTypeVM.IGSTPercentage) / 100);
                 PODetailViewModel.CGSTPerc = parseFloat(taxTypeVM.CGSTPercentage);
                 PODetailViewModel.SGSTPerc = parseFloat(taxTypeVM.SGSTPercentage);
+                PODetailViewModel.IGSTPerc = parseFloat(taxTypeVM.IGSTPercentage);
             }
             else {
                 PODetailViewModel.CGSTAmt = 0;
                 PODetailViewModel.SGSTAmt = 0;
+                PODetailViewModel.IGSTAmt = 0;
                 PODetailViewModel.CGSTPerc = 0;
                 PODetailViewModel.SGSTPerc = 0;
+                PODetailViewModel.IGSTPerc = 0;
             }
             PODetailViewModel.Total = parseFloat(PODetailViewModel.Tax) + parseFloat(PODetailViewModel.CGSTAmt) + parseFloat(PODetailViewModel.SGSTAmt);
             PODDetail.push(PODetailViewModel);
@@ -1103,6 +1119,7 @@ function EditRequsitionDetailLink(data) {
     debugger;
     ECGST = 0;
     ESGST = 0;
+    EIGST = 0;
     ETotal = 0;
     for (var r = 0; r < data.length; r++) {
         PurchaseOrderDetailLink = new Object();
@@ -1124,17 +1141,21 @@ function EditRequsitionDetailLink(data) {
             var taxTypeVM = GetTaxTypeByCode(PurchaseOrderDetailLink.TaxTypeCode);
             PurchaseOrderDetailLink.CGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(taxTypeVM.CGSTPercentage) / 100);
             PurchaseOrderDetailLink.SGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(taxTypeVM.SGSTPercentage) / 100);
+            PurchaseOrderDetailLink.IGSTAmt = parseFloat(PurchaseOrderDetailLink.Tax) * parseFloat(parseFloat(taxTypeVM.IGSTPercentage) / 100);
 
         }
         else {
             PurchaseOrderDetailLink.CGSTAmt = 0;
             PurchaseOrderDetailLink.SGSTAmt = 0;
+            PurchaseOrderDetailLink.IGSTAmt = 0;
         }
         PurchaseOrderDetailLink.Total = parseFloat(PurchaseOrderDetailLink.Tax) + parseFloat(PurchaseOrderDetailLink.CGSTAmt) + parseFloat(PurchaseOrderDetailLink.SGSTAmt);
         ECGST = ECGST + parseFloat(PurchaseOrderDetailLink.CGSTAmt);
         PurchaseOrderDetailLink.ECGST = ECGST;
         ESGST = ESGST + parseFloat(PurchaseOrderDetailLink.SGSTAmt);
         PurchaseOrderDetailLink.ESGST = ESGST;
+        EIGST = EIGST + parseFloat(PurchaseOrderDetailLink.IGSTAmt);
+        PurchaseOrderDetailLink.EIGST = EIGST;
         ETotal = ETotal + parseFloat(PurchaseOrderDetailLink.Total);
         PODDetailLink.push(PurchaseOrderDetailLink);
     }
