@@ -139,8 +139,9 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "SELECT * FROM [AMC].[VWComponetSubCompDetailForProductionTracking] WHERE Search LIKE '%" + searchTerm + "%'";
-                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = "[AMC].[GetProductionTrackingSearchList]";
+                        cmd.Parameters.Add("@SearchValue", SqlDbType.NVarChar,-1).Value = searchTerm;
+                        cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             if ((sdr != null) && (sdr.HasRows))
