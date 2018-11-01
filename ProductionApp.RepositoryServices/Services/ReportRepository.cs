@@ -1102,7 +1102,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetDayBook]";
+                        cmd.CommandText = "[AMC].[GetDayBookByEntryDate]";
                         if (date != null)
                             cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = DateTime.Parse(date);
                         if (searchTerm != "")
@@ -1153,7 +1153,7 @@ namespace ProductionApp.RepositoryServices.Services
                             con.Open();
                         }
                         cmd.Connection = con;
-                        cmd.CommandText = "[AMC].[GetDayBookDetailByCode]";
+                        cmd.CommandText = "[AMC].[GetDayBookDetailByCodeByEntryDate]";
                         if (code != null)
                             cmd.Parameters.Add("@Code", SqlDbType.NVarChar,20).Value = code;
                         if (date != null)
